@@ -6,5 +6,5 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic-errors -pedantic -
 
 add_subdirectory(Servidor)
 add_subdirectory(Tests)
+add_subdirectory(Cliente)
 #cuando agreguen cosas descomentar
-#add_subdirectory(Cliente)

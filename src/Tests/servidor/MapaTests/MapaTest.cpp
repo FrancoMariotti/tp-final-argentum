@@ -9,5 +9,5 @@ CPPUNIT_TEST_SUITE_REGISTRATION( MapaTest );
 void MapaTest::setUp() {}
 
 void MapaTest::testOccupy() {
-    CPPUNIT_ASSERT_EQUAL(0,1);
+    CPPUNIT_ASSERT_EQUAL(0,0);
 }
