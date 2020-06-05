@@ -1,5 +1,9 @@
-add_executable(run_tests run_tests.cpp)
+project(argentum)
 
-add_subdirectory(MapaTests)
+include_directories(${SERVER_SOURCE_DIR}/Modelo)
 
-target_link_libraries(run_tests myclasses mapa-test cppunit)
+add_executable(tests
+        TestMain.cpp
+        Mapa/MapaTest.cpp)
+
+target_link_libraries(tests cppunit modelo)

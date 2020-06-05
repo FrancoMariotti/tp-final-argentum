@@ -1,8 +1,7 @@
 project(argentum)
 
-FILE(GLOB myFiles "*.cpp")
-message (STATUS "Cargué ${myFiles}")
+FILE(GLOB SRCS "*.cpp")
 
-add_library(myclasses
-        ${myFiles}
+add_library(modelo
+        ${SRCS}
         )
