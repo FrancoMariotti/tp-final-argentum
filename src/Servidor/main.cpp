@@ -1,8 +1,10 @@
 //
 // Created by franco on 4/6/20.
 //
-#include "iostream"
+#include "./Modelo/Mapa.h"
+
 int main(int argc, char const *argv[]) {
-    printf("Programa:%s\n",argv[1]);
+    Mapa mapa(2,2);
+    mapa.ocupar_posicion(0,0);
     return 0;
 }
