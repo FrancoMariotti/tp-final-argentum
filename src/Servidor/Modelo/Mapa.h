@@ -1,15 +1,19 @@
 #ifndef ARGENTUM_MAPA_H
 #define ARGENTUM_MAPA_H
 #include "vector"
-#include "Fila.h"
-class Mapa {
-    public:
-        Mapa(int filas,int cols);
-        bool ocupar_posicion(int x,int y);
-        virtual ~Mapa();
-    private:
-        std::vector<Fila> matriz;
-};
+#include "GameObject.h"
 
+class Posicion;
+
+class Mapa {
+    int ancho;
+    int alto;
+    std::vector<Posicion*> mapa;
+    public:
+        Mapa(int ancho,int alto);
+        void agregar(Posicion* posicion);
+        void mover(Posicion& desde,Posicion& hasta);
+        ~Mapa();
+};
 
 #endif //ARGENTUM_MAPA_H

@@ -1,7 +1,5 @@
 project(argentum)
 
-FILE(GLOB SRCS "*.cpp")
+FILE(GLOB SRCS *.cpp *.h)
 
-add_library(servidorModeloLib
-        ${SRCS}
-        )
+add_library(servidorModeloLib ${SRCS})

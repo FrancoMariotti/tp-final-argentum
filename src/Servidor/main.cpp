@@ -5,6 +5,6 @@
 
 int main(int argc, char const *argv[]) {
     Mapa mapa(2,2);
-    mapa.ocupar_posicion(0,0);
+    //mapa.ocupar_posicion(0,0);
     return 0;
 }

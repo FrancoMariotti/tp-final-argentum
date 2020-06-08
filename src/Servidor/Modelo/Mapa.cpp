@@ -1,9 +1,16 @@
 #include "Mapa.h"
-#include "Fila.h"
-Mapa::Mapa(int filas,int cols):matriz(filas,Fila(cols)) {}
 
-bool Mapa::ocupar_posicion(int x,int y) {
-    return this->matriz[y].ocupar(x);
+Mapa::Mapa(int ancho,int alto):ancho(ancho),alto(alto) {}
+
+void Mapa::agregar(Posicion* posicion) {
+    mapa.push_back(posicion);
 }
 
+void Mapa::mover(Posicion& desde,Posicion& hasta) {
+    std::vector<Posicion*>::iterator it;
+    for (it = mapa.begin() ; it != mapa.end(); ++it) {
+        if(*(*it) == hasta) return;
+    }
+    desde = hasta;
+}
 Mapa::~Mapa() {}
