@@ -6,7 +6,7 @@
 #include "sdl_texture.h"
 
 #define HUMANOID_HEAD_WIDTH 17
-#define HUMANOID_HEAD_HEIGHT 20
+#define HUMANOID_HEAD_HEIGHT 15
 
 SdlNPC::SdlNPC(int x, int y, SdlTexture &texture, SdlTexture &head) :
         m_body(texture),
