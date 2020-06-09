@@ -1,7 +1,3 @@
-//
-// Created by franco on 8/6/20.
-//
-
 #include "GameObject.h"
 Posicion::Posicion(int x,int y):x(x),y(y) {}
 
@@ -28,6 +24,9 @@ GameObject::GameObject(int x,int y,Mapa& mapa):posicion(x,y),mapa(mapa) {}
 Posicion GameObject::get_posicion() {
     return this->posicion;
 }
+
+GameObject::~GameObject() {}
+
 Personaje::Personaje(int vida, int x, int y, Mapa &mapa):GameObject(x,y,mapa) {
     mapa.agregar(this);
 }
@@ -36,8 +35,7 @@ void Personaje::mover(Direccion *direccion) {
     siguiente.aplicar(direccion);
     mapa.mover(posicion,siguiente);
 }
+
 bool Personaje::colisionoCon(Posicion &posicion) {
     return (this->posicion == posicion);
 }
-
-GameObject::~GameObject() {}

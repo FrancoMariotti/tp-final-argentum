@@ -1,10 +1,13 @@
-//
-// Created by franco on 4/6/20.
-//
-#include "./Modelo/Mapa.h"
+#include <iostream>
+#include <fstream>
+#include <jsoncpp/json/json.h>
+#include "Modelo/Mapa.h"
+#include "Modelo/Factory.h"
 
 int main(int argc, char const *argv[]) {
-    Mapa mapa(2,2);
-    //mapa.ocupar_posicion(0,0);
+
+    MapaFactory factory("config/mapa.json");
+    Mapa mapa = factory.create();
+
     return 0;
 }

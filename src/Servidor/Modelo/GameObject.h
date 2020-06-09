@@ -22,8 +22,8 @@ class Movible {
 };
 
 class Colisionable {
-public:
-    virtual bool colisionoCon(Posicion& posicion) = 0;
+    public:
+        virtual bool colisionoCon(Posicion& posicion) = 0;
 };
 
 /*class NoMovible {
