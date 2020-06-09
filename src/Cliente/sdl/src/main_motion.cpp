@@ -48,10 +48,10 @@ int main(int argc, char* args[]) {
                     quit = true;
                 }
                 //Handle input for the dot
-                npc.handleEvent(e);
+                npc.handleEvent(e,0);
             }
             //Muevo el npc, no usar en el caso del handleEvent con overload
-            npc.move(SCREEN_WIDTH, SCREEN_HEIGHT);
+            //npc.move(SCREEN_WIDTH, SCREEN_HEIGHT);
 
             //Pinto el fondo gris
             //window.fill();

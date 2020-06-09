@@ -8,12 +8,18 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 
-#define HEAD_SPRITES 4
-
 class SdlTexture;
 
 class SdlNPC {
 private:
+    enum e_head_orientation{
+        FRONT_HEAD_SPRITE,
+        RIGHT_HEAD_SPRITE,
+        LEFT_HEAD_SPRITE,
+        BACK_HEAD_SPRITE,
+        TOTAL_HEAD_SPRITE
+    };
+
     SdlTexture& m_body;
     SdlTexture& m_head_sprite_sheet_texture;
     //Dimensiones del npc
@@ -26,7 +32,9 @@ private:
     //The velocity of the dot
     int m_vel_x, m_vel_y;
 
-    SDL_Rect head_sprite_clips[HEAD_SPRITES];
+    SDL_Rect m_head_sprite_clips[TOTAL_HEAD_SPRITE];
+
+    enum e_head_orientation m_face_orientation;
 
 public:
     //Initializes the variables
@@ -35,7 +43,7 @@ public:
     //Ajusta la velocidad del npc
     void handleEvent(SDL_Event& e );
 
-    //Mueve directamente al npc de manera axial, no diagonal
+    //Mueve directamente al npc de manera axial
     void handleEvent(SDL_Event &e, int overload);
 
     //Mueve el npc

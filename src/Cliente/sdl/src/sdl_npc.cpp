@@ -23,20 +23,33 @@ SdlNPC::SdlNPC(int x, int y, SdlTexture &texture, SdlTexture &head) :
     m_vel_y = 0;
 
     //Cargo el vector con cada sprite de la cabeza
-    for (int i = 0; i < HEAD_SPRITES; ++i) {
-        head_sprite_clips[i] = {i * HUMANOID_HEAD_WIDTH, 0, HUMANOID_HEAD_WIDTH, HUMANOID_HEAD_HEIGHT};
+    for (int i = 0; i < TOTAL_HEAD_SPRITE; ++i) {
+        m_head_sprite_clips[i] = {i * HUMANOID_HEAD_WIDTH, 0, HUMANOID_HEAD_WIDTH, HUMANOID_HEAD_HEIGHT};
     }
+
+    m_face_orientation = FRONT_HEAD_SPRITE;
 }
 
 void SdlNPC::handleEvent(SDL_Event &e, int overload) {
-    /*No utiliza velocidades y no depende del metodo move, lo resuelve todo aca*/
+    /*No utiliza velocidades y no depende del metodo move, lo resuelve aca*/
     if(e.type == SDL_KEYDOWN){
         switch(e.key.keysym.sym){
-            case SDLK_UP: m_pos_y -= m_vel; break;
-            case SDLK_DOWN: m_pos_y += m_vel; break;
-            case SDLK_LEFT: m_pos_x -= m_vel; break;
-            case SDLK_RIGHT: m_pos_x += m_vel; break;
-
+            case SDLK_UP:
+                m_pos_y -= m_vel;
+                m_face_orientation = BACK_HEAD_SPRITE;
+                break;
+            case SDLK_DOWN:
+                m_pos_y += m_vel;
+                m_face_orientation = FRONT_HEAD_SPRITE;
+                break;
+            case SDLK_LEFT:
+                m_pos_x -= m_vel;
+                m_face_orientation = LEFT_HEAD_SPRITE;
+                break;
+            case SDLK_RIGHT:
+                m_pos_x += m_vel;
+                m_face_orientation = RIGHT_HEAD_SPRITE;
+                break;
         }
     }
 }
@@ -85,6 +98,8 @@ void SdlNPC::move(int screen_width, int screen_height) {
 
 void SdlNPC::render() {
     //Muestra la cabeza y el cuerpo del npc
-    m_head_sprite_sheet_texture.render(m_pos_x + (m_body.getWidth() - HUMANOID_HEAD_WIDTH) / 2, m_pos_y - HUMANOID_HEAD_HEIGHT, &head_sprite_clips[0]);
+    m_head_sprite_sheet_texture.render(m_pos_x + (m_body.getWidth() - HUMANOID_HEAD_WIDTH) / 2,
+            m_pos_y - HUMANOID_HEAD_HEIGHT,
+            &m_head_sprite_clips[m_face_orientation]);
     m_body.render(m_pos_x, m_pos_y);
 }
