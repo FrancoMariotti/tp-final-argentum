@@ -23,18 +23,21 @@ void Posicion::operator=(Posicion& posicion) {
 
 Posicion::~Posicion() {}
 
-GameObject::GameObject(int x,int y,Mapa& mapa):posicion(x,y),mapa(mapa) {
-    mapa.agregar(&posicion);
-}
+GameObject::GameObject(int x,int y,Mapa& mapa):posicion(x,y),mapa(mapa) {}
 
-void GameObject::mover(Direccion *direccion) {
+Posicion GameObject::get_posicion() {
+    return this->posicion;
+}
+Personaje::Personaje(int vida, int x, int y, Mapa &mapa):GameObject(x,y,mapa) {
+    mapa.agregar(this);
+}
+void Personaje::mover(Direccion *direccion) {
     Posicion siguiente(posicion);
     siguiente.aplicar(direccion);
     mapa.mover(posicion,siguiente);
 }
-
-Posicion GameObject::get_posicion() {
-    return this->posicion;
+bool Personaje::colisionoCon(Posicion &posicion) {
+    return (this->posicion == posicion);
 }
 
 GameObject::~GameObject() {}

@@ -2,16 +2,16 @@
 
 Mapa::Mapa(int ancho,int alto):ancho(ancho),alto(alto) {}
 
-void Mapa::agregar(Posicion* posicion) {
-    ocupadas.push_back(posicion);
+void Mapa::agregar(Colisionable* colisionable) {
+    colisionables.push_back(colisionable);
 }
 
-void Mapa::mover(Posicion& desde,Posicion& hasta) {
-    std::vector<Posicion*>::iterator it;
-    for (it = ocupadas.begin() ; it != ocupadas.end(); ++it) {
-        if(*(*it) == hasta) return;
+void Mapa::mover(Posicion& actual,Posicion& hasta) {
+    std::vector<Colisionable*>::iterator it;
+    for (it = colisionables.begin() ; it != colisionables.end(); ++it) {
+        if((*it)->colisionoCon(hasta)) return;
     }
-    desde = hasta;
+    actual = hasta;
 }
 
 Mapa::~Mapa() {}

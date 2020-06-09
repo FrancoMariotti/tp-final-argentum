@@ -17,37 +17,45 @@ class Posicion {
 };
 
 class Movible {
-    virtual void mover(Direccion *direccion);
+    public:
+        virtual void mover(Direccion *direccion) = 0;
 };
 
-class NoMovible {
-    virtual void mover(Direccion *direccion);
+class Colisionable {
+public:
+    virtual bool colisionoCon(Posicion& posicion) = 0;
 };
+
+/*class NoMovible {
+    virtual void mover(Direccion *direccion);
+};*/
 
 class GameObject {
+    protected:
     Posicion posicion;
     Mapa& mapa;
-public:
-    GameObject(int x,int y,Mapa& mapa);
-    Posicion get_posicion();
-    ~GameObject();
+    public:
+        GameObject(int x,int y,Mapa& mapa);
+        Posicion get_posicion();
+        ~GameObject();
 };
 
-class Personaje: public GameObject,public Movible {
+class Personaje: public GameObject,public Movible,public Colisionable {
     int vida;
     public:
-        explicit Personaje(int vida);
+        explicit Personaje(int vida,int x,int y,Mapa& mapa);
         void mover(Direccion *direccion);
+        bool colisionoCon(Posicion& posicion);
 };
 
-class NoJugable: public Personaje {
+/*class NoJugable: public Personaje {
     Criatura criatura;//state
 };
 
 class Jugable: public Personaje {
     Clase clase;
     Raza raza;
-};
+};*/
 
 
 #endif //ARGENTUM_GAMEOBJECT_H
