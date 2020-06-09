@@ -9,7 +9,7 @@ add_library(sdlsrc
 
 add_executable(SDLTest sdl/src/main_motion.cpp)
 
-target_link_libraries(SDLTest sdlsrc SDL2 SDL2_image)
+target_link_libraries(SDLTest sdlsrc SDL2 SDL2_image SDL2_ttf)
 
 
 #add_executable(Cliente main.cpp)

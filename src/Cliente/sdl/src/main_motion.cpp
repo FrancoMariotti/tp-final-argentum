@@ -39,6 +39,20 @@ int main(int argc, char* args[]) {
         The dot that will be collided against
         Dot otherDot(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, texture);
         */
+
+        //Inicializo ttf para poder renderizar texto
+        if(TTF_Init() < 0) {
+            //INICIALIZARIA TTF EN EL MAIN YA QUE PODRIA TENER MUCHAS LABELS DE TEXTO
+            //ENTONCES NO DEBERIA INICIALIZARLO CADA VEZ QUE CREO UN LABEL
+            //throw SdlException("Could not initialize TTF", TTF_GetError());
+            return -1;
+        }
+        //ACORDARSE DE AGREGAR EL FINISH AL FINAL
+        SDL_StartTextInput();
+        SdlTexture label("Argentum", "../../Cliente/sdl/assets/AbyssinicaSIL-R.ttf",
+                {255,0,0,0},100, 50,  window);
+
+
         //While application is running
         while (!quit) {
             //Handle events on queue
@@ -59,6 +73,9 @@ int main(int argc, char* args[]) {
             //Renderizo background
             background.render(0,0);
 
+            //Renderizo el texto
+            label.render(0,0);
+
             //Render objects
             npc.render();
 
@@ -78,6 +95,7 @@ int main(int argc, char* args[]) {
 
 void close(){
     //Quit SDL subsystems
+    SDL_StopTextInput();
     IMG_Quit();
     SDL_Quit();
 }

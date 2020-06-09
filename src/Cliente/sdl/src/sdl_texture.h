@@ -7,6 +7,7 @@
 
 
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 class SdlWindow;
@@ -28,6 +29,10 @@ public:
 
     //Initializes variables
     SdlTexture(const std::string &filename, const SdlWindow& window);
+
+    //Constructor para crear texturas a partir de texto
+    SdlTexture(std::string text, std::string fontPath, SDL_Color colour,
+        int width, int height, const SdlWindow& window);
 
     //Deallocates memory
     ~SdlTexture();
@@ -62,6 +67,7 @@ public:
     int getHeight();
 
     SDL_Texture *loadTexture(const std::string &filename);
+    SDL_Texture* loadFromText(std::string text, std::string fontPath, SDL_Color colour);
 };
 
 
