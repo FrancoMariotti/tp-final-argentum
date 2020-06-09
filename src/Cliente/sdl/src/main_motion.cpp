@@ -52,7 +52,6 @@ int main(int argc, char* args[]) {
         SdlTexture label("Argentum", "../../Cliente/sdl/assets/AbyssinicaSIL-R.ttf",
                 {255,0,0,0},100, 50,  window);
 
-
         //While application is running
         while (!quit) {
             //Handle events on queue
