@@ -33,18 +33,18 @@ public:
     ~GameObject();
 };
 
-public Personaje: public GameObject,public Movible {
+class Personaje: public GameObject,public Movible {
     int vida;
     public:
         explicit Personaje(int vida);
         void mover(Direccion *direccion);
 };
 
-public NoJugable: public Personaje {
+class NoJugable: public Personaje {
     Criatura criatura;//state
 };
 
-public Jugable: public Personaje {
+class Jugable: public Personaje {
     Clase clase;
     Raza raza;
 };
