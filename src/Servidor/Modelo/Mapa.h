@@ -8,7 +8,7 @@ class Posicion;
 class Mapa {
     int ancho;
     int alto;
-    std::vector<Posicion*> mapa;
+    std::vector<Posicion*> ocupadas;
     public:
         Mapa(int ancho,int alto);
         void agregar(Posicion* posicion);

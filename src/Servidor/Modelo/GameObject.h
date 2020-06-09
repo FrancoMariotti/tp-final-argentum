@@ -1,7 +1,3 @@
-//
-// Created by franco on 8/6/20.
-//
-
 #ifndef ARGENTUM_GAMEOBJECT_H
 #define ARGENTUM_GAMEOBJECT_H
 
@@ -20,14 +16,37 @@ class Posicion {
         ~Posicion();
 };
 
+class Movible {
+    virtual void mover(Direccion *direccion);
+};
+
+class NoMovible {
+    virtual void mover(Direccion *direccion);
+};
+
 class GameObject {
     Posicion posicion;
     Mapa& mapa;
+public:
+    GameObject(int x,int y,Mapa& mapa);
+    Posicion get_posicion();
+    ~GameObject();
+};
+
+public Personaje: public GameObject,public Movible {
+    int vida;
     public:
-        GameObject(int x,int y,Mapa& mapa);
+        explicit Personaje(int vida);
         void mover(Direccion *direccion);
-        Posicion get_posicion();
-        ~GameObject();
+};
+
+public NoJugable: public Personaje {
+    Criatura criatura;//state
+};
+
+public Jugable: public Personaje {
+    Clase clase;
+    Raza raza;
 };
 
 
