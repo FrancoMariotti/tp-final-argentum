@@ -10,7 +10,7 @@ class Direccion {
         Direccion() {}
         virtual int mover_x(int x) = 0;
         virtual int mover_y(int y) = 0;
-        ~Direccion() {}
+        virtual ~Direccion() {}
 
 };
 

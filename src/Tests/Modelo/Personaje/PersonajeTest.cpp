@@ -11,7 +11,8 @@ void PersonajeTest::setUp() {}
 
 void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones() {
     Mapa mapa(3,3);
-    Personaje personaje(20,2,2,mapa);
+    Movilidad* movilidad= new Movible();
+    Personaje personaje(20,movilidad,2,2,mapa);
     Direccion *direccion = new Arriba();
     personaje.mover(direccion);
     Posicion *siguiente = new Posicion(2,1);

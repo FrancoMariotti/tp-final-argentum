@@ -2,14 +2,14 @@
 
 Mapa::Mapa(int ancho,int alto):ancho(ancho),alto(alto) {}
 
-void Mapa::agregar(Colisionable* colisionable) {
-    colisionables.push_back(colisionable);
+void Mapa::agregar(GameObject* objeto) {
+    objetos.push_back(objeto);
 }
 
 void Mapa::mover(Posicion& actual,Posicion& hasta) {
-    std::vector<Colisionable*>::iterator it;
-    for (it = colisionables.begin() ; it != colisionables.end(); ++it) {
-        if((*it)->colisionoCon(hasta)) return;
+    std::vector<GameObject*>::iterator it;
+    for (it = objetos.begin() ; it != objetos.end(); ++it) {
+        if((*it)->colisiono(hasta)) return;
     }
     actual = hasta;
 }

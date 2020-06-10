@@ -4,15 +4,15 @@
 #include "GameObject.h"
 
 class Posicion;
-class Colisionable;
+class GameObject;
 
 class Mapa {
     int ancho;
     int alto;
-    std::vector<Colisionable*> colisionables;
+    std::vector<GameObject*> objetos;
     public:
         Mapa(int ancho,int alto);
-        void agregar(Colisionable* posicion);
+        void agregar(GameObject* objeto);
         void mover(Posicion& actual,Posicion& hasta);
         ~Mapa();
 };
