@@ -39,26 +39,11 @@ class GameObject {
         GameObject(float x,float y,Mapa& mapa);
         Posicion get_posicion();
         bool colisiono(Posicion& posicionObj);
+        std::vector<int> GameObject::getOffset(Posicion pos);
         ~GameObject();
 };
 
-class PersonajeNpc: public GameObject {
-    int vida;
-    Movilidad *movilidad;
-    //Criatura criatura
-    public:
-        PersonajeNpc(int vida,Movilidad* movilidad,float x,float y,Mapa& mapa);
-};
 
-class Personaje: public GameObject {
-    //Clase clase
-    //Raza raza
-    int vida;
-    Movilidad *movilidad;
-    public:
-        Personaje(int vida,Movilidad* movilidad,float x,float y,Mapa& mapa);
-        void mover(Direccion* direccion);
-};
 
 
 #endif //ARGENTUM_GAMEOBJECT_H

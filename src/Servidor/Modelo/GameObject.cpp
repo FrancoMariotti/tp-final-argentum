@@ -29,6 +29,7 @@ void NoMovible::mover(Posicion posicion,Mapa& mapa,Direccion *direccion) {}
 
 GameObject::GameObject(float x,float y,Mapa& mapa):posicion(x,y),mapa(mapa) {}
 
+//GETTER REVISAR SI ES NECESARIO
 Posicion GameObject::get_posicion() {
     return this->posicion;
 }
@@ -37,18 +38,12 @@ bool GameObject::colisiono(Posicion& posicionObj) {
     return (this->posicion == posicionObj);
 }
 
+std::vector<int> GameObject::getOffset(Posicion pos) {
+    //ESTE METODO NO ESTA CREADO
+    return posicion.getOffset(pos);
+}
+
 GameObject::~GameObject() {}
 
-PersonajeNpc::PersonajeNpc(int vida, Movilidad *movilidad, float x, float y, Mapa &mapa):GameObject(x,y,mapa),movilidad(movilidad) {
-    mapa.agregar(this);
-}
-
-Personaje::Personaje(int vida,Movilidad* movilidad,float x,float y,Mapa& mapa):GameObject(x,y,mapa),movilidad(movilidad) {
-    mapa.agregar(this);
-}
-
-void Personaje::mover(Direccion *direccion) {
-    this->movilidad->mover(this->posicion,this->mapa,direccion);
-}
 
 

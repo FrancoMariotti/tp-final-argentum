@@ -14,6 +14,7 @@ class Mapa {
         Mapa(int ancho,int alto);
         void agregar(GameObject* objeto);
         void mover(Posicion& actual,Posicion& hasta);
+        Personaje* Mapa::findClosestCharacter(Posicion pos, int range)
         ~Mapa();
 };
 

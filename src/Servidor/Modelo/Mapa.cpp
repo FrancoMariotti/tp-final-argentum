@@ -14,4 +14,21 @@ void Mapa::mover(Posicion& actual,Posicion& hasta) {
     actual = hasta;
 }
 
+Personaje* Mapa::findClosestCharacter(Posicion pos, int range) {
+    //EL MAPA DEBERIA TEENR UN VECTOR CON TODOS LOS PERSONAJES JUGABLES,ESE VECTOR ES CHARATERS
+    int minDist = characters.front()->getDistance(pos);
+    Personaje* enemy = NULL;
+    std::vector<Personaje*>::iterator it;
+    for (it = characters.begin() ; it != characters.end(); ++it) {
+        //HAY QUE CREAR EL METODO GET DISTANCE
+        int currDist = (*it)->getDistance(pos);
+        if (currDist <= range && currDist < minDist) {
+            minDist = currDist;
+            enemy = (*it);
+        }
+    }
+    return enemy;
+
+}
+
 Mapa::~Mapa() {}
