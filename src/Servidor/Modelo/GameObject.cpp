@@ -17,5 +17,7 @@ Offset GameObject::getOffset(Position inicial) {
 
 GameObject::~GameObject() {}
 
-
+void GameObject::printPosition() {
+    actual.print();
+}
 

@@ -5,7 +5,7 @@
 #include "Npc.h"
 #include "Movilidad.h"
 
-#define MAX_RANGE 3
+#define MAX_RANGE 4
 
 Npc::Npc(int lifePoints,Movilidad* movilidad,int x,int y,Mapa& mapa):GameObject(x,y,mapa),mobility(movilidad) {
     mapa.addNpc(this);

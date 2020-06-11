@@ -32,7 +32,7 @@ class Offset {
         }
 
         void randomDir() {
-            std::vector<int> posibleOffsets = {-1, 0, 1};
+            std::vector<int> posibleOffsets ({-1, 0, 1});
             xOffset = posibleOffsets[rand()%3];
             yOffset = posibleOffsets[rand()%3];
         }

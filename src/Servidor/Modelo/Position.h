@@ -18,6 +18,8 @@ class Position {
         void operator=(Position& posicion);
         Offset operator-(Position& posicion);
         ~Position();
+        //METODO PARA PROBAR
+        void print();
 };
 
 

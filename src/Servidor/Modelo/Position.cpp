@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <iostream>
 #include "Position.h"
 Position::Position(int x,int y):x(x),y(y) {}
 
@@ -33,3 +34,7 @@ Offset Position::operator-(Position& posicion) {
 }
 
 Position::~Position() {}
+
+void Position::print() {
+    std::cout << "x = " << x << " y = " << y << std::endl;
+}

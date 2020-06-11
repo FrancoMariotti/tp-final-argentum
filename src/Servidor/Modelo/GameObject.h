@@ -17,6 +17,8 @@ class GameObject {
         virtual int distanceTo(Position pos);
         Offset getOffset(Position pos);
         virtual ~GameObject();
+        //METODO PARA PROBAR
+        void printPosition();
 };
 
 #endif //ARGENTUM_GAMEOBJECT_H
