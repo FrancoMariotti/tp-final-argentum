@@ -16,11 +16,9 @@ bool Position::operator==(const Position& posicion) {
     return (this->x == posicion.x && this->y == posicion.y);
 }
 
-void Position::operator=(Position& posicion) {
+void Position::operator=(const Position& posicion) {
     this->x = posicion.x;
     this->y = posicion.y;
-    posicion.x = -1;
-    posicion.y = -1;
 }
 
 int Position::distanceTo(Position& posicion) {

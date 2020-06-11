@@ -12,6 +12,10 @@ void Mapa::addNpc(Npc* npc) {
     this->npcs.push_back(npc);
 }
 
+void Mapa::addObstacle(Obstacle* obstacle) {
+    this->obstacles.push_back(obstacle);
+}
+
 void Mapa::mover(Position& actual,Position& hasta) {
     //estaria bueno tener un solo iterador que recorra ambas listas.
     std::vector<PlayableCharacter*>::iterator itrCharacters;
@@ -23,6 +27,12 @@ void Mapa::mover(Position& actual,Position& hasta) {
     for (itrNpcs = npcs.begin() ; itrNpcs != npcs.end(); ++itrNpcs) {
         if((*itrNpcs)->colisiono(hasta)) return;
     }
+
+    std::vector<Obstacle*>::iterator itrObstacles;
+    for (itrObstacles = obstacles.begin() ; itrObstacles != obstacles.end(); ++itrObstacles) {
+        if((*itrObstacles)->collideWith(hasta)) return;
+    }
+
     actual = hasta;
 }
 
@@ -34,7 +44,6 @@ GameObject* Mapa::findClosestCharacter(Position pos, int range) {
     PlayableCharacter* enemy = NULL;
     std::vector<PlayableCharacter*>::iterator it;
     for (it = characters.begin() ; it != characters.end(); ++it) {
-        //HAY QUE CREAR EL METODO GET DISTANCE
         int currDist = (*it)->distanceTo(pos);
         if (currDist <= range && currDist <= minDist) {
             minDist = currDist;

@@ -15,7 +15,7 @@ class Position {
         void aplicar(Offset &offset);
         int distanceTo(Position& posicion);
         bool operator==(const Position& posicion);
-        void operator=(Position& posicion);
+        void operator=(const Position& posicion);
         Offset operator-(Position& posicion);
         ~Position();
         //METODO PARA PROBAR
