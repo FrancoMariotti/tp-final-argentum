@@ -23,13 +23,13 @@ class MapaFactory {
         ~MapaFactory();
 };
 
-class PersonajeFactory {
+/*class PersonajeFactory {
     FileParser parser;
 public:
     PersonajeFactory(std::string personajesFile);
     std::vector<Personaje> create();
     ~PersonajeFactory();
-};
+};*/
 
 
 #endif //ARGENTUM_FACTORY_H

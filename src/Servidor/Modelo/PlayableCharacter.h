@@ -6,16 +6,20 @@
 #define ARGENTUM_PLAYABLECHARACTER_H
 
 #include "GameObject.h"
+#include "Movilidad.h"
+
+class Movilidad;
 
 class PlayableCharacter: public GameObject {
     //Clase clase
     //Raza raza
     int lifePoints;
     Movilidad *mobility;
-
+    friend class PersonajeTest;
     public:
-        PlayableCharacter(int vida,Movilidad* movilidad,float x,float y,Mapa& mapa);
-        void mover(Direccion* direccion);
+        PlayableCharacter(int lifePoints,Movilidad* movilidad,int x,int y,Mapa& mapa);
+        void move(Offset& offset);
+        virtual ~PlayableCharacter();
 };
 
 

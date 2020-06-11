@@ -1,5 +1,6 @@
 #include <jsoncpp/json/json.h>
 #include "Factory.h"
+#include "utility"
 
 FileParser::FileParser(std::string filename):file(filename){}
 

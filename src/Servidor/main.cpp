@@ -6,13 +6,13 @@
 
 int main(int argc, char const *argv[]) {
 
-    MapaFactory factory("config/mapa.json");
+    /*MapaFactory factory("config/mapa.json");
     Mapa mapa = factory.create();
     Movilidad* movilidad= new Movible();
     Personaje personaje(20,movilidad,2,2,mapa);
     Direccion *direccion = new Arriba();
     personaje.mover(direccion);
-    delete direccion;
+    delete direccion;*/
 
     return 0;
 }

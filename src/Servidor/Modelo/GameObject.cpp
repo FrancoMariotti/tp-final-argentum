@@ -1,46 +1,18 @@
 #include "GameObject.h"
-Posicion::Posicion(float x,float y):x(x),y(y) {}
 
-void Posicion::aplicar(Direccion *direccion) {
-    x = direccion->mover_x(x);
-    y = direccion->mover_y(y);
+GameObject::GameObject(int x,int y,Mapa& mapa):actual(x,y),mapa(mapa) {}
+
+bool GameObject::colisiono(Position& posicionObj) {
+    return (this->actual == posicionObj);
 }
 
-bool Posicion::operator==(const Posicion& posicion) {
-    return (this->x == posicion.x && this->y == posicion.y);
+int GameObject::distanceTo(Position pos) {
+    return this->actual.distanceTo(pos);
 }
 
-void Posicion::operator=(Posicion& posicion) {
-    this->x = posicion.x;
-    this->y = posicion.y;
-    posicion.x = -1;
-    posicion.y = -1;
-}
-
-Posicion::~Posicion() {}
-
-void Movible::mover(Posicion posicion,Mapa& mapa,Direccion *direccion) {
-    Posicion siguiente(posicion);
-    siguiente.aplicar(direccion);
-    mapa.mover(posicion,siguiente);
-}
-
-void NoMovible::mover(Posicion posicion,Mapa& mapa,Direccion *direccion) {}
-
-GameObject::GameObject(float x,float y,Mapa& mapa):posicion(x,y),mapa(mapa) {}
-
-//GETTER REVISAR SI ES NECESARIO
-Posicion GameObject::get_posicion() {
-    return this->posicion;
-}
-
-bool GameObject::colisiono(Posicion& posicionObj) {
-    return (this->posicion == posicionObj);
-}
-
-std::vector<int> GameObject::getOffset(Posicion pos) {
-    //ESTE METODO NO ESTA CREADO
-    return posicion.getOffset(pos);
+Offset GameObject::getOffset(Position inicial) {
+    Position final(actual);
+    return final - inicial;
 }
 
 GameObject::~GameObject() {}

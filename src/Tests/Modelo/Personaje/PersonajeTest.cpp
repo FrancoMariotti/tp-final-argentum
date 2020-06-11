@@ -4,40 +4,47 @@
 
 #include "PersonajeTest.h"
 #include "Servidor/Modelo/Mapa.h"
+#include "Servidor/Modelo/Movilidad.h"
+#include "Servidor/Modelo/PlayableCharacter.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( PersonajeTest );
 
 void PersonajeTest::setUp() {}
 
 void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones() {
-    Mapa mapa(3,3);
+    Mapa mapa(10,10);
     Movilidad* movilidad= new Movible();
-    Personaje personaje(20,movilidad,2,2,mapa);
-    Direccion *direccion = new Arriba();
-    personaje.mover(direccion);
-    Posicion *siguiente = new Posicion(2,1);
-    CPPUNIT_ASSERT(personaje.get_posicion() == *siguiente);
-    delete direccion;
-    delete siguiente;
+    PlayableCharacter player(20,movilidad,2,2,mapa);
 
-    direccion = new Derecha();
-    personaje.mover(direccion);
-    siguiente = new Posicion(3,1);
-    CPPUNIT_ASSERT(personaje.get_posicion() == *siguiente);
-    delete direccion;
-    delete siguiente;
+    {
+        //test:el personaje se mueve hacia arriba en el mapa
+        Offset offset(0,-1);
+        player.move(offset);
+        Position next(2,1);
+        CPPUNIT_ASSERT(player.actual == next);
+    }
 
-    direccion = new Abajo();
-    personaje.mover(direccion);
-    siguiente = new Posicion(3,2);
-    CPPUNIT_ASSERT(personaje.get_posicion() == *siguiente);
-    delete direccion;
-    delete siguiente;
+    {
+        //test:el personaje se mueve hacia la derecha en el mapa
+        Offset offset(1,0);
+        player.move(offset);
+        Position next(3,1);
+        CPPUNIT_ASSERT(player.actual == next);
+    }
 
-    direccion = new Izquierda();
-    personaje.mover(direccion);
-    siguiente = new Posicion(2,2);
-    CPPUNIT_ASSERT(personaje.get_posicion() == *siguiente);
-    delete direccion;
-    delete siguiente;
+    {
+        //test:el personaje se mueve hacia la abajo en el mapa
+        Offset offset(0,1);
+        player.move(offset);
+        Position next(3,2);
+        CPPUNIT_ASSERT(player.actual == next);
+    }
+
+    {
+        //test:el personaje se mueve hacia la izquierda en el mapa
+        Offset offset(-1,0);
+        player.move(offset);
+        Position next(2,2);
+        CPPUNIT_ASSERT(player.actual == next);
+    }
 }
