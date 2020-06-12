@@ -4,7 +4,10 @@
 
 #include "Obstacle.h"
 
-//IMPLEMENTADO ASI NOMAS ,PENSAR SI CON USAR GAME OBJECT BASTA
-bool Obstacle::collideWith(Position position) {
-    return true;
+Obstacle::Obstacle(int x, int y, int lenght, int width)
+    : position(x, y), lenght(lenght), width(width) {}
+
+bool Obstacle::ocupies(Position position) {
+
+
 }

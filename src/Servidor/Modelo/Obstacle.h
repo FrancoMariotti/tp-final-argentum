@@ -8,12 +8,13 @@
 
 #include "Position.h"
 
-//NOSE SI HACE FALTA LA CLASE OBSTACLE QUIZAS CON USAR UN GAME OGJECT COMUN BASTA
-//GAME OBJECT YA TIENE IMPLEMENTADO EL METODO COLLIDE WITH
 class Obstacle {
+    //Esta posicion representa la posicion de la esquina superior izquierda del obstaculo
+    Position position;
+    int lenght,width;
     public:
-        //LO IMPLEMENTO ASI NOMAS PARA PODER COMPILAR
-        bool collideWith(Position position);
+        Obstacle(int x, int y, int lenght, int width);
+        bool ocupies(Position position);
 };
 
 
