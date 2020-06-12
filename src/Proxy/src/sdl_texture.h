@@ -40,6 +40,9 @@ public:
     //Loads image at specified path
     SDL_Texture * loadFromFile(const std::string &path);
 
+    //Clase SDL-QT
+    SDL_Texture *loadTexture(const std::string &filename);
+
 #if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
     //Creates image from font string
 		int loadFromRenderedText(const std::string &textureText, SDL_Color textColor);
@@ -66,7 +69,7 @@ public:
     int getWidth();
     int getHeight();
 
-    SDL_Texture *loadTexture(const std::string &filename);
+
     SDL_Texture* loadFromText(std::string text, std::string fontPath, SDL_Color colour);
 };
 

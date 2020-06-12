@@ -94,6 +94,7 @@ SDL_Texture* SdlTexture::loadFromText(std::string text, std::string fontPath, SD
 
     return textTexture;
 }
+
 /*
 #if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
 int SdlTexture::loadFromRenderedText(const std::string &textureText, SDL_Color textColor) {
@@ -103,13 +104,13 @@ int SdlTexture::loadFromRenderedText(const std::string &textureText, SDL_Color t
     if(textSurface == nullptr){
         throw SdlException("Unable to render text surface!", TTF_GetError());
     }
-    m_body = SDL_CreateTextureFromSurface(gRenderer, textSurface);
-    if (m_body == nullptr){
+    this->m_texture = SDL_CreateTextureFromSurface(this->m_renderer, textSurface);
+    if (this->m_texture == nullptr){
         throw SdlException("Unable to create texture from rendered text!", TTF_GetError());
     }
     //Get Image dimensiones
-    this->mWidth = textSurface->w;
-    this->mHeight = textSurface->h;
+    this->m_width = textSurface->w;
+    this->m_height = textSurface->h;
 
     //Get rid of old loaded surface
     SDL_FreeSurface(textSurface);
@@ -118,6 +119,7 @@ int SdlTexture::loadFromRenderedText(const std::string &textureText, SDL_Color t
 }
 #endif
 */
+
 void SdlTexture::free() {
     //Free textures if it exists
     if(m_texture != nullptr){

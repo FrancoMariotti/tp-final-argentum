@@ -3,4 +3,5 @@ project(argentum)
 
 add_subdirectory(Servidor)
 add_subdirectory(Tests)
-add_subdirectory(Cliente)
+#add_subdirectory(Cliente)
+add_subdirectory(Proxy)
