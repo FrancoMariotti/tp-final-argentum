@@ -9,20 +9,20 @@ class GameObject;
 class Npc;
 class PlayableCharacter;
 
-class Mapa {
-    int ancho;
-    int alto;
+class Map {
+    int width;
+    int height;
     std::vector<Npc*> npcs;
     std::vector<PlayableCharacter*> characters;
     std::vector<Obstacle*> obstacles;
     public:
-        Mapa(int ancho,int alto);
+        Map(int width,int height);
         void addPlayableCharacter(PlayableCharacter* character);
         void addNpc(Npc* npc);
         void addObstacle(Obstacle* obstacle);
-        void mover(Position& actual,Position& hasta);
+        void mover(Position& from,Position& to);
         GameObject* findClosestCharacter(Position pos, int range);
-        ~Mapa();
+        ~Map();
 };
 
 #endif //ARGENTUM_MAPA_H

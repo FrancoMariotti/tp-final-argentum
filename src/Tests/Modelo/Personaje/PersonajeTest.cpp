@@ -3,8 +3,8 @@
 //
 
 #include "PersonajeTest.h"
-#include "Servidor/Modelo/Mapa.h"
-#include "Servidor/Modelo/Movilidad.h"
+#include "Servidor/Modelo/Map.h"
+#include "Servidor/Modelo/Mobility.h"
 #include "Servidor/Modelo/PlayableCharacter.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( PersonajeTest );
@@ -12,39 +12,39 @@ CPPUNIT_TEST_SUITE_REGISTRATION( PersonajeTest );
 void PersonajeTest::setUp() {}
 
 void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones() {
-    Mapa mapa(10,10);
-    Movilidad* movilidad= new Movible();
-    PlayableCharacter player(20,movilidad,2,2,mapa);
+    Map map(10, 10);
+    Mobility* mobility= new Movable();
+    PlayableCharacter player(20,mobility,2,2,map);
 
     {
-        //test:el personaje se mueve hacia arriba en el mapa
+        //test:el personaje se mueve hacia arriba en el map
         Offset offset(0,-1);
         player.move(offset);
         Position next(2,1);
-        CPPUNIT_ASSERT(player.actual == next);
+        CPPUNIT_ASSERT(player.currPos == next);
     }
 
     {
-        //test:el personaje se mueve hacia la derecha en el mapa
+        //test:el personaje se mueve hacia la derecha en el map
         Offset offset(1,0);
         player.move(offset);
         Position next(3,1);
-        CPPUNIT_ASSERT(player.actual == next);
+        CPPUNIT_ASSERT(player.currPos == next);
     }
 
     {
-        //test:el personaje se mueve hacia la abajo en el mapa
+        //test:el personaje se mueve hacia la abajo en el map
         Offset offset(0,1);
         player.move(offset);
         Position next(3,2);
-        CPPUNIT_ASSERT(player.actual == next);
+        CPPUNIT_ASSERT(player.currPos == next);
     }
 
     {
-        //test:el personaje se mueve hacia la izquierda en el mapa
+        //test:el personaje se mueve hacia la izquierda en el map
         Offset offset(-1,0);
         player.move(offset);
         Position next(2,2);
-        CPPUNIT_ASSERT(player.actual == next);
+        CPPUNIT_ASSERT(player.currPos == next);
     }
 }

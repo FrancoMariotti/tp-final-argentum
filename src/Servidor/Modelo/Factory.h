@@ -4,23 +4,23 @@
 
 #include <fstream>
 #include <jsoncpp/json/value.h>
-#include "Mapa.h"
+#include "Map.h"
 #include "string"
 
 class FileParser {
     std::ifstream file;
     public:
         FileParser(std::string filename);
-        Json::Value leer(std::string parametro);
+        Json::Value read(std::string parameter);
 
 };
 
-class MapaFactory {
+class MapFactory {
     FileParser parser;
     public:
-        MapaFactory(std::string mapaFile);
-        Mapa create();
-        ~MapaFactory();
+        MapFactory(std::string mapFile);
+        Map create();
+        ~MapFactory();
 };
 
 /*class PersonajeFactory {

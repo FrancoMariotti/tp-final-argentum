@@ -4,22 +4,22 @@
 
 FileParser::FileParser(std::string filename):file(filename){}
 
-Json::Value FileParser::leer(std::string parametro) {
+Json::Value FileParser::read(std::string parameter) {
     Json::Reader reader;
     Json::Value obj;
     reader.parse(this->file, obj);
-    return std::move(obj[parametro]);
+    return std::move(obj[parameter]);
 }
 
 
-MapaFactory::MapaFactory(std::string mapaFile):parser(mapaFile) {}
+MapFactory::MapFactory(std::string mapFile):parser(mapFile) {}
 
-Mapa MapaFactory::create() {
-    Json::Value obj = parser.leer("mapa");
+Map MapFactory::create() {
+    Json::Value obj = parser.read("map");
     int ancho = obj["ancho"].asInt();
     int alto = obj["alto"].asInt();
-    Mapa mapa(ancho,alto);
-    return mapa;
+    Map map(ancho,alto);
+    return map;
 }
 
-MapaFactory::~MapaFactory() {}
+MapFactory::~MapFactory() {}

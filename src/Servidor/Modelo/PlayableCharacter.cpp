@@ -3,14 +3,14 @@
 //
 
 #include "PlayableCharacter.h"
-#include "Movilidad.h"
+#include "Mobility.h"
 
-PlayableCharacter::PlayableCharacter(int lifePoints,Movilidad* movilidad,int x,int y,Mapa& mapa):GameObject(x,y,mapa),mobility(movilidad) {
-    mapa.addPlayableCharacter(this);
+PlayableCharacter::PlayableCharacter(int lifePoints, Mobility* mobility, int x, int y, Map& map): GameObject(x, y, map), mobility(mobility) {
+    map.addPlayableCharacter(this);
 }
 
 void PlayableCharacter::move(Offset& offset) {
-    this->mobility->move(this->actual,this->mapa,offset);
+    this->mobility->move(this->currPos,this->map,offset);
 }
 
 PlayableCharacter::~PlayableCharacter() =default;

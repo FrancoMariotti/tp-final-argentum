@@ -5,21 +5,21 @@
 #ifndef ARGENTUM_NPC_H
 #define ARGENTUM_NPC_H
 
-#include "Mapa.h"
+#include "Map.h"
 #include "GameObject.h"
-#include "Movilidad.h"
+#include "Mobility.h"
 
-class Movilidad;
-class Mapa;
+class Mobility;
+class Map;
 
 class Npc : public GameObject {
 private:
     int lifePoints;
-    Movilidad *mobility;
+    Mobility *mobility;
     //std::vector<Personaje*> &characters;
     //Criatura criatura
 public:
-    Npc(int lifePoints, Movilidad *movilidad, int x, int y, Mapa &mapa);
+    Npc(int lifePoints, Mobility *mobility, int x, int y, Map &map);
     Offset findClosestCharacterOffset();
     void move();
     ~Npc();

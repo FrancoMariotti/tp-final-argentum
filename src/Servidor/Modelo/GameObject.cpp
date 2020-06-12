@@ -1,23 +1,23 @@
 #include "GameObject.h"
 
-GameObject::GameObject(int x,int y,Mapa& mapa):actual(x,y),mapa(mapa) {}
+GameObject::GameObject(int x,int y,Map& map):currPos(x,y),map(map) {}
 
-bool GameObject::colisiono(Position& posicionObj) {
-    return (this->actual == posicionObj);
+bool GameObject::collideWith(Position& objPos) {
+    return (this->currPos == objPos);
 }
 
 int GameObject::distanceTo(Position pos) {
-    return this->actual.distanceTo(pos);
+    return this->currPos.distanceTo(pos);
 }
 
-Offset GameObject::getOffset(Position inicial) {
-    Position final(actual);
-    return final - inicial;
+Offset GameObject::getOffset(Position initialPos) {
+    Position final(currPos);
+    return final - initialPos;
 }
 
 GameObject::~GameObject() {}
 
 void GameObject::printPosition() {
-    actual.print();
+    currPos.print();
 }
 

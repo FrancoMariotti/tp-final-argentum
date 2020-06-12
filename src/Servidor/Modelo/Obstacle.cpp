@@ -3,3 +3,8 @@
 //
 
 #include "Obstacle.h"
+
+//IMPLEMENTADO ASI NOMAS ,PENSAR SI CON USAR GAME OBJECT BASTA
+bool Obstacle::collideWith(Position position) {
+    return true;
+}
