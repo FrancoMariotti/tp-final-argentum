@@ -15,6 +15,8 @@
 //Frees media and shuts down SDL
 void close();
 
+void proxyServerRecieve(BlockingQueue<t_movement> &read, BlockingQueue<t_movement> &write);
+
 int main(int argc, char* args[]) {
     try {
         //Start up SDL and create window
@@ -28,36 +30,31 @@ int main(int argc, char* args[]) {
         //Main loop flag
         bool quit = false;
         //Event handler
-        SDL_Event e;
+        SDL_Event event;
 
-        BlockingQueue<int> proxySocket;
+        BlockingQueue<t_movement> proxyPeerSocket;
+        BlockingQueue<t_movement> proxyClientSocket;
 
         SdlPlayer player(100, 100, texture, head_sprite_sheet);
-
-        /*The dot that will be moving around on the screen
-        Dot dot(0, 0, texture);
-        The dot that will be collided against
-        Dot otherDot(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, texture);
-        */
 
         //While application is running
         while (!quit) {
             //Handle events on queue
-            while (SDL_PollEvent(&e) != 0) {
+            while (SDL_PollEvent(&event) != 0) {
                 //User request quit
-                if (e.type == SDL_QUIT) {
-                    quit = true;
+                switch(event.type){
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    case SDL_KEYDOWN:
+                        //Handle input for the dot
+                        player.handleEvent(event, proxyPeerSocket);
+                        proxyServerRecieve(proxyPeerSocket, proxyClientSocket);
+                        t_movement movement = proxyClientSocket.pop();
+                        player.move(movement);
+                        break;
                 }
-                //Handle input for the dot
-                player.handleEvent(e, 0);
-                proxySocket.push(5);
-                std::cout << proxySocket.pop() << std::endl;
             }
-            //Muevo el player, no usar en el caso del handleEvent con overload
-            //player.move(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-            //Pinto el fondo gris
-            //window.fill();
 
             //Renderizo background
             background.render(0,0);
@@ -76,6 +73,20 @@ int main(int argc, char* args[]) {
     } catch (...){
         printf("%s", "Unknow error");
     }
+
+}
+
+
+/*Proxy del socket, se llama cada vez que el jugador mueve al personaje
+ * recibe un struct con el offset*/
+void proxyServerRecieve(BlockingQueue<t_movement> &read, BlockingQueue<t_movement> &write) {
+    t_movement move = read.pop();
+    std::cout << "movimiento en x:" << move.x << "\n movimiento en y:" << move.y
+              << std::endl;
+    //if movimiento valido
+        t_movement response = {move.x, move.y};
+    //else response = {0, 0};
+    write.push(response);
 
 }
 

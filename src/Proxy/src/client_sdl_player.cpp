@@ -30,27 +30,25 @@ SdlPlayer::SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head) :
     m_face_orientation = FRONT_HEAD_SPRITE;
 }
 
-void SdlPlayer::handleEvent(SDL_Event &e, int overload) {
+void SdlPlayer::handleEvent(SDL_Event &e, BlockingQueue<t_movement> &proxySocket) {
     /*No utiliza velocidades y no depende del metodo move, lo resuelve aca*/
     if(e.type == SDL_KEYDOWN){
+        t_movement player_movement = {0,0};
         switch(e.key.keysym.sym){
             case SDLK_UP:
-                m_pos_y -= m_vel;
-                m_face_orientation = BACK_HEAD_SPRITE;
+                player_movement.y -= 1;
                 break;
             case SDLK_DOWN:
-                m_pos_y += m_vel;
-                m_face_orientation = FRONT_HEAD_SPRITE;
+                player_movement.y += 1;
                 break;
             case SDLK_LEFT:
-                m_pos_x -= m_vel;
-                m_face_orientation = LEFT_HEAD_SPRITE;
+                player_movement.x -= 1;
                 break;
             case SDLK_RIGHT:
-                m_pos_x += m_vel;
-                m_face_orientation = RIGHT_HEAD_SPRITE;
+                player_movement.x = 1;
                 break;
         }
+        proxySocket.push(player_movement);
     }
 }
 
@@ -102,4 +100,9 @@ void SdlPlayer::render() {
             m_pos_y - HUMANOID_HEAD_HEIGHT,
             &m_head_sprite_clips[m_face_orientation]);
     m_body.render(m_pos_x, m_pos_y);
+}
+
+void SdlPlayer::move(t_movement movement) {
+    m_pos_x += movement.x * m_vel;
+    m_pos_y += movement.y * m_vel;
 }

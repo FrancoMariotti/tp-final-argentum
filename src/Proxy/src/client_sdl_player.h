@@ -7,9 +7,15 @@
 
 #include <SDL2/SDL_image.h>
 #include <vector>
+#include "common_blocking_queue.h"
+
+
+typedef struct t_movement{
+    int x;
+    int y;
+}t_movement;
 
 class SdlTexture;
-
 class SdlPlayer {
 private:
     enum e_head_orientation{
@@ -44,10 +50,13 @@ public:
     void handleEvent(SDL_Event& e );
 
     //Mueve directamente al npc de manera axial
-    void handleEvent(SDL_Event &e, int overload);
+    void handleEvent(SDL_Event &e, BlockingQueue<t_movement> &proxySocket);
 
     //Mueve el npc
     void move(int screen_width, int screen_height);
+
+    //Mueve el npc
+    void move(t_movement move);
 
     //Muestra el npc en pantalla
     void render();
