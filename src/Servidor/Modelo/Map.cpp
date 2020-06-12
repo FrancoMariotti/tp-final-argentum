@@ -30,7 +30,7 @@ void Map::move(Position& from,Position& to) {
 
     std::vector<Obstacle*>::iterator itrObstacles;
     for (itrObstacles = obstacles.begin() ; itrObstacles != obstacles.end(); ++itrObstacles) {
-        if((*itrObstacles)->collideWith(to)) return;
+        if((*itrObstacles)->ocupies(to)) return;
     }
 
     from = to;
