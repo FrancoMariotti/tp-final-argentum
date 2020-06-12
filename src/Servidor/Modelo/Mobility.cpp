@@ -6,7 +6,7 @@
 void Movable::move(Position& position, Map& map, Offset& offset) {
     Position siguiente(position);
     siguiente.apply(offset);
-    map.mover(position,siguiente);
+    map.move(position,siguiente);
 }
 
 void NonMovable::move(Position& position, Map& map, Offset& offset) {}

@@ -16,7 +16,7 @@ void Map::addObstacle(Obstacle* obstacle) {
     this->obstacles.push_back(obstacle);
 }
 
-void Map::mover(Position& from,Position& to) {
+void Map::move(Position& from,Position& to) {
     //estaria bueno tener un solo iterador que recorra ambas listas.
     std::vector<PlayableCharacter*>::iterator itrCharacters;
     for (itrCharacters = characters.begin() ; itrCharacters != characters.end(); ++itrCharacters) {

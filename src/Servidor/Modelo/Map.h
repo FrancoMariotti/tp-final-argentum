@@ -20,7 +20,7 @@ class Map {
         void addPlayableCharacter(PlayableCharacter* character);
         void addNpc(Npc* npc);
         void addObstacle(Obstacle* obstacle);
-        void mover(Position& from,Position& to);
+        void move(Position& from,Position& to);
         GameObject* findClosestCharacter(Position pos, int range);
         ~Map();
 };
