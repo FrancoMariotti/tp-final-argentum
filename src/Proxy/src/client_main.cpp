@@ -7,6 +7,7 @@
 #include "client_sdl_window.h"
 #include "client_sdl_player.h"
 #include "common_blocking_queue.h"
+#include "client_sdl_button.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 640
@@ -27,6 +28,14 @@ int main(int argc, char* args[]) {
         //Cargo fondo
         window.initPNG();
         SdlTexture background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/assets/dungeon.png", window);
+
+        //Botones
+        std::vector<SdlButton> buttons;
+        SdlTexture buttonSpriteSheet("../../Proxy/assets/button.png", window);
+        for (int i = 0; i < 1 ; ++i) {
+            buttons.emplace_back(300,200,buttonSpriteSheet);
+        }
+
         //Main loop flag
         bool quit = false;
         //Event handler
@@ -55,13 +64,17 @@ int main(int argc, char* args[]) {
                         break;
                 }
             }
-
+            for(auto & button : buttons){
+                button.handleEvent(&event);
+            }
             //Renderizo background
             background.render(0,0);
-
             //Render objects
             player.render();
-
+            //Renderizo botones
+            for (auto & button : buttons) {
+                button.render();
+            }
             //Update screen
             window.render();
         }
