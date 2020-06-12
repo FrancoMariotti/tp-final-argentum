@@ -2,9 +2,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "sdl_texture.h"
-#include "sdl_window.h"
-#include "sdl_npc.h"
+#include "client_sdl_texture.h"
+#include "client_sdl_window.h"
+#include "client_sdl_npc.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 640

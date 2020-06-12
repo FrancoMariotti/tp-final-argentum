@@ -3,7 +3,7 @@
 //
 
 #include "dot.h"
-#include "sdl_texture.h"
+#include "client_sdl_texture.h"
 
 Dot::Dot(int x, int y, SdlTexture &texture) :
     m_texture(texture){

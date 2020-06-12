@@ -2,9 +2,9 @@
 // Created by agustin on 8/6/20.
 //
 
-#include "sdl_texture.h"
-#include "sdl_exception.h"
-#include "sdl_window.h"
+#include "client_sdl_texture.h"
+#include "client_sdl_exception.h"
+#include "client_sdl_window.h"
 
 SdlTexture::SdlTexture(const std::string &filename, const SdlWindow& window) :
     m_renderer(window.getRenderer()){

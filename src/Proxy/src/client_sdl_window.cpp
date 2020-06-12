@@ -2,8 +2,8 @@
 // Created by agustin on 8/6/20.
 //
 
-#include "sdl_window.h"
-#include "sdl_exception.h"
+#include "client_sdl_window.h"
+#include "client_sdl_exception.h"
 
 SdlWindow::SdlWindow(int width, int height) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0 ) {

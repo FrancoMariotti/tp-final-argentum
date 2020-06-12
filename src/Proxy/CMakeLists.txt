@@ -4,10 +4,10 @@ project(argentum)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 add_library(sdlsrc
-        src/sdl_exception.cpp
-        src/sdl_texture.cpp src/sdl_texture.h src/dot.cpp src/dot.h src/sdl_window.cpp src/sdl_window.h src/sdl_npc.cpp src/sdl_npc.h)
+        src/client_sdl_exception.cpp
+        src/client_sdl_texture.cpp src/client_sdl_texture.h src/dot.cpp src/dot.h src/client_sdl_window.cpp src/client_sdl_window.h src/client_sdl_npc.cpp src/client_sdl_npc.h)
 
-add_executable(SDLTest src/main_motion.cpp)
+add_executable(SDLTest src/client_main.cpp)
 
 target_link_libraries(SDLTest sdlsrc SDL2 SDL2_image SDL2_ttf)
 

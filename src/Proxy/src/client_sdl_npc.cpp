@@ -2,8 +2,8 @@
 // Created by agustin on 8/6/20.
 //
 
-#include "sdl_npc.h"
-#include "sdl_texture.h"
+#include "client_sdl_npc.h"
+#include "client_sdl_texture.h"
 
 #define HUMANOID_HEAD_WIDTH 17
 #define HUMANOID_HEAD_HEIGHT 15
