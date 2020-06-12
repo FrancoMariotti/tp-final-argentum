@@ -11,10 +11,10 @@
 class Obstacle {
     //Esta posicion representa la posicion de la esquina superior izquierda del obstaculo
     Position position;
-    int lenght,width;
+    int height,width;
     public:
-        Obstacle(int x, int y, int lenght, int width);
-        bool ocupies(Position position);
+        Obstacle(int x, int y, int height, int width);
+        bool ocupies(Position pos);
 };
 
 
