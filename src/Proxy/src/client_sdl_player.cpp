@@ -36,15 +36,19 @@ void SdlPlayer::handleEvent(SDL_Event &e, BlockingQueue<t_movement> &proxySocket
         t_movement player_movement = {0,0};
         switch(e.key.keysym.sym){
             case SDLK_UP:
+                m_face_orientation = BACK_HEAD_SPRITE;
                 player_movement.y -= 1;
                 break;
             case SDLK_DOWN:
+                m_face_orientation = FRONT_HEAD_SPRITE;
                 player_movement.y += 1;
                 break;
             case SDLK_LEFT:
+                m_face_orientation = LEFT_HEAD_SPRITE;
                 player_movement.x -= 1;
                 break;
             case SDLK_RIGHT:
+                m_face_orientation = RIGHT_HEAD_SPRITE;
                 player_movement.x = 1;
                 break;
         }

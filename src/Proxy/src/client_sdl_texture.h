@@ -23,7 +23,6 @@ private:
     int m_height;
 
 public:
-
     /*Ctor con imagen ajustada al tamaño de pantalla*/
     SdlTexture(int screen_width, int screen_height, const std::string &filename, const SdlWindow &window);
 
