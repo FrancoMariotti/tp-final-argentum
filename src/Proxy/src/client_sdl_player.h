@@ -10,7 +10,7 @@
 
 class SdlTexture;
 
-class SdlNPC {
+class SdlPlayer {
 private:
     enum e_head_orientation{
         FRONT_HEAD_SPRITE,
@@ -38,7 +38,7 @@ private:
 
 public:
     //Initializes the variables
-    SdlNPC(int x, int y, SdlTexture &texture, SdlTexture &head);
+    SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head);
 
     //Ajusta la velocidad del npc
     void handleEvent(SDL_Event& e );

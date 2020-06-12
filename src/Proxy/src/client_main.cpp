@@ -2,9 +2,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
+#include <iostream>
 #include "client_sdl_texture.h"
 #include "client_sdl_window.h"
-#include "client_sdl_npc.h"
+#include "client_sdl_player.h"
+#include "common_blocking_queue.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 640
@@ -28,7 +30,9 @@ int main(int argc, char* args[]) {
         //Event handler
         SDL_Event e;
 
-        SdlNPC npc(100,100, texture, head_sprite_sheet);
+        BlockingQueue<int> proxySocket;
+
+        SdlPlayer player(100, 100, texture, head_sprite_sheet);
 
         /*The dot that will be moving around on the screen
         Dot dot(0, 0, texture);
@@ -45,10 +49,12 @@ int main(int argc, char* args[]) {
                     quit = true;
                 }
                 //Handle input for the dot
-                npc.handleEvent(e,0);
+                player.handleEvent(e, 0);
+                proxySocket.push(5);
+                std::cout << proxySocket.pop() << std::endl;
             }
-            //Muevo el npc, no usar en el caso del handleEvent con overload
-            //npc.move(SCREEN_WIDTH, SCREEN_HEIGHT);
+            //Muevo el player, no usar en el caso del handleEvent con overload
+            //player.move(SCREEN_WIDTH, SCREEN_HEIGHT);
 
             //Pinto el fondo gris
             //window.fill();
@@ -57,7 +63,7 @@ int main(int argc, char* args[]) {
             background.render(0,0);
 
             //Render objects
-            npc.render();
+            player.render();
 
             //Update screen
             window.render();

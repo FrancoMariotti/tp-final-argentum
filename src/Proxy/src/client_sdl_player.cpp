@@ -2,13 +2,13 @@
 // Created by agustin on 8/6/20.
 //
 
-#include "client_sdl_npc.h"
+#include "client_sdl_player.h"
 #include "client_sdl_texture.h"
 
 #define HUMANOID_HEAD_WIDTH 17
 #define HUMANOID_HEAD_HEIGHT 15
 
-SdlNPC::SdlNPC(int x, int y, SdlTexture &texture, SdlTexture &head) :
+SdlPlayer::SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head) :
         m_body(texture),
         m_head_sprite_sheet_texture(head){
     //Initialize the offsets
@@ -30,7 +30,7 @@ SdlNPC::SdlNPC(int x, int y, SdlTexture &texture, SdlTexture &head) :
     m_face_orientation = FRONT_HEAD_SPRITE;
 }
 
-void SdlNPC::handleEvent(SDL_Event &e, int overload) {
+void SdlPlayer::handleEvent(SDL_Event &e, int overload) {
     /*No utiliza velocidades y no depende del metodo move, lo resuelve aca*/
     if(e.type == SDL_KEYDOWN){
         switch(e.key.keysym.sym){
@@ -54,7 +54,7 @@ void SdlNPC::handleEvent(SDL_Event &e, int overload) {
     }
 }
 
-void SdlNPC::handleEvent(SDL_Event &e) {
+void SdlPlayer::handleEvent(SDL_Event &e) {
     //if a key was pressed
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
         //Adjust the velocity
@@ -79,7 +79,7 @@ void SdlNPC::handleEvent(SDL_Event &e) {
     }
 }
 
-void SdlNPC::move(int screen_width, int screen_height) {
+void SdlPlayer::move(int screen_width, int screen_height) {
     //Move the dot left or right
     m_pos_x += m_vel_x;
     //if the dot went too far to the left or right
@@ -96,7 +96,7 @@ void SdlNPC::move(int screen_width, int screen_height) {
     }
 }
 
-void SdlNPC::render() {
+void SdlPlayer::render() {
     //Muestra la cabeza y el cuerpo del npc
     m_head_sprite_sheet_texture.render(m_pos_x + (m_body.getWidth() - HUMANOID_HEAD_WIDTH) / 2,
             m_pos_y - HUMANOID_HEAD_HEIGHT,
