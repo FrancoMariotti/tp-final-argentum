@@ -16,6 +16,13 @@ public:
     }
 };
 
+
+typedef struct t_command{
+    int x;
+    int y;
+}t_command;
+
+
 template <class T>
 class BlockingQueue {
     private:

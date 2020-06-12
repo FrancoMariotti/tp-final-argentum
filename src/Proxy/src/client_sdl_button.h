@@ -7,6 +7,8 @@
 
 #include <SDL2/SDL_events.h>
 #include "client_sdl_texture.h"
+#include "common_blocking_queue.h"
+#include "client_command.h"
 
 class SdlButton {
 private:
@@ -26,23 +28,26 @@ private:
     e_button_sprite current_sprite;
     //Sprites de cada estado del boton
     SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
-
+    //Imagen del boton
     SdlTexture& buttonSpriteSheetTexture;
+
+    //Command* cmd;
 
     public:
         //Initialize internal variables
-        SdlButton(int width, int height, SdlTexture& button);
+        explicit SdlButton(SdlTexture& buttonTexture);
 
         //Sets top left position
         /**Los items se van a ir moviendo en el inventario asi que necesito un set*/
         void setPosition(int x, int y);
 
         //Handles mouse event
-        void handleEvent(SDL_Event* e);
+        void handleEvent(SDL_Event* e, BlockingQueue<t_command> &proxySocket);
 
         //Shows button sprite
         void render();
 
+        ~SdlButton();
 };
 
 

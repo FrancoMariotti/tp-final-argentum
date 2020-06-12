@@ -13,7 +13,6 @@
 class SdlWindow;
 class SdlTexture {
 private:
-
 //The actual hardware texture
     SDL_Renderer* m_renderer;
     SDL_Texture* m_texture;
@@ -23,8 +22,8 @@ private:
     int m_height;
 
 public:
-    /*Ctor con imagen ajustada al tamaño de pantalla*/
-    SdlTexture(int screen_width, int screen_height, const std::string &filename, const SdlWindow &window);
+    /*Ctor con imagen de ancho @param width y alto @param height */
+    SdlTexture(int width, int height, const std::string &filename, const SdlWindow &window);
 
     //Initializes variables
     SdlTexture(const std::string &filename, const SdlWindow& window);
@@ -67,7 +66,6 @@ public:
     //Gets image dimensions
     int getWidth();
     int getHeight();
-
 
     SDL_Texture* loadFromText(std::string text, std::string fontPath, SDL_Color colour);
 };

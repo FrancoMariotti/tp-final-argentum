@@ -10,11 +10,6 @@
 #include "common_blocking_queue.h"
 
 
-typedef struct t_movement{
-    int x;
-    int y;
-}t_movement;
-
 class SdlTexture;
 class SdlPlayer {
 private:
@@ -50,13 +45,13 @@ public:
     void handleEvent(SDL_Event& e );
 
     //Mueve directamente al npc de manera axial
-    void handleEvent(SDL_Event &e, BlockingQueue<t_movement> &proxySocket);
+    void handleEvent(SDL_Event &e, BlockingQueue<t_command> &proxySocket);
 
     //Mueve el npc
     void move(int screen_width, int screen_height);
 
     //Mueve el npc
-    void move(t_movement move);
+    void move(t_command move);
 
     //Muestra el npc en pantalla
     void render();

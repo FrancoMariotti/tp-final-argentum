@@ -14,12 +14,12 @@ SdlTexture::SdlTexture(const std::string &filename, const SdlWindow& window) :
     this->m_texture = loadFromFile(filename);
 }
 
-SdlTexture::SdlTexture(int screen_width, int screen_height, const std::string &filename, const SdlWindow& window) :
+SdlTexture::SdlTexture(int width, int height, const std::string &filename, const SdlWindow& window) :
         m_renderer(window.getRenderer()){
     //Initialize
     this->m_texture = loadFromFile(filename);
-    this->m_width = screen_width;
-    this->m_height = screen_height;
+    this->m_width = width;
+    this->m_height = height;
 }
 
 //Este constructor lo agregue para crear textura a partir de un string
@@ -146,10 +146,10 @@ void SdlTexture::render(int x, int y, SDL_Rect *clip, double angle, SDL_Point *c
     //Set rendering space and render to screen
     SDL_Rect renderQuad = {x, y, m_width, m_height};
     //Set clip rendering dimensions
-    if(clip != nullptr){
+    /*if(clip != nullptr){
         renderQuad.w = clip->w;
         renderQuad.h = clip->h;
-    }
+    }*/
     //Render to screen
     SDL_RenderCopyEx(m_renderer, this->m_texture, clip, &renderQuad, angle, center, flip);
 }
