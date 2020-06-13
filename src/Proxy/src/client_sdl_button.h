@@ -9,6 +9,7 @@
 #include "client_sdl_texture.h"
 #include "common_blocking_queue.h"
 #include "client_command.h"
+#include "common_proxy_socket.h"
 
 class SdlButton {
 private:
@@ -42,8 +43,7 @@ private:
         void setPosition(int x, int y);
 
         //Handles mouse event
-        void handleEvent(SDL_Event* e, BlockingQueue<t_command> &proxySocket,
-                BlockingQueue<t_command> &proxyClientSocket);
+        void handleEvent(SDL_Event *e, ProxySocket &proxySocket);
 
         //Shows button sprite
         void render();

@@ -8,6 +8,7 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 #include "common_blocking_queue.h"
+#include "common_proxy_socket.h"
 
 
 class SdlTexture;
@@ -45,7 +46,7 @@ public:
     void handleEvent(SDL_Event& e );
 
     //Mueve directamente al npc de manera axial
-    void handleEvent(SDL_Event &e, BlockingQueue<t_command> &proxySocket);
+    void handleEvent(SDL_Event &e, ProxySocket &proxySocket);
 
     //Mueve el npc
     void move(int screen_width, int screen_height);

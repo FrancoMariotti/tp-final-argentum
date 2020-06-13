@@ -30,7 +30,7 @@ SdlPlayer::SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head) :
     m_face_orientation = FRONT_HEAD_SPRITE;
 }
 
-void SdlPlayer::handleEvent(SDL_Event &e, BlockingQueue<t_command> &proxySocket) {
+void SdlPlayer::handleEvent(SDL_Event &e, ProxySocket &proxySocket) {
     /*No utiliza velocidades y no depende del metodo move, lo resuelve aca*/
     if(e.type == SDL_KEYDOWN){
         t_command player_movement = {"m",0, 0};
@@ -52,7 +52,7 @@ void SdlPlayer::handleEvent(SDL_Event &e, BlockingQueue<t_command> &proxySocket)
                 player_movement.x = 1;
                 break;
         }
-        proxySocket.push(player_movement);
+        proxySocket.writeToServer(player_movement);
     }
 }
 

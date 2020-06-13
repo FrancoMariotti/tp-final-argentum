@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "client_sdl_button.h"
+#include "common_proxy_socket.h"
 
 #define BUTTON_WIDTH 300
 #define BUTTON_HEIGHT 200
@@ -33,7 +34,7 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
-void SdlButton::handleEvent(SDL_Event *e, BlockingQueue<t_command> &proxySocket, BlockingQueue<t_command> &proxyClientSocket) {
+void SdlButton::handleEvent(SDL_Event *e, ProxySocket &proxySocket) {
     //if mouse even happend
     if(e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP){
         int x,y;
@@ -66,6 +67,7 @@ void SdlButton::handleEvent(SDL_Event *e, BlockingQueue<t_command> &proxySocket,
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
                     if(e->button.button == SDL_BUTTON_LEFT){
                         (*cmd)(proxySocket);
+                        proxySocket.readClient();
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
