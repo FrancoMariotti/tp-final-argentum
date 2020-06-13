@@ -14,10 +14,10 @@ class PlayableCharacter: public GameObject {
     //Clase clase
     //Raza raza
     int lifePoints;
-    Mobility *mobility;
+    Movable movable;
     friend class PersonajeTest;
     public:
-        PlayableCharacter(int lifePoints, Mobility* mobility, int x, int y, Map& map);
+        PlayableCharacter(int lifePoints, int x, int y, Map& map);
         void move(Offset& offset);
         virtual ~PlayableCharacter();
 };

@@ -52,4 +52,9 @@ GameObject* Map::findClosestCharacter(Position pos, int range) {
     return enemy;
 }
 
-Map::~Map() = default;
+Map::~Map() {
+    std::vector<Obstacle*>::iterator itrObstacles;
+    for (itrObstacles = obstacles.begin() ; itrObstacles != obstacles.end(); ++itrObstacles) {
+        delete *itrObstacles;
+    }
+}

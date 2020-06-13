@@ -29,4 +29,6 @@ Offset Npc::findClosestCharacterOffset() {
     return enemy->getOffset(this->currPos);
 }
 
-Npc::~Npc() {}
+Npc::~Npc() {
+    delete this->mobility;
+}

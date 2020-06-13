@@ -15,16 +15,19 @@ class Map;
 class Mobility {
     public:
         virtual void move(Position& position, Map& map, Offset& offset) = 0;
+        virtual ~Mobility();
 };
 
 class Movable: public Mobility {
     public:
         void move(Position& position, Map& map, Offset& offset);
+        ~Movable();
 };
 
 class NonMovable: public Mobility {
     public:
         void move(Position& position, Map& map, Offset& offset);
+        ~NonMovable();
 };
 
 

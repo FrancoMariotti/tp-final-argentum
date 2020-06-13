@@ -5,12 +5,12 @@
 #include "PlayableCharacter.h"
 #include "Mobility.h"
 
-PlayableCharacter::PlayableCharacter(int lifePoints, Mobility* mobility, int x, int y, Map& map): GameObject(x, y, map), mobility(mobility) {
+PlayableCharacter::PlayableCharacter(int lifePoints,int x, int y, Map& map): GameObject(x, y, map) {
     map.addPlayableCharacter(this);
 }
 
 void PlayableCharacter::move(Offset& offset) {
-    this->mobility->move(this->currPos,this->map,offset);
+    this->movable.move(this->currPos,this->map,offset);
 }
 
-PlayableCharacter::~PlayableCharacter() =default;
+PlayableCharacter::~PlayableCharacter() = default;

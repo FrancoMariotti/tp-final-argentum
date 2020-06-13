@@ -13,8 +13,7 @@ void PersonajeTest::setUp() {}
 
 void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones() {
     Map map(10, 10);
-    Mobility* mobility= new Movable();
-    PlayableCharacter player(20,mobility,2,2,map);
+    PlayableCharacter player(20,2,2,map);
 
     {
         //test:el personaje se mueve hacia arriba en el map

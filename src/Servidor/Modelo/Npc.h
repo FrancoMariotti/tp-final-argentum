@@ -16,9 +16,10 @@ class Npc : public GameObject {
 private:
     int lifePoints;
     Mobility *mobility;
-    //std::vector<Personaje*> &characters;
     //Criatura criatura
 public:
+    //Pasamos la Mobility por parametro porque pensamos en que puede
+    //haber npcs que se muevan y otros que no.
     Npc(int lifePoints, Mobility *mobility, int x, int y, Map &map);
     Offset findClosestCharacterOffset();
     void move();
