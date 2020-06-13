@@ -16,14 +16,14 @@ public:
 
 class Consume: public Command{
 public:
-    /*Envia el comando 's' por el socket*/
+    /*Envia el comando 'c' por el socket*/
     void operator()(BlockingQueue<t_command> &proxySocket) override;
     void free() override;
 };
 
 class Equip: public Command{
 public:
-    /*envia el comando 'h' por el socket*/
+    /*envia el comando 'e' por el socket*/
     void operator()(BlockingQueue<t_command> &proxySocket) override;
     void free() override;
 };

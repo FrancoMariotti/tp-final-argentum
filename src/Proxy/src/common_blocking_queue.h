@@ -18,6 +18,7 @@ public:
 
 
 typedef struct t_command{
+    std::string command;
     int x;
     int y;
 }t_command;
@@ -65,6 +66,10 @@ class BlockingQueue {
             this->is_close = true;
             this->cond_var.notify_all();
 
+        }
+
+        bool isEmpty() const{
+            return queue.empty();
         }
 
         ~BlockingQueue() = default;

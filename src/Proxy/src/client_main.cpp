@@ -34,14 +34,18 @@ int main(int argc, char* args[]) {
          * ejecuta el operator() del comando que envia el mensaje*/
 
         //Botones
-        std::vector<SdlButton> buttons;
-        /*Ojo con el object slicing y que estoy compartiendo el recurso*/
+        std::vector<SdlButton*> buttons;
         SdlTexture buttonSpriteSheet(100,100,"../../Proxy/assets/button.png", window);
         for (int i = 0; i < 3 ; ++i) {
-            buttons.emplace_back(buttonSpriteSheet);
-            buttons.back().setPosition(SCREEN_WIDTH - (buttonSpriteSheet.getWidth()),
+            Command* cmd = new Equip();
+            /*Alojo los botones en el heap dado el parametro new Command*/
+            buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
+            buttons.back()->setPosition(SCREEN_WIDTH - (buttonSpriteSheet.getWidth()),
                     buttonSpriteSheet.getHeight() * i);
         }
+        Command* cmd = new Consume();
+        buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
+        buttons.back()->setPosition(SCREEN_WIDTH - (2*buttonSpriteSheet.getWidth()), 0);
 
         //Main loop flag
         bool quit = false;
@@ -57,13 +61,11 @@ int main(int argc, char* args[]) {
         while (!quit) {
             //Handle events on queue
             while (SDL_PollEvent(&event) != 0) {
-                //User request quit
                 switch(event.type){
                     case SDL_QUIT:
                         quit = true;
                         break;
                     case SDL_KEYDOWN:
-                        //Handle input for the dot
                         player.handleEvent(event, proxyPeerSocket);
                         proxyServerRecieve(proxyPeerSocket, proxyClientSocket);
                         t_command movement = proxyClientSocket.pop();
@@ -71,8 +73,9 @@ int main(int argc, char* args[]) {
                         break;
                 }
             }
+            //Handle de los botones
             for(auto & button : buttons){
-                button.handleEvent(&event, proxyPeerSocket);
+                button->handleEvent(&event, proxyPeerSocket, proxyClientSocket);
             }
             //Renderizo background
             background.render(0,0);
@@ -80,10 +83,15 @@ int main(int argc, char* args[]) {
             player.render();
             //Renderizo botones
             for (auto & button : buttons) {
-                button.render();
+                button->render();
             }
             //Update screen
             window.render();
+        }
+
+        //delete buttons
+        for(auto & button : buttons){
+            delete button;
         }
         //Close SDL
         close();
@@ -105,11 +113,11 @@ void proxyServerRecieve(BlockingQueue<t_command> &read, BlockingQueue<t_command>
               << std::endl;
     //if movimiento valido
         t_command response;
+        response.command = "move";
         response.x = move.x;
         response.y = move.y;
-    //else response = {0, 0};
+    //else response = {"move", 0, 0};
     write.push(response);
-
 }
 
 void close(){

@@ -11,11 +11,9 @@
 /**TODO: Hacer un overload para el caso de que no
  * tengan spritesheet y sean imagenes estaticas*/
 
-SdlButton::SdlButton(SdlTexture& buttonTexture) :
-    buttonSpriteSheetTexture(buttonTexture){
-
-    //cmd = new Equip();
-
+SdlButton::SdlButton(SdlTexture& buttonTexture, Command* cmd) :
+    buttonSpriteSheetTexture(buttonTexture),
+    cmd(cmd){
     position.x = 0;
     position.y = 0;
 
@@ -35,7 +33,7 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
-void SdlButton::handleEvent(SDL_Event *e, BlockingQueue<t_command> &proxySocket) {
+void SdlButton::handleEvent(SDL_Event *e, BlockingQueue<t_command> &proxySocket, BlockingQueue<t_command> &proxyClientSocket) {
     //if mouse even happend
     if(e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP){
         int x,y;
@@ -57,7 +55,7 @@ void SdlButton::handleEvent(SDL_Event *e, BlockingQueue<t_command> &proxySocket)
         if (!inside){
             current_sprite = BUTTON_SPRITE_MOUSE_OUT;
         }
-            //Mouse is inside button
+        //Mouse is inside button
         else {
             //Set mouse over sprite
             switch (e->type){
@@ -66,10 +64,12 @@ void SdlButton::handleEvent(SDL_Event *e, BlockingQueue<t_command> &proxySocket)
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
+                    if(e->button.button == SDL_BUTTON_LEFT){
+                        (*cmd)(proxySocket);
+                    }
                     break;
                 case SDL_MOUSEBUTTONUP:
                     current_sprite = BUTTON_SPRITE_MOUSE_UP;
-                    //(*cmd)(proxySocket);
                     break;
             }
         }
@@ -83,5 +83,5 @@ void SdlButton::render() {
 }
 
 SdlButton::~SdlButton() {
-  //  delete cmd;
+    delete cmd;
 }

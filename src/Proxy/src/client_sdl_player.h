@@ -51,7 +51,7 @@ public:
     void move(int screen_width, int screen_height);
 
     //Mueve el npc
-    void move(t_command move);
+    void move(const t_command& move);
 
     //Muestra el npc en pantalla
     void render();

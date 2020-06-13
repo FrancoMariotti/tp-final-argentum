@@ -31,18 +31,19 @@ private:
     //Imagen del boton
     SdlTexture& buttonSpriteSheetTexture;
 
-    //Command* cmd;
+    Command* cmd;
 
     public:
         //Initialize internal variables
-        explicit SdlButton(SdlTexture& buttonTexture);
+        SdlButton(SdlTexture& buttonTexture, Command* cmd);
 
         //Sets top left position
         /**Los items se van a ir moviendo en el inventario asi que necesito un set*/
         void setPosition(int x, int y);
 
         //Handles mouse event
-        void handleEvent(SDL_Event* e, BlockingQueue<t_command> &proxySocket);
+        void handleEvent(SDL_Event* e, BlockingQueue<t_command> &proxySocket,
+                BlockingQueue<t_command> &proxyClientSocket);
 
         //Shows button sprite
         void render();
