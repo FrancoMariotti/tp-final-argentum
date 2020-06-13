@@ -22,15 +22,19 @@ private:
     int m_height;
 
 public:
+    /*Ctor usa el tamaño de la imagen*/
+    SdlTexture(const std::string &filename, const SdlWindow& window);
+
     /*Ctor con imagen de ancho @param width y alto @param height */
     SdlTexture(int width, int height, const std::string &filename, const SdlWindow &window);
-
-    //Initializes variables
-    SdlTexture(const std::string &filename, const SdlWindow& window);
 
     //Constructor para crear texturas a partir de texto
     SdlTexture(std::string text, std::string fontPath, SDL_Color colour,
         int width, int height, const SdlWindow& window);
+
+    SdlTexture(const SdlTexture& other) = delete;
+
+    SdlTexture(SdlTexture&& other) noexcept;
 
     //Deallocates memory
     ~SdlTexture();

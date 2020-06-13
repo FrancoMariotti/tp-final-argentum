@@ -2,8 +2,8 @@
 // Created by agustin on 13/6/20.
 //
 
-#include <zconf.h>
 #include "client_client.h"
+#include "client_sdl_inventory.h"
 
 Client::Client() :
     window(SCREEN_WIDTH, SCREEN_HEIGHT),
@@ -18,19 +18,8 @@ int Client::run() {
     SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
     SdlTexture texture("../../Proxy/assets/340.gif", window);
 
-    //Botones
-    std::vector<SdlButton*> buttons;
-    SdlTexture buttonSpriteSheet(100,100,"../../Proxy/assets/button.png", window);
-    for (int i = 0; i < 3 ; ++i) {
-        Command* cmd = new Equip();
-        /*Alojo los botones en el heap dado el parametro new Command*/
-        buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
-        buttons.back()->setPosition(SCREEN_WIDTH - (buttonSpriteSheet.getWidth()),
-                                    buttonSpriteSheet.getHeight() * i);
-    }
-    Command* cmd = new Move();
-    buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
-    buttons.back()->setPosition(SCREEN_WIDTH - (2*buttonSpriteSheet.getWidth()), 0);
+    //Cargo el inventario
+    SdlInventory inventory(SCREEN_WIDTH,SCREEN_HEIGHT,window);
 
     //Main loop flag
     bool quit = false;
@@ -57,31 +46,19 @@ int Client::run() {
             }
         }
         //Handle de los botones
-        for(auto & button : buttons){
-            button->handleEvent(&event, proxySocket);
-        }
+        inventory.handleEvents(&event, proxySocket);
 
         //Renderizo background
         background.render(0,0);
         //Render objects
         player.render();
         //Renderizo botones
-        for (auto & button : buttons) {
-            button->render();
-        }
+        inventory.render();
         //Update screen
         window.render();
     }
-
-    //delete buttons
-    for(auto & button : buttons){
-        delete button;
-    }
-
     //Close SDL
     this->close();
-
-
 }
 
 

@@ -22,20 +22,19 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
-
-
 class Client {
 private:
-    //Start up SDL and create window
     SdlWindow window;
     SdlTexture background;
     ProxySocket proxySocket;
 
 public:
+    //Start up SDL and create window
     Client();
     int run();
 
 private:
+    /*Cierra SDL y libera los recursos*/
     void close();
 };
 

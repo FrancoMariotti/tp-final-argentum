@@ -29,6 +29,15 @@ SdlTexture::SdlTexture(std::string text, std::string fontPath, SDL_Color colour,
     this->m_texture = loadFromText(text, fontPath, colour);
 }
 
+SdlTexture::SdlTexture(SdlTexture &&other) noexcept :
+    m_renderer(other.m_renderer),
+    m_texture(other.m_texture),
+    m_width(other.m_width),
+    m_height(other.m_height){
+        other.m_renderer = nullptr;
+        other.m_texture = nullptr;
+}
+
 SdlTexture::~SdlTexture() {
     //Deallocate
     free();
