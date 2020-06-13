@@ -18,10 +18,6 @@
 #include "client_command.h"
 #include "common_proxy_socket.h"
 
-//Screen dimension constants
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-
 class Client {
 private:
     SdlWindow window;

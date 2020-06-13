@@ -5,9 +5,15 @@
 #include "client_client.h"
 #include "client_sdl_inventory.h"
 
+
+//Screen dimension constants
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
+
+
 Client::Client() :
     window(SCREEN_WIDTH, SCREEN_HEIGHT),
-    background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/assets/dungeon.png", window)
+    background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window)
     {
     //Permito la carga del PNGs
     window.initPNG();

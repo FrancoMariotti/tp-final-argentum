@@ -19,11 +19,10 @@ private:
     int inventory_x;
     int inventory_y;
     //Fondo del inventario
-    SdlTexture background;
+    SdlTexture inv_background;
     //Una lista con todos los items del inventario, son botones
     std::vector<SdlButton*> buttons;
-
-    //Un map con todas las texturas
+    //Un map con todas las texturas de los items del inventario
     std::map<std::string, SdlTexture> inventoryTextures;
 
 public:
