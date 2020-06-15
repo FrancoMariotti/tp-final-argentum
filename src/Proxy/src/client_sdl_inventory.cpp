@@ -14,7 +14,7 @@
 #define SCREEN_RATIO 1
 
 SdlInventory::SdlInventory(const int screen_width, const int screen_height, const SdlWindow &window) :
-        inv_background(screen_width / 3, screen_height, "../../Proxy/assets/background.png", window){
+    window(window){
     //Tamaño ventana inventario
     this->width = IMAGE_INVENTORY_WIDTH * SCREEN_RATIO;
     this->height = IMAGE_INVENTORY_HEIGHT * SCREEN_RATIO;
@@ -23,7 +23,7 @@ SdlInventory::SdlInventory(const int screen_width, const int screen_height, cons
     this->inventory_x = INVENTORY_X * SCREEN_RATIO;
     this->inventory_y = INVENTORY_Y * SCREEN_RATIO;
 
-    int button_size = 40 * SCREEN_RATIO;
+    this->button_size = 40 * SCREEN_RATIO;
 
     //Botones
     inventoryTextures.emplace(std::piecewise_construct,
@@ -36,7 +36,12 @@ SdlInventory::SdlInventory(const int screen_width, const int screen_height, cons
     for (int i = 0; i < 5 ; ++i) {
         int col = (int) buttons.size() % 4;
         int fil = (int) buttons.size() / 4;
-        Command* cmd = new Equip();
+        Command* cmd;
+        if((i+1) % 2 == 0){
+            cmd = new Equip;
+        } else {
+            cmd = new Consume;
+        }
         /*Alojo los botones en el heap dado el parametro new Command*/
         buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
         /*Seteo la posicion relativa al inventario,
@@ -51,9 +56,33 @@ SdlInventory::SdlInventory(const int screen_width, const int screen_height, cons
 }
 
 void SdlInventory::handleEvents(SDL_Event *event, ProxySocket &proxySocket) {
+    /*Client side events*/
     for(auto & button : buttons){
-        button->handleEvent(event, proxySocket);
+        button->handleEvent(event);
     }
+}
+
+void SdlInventory::use(ProxySocket &proxySocket) {
+    /*Paso la posicion del inventario, i*/
+    for (unsigned long i = 0; i < buttons.size() ; ++i) {
+        buttons[i]->use(proxySocket, (int)i);
+    }
+}
+
+void SdlInventory::addItem(const std::string& item_id){
+    /*El server me envia el ID del item para cargarle la textura*/
+    inventoryTextures.emplace(std::piecewise_construct,
+                              std::forward_as_tuple(item_id),
+                              std::forward_as_tuple(button_size,button_size,
+                                      "../../Proxy/items/" + item_id + ".png", window)
+    );
+    SdlTexture& buttonTexture = inventoryTextures.at(item_id);
+    int col = (int) buttons.size() % 4;
+    int fil = (int) buttons.size() / 4;
+    Command* cmd = new Equip;
+    buttons.push_back(new SdlButton(buttonTexture, cmd));
+    buttons.back()->setPosition(inventory_x + col * button_size,
+                                inventory_y + fil * button_size);
 }
 
 void SdlInventory::render() {

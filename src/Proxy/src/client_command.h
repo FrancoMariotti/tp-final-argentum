@@ -10,7 +10,7 @@
 
 class Command {
 public:
-    virtual void operator()(ProxySocket &proxySocket) = 0;
+    virtual void operator()(ProxySocket &proxySocket, int i) = 0;
     virtual void free() = 0;
     virtual ~Command() = default;
 };
@@ -18,24 +18,15 @@ public:
 class Consume: public Command{
 public:
     /*Envia el comando 'c' por el socket*/
-    void operator()(ProxySocket &proxySocket) override;
+    void operator()(ProxySocket &proxySocket, int i) override;
     void free() override;
 };
 
 class Equip: public Command{
 public:
     /*envia el comando 'e' por el socket*/
-    void operator()(ProxySocket &proxySocket) override;
+    void operator()(ProxySocket &proxySocket, int i) override;
     void free() override;
-};
-
-class Move: public Command{
-public:
-    /*envia el comando 'm' por el socket para el movimiento*/
-    /*Luego envia el offset*/
-    void operator()(ProxySocket &proxySocket) override;
-    void free() override;
-
 };
 
 

@@ -12,27 +12,28 @@
 #include "common_proxy_socket.h"
 
 class SdlButton {
-private:
-    enum e_button_sprite{
-        BUTTON_SPRITE_MOUSE_OUT = 0,
-        BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
-        BUTTON_SPRITE_MOUSE_DOWN = 2,
-        BUTTON_SPRITE_MOUSE_UP = 3,
-        BUTTON_SPRITE_TOTAL = 4,
-    };
+    private:
+        enum e_button_sprite{
+            BUTTON_SPRITE_MOUSE_OUT = 0,
+            BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
+            BUTTON_SPRITE_MOUSE_DOWN = 2,
+            BUTTON_SPRITE_MOUSE_UP = 3,
+            BUTTON_SPRITE_TOTAL = 4,
+        };
 
-    int width;
-    int height;
-    //Top left position
-    SDL_Point position;
-    //Currently used sprite
-    e_button_sprite current_sprite;
-    //Sprites de cada estado del boton
-    SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
-    //Imagen del boton
-    SdlTexture& buttonSpriteSheetTexture;
+        int width;
+        int height;
+        bool clicked;
+        //Top left position
+        SDL_Point position;
+        //Currently used sprite
+        e_button_sprite current_sprite;
+        //Sprites de cada estado del boton
+        SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
+        //Imagen del boton
+        SdlTexture& buttonSpriteSheetTexture;
 
-    Command* cmd;
+        Command* cmd;
 
     public:
         //Initialize internal variables
@@ -43,7 +44,9 @@ private:
         void setPosition(int x, int y);
 
         //Handles mouse event
-        void handleEvent(SDL_Event *e, ProxySocket &proxySocket);
+        void handleEvent(SDL_Event *e);
+
+        void use(ProxySocket &proxySocket, int i);
 
         //Shows button sprite
         void render();

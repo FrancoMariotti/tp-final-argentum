@@ -34,12 +34,15 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
-void SdlButton::handleEvent(SDL_Event *e, ProxySocket &proxySocket) {
+void SdlButton::handleEvent(SDL_Event *e) {
     //if mouse even happend
     if(e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP){
         int x,y;
         /*Devuelve la posicion del mouse*/
         SDL_GetMouseState(&x,&y);
+
+        /*Boton no se clickeo*/
+        this->clicked = false;
 
         //Check if mouse is in button
         bool inside = true;
@@ -58,7 +61,7 @@ void SdlButton::handleEvent(SDL_Event *e, ProxySocket &proxySocket) {
         }
         //Mouse is inside button
         else {
-            //Set mouse over sprite
+            //Set mouseover sprite
             switch (e->type){
                 case SDL_MOUSEMOTION:
                     current_sprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
@@ -66,8 +69,7 @@ void SdlButton::handleEvent(SDL_Event *e, ProxySocket &proxySocket) {
                 case SDL_MOUSEBUTTONDOWN:
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
                     if(e->button.button == SDL_BUTTON_LEFT){
-                        (*cmd)(proxySocket);
-                        proxySocket.readClient();
+                        this->clicked = true;
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
@@ -77,6 +79,15 @@ void SdlButton::handleEvent(SDL_Event *e, ProxySocket &proxySocket) {
         }
     }
 
+}
+
+void SdlButton::use(ProxySocket &proxySocket, int i) {
+    if(clicked){
+        (*cmd)(proxySocket, i);
+        /*Test*/
+        t_command msg = proxySocket.readServer();
+        std::cout << msg.command << "item pos: " << msg.x << std::endl;
+    }
 }
 
 void SdlButton::render() {

@@ -44,6 +44,12 @@ int Client::run() {
                 case SDL_QUIT:
                     quit = true;
                     break;
+                    /*test*/
+                case SDL_KEYDOWN:
+                    if(event.key.keysym.sym == SDLK_h){
+                        inventory.addItem("16055");
+                    }
+                    break;
             }
             //Handle del jugador
             player.handleEvent(event);
@@ -55,8 +61,9 @@ int Client::run() {
             inventory.handleEvents(&event, proxySocket);
         }
 
-        //Muevo al jugador
+        /*Logic*/
         player.move(proxySocket);
+        inventory.use(proxySocket);
 
         //Limpio pantalla
         window.fill(0xFF, 0xFF, 0xFF, 0xFF);
