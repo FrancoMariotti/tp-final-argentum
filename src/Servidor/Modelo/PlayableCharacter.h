@@ -1,20 +1,15 @@
-//
-// Created by franco on 10/6/20.
-//
-
 #ifndef ARGENTUM_PLAYABLECHARACTER_H
 #define ARGENTUM_PLAYABLECHARACTER_H
 
-#include "GameObject.h"
+#include "Character.h"
 #include "Mobility.h"
 
 class Mobility;
 
-class PlayableCharacter: public GameObject {
+class PlayableCharacter: public Character {
     //Clase clase
     //Raza raza
     int lifePoints;
-    Movable movable;
     friend class PersonajeTest;
     public:
         PlayableCharacter(int lifePoints, int x, int y, Map& map);

@@ -1,16 +1,14 @@
-//
-// Created by franco on 10/6/20.
-//
-
 #include "PlayableCharacter.h"
 #include "Mobility.h"
 
-PlayableCharacter::PlayableCharacter(int lifePoints,int x, int y, Map& map): GameObject(x, y, map) {
+PlayableCharacter::PlayableCharacter(int lifePoints,int x, int y, Map& map): Character(x, y, map) {
     map.addPlayableCharacter(this);
 }
 
 void PlayableCharacter::move(Offset& offset) {
-    this->movable.move(this->currPos,this->map,offset);
+    Position siguiente(this->currPos);
+    siguiente.apply(offset);
+    map.move(this->currPos,siguiente);
 }
 
 PlayableCharacter::~PlayableCharacter() = default;
