@@ -20,19 +20,21 @@ Client::Client() :
 }
 
 int Client::run() {
-    //Cargo al personaje
+    //Cargo las texturas del personaje
     SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
     SdlTexture texture("../../Proxy/assets/340.gif", window);
 
     //Cargo el inventario
     SdlInventory inventory(SCREEN_WIDTH,SCREEN_HEIGHT,window);
 
+    //Cargo el personaje
+    SdlPlayer player(100, 100, texture, head_sprite_sheet);
+
     //Main loop flag
     bool quit = false;
+
     //Event handler
     SDL_Event event;
-
-    SdlPlayer player(100, 100, texture, head_sprite_sheet);
 
     //While application is running
     while (!quit) {
@@ -42,26 +44,35 @@ int Client::run() {
                 case SDL_QUIT:
                     quit = true;
                     break;
-                case SDL_KEYDOWN:
-                    player.handleEvent(event, proxySocket);
-
-                    /*Proxy respuesta del server*/
-                    t_command movement = proxySocket.readClient();
-                    player.move(movement);
-                    break;
             }
+            //Handle del jugador
+            player.handleEvent(event);
+
+            //Handle entrada
+            //console.handleEvent(event) input del teclado para los comandos e.g resucitar
+
+            //Handle de los botones
+            inventory.handleEvents(&event, proxySocket);
         }
-        //Handle de los botones
-        inventory.handleEvents(&event, proxySocket);
+
+        //Muevo al jugador
+        player.move(proxySocket);
+
+        //Limpio pantalla
+        window.fill(0xFF, 0xFF, 0xFF, 0xFF);
 
         //Renderizo background
         background.render(0,0);
+
         //Render objects
         player.render();
-        //Renderizo botones
         inventory.render();
+
         //Update screen
         window.render();
+
+        //Cap FPS
+        SDL_Delay(16);
     }
     //Close SDL
     this->close();
