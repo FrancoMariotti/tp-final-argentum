@@ -1,5 +1,5 @@
-#ifndef ARGENTUM_GAMEOBJECT_H
-#define ARGENTUM_GAMEOBJECT_H
+#ifndef ARGENTUM_CHARACTER_H
+#define ARGENTUM_CHARACTER_H
 
 #include "Map.h"
 #include "Offset.h"
@@ -7,18 +7,18 @@
 
 class Map;
 
-class GameObject {
+class Character {
     protected:
         Position currPos;
         Map& map;
     public:
-        GameObject(int x,int y,Map& map);
+        Character(int x,int y,Map& map);
         bool collideWith(Position& objPos);
         virtual int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
-        virtual ~GameObject();
         //METODO PARA PROBAR
         void printPosition();
+        virtual ~Character();
 };
 
-#endif //ARGENTUM_GAMEOBJECT_H
+#endif //ARGENTUM_CHARACTER_H

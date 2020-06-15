@@ -5,7 +5,7 @@
 #include "Position.h"
 #include "Obstacle.h"
 
-class GameObject;
+class Character;
 class Npc;
 class PlayableCharacter;
 
@@ -21,7 +21,7 @@ class Map {
         void addNpc(Npc* npc);
         void addObstacle(Obstacle* obstacle);
         void move(Position& from,Position& to);
-        GameObject* findClosestCharacter(Position pos, int range);
+        Character* findClosestCharacter(Position pos, int range);
         ~Map();
 };
 

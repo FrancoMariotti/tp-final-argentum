@@ -17,21 +17,16 @@ MapFactory::MapFactory(std::string mapFile):parser(mapFile) {}
 
 Map MapFactory::create() {
     Json::Value obj = parser.read("map");
-    int width_mapa = obj["width"].asInt();
-    int height_mapa = obj["height"].asInt();
-    Map map(width_mapa,height_mapa);
+    int width_map = obj["width"].asInt();
+    int height_map = obj["height"].asInt();
+    Map map(width_map,height_map);
     Json::Value& obstacles = obj["obstacles"];// array of characters
 
     for (unsigned int i = 0; i < obstacles.size(); i++){
-        std::cout<< obstacles[i]["name"].asString()<<std::endl;
         int width = obstacles[i]["width"].asInt()/32;
-        printf("width:%d\n",width);
         int height = obstacles[i]["height"].asInt()/32;
-        printf("height:%d\n",height);
         int x = obstacles[i]["x"].asInt() / 32;
-        printf("x:%d\n",x);
         int y = obstacles[i]["y"].asInt() / 32;
-        printf("y:%d\n",y);
         Obstacle* obstacle = new Obstacle(x,y,height,width);
         map.addObstacle(obstacle);
     }

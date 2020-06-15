@@ -37,7 +37,7 @@ void Map::move(Position& from,Position& to) {
 }
 
 
-GameObject* Map::findClosestCharacter(Position pos, int range) {
+Character* Map::findClosestCharacter(Position pos, int range) {
     //EL MAPA DEBERIA TEENR UN VECTOR CON TODOS LOS PERSONAJES JUGABLES,ESE VECTOR ES CHARATERS
     int minDist = range;
     PlayableCharacter* enemy = NULL;
