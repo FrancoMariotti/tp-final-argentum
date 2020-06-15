@@ -5,25 +5,24 @@
 #include "Character.h"
 #include "Position.h"
 #include "Map.h"
-#include "StrategyMoveNPC.h"
 
 class Map;
 
 class Mobility {
     public:
-        virtual void move(Position& position, Map& map, StrategyMoveNPC movement) = 0;
+        virtual void move(Position& position, Map& map) = 0;
         virtual ~Mobility();
 };
 
 class Movable: public Mobility {
     public:
-        void move(Position& position, Map& map, StrategyMoveNPC movement) override;
+        void move(Position& position, Map& map) override;
         ~Movable() override;
 };
 
 class NonMovable: public Mobility {
     public:
-        void move(Position& position, Map& map, StrategyMoveNPC movement) override;
+        void move(Position& position, Map& map) override;
         ~NonMovable() override;
 };
 
