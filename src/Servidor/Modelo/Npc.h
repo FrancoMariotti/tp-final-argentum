@@ -8,7 +8,6 @@
 #include "Map.h"
 #include "Character.h"
 #include "Mobility.h"
-#include "StrategyMoveNPC.h"
 
 class Mobility;
 class Map;
@@ -18,7 +17,6 @@ private:
     int lifePoints;
     Mobility *mobility;
     //Criatura criatura
-    StrategyMoveNPC movement;
 public:
     //Pasamos la Mobility por parametro porque pensamos en que puede
     //haber npcs que se muevan y otros que no.

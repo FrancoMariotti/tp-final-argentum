@@ -1,7 +1,6 @@
 #ifndef ARGENTUM_FACTORY_H
 #define ARGENTUM_FACTORY_H
 
-
 #include <fstream>
 #include <jsoncpp/json/value.h>
 #include "Map.h"
