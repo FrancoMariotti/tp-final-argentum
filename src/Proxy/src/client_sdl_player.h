@@ -22,39 +22,38 @@ private:
         TOTAL_HEAD_SPRITE
     };
 
-    SdlTexture& m_body;
-    SdlTexture& m_head_sprite_sheet_texture;
-    //Dimensiones del npc
-    int m_width;
-    int m_height;
-    //Maximum axis velocity of the dot
-    const int m_vel = 10;
-    //The X and Y offsets of the dot
-    int m_pos_x, m_pos_y;
-    //The velocity of the dot
-    int m_vel_x, m_vel_y;
+    SdlTexture& bodyTexture;
+    SdlTexture& headSpriteSheetTexture;
 
-    SDL_Rect m_head_sprite_clips[TOTAL_HEAD_SPRITE];
+    //Dimensiones del jugador
+    int width;
+    int height;
+    //Se puede mover un casillero a la vez
+    const int VEL = 1;
+    int pos_x, pos_y;
 
-    enum e_head_orientation m_face_orientation;
+    //Offset del movimiento
+    int vel_x, vel_y;
+
+    SDL_Rect head_sprite_clips[TOTAL_HEAD_SPRITE];
+
+    enum e_head_orientation e_face_orientation;
 
 public:
     //Initializes the variables
     SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head);
 
-    //Ajusta la velocidad del npc
+    //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event& e );
 
     //Mueve directamente al npc de manera axial
     void handleEvent(SDL_Event &e, ProxySocket &proxySocket);
 
-    //Mueve el npc
     void move(int screen_width, int screen_height);
 
-    //Mueve el npc
-    void move(const t_command& move);
+    void move(ProxySocket &proxySocket);
 
-    //Muestra el npc en pantalla
+    //Muestra al jugador en pantalla
     void render();
 };
 
