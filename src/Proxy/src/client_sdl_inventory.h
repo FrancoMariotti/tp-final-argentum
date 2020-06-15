@@ -18,8 +18,10 @@ private:
     /*Posicion del inventario*/
     int inventory_x;
     int inventory_y;
-    //Fondo del inventario
-    SdlTexture inv_background;
+    int button_size;
+
+    const SdlWindow& window;
+
     //Una lista con todos los items del inventario, son botones
     std::vector<SdlButton*> buttons;
     //Un map con todas las texturas de los items del inventario
@@ -30,9 +32,14 @@ public:
 
     void handleEvents(SDL_Event *event, ProxySocket &proxySocket);
 
+    /*logic*/
+    void use(ProxySocket &proxySocket);
+
     void render();
 
     ~SdlInventory();
+
+    void addItem(const std::string &item_id);
 };
 
 
