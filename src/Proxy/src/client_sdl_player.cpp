@@ -107,7 +107,6 @@ void SdlPlayer::render() {
 
 /**Logic*/
 void SdlPlayer::move(ProxySocket &proxySocket) {
-
     /*Crea el msg con el offset al que se quiere mover, lo envia al server y
      * actualiza la posicion con la respuesta del server*/
     t_command player_movement={"m", vel_x, vel_y};

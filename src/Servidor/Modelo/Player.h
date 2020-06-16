@@ -13,9 +13,9 @@ private:
     //std::string name;
     PlayableCharacter character;
 public:
-    Player(Map& map);
-    ~Player();
+    explicit Player(Map& map);
     void move(Offset offset);
+    ~Player();
     //bool exists(std::string name);
 };
 

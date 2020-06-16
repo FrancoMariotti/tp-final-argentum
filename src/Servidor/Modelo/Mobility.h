@@ -11,7 +11,7 @@ class Map;
 class Mobility {
     public:
         virtual void move(Position& position, Map& map) = 0;
-        virtual ~Mobility();
+        virtual ~Mobility() = default;
 };
 
 class Movable: public Mobility {

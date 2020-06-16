@@ -1,8 +1,6 @@
 #include "Mobility.h"
 #define MAX_RANGE 4
 
-Mobility::~Mobility() = default;
-
 void Movable::move(Position& currPos, Map& map) {
     Offset offset(0,0);
 

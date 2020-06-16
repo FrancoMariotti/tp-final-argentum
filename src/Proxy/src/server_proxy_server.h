@@ -9,8 +9,9 @@
 #include "common_blocking_queue.h"
 
 class ProxyServer {
-
+    Game game;
 public:
+    ProxyServer();
     t_command processCommand(t_command command);
 };
 

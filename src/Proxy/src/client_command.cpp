@@ -1,7 +1,3 @@
-//
-// Created by agustin on 12/6/20.
-//
-
 #include <iostream>
 #include "client_command.h"
 #include "common_proxy_socket.h"
