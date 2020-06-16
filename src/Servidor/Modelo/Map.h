@@ -16,6 +16,7 @@ class Map {
     std::vector<PlayableCharacter*> characters;
     std::vector<Obstacle*> obstacles;
     public:
+        Map();
         Map(int width,int height);
         void addPlayableCharacter(PlayableCharacter* character);
         void addNpc(Npc* npc);

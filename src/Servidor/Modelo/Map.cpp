@@ -2,6 +2,8 @@
 #include "PlayableCharacter.h"
 #include "Npc.h"
 
+Map::Map() = default;
+
 Map::Map(int width,int height):width(width),height(height) {}
 
 void Map::addPlayableCharacter(PlayableCharacter* character) {
