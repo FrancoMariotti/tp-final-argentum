@@ -10,7 +10,7 @@
 
 class Command {
 public:
-    virtual void operator()(ProxySocket &proxySocket, int i) = 0;
+    virtual void operator()(BlockingQueue<t_command> &event_sender, int i) = 0;
     virtual void free() = 0;
     virtual ~Command() = default;
 };
@@ -18,7 +18,7 @@ public:
 class Use: public Command{
 public:
     /*envia el comando 'e' por el socket*/
-    void operator()(ProxySocket &proxySocket, int i) override;
+    void operator()(BlockingQueue<t_command> &event_sender, int i) override;
     void free() override;
 };
 

@@ -77,12 +77,12 @@ int Client::run() {
             console.handleEvents(event);
 
             //Handle de los botones
-            inventory.handleEvents(&event);
+            inventory.handleEvents(event);
         }
 
         /*Logic*/
         player.move(event_sender);
-        inventory.use(proxySocket);
+        inventory.use(event_sender);
         console.execute();
 
         //Limpio pantalla

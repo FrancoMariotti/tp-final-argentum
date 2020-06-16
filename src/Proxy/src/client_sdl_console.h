@@ -16,7 +16,7 @@ private:
     TTF_Font* font;
     std::string input_text;
     bool render_text;
-    bool return_pressed;
+    int return_times_pressed;
 
     int console_x;
     int console_y;

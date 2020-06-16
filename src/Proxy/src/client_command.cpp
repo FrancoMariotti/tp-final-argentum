@@ -2,9 +2,9 @@
 #include "client_command.h"
 #include "common_proxy_socket.h"
 
-void Use::operator()(ProxySocket &proxySocket, int i) {
+void Use::operator()(BlockingQueue<t_command> &event_sender, int i) {
     t_command command = {"usar ",i, 0};
-    proxySocket.writeToServer(command);
+    event_sender.push(command);
 }
 
 void Use::free() {

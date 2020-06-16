@@ -46,11 +46,6 @@ public:
     //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event& e );
 
-    //Mueve directamente al npc de manera axial
-    void handleEvent(SDL_Event &e, ProxySocket &proxySocket);
-
-    void move(int screen_width, int screen_height);
-
     void move(BlockingQueue<t_command> &event_sender);
 
     //Muestra al jugador en pantalla

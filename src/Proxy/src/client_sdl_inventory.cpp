@@ -50,17 +50,17 @@ SdlInventory::SdlInventory(const int screen_width, const int screen_height, cons
 
 }
 
-void SdlInventory::handleEvents(SDL_Event *event) {
+void SdlInventory::handleEvents(SDL_Event &event) {
     /*Client side events*/
     for(auto & button : buttons){
         button->handleEvent(event);
     }
 }
 
-void SdlInventory::use(ProxySocket &proxySocket) {
+void SdlInventory::use(BlockingQueue<t_command> &event_sender) {
     /*Paso la posicion del inventario, i*/
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
-        buttons[i]->use(proxySocket, (int)i);
+        buttons[i]->use(event_sender, (int)i);
     }
 }
 

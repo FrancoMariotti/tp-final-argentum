@@ -23,7 +23,7 @@ class SdlButton {
 
         int width;
         int height;
-        bool clicked;
+        int times_clicked;
         //Top left position
         SDL_Point position;
         //Currently used sprite
@@ -44,9 +44,9 @@ class SdlButton {
         void setPosition(int x, int y);
 
         //Handles mouse event
-        void handleEvent(SDL_Event *e);
+        void handleEvent(SDL_Event &e);
 
-        void use(ProxySocket &proxySocket, int i);
+        void use(BlockingQueue<t_command> &event_sender, int i);
 
         //Shows button sprite
         void render();
