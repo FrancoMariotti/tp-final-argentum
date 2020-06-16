@@ -51,7 +51,7 @@ public:
 
     void move(int screen_width, int screen_height);
 
-    void move(ProxySocket &proxySocket);
+    void move(BlockingQueue<t_command> &event_sender);
 
     //Muestra al jugador en pantalla
     void render();

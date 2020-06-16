@@ -15,14 +15,7 @@ public:
     virtual ~Command() = default;
 };
 
-class Consume: public Command{
-public:
-    /*Envia el comando 'c' por el socket*/
-    void operator()(ProxySocket &proxySocket, int i) override;
-    void free() override;
-};
-
-class Equip: public Command{
+class Use: public Command{
 public:
     /*envia el comando 'e' por el socket*/
     void operator()(ProxySocket &proxySocket, int i) override;

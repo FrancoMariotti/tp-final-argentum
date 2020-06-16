@@ -36,6 +36,10 @@ int Client::run() {
     //std::string inputText = "Some Really large Text";
     //SdlTexture inputTextTexture(inputText, font, textColor, window);
 
+    /*ThSend*/
+    /**Lanzo un thread ThSend y ambos comparten la cola bloqueante event_sender*/
+    BlockingQueue<t_command> event_sender;
+
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
 
@@ -73,11 +77,11 @@ int Client::run() {
             console.handleEvents(event);
 
             //Handle de los botones
-            inventory.handleEvents(&event, proxySocket);
+            inventory.handleEvents(&event);
         }
 
         /*Logic*/
-        player.move(proxySocket);
+        player.move(event_sender);
         inventory.use(proxySocket);
         console.execute();
 

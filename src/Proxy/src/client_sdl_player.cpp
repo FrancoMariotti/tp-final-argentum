@@ -107,19 +107,22 @@ void SdlPlayer::render() {
 }
 
 /**Logic*/
-void SdlPlayer::move(ProxySocket &proxySocket) {
+void SdlPlayer::move(BlockingQueue<t_command> &event_sender) {
     /*Crea el msg con el offset al que se quiere mover, lo envia al server y
      * actualiza la posicion con la respuesta del server*/
-    t_command player_movement={"m", vel_x, vel_y};
-    proxySocket.writeToServer(player_movement);
-    //CODIGO DE PRUEBA
-    //t_command receivedCommand = proxySocket.readServer();
-    //t_command commandToSend = proxyServer.processCommand(receivedCommand);
-    //proxySocket.writeToClient(commandToSend);
-    //FIN CODIGO DE PRUEBA
-    /**Debe ser readClient pero esto es para simular*/
-    player_movement = proxySocket.readServer();
+    //Si se movio
+    //if(vel_x != 0 && vel_y != 0){
+        t_command player_movement={"m", vel_x, vel_y};
+        event_sender.push(player_movement);
+        //CODIGO DE PRUEBA
+        //t_command receivedCommand = proxySocket.readServer();
+        //t_command commandToSend = proxyServer.processCommand(receivedCommand);
+        //proxySocket.writeToClient(commandToSend);
+        //FIN CODIGO DE PRUEBA
+        /**Debe ser readClient pero esto es para simular*/
+        player_movement = event_sender.pop();
 
-    pos_x += player_movement.x;
-    pos_y += player_movement.y;
+        pos_x += player_movement.x;
+        pos_y += player_movement.y;
+    //}
 }

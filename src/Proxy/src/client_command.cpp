@@ -2,21 +2,11 @@
 #include "client_command.h"
 #include "common_proxy_socket.h"
 
-void Consume::operator()(ProxySocket &proxySocket, int i) {
-    t_command command = {"consumir", i, 0};
+void Use::operator()(ProxySocket &proxySocket, int i) {
+    t_command command = {"usar ",i, 0};
     proxySocket.writeToServer(command);
 }
 
-void Consume::free() {
-    delete this;
-}
-
-
-void Equip::operator()(ProxySocket &proxySocket, int i) {
-    t_command command = {"equipar ",i, 0};
-    proxySocket.writeToServer(command);
-}
-
-void Equip::free() {
+void Use::free() {
     delete this;
 }
