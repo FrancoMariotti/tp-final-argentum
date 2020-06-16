@@ -7,7 +7,8 @@
 #include "client_sdl_window.h"
 
 SdlTexture::SdlTexture(const std::string &filename, const SdlWindow& window) :
-    m_renderer(window.getRenderer()){
+    m_renderer(window.getRenderer()),
+    font_type(nullptr){
     //Initialize
     this->m_height = 0;
     this->m_width = 0;
@@ -15,7 +16,8 @@ SdlTexture::SdlTexture(const std::string &filename, const SdlWindow& window) :
 }
 
 SdlTexture::SdlTexture(int width, int height, const std::string &filename, const SdlWindow& window) :
-        m_renderer(window.getRenderer()){
+        m_renderer(window.getRenderer()),
+        font_type(nullptr){
     //Initialize
     this->m_texture = loadFromFile(filename);
     this->m_width = width;
@@ -23,24 +25,21 @@ SdlTexture::SdlTexture(int width, int height, const std::string &filename, const
 }
 
 //Este constructor lo agregue para crear textura a partir de un string
-SdlTexture::SdlTexture(std::string text, std::string fontPath, SDL_Color colour,
-        int width, int height, const SdlWindow& window) :
-        m_renderer(window.getRenderer()), m_width(width), m_height(height) {
-    this->m_texture = loadFromText(text, fontPath, colour);
+SdlTexture::SdlTexture(const std::string &text, const std::string &fontPath, SDL_Color colour,
+                       const int width, const int height, const SdlWindow& window) :
+        m_renderer(window.getRenderer()), m_width(width), m_height(height),font_type(nullptr) {
+    this->m_texture = loadFromRenderedText(text, colour, fontPath);
 }
 
 SdlTexture::SdlTexture(SdlTexture &&other) noexcept :
     m_renderer(other.m_renderer),
     m_texture(other.m_texture),
     m_width(other.m_width),
+    font_type(other.font_type),
     m_height(other.m_height){
         other.m_renderer = nullptr;
         other.m_texture = nullptr;
-}
-
-SdlTexture::~SdlTexture() {
-    //Deallocate
-    free();
+        other.font_type= nullptr;
 }
 
 SDL_Texture *SdlTexture::loadTexture(const std::string &filename) {
@@ -82,39 +81,21 @@ SDL_Texture* SdlTexture::loadFromFile(const std::string &path) {
     return newTexture;
 }
 
-SDL_Texture* SdlTexture::loadFromText(std::string text, std::string fontPath, SDL_Color colour) {
+#if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
+SDL_Texture* SdlTexture::loadFromRenderedText(const std::string &textureText,
+        SDL_Color textColor, const std::string &font_path) {
     //Abro la fuente
-    TTF_Font* fontType = TTF_OpenFont(fontPath.c_str(), 255);
-    if (!fontType) {
+    this->font_type = TTF_OpenFont(font_path.c_str(), 255);
+    if (!font_type) {
         throw SdlException("Could not open font in loadFromText function", TTF_GetError());
     }
-    //Creo superficie a partir del texto ingresado
-    SDL_Surface* textSurface = TTF_RenderText_Solid(fontType, text.c_str(), colour);
-    if(!textSurface) {
-        throw SdlException("Error in TTF render text in loadFromText function", TTF_GetError());
-    }
-    //Creo textura a partir de una superficie
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(m_renderer, textSurface);
-    if(!textTexture) {
-         throw SdlException("Error in creating texture from surface", SDL_GetError());
-    }
-
-    SDL_FreeSurface(textSurface);
-
-    return textTexture;
-}
-
-/*
-#if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
-int SdlTexture::loadFromRenderedText(const std::string &textureText, SDL_Color textColor) {
-    free();
-    //Usamos TTF en vez de SDL para el textSurface (ex loadedSurface)
-    SDL_Surface* textSurface = TTF_RenderText_Solid(gFont,textureText.c_str(), textColor);
+    //Usamos TTF en vez de SDL para el textSurface
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font_type,textureText.c_str(), textColor);
     if(textSurface == nullptr){
         throw SdlException("Unable to render text surface!", TTF_GetError());
     }
-    this->m_texture = SDL_CreateTextureFromSurface(this->m_renderer, textSurface);
-    if (this->m_texture == nullptr){
+    SDL_Texture* new_texture = SDL_CreateTextureFromSurface(this->m_renderer, textSurface);
+    if (new_texture == nullptr){
         throw SdlException("Unable to create texture from rendered text!", TTF_GetError());
     }
     //Get Image dimensiones
@@ -124,20 +105,9 @@ int SdlTexture::loadFromRenderedText(const std::string &textureText, SDL_Color t
     //Get rid of old loaded surface
     SDL_FreeSurface(textSurface);
 
-    return 0;
+    return new_texture;
 }
 #endif
-*/
-
-void SdlTexture::free() {
-    //Free textures if it exists
-    if(m_texture != nullptr){
-        SDL_DestroyTexture(m_texture);
-        m_texture = nullptr;
-        m_width = 0;
-        m_height = 0;
-    }
-}
 
 void SdlTexture::setColor(Uint8 red, Uint8 green, Uint8 blue) {
     SDL_SetTextureColorMod(m_texture, red, green, blue);
@@ -169,4 +139,25 @@ int SdlTexture::getWidth() {
 
 int SdlTexture::getHeight() {
     return m_height;
+}
+
+void SdlTexture::free() {
+    //Free textures if it exists
+    if(m_texture != nullptr){
+        SDL_DestroyTexture(m_texture);
+        m_texture = nullptr;
+        m_width = 0;
+        m_height = 0;
+    }
+    if(this->font_type != nullptr){
+        //Free font
+        TTF_CloseFont(font_type);
+        font_type = nullptr;
+    }
+}
+
+
+SdlTexture::~SdlTexture() {
+    //Deallocate
+    free();
 }

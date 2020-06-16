@@ -17,6 +17,7 @@ Client::Client() :
     {
     //Permito la carga del PNGs
     window.initPNG();
+    window.initTTF();
 }
 
 int Client::run() {
@@ -24,6 +25,12 @@ int Client::run() {
     SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
     SdlTexture texture("../../Proxy/assets/340.gif", window);
 
+    //The current input text
+    SDL_Color textColor = {0xFF,0,0,0xFF};
+    std::string inputText = "Some Text";
+    /*SdlTexture inputTextTexture(inputText, "../../Proxy/assets/nakula.ttf",
+            textColor,10,5,window);
+*/
     //Cargo el inventario
     SdlInventory inventory(SCREEN_WIDTH,SCREEN_HEIGHT,window);
 
@@ -74,6 +81,7 @@ int Client::run() {
         //Render objects
         player.render();
         inventory.render();
+  //      inputTextTexture.render(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2);
 
         //Update screen
         window.render();
@@ -90,6 +98,7 @@ void Client::close(){
     //Quit SDL subsystems
     IMG_Quit();
     SDL_Quit();
+    TTF_Quit();
 }
 
 
