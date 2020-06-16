@@ -95,8 +95,8 @@ int Client::run() {
         //Update screen
         window.render();
 
-        //Cap FPS
-        SDL_Delay(16);
+        //Cap FPS 50
+        SDL_Delay(20);
     }
 }
 

@@ -31,6 +31,7 @@ SdlPlayer::SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head) :
     e_face_orientation = FRONT_HEAD_SPRITE;
 }
 
+//delete
 void SdlPlayer::handleEvent(SDL_Event &e, ProxySocket &proxySocket) {
     if(e.type == SDL_KEYDOWN){
         switch(e.key.keysym.sym){
