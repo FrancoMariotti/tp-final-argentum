@@ -112,9 +112,9 @@ void SdlPlayer::move(ProxySocket &proxySocket) {
     t_command player_movement={"m", vel_x, vel_y};
     proxySocket.writeToServer(player_movement);
     //CODIGO DE PRUEBA
-    t_command receivedCommand = proxySocket.readServer();
-    t_command commandToSend = proxyServer.processCommand(receivedCommand);
-    proxySocket.writeToClient(commandToSend);
+    //t_command receivedCommand = proxySocket.readServer();
+    //t_command commandToSend = proxyServer.processCommand(receivedCommand);
+    //proxySocket.writeToClient(commandToSend);
     //FIN CODIGO DE PRUEBA
     /**Debe ser readClient pero esto es para simular*/
     player_movement = proxySocket.readServer();

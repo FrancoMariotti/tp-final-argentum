@@ -25,7 +25,7 @@ add_library(sdlsrc
         src/client_client.h
         src/client_sdl_inventory.cpp
         src/client_sdl_inventory.h
-        src/client_iobserver.h)
+        src/client_iobserver.h src/client_sdl_console.cpp src/client_sdl_console.h)
 
 
 add_executable(SDLTest src/client_main.cpp)
