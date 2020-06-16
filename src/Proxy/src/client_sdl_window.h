@@ -16,6 +16,7 @@ public:
     SdlWindow(int width, int height);
     ~SdlWindow();
     void initPNG() const;
+    void initTTF() const;
     void fill(int r, int g, int b, int alpha);
     void fill();
     void render();

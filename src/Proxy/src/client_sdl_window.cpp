@@ -2,6 +2,7 @@
 // Created by agustin on 8/6/20.
 //
 
+#include <SDL2/SDL_ttf.h>
 #include "client_sdl_window.h"
 #include "client_sdl_exception.h"
 
@@ -37,6 +38,7 @@ SdlWindow::~SdlWindow() {
         SDL_DestroyWindow(m_window);
         m_window = nullptr;
     }
+
 }
 
 void SdlWindow::fill(int r, int g, int b, int alpha){
@@ -54,6 +56,13 @@ void SdlWindow::initPNG() const{
     int imgFlags = IMG_INIT_PNG;
     if(!((IMG_Init(imgFlags)) & imgFlags)){
         throw SdlException("SDL_image could not initialize! SDL_image Error:", IMG_GetError());
+    }
+}
+
+void SdlWindow::initTTF() const{
+    //Initialize SDL_ttf
+    if(TTF_Init() == -1){
+        throw SdlException("SDL_ttf could not initialize!", TTF_GetError());
     }
 }
 

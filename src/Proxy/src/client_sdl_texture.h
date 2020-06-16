@@ -16,6 +16,7 @@ private:
 //The actual hardware texture
     SDL_Renderer* m_renderer;
     SDL_Texture* m_texture;
+    TTF_Font *font_type;
 
     //Image dimensions
     int m_width;
@@ -29,8 +30,8 @@ public:
     SdlTexture(int width, int height, const std::string &filename, const SdlWindow &window);
 
     //Constructor para crear texturas a partir de texto
-    SdlTexture(std::string text, std::string fontPath, SDL_Color colour,
-        int width, int height, const SdlWindow& window);
+    SdlTexture(const std::string &text, const std::string &fontPath, SDL_Color colour,
+               const int width, const int height, const SdlWindow& window);
 
     SdlTexture(const SdlTexture& other) = delete;
 
@@ -47,11 +48,8 @@ public:
 
 #if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
     //Creates image from font string
-		int loadFromRenderedText(const std::string &textureText, SDL_Color textColor);
+    SDL_Texture * loadFromRenderedText(const std::string &textureText, SDL_Color textColor, const std::string &font_path);
 #endif
-
-    //Deallocates texture
-    void free();
 
     //Set color modulation
     void setColor(Uint8 red, Uint8 green, Uint8 blue);
@@ -71,7 +69,9 @@ public:
     int getWidth();
     int getHeight();
 
-    SDL_Texture* loadFromText(std::string text, std::string fontPath, SDL_Color colour);
+    //Deallocates texture
+    void free();
+
 };
 
 
