@@ -9,8 +9,12 @@
 
 class SdlConsole {
 private:
-    SdlTexture& inputTexture;
+    SdlTexture inputTexture;
     const SdlWindow& window;
+    SDL_Color text_color;
+    TTF_Font* font;
+    std::string input_text;
+    bool render_text;
 
     int console_x;
     int console_y;
@@ -18,14 +22,13 @@ private:
     int width;
     int height;
 
-    const int IMAGE_CONSOLE_X = 10;
+    const int IMAGE_CONSOLE_X = 12;
     const int IMAGE_CONSOLE_Y = 24;
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
 
 public:
-    SdlConsole(int screen_width, int screen_height,
-            const SdlWindow &window, SdlTexture& inputTexture);
+    SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font);
 
     /*Handle*/
     void handleEvents(const SDL_Event &event);
@@ -35,6 +38,7 @@ public:
 
     /*Render*/
     void render();
+
 };
 
 

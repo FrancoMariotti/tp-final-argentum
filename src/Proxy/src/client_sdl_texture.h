@@ -46,7 +46,7 @@ public:
 
 #if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
     //Creates image from font string
-    SDL_Texture * loadFromRenderedText(const std::string &textureText, SDL_Color textColor, TTF_Font *font);
+    void loadFromRenderedText(const std::string &text, SDL_Color textColor, TTF_Font *font);
 #endif
 
     //Set color modulation
