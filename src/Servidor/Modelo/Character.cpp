@@ -19,5 +19,5 @@ void Character::printPosition() {
     currPos.print();
 }
 
-Character::~Character() {}
+Character::~Character() = default;
 

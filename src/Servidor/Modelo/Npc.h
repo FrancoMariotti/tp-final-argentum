@@ -22,7 +22,7 @@ public:
     //haber npcs que se muevan y otros que no.
     Npc(int lifePoints, Mobility *mobility, int x, int y, Map &map);
     void move();
-    ~Npc();
+    ~Npc() override;
 };
 
 

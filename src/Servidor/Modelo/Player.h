@@ -9,11 +9,10 @@
 #include "PlayableCharacter.h"
 
 class Player {
-private:
     //std::string name;
     PlayableCharacter character;
 public:
-    explicit Player(Map& map);
+    Player(Map &map, Game* game);
     void move(Offset offset);
     ~Player();
     //bool exists(std::string name);

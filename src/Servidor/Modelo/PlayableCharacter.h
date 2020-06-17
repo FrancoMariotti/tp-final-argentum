@@ -5,16 +5,20 @@
 #include "Mobility.h"
 
 class Mobility;
+class Game;
 
 class PlayableCharacter: public Character {
-    //Clase clase
-    //Raza raza
     int lifePoints;
+    int constitution;
+    int agility;
+    int strength;
+    int intelligence;
+    Game* game;
     friend class PersonajeTest;
-    public:
-        PlayableCharacter(int lifePoints, int x, int y, Map& map);
+public:
+        PlayableCharacter(int lifePoints, int x, int y, Map& map,Game* game);
         void move(Offset& offset);
-        virtual ~PlayableCharacter();
+        ~PlayableCharacter() override;
 };
 
 

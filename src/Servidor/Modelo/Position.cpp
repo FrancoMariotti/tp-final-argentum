@@ -12,7 +12,7 @@ void Position::apply(Offset& offset) {
     y = offset.move_y(y);
 }
 
-bool Position::operator==(const Position& position) {
+bool Position::operator==(const Position& position) const {
     return (this->x == position.x && this->y == position.y);
 }
 
@@ -21,7 +21,7 @@ void Position::operator=(const Position& position) {
     this->y = position.y;
 }
 
-int Position::distanceTo(Position& position) {
+int Position::distanceTo(Position& position) const {
     double  xSquare = pow(this->x - position.x,2);
     double  ySquare = pow(this->y - position.y,2);
     return (int)sqrt(xSquare + ySquare);
@@ -31,8 +31,15 @@ Offset Position::operator-(Position& position) {
     return Offset(this->x - position.x,this->y - position.y);
 }
 
-Position::~Position() {}
+int Position::getX() const {
+    return this->x;
+}
+int Position::getY() const {
+    return this->y;
+}
 
-void Position::print() {
+Position::~Position() = default;
+
+void Position::print() const {
     std::cout << "x = " << x << " y = " << y << std::endl;
 }

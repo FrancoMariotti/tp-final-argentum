@@ -9,15 +9,15 @@
 class FileParser {
     std::ifstream file;
     public:
-        FileParser(std::string filename);
-        Json::Value read(std::string parameter);
+        explicit FileParser(const std::string& filename);
+        Json::Value read(const std::string& parameter);
 
 };
 
 class MapFactory {
     FileParser parser;
     public:
-        MapFactory(std::string mapFile);
+        explicit MapFactory(const std::string& mapFile);
         Map create();
         ~MapFactory();
 };

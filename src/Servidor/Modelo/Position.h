@@ -13,13 +13,15 @@ class Position {
     public:
         Position(int x,int y);
         void apply(Offset &offset);
-        int distanceTo(Position& position);
-        bool operator==(const Position& position);
+        int distanceTo(Position& position) const;
+        bool operator==(const Position& position) const;
         void operator=(const Position& position);
         Offset operator-(Position& position);
+        int getX() const;
+        int getY() const;
         ~Position();
         //METODO PARA PROBAR
-        void print();
+        void print() const;
 };
 
 

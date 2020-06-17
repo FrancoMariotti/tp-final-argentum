@@ -1,7 +1,7 @@
 #include "Npc.h"
 #include "Mobility.h"
 
-Npc::Npc(int lifePoints, Mobility* mobility, int x, int y, Map& map): Character(x, y, map), mobility(mobility) {
+Npc::Npc(int lifePoints, Mobility* mobility, int x, int y, Map& map):Character(x, y, map), lifePoints(lifePoints),mobility(mobility) {
     map.addNpc(this);
 }
 
