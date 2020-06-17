@@ -31,24 +31,6 @@ SdlPlayer::SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head) :
     e_face_orientation = FRONT_HEAD_SPRITE;
 }
 
-void SdlPlayer::handleEvent(SDL_Event &e, ProxySocket &proxySocket) {
-    if(e.type == SDL_KEYDOWN){
-        switch(e.key.keysym.sym){
-            case SDLK_UP:
-                e_face_orientation = BACK_HEAD_SPRITE;
-                break;
-            case SDLK_DOWN:
-                e_face_orientation = FRONT_HEAD_SPRITE;
-                break;
-            case SDLK_LEFT:
-                e_face_orientation = LEFT_HEAD_SPRITE;
-                break;
-            case SDLK_RIGHT:
-                e_face_orientation = RIGHT_HEAD_SPRITE;
-                break;
-        }
-    }
-}
 
 void SdlPlayer::handleEvent(SDL_Event &e) {
     //if a key was pressed
@@ -75,27 +57,6 @@ void SdlPlayer::handleEvent(SDL_Event &e) {
     }
 }
 
-/**Esto es para pruebas con la logica en el cliente*/
-void SdlPlayer::move(int screen_width, int screen_height) {
-    //Move the dot left or right
-    pos_x += vel_x;
-
-    std::cout << "pos_x: " << pos_x << "pos_y: " << pos_y << std::endl;
-    std::cout << "vel_x: " << vel_x << "vel_y:" << vel_y << std::endl;
-
-    //if the dot went too far to the left or right
-    if(pos_x < 0 || (pos_x + width > screen_width)){
-        //Move back
-        pos_x -= vel_x;
-    }
-
-    pos_y += vel_y;
-    //if the dot went too far up or down
-    if(pos_y < 0 || (pos_y + height > screen_height)){
-        //Move back
-        pos_y -= vel_y;
-    }
-}
 
 void SdlPlayer::render() {
     //Muestra la cabeza y el cuerpo del npc
@@ -106,19 +67,22 @@ void SdlPlayer::render() {
 }
 
 /**Logic*/
-void SdlPlayer::move(ProxySocket &proxySocket) {
+void SdlPlayer::move(BlockingQueue<t_command> &event_sender) {
     /*Crea el msg con el offset al que se quiere mover, lo envia al server y
      * actualiza la posicion con la respuesta del server*/
-    t_command player_movement={"m", vel_x, vel_y};
-    proxySocket.writeToServer(player_movement);
-    //CODIGO DE PRUEBA
-    t_command receivedCommand = proxySocket.readServer();
-    t_command commandToSend = proxyServer.processCommand(receivedCommand);
-    proxySocket.writeToClient(commandToSend);
-    //FIN CODIGO DE PRUEBA
-    /**Debe ser readClient pero esto es para simular*/
-    player_movement = proxySocket.readServer();
+    //Si se movio
+    //if(vel_x != 0 && vel_y != 0){
+        t_command player_movement={"m", vel_x, vel_y};
+        event_sender.push(player_movement);
+        //CODIGO DE PRUEBA
+        //t_command receivedCommand = proxySocket.readServer();
+        //t_command commandToSend = proxyServer.processCommand(receivedCommand);
+        //proxySocket.writeToClient(commandToSend);
+        //FIN CODIGO DE PRUEBA
+        /**Debe ser readClient pero esto es para simular*/
+        player_movement = event_sender.pop();
 
-    pos_x += player_movement.x;
-    pos_y += player_movement.y;
+        pos_x += player_movement.x;
+        pos_y += player_movement.y;
+    //}
 }

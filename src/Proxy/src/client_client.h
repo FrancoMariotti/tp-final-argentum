@@ -22,16 +22,18 @@ class Client {
 private:
     SdlWindow window;
     SdlTexture background;
+    TTF_Font* font;
     ProxySocket proxySocket;
 
 public:
     //Start up SDL and create window
     Client();
+
     int run();
 
-private:
     /*Cierra SDL y libera los recursos*/
-    void close();
+    ~Client();
+
 };
 
 

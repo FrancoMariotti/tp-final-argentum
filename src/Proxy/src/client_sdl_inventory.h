@@ -30,10 +30,10 @@ private:
 public:
     SdlInventory(int screen_width, int screen_height, const SdlWindow &window);
 
-    void handleEvents(SDL_Event *event, ProxySocket &proxySocket);
+    void handleEvents(SDL_Event &event);
 
     /*logic*/
-    void use(ProxySocket &proxySocket);
+    void use(BlockingQueue<t_command> &event_sender);
 
     void render();
 

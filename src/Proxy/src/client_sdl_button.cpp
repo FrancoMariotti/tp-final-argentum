@@ -14,7 +14,8 @@
 
 SdlButton::SdlButton(SdlTexture& buttonTexture, Command* cmd) :
     buttonSpriteSheetTexture(buttonTexture),
-    cmd(cmd){
+    cmd(cmd),
+    times_clicked(0){
     position.x = 0;
     position.y = 0;
 
@@ -34,15 +35,15 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
-void SdlButton::handleEvent(SDL_Event *e) {
+void SdlButton::handleEvent(SDL_Event &e) {
     //if mouse even happend
-    if(e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP){
+    if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP){
         int x,y;
         /*Devuelve la posicion del mouse*/
         SDL_GetMouseState(&x,&y);
 
         /*Boton no se clickeo*/
-        this->clicked = false;
+        this->times_clicked = 0;
 
         //Check if mouse is in button
         bool inside = true;
@@ -62,14 +63,14 @@ void SdlButton::handleEvent(SDL_Event *e) {
         //Mouse is inside button
         else {
             //Set mouseover sprite
-            switch (e->type){
+            switch (e.type){
                 case SDL_MOUSEMOTION:
                     current_sprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
-                    if(e->button.button == SDL_BUTTON_LEFT){
-                        this->clicked = true;
+                    if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks == 1){
+                        this->times_clicked += 1;
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
@@ -81,12 +82,13 @@ void SdlButton::handleEvent(SDL_Event *e) {
 
 }
 
-void SdlButton::use(ProxySocket &proxySocket, int i) {
-    if(clicked){
-        (*cmd)(proxySocket, i);
+void SdlButton::use(BlockingQueue<t_command> &event_sender, int i) {
+    if(times_clicked > 0){
+        (*cmd)(event_sender, i);
         /*Test*/
-        t_command msg = proxySocket.readServer();
+        t_command msg = event_sender.pop();
         std::cout << msg.command << "item pos: " << msg.x << std::endl;
+        times_clicked--;
     }
 }
 

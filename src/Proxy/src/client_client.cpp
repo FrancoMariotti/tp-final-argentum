@@ -4,20 +4,26 @@
 
 #include "client_client.h"
 #include "client_sdl_inventory.h"
-
+#include "client_sdl_console.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 
+#define FONT_SIZE 14
 
-Client::Client() :
+Client::Client() : font(nullptr),
     window(SCREEN_WIDTH, SCREEN_HEIGHT),
     background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window)
     {
     //Permito la carga del PNGs
     window.initPNG();
     window.initTTF();
+    //Abro la fuente
+    this->font = TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE);
+    if (!font){
+        //throw SdlException("Could not open font in function", TTF_GetError());
+    }
 }
 
 int Client::run() {
@@ -26,16 +32,22 @@ int Client::run() {
     SdlTexture texture("../../Proxy/assets/340.gif", window);
 
     //The current input text
-    SDL_Color textColor = {0xFF,0,0,0xFF};
-    std::string inputText = "Some Text";
-    /*SdlTexture inputTextTexture(inputText, "../../Proxy/assets/nakula.ttf",
-            textColor,10,5,window);
-*/
+    //SDL_Color textColor = {0xAA,0xAA,0xFF,0xFF};
+    //std::string inputText = "Some Really large Text";
+    //SdlTexture inputTextTexture(inputText, font, textColor, window);
+
+    /*ThSend*/
+    /**Lanzo un thread ThSend y ambos comparten la cola bloqueante event_sender*/
+    BlockingQueue<t_command> event_sender;
+
+    //Cargo la consola
+    SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
+
     //Cargo el inventario
     SdlInventory inventory(SCREEN_WIDTH,SCREEN_HEIGHT,window);
 
     //Cargo el personaje
-    SdlPlayer player(100, 100, texture, head_sprite_sheet);
+    SdlPlayer player(100, 300, texture, head_sprite_sheet);
 
     //Main loop flag
     bool quit = false;
@@ -62,15 +74,16 @@ int Client::run() {
             player.handleEvent(event);
 
             //Handle entrada
-            //console.handleEvent(event) input del teclado para los comandos e.g resucitar
+            console.handleEvents(event);
 
             //Handle de los botones
-            inventory.handleEvents(&event, proxySocket);
+            inventory.handleEvents(event);
         }
 
         /*Logic*/
-        player.move(proxySocket);
-        inventory.use(proxySocket);
+        player.move(event_sender);
+        inventory.use(event_sender);
+        console.execute();
 
         //Limpio pantalla
         window.fill(0xFF, 0xFF, 0xFF, 0xFF);
@@ -81,39 +94,22 @@ int Client::run() {
         //Render objects
         player.render();
         inventory.render();
-  //      inputTextTexture.render(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2);
+        console.render();
 
         //Update screen
         window.render();
 
-        //Cap FPS
-        SDL_Delay(16);
+        //Cap FPS 50
+        SDL_Delay(20);
     }
-    //Close SDL
-    this->close();
 }
 
-
-void Client::close(){
+Client::~Client() {
+    if(font){
+        TTF_CloseFont(font);
+    }
     //Quit SDL subsystems
     IMG_Quit();
     SDL_Quit();
     TTF_Quit();
 }
-
-
-/*Proxy del socket, se llama cada vez que el jugador mueve al personaje
- * recibe un struct con el offset*/
-void proxyServerRecieve(BlockingQueue<t_command> &read, BlockingQueue<t_command> &write) {
-    t_command move = read.pop();
-    std::cout << "movimiento en x:" << move.x << "\n movimiento en y:" << move.y
-              << std::endl;
-    //if movimiento valido
-    t_command response;
-    response.command = "move";
-    response.x = move.x;
-    response.y = move.y;
-    //else response = {"move", 0, 0};
-    write.push(response);
-}
-

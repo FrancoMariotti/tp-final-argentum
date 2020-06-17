@@ -36,12 +36,7 @@ SdlInventory::SdlInventory(const int screen_width, const int screen_height, cons
     for (int i = 0; i < 5 ; ++i) {
         int col = (int) buttons.size() % 4;
         int fil = (int) buttons.size() / 4;
-        Command* cmd;
-        if((i+1) % 2 == 0){
-            cmd = new Equip;
-        } else {
-            cmd = new Consume;
-        }
+        Command* cmd = new Use;
         /*Alojo los botones en el heap dado el parametro new Command*/
         buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
         /*Seteo la posicion relativa al inventario,
@@ -55,17 +50,17 @@ SdlInventory::SdlInventory(const int screen_width, const int screen_height, cons
 
 }
 
-void SdlInventory::handleEvents(SDL_Event *event, ProxySocket &proxySocket) {
+void SdlInventory::handleEvents(SDL_Event &event) {
     /*Client side events*/
     for(auto & button : buttons){
         button->handleEvent(event);
     }
 }
 
-void SdlInventory::use(ProxySocket &proxySocket) {
+void SdlInventory::use(BlockingQueue<t_command> &event_sender) {
     /*Paso la posicion del inventario, i*/
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
-        buttons[i]->use(proxySocket, (int)i);
+        buttons[i]->use(event_sender, (int)i);
     }
 }
 
@@ -79,7 +74,7 @@ void SdlInventory::addItem(const std::string& item_id){
     SdlTexture& buttonTexture = inventoryTextures.at(item_id);
     int col = (int) buttons.size() % 4;
     int fil = (int) buttons.size() / 4;
-    Command* cmd = new Equip;
+    Command* cmd = new Use;
     buttons.push_back(new SdlButton(buttonTexture, cmd));
     buttons.back()->setPosition(inventory_x + col * button_size,
                                 inventory_y + fil * button_size);
