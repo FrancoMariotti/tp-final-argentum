@@ -30,9 +30,16 @@ public:
     int recoverMana(int seconds);
     //Devuelve la cantidad de mana recuperado meditando en x segundos
     int recoverManaMeditating(int seconds);
+    int safeGoldCapacity(int lvl);
+    //Devuelve la cantidad de oro maxima que puede tener el jugador
     int goldCapacity(int lvl);
     int lvlLimit(int lvl);
-    int attackXp(int damage, int myLvl, int enemyLvl);
+    int damage(int strengh, int weaponMinDamage, int weaponMaxDamage);
+    int attackXp(int strengh, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl);
+    int killXp (int enemyMaxLp, int mylvl, int enemyLvl);
+    bool dodge(int agility);
+    int defense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
+    int npcGoldDrop(int npcMaxLp);
 };
 
 
