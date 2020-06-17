@@ -6,6 +6,8 @@
 #include "Map.h"
 #include "string"
 
+class Game;
+
 class FileParser {
     std::ifstream file;
     public:
@@ -22,13 +24,15 @@ class MapFactory {
         ~MapFactory();
 };
 
-/*class PersonajeFactory {
+class PlayableCharacterFactory {
     FileParser parser;
+    Map& map;
+    Game* game;
 public:
-    PersonajeFactory(std::string personajesFile);
-    std::vector<Personaje> create();
-    ~PersonajeFactory();
-};*/
+    explicit PlayableCharacterFactory(std::string personajesFile,Map& map,Game* game);
+    PlayableCharacter create();
+    ~PlayableCharacterFactory();
+};
 
 
 #endif //ARGENTUM_FACTORY_H

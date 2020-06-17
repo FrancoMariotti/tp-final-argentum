@@ -1,8 +1,8 @@
 #include <jsoncpp/json/json.h>
 #include <iostream>
-#include <utility>
+#include "Game.h"
 #include "Factory.h"
-#include "utility"
+#include "PlayableCharacter.h"
 
 FileParser::FileParser(const std::string& filename):file(filename){}
 
@@ -36,3 +36,22 @@ Map MapFactory::create() {
 }
 
 MapFactory::~MapFactory() = default;
+
+
+PlayableCharacterFactory::PlayableCharacterFactory(std::string personajesFile,Map& map,Game* game):parser(personajesFile),map(map),game(game) {}
+
+PlayableCharacter PlayableCharacterFactory::create() {
+    Json::Value obj = parser.read("character");
+
+    int life = 100;
+    int x = 1;
+    int y = 1;
+    int strength = obj["strength"].asInt();
+    int agility = obj["agility"].asInt();
+    int intelligence = obj["intelligence"].asInt();
+    int constitution = obj["constitution"].asInt();
+
+    return PlayableCharacter(life,x,y,map,game,constitution,strength,agility,intelligence);
+}
+
+PlayableCharacterFactory::~PlayableCharacterFactory() = default;

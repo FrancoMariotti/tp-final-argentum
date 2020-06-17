@@ -1,6 +1,12 @@
 #include "Character.h"
 
-Character::Character(int x,int y,Map& map):currPos(x,y),map(map) {}
+Character::Character(int x,int y,Map& map,int constitution,
+        int strength,int agility,int intelligence):currPos(x,y),map(map) {
+    this->constitution = constitution;
+    this->strength = strength;
+    this->agility = agility;
+    this->intelligence = intelligence;
+}
 
 bool Character::collideWith(Position& objPos) {
     return (this->currPos == objPos);

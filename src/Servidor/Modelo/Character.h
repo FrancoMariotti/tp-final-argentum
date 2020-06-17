@@ -11,8 +11,13 @@ class Character {
     protected:
         Position currPos;
         Map& map;
+        int constitution;
+        int agility;
+        int strength;
+        int intelligence;
     public:
-        Character(int x,int y,Map& map);
+        Character(int x,int y,Map& map,int constitution,
+                  int strength,int agility,int intelligence);
         bool collideWith(Position& objPos);
         virtual int distanceTo(Position pos);
         Offset getOffset(Position initialPos);

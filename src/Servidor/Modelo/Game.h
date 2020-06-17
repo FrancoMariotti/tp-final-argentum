@@ -3,17 +3,20 @@
 
 #include <map>
 #include "Map.h"
-#include "Player.h"
+#include "Factory.h"
 
 class Update;
+class PlayableCharacter;
 
 class Game {
 private:
     Map map;
-    std::map<std::string, Player> players;
+    PlayableCharacterFactory factoryCharacters;
+    //std::map<std::string, Player> players;
+    std::map<std::string, PlayableCharacter> players;
     std::vector<Update> updates;
 public:
-    explicit Game(std::string mapFile);
+    Game(std::string mapFile,std::string characterFile);
     void movePlayer(const std::string& playerName, Offset offset);
     void createPlayer(const std::string& name);
     ~Game();

@@ -20,7 +20,8 @@ private:
 public:
     //Pasamos la Mobility por parametro porque pensamos en que puede
     //haber npcs que se muevan y otros que no.
-    Npc(int lifePoints, Mobility *mobility, int x, int y, Map &map);
+    Npc(int lifePoints, Mobility *mobility, int x, int y, Map &map,int constitution,
+        int strength,int agility,int intelligence);
     void move();
     ~Npc() override;
 };

@@ -1,7 +1,9 @@
 #include "Npc.h"
 #include "Mobility.h"
 
-Npc::Npc(int lifePoints, Mobility* mobility, int x, int y, Map& map):Character(x, y, map), lifePoints(lifePoints),mobility(mobility) {
+Npc::Npc(int lifePoints, Mobility* mobility, int x, int y, Map& map,int constitution,
+         int strength,int agility,int intelligence):Character(x, y, map,constitution,strength,agility,intelligence),
+         lifePoints(lifePoints),mobility(mobility) {
     map.addNpc(this);
 }
 
