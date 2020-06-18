@@ -14,7 +14,6 @@ class Map;
 
 class Npc : public Character {
 private:
-    int lifePoints;
     Mobility *mobility;
     //Criatura criatura
 public:

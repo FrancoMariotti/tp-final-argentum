@@ -8,9 +8,17 @@ class Mobility;
 class Game;
 
 class PlayableCharacter: public Character {
-    int lifePoints;
     Game* game;
     friend class PersonajeTest;
+    //Weapon activeWeapon;
+    //Inventory inventory;
+    //Armour
+    //Helmet
+    //Shield
+    //int mana;
+    //int gold;
+    //int xp;
+
 public:
         PlayableCharacter(int lifePoints, int x, int y, Map& map,Game* game,int constitution,
                           int strength,int agility,int intelligence);

@@ -89,6 +89,7 @@ int Calculator::defense(int minArmour, int maxArmour, int minShield, int maxShie
     int armour = possibleArmour[rand()%(possibleArmour.size())];;
     int shield =possibleShield[rand()%(possibleShield.size())];;
     int helmet = possibleHelmet[rand()%(possibleHelmet.size())];;
+
     return armour + shield + helmet;
 }
 
