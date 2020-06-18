@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "Mobility.h"
+#include "Weapon.h"
 
 class Mobility;
 class Game;
@@ -10,7 +11,7 @@ class Game;
 class PlayableCharacter: public Character {
     Game* game;
     friend class PersonajeTest;
-    //Weapon activeWeapon;
+    Weapon* activeWeapon;
     //Inventory inventory;
     //Armour
     //Helmet

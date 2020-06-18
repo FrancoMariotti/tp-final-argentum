@@ -10,7 +10,9 @@
 class commonWeapon : public Weapon {
     int minDamage;
     int maxDamage;
-
+    Range range;
+public:
+    virtual void attack(Character enemy, Position holderPos) override;
 };
 
 
