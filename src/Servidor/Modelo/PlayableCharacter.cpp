@@ -20,7 +20,7 @@ void PlayableCharacter::move(Offset& offset) {
 }
 
 void PlayableCharacter::attack(Character *enemy) {
-    activeWeapon->attack(enemy,currPos);
+    activeWeapon->attack(enemy,strength,mana,currPos,calculator);
 }
 
 PlayableCharacter::~PlayableCharacter() = default;

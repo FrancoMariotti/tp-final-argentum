@@ -5,7 +5,7 @@ int main(int argc, char const *argv[]) {
     Offset offset(0,1);
     Event* event = new EventMove(offset);
 
-    Game game("config/mapa.json","config/character.json");
+    Game game("config/config.json");
     game.createPlayer("franco");
     event->execute(game,"franco");
     delete event;

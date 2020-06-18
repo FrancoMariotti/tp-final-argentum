@@ -15,7 +15,7 @@ class PlayableCharacter: public Character {
     //Armour
     //Helmet
     //Shield
-    //int mana;
+    int mana;
     //int gold;
     //int xp;
 

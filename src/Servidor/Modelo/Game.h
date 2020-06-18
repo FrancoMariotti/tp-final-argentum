@@ -16,7 +16,7 @@ private:
     std::map<std::string, PlayableCharacter> players;
     std::vector<Update> updates;
 public:
-    Game(std::string mapFile,std::string characterFile);
+    Game(std::string configFile);
     void movePlayer(const std::string& playerName, Offset offset);
     void createPlayer(const std::string& name);
     ~Game();

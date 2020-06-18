@@ -11,7 +11,7 @@ CommonWeapon::CommonWeapon(int minDamage, int maxDamage, Range *range) {
 }
 
 void CommonWeapon::attack(Character *enemy, int strength, int &mana, Position &holderPos, Calculator calc) {
-    int damage = calc.damage(strength,minDamage,maxDamage);
+    int damage = calc.calculateDamage(strength,minDamage,maxDamage);
     range->attack(enemy,holderPos,damage);
 }
 

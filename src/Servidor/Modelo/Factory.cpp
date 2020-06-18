@@ -10,7 +10,7 @@ Json::Value FileParser::read(const std::string& parameter) {
     Json::Reader reader;
     Json::Value obj;
     reader.parse(this->file, obj);
-    return std::move(obj[parameter]);
+    return obj[parameter];
 }
 
 
