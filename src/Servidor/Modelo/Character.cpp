@@ -1,7 +1,9 @@
 #include "Character.h"
 
 Character::Character(int x,int y,Map& map,int constitution,
-        int strength,int agility,int intelligence):currPos(x,y),map(map) {
+        int strength,int agility,int intelligence):currPos(x,y),map(map),
+        calculator(0, 0, 0, 0,
+                0, 0){
     this->constitution = constitution;
     this->strength = strength;
     this->agility = agility;
