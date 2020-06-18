@@ -25,6 +25,7 @@ public:
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         void attack(Character *character) override;
         void move(Offset& offset);
+        void equipWeapon(Weapon* weapon);
         ~PlayableCharacter() override;
 };
 

@@ -11,6 +11,7 @@
 class Range {
 public:
     virtual void attack(Character* enemy, Position from,int damage) = 0;
+    virtual ~Range() = default;
 };
 
 

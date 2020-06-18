@@ -4,15 +4,15 @@
 
 #include "NormalWeapon.h"
 
-CommonWeapon::CommonWeapon(int minDamage, int maxDamage, Range *range) {
+NormalWeapon::NormalWeapon(int minDamage, int maxDamage, Range *range) {
     this->minDamage = minDamage;
     this->maxDamage = maxDamage;
     this->range = range;
 }
 
-void CommonWeapon::attack(Character *enemy, int strength, int &mana, Position &holderPos, Calculator calc) {
+void NormalWeapon::attack(Character *enemy, int strength, int &mana, Position &holderPos, Calculator calc) {
     int damage = calc.calculateDamage(strength,minDamage,maxDamage);
     range->attack(enemy,holderPos,damage);
 }
 
-CommonWeapon::~CommonWeapon() {}
+NormalWeapon::~NormalWeapon() {}

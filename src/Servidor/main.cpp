@@ -1,9 +1,14 @@
 #include <Servidor/Modelo/EventMove.h>
+#include <Servidor/Modelo/Range.h>
+#include <Servidor/Modelo/ShortRange.h>
+#include <Servidor/Modelo/NormalWeapon.h>
 #include "Modelo/Game.h"
 
 int main(int argc, char const *argv[]) {
     Offset offset(0,1);
     Event* event = new EventMove(offset);
+    Range* range = new ShortRange();
+    NormalWeapon sword (2, 5, range);
 
     Game game("config/config.json");
     /*
@@ -12,10 +17,10 @@ int main(int argc, char const *argv[]) {
     */
     game.createPlayer("franco", "human", "wizard");
     game.createNpc("goblin");
+    game.equipWeapon(&sword, "franco");
     event->execute(game,"franco");
     delete event;
-    //Mobility* mobility= new NonMovable();
-    //Npc npc(100, mobility, 0, 1, map);
+    delete range;
     //PlayableCharacter character (100, 4, 5, map);
 
     //for (int i = 0; i < 10; i++) {

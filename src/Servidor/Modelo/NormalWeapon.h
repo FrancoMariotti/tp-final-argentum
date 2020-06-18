@@ -8,14 +8,14 @@
 #include "Weapon.h"
 #include "Range.h"
 
-class CommonWeapon : public Weapon {
+class NormalWeapon : public Weapon {
     int minDamage;
     int maxDamage;
     Range* range;
     public:
-        CommonWeapon(int minDamage,int maxDamage,Range* range);
+        NormalWeapon(int minDamage,int maxDamage,Range* range);
         void attack(Character *enemy,int strength,int &mana,Position &holderPos,Calculator calc) override;
-        ~CommonWeapon();
+        ~NormalWeapon();
 };
 
 

@@ -31,7 +31,9 @@ void Game::addUpdatePosition(int x,int y) {
     updates.push_back(std::move(update));
 }
 
-
+void Game::equipWeapon(Weapon* weapon, std::string playerName) {
+    players.at(playerName).equipWeapon(weapon);
+}
 
 Game::~Game() = default; /*{
     std::vector<Player*>::iterator it;

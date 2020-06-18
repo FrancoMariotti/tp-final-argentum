@@ -4,6 +4,7 @@
 #include <map>
 #include "Map.h"
 #include "Factory.h"
+#include "Weapon.h"
 
 class Update;
 class PlayableCharacter;
@@ -22,6 +23,7 @@ public:
     void createPlayer(const std::string& name, const std::string& charRace,
             const std::string& charClass);
     void createNpc(const std::string& specie);
+    void equipWeapon(Weapon* weapon, std::string playerName);
     ~Game();
 
     void addUpdatePosition(int x, int y);

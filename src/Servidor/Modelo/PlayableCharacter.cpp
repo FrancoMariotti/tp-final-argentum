@@ -27,4 +27,8 @@ void PlayableCharacter::attack(Character *enemy) {
     activeWeapon->attack(enemy,strength,mana,currPos,calculator);
 }
 
+void PlayableCharacter::equipWeapon(Weapon* weapon) {
+    activeWeapon = weapon;
+}
+
 PlayableCharacter::~PlayableCharacter() = default;
