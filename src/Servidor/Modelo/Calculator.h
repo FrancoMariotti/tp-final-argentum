@@ -21,24 +21,24 @@ private:
 public:
     Calculator(int raceLifeFactor, int classLifeFactor, int raceManaFactor,
             int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
-    int maxLife(int constitution, int lvl);
-    int maxMana(int intelligence, int lvl);
+    int calculateMaxLife(int constitution, int lvl);
+    int calculateMaxMana(int intelligence, int lvl);
     //Devuelve la cantidad de vida recuperada en x segundos
-    int recoverLifePoints(int seconds);
+    int calculateRecoverLifePoints(int seconds);
     //Devuelve la cantidad de mana recuperado en x segundos
-    int recoverMana(int seconds);
+    int calculateRecoverMana(int seconds);
     //Devuelve la cantidad de mana recuperado meditando en x segundos
-    int recoverManaMeditating(int seconds);
-    int safeGoldCapacity(int lvl);
+    int calculateRecoverManaMeditating(int seconds);
+    int calculateSafeGoldCapacity(int lvl);
     //Devuelve la cantidad de oro maxima que puede tener el jugador
-    int goldCapacity(int lvl);
-    int lvlLimit(int lvl);
-    int damage(int strength, int weaponMinDamage, int weaponMaxDamage);
-    int attackXp(int strength, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl);
-    int killXp (int enemyMaxLp, int mylvl, int enemyLvl);
-    bool dodge(int agility);
-    int defense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
-    int npcGoldDrop(int npcMaxLp);
+    int calculateGoldCapacity(int lvl);
+    int calculateLvlLimit(int lvl);
+    int calculateDamage(int strength, int weaponMinDamage, int weaponMaxDamage);
+    int calculateAttackXp(int strength, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl);
+    int calculateKillXp (int enemyMaxLp, int mylvl, int enemyLvl);
+    bool caculateDodge(int agility);
+    int calculateDefense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
+    int calculateNpcGoldDrop(int npcMaxLp);
     ~Calculator();
 };
 
