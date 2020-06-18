@@ -8,8 +8,10 @@ ShortRange::ShortRange() {
 
 }
 
-void ShortRange::attack(Character *enemy, Position from) {
-
+void ShortRange::attack(Character *enemy, Position from, int damage) {
+    if(enemy->distanceTo(from) == 1) {
+        enemy->receiveDamage(damage);
+    }
 }
 
 ShortRange::~ShortRange() {

@@ -11,7 +11,7 @@
 
 class LongRange : public Range {
     public:
-         void attack(Character* enemy, Position from) override;
+         void attack(Character *enemy, Position from ,int damage) override;
 };
 
 

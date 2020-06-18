@@ -12,7 +12,7 @@
 class ShortRange : public Range {
     public:
         ShortRange();
-        void attack(Character* enemy, Position from) override;
+        void attack(Character* enemy, Position from,int damage) override;
         ~ShortRange();
 };
 
