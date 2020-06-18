@@ -6,9 +6,12 @@
 #define ARGENTUM_LONGRANGE_H
 
 
+#include "Character.h"
+#include "Range.h"
+
 class LongRange : public Range {
-public:
-     virtual void attack(Character enemy, Position from) override;
+    public:
+         void attack(Character enemy, Position from) override;
 };
 
 

@@ -6,9 +6,14 @@
 #define ARGENTUM_SHORTRANGE_H
 
 
+#include "Character.h"
+#include "Range.h"
+
 class ShortRange : public Range {
-public:
-     virtual void attack(Character enemy, Position from) override;
+    public:
+        ShortRange();
+        void attack(Character enemy, Position from) override;
+        ~ShortRange();
 };
 
 

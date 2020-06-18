@@ -3,3 +3,15 @@
 //
 
 #include "ShortRange.h"
+
+ShortRange::ShortRange() {
+
+}
+
+void ShortRange::attack(Character enemy, Position from) {
+
+}
+
+ShortRange::~ShortRange() {
+
+}

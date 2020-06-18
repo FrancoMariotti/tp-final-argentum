@@ -3,3 +3,15 @@
 //
 
 #include "MagicalWeapon.h"
+
+MagicalWeapon::MagicalWeapon() {
+
+}
+
+void MagicalWeapon::attack(Character enemy, Position holderPos) {
+
+}
+
+MagicalWeapon::~MagicalWeapon() {
+
+}

@@ -21,7 +21,6 @@ private:
 public:
     Calculator(int raceLifeFactor, int classLifeFactor, int raceManaFactor,
             int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
-    ~Calculator();
     int maxLife(int constitution, int lvl);
     int maxMana(int intelligence, int lvl);
     //Devuelve la cantidad de vida recuperada en x segundos
@@ -40,6 +39,7 @@ public:
     bool dodge(int agility);
     int defense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
     int npcGoldDrop(int npcMaxLp);
+    ~Calculator();
 };
 
 

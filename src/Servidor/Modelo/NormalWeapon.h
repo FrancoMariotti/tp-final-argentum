@@ -6,13 +6,16 @@
 #define ARGENTUM_COMMONWEAPON_H
 
 #include "Weapon.h"
+#include "Range.h"
 
-class commonWeapon : public Weapon {
+class CommonWeapon : public Weapon {
     int minDamage;
     int maxDamage;
-    Range range;
-public:
-    virtual void attack(Character enemy, Position holderPos) override;
+    Range* range;
+    public:
+        CommonWeapon(int minDamage,int maxDamage,Range* range);
+        void attack(Character enemy, Position holderPos) override;
+        ~CommonWeapon();
 };
 
 

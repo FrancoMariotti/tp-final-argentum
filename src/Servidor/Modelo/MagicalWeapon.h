@@ -2,11 +2,14 @@
 #define ARGENTUM_MAGICALWEAPON_H
 #include "Weapon.h"
 
-class magicalWeapon: public Weapon {
-    private:
-        int minDamage;
-        int maxDamage;
-        int cost;
+class MagicalWeapon: public Weapon {
+    int minDamage;
+    int maxDamage;
+    int cost;
+    public:
+        MagicalWeapon();
+        void attack(Character enemy, Position holderPos) override;
+        ~MagicalWeapon();
 };
 
 

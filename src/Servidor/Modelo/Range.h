@@ -6,6 +6,8 @@
 #define ARGENTUM_RANGE_H
 
 
+#include "Character.h"
+
 class Range {
 public:
     virtual void attack(Character enemy, Position from) = 0;
