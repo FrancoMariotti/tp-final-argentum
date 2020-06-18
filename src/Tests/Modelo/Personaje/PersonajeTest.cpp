@@ -13,7 +13,10 @@ void PersonajeTest::setUp() {}
 
 void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones() {
     Map map(10, 10);
-    PlayableCharacter player(20,2,2,map,18,18,18,18);
+    //INICIALIZO LOS FACTORES CON 0 PORQUE PARA ESTA PRUEBA NO SON NECESARIOS
+    PlayableCharacter player(20,2,2,map,18,18,18,
+            18,0 ,0, 0,
+            0, 0, 0);
 
     {
         //test:el personaje se mueve hacia arriba en el map

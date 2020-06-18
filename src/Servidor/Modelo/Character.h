@@ -14,19 +14,18 @@ class Character {
         int level;
         Position currPos;
         Map& map;
-        //ESTO TAMBIEN LO DEBE TENER EL NPC? o solo los personajes jugables tienen atributos?
+       //ESTOS 5 ATRIBUTOS DE ACA ABAJO CREO QUE SOLO DEBERIAN ESTAR EN EL PLAYABLE CHARACTER
+       //CREO QUE NO SON NECESARIOS PARA EN NPC
         int constitution;
         int agility;
         int strength;
         int intelligence;
-        //LA CALCULADORA NOSE SI LE CORRESPONDE TAMBIEN AL NPC,HAY QUE ANALIZARLO
-        //SIN EMBARGO LA CALCULADORA USA ALGUNOS ATRIBUTOS DE LOS NPC COMO SU VIDA MAXIMA O SU NIVEL
-        //ASI QUE TENEMOS QUE PENSAR DONDE NOS CONVIENE PONERLA
         Calculator calculator;
 
     public:
         Character(int lifePoints,int x,int y,Map& map,int constitution,
-                  int strength,int agility,int intelligence);
+                  int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
+                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         bool collideWith(Position& objPos);
         int distanceTo(Position pos);
         Offset getOffset(Position initialPos);

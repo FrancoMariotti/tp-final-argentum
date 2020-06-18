@@ -4,7 +4,11 @@
 #include "Game.h"
 
 PlayableCharacter::PlayableCharacter(int lifePoints, int x, int y, Map& map,int constitution,
-        int strength,int agility,int intelligence):Character(lifePoints,x, y, map,constitution,strength,agility,intelligence) {
+        int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
+                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
+                  :Character(lifePoints,x, y, map,constitution,strength,agility,intelligence,
+                          raceLifeFactor, classLifeFactor, raceManaFactor,
+                          classManaFactor,recoveryFactor,meditationRecoveryFactor) {
     map.addPlayableCharacter(this);
 }
 

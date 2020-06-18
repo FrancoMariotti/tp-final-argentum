@@ -6,7 +6,12 @@ int main(int argc, char const *argv[]) {
     Event* event = new EventMove(offset);
 
     Game game("config/config.json");
-    game.createPlayer("franco");
+    /*
+    MI IDEA SERIA TENER UN METODO EN GAME QUE CREE TODOS LOS NPCS QUE DEBERIQ HABER EN EL MAPA
+    game.createNpcs();
+    */
+    game.createPlayer("franco", "human", "wizard");
+    game.createNpc("goblin");
     event->execute(game,"franco");
     delete event;
     //Mobility* mobility= new NonMovable();

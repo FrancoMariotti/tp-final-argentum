@@ -29,9 +29,17 @@ class PlayableCharacterFactory {
     Map& map;
 public:
     explicit PlayableCharacterFactory(std::string personajesFile,Map& map);
-    PlayableCharacter create();
+    PlayableCharacter create(std::string charRace, std::string charClass);
     ~PlayableCharacterFactory();
 };
 
+class NpcFactory {
+    FileParser parser;
+    Map& map;
+public:
+    explicit NpcFactory(std::string npcsFile,Map& map);
+    void create(std::string specie);
+    ~NpcFactory();
+};
 
 #endif //ARGENTUM_FACTORY_H

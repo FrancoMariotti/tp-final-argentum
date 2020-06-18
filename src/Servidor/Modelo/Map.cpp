@@ -18,7 +18,26 @@ void Map::addObstacle(Obstacle* obstacle) {
     this->obstacles.push_back(obstacle);
 }
 
+bool Map::isOccupied(Position pos) {
+    std::vector<PlayableCharacter*>::iterator itrCharacters;
+    for (itrCharacters = characters.begin() ; itrCharacters != characters.end(); ++itrCharacters) {
+        if((*itrCharacters)->collideWith(pos)) return true;
+    }
+
+    std::vector<Npc*>::iterator itrNpcs;
+    for (itrNpcs = npcs.begin() ; itrNpcs != npcs.end(); ++itrNpcs) {
+        if((*itrNpcs)->collideWith(pos)) return true;
+    }
+
+    std::vector<Obstacle*>::iterator itrObstacles;
+    for (itrObstacles = obstacles.begin() ; itrObstacles != obstacles.end(); ++itrObstacles) {
+        if((*itrObstacles)->ocupies(pos)) return true;
+    }
+    return false;
+}
+
 void Map::move(Position& from,Position& to) {
+   /*
     //estaria bueno tener un solo iterador que recorra ambas listas.
     std::vector<PlayableCharacter*>::iterator itrCharacters;
     for (itrCharacters = characters.begin() ; itrCharacters != characters.end(); ++itrCharacters) {
@@ -34,8 +53,8 @@ void Map::move(Position& from,Position& to) {
     for (itrObstacles = obstacles.begin() ; itrObstacles != obstacles.end(); ++itrObstacles) {
         if((*itrObstacles)->ocupies(to)) return;
     }
-
-    from = to;
+    */
+    if (!isOccupied(to)) from = to;
 }
 
 

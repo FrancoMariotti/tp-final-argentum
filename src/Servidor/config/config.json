@@ -6,46 +6,66 @@
     "constitution": 18,
     "race": {
       "human": {
-        "LifeFactor": 5,
+        "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       },
-      "elfo": {
-        "LifeFactor": 5,
+      "elf": {
+        "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       } ,
-      "enano": {
-        "LifeFactor": 5,
+      "dwarf": {
+        "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       },
-      "gnomo": {
-        "LifeFactor": 5,
+      "gnome": {
+        "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       }
     },
-    "clase": {
-      "mago": {
-        "LifeFactor": 5,
+    "class": {
+      "wizard": {
+        "lifeFactor": 5,
         "manaFactor": 5,
         "meditationRecoveryFactor": 5
       },
-      "clerigo": {
-        "LifeFactor": 5,
+      "cleric": {
+        "lifeFactor": 5,
         "manaFactor": 5,
         "meditationRecoveryFactor": 5
       },
       "paladin": {
-        "LifeFactor": 5,
+        "lifeFactor": 5,
         "manaFactor": 5,
         "meditationRecoveryFactor": 5
       },
-      "guerrero": {
-        "LifeFactor": 5,
+      "warrior": {
+        "lifeFactor": 5,
         "manaFactor": 5,
         "meditationRecoveryFactor": 5
+      }
+    }
+  },
+  "npc": {
+    "specie": {
+      "goblin": {
+        "lifePoints": 150,
+        "mobility": "movable"
+      },
+      "skeleton": {
+        "lifePoints": 100,
+        "mobility": "movable"
+      },
+      "zombie": {
+        "lifePoints": 50,
+        "mobility": "movable"
+      },
+      "spider": {
+        "lifePoints": 200,
+        "mobility": "movable"
       }
     }
   },

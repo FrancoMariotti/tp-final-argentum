@@ -21,6 +21,7 @@ class Map {
         void addPlayableCharacter(PlayableCharacter* character);
         void addNpc(Npc* npc);
         void addObstacle(Obstacle* obstacle);
+        bool isOccupied(Position pos);
         void move(Position& from,Position& to);
         Character* findClosestCharacter(Position pos, int range);
         ~Map();
