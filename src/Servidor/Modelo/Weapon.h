@@ -4,11 +4,11 @@
 
 #ifndef ARGENTUM_WEAPON_H
 #define ARGENTUM_WEAPON_H
-
+#include "Character.h"
 
 class Weapon {
-public:
-    virtual void attack(Character enemy, Position holderPos) = 0;
+    public:
+        virtual void attack(Character enemy, Position holderPos) = 0;
 };
 
 

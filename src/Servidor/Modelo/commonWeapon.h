@@ -5,11 +5,11 @@
 #ifndef ARGENTUM_COMMONWEAPON_H
 #define ARGENTUM_COMMONWEAPON_H
 
+#include "Weapon.h"
+
 class commonWeapon : public Weapon {
-private:
     int minDamage;
     int maxDamage;
-public:
 
 };
 

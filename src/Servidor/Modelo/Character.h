@@ -25,7 +25,7 @@ class Character {
         Calculator calculator;
 
     public:
-        Character(int x,int y,Map& map,int constitution,
+        Character(int lifePoints,int x,int y,Map& map,int constitution,
                   int strength,int agility,int intelligence);
         bool collideWith(Position& objPos);
         virtual int distanceTo(Position pos);
