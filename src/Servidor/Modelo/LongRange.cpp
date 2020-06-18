@@ -4,6 +4,7 @@
 
 #include "LongRange.h"
 
-void LongRange::attack(Character enemy, Position from) {
+
+void LongRange::attack(Character *enemy, Position from) {
 
 }

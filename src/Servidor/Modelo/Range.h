@@ -10,7 +10,7 @@
 
 class Range {
 public:
-    virtual void attack(Character enemy, Position from) = 0;
+    virtual void attack(Character* enemy, Position from) = 0;
 };
 
 

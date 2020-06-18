@@ -8,6 +8,6 @@
 
 class Weapon {
     public:
-        virtual void attack(Character enemy, Position holderPos) = 0;
+        virtual void attack(Character* enemy, Position& holderPos) = 0;
 };
 #endif //ARGENTUM_WEAPON_H

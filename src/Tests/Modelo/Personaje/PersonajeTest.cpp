@@ -12,8 +12,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION( PersonajeTest );
 void PersonajeTest::setUp() {}
 
 void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones() {
-    /*Map map(10, 10);
-    PlayableCharacter player(20,2,2,map);
+    Map map(10, 10);
+    PlayableCharacter player(20,2,2,map,18,18,18,18);
 
     {
         //test:el personaje se mueve hacia arriba en el map
@@ -45,5 +45,5 @@ void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecci
         player.move(offset);
         Position next(2,2);
         CPPUNIT_ASSERT(player.currPos == next);
-    }*/
+    }
 }

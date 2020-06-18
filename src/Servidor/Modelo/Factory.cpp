@@ -38,7 +38,7 @@ Map MapFactory::create() {
 MapFactory::~MapFactory() = default;
 
 
-PlayableCharacterFactory::PlayableCharacterFactory(std::string personajesFile,Map& map,Game* game):parser(personajesFile),map(map),game(game) {}
+PlayableCharacterFactory::PlayableCharacterFactory(std::string personajesFile,Map& map):parser(personajesFile),map(map) {}
 
 PlayableCharacter PlayableCharacterFactory::create() {
     Json::Value obj = parser.read("character");
@@ -51,7 +51,7 @@ PlayableCharacter PlayableCharacterFactory::create() {
     int intelligence = obj["intelligence"].asInt();
     int constitution = obj["constitution"].asInt();
 
-    return PlayableCharacter(life,x,y,map,game,constitution,strength,agility,intelligence);
+    return PlayableCharacter(life,x,y,map,constitution,strength,agility,intelligence);
 }
 
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;

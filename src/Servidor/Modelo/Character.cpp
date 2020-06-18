@@ -24,6 +24,10 @@ Offset Character::getOffset(Position initialPos) {
     return final - initialPos;
 }
 
+void Character::receiveDamage(int damage) {
+    this->lifePoints -= damage;
+}
+
 void Character::printPosition() {
     currPos.print();
 }

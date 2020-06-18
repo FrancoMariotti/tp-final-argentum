@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
+#include <random>
 #include "Calculator.h"
 
 Calculator::Calculator(int raceLifeFactor, int classLifeFactor, int raceManaFactor,
@@ -48,33 +49,41 @@ int Calculator::lvlLimit(int lvl) {
     return 1000 * pow(lvl, 1.8);
 }
 
-int Calculator::damage(int strengh, int weaponMinDamage, int weaponMaxDamage) {
-    std::vector<int> possibleResults;
-    for (int i = weaponMinDamage; i <= weaponMaxDamage; i++) {
-        possibleResults.push_back(i);
-    }
-    return strengh * possibleResults[rand()%(possibleResults.size())];
+int Calculator::damage(int strength, int weaponMinDamage, int weaponMaxDamage) {
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution(weaponMinDamage,weaponMaxDamage);
+    return strength * distribution(generator);
 }
 
-int Calculator::attackXp(int strengh, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl) {
-    int damage = this->damage(strengh, weaponMinDamage, weaponMaxDamage);
+int Calculator::attackXp(int strength, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl) {
+    int damage = this->damage(strength, weaponMinDamage, weaponMaxDamage);
     return damage * std::max(enemyLvl - myLvl + 10, 0);
 }
 
 int Calculator::killXp (int enemyMaxLp, int mylvl, int enemyLvl) {
-    std::vector<float> possibleResults = {0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1};
-    float modifier = possibleResults[rand()%(possibleResults.size())];
+    std::default_random_engine generator;
+    std::uniform_real_distribution<float> distribution(0,0.1);
+    float modifier = distribution(generator);
     return modifier * enemyMaxLp * std::max(enemyLvl - mylvl + 10, 0);
 }
 
 bool Calculator::dodge(int agility) {
-    std::vector<float> possibleResults = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1};
-    float modifier = possibleResults[rand()%(possibleResults.size())];
+    std::default_random_engine generator;
+    std::uniform_real_distribution<float> distribution(0,1);
+    //std::vector<float> possibleResults = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1};
+    //float modifier = possibleResults[rand()%(possibleResults.size())];
+    float modifier = distribution(generator);
     return pow(modifier, agility) < 0.001;
 }
 
 int Calculator::defense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet) {
-    std::vector<int> possibleArmour;
+
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> armour_distribution(minArmour,maxArmour);
+    std::uniform_int_distribution<int> shield_distribution(minShield,maxShield);
+    std::uniform_int_distribution<int> helmet_distribution(minHelmet,maxHelmet);
+
+    /*std::vector<int> possibleArmour;
     std::vector<int> possibleShield;
     std::vector<int> possibleHelmet;
     for (int i = minArmour; i <= maxArmour; i++) {
@@ -88,14 +97,20 @@ int Calculator::defense(int minArmour, int maxArmour, int minShield, int maxShie
     }
     int armour = possibleArmour[rand()%(possibleArmour.size())];;
     int shield =possibleShield[rand()%(possibleShield.size())];;
-    int helmet = possibleHelmet[rand()%(possibleHelmet.size())];;
+    int helmet = possibleHelmet[rand()%(possibleHelmet.size())];;*/
+    int armour = armour_distribution(generator);
+    int shield = shield_distribution(generator);
+    int helmet = helmet_distribution(generator);
 
     return armour + shield + helmet;
 }
 
 int Calculator::npcGoldDrop(int npcMaxLp) {
-    std::vector<float> possibleResults = {0, 0.1, 0.2};
-    float modifier = possibleResults[rand()%(possibleResults.size())];
+    std::default_random_engine generator;
+    std::uniform_real_distribution<float> distribution(0,0.2);
+    //std::vector<float> possibleResults = {0, 0.1, 0.2};
+    //float modifier = possibleResults[rand()%(possibleResults.size())];
+    float modifier = distribution(generator);
     return modifier * npcMaxLp;
 }
 

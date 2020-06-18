@@ -7,8 +7,8 @@ class MagicalWeapon: public Weapon {
     int maxDamage;
     int cost;
     public:
-        MagicalWeapon();
-        void attack(Character enemy, Position holderPos) override;
+        MagicalWeapon(int minDamage,int maxDamage,int cost);
+        void attack(Character* enemy, Position& holderPos) override;
         ~MagicalWeapon();
 };
 

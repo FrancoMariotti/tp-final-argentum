@@ -3,7 +3,7 @@
 #include "PlayableCharacter.h"
 #include "Update.h"
 
-Game::Game(std::string mapFile,std::string characterFile): factoryCharacters(characterFile,map, this) {
+Game::Game(std::string mapFile,std::string characterFile): factoryCharacters(characterFile,map) {
     MapFactory factory(mapFile);
     map = factory.create();
 }

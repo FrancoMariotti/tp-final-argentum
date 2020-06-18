@@ -28,8 +28,10 @@ class Character {
         Character(int lifePoints,int x,int y,Map& map,int constitution,
                   int strength,int agility,int intelligence);
         bool collideWith(Position& objPos);
-        virtual int distanceTo(Position pos);
+        int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
+        virtual void attack(Character* character) = 0;
+        void receiveDamage(int damage);
         //METODO PARA PROBAR
         void printPosition();
         virtual ~Character();

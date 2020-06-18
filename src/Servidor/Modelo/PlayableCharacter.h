@@ -9,7 +9,6 @@ class Mobility;
 class Game;
 
 class PlayableCharacter: public Character {
-    Game* game;
     friend class PersonajeTest;
     Weapon* activeWeapon;
     //Inventory inventory;
@@ -21,8 +20,9 @@ class PlayableCharacter: public Character {
     //int xp;
 
 public:
-        PlayableCharacter(int lifePoints, int x, int y, Map& map,Game* game,int constitution,
+        PlayableCharacter(int lifePoints, int x, int y, Map& map,int constitution,
                           int strength,int agility,int intelligence);
+        void attack(Character *character) override;
         void move(Offset& offset);
         ~PlayableCharacter() override;
 };

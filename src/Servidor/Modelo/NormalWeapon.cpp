@@ -10,7 +10,7 @@ CommonWeapon::CommonWeapon(int minDamage, int maxDamage, Range *range) {
     this->range = range;
 }
 
-void CommonWeapon::attack(Character enemy, Position holderPos) {
+void CommonWeapon::attack(Character *enemy, Position &holderPos) {
 
 }
 

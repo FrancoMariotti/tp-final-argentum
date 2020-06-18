@@ -8,7 +8,7 @@ ShortRange::ShortRange() {
 
 }
 
-void ShortRange::attack(Character enemy, Position from) {
+void ShortRange::attack(Character *enemy, Position from) {
 
 }
 

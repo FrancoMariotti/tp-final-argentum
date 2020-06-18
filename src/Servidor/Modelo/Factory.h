@@ -27,9 +27,8 @@ class MapFactory {
 class PlayableCharacterFactory {
     FileParser parser;
     Map& map;
-    Game* game;
 public:
-    explicit PlayableCharacterFactory(std::string personajesFile,Map& map,Game* game);
+    explicit PlayableCharacterFactory(std::string personajesFile,Map& map);
     PlayableCharacter create();
     ~PlayableCharacterFactory();
 };

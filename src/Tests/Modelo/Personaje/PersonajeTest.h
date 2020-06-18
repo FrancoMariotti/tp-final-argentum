@@ -5,6 +5,8 @@
 #ifndef ARGENTUM_PERSONAJETEST_H
 #define ARGENTUM_PERSONAJETEST_H
 #include <cppunit/extensions/HelperMacros.h>
+#include <Servidor/Modelo/PlayableCharacter.h>
+
 
 class PersonajeTest :  public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE( PersonajeTest );
@@ -17,5 +19,6 @@ class PersonajeTest :  public CppUnit::TestFixture {
     protected:
         void testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones();
 };
+
 
 #endif //ARGENTUM_PERSONAJETEST_H

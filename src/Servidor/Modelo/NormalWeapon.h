@@ -14,7 +14,7 @@ class CommonWeapon : public Weapon {
     Range* range;
     public:
         CommonWeapon(int minDamage,int maxDamage,Range* range);
-        void attack(Character enemy, Position holderPos) override;
+        void attack(Character* enemy, Position& holderPos) override;
         ~CommonWeapon();
 };
 
