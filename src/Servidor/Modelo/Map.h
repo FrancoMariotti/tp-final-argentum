@@ -4,6 +4,7 @@
 #include "vector"
 #include "Position.h"
 #include "Obstacle.h"
+#include "Weapon.h"
 
 class Character;
 class Npc;
@@ -26,9 +27,8 @@ class Map {
         void move(Position& from,Position& to);
         void triggerMove(const std::string &playerName, Offset &offset);
         void triggerAttack(const std::string& playerName,Position& position);
+        void triggerEquipWeapon(const std::string &playerName,Weapon *weapon);
         Character* findClosestCharacter(Position pos, int range);
-
-
         ~Map();
 };
 

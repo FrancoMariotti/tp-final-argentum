@@ -32,7 +32,8 @@ void Game::addUpdatePosition(int x,int y) {
 }
 
 void Game::equipWeapon(Weapon* weapon, std::string playerName) {
-    //players.at(playerName).equipWeapon(weapon);
+    //aca habria que tener un factory que cree el arma segun el id que le pasan
+    map.triggerEquipWeapon(playerName,weapon);
 }
 
 Game::~Game() {

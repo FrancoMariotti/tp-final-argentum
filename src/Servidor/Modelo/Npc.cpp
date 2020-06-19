@@ -8,7 +8,6 @@ Npc::Npc(int lifePoints, Mobility* mobility, int x, int y, Map& map,int constitu
                  0, 0, 0, 0,
                  0, 0),mobility(mobility), specie(specie) {
     this->level = level;
-    map.addNpc(this);
 }
 
 void Npc::move() {

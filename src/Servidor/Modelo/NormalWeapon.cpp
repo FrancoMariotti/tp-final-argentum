@@ -15,4 +15,6 @@ void NormalWeapon::attack(Character *enemy, int strength, int &mana, Position &h
     range->attack(enemy,holderPos,damage);
 }
 
-NormalWeapon::~NormalWeapon() {}
+NormalWeapon::~NormalWeapon() {
+    delete range;
+}
