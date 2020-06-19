@@ -21,9 +21,9 @@ private:
 public:
     //Pasamos la Mobility por parametro porque pensamos en que puede
     //haber npcs que se muevan y otros que no.
-    Npc(int lifePoints, Mobility *mobility, int x, int y, Map *map,int constitution,
+    Npc(int lifePoints, Mobility *mobility, int x, int y, int constitution,
         int strength,int agility,int intelligence, int lvl, std::string specie);
-    void move();
+    void move(Map* map);
     virtual void attack(Character* character) override;
     ~Npc() override;
 };

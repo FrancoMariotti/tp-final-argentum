@@ -1,11 +1,10 @@
 #include "Character.h"
 
-Character::Character(int lifePoints,int x,int y,Map* map,int constitution,
+Character::Character(int lifePoints,int x,int y,int constitution,
                   int strength,int agility,int intelligence,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
                   :currPos(x,y), calculator(raceLifeFactor, classLifeFactor, raceManaFactor,
                           classManaFactor,recoveryFactor,meditationRecoveryFactor){
-    this->map = map;
     this->level = 1;
     this->lifePoints = lifePoints;
     this->constitution = constitution;

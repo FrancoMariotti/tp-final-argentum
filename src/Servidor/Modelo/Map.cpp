@@ -58,7 +58,7 @@ Character* Map::findClosestCharacter(Position pos, int range) {
 }
 
 void Map::triggerMove(const std::string &playerName, Offset &offset) {
-    characters.at(playerName)->move(offset);
+    characters.at(playerName)->move(this,offset);
 }
 
 Npc* Map::findNpcAtPosition(Position &position) {

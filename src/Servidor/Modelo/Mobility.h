@@ -10,19 +10,19 @@ class Map;
 
 class Mobility {
     public:
-        virtual void move(Position& position, Map& map) = 0;
+        virtual void move(Position& position, Map* map) = 0;
         virtual ~Mobility() = default;
 };
 
 class Movable: public Mobility {
     public:
-        void move(Position& position, Map& map) override;
+        void move(Position& position, Map* map) override;
         ~Movable() override;
 };
 
 class NonMovable: public Mobility {
     public:
-        void move(Position& position, Map& map) override;
+        void move(Position& position, Map* map) override;
         ~NonMovable() override;
 };
 

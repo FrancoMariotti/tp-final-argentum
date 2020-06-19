@@ -63,7 +63,7 @@ void PlayableCharacterFactory::create(Map* map,const std::string& playerName,con
     int classManaFactor = obj["class"][charClass]["manaFactor"].asInt();
     int meditationRecoveryFactor = obj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    PlayableCharacter* character =  new PlayableCharacter(life,x,y,map,constitution,strength,agility,intelligence,
+    PlayableCharacter* character =  new PlayableCharacter(life,x,y,constitution,strength,agility,intelligence,
             raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
 
@@ -95,7 +95,7 @@ void NpcFactory::create(Map* map,const std::string& specie) {
         isOccupied = map->isOccupied(pos);
     }
     std::cout << "La posicion random del npc creado es (" << x << "," << y << ")" << std::endl;
-    Npc *enemy = new Npc(lifePoints, mobility, x, y,map, 0, 0, 0, 0, level, specie);
+    Npc *enemy = new Npc(lifePoints, mobility, x, y, 0, 0, 0, 0, level, specie);
     map->addNpc(enemy);
 }
 

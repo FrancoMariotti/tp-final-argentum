@@ -13,7 +13,6 @@ class Character {
         int lifePoints;
         int level;
         Position currPos;
-        Map* map;
        //ESTOS 5 ATRIBUTOS DE ACA ABAJO CREO QUE SOLO DEBERIAN ESTAR EN EL PLAYABLE CHARACTER
        //CREO QUE NO SON NECESARIOS PARA EN NPC
         int constitution;
@@ -23,7 +22,7 @@ class Character {
         Calculator calculator;
 
     public:
-        Character(int lifePoints,int x,int y,Map* map,int constitution,
+        Character(int lifePoints,int x,int y,int constitution,
                   int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         bool collideWith(Position& objPos);
