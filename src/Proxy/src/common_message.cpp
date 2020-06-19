@@ -4,6 +4,23 @@
 
 #include "common_message.h"
 
+
+char Message::getId(char id) const {
+    return id;
+}
+
+int Message::getPlayerVelX() const {
+    return 0;
+}
+
+int Message::getPlayerVelY() const {
+    return 0;
+}
+
+int Message::getIndex() const {
+    return 0;
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         id('m'),
         player_vel_x(player_vel_x),
@@ -11,19 +28,15 @@ Movement::Movement(const int player_vel_x, const int player_vel_y) :
         {}
 
 char Movement::getId() const{
-    return id;
+    return Message::getId(id);
 }
 
-int Movement::getPlayerX() const {
+int Movement::getPlayerVelX() const {
     return player_vel_x;
 }
 
-int Movement::getPlayerY() const {
+int Movement::getPlayerVelY() const {
     return player_vel_y;
-}
-
-int Movement::getIndex() const {
-    return 0;
 }
 
 UseItem::UseItem(const int i) :
@@ -32,17 +45,10 @@ UseItem::UseItem(const int i) :
     {}
 
 char UseItem::getId() const {
-    return id;
+    return Message::getId(id);
 }
 
 int UseItem::getIndex() const {
     return inventory_i;
 }
 
-int UseItem::getPlayerX() const {
-    return 0;
-}
-
-int UseItem::getPlayerY() const {
-    return 0;
-}

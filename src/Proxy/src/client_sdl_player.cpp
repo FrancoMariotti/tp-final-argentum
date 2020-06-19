@@ -80,7 +80,7 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &event_sender) {
         /**Debe ser readClient pero esto es para simular*/
         std::unique_ptr<Message> player_movement = event_sender.pop();
         //FIN CODIGO DE PRUEBA
-        pos_x += player_movement->getPlayerX();
-        pos_y += player_movement->getPlayerY();
+        pos_x += player_movement->getPlayerVelX();
+        pos_y += player_movement->getPlayerVelY();
     //}
 }
