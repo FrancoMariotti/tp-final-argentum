@@ -11,6 +11,7 @@
 #include "client_command.h"
 #include "common_proxy_socket.h"
 
+class Message;
 class SdlButton {
     private:
         enum e_button_sprite{
@@ -46,7 +47,7 @@ class SdlButton {
         //Handles mouse event
         void handleEvent(SDL_Event &e);
 
-        void use(BlockingQueue<t_command> &event_sender, int i);
+        void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i);
 
         //Shows button sprite
         void render();

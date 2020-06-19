@@ -5,6 +5,7 @@
 #include <iostream>
 #include "client_sdl_player.h"
 #include "client_sdl_texture.h"
+#include "common_message.h"
 
 #define HUMANOID_HEAD_WIDTH 17
 #define HUMANOID_HEAD_HEIGHT 15
@@ -67,22 +68,19 @@ void SdlPlayer::render() {
 }
 
 /**Logic*/
-void SdlPlayer::move(BlockingQueue<t_command> &event_sender) {
+void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &event_sender) {
     /*Crea el msg con el offset al que se quiere mover, lo envia al server y
      * actualiza la posicion con la respuesta del server*/
     //Si se movio
     //if(vel_x != 0 && vel_y != 0){
-        t_command player_movement={"m", vel_x, vel_y};
-        event_sender.push(player_movement);
+        //t_command player_movement={"m", vel_x, vel_y};
+        event_sender.push(std::unique_ptr<Message> (
+                new Movement(vel_x, vel_y)));
         //CODIGO DE PRUEBA
-        //t_command receivedCommand = proxySocket.readServer();
-        //t_command commandToSend = proxyServer.processCommand(receivedCommand);
-        //proxySocket.writeToClient(commandToSend);
-        //FIN CODIGO DE PRUEBA
         /**Debe ser readClient pero esto es para simular*/
-        player_movement = event_sender.pop();
-
-        pos_x += player_movement.x;
-        pos_y += player_movement.y;
+        std::unique_ptr<Message> player_movement = event_sender.pop();
+        //FIN CODIGO DE PRUEBA
+        pos_x += player_movement->getPlayerX();
+        pos_y += player_movement->getPlayerY();
     //}
 }

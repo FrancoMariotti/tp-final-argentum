@@ -10,7 +10,7 @@
 #include "common_blocking_queue.h"
 #include "common_proxy_socket.h"
 
-
+class Message;
 class SdlTexture;
 class SdlPlayer {
 private:
@@ -46,7 +46,7 @@ public:
     //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event& e );
 
-    void move(BlockingQueue<t_command> &event_sender);
+    void move(BlockingQueue<std::unique_ptr<Message>> &event_sender);
 
     //Muestra al jugador en pantalla
     void render();

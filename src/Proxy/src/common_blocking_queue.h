@@ -40,7 +40,7 @@ class BlockingQueue {
         /*Agrega @param element a la queue y notifica a todos los hilos*/
         void push(T element){
             std::unique_lock<std::mutex> lock(m);
-            this->queue.push(element);
+            this->queue.push(std::move(element));
             cond_var.notify_all();
         }
 
@@ -54,7 +54,7 @@ class BlockingQueue {
                 }
                 cond_var.wait(lock);
             }
-            T element = queue.front();
+            T element = std::move(queue.front());
             queue.pop();
             return element;
 
@@ -68,6 +68,8 @@ class BlockingQueue {
 
         }
 
+        /*Eliminar cuando implementemos los hilos*/
+        /*WARNING: NO PREGUNTAR ESTADO A UN RECURSO PROTEGIDO, CRITICAL SECTION*/
         bool isEmpty() const{
             return queue.empty();
         }
