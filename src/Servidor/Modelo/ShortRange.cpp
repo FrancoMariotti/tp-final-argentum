@@ -4,9 +4,7 @@
 
 #include "ShortRange.h"
 
-ShortRange::ShortRange() {
-
-}
+ShortRange::ShortRange() {}
 
 void ShortRange::attack(Character *enemy, Position from, int damage) {
     if(enemy->distanceTo(from) == 1) {
@@ -14,6 +12,4 @@ void ShortRange::attack(Character *enemy, Position from, int damage) {
     }
 }
 
-ShortRange::~ShortRange() {
-
-}
+ShortRange::~ShortRange() {}

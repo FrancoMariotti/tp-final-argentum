@@ -15,17 +15,16 @@ private:
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
     //std::map<std::string, Player> players;
-    std::map<std::string, PlayableCharacter> players;
     std::vector<Update> updates;
 public:
     Game(std::string configFile);
-    void movePlayer(const std::string& playerName, Offset offset);
     void createPlayer(const std::string& name, const std::string& charRace,
             const std::string& charClass);
     void createNpc(const std::string& specie);
     void equipWeapon(Weapon* weapon, std::string playerName);
+    void movePlayer(const std::string& playerName, Offset& offset);
+    void attackNpc(const std::string &playerName, Position &position);
     ~Game();
-
     void addUpdatePosition(int x, int y);
 };
 

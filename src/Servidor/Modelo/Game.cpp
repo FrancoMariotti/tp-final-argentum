@@ -8,22 +8,22 @@ Game::Game(std::string configFile): factoryCharacters(configFile,map), npcFactor
     map = factory.create();
 }
 
-void Game::createPlayer(const std::string& name, const std::string& charRace,
+void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
-    if(players.count(name) > 0) {
-        //Ya existe un jugador con ese nombre por lo tanto no lo puedo agregar
-        return;
-    }
-    players.insert(std::pair<std::string, PlayableCharacter>(name,
-            factoryCharacters.create(charRace, charClass)));
+    factoryCharacters.create(playerName,charRace, charClass);
 }
 
 void Game::createNpc(const std::string& specie) {
     npcFactory.create(specie);
 }
 
-void Game::movePlayer(const std::string& playerName, Offset offset) {
-    players.at(playerName).move(offset);
+void Game::movePlayer(const std::string& playerName, Offset& offset) {
+    map.triggerMove(playerName,offset);
+}
+
+void Game::attackNpc(const std::string& playerName, Position& position) {
+    map.triggerAttack(playerName,position);
+
 }
 
 void Game::addUpdatePosition(int x,int y) {
@@ -32,12 +32,9 @@ void Game::addUpdatePosition(int x,int y) {
 }
 
 void Game::equipWeapon(Weapon* weapon, std::string playerName) {
-    players.at(playerName).equipWeapon(weapon);
+    //players.at(playerName).equipWeapon(weapon);
 }
 
-Game::~Game() = default; /*{
-    std::vector<Player*>::iterator it;
-    for (it = players.begin(); it != players.end(); it++) {
-        delete (*it);
-    }
-}*/
+Game::~Game() {
+
+}

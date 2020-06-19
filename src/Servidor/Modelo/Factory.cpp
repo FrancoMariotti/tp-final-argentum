@@ -10,7 +10,12 @@ FileParser::FileParser(const std::string& filename):file(filename){}
 Json::Value FileParser::read(const std::string& parameter) {
     Json::Reader reader;
     Json::Value obj;
-    reader.parse(this->file, obj);
+    bool parsingSuccessful = reader.parse(this->file, obj);;
+    if ( !parsingSuccessful ) {
+        // Aca habria que lanzar una excepcion
+        std::cout  << "Failed to parse configuration\n"
+                   << reader.getFormattedErrorMessages();
+    }
     return obj[parameter];
 }
 
@@ -39,9 +44,9 @@ Map MapFactory::create() {
 MapFactory::~MapFactory() = default;
 
 
-PlayableCharacterFactory::PlayableCharacterFactory(std::string personajesFile,Map& map):parser(personajesFile),map(map) {}
+PlayableCharacterFactory::PlayableCharacterFactory(const std::string& personajesFile,Map& map):parser(personajesFile),map(map) {}
 
-PlayableCharacter PlayableCharacterFactory::create(std::string charRace, std::string charClass) {
+void PlayableCharacterFactory::create(const std::string& playerName,const std::string& charRace, const std::string& charClass) {
     Json::Value obj = parser.read("character");
 
     int life = 100;
@@ -58,16 +63,18 @@ PlayableCharacter PlayableCharacterFactory::create(std::string charRace, std::st
     int classManaFactor = obj["class"][charClass]["manaFactor"].asInt();
     int meditationRecoveryFactor = obj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    return PlayableCharacter(life,x,y,map,constitution,strength,agility,intelligence,
+    PlayableCharacter* character =  new PlayableCharacter(life,x,y,map,constitution,strength,agility,intelligence,
             raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
+
+    map.addPlayableCharacter(playerName,character);
 }
 
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;
 
-NpcFactory::NpcFactory(std::string npcsFile,Map& map):parser(npcsFile),map(map) {}
+NpcFactory::NpcFactory(const std::string& npcsFile,Map& map):parser(npcsFile),map(map) {}
 
-void NpcFactory::create(std::string specie) {
+void NpcFactory::create(const std::string& specie) {
     Json::Value obj = parser.read("npc");
 
     std::vector<int> possibleLvls = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -89,7 +96,9 @@ void NpcFactory::create(std::string specie) {
     }
     std::cout << "La posicion random del npc creado es (" << x << "," << y << ")" << std::endl;
     //CREO QUE PARA EL CASO DEL NPC NO HACE FALTA DEVOLVERLO PORQUE EL CONSTRUCGTOR LO AGREGA SOLO AL MAPA
-    Npc(lifePoints, mobility, x, y, map, 0, 0, 0, 0, level, specie);
+    Npc *enemy = new Npc(lifePoints, mobility, x, y,map, 0, 0, 0, 0, level, specie);
+
+    map.addNpc(enemy);
 }
 
 NpcFactory::~NpcFactory() = default;

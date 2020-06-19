@@ -20,7 +20,6 @@ int main(int argc, char const *argv[]) {
     game.equipWeapon(&sword, "franco");
     event->execute(game,"franco");
     delete event;
-    delete range;
     //PlayableCharacter character (100, 4, 5, map);
 
     //for (int i = 0; i < 10; i++) {

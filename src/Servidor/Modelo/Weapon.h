@@ -9,5 +9,6 @@
 class Weapon {
     public:
         virtual void attack(Character *enemy,int strength,int &mana,Position &holderPos,Calculator calc) = 0;
+        virtual ~Weapon() = default;
 };
 #endif //ARGENTUM_WEAPON_H

@@ -9,7 +9,6 @@ PlayableCharacter::PlayableCharacter(int lifePoints, int x, int y, Map& map,int 
                   :Character(lifePoints,x, y, map,constitution,strength,agility,intelligence,
                           raceLifeFactor, classLifeFactor, raceManaFactor,
                           classManaFactor,recoveryFactor,meditationRecoveryFactor) {
-    map.addPlayableCharacter(this);
 }
 
 void PlayableCharacter::move(Offset& offset) {
@@ -31,4 +30,6 @@ void PlayableCharacter::equipWeapon(Weapon* weapon) {
     activeWeapon = weapon;
 }
 
-PlayableCharacter::~PlayableCharacter() = default;
+PlayableCharacter::~PlayableCharacter() {
+    delete activeWeapon;
+}
