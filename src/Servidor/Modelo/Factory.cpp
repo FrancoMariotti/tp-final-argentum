@@ -111,7 +111,19 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     log->write("La posicion random del npc creado es:");
     log->writePosicion(x,y);
 
-    Npc *enemy = new Npc(lifePoints, mobility, x, y, 0, 0, 0, 0, level, specie);
+    //Seteo los atributos del NPC
+    int constitution = npcsObj["specie"][specie]["constitution"].asInt();
+    int strengh = npcsObj["specie"][specie]["strengh"].asInt();
+    int agility = npcsObj["specie"][specie]["agility"].asInt();
+    int intelligence = npcsObj["specie"][specie]["intelligence"].asInt();
+
+    //Seteo el danio maximo y minimo del Npc
+    int minDamage = npcsObj["specie"][specie]["minDamage"].asInt();
+    int maxDamage = npcsObj["specie"][specie]["maxDamage"].asInt();
+
+    Npc *enemy = new Npc(lifePoints, mobility, x, y, constitution,
+            strengh, agility, intelligence, level, specie, minDamage,
+            maxDamage);
     map->addNpc(enemy);
 }
 

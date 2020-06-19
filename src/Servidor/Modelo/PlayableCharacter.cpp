@@ -12,6 +12,9 @@ PlayableCharacter::PlayableCharacter(int lifePoints, int x, int y,int constituti
                           classManaFactor,recoveryFactor,meditationRecoveryFactor) {
         this->activeWeapon = NULL;
         this->mana = 0;
+        this->level = 1;
+        this->gold = 0;
+        this->xp =0;
 }
 
 void PlayableCharacter::move(Map* map,Offset& offset) {
