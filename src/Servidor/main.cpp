@@ -2,13 +2,16 @@
 #include <Servidor/Modelo/Range.h>
 #include <Servidor/Modelo/ShortRange.h>
 #include <Servidor/Modelo/NormalWeapon.h>
+#include <syslog.h>
 #include "Modelo/Game.h"
 
 int main(int argc, char const *argv[]) {
+    openlog("argentumlog", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+    syslog(LOG_INFO,"Inicio Main Argentum Servidor");
     Offset offset(0,1);
     Event* event = new EventMove(offset);
     Range* range = new ShortRange();
-    NormalWeapon sword (2, 5, range);
+    NormalWeapon sword(2, 5, range);
 
     Game game("config/config.json");
     /*
@@ -32,5 +35,6 @@ int main(int argc, char const *argv[]) {
     //character.printPosition();
     //character.move(offset);
     //character.printPosition();
+    closelog();
     return 0;
 }

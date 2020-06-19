@@ -20,7 +20,7 @@ class PlayableCharacter: public Character {
     //int xp;
 
 public:
-        PlayableCharacter(int lifePoints, int x, int y, Map& map,int constitution,
+        PlayableCharacter(int lifePoints, int x, int y, Map* map,int constitution,
                           int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         void attack(Character *character) override;

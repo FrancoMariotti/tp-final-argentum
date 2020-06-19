@@ -80,19 +80,18 @@ void Map::triggerEquipWeapon(const std::string &playerName,Weapon *weapon) {
 }
 
 Map::~Map() {
-    auto itCharacters = characters.begin();
-    for (; itCharacters != characters.end(); itCharacters++) {
+    std::map<std::string,PlayableCharacter*>::iterator itCharacters;
+    for (itCharacters = characters.begin(); itCharacters != characters.end(); itCharacters++) {
         delete itCharacters->second;
     }
 
-    auto itrObstacles = obstacles.begin();
-    for (; itrObstacles != obstacles.end(); ++itrObstacles) {
-        delete *itrObstacles;
+    std::vector<Obstacle*>::iterator itrObstacles;
+    for (itrObstacles = obstacles.begin(); itrObstacles != obstacles.end(); ++itrObstacles) {
+        delete (*itrObstacles);
     }
 
-
-    auto itrNpcs = npcs.begin();
-    for (; itrNpcs != npcs.end(); itrNpcs++) {
+    std::vector<Npc*>::iterator itrNpcs;
+    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
         delete (*itrNpcs);
     }
 }

@@ -15,7 +15,7 @@ class NormalWeapon : public Weapon {
     public:
         NormalWeapon(int minDamage,int maxDamage,Range* range);
         void attack(Character *enemy,int strength,int &mana,Position &holderPos,Calculator calc) override;
-        ~NormalWeapon();
+        ~NormalWeapon() override;
 };
 
 

@@ -1,6 +1,11 @@
+#include <syslog.h>
 #include "Offset.h"
 
-Offset::Offset(int xOffset,int yOffset):xOffset(xOffset),yOffset(yOffset){}
+Offset::Offset(int xOffset,int yOffset) {
+    this->xOffset = xOffset;
+    this->yOffset = yOffset;
+    //syslog(LOG_INFO,"Se Crea Offset con valores xOffset: %d, yOffset:%d",xOffset,yOffset);
+}
 
 int Offset::move_x(int x) const {
     return x + xOffset;

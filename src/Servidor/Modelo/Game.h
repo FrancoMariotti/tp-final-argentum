@@ -11,7 +11,7 @@ class PlayableCharacter;
 
 class Game {
 private:
-    Map map;
+    Map* map;
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
     //std::map<std::string, Player> players;

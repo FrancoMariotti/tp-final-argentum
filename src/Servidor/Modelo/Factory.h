@@ -20,25 +20,23 @@ class MapFactory {
     FileParser parser;
     public:
         explicit MapFactory(const std::string& mapFile);
-        Map create();
+        Map* create();
         ~MapFactory();
 };
 
 class PlayableCharacterFactory {
     FileParser parser;
-    Map& map;
 public:
-    explicit PlayableCharacterFactory(const std::string& personajesFile,Map& map);
-    void create(const std::string& playerName,const std::string& charRace, const std::string& charClass);
+    explicit PlayableCharacterFactory(const std::string& personajesFile);
+    void create(Map* map,const std::string& playerName,const std::string& charRace, const std::string& charClass);
     ~PlayableCharacterFactory();
 };
 
 class NpcFactory {
     FileParser parser;
-    Map& map;
 public:
-    explicit NpcFactory(const std::string& npcsFile,Map& map);
-    void create(const std::string& specie);
+    explicit NpcFactory(const std::string& npcsFile);
+    void create(Map* map,const std::string& specie);
     ~NpcFactory();
 };
 

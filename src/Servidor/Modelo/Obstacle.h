@@ -15,6 +15,7 @@ class Obstacle {
     public:
         Obstacle(int x, int y, int height, int width);
         bool ocupies(Position pos);
+        ~Obstacle() = default;
 };
 
 
