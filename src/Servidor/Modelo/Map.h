@@ -9,6 +9,7 @@
 class Character;
 class Npc;
 class PlayableCharacter;
+class Weapon;
 
 class Map {
     int width;

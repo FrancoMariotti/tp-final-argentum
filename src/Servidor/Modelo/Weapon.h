@@ -4,7 +4,10 @@
 
 #ifndef ARGENTUM_WEAPON_H
 #define ARGENTUM_WEAPON_H
+
 #include "Character.h"
+class Character;
+class Calculator;
 
 class Weapon {
     public:
