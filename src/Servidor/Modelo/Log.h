@@ -22,7 +22,8 @@ class Log {
         ~Log();
         //Cierra el Log.
         static void cerrar();
-        void printPosicion(int x, int y);
+        void writePosicion(int x, int y);
+        void writeInt(int x);
         void write(std::string contenido);
 };
 

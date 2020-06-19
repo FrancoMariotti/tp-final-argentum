@@ -22,9 +22,11 @@ int main(int argc, char const *argv[]) {
     game.createNpcs();
     */
     game.createPlayer("franco", "human", "wizard");
-    game.createNpc("goblin");
+    game.createPlayer("franco2", "human", "wizard");
+    //game.createNpc("goblin");
     game.equipWeapon(&sword, "franco");
     event->execute(game,"franco");
+    game.attackPlayer("franco","franco2");
     delete event;
     //PlayableCharacter character (100, 4, 5, map);
 

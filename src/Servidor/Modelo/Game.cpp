@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
@@ -26,9 +27,14 @@ void Game::attackNpc(const std::string& playerName, Position& position) {
 
 }
 
+void Game::attackPlayer(const std::string& playerName, const std::string& playerNameEnemy) {
+    map->triggerAttack(playerName,playerNameEnemy);
+
+}
+
 void Game::addUpdatePosition(int x,int y) {
     Update update(x,y);
-    updates.push_back(std::move(update));
+    updates.push_back(update);
 }
 
 void Game::equipWeapon(Weapon* weapon, std::string playerName) {

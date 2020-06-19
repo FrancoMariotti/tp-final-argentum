@@ -44,8 +44,12 @@ void Log::cerrar(){
     }
 }
 
-void Log::printPosicion(int x,int y) {
+void Log::writePosicion(int x,int y) {
     log_file << "(" << x << "," << y <<")" <<std::endl;
+}
+
+void Log::writeInt(int x) {
+    log_file << std::to_string(x) <<std::endl;
 }
 
 void Log::write(std::string contenido) {

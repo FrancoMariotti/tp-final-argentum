@@ -2,6 +2,7 @@
 #include "PlayableCharacter.h"
 #include "Mobility.h"
 #include "Game.h"
+#include "Log.h"
 
 PlayableCharacter::PlayableCharacter(int lifePoints, int x, int y,int constitution,
         int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
@@ -10,21 +11,18 @@ PlayableCharacter::PlayableCharacter(int lifePoints, int x, int y,int constituti
                           raceLifeFactor, classLifeFactor, raceManaFactor,
                           classManaFactor,recoveryFactor,meditationRecoveryFactor) {
         this->activeWeapon = NULL;
+        this->mana = 0;
 }
 
 void PlayableCharacter::move(Map* map,Offset& offset) {
-    std::cout <<"posicion antes:"<<std::endl;
-    this->printPosition();
     Position siguiente(this->currPos);
     siguiente.apply(offset);
     map->move(this->currPos,siguiente);
-    std::cout <<"posicion despues:"<<std::endl;
-    this->printPosition();
     //game->addUpdatePosition(currPos.getX(),currPos.getY());
 }
 
-void PlayableCharacter::attack(Character *enemy) {
-    activeWeapon->attack(enemy,strength,mana,currPos,calculator);
+void PlayableCharacter::attack(Character *character) {
+    activeWeapon->attack(character,strength,mana,currPos,calculator);
 }
 
 void PlayableCharacter::equipWeapon(Weapon* weapon) {

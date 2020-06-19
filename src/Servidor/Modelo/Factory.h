@@ -6,36 +6,34 @@
 #include "Map.h"
 #include "string"
 
-class Game;
-
 class FileParser {
     std::ifstream file;
-    public:
-        explicit FileParser(const std::string& filename);
-        Json::Value read(const std::string& parameter);
+public:
+    explicit FileParser(const std::string& filename);
+    Json::Value read(const std::string& parameter);
 
 };
 
 class MapFactory {
-    FileParser parser;
+    Json::Value mapObj;
     public:
-        explicit MapFactory(const std::string& mapFile);
+        explicit MapFactory(std::string configFile);
         Map* create();
         ~MapFactory();
 };
 
 class PlayableCharacterFactory {
-    FileParser parser;
+    Json::Value characterObj;
 public:
-    explicit PlayableCharacterFactory(const std::string& personajesFile);
+    explicit PlayableCharacterFactory(std::string configFile);
     void create(Map* map,const std::string& playerName,const std::string& charRace, const std::string& charClass);
     ~PlayableCharacterFactory();
 };
 
 class NpcFactory {
-    FileParser parser;
+    Json::Value npcsObj;
 public:
-    explicit NpcFactory(const std::string& npcsFile);
+    explicit NpcFactory(std::string configFile);
     void create(Map* map,const std::string& specie);
     ~NpcFactory();
 };

@@ -12,6 +12,7 @@ class PlayableCharacter;
 class Game {
 private:
     Map* map;
+    Json::Value obj;
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
     //std::map<std::string, Player> players;
@@ -26,6 +27,8 @@ public:
     void attackNpc(const std::string &playerName, Position &position);
     ~Game();
     void addUpdatePosition(int x, int y);
+
+    void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
 };
 
 

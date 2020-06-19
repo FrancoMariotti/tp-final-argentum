@@ -1,70 +1,82 @@
 #include <jsoncpp/json/json.h>
 #include <iostream>
-#include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Log.h"
+#include "string"
 
-FileParser::FileParser(const std::string& filename):file(filename){}
+FileParser::FileParser(const std::string &filename):file(filename) {}
 
-Json::Value FileParser::read(const std::string& parameter) {
+Json::Value FileParser::read(const std::string &parameter) {
     Json::Reader reader;
-    Json::Value obj;
-    bool parsingSuccessful = reader.parse(this->file, obj);;
+    Json::Value config;
+    bool parsingSuccessful = reader.parse(file, config);
     if ( !parsingSuccessful ) {
         // Aca habria que lanzar una excepcion
         std::cout  << "Failed to parse configuration\n"
                    << reader.getFormattedErrorMessages();
     }
-    return obj[parameter];
+    return config[parameter];
 }
 
 
-MapFactory::MapFactory(const std::string& mapFile):parser(mapFile) {}
+MapFactory::MapFactory(const std::string configFile) {
+    FileParser parser(configFile);
+    mapObj = parser.read("map");
+}
 
 Map* MapFactory::create() {
-    Json::Value obj = parser.read("map");
-    int width_map = obj["width"].asInt();
-    int height_map = obj["height"].asInt();
+    int width_map = mapObj["width"].asInt();
+    int height_map = mapObj["height"].asInt();
     Map *map = new Map(width_map,height_map);
-    Json::Value& obstacles = obj["obstacles"];// array of characters
+    Json::Value& obstacles = mapObj["obstacles"];// array of characters
 
     for (auto & i : obstacles){
         int width = i["width"].asInt()/32;
         int height = i["height"].asInt()/32;
         int x = i["x"].asInt() / 32;
         int y = i["y"].asInt() / 32;
-        Obstacle* obstacle = new Obstacle(x,y,height,width);
+        auto* obstacle = new Obstacle(x,y,height,width);
         map->addObstacle(obstacle);
     }
 
     return map;
 }
 
-MapFactory::~MapFactory() = default;
+MapFactory::~MapFactory() =default;
 
 
-PlayableCharacterFactory::PlayableCharacterFactory(const std::string& personajesFile):parser(personajesFile) {}
+PlayableCharacterFactory::PlayableCharacterFactory(const std::string configFile) {
+    FileParser parser(configFile);
+    characterObj = parser.read("character");
+}
 
 void PlayableCharacterFactory::create(Map* map,const std::string& playerName,const std::string& charRace, const std::string& charClass) {
-    Json::Value obj = parser.read("character");
+    Log* log = Log::instancia();
+
+    log->write("Creacion de Jugador:" + playerName);
 
     int life = 100;
+    log->write("vida inicial:");
+    log->writeInt(life);
+
     int x = 1;
     int y = 1;
-    int strength = obj["strength"].asInt();
-    int agility = obj["agility"].asInt();
-    int intelligence = obj["intelligence"].asInt();
-    int constitution = obj["constitution"].asInt();
-    int raceLifeFactor = obj["race"][charRace]["lifeFactor"].asInt();
-    int raceManaFactor = obj["race"][charRace]["manaFactor"].asInt();
-    int recoveryFactor = obj["race"][charRace]["recoveryFactor"].asInt();
-    int classLifeFactor = obj["class"][charClass]["lifeFactor"].asInt();
-    int classManaFactor = obj["class"][charClass]["manaFactor"].asInt();
-    int meditationRecoveryFactor = obj["class"][charClass]["meditationRecoveryFactor"].asInt();
+    log->write("Posicion:");
+    log->writePosicion(x,y);
+    int strength = characterObj["strength"].asInt();
+    int agility = characterObj["agility"].asInt();
+    int intelligence = characterObj["intelligence"].asInt();
+    int constitution = characterObj["constitution"].asInt();
+    int raceLifeFactor = characterObj["race"][charRace]["lifeFactor"].asInt();
+    int raceManaFactor = characterObj["race"][charRace]["manaFactor"].asInt();
+    int recoveryFactor = characterObj["race"][charRace]["recoveryFactor"].asInt();
+    int classLifeFactor = characterObj["class"][charClass]["lifeFactor"].asInt();
+    int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
+    int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    PlayableCharacter* character =  new PlayableCharacter(life,x,y,constitution,strength,agility,intelligence,
+    auto* character =  new PlayableCharacter(life,x,y,constitution,strength,agility,intelligence,
             raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
     map->addPlayableCharacter(playerName,character);
@@ -72,17 +84,18 @@ void PlayableCharacterFactory::create(Map* map,const std::string& playerName,con
 
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;
 
-NpcFactory::NpcFactory(const std::string& npcsFile):parser(npcsFile) {}
+NpcFactory::NpcFactory(const std::string configFile) {
+    FileParser parser(configFile);
+    npcsObj = parser.read("npc");
+}
 
 void NpcFactory::create(Map* map,const std::string& specie) {
-    Json::Value obj = parser.read("npc");
-
     std::vector<int> possibleLvls = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     int level = possibleLvls[rand()%possibleLvls.size()];
-    int lifePoints = obj["specie"][specie]["lifePoints"].asInt();
+    int lifePoints = npcsObj["specie"][specie]["lifePoints"].asInt();
     //HABRIA QUE VER DONDE LIBERAR LA MOVILIDAD , A MI SE ME OCURRIO CREARLA ACA
     Mobility* mobility;
-    if (obj["specie"][specie]["mobility"] == "movable") mobility = new Movable();
+    if (npcsObj["specie"][specie]["mobility"] == "movable") mobility = new Movable();
     else mobility = new NonMovable();
     //Mi idea era asignarle una posicion random al npc cuando se crea
     //Por ahora para hacerlo simple le voy a asignar una pos al azar del vector possibleLvls
@@ -96,10 +109,11 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     }
     Log* log = Log::instancia();
     log->write("La posicion random del npc creado es:");
-    log->printPosicion(x,y);
+    log->writePosicion(x,y);
 
     Npc *enemy = new Npc(lifePoints, mobility, x, y, 0, 0, 0, 0, level, specie);
     map->addNpc(enemy);
 }
 
 NpcFactory::~NpcFactory() = default;
+

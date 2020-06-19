@@ -75,6 +75,11 @@ void Map::triggerAttack(const std::string &playerName, Position &position) {
     characters.at(playerName)->attack(npc);
 }
 
+void Map::triggerAttack(const std::string &playerName, const std::string &playerNameEnemy) {
+    PlayableCharacter* enemy = characters.at(playerNameEnemy);
+    characters.at(playerName)->attack(enemy);
+}
+
 void Map::triggerEquipWeapon(const std::string &playerName,Weapon *weapon) {
     characters.at(playerName)->equipWeapon(weapon);
 }

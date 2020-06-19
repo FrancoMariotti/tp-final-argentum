@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "Log.h"
 
 Character::Character(int lifePoints,int x,int y,int constitution,
                   int strength,int agility,int intelligence,  int raceLifeFactor, int classLifeFactor,
@@ -27,7 +28,14 @@ Offset Character::getOffset(Position initialPos) {
 }
 
 void Character::receiveDamage(int damage) {
+    Log* log = Log::instancia();
+    log->write("Danio generado por el enemigo:");
+    log->writeInt(damage);
+    log->write("vida character antes de recibir danio:");
+    log->writeInt(this->lifePoints);
     this->lifePoints -= damage;
+    log->write("vida character despues de recibir danio:");
+    log->writeInt(this->lifePoints);
 }
 
 void Character::printPosition() {

@@ -31,6 +31,8 @@ class Map {
         void triggerEquipWeapon(const std::string &playerName,Weapon *weapon);
         Character* findClosestCharacter(Position pos, int range);
         ~Map();
+
+    void triggerAttack(const std::string &playerName, const std::string &playerNameEnemy);
 };
 
 #endif //ARGENTUM_MAPA_H
