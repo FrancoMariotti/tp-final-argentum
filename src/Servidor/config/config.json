@@ -52,20 +52,60 @@
   "npc": {
     "specie": {
       "goblin": {
-        "lifePoints": 150,
-        "mobility": "movable"
+        "lifePoints": 110,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 4,
+        "maxDamage": 12
       },
       "skeleton": {
-        "lifePoints": 100,
-        "mobility": "movable"
+        "lifePoints": 50,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 1,
+        "maxDamage": 8
       },
       "zombie": {
-        "lifePoints": 50,
-        "mobility": "movable"
+        "lifePoints": 250,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 4,
+        "maxDamage": 12
       },
       "spider": {
-        "lifePoints": 200,
-        "mobility": "movable"
+        "lifePoints": 125,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 3,
+        "maxDamage": 8
       }
     }
   },

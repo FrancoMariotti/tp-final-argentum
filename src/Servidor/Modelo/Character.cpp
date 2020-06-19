@@ -6,7 +6,6 @@ Character::Character(int lifePoints,int x,int y,int constitution,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
                   :currPos(x,y), calculator(raceLifeFactor, classLifeFactor, raceManaFactor,
                           classManaFactor,recoveryFactor,meditationRecoveryFactor){
-    this->level = 1;
     this->lifePoints = lifePoints;
     this->constitution = constitution;
     this->strength = strength;

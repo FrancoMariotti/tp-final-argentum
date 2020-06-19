@@ -16,8 +16,8 @@ class PlayableCharacter: public Character {
     //Helmet
     //Shield
     int mana;
-    //int gold;
-    //int xp;
+    int gold;
+    int xp;
 
 public:
         PlayableCharacter(int lifePoints, int x, int y, int constitution,
