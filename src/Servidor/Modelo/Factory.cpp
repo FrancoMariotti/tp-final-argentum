@@ -4,6 +4,7 @@
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
+#include "Log.h"
 
 FileParser::FileParser(const std::string& filename):file(filename){}
 
@@ -66,7 +67,6 @@ void PlayableCharacterFactory::create(Map* map,const std::string& playerName,con
     PlayableCharacter* character =  new PlayableCharacter(life,x,y,constitution,strength,agility,intelligence,
             raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
-
     map->addPlayableCharacter(playerName,character);
 }
 
@@ -94,7 +94,10 @@ void NpcFactory::create(Map* map,const std::string& specie) {
         Position pos(x, y);
         isOccupied = map->isOccupied(pos);
     }
-    std::cout << "La posicion random del npc creado es (" << x << "," << y << ")" << std::endl;
+    Log* log = Log::instancia();
+    log->write("La posicion random del npc creado es:");
+    log->printPosicion(x,y);
+
     Npc *enemy = new Npc(lifePoints, mobility, x, y, 0, 0, 0, 0, level, specie);
     map->addNpc(enemy);
 }
