@@ -5,6 +5,7 @@
 #include "client_client.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_console.h"
+#include "common_message.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
@@ -38,7 +39,7 @@ int Client::run() {
 
     /*ThSend*/
     /**Lanzo un thread ThSend y ambos comparten la cola bloqueante event_sender*/
-    BlockingQueue<t_command> event_sender;
+    BlockingQueue<std::unique_ptr<Message>> clientEvents;
 
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
@@ -81,8 +82,8 @@ int Client::run() {
         }
 
         /*Logic*/
-        player.move(event_sender);
-        inventory.use(event_sender);
+        player.move(clientEvents);
+        inventory.use(clientEvents);
         console.execute();
 
         //Limpio pantalla

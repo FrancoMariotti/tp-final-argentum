@@ -57,15 +57,15 @@ void SdlInventory::handleEvents(SDL_Event &event) {
     }
 }
 
-void SdlInventory::use(BlockingQueue<t_command> &event_sender) {
+void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>>& clientEvents) {
     /*Paso la posicion del inventario, i*/
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
-        buttons[i]->use(event_sender, (int)i);
+        buttons[i]->use(clientEvents, (int)i);
     }
 }
 
 void SdlInventory::addItem(const std::string& item_id){
-    /*El server me envia el ID del item para cargarle la textura*/
+    /*El server me envia el id del item para cargarle la textura*/
     inventoryTextures.emplace(std::piecewise_construct,
                               std::forward_as_tuple(item_id),
                               std::forward_as_tuple(button_size,button_size,

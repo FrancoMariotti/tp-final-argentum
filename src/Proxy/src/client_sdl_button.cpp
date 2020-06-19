@@ -5,6 +5,7 @@
 #include <iostream>
 #include "client_sdl_button.h"
 #include "common_proxy_socket.h"
+#include "common_message.h"
 
 #define BUTTON_WIDTH 300
 #define BUTTON_HEIGHT 200
@@ -82,12 +83,12 @@ void SdlButton::handleEvent(SDL_Event &e) {
 
 }
 
-void SdlButton::use(BlockingQueue<t_command> &event_sender, int i) {
+void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i) {
     if(times_clicked > 0){
-        (*cmd)(event_sender, i);
+        (*cmd)(clientEvents, i);
         /*Test*/
-        t_command msg = event_sender.pop();
-        std::cout << msg.command << "item pos: " << msg.x << std::endl;
+        std::unique_ptr<Message> msg = clientEvents.pop();
+        std::cout << msg->getId() << "item pos: " << msg->getIndex() << std::endl;
         times_clicked--;
     }
 }

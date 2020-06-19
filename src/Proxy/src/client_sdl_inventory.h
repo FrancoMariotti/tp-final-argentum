@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 
+class Message;
 class SdlInventory {
 private:
     /*Tamaño del inventario*/
@@ -33,7 +34,7 @@ public:
     void handleEvents(SDL_Event &event);
 
     /*logic*/
-    void use(BlockingQueue<t_command> &event_sender);
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
 
     void render();
 
