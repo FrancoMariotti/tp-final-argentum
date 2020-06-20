@@ -63,7 +63,9 @@
         "recoveryFactor": 1,
         "meditationRecoveryFactor": 1,
         "minDamage": 4,
-        "maxDamage": 12
+        "maxDamage": 12,
+        "minDefense": 2,
+        "maxDefense": 5
       },
       "skeleton": {
         "lifePoints": 50,
@@ -77,7 +79,9 @@
         "recoveryFactor": 1,
         "meditationRecoveryFactor": 1,
         "minDamage": 1,
-        "maxDamage": 8
+        "maxDamage": 8,
+        "minDefense": 2,
+        "maxDefense": 5
       },
       "zombie": {
         "lifePoints": 250,
@@ -91,7 +95,9 @@
         "recoveryFactor": 1,
         "meditationRecoveryFactor": 1,
         "minDamage": 4,
-        "maxDamage": 12
+        "maxDamage": 12,
+        "minDefense": 2,
+        "maxDefense": 5
       },
       "spider": {
         "lifePoints": 125,
@@ -105,7 +111,9 @@
         "recoveryFactor": 1,
         "meditationRecoveryFactor": 1,
         "minDamage": 3,
-        "maxDamage": 8
+        "maxDamage": 8,
+        "minDefense": 2,
+        "maxDefense": 5
       }
     }
   },

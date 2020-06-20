@@ -20,7 +20,7 @@ class Character {
         int strength;
         int intelligence;
         Calculator calculator;
-
+        virtual int defend(int damage) = 0;
     public:
         Character(int lifePoints,int x,int y,int constitution,
                   int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,

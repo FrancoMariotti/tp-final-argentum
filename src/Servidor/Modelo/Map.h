@@ -33,6 +33,8 @@ class Map {
         ~Map();
 
     void triggerAttack(const std::string &playerName, const std::string &playerNameEnemy);
+
+    void triggerEquipShield(std::string playerName, int minDef, int maxDef);
 };
 
 #endif //ARGENTUM_MAPA_H

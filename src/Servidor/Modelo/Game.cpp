@@ -45,3 +45,7 @@ void Game::equipWeapon(Weapon* weapon, std::string playerName) {
 Game::~Game() {
     delete map;
 }
+
+void Game::equipShield(std::string playerName, int minDef, int maxDef) {
+    map->triggerEquipShield(playerName, minDef, maxDef);
+}

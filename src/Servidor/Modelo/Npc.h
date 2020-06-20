@@ -20,13 +20,15 @@ private:
     std::string specie;
     int minDamage;
     int maxDamage;
-    //int defensa
+    int minDefense;
+    int maxDefense;
+    virtual int defend(int damage) override;
 public:
     //Pasamos la Mobility por parametro porque pensamos en que puede
     //haber npcs que se muevan y otros que no.
     Npc(int lifePoints, Mobility *mobility, int x, int y, int constitution,
         int strength,int agility,int intelligence, int lvl, std::string specie, int minDamage,
-        int maxDamage);
+        int maxDamage, int minDefense, int maxDefense);
     void move(Map* map);
     virtual void attack(Character* character) override;
     ~Npc() override;

@@ -32,6 +32,14 @@ void PlayableCharacter::equipWeapon(Weapon* weapon) {
     activeWeapon = weapon;
 }
 
+void PlayableCharacter::equipShield(int minDef, int maxDef) {
+    armour.equipShield(minDef, maxDef);
+}
+
+int PlayableCharacter::defend(int damage) {
+    return armour.use(damage, calculator);
+}
+
 PlayableCharacter::~PlayableCharacter() {
     /*if(activeWeapon){
         delete activeWeapon;

@@ -121,9 +121,13 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     int minDamage = npcsObj["specie"][specie]["minDamage"].asInt();
     int maxDamage = npcsObj["specie"][specie]["maxDamage"].asInt();
 
+    //Seteo la defensa del Npc
+    int minDefense = npcsObj["specie"][specie]["minDefense"].asInt();
+    int maxDefense = npcsObj["specie"][specie]["maxDefense"].asInt();
+
     Npc *enemy = new Npc(lifePoints, mobility, x, y, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
-            maxDamage);
+            maxDamage, minDefense, maxDefense);
     map->addNpc(enemy);
 }
 

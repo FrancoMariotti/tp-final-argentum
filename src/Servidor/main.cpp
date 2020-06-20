@@ -25,6 +25,7 @@ int main(int argc, char const *argv[]) {
     game.createPlayer("franco2", "human", "wizard");
     //game.createNpc("goblin");
     game.equipWeapon(&sword, "franco");
+    game.equipShield("franco2", 2, 5);
     event->execute(game,"franco");
     game.attackPlayer("franco","franco2");
     delete event;

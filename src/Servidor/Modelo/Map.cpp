@@ -84,6 +84,10 @@ void Map::triggerEquipWeapon(const std::string &playerName,Weapon *weapon) {
     characters.at(playerName)->equipWeapon(weapon);
 }
 
+void Map::triggerEquipShield(std::string playerName, int minDef, int maxDef) {
+    characters.at(playerName)->equipShield(minDef, maxDef);
+}
+
 Map::~Map() {
     std::map<std::string,PlayableCharacter*>::iterator itCharacters;
     for (itCharacters = characters.begin(); itCharacters != characters.end(); itCharacters++) {
@@ -100,5 +104,6 @@ Map::~Map() {
         delete (*itrNpcs);
     }
 }
+
 
 
