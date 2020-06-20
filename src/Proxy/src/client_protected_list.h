@@ -9,6 +9,7 @@
 #include <mutex>
 #include <list>
 
+#include <iostream>
 template <class T>
 class ProtectedList {
 private:
@@ -26,10 +27,9 @@ public:
         this->list.push_back(std::move(element));
     }
 
-    /*Mueve tdo el contenido de @member list a una nueva lista y la devuelva*/
+    /*Mueve tdo el contenido de @member list a una nueva lista y la devuelve*/
     std::list<T> consume(){
         std::unique_lock<std::mutex> lock(m);
-        
         std::list<T> new_list(std::move(list));
         return std::move(new_list);
     }
@@ -41,6 +41,12 @@ public:
 
     ~ProtectedList() = default;
 
+    void testShow() {
+        for(auto & msg : list){
+            std::cout << msg->getId() << std::endl;
+        }
+        std::cout << list.size() << std::endl;
+    }
 };
 
 

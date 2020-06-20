@@ -10,8 +10,8 @@
 
 SdlConsole::SdlConsole(const int screen_width, const int screen_height,
         const SdlWindow &window, TTF_Font *font) :
-        window(window),
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
+        window(window),
         font(font), render_text(false), return_times_pressed(0){
 
     //Enable text input

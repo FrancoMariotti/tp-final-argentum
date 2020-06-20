@@ -111,3 +111,22 @@ void close(){
     SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
     /*Dibuja el rectangulo opaco*/
     SDL_RenderFillRect(gRenderer, &fillRect);
+
+
+ProtectedList<std::unique_ptr<Message>> serverEvents;
+        serverEvents.push(std::unique_ptr<Message>(new UseItem(1)));
+        serverEvents.push(std::unique_ptr<Message>(new UseItem(2)));
+        serverEvents.push(std::unique_ptr<Message>(new UseItem(3)));
+
+        std::list<std::unique_ptr<Message>> events = serverEvents.consume();
+        std::cout << "Lista a iterar" << std::endl;
+        for(auto & msg : events){
+            std::cout << msg->getId() << msg->getIndex() << std::endl;
+            }
+        std::cout << "server events" << std::endl;
+        serverEvents.testShow();
+        serverEvents.push(std::unique_ptr<Message>(new UseItem(4)));
+        serverEvents.push(std::unique_ptr<Message>(new UseItem(5)));
+        serverEvents.push(std::unique_ptr<Message>(new UseItem(6)));
+        serverEvents.testShow();
+

@@ -2,10 +2,14 @@
 // Created by agustin on 13/6/20.
 //
 
+#include <thread>
 #include "client_client.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_console.h"
 #include "common_message.h"
+#include "client_protected_list.h"
+#include "client_th_send.h"
+#include "client_th_recv.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
@@ -13,9 +17,10 @@
 
 #define FONT_SIZE 14
 
-Client::Client() : font(nullptr),
+Client::Client() :
     window(SCREEN_WIDTH, SCREEN_HEIGHT),
-    background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window)
+    background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window),
+    font(nullptr)
     {
     //Permito la carga del PNGs
     window.initPNG();
@@ -37,9 +42,14 @@ int Client::run() {
     //std::string inputText = "Some Really large Text";
     //SdlTexture inputTextTexture(inputText, font, textColor, window);
 
-    /*ThSend*/
+    /*ThSend y ThRecv*/
     /**Lanzo un thread ThSend y ambos comparten la cola bloqueante event_sender*/
     BlockingQueue<std::unique_ptr<Message>> clientEvents;
+    ProtectedList<std::unique_ptr<Message>> serverEvents;
+    ThSend thSend(clientEvents, proxySocket);
+    //ThRecv thRecv(serverEvents, proxySocket);
+    thSend.start();
+    //thRecv.start();
 
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
@@ -103,6 +113,13 @@ int Client::run() {
         //Cap FPS 50
         SDL_Delay(20);
     }
+
+    /**Destructor del cliente?*/
+    thSend.stop();
+    thSend.join();
+    //thRecv.join();
+
+    return 0;
 }
 
 Client::~Client() {

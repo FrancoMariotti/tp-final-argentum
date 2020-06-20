@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(argentum)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pedantic-errors -pthread")
 
 add_library(sdlsrc
         src/client_sdl_exception.cpp
@@ -35,7 +35,7 @@ add_library(sdlsrc
         src/client_sdl_console.cpp
         src/client_sdl_console.h
         src/client_th_send.cpp
-        src/client_th_send.h src/common_message.cpp src/common_message.h src/client_protected_list.h)
+        src/client_th_send.h src/common_message.cpp src/common_message.h src/client_protected_list.h src/client_th_recv.cpp src/client_th_recv.h src/common_closedqueue_exception.cpp src/common_closedqueue_exception.h)
 
 
 add_executable(SDLTest src/client_main.cpp)

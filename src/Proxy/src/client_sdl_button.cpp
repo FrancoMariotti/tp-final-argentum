@@ -14,9 +14,9 @@
  * tengan spritesheet y sean imagenes estaticas*/
 
 SdlButton::SdlButton(SdlTexture& buttonTexture, Command* cmd) :
+    times_clicked(0),
     buttonSpriteSheetTexture(buttonTexture),
-    cmd(cmd),
-    times_clicked(0){
+    cmd(cmd) {
     position.x = 0;
     position.y = 0;
 
@@ -87,8 +87,8 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
     if(times_clicked > 0){
         (*cmd)(clientEvents, i);
         /*Test*/
-        std::unique_ptr<Message> msg = clientEvents.pop();
-        std::cout << msg->getId() << "item pos: " << msg->getIndex() << std::endl;
+        //std::unique_ptr<Message> msg = clientEvents.pop();
+        //std::cout << msg->getId() << "item pos: " << msg->getIndex() << std::endl;
         times_clicked--;
     }
 }

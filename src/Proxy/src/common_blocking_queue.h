@@ -8,15 +8,11 @@
 #include <mutex>
 #include <queue>
 #include <condition_variable>
+#include "common_closedqueue_exception.h"
 
-class ClosedQueueException : public std::exception {
-public:
-    const char* what() const noexcept override {
-        return "Queue is Closed";
-    }
-};
+#include <iostream>
 
-
+//DELETE
 typedef struct t_command{
     std::string command;
     int x;
@@ -75,6 +71,10 @@ class BlockingQueue {
         }
 
         ~BlockingQueue() = default;
+
+    void testShow() {
+        std::cout << queue.size() << std::endl;
+    }
 };
 
 

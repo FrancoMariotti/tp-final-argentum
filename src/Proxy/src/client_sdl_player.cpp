@@ -72,15 +72,14 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &event_sender) {
     /*Crea el msg con el offset al que se quiere mover, lo envia al server y
      * actualiza la posicion con la respuesta del server*/
     //Si se movio
-    //if(vel_x != 0 && vel_y != 0){
-        //t_command player_movement={"m", vel_x, vel_y};
+    if(vel_x != 0 || vel_y != 0){
         event_sender.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
         //CODIGO DE PRUEBA
         /**Debe ser readClient pero esto es para simular*/
-        std::unique_ptr<Message> player_movement = event_sender.pop();
+        //std::unique_ptr<Message> player_movement = event_sender.pop();
         //FIN CODIGO DE PRUEBA
-        pos_x += player_movement->getPlayerVelX();
-        pos_y += player_movement->getPlayerVelY();
-    //}
+        //pos_x += player_movement->getPlayerVelX();
+        //pos_y += player_movement->getPlayerVelY();
+    }
 }
