@@ -4,28 +4,18 @@
 
 #include "common_proxy_socket.h"
 
-int ProxySocket::writeToServer(const t_command &msg) {
-    this->proxyServerSocket.push(msg);
-    return 0;
+void ProxySocket::writeToServer(std::unique_ptr<Message> msg) {
+    //this->proxyServerSocket.push(std::move(msg));
 }
 
-t_command ProxySocket::readServer() {
-    t_command msg = {"",0,0};
-    if(!proxyServerSocket.isEmpty()){
-        msg = proxyServerSocket.pop();
-    }
-    return msg;
+std::unique_ptr<Message> ProxySocket::readServer() {;
+    //return std::unique_ptr<Message>(proxyServerSocket.pop());
 }
 
-int ProxySocket::writeToClient(const t_command &msg) {
-    this->proxyClientSocket.push(msg);
-    return 0;
+void ProxySocket::writeToClient(std::unique_ptr<Message> msg) {
+    //this->proxyClientSocket.push(std::move(msg));
 }
 
-t_command ProxySocket::readClient() {
-    t_command msg = {"",0,0};
-    if(!proxyServerSocket.isEmpty()){
-        msg = proxyServerSocket.pop();
-    }
-    return msg;
+std::unique_ptr<Message> ProxySocket::readClient() {
+    //return std::unique_ptr<Message>(proxyServerSocket.pop());
 }

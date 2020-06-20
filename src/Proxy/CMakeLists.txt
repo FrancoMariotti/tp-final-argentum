@@ -35,7 +35,7 @@ add_library(sdlsrc
         src/client_sdl_console.cpp
         src/client_sdl_console.h
         src/client_th_send.cpp
-        src/client_th_send.h src/common_message.cpp src/common_message.h src/client_protected_queue.cpp src/client_protected_queue.h)
+        src/client_th_send.h src/common_message.cpp src/common_message.h src/client_protected_list.h)
 
 
 add_executable(SDLTest src/client_main.cpp)

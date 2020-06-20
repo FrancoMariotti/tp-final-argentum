@@ -67,7 +67,7 @@ void SdlPlayer::render() {
     bodyTexture.render(pos_x, pos_y);
 }
 
-/**Logic*/
+/*Logic*/
 void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &event_sender) {
     /*Crea el msg con el offset al que se quiere mover, lo envia al server y
      * actualiza la posicion con la respuesta del server*/

@@ -5,19 +5,19 @@
 #ifndef ARGENTUM_COMMON_PROXY_SOCKET_H
 #define ARGENTUM_COMMON_PROXY_SOCKET_H
 
-
 #include "common_blocking_queue.h"
 
+class Message;
 class ProxySocket {
 private:
-    BlockingQueue<t_command> proxyClientSocket;
-    BlockingQueue<t_command> proxyServerSocket;
+    BlockingQueue<std::unique_ptr<Message>> proxyClientSocket;
+    BlockingQueue<std::unique_ptr<Message>> proxyServerSocket;
 
 public:
-    int writeToServer(const t_command& msg);
-    t_command readServer();
-    int writeToClient(const t_command& msg);
-    t_command readClient();
+    void writeToServer(std::unique_ptr<Message> msg);
+    std::unique_ptr<Message> readServer();
+    void writeToClient(std::unique_ptr<Message> msg);
+    std::unique_ptr<Message> readClient();
 };
 
 

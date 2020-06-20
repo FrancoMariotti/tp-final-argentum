@@ -5,7 +5,7 @@
 #include "client_th_send.h"
 #include "common_proxy_socket.h"
 
-ThSend::ThSend(BlockingQueue<t_command> &clientEvents, ProxySocket &proxySocket) :
+ThSend::ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, ProxySocket &proxySocket) :
         clientEvents(clientEvents),
         proxySocket(proxySocket),
         keep_sending(true){
@@ -20,7 +20,7 @@ ThSend::ThSend(ThSend &&other) noexcept :
 
 void ThSend::run() {
     while(this->keep_sending){
-        proxySocket.writeToServer(clientEvents.pop());
+        //proxySocket.writeToServer(clientEvents.pop());
     }
 }
 
