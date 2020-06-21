@@ -13,17 +13,15 @@ class SdlWindow;
 class SdlTexture;
 class SdlWorld {
 private:
-    SdlTexture worldSpriteSheet;
-    std::map<int, SDL_Rect> world_tiles_clips;
+    SdlTexture worldSpriteSheetTexture;
+    std::map<std::string, SDL_Rect> world_tiles_clips;
 
 public:
     /* Cargo la textura con todos los tiles del mundo
      * Cargo el map con los recortes de cada tile que se van a utilizar para dibujar el mundo*/
     explicit SdlWorld(const SdlWindow& window);
 
-    void render();
-
-    void render(int x, int y, int id);
+    void render(const int x, const int y, const std::string &id);
 };
 
 

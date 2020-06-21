@@ -8,47 +8,46 @@
 
 class Message {
 protected:
-    virtual char getId(char id) const;
+    const char id;
+    explicit Message(char id);
 public:
-    /*Pure virtual es para que llame a las derivadas y estas llamen a la base con @param id*/
-    virtual char getId() const = 0;
+    char getId() const;
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;
-    //virtual ~Message() = default;
+    virtual std::string getTileName() const;
+    virtual int getTileX() const;
+    virtual int getTileY() const;
 };
 
 class Movement : public Message{
 private:
-    const char id;
     const int player_vel_x;
     const int player_vel_y;
 public:
     Movement(int player_vel_x, int player_vel_y);
-    char getId() const override ;
     int getPlayerVelX() const override ;
     int getPlayerVelY() const override ;
 };
 
 class UseItem : public Message{
 private:
-    const char id ;
     const int inventory_i;
 public:
     explicit UseItem(int i);
-    char getId() const override ;
     int getIndex() const override;
 };
 
 class Draw : public Message {
-    const char id ;  // podria ser "d"
+private:
     std::string name; // nombre del tile a dibujar
-    int x; // x en unidaes del modelo
-    int y; // y en unidades del modelo
+    const int x; // x en unidaes del modelo
+    const int y; // y en unidades del modelo
 public:
     Draw(std::string name, int x, int y);
-    ~Draw() = default;
-    char getId() const override ;
+    std::string getTileName() const override;
+    int getTileX() const override;
+    int getTileY() const override;
 };
 
 #endif //ARGENTUM_COMMON_MESSAGE_H

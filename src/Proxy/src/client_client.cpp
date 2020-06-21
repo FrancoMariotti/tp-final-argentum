@@ -66,7 +66,6 @@ int Client::run() {
     //While application is running
     while (!quit) {
         //Consume serverEvents list (actualizar el modelo)
-        //this->handleServerEvents(world);
 
         //Handle events on queue
         while (SDL_PollEvent(&event) != 0) {
@@ -107,9 +106,8 @@ int Client::run() {
         inventory.render();
         console.render();
         /**test, itero cada mensaje del server con x,y,id del dibujo*/
-        world.render(200,200, 0);
-        world.render(300,200, 1);
-        world.render(400,200, 2);
+        this->handleServerEvents(world);
+
 
         //Update screen
         window.render();
@@ -136,14 +134,29 @@ Client::~Client() {
     TTF_Quit();
 }
 
-void Client::handleServerEvents(SdlWorld &world) {
+void Client::handleServerEvents(SdlWorld& world) {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
-/*
-    std::list<std::unique_ptr<Message>>::iterator iterator = messages.begin();
+    world.render(200,200, "pasto");
+
+    for(auto & msg : messages){
+        world.render(300,200, "flores");
+
+        std::cout << msg->getId() << std::endl;
+        std::cout << msg->getTileX() << std::endl;
+        std::cout << msg->getTileY() << std::endl;
+
+        if(msg->getId() == 'd'){
+            world.render(400,200, "pantano");
+
+            std::cout << "if d" <<std::endl;
+            world.render( msg->getTileX()*32, msg->getTileY()*32, msg->getTileName());
+        }
+    }
+    /*auto iterator = messages.begin();
     while(iterator != messages.end()){
         if((*iterator)->getId() == 'd'){
-            world.render( (*iterator)->getX(), (*iterator)->getY(), (*iterator)->getName() )
+            world.render( (*iterator)->getTileX()*32, (*iterator)->getTileY()*32, (*iterator)->getTileName());
         }
     }
 */
- }
+}
