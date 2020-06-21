@@ -30,12 +30,16 @@ void Character::receiveDamage(int damage) {
     Log* log = Log::instancia();
     log->write("Danio generado por el enemigo:");
     log->writeInt(damage);
-    int result = defend(damage);
-    log->write("Danio restante despues de defenderme:");
-    log->writeInt(result);
-    log->write("vida character antes de recibir danio:");
-    log->writeInt(this->lifePoints);
-    this->lifePoints -= result;
+    if (!calculator.caculateDodge(agility)) {
+        int result = defend(damage);
+        log->write("Danio restante despues de defenderme:");
+        log->writeInt(result);
+        log->write("vida character antes de recibir danio:");
+        log->writeInt(this->lifePoints);
+        this->lifePoints -= result;
+    } else {
+        log->write("Ataque esquivado");
+    }
     log->write("vida character despues de recibir danio:");
     log->writeInt(this->lifePoints);
 }
