@@ -40,4 +40,15 @@ public:
     int getIndex() const override;
 };
 
+class Draw : public Message {
+    const char id ;  // podria ser "d"
+    std::string name; // nombre del tile a dibujar
+    int x; // x en unidaes del modelo
+    int y; // y en unidades del modelo
+public:
+    Draw(std::string name, int x, int y);
+    ~Draw() = default;
+    char getId() const override ;
+};
+
 #endif //ARGENTUM_COMMON_MESSAGE_H

@@ -2,6 +2,7 @@
 // Created by agustin on 19/6/20.
 //
 
+#include <string>
 #include "common_message.h"
 
 
@@ -52,3 +53,10 @@ int UseItem::getIndex() const {
     return inventory_i;
 }
 
+Draw::Draw(std::string name, int x, int y) : id('d'), name(name), x(x), y(y) {
+
+}
+
+char Draw::getId() const {
+    return Message::getId(id);
+}
