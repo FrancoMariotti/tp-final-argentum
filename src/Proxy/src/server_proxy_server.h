@@ -8,11 +8,13 @@
 
 #include "common_blocking_queue.h"
 
+class ProxySocket;
 class ProxyServer {
-    Game game;
+    ProxySocket& proxySocket;
 public:
-    ProxyServer();
-    t_command processCommand(t_command command);
+    explicit ProxyServer(ProxySocket& proxySocket);
+    void operator()();
+    void run();
 };
 
 

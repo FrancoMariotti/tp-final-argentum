@@ -27,6 +27,8 @@ add_library(sdlsrc
         src/common_socket.h
         src/common_thread.cpp
         src/common_thread.h
+        src/server_proxy_server.cpp
+        src/server_proxy_server.h
         src/client_client.cpp
         src/client_client.h
         src/client_sdl_inventory.cpp

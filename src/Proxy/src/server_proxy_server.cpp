@@ -3,10 +3,19 @@
 //
 
 #include "server_proxy_server.h"
-ProxyServer::ProxyServer(): game("config/mapa.json"); {
-    game.createPlayer("franco");
+ProxyServer::ProxyServer(ProxySocket& proxySocket) :
+    proxySocket(proxySocket)
+    {}
+
+void ProxyServer::run() {
+    std::cout << "Server is running" << std::endl;
 }
 
+void ProxyServer::operator()() {
+    this->run();
+}
+
+/*
 t_command ProxyServer::processCommand(t_command command) {
     std::string type = command.command;
     t_command result;
@@ -19,4 +28,4 @@ t_command ProxyServer::processCommand(t_command command) {
     }
 
     return game.sendPlayerPosition();
-}
+}*/

@@ -18,5 +18,9 @@ void ProxySocket::writeToClient(std::unique_ptr<Message> msg) {
 }
 
 std::unique_ptr<Message> ProxySocket::readClient() {
-    return proxyServerSocket.pop();
+    return proxyClientSocket.pop();
+}
+
+void ProxySocket::shutdown() {
+    proxyClientSocket.close();
 }

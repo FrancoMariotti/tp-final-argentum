@@ -22,9 +22,20 @@ ThRecv::ThRecv(ThRecv &&other) noexcept :
 void ThRecv::run() {
     while(keep_recieving){
         /*Si no hay eventos se bloquea*/
-        std::cout << "recievenig event" << std::endl;
-        serverEvents.push(proxySocket.readClient());
+        try{
+            std::cout << "recieving event" << std::endl;
+            serverEvents.push(proxySocket.readClient());
+        } catch ( ClosedQueueException &e){
+
+        }
     }
+}
+
+void ThRecv::stop() {
+    keep_recieving = false;
+    /*proxy
+     * el shutdown lo haria el server al desconectarse el jugador*/
+    proxySocket.shutdown();
 }
 
 ThRecv::~ThRecv() {

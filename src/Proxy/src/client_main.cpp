@@ -4,6 +4,7 @@
 //test
 #include "client_protected_list.h"
 #include "common_message.h"
+#include "server_proxy_server.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 640
@@ -13,9 +14,12 @@ void test();
 
 int main(int argc, char* args[]) {
     try {
-        //test();
-        Client client;
+        ProxySocket proxySocket;
+        ProxyServer proxyServer(proxySocket);
+        std::thread first(proxyServer);
+        Client client(proxySocket);
         client.run();
+        first.join();
     } catch (std::exception &e) {
         printf("%s", e.what());
         return 1;

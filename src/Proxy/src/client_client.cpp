@@ -17,10 +17,13 @@
 
 #define FONT_SIZE 14
 
-Client::Client() :
+Client::Client(ProxySocket& proxySocket) :
     window(SCREEN_WIDTH, SCREEN_HEIGHT),
     background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window),
-    font(nullptr)
+    font(nullptr),
+    proxySocket(proxySocket),
+    thSend(clientEvents, proxySocket),
+    thRecv(serverEvents, proxySocket)
     {
     //Permito la carga del PNGs
     window.initPNG();
@@ -30,26 +33,16 @@ Client::Client() :
     if (!font){
         //throw SdlException("Could not open font in function", TTF_GetError());
     }
-}
+    /*Lanzo los threads*/
+    thSend.start();
+    thRecv.start();
+
+    }
 
 int Client::run() {
     //Cargo las texturas del personaje
     SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
     SdlTexture texture("../../Proxy/assets/340.gif", window);
-
-    //The current input text
-    //SDL_Color textColor = {0xAA,0xAA,0xFF,0xFF};
-    //std::string inputText = "Some Really large Text";
-    //SdlTexture inputTextTexture(inputText, font, textColor, window);
-
-    /*ThSend y ThRecv*/
-    /**Lanzo un thread ThSend y ambos comparten la cola bloqueante event_sender*/
-    BlockingQueue<std::unique_ptr<Message>> clientEvents;
-    ProtectedList<std::unique_ptr<Message>> serverEvents;
-    ThSend thSend(clientEvents, proxySocket);
-    //ThRecv thRecv(serverEvents, proxySocket);
-    thSend.start();
-    //thRecv.start();
 
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
@@ -68,6 +61,9 @@ int Client::run() {
 
     //While application is running
     while (!quit) {
+        //Consume serverEvents list (actualizar el modelo)
+        /*Code here*/
+
         //Handle events on queue
         while (SDL_PollEvent(&event) != 0) {
             switch(event.type){
@@ -114,15 +110,15 @@ int Client::run() {
         SDL_Delay(20);
     }
 
-    /**Destructor del cliente?*/
-    thSend.stop();
-    thSend.join();
-    //thRecv.join();
-
     return 0;
 }
 
 Client::~Client() {
+    thSend.stop();
+    thRecv.stop();
+    thSend.join();
+    thRecv.join();
+
     if(font){
         TTF_CloseFont(font);
     }

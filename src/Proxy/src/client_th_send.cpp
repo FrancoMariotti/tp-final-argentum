@@ -21,9 +21,9 @@ ThSend::ThSend(ThSend &&other) noexcept :
 }
 
 void ThSend::run() {
-    std::cout << "sending event" << std::endl;
     try{
         while(this->keep_sending){
+            std::cout << "sending event" << std::endl;
             proxySocket.writeToServer(clientEvents.pop());
         }
     } catch (ClosedQueueException &e){
@@ -32,11 +32,11 @@ void ThSend::run() {
     }
 }
 
-ThSend::~ThSend() {
-
-}
-
 void ThSend::stop() {
     clientEvents.close();
     keep_sending = false;
+}
+
+ThSend::~ThSend() {
+
 }

@@ -18,6 +18,7 @@ public:
     std::unique_ptr<Message> readServer();
     void writeToClient(std::unique_ptr<Message> msg);
     std::unique_ptr<Message> readClient();
+    void shutdown();
 };
 
 

@@ -29,6 +29,7 @@ public:
     ~ThRecv() override;
 
 
+    void stop();
 };
 
 

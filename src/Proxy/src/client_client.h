@@ -17,17 +17,24 @@
 #include "client_sdl_button.h"
 #include "client_command.h"
 #include "common_proxy_socket.h"
+#include "client_th_send.h"
+#include "client_protected_list.h"
+#include "client_th_recv.h"
 
 class Client {
 private:
     SdlWindow window;
     SdlTexture background;
     TTF_Font* font;
-    ProxySocket proxySocket;
+    ProxySocket& proxySocket;
+    BlockingQueue<std::unique_ptr<Message>> clientEvents;
+    ProtectedList<std::unique_ptr<Message>> serverEvents;
+    ThSend thSend;
+    ThRecv thRecv;
 
 public:
     //Start up SDL and create window
-    Client();
+    explicit Client(ProxySocket& proxySocket);
 
     int run();
 
