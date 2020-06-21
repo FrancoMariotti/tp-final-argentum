@@ -66,7 +66,7 @@ int Client::run() {
     //While application is running
     while (!quit) {
         //Consume serverEvents list (actualizar el modelo)
-        /*Code here, hagamos un test donde cargo el mapa con tiles en vez de un background*/
+        //this->handleServerEvents(world);
 
         //Handle events on queue
         while (SDL_PollEvent(&event) != 0) {
@@ -135,3 +135,15 @@ Client::~Client() {
     SDL_Quit();
     TTF_Quit();
 }
+
+void Client::handleServerEvents(SdlWorld &world) {
+    std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
+/*
+    std::list<std::unique_ptr<Message>>::iterator iterator = messages.begin();
+    while(iterator != messages.end()){
+        if((*iterator)->getId() == 'd'){
+            world.render( (*iterator)->getX(), (*iterator)->getY(), (*iterator)->getName() )
+        }
+    }
+*/
+ }

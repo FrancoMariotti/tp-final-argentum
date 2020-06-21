@@ -20,6 +20,7 @@
 #include "client_th_send.h"
 #include "client_protected_list.h"
 #include "client_th_recv.h"
+#include "client_sdl_world.h"
 
 class Client {
 private:
@@ -41,6 +42,7 @@ public:
     /*Cierra SDL y libera los recursos*/
     ~Client();
 
+    void handleServerEvents(SdlWorld &world);
 };
 
 
