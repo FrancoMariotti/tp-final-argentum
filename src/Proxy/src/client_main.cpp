@@ -6,10 +6,6 @@
 #include "common_message.h"
 #include "server_proxy_server.h"
 
-//Screen dimension constants
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-
 void test();
 
 int main(int argc, char* args[]) {

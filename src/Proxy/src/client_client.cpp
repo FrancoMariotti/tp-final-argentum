@@ -10,6 +10,7 @@
 #include "client_protected_list.h"
 #include "client_th_send.h"
 #include "client_th_recv.h"
+#include "client_sdl_world.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
@@ -53,6 +54,9 @@ int Client::run() {
     //Cargo el personaje
     SdlPlayer player(100, 300, texture, head_sprite_sheet);
 
+    //Cargo el mundo
+    SdlWorld world(window);
+
     //Main loop flag
     bool quit = false;
 
@@ -62,7 +66,7 @@ int Client::run() {
     //While application is running
     while (!quit) {
         //Consume serverEvents list (actualizar el modelo)
-        /*Code here*/
+        /*Code here, hagamos un test donde cargo el mapa con tiles en vez de un background*/
 
         //Handle events on queue
         while (SDL_PollEvent(&event) != 0) {
@@ -102,6 +106,10 @@ int Client::run() {
         player.render();
         inventory.render();
         console.render();
+        /**test, itero cada mensaje del server con x,y,id del dibujo*/
+        world.render(200,200, 0);
+        world.render(300,200, 1);
+        world.render(400,200, 2);
 
         //Update screen
         window.render();
