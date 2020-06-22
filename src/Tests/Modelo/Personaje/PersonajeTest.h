@@ -17,7 +17,7 @@ class PersonajeTest :  public CppUnit::TestFixture {
         void setUp();
 
     protected:
-        void testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones();
+        static void testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones();
 };
 
 
