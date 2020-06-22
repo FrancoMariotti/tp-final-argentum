@@ -50,3 +50,20 @@ void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecci
         CPPUNIT_ASSERT(player.currPos == next);
     }
 }
+
+void PersonajeTest::testPersonajeNoPuedeirseDelMapa() {
+
+    Map map(10, 10);
+    //INICIALIZO LOS FACTORES CON 0 PORQUE PARA ESTA PRUEBA NO SON NECESARIOS
+    PlayableCharacter player(20,0,0,18,18,18,
+                             18,0 ,0, 0,
+                             0, 0, 0);
+
+    {
+        //test:el personaje se mueve hacia arriba en el map
+        Offset offset(0,-1);
+        player.move(&map,offset);
+        Position next(0,0);
+        CPPUNIT_ASSERT(player.currPos == next);
+    }
+}

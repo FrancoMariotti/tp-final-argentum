@@ -1,11 +1,6 @@
-//
-// Created by franco on 11/6/20.
-//
 
 #ifndef ARGENTUM_POSITION_H
 #define ARGENTUM_POSITION_H
-
-
 #include "Offset.h"
 
 class Position {
@@ -15,13 +10,13 @@ class Position {
         void apply(Offset &offset);
         int distanceTo(Position& position) const;
         bool operator==(const Position& position) const;
-        void operator=(const Position& position);
-        Offset operator-(Position& position);
+        Position& operator=(const Position& position);
+        Offset operator-(Position& position) const;
         int getX() const;
         int getY() const;
         ~Position();
-        //METODO PARA PROBAR
-        void print() const;
+
+    bool outOfBounds(int initialX, int finalX, int initialY, int finalY);
 };
 
 

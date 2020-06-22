@@ -11,13 +11,16 @@
 class PersonajeTest :  public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE( PersonajeTest );
     CPPUNIT_TEST( testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones );
+    CPPUNIT_TEST( testPersonajeNoPuedeirseDelMapa );
     CPPUNIT_TEST_SUITE_END();
 
     public:
         void setUp();
 
     protected:
-        static void testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones();
+        void testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecciones();
+        void testPersonajeNoPuedeirseDelMapa();
+
 };
 
 

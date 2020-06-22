@@ -8,17 +8,28 @@
 Position::Position(int x,int y):x(x),y(y) {}
 
 void Position::apply(Offset& offset) {
-    x = offset.move_x(x);
-    y = offset.move_y(y);
+    this->x = offset.move_x(x);
+    this->y = offset.move_y(y);
+}
+
+bool Position::outOfBounds(int initialX,int finalX,int initialY,int finalY) {
+    return (this->x < initialX || this->x >= finalX || this->y < initialY || this->y >= finalY);
 }
 
 bool Position::operator==(const Position& position) const {
     return (this->x == position.x && this->y == position.y);
 }
 
-void Position::operator=(const Position& position) {
+Position& Position::operator=(const Position& position) {
     this->x = position.x;
     this->y = position.y;
+
+    if(x < 0 || y < 0) {
+        //aca hay que lanzar una exception
+        //throw PointOutOfBoundsException();
+    }
+
+    return *this;
 }
 
 int Position::distanceTo(Position& position) const {
@@ -27,19 +38,16 @@ int Position::distanceTo(Position& position) const {
     return (int)sqrt(xSquare + ySquare);
 }
 
-Offset Position::operator-(Position& position) {
-    return Offset(this->x - position.x,this->y - position.y);
+Offset Position::operator-(Position& position) const {
+    return Offset(x - position.x,y - position.y);
 }
 
 int Position::getX() const {
     return this->x;
 }
+
 int Position::getY() const {
     return this->y;
 }
 
 Position::~Position() = default;
-
-void Position::print() const {
-    std::cout << "x = " << x << " y = " << y << std::endl;
-}

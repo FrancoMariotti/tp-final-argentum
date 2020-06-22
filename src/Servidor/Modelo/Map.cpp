@@ -37,10 +37,15 @@ bool Map::isOccupied(Position pos) {
     return false;
 }
 
-void Map::move(Position& from,Position& to) {
-    if (!isOccupied(to)) from = to;
+bool Map::outOfBounds(Position &position) {
+    return position.outOfBounds(0,height,0,width);
 }
 
+
+void Map::move(Position& from,Position& to) {
+    if(outOfBounds(to)) return;
+    if (!isOccupied(to)) from = to;
+}
 
 Character* Map::findClosestCharacter(Position pos, int range) {
     //EL MAPA DEBERIA TEENR UN VECTOR CON TODOS LOS PERSONAJES JUGABLES,ESE VECTOR ES CHARATERS
