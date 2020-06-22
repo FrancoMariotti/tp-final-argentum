@@ -28,6 +28,8 @@ int main(int argc, char const *argv[]) {
     game.equipShield("franco2", 2, 5);
     event->execute(game,"franco");
     game.attackPlayer("franco","franco2");
+    game.attackPlayer("franco","franco2");
+    game.attackPlayer("franco","franco2");
     delete event;
     //PlayableCharacter character (100, 4, 5, map);
 

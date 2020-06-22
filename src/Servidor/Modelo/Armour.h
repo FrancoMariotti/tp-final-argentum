@@ -5,7 +5,6 @@
 #ifndef ARGENTUM_ARMOUR_H
 #define ARGENTUM_ARMOUR_H
 
-#include "Calculator.h"
 
 //enum ArmourType {chest, shield, helmet};
 
@@ -22,7 +21,7 @@ public:
     void equipHelmet(int minDef, int maxDef);
     //Devuelve el danio final que recibira el personaje luego de defenderse
     //OTRA OPCION SERIA QUE DEVUELVA SOLAMENTE EL VALOR DE DEFENSA Y HACER LA RESTA EN OTRO LADO
-    int use(int damage, Calculator& calculator);
+    int use(int damage);
     ~Armour() = default;
 };
 

@@ -4,7 +4,6 @@
 #include "Map.h"
 #include "Offset.h"
 #include "Position.h"
-#include "Calculator.h"
 
 class Map;
 
@@ -13,13 +12,17 @@ class Character {
         int lifePoints;
         int level;
         Position currPos;
-       //ESTOS 5 ATRIBUTOS DE ACA ABAJO CREO QUE SOLO DEBERIAN ESTAR EN EL PLAYABLE CHARACTER
-       //CREO QUE NO SON NECESARIOS PARA EN NPC
         int constitution;
         int agility;
         int strength;
         int intelligence;
-        Calculator calculator;
+        int raceLifeFactor;
+        int classLifeFactor;
+        int raceManaFactor;
+        int classManaFactor;
+        int recoveryFactor;
+        int meditationRecoveryFactor;
+        //Calculator calculator;
         virtual int defend(int damage) = 0;
     public:
         Character(int lifePoints,int x,int y,int constitution,
@@ -30,8 +33,25 @@ class Character {
         Offset getOffset(Position initialPos);
         virtual void attack(Character* character) = 0;
         void receiveDamage(int damage);
-        //METODO PARA PROBAR
-        void printPosition();
+        static int calculateMaxLife(int constitution, int lvl, int classLifeFactor,int raceLifeFactor);
+        static int calculateMaxMana(int intelligence, int lvl,int classManaFactor,int raceManaFactor);
+        //Devuelve la cantidad de vida recuperada en x segundos
+        static int calculateRecoverLifePoints(int recoveryFactor,int seconds);
+        //Devuelve la cantidad de mana recuperado en x segundos
+        static int calculateRecoverMana(int recoveryFactor,int seconds);
+        //Devuelve la cantidad de mana recuperado meditando en x segundos
+        static int calculateRecoverManaMeditating(int meditationRecoveryFactor, int seconds);
+        static int calculateSafeGoldCapacity(int lvl);
+        //Devuelve la cantidad de oro maxima que puede tener el jugador
+        static int calculateGoldCapacity(int lvl);
+        static int calculateDamage(int strength, int weaponMinDamage, int weaponMaxDamage);
+        static int calculateLvlLimit(int lvl);
+        static int calculateAttackXp(int strength, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl);
+        static int calculateKillXp (int enemyMaxLp, int mylvl, int enemyLvl);
+        static bool dodge(int agility);
+        static int calculateDefense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
+        static int calculateNpcGoldDrop(int npcMaxLp);
+        static bool shouldDrop(int probability);
         virtual ~Character();
 };
 

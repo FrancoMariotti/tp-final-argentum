@@ -12,9 +12,9 @@ void Movable::move(Position& currPos, Map* map) {
         offset.approach();
     }
 
-    Position siguiente(currPos);
-    siguiente.apply(offset);
-    map->move(currPos,siguiente);
+    Position next(currPos);
+    next.apply(offset);
+    map->move(currPos,next);
 }
 
 Movable::~Movable() =default;

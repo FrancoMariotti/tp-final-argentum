@@ -5,6 +5,7 @@
 #include "Mobility.h"
 #include "Weapon.h"
 #include "Armour.h"
+#include "Inventory.h"
 
 class Mobility;
 class Game;
@@ -12,7 +13,7 @@ class Game;
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
     Weapon* activeWeapon;
-    //Inventory inventory;
+    Inventory inventory;
     Armour armour;
     int mana;
     int gold;
