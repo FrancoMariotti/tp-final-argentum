@@ -6,7 +6,7 @@
         SdlTexture texture("../../Proxy/assets/340.gif", window);
         //Cargo fondo
         window.initPNG();
-        SdlTexture background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/assets/dungeon.png", window);
+        SdlTexture mainInterface(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/assets/dungeon.png", window);
 
         /**Factory de comandos, y a cada boton le asigno un comando, cuando lo apreta
          * ejecuta el operator() del comando que envia el mensaje*/
@@ -55,8 +55,8 @@
             for(auto & button : buttons){
                 button->handleEvent(&event, proxyPeerSocket, proxyClientSocket);
             }
-            //Renderizo background
-            background.render(0,0);
+            //Renderizo mainInterface
+            mainInterface.render(0,0);
             //Render objects
             player.render();
             //Renderizo botones

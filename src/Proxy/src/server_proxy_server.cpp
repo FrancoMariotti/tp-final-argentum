@@ -13,7 +13,7 @@ ProxyServer::ProxyServer(ProxySocket& proxySocket) :
 void ProxyServer::run() {
     std::cout << "Server is running" << std::endl;
     proxySocket.writeToClient(std::unique_ptr<Message> (
-            new Draw("pasto", 1, 1)));
+            new Draw("pasto", 10, 10)));
     //En el parametro del write le paso un unique_ptr que en su constructor recibe un
     //new Mensaje donde mensaje es el mensaje especifico que quiero crear
 

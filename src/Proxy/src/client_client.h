@@ -25,7 +25,7 @@
 class Client {
 private:
     SdlWindow window;
-    SdlTexture background;
+    SdlTexture mainInterface;
     TTF_Font* font;
     ProxySocket& proxySocket;
     BlockingQueue<std::unique_ptr<Message>> clientEvents;

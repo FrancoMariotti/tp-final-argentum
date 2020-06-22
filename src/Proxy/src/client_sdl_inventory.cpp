@@ -81,7 +81,7 @@ void SdlInventory::addItem(const std::string& item_id){
 }
 
 void SdlInventory::render() {
-    //background.render(this->inventory_x,this->inventory_y);
+    //mainInterface.render(this->inventory_x,this->inventory_y);
     for (auto & button : buttons) {
         button->render();
     }

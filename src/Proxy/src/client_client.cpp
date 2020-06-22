@@ -16,15 +16,19 @@
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 
+//The dimensiones of the level
+const int LEVEL_WIDTH = 1280;
+const int LEVEL_HEIGHT = 960;
+
 #define FONT_SIZE 14
 
 Client::Client(ProxySocket& proxySocket) :
-    window(SCREEN_WIDTH, SCREEN_HEIGHT),
-    background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window),
-    font(nullptr),
-    proxySocket(proxySocket),
-    thSend(clientEvents, proxySocket),
-    thRecv(serverEvents, proxySocket)
+        window(SCREEN_WIDTH, SCREEN_HEIGHT),
+        mainInterface(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window),
+        font(nullptr),
+        proxySocket(proxySocket),
+        thSend(clientEvents, proxySocket),
+        thRecv(serverEvents, proxySocket)
     {
     //Permito la carga del PNGs
     window.initPNG();
@@ -63,6 +67,8 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
+    this->handleServerEvents(world);
+
     //While application is running
     while (!quit) {
         //Consume serverEvents list (actualizar el modelo)
@@ -98,16 +104,14 @@ int Client::run() {
         //Limpio pantalla
         window.fill(0xFF, 0xFF, 0xFF, 0xFF);
 
-        //Renderizo background
-        background.render(0,0);
+        //Renderizo mainInterface
+        mainInterface.render(0, 0);
 
         //Render objects
+        world.render();
         player.render();
         inventory.render();
         console.render();
-        /**test, itero cada mensaje del server con x,y,id del dibujo*/
-        this->handleServerEvents(world);
-
 
         //Update screen
         window.render();
@@ -135,22 +139,15 @@ Client::~Client() {
 }
 
 void Client::handleServerEvents(SdlWorld& world) {
+    /**al consumir la lista solo se dibuja en el primer frame pero en el siguiente frame la lista ya no esta
+     * por lo tanto debo guardar estos mensajes para redibujarlo en cada render*/
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
-    world.render(200,200, "pasto");
-    world.render(200,300, "hongo");
-    world.render(200,400, "roca");
     for(auto & msg : messages){
-        world.render(300,200, "flores");
         if(msg->getId() == 'd'){
-            world.render(400,200, "pantano");
-            world.render( msg->getTileX()*32, msg->getTileY()*32, msg->getTileName());
+            world.add( msg->getTileX(), msg->getTileY(), msg->getTileName());
+        } else if(msg->getId() == 'p'){
+            /**Init de la posicion del jugador*/
         }
     }
-    /*auto iterator = messages.begin();
-    while(iterator != messages.end()){
-        if((*iterator)->getId() == 'd'){
-            world.render( (*iterator)->getTileX()*32, (*iterator)->getTileY()*32, (*iterator)->getTileName());
-        }
-    }
-*/
+
 }
