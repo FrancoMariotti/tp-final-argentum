@@ -5,9 +5,6 @@
 #include <iostream>
 #include "client_sdl_console.h"
 
-#define BASE_SCREEN_WIDTH 1024
-#define BASE_SCREEN_HEIGHT 768
-
 SdlConsole::SdlConsole(const int screen_width, const int screen_height,
         const SdlWindow &window, TTF_Font *font) :
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),

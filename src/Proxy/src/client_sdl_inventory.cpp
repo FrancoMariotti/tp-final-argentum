@@ -3,6 +3,8 @@
 //
 
 #include "client_sdl_inventory.h"
+#include "client_sdl_player.h"
+#include "client_sdl_window.h"
 
 /*Estos tamaños son con 1024 x 768*/
 #define IMAGE_INVENTORY_WIDTH 165
@@ -10,20 +12,21 @@
 #define INVENTORY_X 820
 #define INVENTORY_Y 180
 
-/**TODO: Singleton?*/
-#define SCREEN_RATIO 1
 
-SdlInventory::SdlInventory(const int screen_width, const int screen_height, const SdlWindow &window) :
-    window(window){
+SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window, SdlPlayer &player) :
+    x_from_player(INVENTORY_X - (screen_width / 2)),
+    y_from_player((screen_height / 2) - INVENTORY_Y),
+    window(window),
+    player(player){
     //Tamaño ventana inventario
-    this->width = IMAGE_INVENTORY_WIDTH * SCREEN_RATIO;
-    this->height = IMAGE_INVENTORY_HEIGHT * SCREEN_RATIO;
+    this->width = IMAGE_INVENTORY_WIDTH;
+    this->height = IMAGE_INVENTORY_HEIGHT;
 
-    //Posicion (siempre a la derecha)
-    this->inventory_x = INVENTORY_X * SCREEN_RATIO;
-    this->inventory_y = INVENTORY_Y * SCREEN_RATIO;
+    //inicializo la posicion del inventario
+    this->inventory_x = player.getPosX() + x_from_player;
+    this->inventory_y = player.getPosY() - y_from_player;
 
-    this->button_size = 40 * SCREEN_RATIO;
+    this->button_size = 40;
 
     //Botones
     inventoryTextures.emplace(std::piecewise_construct,
@@ -58,9 +61,18 @@ void SdlInventory::handleEvents(SDL_Event &event) {
 }
 
 void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>>& clientEvents) {
-    /*Paso la posicion del inventario, i*/
+    this->inventory_x = player.getPosX() + x_from_player;
+    this->inventory_y = player.getPosY() - y_from_player;
+
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
-        buttons[i]->use(clientEvents, (int)i);
+        /*Veo si fueron clickeados*/
+        buttons[i]->use(clientEvents, (int) i);
+        /*Actualizo la posicion de los botones*/
+        int col = (int) i % 4;
+        int fil = (int) i / 4;
+        buttons[i]->setPosition(inventory_x + col * button_size,
+                                inventory_y + fil * button_size);
+
     }
 }
 
@@ -81,7 +93,9 @@ void SdlInventory::addItem(const std::string& item_id){
 }
 
 void SdlInventory::render() {
-    //background.render(this->inventory_x,this->inventory_y);
+    SDL_Rect outline_rect = {inventory_x, inventory_y, width, height};
+    SDL_SetRenderDrawColor(window.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+    SDL_RenderDrawRect(window.getRenderer(), &outline_rect);
     for (auto & button : buttons) {
         button->render();
     }

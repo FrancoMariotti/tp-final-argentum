@@ -8,23 +8,24 @@
 #include "client_sdl_console.h"
 #include "common_message.h"
 #include "client_protected_list.h"
-#include "client_th_send.h"
-#include "client_th_recv.h"
 #include "client_sdl_world.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 
+//The dimensiones of the level
+const int LEVEL_WIDTH = 2000;
+const int LEVEL_HEIGHT = 2000;
+
 #define FONT_SIZE 14
 
 Client::Client(ProxySocket& proxySocket) :
-    window(SCREEN_WIDTH, SCREEN_HEIGHT),
-    background(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window),
-    font(nullptr),
-    proxySocket(proxySocket),
-    thSend(clientEvents, proxySocket),
-    thRecv(serverEvents, proxySocket)
+        window(SCREEN_WIDTH, SCREEN_HEIGHT),
+        font(nullptr),
+        proxySocket(proxySocket),
+        thSend(clientEvents, proxySocket),
+        thRecv(serverEvents, proxySocket)
     {
     //Permito la carga del PNGs
     window.initPNG();
@@ -45,14 +46,17 @@ int Client::run() {
     SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
     SdlTexture texture("../../Proxy/assets/340.gif", window);
 
+    //Cargo el personaje
+    SdlPlayer player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, texture, head_sprite_sheet);
+
+    SdlTexture mainInterface(LEVEL_WIDTH, LEVEL_HEIGHT,
+            "../../Proxy/assets/dungeon.png", window);
+
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
 
     //Cargo el inventario
-    SdlInventory inventory(SCREEN_WIDTH,SCREEN_HEIGHT,window);
-
-    //Cargo el personaje
-    SdlPlayer player(100, 300, texture, head_sprite_sheet);
+    SdlInventory inventory(SCREEN_WIDTH, SCREEN_HEIGHT, window, player);
 
     //Cargo el mundo
     SdlWorld world(window);
@@ -62,6 +66,8 @@ int Client::run() {
 
     //Event handler
     SDL_Event event;
+
+    this->handleServerEvents(world);
 
     //While application is running
     while (!quit) {
@@ -98,16 +104,14 @@ int Client::run() {
         //Limpio pantalla
         window.fill(0xFF, 0xFF, 0xFF, 0xFF);
 
-        //Renderizo background
-        background.render(0,0);
+        //Renderizo mainInterface
+        mainInterface.render(0, 0);
 
         //Render objects
+        world.render();
         player.render();
         inventory.render();
         console.render();
-        /**test, itero cada mensaje del server con x,y,id del dibujo*/
-        this->handleServerEvents(world);
-
 
         //Update screen
         window.render();
@@ -135,22 +139,15 @@ Client::~Client() {
 }
 
 void Client::handleServerEvents(SdlWorld& world) {
+    /**al consumir la lista solo se dibuja en el primer frame pero en el siguiente frame la lista ya no esta
+     * por lo tanto debo guardar estos mensajes para redibujarlo en cada render*/
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
-    world.render(200,200, "pasto");
-    world.render(200,300, "hongo");
-    world.render(200,400, "roca");
     for(auto & msg : messages){
-        world.render(300,200, "flores");
         if(msg->getId() == 'd'){
-            world.render(400,200, "pantano");
-            world.render( msg->getTileX()*32, msg->getTileY()*32, msg->getTileName());
+            world.add( msg->getTileX(), msg->getTileY(), msg->getTileName());
+        } else if(msg->getId() == 'p'){
+            /**Init de la posicion del jugador*/
         }
     }
-    /*auto iterator = messages.begin();
-    while(iterator != messages.end()){
-        if((*iterator)->getId() == 'd'){
-            world.render( (*iterator)->getTileX()*32, (*iterator)->getTileY()*32, (*iterator)->getTileName());
-        }
-    }
-*/
+
 }

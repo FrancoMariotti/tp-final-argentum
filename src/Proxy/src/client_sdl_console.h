@@ -28,7 +28,6 @@ private:
     const int IMAGE_CONSOLE_Y = 24;
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
-    const int TEXT_Y = 100;
 
     std::list<SdlTexture> recentInputs;
 

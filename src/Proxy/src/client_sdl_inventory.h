@@ -7,6 +7,7 @@
 
 
 #include "client_sdl_button.h"
+#include "client_sdl_player.h"
 #include <vector>
 #include <map>
 
@@ -17,11 +18,15 @@ private:
     int width;
     int height;
     /*Posicion del inventario*/
+    const int x_from_player;
+    const int y_from_player;
+
     int inventory_x;
     int inventory_y;
     int button_size;
 
     const SdlWindow& window;
+    const SdlPlayer& player;
 
     //Una lista con todos los items del inventario, son botones
     std::vector<SdlButton*> buttons;
@@ -29,7 +34,7 @@ private:
     std::map<std::string, SdlTexture> inventoryTextures;
 
 public:
-    SdlInventory(int screen_width, int screen_height, const SdlWindow &window);
+    SdlInventory(int screen_width, int screen_height, const SdlWindow &window, SdlPlayer &player);
 
     void handleEvents(SDL_Event &event);
 
@@ -41,6 +46,7 @@ public:
     ~SdlInventory();
 
     void addItem(const std::string &item_id);
+
 };
 
 
