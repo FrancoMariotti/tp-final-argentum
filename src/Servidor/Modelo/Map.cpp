@@ -25,7 +25,7 @@ bool Map::isOccupied(Position pos) {
     }
 
     auto itrNpcs = npcs.begin();
-    for (itrNpcs = npcs.begin() ; itrNpcs != npcs.end(); ++itrNpcs) {
+    for (; itrNpcs != npcs.end(); ++itrNpcs) {
         if((*itrNpcs)->collideWith(pos)) return true;
     }
 
@@ -63,7 +63,7 @@ void Map::triggerMove(const std::string &playerName, Offset &offset) {
 
 Npc* Map::findNpcAtPosition(Position &position) {
     auto itrNpcs = npcs.begin();
-    for (itrNpcs = npcs.begin() ; itrNpcs != npcs.end(); ++itrNpcs) {
+    for (; itrNpcs != npcs.end(); ++itrNpcs) {
         if((*itrNpcs)->collideWith(position)) return *itrNpcs;
     }
     return NULL;

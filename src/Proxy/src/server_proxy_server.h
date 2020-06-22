@@ -11,10 +11,10 @@
 class ProxySocket;
 class ProxyServer {
     ProxySocket& proxySocket;
-public:
-    explicit ProxyServer(ProxySocket& proxySocket);
-    void operator()();
-    void run();
+    public:
+        explicit ProxyServer(ProxySocket& proxySocket);
+        void operator()();
+        void run();
 };
 
 

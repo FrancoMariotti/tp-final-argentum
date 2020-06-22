@@ -25,7 +25,7 @@ void PlayableCharacter::move(Map* map,Offset& offset) {
 }
 
 void PlayableCharacter::attack(Character *character) {
-    activeWeapon->attack(character,strength,mana,currPos,calculator);
+    activeWeapon->attack(character,strength,mana,currPos);
 }
 
 void PlayableCharacter::equipWeapon(Weapon* weapon) {
@@ -37,7 +37,7 @@ void PlayableCharacter::equipShield(int minDef, int maxDef) {
 }
 
 int PlayableCharacter::defend(int damage) {
-    return armour.use(damage, calculator);
+    return armour.use(damage);
 }
 
 PlayableCharacter::~PlayableCharacter() {

@@ -21,7 +21,7 @@ void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecci
     {
         //test:el personaje se mueve hacia arriba en el map
         Offset offset(0,-1);
-        player.move(&map, offset);
+        player.move(&map,offset);
         Position next(2,1);
         CPPUNIT_ASSERT(player.currPos == next);
     }
@@ -29,7 +29,7 @@ void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecci
     {
         //test:el personaje se mueve hacia la derecha en el map
         Offset offset(1,0);
-        player.move(&map, offset);
+        player.move(&map,offset);
         Position next(3,1);
         CPPUNIT_ASSERT(player.currPos == next);
     }
@@ -37,7 +37,7 @@ void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecci
     {
         //test:el personaje se mueve hacia la abajo en el map
         Offset offset(0,1);
-        player.move(&map, offset);
+        player.move(&map,offset);
         Position next(3,2);
         CPPUNIT_ASSERT(player.currPos == next);
     }
@@ -45,7 +45,7 @@ void PersonajeTest::testPersonajePuedeMoverseAUnPasoDeDistanciaEnTodasLasDirecci
     {
         //test:el personaje se mueve hacia la izquierda en el map
         Offset offset(-1,0);
-        player.move(&map, offset);
+        player.move(&map,offset);
         Position next(2,2);
         CPPUNIT_ASSERT(player.currPos == next);
     }

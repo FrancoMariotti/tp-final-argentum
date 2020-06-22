@@ -3,6 +3,7 @@
 //
 
 #include "Armour.h"
+#include "Character.h"
 
 Armour::Armour() : chestMinDef(0), chestMaxDef(0), shieldMinDef(0), shieldMaxDef(0),
     helmetMinDef(0), helmetMaxDef(0) {
@@ -29,8 +30,8 @@ void Armour::equipHelmet(int minDef, int maxDef) {
     helmetMaxDef = maxDef;
 }
 
-int Armour::use(int damage, Calculator& calculator) {
-    int defense = calculator.calculateDefense(chestMinDef, chestMaxDef
+int Armour::use(int damage) {
+    int defense = Character::calculateDefense(chestMinDef, chestMaxDef
             , shieldMinDef, shieldMaxDef, helmetMinDef, helmetMaxDef);
     int result = damage - defense;
     if (result < 0) return 0;

@@ -20,7 +20,7 @@ int main(int argc, char* args[]) {
         printf("%s", e.what());
         return 1;
     } catch (...){
-    printf("%s", "Unknow error");
+        printf("%s", "Unknow error");
         return 1;
     }
 

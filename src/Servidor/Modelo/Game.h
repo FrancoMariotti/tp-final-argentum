@@ -18,7 +18,7 @@ private:
     //std::map<std::string, Player> players;
     std::vector<Update> updates;
 public:
-    Game(std::string configFile);
+    Game(std::string gameConfigFilename);
     void createPlayer(const std::string& name, const std::string& charRace,
             const std::string& charClass);
     void createNpc(const std::string& specie);

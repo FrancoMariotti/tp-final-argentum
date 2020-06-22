@@ -24,12 +24,10 @@ void Game::movePlayer(const std::string& playerName, Offset& offset) {
 
 void Game::attackNpc(const std::string& playerName, Position& position) {
     map->triggerAttack(playerName,position);
-
 }
 
 void Game::attackPlayer(const std::string& playerName, const std::string& playerNameEnemy) {
     map->triggerAttack(playerName,playerNameEnemy);
-
 }
 
 void Game::addUpdatePosition(int x,int y) {
@@ -42,10 +40,10 @@ void Game::equipWeapon(Weapon* weapon, std::string playerName) {
     map->triggerEquipWeapon(playerName,weapon);
 }
 
-Game::~Game() {
-    delete map;
-}
-
 void Game::equipShield(std::string playerName, int minDef, int maxDef) {
     map->triggerEquipShield(playerName, minDef, maxDef);
+}
+
+Game::~Game() {
+    delete map;
 }

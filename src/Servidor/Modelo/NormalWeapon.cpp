@@ -10,8 +10,8 @@ NormalWeapon::NormalWeapon(int minDamage, int maxDamage, Range *range) {
     this->range = range;
 }
 
-void NormalWeapon::attack(Character *enemy, int strength, int &mana, Position &holderPos, Calculator calc) {
-    int damage = calc.calculateDamage(strength,minDamage,maxDamage);
+void NormalWeapon::attack(Character *enemy, int strength, int &mana, Position &holderPos) {
+    int damage = Character::calculateDamage(strength,minDamage,maxDamage);
     range->attack(enemy,holderPos,damage);
 }
 

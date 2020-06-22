@@ -20,7 +20,6 @@ Json::Value FileParser::read(const std::string &parameter) {
     return config[parameter];
 }
 
-
 MapFactory::MapFactory(const std::string configFile) {
     FileParser parser(configFile);
     mapObj = parser.read("map");
@@ -93,20 +92,23 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     std::vector<int> possibleLvls = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     int level = possibleLvls[rand()%possibleLvls.size()];
     int lifePoints = npcsObj["specie"][specie]["lifePoints"].asInt();
-    //HABRIA QUE VER DONDE LIBERAR LA MOVILIDAD , A MI SE ME OCURRIO CREARLA ACA
+
     Mobility* mobility;
+
     if (npcsObj["specie"][specie]["mobility"] == "movable") mobility = new Movable();
     else mobility = new NonMovable();
     //Mi idea era asignarle una posicion random al npc cuando se crea
     //Por ahora para hacerlo simple le voy a asignar una pos al azar del vector possibleLvls
     bool isOccupied = true;
     int x, y;
+
     while(isOccupied) {
         x = possibleLvls[rand()%possibleLvls.size()];
         y = possibleLvls[rand()%possibleLvls.size()];
         Position pos(x, y);
         isOccupied = map->isOccupied(pos);
     }
+
     Log* log = Log::instancia();
     log->write("La posicion random del npc creado es:");
     log->writePosicion(x,y);
@@ -116,12 +118,8 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     int strengh = npcsObj["specie"][specie]["strengh"].asInt();
     int agility = npcsObj["specie"][specie]["agility"].asInt();
     int intelligence = npcsObj["specie"][specie]["intelligence"].asInt();
-
-    //Seteo el danio maximo y minimo del Npc
     int minDamage = npcsObj["specie"][specie]["minDamage"].asInt();
     int maxDamage = npcsObj["specie"][specie]["maxDamage"].asInt();
-
-    //Seteo la defensa del Npc
     int minDefense = npcsObj["specie"][specie]["minDefense"].asInt();
     int maxDefense = npcsObj["specie"][specie]["maxDefense"].asInt();
 

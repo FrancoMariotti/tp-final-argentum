@@ -18,7 +18,7 @@ void Npc::move(Map* map) {
 }
 
 int Npc::defend(int damage) {
-    int defense = calculator.calculateDefense(minDefense, maxDefense
+    int defense = Character::calculateDefense(minDefense, maxDefense
             ,0 ,0 ,0 ,0);
     int result = damage - defense;
     if (result < 0) return 0;
@@ -27,7 +27,7 @@ int Npc::defend(int damage) {
 
 void Npc::attack(Character* character) {
     if (character->distanceTo(currPos) == 1) {
-        int damage = calculator.calculateDamage(strength, minDamage, maxDamage);
+        int damage = Character::calculateDamage(strength, minDamage, maxDamage);
         character->receiveDamage(damage);
     }
 }
