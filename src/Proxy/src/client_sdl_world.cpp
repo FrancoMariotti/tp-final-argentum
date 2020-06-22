@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "client_sdl_world.h"
+#include "client_sdl_camera.h"
 
 
 SdlWorld::SdlWorld(const SdlWindow& window) :
@@ -31,15 +32,20 @@ void SdlWorld::render(const int x, const int y, const std::string &id){
 }
 
 
-void SdlWorld::render(){
+void SdlWorld::render(SdlCamera &camera) {
     std::map<std::string, std::vector<SDL_Point>>::iterator iterator = world_tiles.begin();
     while(iterator != world_tiles.end()){
         for(auto value_iterator = iterator->second.begin() ;
         value_iterator != iterator->second.end() ; ++value_iterator) {
-            worldSpriteSheetTexture.render(value_iterator->x * TILE_SIZE,
-                    value_iterator->y * TILE_SIZE,
+            SDL_Point relative_point = camera.getCoordinates(*value_iterator);
+            worldSpriteSheetTexture.render(relative_point.x,
+                    relative_point.y,
                     &world_tiles_clips.at(iterator->first));
+            /*worldSpriteSheetTexture.render(value_iterator->x * TILE_SIZE,
+                    value_iterator->y * TILE_SIZE,
+                    &world_tiles_clips.at(iterator->first));*/
         }
         iterator++;
     }
 }
+

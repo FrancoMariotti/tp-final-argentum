@@ -6,6 +6,7 @@
 #define ARGENTUM_CLIENT_SDL_CONSOLE_H
 
 #include "client_sdl_texture.h"
+#include "client_sdl_player.h"
 #include <list>
 
 class SdlConsole {
@@ -32,7 +33,8 @@ private:
     std::list<SdlTexture> recentInputs;
 
 public:
-    SdlConsole(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font);
+    SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font,
+               SdlPlayer &player);
 
     /*Handle*/
     void handleEvents(const SDL_Event &event);
