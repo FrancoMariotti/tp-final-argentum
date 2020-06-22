@@ -137,18 +137,12 @@ Client::~Client() {
 void Client::handleServerEvents(SdlWorld& world) {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     world.render(200,200, "pasto");
-
+    world.render(200,300, "hongo");
+    world.render(200,400, "roca");
     for(auto & msg : messages){
         world.render(300,200, "flores");
-
-        std::cout << msg->getId() << std::endl;
-        std::cout << msg->getTileX() << std::endl;
-        std::cout << msg->getTileY() << std::endl;
-
         if(msg->getId() == 'd'){
             world.render(400,200, "pantano");
-
-            std::cout << "if d" <<std::endl;
             world.render( msg->getTileX()*32, msg->getTileY()*32, msg->getTileName());
         }
     }
