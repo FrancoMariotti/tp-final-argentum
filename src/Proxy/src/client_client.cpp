@@ -15,8 +15,8 @@
 #define SCREEN_HEIGHT 768
 
 //The dimensiones of the level
-const int LEVEL_WIDTH = 2000;
-const int LEVEL_HEIGHT = 2000;
+const int LEVEL_WIDTH = 3200;
+const int LEVEL_HEIGHT = 3200;
 
 #define FONT_SIZE 14
 
@@ -50,10 +50,13 @@ int Client::run() {
     SdlPlayer player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, texture, head_sprite_sheet);
 
     SdlTexture mainInterface(LEVEL_WIDTH, LEVEL_HEIGHT,
-            "../../Proxy/assets/dungeon.png", window);
+            "../../Proxy/assets/bg.png", window);
+
+    //Creo camara
+    SdlCamera camera(SCREEN_WIDTH, SCREEN_WIDTH, player);
 
     //Cargo la consola
-    SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
+    SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font, player);
 
     //Cargo el inventario
     SdlInventory inventory(SCREEN_WIDTH, SCREEN_HEIGHT, window, player);
@@ -67,7 +70,17 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
-    this->handleServerEvents(world);
+    //this->handleServerEvents(world);
+    for (int i = 0; i < 100 ; ++i) {
+        for (int j = 0; j < 100 ; ++j) {
+            if(i == j){
+                world.add(i, j, "hongo");
+            } else {
+                world.add(i, j, "pasto");
+            }
+        }
+    }
+    ///
 
     //While application is running
     while (!quit) {
@@ -100,6 +113,7 @@ int Client::run() {
         player.move(clientEvents);
         inventory.use(clientEvents);
         console.execute();
+        camera.move();
 
         //Limpio pantalla
         window.fill(0xFF, 0xFF, 0xFF, 0xFF);
@@ -108,7 +122,7 @@ int Client::run() {
         mainInterface.render(0, 0);
 
         //Render objects
-        world.render();
+        world.render(camera);
         player.render();
         inventory.render();
         console.render();

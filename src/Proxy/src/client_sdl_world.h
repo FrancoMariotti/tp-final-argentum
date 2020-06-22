@@ -8,6 +8,7 @@
 #include <SDL2/SDL_rect.h>
 #include <map>
 #include "client_sdl_texture.h"
+#include "client_sdl_camera.h"
 
 
 class SdlWindow;
@@ -28,11 +29,12 @@ public:
      * Cargo el map con los recortes de cada tile que se van a utilizar para dibujar el mundo*/
     explicit SdlWorld(const SdlWindow& window);
 
-    void render(const int x, const int y, const std::string &id);
+    void render(int x, int y, const std::string &id);
 
-    void add(const int x, const int y, const std::string &id);
+    void add( int x, int y, const std::string &id);
 
-    void render();
+    void render(SdlCamera &camera);
+
 };
 
 

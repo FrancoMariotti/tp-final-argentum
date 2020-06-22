@@ -37,7 +37,7 @@ add_library(sdlsrc
         src/client_sdl_console.cpp
         src/client_sdl_console.h
         src/client_th_send.cpp
-        src/client_th_send.h src/common_message.cpp src/common_message.h src/client_protected_list.h src/client_th_recv.cpp src/client_th_recv.h src/common_closedqueue_exception.cpp src/common_closedqueue_exception.h src/client_sdl_world.cpp src/client_sdl_world.h)
+        src/client_th_send.h src/common_message.cpp src/common_message.h src/client_protected_list.h src/client_th_recv.cpp src/client_th_recv.h src/common_closedqueue_exception.cpp src/common_closedqueue_exception.h src/client_sdl_world.cpp src/client_sdl_world.h src/client_sdl_camera.cpp src/client_sdl_camera.h)
 
 
 add_executable(SDLTest src/client_main.cpp)
