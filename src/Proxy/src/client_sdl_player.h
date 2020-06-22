@@ -50,6 +50,9 @@ public:
 
     //Muestra al jugador en pantalla
     void render();
+
+    int getPosX() const;
+    int getPosY() const;
 };
 
 

@@ -8,8 +8,6 @@
 #include "client_sdl_console.h"
 #include "common_message.h"
 #include "client_protected_list.h"
-#include "client_th_send.h"
-#include "client_th_recv.h"
 #include "client_sdl_world.h"
 
 //Screen dimension constants
@@ -17,14 +15,13 @@
 #define SCREEN_HEIGHT 768
 
 //The dimensiones of the level
-const int LEVEL_WIDTH = 1280;
-const int LEVEL_HEIGHT = 960;
+const int LEVEL_WIDTH = 2000;
+const int LEVEL_HEIGHT = 2000;
 
 #define FONT_SIZE 14
 
 Client::Client(ProxySocket& proxySocket) :
         window(SCREEN_WIDTH, SCREEN_HEIGHT),
-        mainInterface(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/interfaces/VentanaPrincipal.jpg", window),
         font(nullptr),
         proxySocket(proxySocket),
         thSend(clientEvents, proxySocket),
@@ -49,14 +46,17 @@ int Client::run() {
     SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
     SdlTexture texture("../../Proxy/assets/340.gif", window);
 
+    //Cargo el personaje
+    SdlPlayer player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, texture, head_sprite_sheet);
+
+    SdlTexture mainInterface(LEVEL_WIDTH, LEVEL_HEIGHT,
+            "../../Proxy/assets/dungeon.png", window);
+
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font);
 
     //Cargo el inventario
-    SdlInventory inventory(SCREEN_WIDTH,SCREEN_HEIGHT,window);
-
-    //Cargo el personaje
-    SdlPlayer player(100, 300, texture, head_sprite_sheet);
+    SdlInventory inventory(SCREEN_WIDTH, SCREEN_HEIGHT, window, player);
 
     //Cargo el mundo
     SdlWorld world(window);
