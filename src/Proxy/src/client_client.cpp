@@ -110,8 +110,8 @@ int Client::run() {
         }
         /*Logic*/
         player.move(clientEvents, serverEvents);
-        inventory.use(clientEvents, camera);
-        console.execute(camera, clientEvents);
+        inventory.use(clientEvents);
+        console.execute(clientEvents);
         camera.move();
 
         //Limpio pantalla
@@ -154,7 +154,7 @@ Client::~Client() {
 
 void Client::handleServerEvents(SdlWorld& world) {
     /**al consumir la lista solo se dibuja en el primer frame pero en el siguiente frame la lista ya no esta
-     * por lo tanto debo guardar estos mensajes para redibujarlo en cada render*/
+     * por lo tanto debo guardar estos mensajes para redibujarlo en cada render */
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     for(auto & msg : messages){
         if(msg->getId() == 'd'){

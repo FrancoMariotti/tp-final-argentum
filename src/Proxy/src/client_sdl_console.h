@@ -46,7 +46,7 @@ public:
     void handleEvents(const SDL_Event &event);
 
     /*Logic*/
-    void execute(SdlCamera &camera, BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
 
     /*Render*/
     void render();
