@@ -111,7 +111,7 @@ int Client::run() {
         /*Logic*/
         player.move(clientEvents, serverEvents);
         inventory.use(clientEvents, camera);
-        console.execute(camera);
+        console.execute(camera, clientEvents);
         camera.move();
 
         //Limpio pantalla
@@ -143,7 +143,6 @@ void Client::stop() {
 }
 
 Client::~Client() {
-
     if(font){
         TTF_CloseFont(font);
     }

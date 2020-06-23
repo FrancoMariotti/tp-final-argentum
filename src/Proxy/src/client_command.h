@@ -12,15 +12,20 @@ class Message;
 class Command {
 public:
     virtual void operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents , int i) = 0;
-    virtual void free() = 0;
     virtual ~Command() = default;
 };
 
 class Use: public Command{
 public:
-    /*envia el comando 'e' por el socket*/
     void operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) override;
-    void free() override;
+};
+
+class ConsoleCommand: public Command{
+private:
+    const std::string command;
+public:
+    explicit ConsoleCommand(const std::string command);
+    void operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) override;
 };
 
 

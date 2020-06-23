@@ -9,6 +9,12 @@ void Use::operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int 
 
 }
 
-void Use::free() {
-    delete this;
+
+ConsoleCommand::ConsoleCommand(const std::string command) :
+    command(command)
+    {}
+
+void ConsoleCommand::operator()(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i) {
+    std::cout << "console command" << std::endl;
+    clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(command)));
 }

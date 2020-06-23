@@ -88,3 +88,11 @@ int Draw::getTileY() const {
     return y;
 }
 
+ExecuteCommand::ExecuteCommand(const std::string command) :
+    Message('/'),
+    command(command)
+    {}
+
+std::string ExecuteCommand::getCommand() {
+    return command;
+}

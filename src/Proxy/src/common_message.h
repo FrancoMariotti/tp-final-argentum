@@ -50,4 +50,12 @@ public:
     int getTileY() const override;
 };
 
+class ExecuteCommand : public Message {
+private:
+    const std::string command;
+public:
+    explicit ExecuteCommand(const std::string command);
+    std::string getCommand();
+};
+
 #endif //ARGENTUM_COMMON_MESSAGE_H
