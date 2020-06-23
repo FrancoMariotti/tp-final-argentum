@@ -5,7 +5,11 @@
 #include "client_command_factory.h"
 #include "client_command.h"
 
-CommandFactory::CommandFactory() = default;
+CommandFactory::CommandFactory() :
+    valid_commands{"/meditar", "/resucitar", "/curar", "/depositar",
+                   "/retirar", "/listar", "/comprar", "/vender",
+                   "/tomar", "/tirar"}{
+}
 
 Command *CommandFactory::get(const std::string& input_text) {
     Command* command = nullptr;
