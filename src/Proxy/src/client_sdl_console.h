@@ -7,6 +7,7 @@
 
 #include "client_sdl_texture.h"
 #include "client_sdl_player.h"
+#include "client_command_factory.h"
 #include <list>
 
 class SdlConsole {
@@ -14,6 +15,7 @@ private:
     SdlTexture inputTexture;
     const SdlWindow& window;
     const SdlPlayer& player;
+    CommandFactory commandFactory;
     SDL_Color text_color;
     TTF_Font* font;
     std::string input_text;
@@ -44,11 +46,12 @@ public:
     void handleEvents(const SDL_Event &event);
 
     /*Logic*/
-    void execute(SdlCamera &camera);
+    void execute(SdlCamera &camera, BlockingQueue<std::unique_ptr<Message>> &clientEvents);
 
     /*Render*/
     void render();
 
+    void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents);
 };
 
 

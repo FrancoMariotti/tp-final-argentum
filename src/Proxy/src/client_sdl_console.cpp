@@ -5,6 +5,7 @@
 #include <iostream>
 #include "client_sdl_console.h"
 #include "client_sdl_window.h"
+#include "client_command.h"
 
 SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font,
                        SdlPlayer &player) :
@@ -57,13 +58,15 @@ void SdlConsole::handleEvents(const SDL_Event &e) {
     }
 }
 
-void SdlConsole::execute(SdlCamera &camera) {
+void SdlConsole::execute(SdlCamera &camera, BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     console_x = player.getPosX() - X_FROM_PLAYER - camera.getX();
     console_x = player.getPosY() - Y_FROM_PLAYER - camera.getY();
     //Rerender text if needed
     if(return_times_pressed > 0){
         std::cout << "emplacing" << std::endl;
         recentInputs.emplace_back(input_text, font, text_color, window);
+        /**Al apretar enter resuelvo si es un comando valido*/
+        this->sendCommandIfValid(clientEvents);
         input_text = " ";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -96,4 +99,13 @@ void SdlConsole::render() {
     }
     /*Renderizo lo que estoy escribiendo*/
     this->inputTexture.render(console_x, console_y * 4);
+}
+
+void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents) {
+    Command* cmd = commandFactory.get(this->input_text);
+    if(cmd){
+        (*cmd)(clientEvents, 0);
+        delete cmd;
+        cmd = nullptr;
+    }
 }
