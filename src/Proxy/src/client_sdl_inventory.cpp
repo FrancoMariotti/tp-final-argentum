@@ -72,7 +72,6 @@ void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>>& clientEvents) {
         int fil = (int) i / 4;
         buttons[i]->setPosition(inventory_x + col * button_size,
                                 inventory_y + fil * button_size);
-
     }
 }
 

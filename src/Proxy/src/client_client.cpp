@@ -53,7 +53,7 @@ int Client::run() {
             "../../Proxy/assets/bg.png", window);
 
     //Creo camara
-    SdlCamera camera(SCREEN_WIDTH, SCREEN_WIDTH, player);
+    SdlCamera camera(SCREEN_WIDTH, SCREEN_HEIGHT, player);
 
     //Cargo la consola
     SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font, player);
@@ -110,7 +110,6 @@ int Client::run() {
         }
         /*Logic*/
         player.move(clientEvents,serverEvents);
-
         inventory.use(clientEvents);
         console.execute();
         camera.move();

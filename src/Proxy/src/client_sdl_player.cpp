@@ -60,29 +60,32 @@ void SdlPlayer::handleEvent(SDL_Event &e) {
 
 
 void SdlPlayer::render() {
+    /**Multiplico por el TILE_SIZE 32*/
     //Muestra la cabeza y el cuerpo del npc
-    headSpriteSheetTexture.render(pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2,
-                                       pos_y - HUMANOID_HEAD_HEIGHT,
+    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2),
+                                  (pos_y - HUMANOID_HEAD_HEIGHT),
                                   &head_sprite_clips[e_face_orientation]);
     bodyTexture.render(pos_x, pos_y);
 }
 
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
+/**Ojo que el move no deberia conocer la lista serverEvents, solo para pruebas*/
 void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,ProtectedList<std::unique_ptr<Message>>& serverEvents) {
     //Si se movio
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
         //CODIGO DE PRUEBA
-        std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
-        if(!answer.empty()) {
-            pos_x += answer.front()->getPlayerVelX();
-            pos_y += answer.front()->getPlayerVelY();
-        }
+        //std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
+        //if(!answer.empty()) {
+        //    pos_x += answer.front()->getPlayerVelX();
+        //    pos_y += answer.front()->getPlayerVelY();
+        //}
         //FIN CODIGO DE PRUEBA
     }
-
+    this->pos_x += vel_x;
+    this->pos_y += vel_y;
 }
 
 int SdlPlayer::getPosX() const {

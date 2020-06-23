@@ -3,7 +3,7 @@
 #include "common_message.h"
 
 ProxyServer::ProxyServer(ProxySocket& proxySocket) :
-    keepListening(true),
+    keepListening(false),
     proxySocket(proxySocket)
     {}
 

@@ -35,7 +35,7 @@ void SdlWorld::render(const int x, const int y, const std::string &id){
 void SdlWorld::render(SdlCamera &camera) {
     std::map<std::string, std::vector<SDL_Point>>::iterator iterator = world_tiles.begin();
     while(iterator != world_tiles.end()){
-        for(auto value_iterator = iterator->second.begin() ;
+        for(auto value_iterator = iterator->second.begin();
         value_iterator != iterator->second.end() ; ++value_iterator) {
             SDL_Point relative_point = camera.getCoordinates(*value_iterator);
             worldSpriteSheetTexture.render(relative_point.x,
