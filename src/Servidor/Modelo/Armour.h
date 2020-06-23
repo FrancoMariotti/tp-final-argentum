@@ -21,7 +21,7 @@ public:
     void equipHelmet(int minDef, int maxDef);
     //Devuelve el danio final que recibira el personaje luego de defenderse
     //OTRA OPCION SERIA QUE DEVUELVA SOLAMENTE EL VALOR DE DEFENSA Y HACER LA RESTA EN OTRO LADO
-    int use(int damage);
+    int use(int damage) const;
     ~Armour() = default;
 };
 

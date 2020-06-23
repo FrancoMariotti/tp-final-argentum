@@ -43,6 +43,8 @@ public:
     ~Client();
 
     void handleServerEvents(SdlWorld &world);
+
+    void stop();
 };
 
 

@@ -12,10 +12,12 @@ int main(int argc, char* args[]) {
     try {
         ProxySocket proxySocket;
         ProxyServer proxyServer(proxySocket);
-        std::thread first(proxyServer);
+        proxyServer.start();
         Client client(proxySocket);
         client.run();
-        first.join();
+        proxyServer.stop();
+        client.stop();
+        proxyServer.join();
     } catch (std::exception &e) {
         printf("%s", e.what());
         return 1;

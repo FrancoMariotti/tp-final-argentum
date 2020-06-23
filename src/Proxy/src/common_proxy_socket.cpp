@@ -9,7 +9,7 @@ void ProxySocket::writeToServer(std::unique_ptr<Message> msg) {
     this->proxyServerSocket.push(std::move(msg));
 }
 
-std::unique_ptr<Message> ProxySocket::readServer() {;
+std::unique_ptr<Message> ProxySocket::readServer() {
     return proxyServerSocket.pop();
 }
 

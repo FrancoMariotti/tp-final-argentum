@@ -9,6 +9,7 @@
 #include <vector>
 #include "common_blocking_queue.h"
 #include "common_proxy_socket.h"
+#include "client_protected_list.h"
 
 class Message;
 class SdlTexture;
@@ -46,13 +47,14 @@ public:
     //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event& e );
 
-    void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
-
+    //void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents, ProtectedList<std::unique_ptr<Message>>& serverEvents);
     //Muestra al jugador en pantalla
     void render();
-
     int getPosX() const;
+
     int getPosY() const;
+
 };
 
 

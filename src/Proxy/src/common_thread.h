@@ -14,7 +14,8 @@ private:
 
 public:
     Thread();
-    void start();
+
+    virtual void start();
     void join();
     virtual void run() = 0;
     virtual ~Thread();

@@ -21,16 +21,18 @@ void Armour::equipChest(int minDef, int maxDef) {
     chestMinDef = minDef;
     chestMaxDef = maxDef;
 }
+
 void Armour::equipShield(int minDef, int maxDef) {
     shieldMinDef = minDef;
     shieldMaxDef = maxDef;
 }
+
 void Armour::equipHelmet(int minDef, int maxDef) {
     helmetMinDef = minDef;
     helmetMaxDef = maxDef;
 }
 
-int Armour::use(int damage) {
+int Armour::use(int damage) const {
     int defense = Character::calculateDefense(chestMinDef, chestMaxDef
             , shieldMinDef, shieldMaxDef, helmetMinDef, helmetMaxDef);
     int result = damage - defense;

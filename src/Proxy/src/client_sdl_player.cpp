@@ -69,16 +69,20 @@ void SdlPlayer::render() {
 
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
-void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
+void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,ProtectedList<std::unique_ptr<Message>>& serverEvents) {
     //Si se movio
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
         //CODIGO DE PRUEBA
-        pos_x += vel_x;
-        pos_y += vel_y;
+        std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
+        if(!answer.empty()) {
+            pos_x += answer.front()->getPlayerVelX();
+            pos_y += answer.front()->getPlayerVelY();
+        }
         //FIN CODIGO DE PRUEBA
     }
+
 }
 
 int SdlPlayer::getPosX() const {

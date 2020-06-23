@@ -25,7 +25,7 @@ Client::Client(ProxySocket& proxySocket) :
         font(nullptr),
         proxySocket(proxySocket),
         thSend(clientEvents, proxySocket),
-        thRecv(serverEvents, proxySocket)
+        thRecv(serverEvents,proxySocket)
     {
     //Permito la carga del PNGs
     window.initPNG();
@@ -108,9 +108,9 @@ int Client::run() {
             //Handle de los botones
             inventory.handleEvents(event);
         }
-
         /*Logic*/
-        player.move(clientEvents);
+        player.move(clientEvents,serverEvents);
+
         inventory.use(clientEvents);
         console.execute();
         camera.move();
@@ -133,15 +133,17 @@ int Client::run() {
         //Cap FPS 50
         SDL_Delay(20);
     }
-
     return 0;
 }
 
-Client::~Client() {
+void Client::stop() {
     thSend.stop();
     thRecv.stop();
     thSend.join();
     thRecv.join();
+}
+
+Client::~Client() {
 
     if(font){
         TTF_CloseFont(font);

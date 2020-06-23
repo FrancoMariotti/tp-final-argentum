@@ -7,14 +7,18 @@
 
 
 #include "common_blocking_queue.h"
+#include "common_thread.h"
 
 class ProxySocket;
-class ProxyServer {
+class ProxyServer: public Thread{
+    bool keepListening;
     ProxySocket& proxySocket;
     public:
         explicit ProxyServer(ProxySocket& proxySocket);
-        void operator()();
-        void run();
+        void start() override;
+        void run() override;
+        void stop();
+        ~ProxyServer() override;
 };
 
 
