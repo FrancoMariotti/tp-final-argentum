@@ -79,15 +79,16 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
         //CODIGO DE PRUEBA
-        //std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
-        //if(!answer.empty()) {
-        //    pos_x += answer.front()->getPlayerVelX();
-        //    pos_y += answer.front()->getPlayerVelY();
-        //}
+        std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
+        if(!answer.empty()) {
+
+            pos_x += answer.front()->getPlayerVelX();
+            pos_y += answer.front()->getPlayerVelY();
+        }
         //FIN CODIGO DE PRUEBA
     }
-    this->pos_x += vel_x;
-    this->pos_y += vel_y;
+    /*this->pos_x += vel_x;
+    this->pos_y += vel_y;*/
 }
 
 int SdlPlayer::getPosX() const {

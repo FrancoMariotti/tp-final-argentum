@@ -1,0 +1,221 @@
+{
+  "character" : {
+    "strength": 18,
+    "agility": 18,
+    "intelligence": 18,
+    "constitution": 18,
+    "race": {
+      "human": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "recoveryFactor": 5
+      },
+      "elf": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "recoveryFactor": 5
+      } ,
+      "dwarf": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "recoveryFactor": 5
+      },
+      "gnome": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "recoveryFactor": 5
+      }
+    },
+    "class": {
+      "wizard": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "meditationRecoveryFactor": 5
+      },
+      "cleric": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "meditationRecoveryFactor": 5
+      },
+      "paladin": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "meditationRecoveryFactor": 5
+      },
+      "warrior": {
+        "lifeFactor": 5,
+        "manaFactor": 5,
+        "meditationRecoveryFactor": 5
+      }
+    }
+  },
+  "npc": {
+    "specie": {
+      "goblin": {
+        "lifePoints": 110,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 4,
+        "maxDamage": 12,
+        "minDefense": 2,
+        "maxDefense": 5
+      },
+      "skeleton": {
+        "lifePoints": 50,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 1,
+        "maxDamage": 8,
+        "minDefense": 2,
+        "maxDefense": 5
+      },
+      "zombie": {
+        "lifePoints": 250,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 4,
+        "maxDamage": 12,
+        "minDefense": 2,
+        "maxDefense": 5
+      },
+      "spider": {
+        "lifePoints": 125,
+        "mobility": "movable",
+        "strength": 5,
+        "agility": 5,
+        "intelligence": 5,
+        "constitution": 5,
+        "lifeFactor": 1,
+        "manaFactor": 1,
+        "recoveryFactor": 1,
+        "meditationRecoveryFactor": 1,
+        "minDamage": 3,
+        "maxDamage": 8,
+        "minDefense": 2,
+        "maxDefense": 5
+      }
+    }
+  },
+  "map": {
+    "width": 15,
+    "height": 15,
+    "floor": {
+      "grass": {
+        "x" : 0,
+        "y" : 0,
+        "height" :480,
+        "width": 480
+      }
+    },
+    "obstacles": [
+      {
+        "height":32,
+        "id":2,
+        "name":"hongo",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":160,
+        "y":160
+      },
+      {
+        "height":32,
+        "id":4,
+        "name":"hongo",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":256,
+        "y":96
+      },
+      {
+        "height":32,
+        "id":5,
+        "name":"hongo",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":160,
+        "y":96
+      },
+      {
+        "height":32,
+        "id":6,
+        "name":"hongo",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":224,
+        "y":160
+      },
+      {
+        "height":32,
+        "id":7,
+        "name":"roca",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":96,
+        "y":224
+      },
+      {
+        "height":32,
+        "id":10,
+        "name":"roca",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":224,
+        "y":224
+      },
+      {
+        "height":32,
+        "id":11,
+        "name":"roca",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":32,
+        "x":224,
+        "y":288
+      },
+      {
+        "height":96,
+        "id":12,
+        "name":"lava",
+        "rotation":0,
+        "type":"",
+        "visible":true,
+        "width":96,
+        "x":352,
+        "y":192
+      }]
+  }
+}

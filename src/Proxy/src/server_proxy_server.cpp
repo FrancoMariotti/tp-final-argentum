@@ -1,9 +1,12 @@
 #include "server_proxy_server.h"
 #include "common_proxy_socket.h"
 #include "common_message.h"
+#include "../../Servidor/Modelo/Game.h"
+#include "../../Servidor/Modelo/Event.h"
+#include "../../Servidor/Modelo/EventMove.h"
 
 ProxyServer::ProxyServer(ProxySocket& proxySocket) :
-    keepListening(false),
+    keepListening(true),
     proxySocket(proxySocket)
     {}
 
@@ -14,29 +17,34 @@ void ProxyServer::run() {
             new Draw("pasto", 10, 10)));*/
     //En el parametro del write le paso un unique_ptr que en su constructor recibe un
     //new Mensaje donde mensaje es el mensaje especifico que quiero crear
+
+    Game game("src/Servidor/config/config.json");
+    game.createPlayer("franco", "human", "wizard");
+
     while(this->keepListening) {
         /*Si no hay eventos se bloquea*/
         std::unique_ptr<Message> msg = proxySocket.readServer();
         if(!msg) break;
+        std::cout << "MSG type:"<< msg->getId() << std::endl;
 
-        Movement* event = (Movement*) msg.release();
+        if (msg->getId() == 'm') {
 
-        std::cout << "MSG type:"<< event->getId() << std::endl;
-        std::cout << "VEL X:"<< event->getPlayerVelX() << std::endl;
-        std::cout << "VEL Y:"<< event->getPlayerVelY() << std::endl;
+            Movement* event = (Movement*) msg.release();
+            std::cout << "VEL X:"<< event->getPlayerVelX() << std::endl;
+            std::cout << "VEL Y:"<< event->getPlayerVelY() << std::endl;
 
-
-        proxySocket.writeToClient(std::unique_ptr<Message> (
-                    new Movement(10,10)));
+            /*
+            Offset offset(event->getPlayerVelX(), event->getPlayerVelX());
+            Event* move = new EventMove(offset);
+            move->execute(game, "franco");
+            */
+            proxySocket.writeToClient(std::unique_ptr<Message> (
+                        new Movement(event->getPlayerVelX()*5,event->getPlayerVelY()*5)));
+            }
 
     }
 
     std::cout << "Server finaliza run" << std::endl;
-    /*std::unique_ptr<Message> msg2 = proxySocket.readServer();
-    std::cout << "MSG type:"<< msg2->getId() << std::endl;
-    std::cout << "VEL X:"<< msg2->getPlayerVelX() << std::endl;
-    std::cout << "VEL Y:"<< msg2->getPlayerVelY() << std::endl;
-    proxySocket.writeToClient(std::unique_ptr<Message>(new Movement(2,2)));*/
 }
 
 void ProxyServer::start() {
