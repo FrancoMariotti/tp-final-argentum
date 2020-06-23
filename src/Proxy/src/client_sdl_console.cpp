@@ -4,22 +4,25 @@
 
 #include <iostream>
 #include "client_sdl_console.h"
+#include "client_sdl_window.h"
 
 SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font,
                        SdlPlayer &player) :
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
         window(window),
-        font(font), render_text(false), return_times_pressed(0){
+        player(player),
+        text_color{0xAA,0xAA,0xFF,0xFF},
+        font(font), render_text(false), return_times_pressed(0),
+        X_FROM_PLAYER(IMAGE_CONSOLE_X - (screen_width / 2)),
+        Y_FROM_PLAYER((screen_height / 2) - IMAGE_CONSOLE_Y){
 
     //Enable text input
     SDL_StartTextInput();
 
-    this->console_x = IMAGE_CONSOLE_X;
-    this->console_y = IMAGE_CONSOLE_Y;
+    this->console_x = player.getPosX() - X_FROM_PLAYER;
+    this->console_y = player.getPosY() - Y_FROM_PLAYER;
     this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
-
-    text_color = {0xAA,0xAA,0xFF,0xFF};
 }
 
 void SdlConsole::handleEvents(const SDL_Event &e) {
@@ -54,7 +57,9 @@ void SdlConsole::handleEvents(const SDL_Event &e) {
     }
 }
 
-void SdlConsole::execute() {
+void SdlConsole::execute(SdlCamera &camera) {
+    console_x = player.getPosX() - X_FROM_PLAYER - camera.getX();
+    console_x = player.getPosY() - Y_FROM_PLAYER - camera.getY();
     //Rerender text if needed
     if(return_times_pressed > 0){
         std::cout << "emplacing" << std::endl;
@@ -80,10 +85,10 @@ void SdlConsole::execute() {
 }
 
 void SdlConsole::render() {
+    SDL_Rect outline_rect = {console_x, console_y, width, height};
+    SDL_SetRenderDrawColor(window.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
+    SDL_RenderDrawRect(window.getRenderer(), &outline_rect);
     /*Renderizo los mensajes anteriores*/
-    //auto iterator = recentInputs.begin();
-    //iterator->render(console_x, console_y + iterator->getHeight());
-    //recentInputs.back().render(console_x, console_y);
     int i=0;
     for(auto & recent_input: recentInputs){
         i++;

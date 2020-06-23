@@ -60,9 +60,9 @@ void SdlInventory::handleEvents(SDL_Event &event) {
     }
 }
 
-void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>>& clientEvents) {
-    this->inventory_x = player.getPosX() + x_from_player;
-    this->inventory_y = player.getPosY() - y_from_player;
+void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlCamera &camera) {
+    this->inventory_x = player.getPosX() + x_from_player - camera.getX();
+    this->inventory_y = player.getPosY() - y_from_player - camera.getY();
 
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
         /*Veo si fueron clickeados*/

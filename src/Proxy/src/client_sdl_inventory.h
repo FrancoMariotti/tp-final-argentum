@@ -39,7 +39,7 @@ public:
     void handleEvents(SDL_Event &event);
 
     /*logic*/
-    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlCamera &camera);
 
     void render();
 

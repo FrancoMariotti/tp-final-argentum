@@ -8,11 +8,11 @@
 #define TILE_SIZE 32
 
 SdlCamera::SdlCamera(const int screen_width,const int screen_height, SdlPlayer& player) :
-    camera_width(screen_width),
-    camera_height(screen_height),
-    player(player) {
-    camera_x = player.getPosX() /** + SdlPlayer::playerWidth / 2*/ - camera_width / 2;
-    camera_y = player.getPosY() - camera_height / 2;
+        CAMERA_WIDTH(screen_width),
+        CAMERA_HEIGHT(screen_height),
+        player(player) {
+    camera_x = player.getPosX() /** + SdlPlayer::playerWidth / 2*/ - CAMERA_WIDTH / 2;
+    camera_y = player.getPosY() - CAMERA_HEIGHT / 2;
 }
 
 SDL_Point SdlCamera::getCoordinates(const SDL_Point point) {
@@ -21,15 +21,23 @@ SDL_Point SdlCamera::getCoordinates(const SDL_Point point) {
 }
 
 void SdlCamera::move() {
-    camera_x = player.getPosX() - (camera_width / 2);
-    camera_y = player.getPosY() - (camera_height / 2);
+    camera_x = player.getPosX() - (CAMERA_WIDTH / 2);
+    camera_y = player.getPosY() - (CAMERA_HEIGHT / 2);
 }
 
 bool SdlCamera::isInCameraView(const SDL_Point& point) const {
     bool render = false;
-    if(point.x * TILE_SIZE > camera_x && point.x * TILE_SIZE < camera_x + camera_width
-        && point.y * TILE_SIZE > camera_y && point.y * TILE_SIZE < camera_y + camera_height) {
+    if(point.x * TILE_SIZE > camera_x && point.x * TILE_SIZE < camera_x + CAMERA_WIDTH
+        && point.y * TILE_SIZE > camera_y && point.y * TILE_SIZE < camera_y + CAMERA_HEIGHT) {
         render = true;
     }
     return render;
+}
+
+int SdlCamera::getX(){
+    return camera_x;
+}
+
+int SdlCamera::getY(){
+    return camera_y;
 }

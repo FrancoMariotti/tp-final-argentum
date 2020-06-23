@@ -10,6 +10,7 @@
 #include "common_blocking_queue.h"
 #include "client_command.h"
 #include "common_proxy_socket.h"
+#include "client_sdl_camera.h"
 
 class Message;
 class SdlButton {

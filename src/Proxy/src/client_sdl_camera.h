@@ -11,8 +11,8 @@
 class SdlPlayer;
 class SdlCamera {
 private:
-    const int camera_width;
-    const int camera_height;
+    const int CAMERA_WIDTH;
+    const int CAMERA_HEIGHT;
     const SdlPlayer& player;
     int camera_x;
     int camera_y;
@@ -27,6 +27,10 @@ public:
     void move();
 
     bool isInCameraView(const SDL_Point& point) const;
+
+    int getX();
+
+    int getY();
 };
 
 

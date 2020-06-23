@@ -109,9 +109,9 @@ int Client::run() {
             inventory.handleEvents(event);
         }
         /*Logic*/
-        player.move(clientEvents,serverEvents);
-        inventory.use(clientEvents);
-        console.execute();
+        player.move(clientEvents, serverEvents);
+        inventory.use(clientEvents, camera);
+        console.execute(camera);
         camera.move();
 
         //Limpio pantalla
@@ -122,7 +122,7 @@ int Client::run() {
 
         //Render objects
         world.render(camera);
-        player.render();
+        player.render(camera);
         inventory.render();
         console.render();
 

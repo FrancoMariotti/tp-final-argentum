@@ -6,6 +6,7 @@
 #include "client_sdl_player.h"
 #include "client_sdl_texture.h"
 #include "common_message.h"
+#include "client_sdl_camera.h"
 
 #define HUMANOID_HEAD_WIDTH 17
 #define HUMANOID_HEAD_HEIGHT 15
@@ -59,19 +60,20 @@ void SdlPlayer::handleEvent(SDL_Event &e) {
 }
 
 
-void SdlPlayer::render() {
+void SdlPlayer::render(SdlCamera &camera) {
     /**Multiplico por el TILE_SIZE 32*/
     //Muestra la cabeza y el cuerpo del npc
-    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2),
-                                  (pos_y - HUMANOID_HEAD_HEIGHT),
+    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
+                                  (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
                                   &head_sprite_clips[e_face_orientation]);
-    bodyTexture.render(pos_x, pos_y);
+    bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
 }
 
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
 /**Ojo que el move no deberia conocer la lista serverEvents, solo para pruebas*/
-void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,ProtectedList<std::unique_ptr<Message>>& serverEvents) {
+void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,
+                     ProtectedList<std::unique_ptr<Message>> &serverEvents) {
     //Si se movio
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (

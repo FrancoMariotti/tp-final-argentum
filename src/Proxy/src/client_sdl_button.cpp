@@ -6,6 +6,7 @@
 #include "client_sdl_button.h"
 #include "common_proxy_socket.h"
 #include "common_message.h"
+#include "client_sdl_camera.h"
 
 #define BUTTON_WIDTH 300
 #define BUTTON_HEIGHT 200
@@ -95,7 +96,9 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
 
 void SdlButton::render() {
     //Show current button sprite
-    this->buttonSpriteSheetTexture.render(position.x, position.y, &this->button_sprite_clips[current_sprite]);
+    this->buttonSpriteSheetTexture.render(position.x,
+            position.y,
+            &this->button_sprite_clips[current_sprite]);
 }
 
 SdlButton::~SdlButton() {
