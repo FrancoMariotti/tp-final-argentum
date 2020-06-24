@@ -46,7 +46,7 @@ class SdlButton {
         void setPosition(int x, int y);
 
         //Handles mouse event
-        void handleEvent(SDL_Event &e);
+        void handleEvent(SDL_Event &e, bool &is_event_handled);
 
         void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i);
 

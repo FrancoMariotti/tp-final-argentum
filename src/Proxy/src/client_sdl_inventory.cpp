@@ -51,16 +51,14 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
 
 }
 
-void SdlInventory::handleEvents(SDL_Event &event) {
+void SdlInventory::handleEvents(SDL_Event &event, bool &is_event_handled) {
     /*Client side events*/
     for(auto & button : buttons){
-        button->handleEvent(event);
+        button->handleEvent(event, is_event_handled);
     }
 }
 
 void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
-    /** Sacar la camara  pq renderizo el mundo, por lo tanto el inventario y la consola son estaticos
-     * no necesitan la camara */
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
         /*Veo si fueron clickeados*/
         buttons[i]->use(clientEvents, (int) i);
@@ -69,6 +67,7 @@ void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
 
 void SdlInventory::addItem(const std::string& item_id){
     /*El server me envia el id del item para cargarle la textura*/
+    /**Deberia cargar todas las texturas posibles de los items en el constructor*/
     inventoryTextures.emplace(std::piecewise_construct,
                               std::forward_as_tuple(item_id),
                               std::forward_as_tuple(button_size,button_size,

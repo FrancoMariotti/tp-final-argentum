@@ -5,8 +5,6 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_player.h"
 
-#define TILE_SIZE 32
-
 SdlCamera::SdlCamera(const int screen_width,const int screen_height, SdlPlayer& player) :
         CAMERA_WIDTH(screen_width),
         CAMERA_HEIGHT(screen_height),
@@ -40,4 +38,8 @@ int SdlCamera::getX(){
 
 int SdlCamera::getY(){
     return camera_y;
+}
+
+int SdlCamera::toPixels(const int value) const{
+    return value * TILE_SIZE;
 }

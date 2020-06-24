@@ -35,7 +35,7 @@ SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
 }
 
 
-void SdlPlayer::handleEvent(SDL_Event &e) {
+void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
     //if a key was pressed
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
         //Adjust the velocity
@@ -58,17 +58,9 @@ void SdlPlayer::handleEvent(SDL_Event &e) {
 
         }
     }
+
 }
 
-
-void SdlPlayer::render(SdlCamera &camera) {
-    /**Multiplico por el TILE_SIZE 32*/
-    //Muestra la cabeza y el cuerpo del npc
-    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
-                                  (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
-                                  &head_sprite_clips[e_face_orientation]);
-    bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
-}
 
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
@@ -88,10 +80,19 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     }
 }
 
-void SdlPlayer::update(const int p_vel_x, const int p_vel_y) {
-    this->pos_x += p_vel_x;
-    this->pos_y += p_vel_y;
+void SdlPlayer::update(const int p_vel_y, const int p_vel_x, SdlCamera &camera) {
+    this->pos_x += camera.toPixels(p_vel_x);
+    this->pos_y += camera.toPixels(p_vel_y);
 }
+
+void SdlPlayer::render(SdlCamera &camera) {
+    //Muestra la cabeza y el cuerpo del npc
+    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
+                                  (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
+                                  &head_sprite_clips[e_face_orientation]);
+    bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
+}
+
 
 int SdlPlayer::getPosX() const {
     return this->pos_x;

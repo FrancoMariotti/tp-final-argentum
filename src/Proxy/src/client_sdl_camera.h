@@ -17,6 +17,8 @@ private:
     int camera_x;
     int camera_y;
 
+    const int TILE_SIZE = 32;
+
 public:
     /*Inicializo la camara con las dimensiones de la pantalla*/
     SdlCamera(int screen_width, int screen_height, SdlPlayer& player);
@@ -27,6 +29,8 @@ public:
     void move();
 
     bool isInCameraView(const SDL_Point& point) const;
+
+    int toPixels(int value) const;
 
     int getX();
 

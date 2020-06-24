@@ -43,7 +43,7 @@ public:
                SdlPlayer &player);
 
     /*Handle*/
-    void handleEvents(const SDL_Event &event);
+    void handleEvent(const SDL_Event &event, bool &is_event_handled);
 
     /*Logic*/
     void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents);

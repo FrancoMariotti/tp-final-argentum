@@ -39,7 +39,7 @@ void ProxyServer::run() {
             move->execute(game, "franco");
             */
             proxySocket.writeToClient(std::unique_ptr<Message> (
-                        new Movement(event->getPlayerVelX()*5,event->getPlayerVelY()*5)));
+                        new Movement(event->getPlayerVelX(),event->getPlayerVelY())));
             }
 
     }

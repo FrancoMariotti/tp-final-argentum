@@ -4,12 +4,8 @@
 
 #include <thread>
 #include "client_client.h"
-#include "client_sdl_inventory.h"
-#include "client_sdl_console.h"
 #include "common_message.h"
 #include "client_protected_list.h"
-#include "client_sdl_world.h"
-#include "client_sdl_exception.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
@@ -19,26 +15,17 @@
 const int LEVEL_WIDTH = 3200;
 const int LEVEL_HEIGHT = 3200;
 
-#define FONT_SIZE 14
-
 Client::Client(ProxySocket& proxySocket) :
         //window(SCREEN_WIDTH, SCREEN_HEIGHT),
         //font(nullptr),
         proxySocket(proxySocket),
         thSend(clientEvents, proxySocket),
         thRecv(serverEvents,proxySocket),
-        gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents)
-        {
-    //Abro la fuente
-    /*this->font = TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE);
-    if (!font){
-        throw SdlException("Could not open font", TTF_GetError());
-    }*/
+        gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents){
     /*Lanzo los threads*/
     thSend.start();
     thRecv.start();
-
-    }
+}
 
 int Client::run() {
     //Cargo el personaje
@@ -65,7 +52,7 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
-    //this->init(world);
+    //this->init();
     for (int i = 0; i < 100 ; ++i) {
         for (int j = 0; j < 100 ; ++j) {
             if(i == j){
@@ -75,6 +62,11 @@ int Client::run() {
             }
         }
     }
+    gui.addRenderable(200, 200, "arania1");
+    gui.addRenderable(200, 300, "arania1");
+    gui.addRenderable(300, 200, "esqueleto12");
+    gui.addRenderable(400, 200, "zombie99");
+    gui.addRenderable(500, 200, "goblin1");
     ///
 
     //While application is running
@@ -124,15 +116,15 @@ void Client::stop() {
     thRecv.join();
 }
 
-Client::~Client() {
-}
-
 void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
+    /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
         if(msg->getId() == 'm'){
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
         }
     }
+}
 
+Client::~Client() {
 }

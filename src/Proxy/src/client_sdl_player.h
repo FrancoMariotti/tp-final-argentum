@@ -29,8 +29,8 @@ private:
     SdlTexture headSpriteSheetTexture;
 
     //Dimensiones del jugador
-    int width;
-    int height;
+    //int width;
+    //int height;
     //Se puede mover un casillero a la vez
     const int VEL = 1;
     int pos_x, pos_y;
@@ -47,18 +47,18 @@ public:
     SdlPlayer(int x, int y, SdlWindow& window);
 
     //client side: Ajusta la velocidad del jugador
-    void handleEvent(SDL_Event& e );
+    void handleEvent(SDL_Event &e, bool &is_event_handled);
 
-    //void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
-    void
-    move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
     //Muestra al jugador en pantalla
+
     void render(SdlCamera &camera);
+
+    void update(const int p_vel_y, const int p_vel_x, SdlCamera &camera);
+
     int getPosX() const;
 
     int getPosY() const;
-
-    void update(const int vel_x, const int vel_y);
 };
 
 
