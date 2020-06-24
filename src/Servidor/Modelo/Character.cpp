@@ -106,8 +106,7 @@ bool Character::dodge(int agility) {
     return pow(modifier, agility) < 0.001;
 }
 
-int
-Character::calculateDefense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet) {
+/*int Character::calculateDefense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet) {
     int armour = 0;
     int shield = 0;
     int helmet = 0;
@@ -122,7 +121,7 @@ Character::calculateDefense(int minArmour, int maxArmour, int minShield, int max
 
     return armour + shield + helmet;
 }
-
+*/
 int Character::calculateNpcGoldDrop(int npcMaxLp) {
     //std::default_random_engine generator;
     //std::uniform_real_distribution<float> distribution(0,0.2);

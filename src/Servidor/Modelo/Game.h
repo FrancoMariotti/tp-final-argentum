@@ -29,7 +29,7 @@ public:
     void addUpdatePosition(int x, int y);
 
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
-    void equipShield(std::string playerName, int minDef, int maxDef);
+    void equipProtection(std::string playerName, Equippable element, int id);
 };
 
 

@@ -5,6 +5,7 @@
 #include "Position.h"
 #include "Obstacle.h"
 #include "Weapon.h"
+#include "Equippable.h"
 
 class Character;
 class Npc;
@@ -30,10 +31,11 @@ class Map {
         void triggerAttack(const std::string& playerName,Position& position);
         void triggerEquipWeapon(const std::string &playerName,Weapon *weapon);
         Character* findClosestCharacter(Position pos, int range);
+        void triggerEquipProtection(std::string playerName, Equippable element, int id);
         void triggerAttack(const std::string &playerName, const std::string &playerNameEnemy);
-        void triggerEquipShield(std::string playerName, int minDef, int maxDef);
         bool outOfBounds(Position &position);
         ~Map();
+
 };
 
 #endif //ARGENTUM_MAPA_H

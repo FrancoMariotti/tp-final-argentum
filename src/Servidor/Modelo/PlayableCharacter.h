@@ -26,7 +26,7 @@ public:
         void attack(Character *character) override;
         void move(Map* map,Offset& offset);
         void equipWeapon(Weapon* weapon);
-        void equipShield(int minDef, int maxDef);
+        void equipProtection(Equippable element, int id);
         ~PlayableCharacter() override;
 };
 

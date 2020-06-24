@@ -89,8 +89,8 @@ void Map::triggerEquipWeapon(const std::string &playerName,Weapon *weapon) {
     characters.at(playerName)->equipWeapon(weapon);
 }
 
-void Map::triggerEquipShield(std::string playerName, int minDef, int maxDef) {
-    characters.at(playerName)->equipShield(minDef, maxDef);
+void Map::triggerEquipProtection(std::string playerName, Equippable element, int id) {
+    characters.at(playerName)->equipProtection(element, id);
 }
 
 Map::~Map() {

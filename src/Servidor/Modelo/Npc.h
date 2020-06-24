@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Character.h"
 #include "Mobility.h"
+#include "Equippable.h"
 #include <string>
 
 class Mobility;
@@ -20,8 +21,7 @@ private:
     std::string specie;
     int minDamage;
     int maxDamage;
-    int minDefense;
-    int maxDefense;
+    Equippable armour;
     virtual int defend(int damage) override;
 public:
     //Pasamos la Mobility por parametro porque pensamos en que puede

@@ -32,8 +32,8 @@ void PlayableCharacter::equipWeapon(Weapon* weapon) {
     activeWeapon = weapon;
 }
 
-void PlayableCharacter::equipShield(int minDef, int maxDef) {
-    armour.equipShield(minDef, maxDef);
+void PlayableCharacter::equipProtection(Equippable element, int id) {
+    armour.equip(element, id);
 }
 
 int PlayableCharacter::defend(int damage) {

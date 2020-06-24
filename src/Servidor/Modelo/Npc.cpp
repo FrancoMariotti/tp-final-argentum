@@ -9,7 +9,7 @@ Npc::Npc(int lifePoints, Mobility* mobility, int x, int y,int constitution,
                  0, 0, 0, 0,
                  0, 0),mobility(mobility), specie(specie),
                  minDamage(minDamage), maxDamage(maxDamage),
-                 minDefense(minDefense), maxDefense(maxDefense){
+                 armour(minDefense, maxDefense){
     this->level = level;
 }
 
@@ -18,8 +18,7 @@ void Npc::move(Map* map) {
 }
 
 int Npc::defend(int damage) {
-    int defense = Character::calculateDefense(minDefense, maxDefense
-            ,0 ,0 ,0 ,0);
+    int defense = armour.randomize();
     int result = damage - defense;
     if (result < 0) return 0;
     return result;

@@ -15,6 +15,7 @@ int main(int argc, char const *argv[]) {
     Event* event = new EventMove(offset);
     Range* range = new ShortRange();
     NormalWeapon sword(2, 5, range);
+    Equippable shield(2, 5);
 
     Game game("config/config.json");
     /*
@@ -25,13 +26,15 @@ int main(int argc, char const *argv[]) {
     game.createPlayer("franco2", "human", "wizard");
     //game.createNpc("goblin");
     game.equipWeapon(&sword, "franco");
-    game.equipShield("franco2", 2, 5);
+    game.equipProtection("franco2", shield, 1);
     event->execute(game,"franco");
     game.attackPlayer("franco","franco2");
-    game.attackPlayer("franco","franco2");
-    game.attackPlayer("franco","franco2");
+    /*game.attackPlayer("franco","franco2");
+    game.attackPlayer("franco","franco2");*/
+
     delete event;
-    //PlayableCharacter character (100, 4, 5, map);
+
+     //PlayableCharacter character (100, 4, 5, map);
 
     //for (int i = 0; i < 10; i++) {
     //   npc.move();

@@ -49,7 +49,7 @@ class Character {
         static int calculateAttackXp(int strength, int weaponMinDamage, int weaponMaxDamage, int myLvl, int enemyLvl);
         static int calculateKillXp (int enemyMaxLp, int mylvl, int enemyLvl);
         static bool dodge(int agility);
-        static int calculateDefense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
+        //static int calculateDefense(int minArmour, int maxArmour, int minShield, int maxShield, int minHelmet, int maxHelmet);
         static int calculateNpcGoldDrop(int npcMaxLp);
         static bool shouldDrop(int probability);
         virtual ~Character();

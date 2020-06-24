@@ -40,8 +40,8 @@ void Game::equipWeapon(Weapon* weapon, std::string playerName) {
     map->triggerEquipWeapon(playerName,weapon);
 }
 
-void Game::equipShield(std::string playerName, int minDef, int maxDef) {
-    map->triggerEquipShield(playerName, minDef, maxDef);
+void Game::equipProtection(std::string playerName, Equippable element, int id) {
+    map->triggerEquipProtection(playerName, element, id);
 }
 
 Game::~Game() {
