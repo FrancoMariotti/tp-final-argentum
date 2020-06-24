@@ -29,8 +29,8 @@ int main(int argc, char const *argv[]) {
     game.equipProtection("franco2", shield, 1);
     event->execute(game,"franco");
     game.attackPlayer("franco","franco2");
-    /*game.attackPlayer("franco","franco2");
-    game.attackPlayer("franco","franco2");*/
+    game.attackPlayer("franco","franco2");
+    game.attackPlayer("franco","franco2");
 
     delete event;
 

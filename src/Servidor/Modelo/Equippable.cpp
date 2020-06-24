@@ -9,5 +9,6 @@ Equippable::Equippable(int minValue, int maxValue) : minValue(minValue), maxValu
 
 int Equippable::randomize() const {
     int range = maxValue - minValue;
+    if (range == 0) return range;
     return std::rand() % range + minValue;
 }
