@@ -51,7 +51,8 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string configFile)
     characterObj = parser.read("character");
 }
 
-void PlayableCharacterFactory::create(Map* map,const std::string& playerName,const std::string& charRace, const std::string& charClass) {
+void PlayableCharacterFactory::create(Game *game, Map *map, const std::string &playerName, const std::string &charRace,
+                                      const std::string &charClass) {
     Log* log = Log::instancia();
 
     log->write("Creacion de Jugador:" + playerName);

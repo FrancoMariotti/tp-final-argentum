@@ -25,11 +25,9 @@ public:
     void equipWeapon(Weapon* weapon, std::string playerName);
     void movePlayer(const std::string& playerName, Offset& offset);
     void attackNpc(const std::string &playerName, Position &position);
-    ~Game();
-    void addUpdatePosition(int x, int y);
-
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
     void equipProtection(std::string playerName, Equippable element, int id);
+    ~Game();
 };
 
 

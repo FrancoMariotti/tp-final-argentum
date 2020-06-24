@@ -1,4 +1,5 @@
 #include <iostream>
+#include <Proxy/src/common_proxy_socket.h>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
@@ -11,7 +12,7 @@ Game::Game(std::string configFile): factoryCharacters(configFile), npcFactory(co
 
 void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
-    factoryCharacters.create(map,playerName,charRace, charClass);
+    factoryCharacters.create(this,map,playerName,charRace, charClass);
 }
 
 void Game::createNpc(const std::string& specie) {
@@ -28,11 +29,6 @@ void Game::attackNpc(const std::string& playerName, Position& position) {
 
 void Game::attackPlayer(const std::string& playerName, const std::string& playerNameEnemy) {
     map->triggerAttack(playerName,playerNameEnemy);
-}
-
-void Game::addUpdatePosition(int x,int y) {
-    Update update(x,y);
-    updates.push_back(update);
 }
 
 void Game::equipWeapon(Weapon* weapon, std::string playerName) {

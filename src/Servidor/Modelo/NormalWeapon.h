@@ -6,15 +6,16 @@
 #define ARGENTUM_COMMONWEAPON_H
 
 #include "Weapon.h"
-#include "Range.h"
+
+enum RangeWeapon {SHORT,LONG};
 
 class NormalWeapon : public Weapon {
-    int minDamage;
-    int maxDamage;
-    Range* range;
+    //Range* range;
+    RangeWeapon range;
     public:
-        NormalWeapon(int minDamage,int maxDamage,Range* range);
-        void attack(Character *enemy,int strength,int &mana,Position &holderPos) override;
+        //NormalWeapon(int minDamage,int maxDamage,Range* range);
+        NormalWeapon(int minDamage,int maxDamage,RangeWeapon range);
+        int attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) override;
         ~NormalWeapon() override;
 };
 

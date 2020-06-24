@@ -32,3 +32,11 @@ void Offset::randomDir() {
 bool Offset::isZero() const{
     return (this->xOffset == 0) && (this->yOffset == 0);
 }
+
+int Offset::getX() {
+    return this->xOffset;
+}
+
+int Offset::getY() {
+    return this->yOffset;
+}

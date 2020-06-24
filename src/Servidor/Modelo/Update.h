@@ -6,11 +6,15 @@
 #define ARGENTUM_UPDATE_H
 
 
+#include <Proxy/src/common_proxy_socket.h>
+#include "Offset.h"
+
 class Update {
     int x;
     int y;
     public:
-        Update(int x,int y);
+        Update(Offset& offset);
+        void send(ProxySocket &socket);
 };
 
 

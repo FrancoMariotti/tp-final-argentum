@@ -21,11 +21,18 @@ void PlayableCharacter::move(Map* map,Offset& offset) {
     Position siguiente(this->currPos);
     siguiente.apply(offset);
     map->move(this->currPos,siguiente);
-    //game->addUpdatePosition(currPos.getX(),currPos.getY());
+}
+
+void PlayableCharacter::recoverLifePoints(int seconds) {
+    this->lifePoints += calculateRecoverLifePoints(seconds);
+}
+
+void PlayableCharacter::recoverMana(int seconds) {
+    this->mana += calculateRecoverMana(seconds);
 }
 
 void PlayableCharacter::attack(Character *character) {
-    activeWeapon->attack(character,strength,mana,currPos);
+    this->xp += activeWeapon->attack(character,strength,level,&mana,currPos);
 }
 
 void PlayableCharacter::equipWeapon(Weapon* weapon) {

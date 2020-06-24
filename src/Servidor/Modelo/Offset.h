@@ -17,6 +17,8 @@ class Offset {
         int move_y(int y) const;
         void approach();
         void randomDir();
+        int getX();
+        int getY();
         bool isZero() const;
 };
 

@@ -4,17 +4,16 @@
 
 #include "NormalWeapon.h"
 
-NormalWeapon::NormalWeapon(int minDamage, int maxDamage, Range *range) {
+NormalWeapon::NormalWeapon(int minDamage,int maxDamage,RangeWeapon range) {
     this->minDamage = minDamage;
     this->maxDamage = maxDamage;
     this->range = range;
 }
 
-void NormalWeapon::attack(Character *enemy, int strength, int &mana, Position &holderPos) {
-    int damage = Character::calculateDamage(strength,minDamage,maxDamage);
-    range->attack(enemy,holderPos,damage);
+int NormalWeapon::attack(Character *enemy, int strength,int level, int *mana, Position &holderPos) {
+    int damage = calculateDamage(strength);
+    if(range == LONG) return 0;
+    return enemy->receiveDamage(level,damage);
 }
 
-NormalWeapon::~NormalWeapon() {
-    delete range;
-}
+NormalWeapon::~NormalWeapon() {}

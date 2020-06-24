@@ -10,12 +10,11 @@ MagicalWeapon::MagicalWeapon(int minDamage, int maxDamage, int cost) {
     this->cost = cost;
 }
 
-void MagicalWeapon::attack(Character *enemy,int strength,int &mana,Position &holderPos) {
-    if(mana >= cost){
-        int damage = Character::calculateDamage(strength,minDamage,maxDamage);
-        enemy->receiveDamage(damage);
-        mana -= cost;
-    }
+int MagicalWeapon::attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) {
+    if(*mana < cost) return 0;
+    *mana -= cost;
+    int damage = calculateDamage(strength);
+    return enemy->receiveDamage(level,damage);
 }
 
 MagicalWeapon::~MagicalWeapon() {}

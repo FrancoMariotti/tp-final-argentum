@@ -6,12 +6,18 @@
 #define ARGENTUM_WEAPON_H
 
 #include "Character.h"
+
 class Character;
-class Calculator;
 
 class Weapon {
+    protected:
+        int minDamage;
+        int maxDamage;
+        virtual int calculateDamage(int strength);
     public:
-        virtual void attack(Character *enemy,int strength,int &mana,Position &holderPos) = 0;
+        virtual int attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) = 0;
         virtual ~Weapon() = default;
 };
+
+
 #endif //ARGENTUM_WEAPON_H

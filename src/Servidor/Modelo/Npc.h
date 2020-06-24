@@ -9,6 +9,7 @@
 #include "Character.h"
 #include "Mobility.h"
 #include "Equippable.h"
+#include "NormalWeapon.h"
 #include <string>
 
 class Mobility;
@@ -19,8 +20,7 @@ private:
     Mobility *mobility;
     //POR AHORA LO PLANTEO COMO UN STRING
     std::string specie;
-    int minDamage;
-    int maxDamage;
+    NormalWeapon activeWeapon;
     Equippable armour;
     virtual int defend(int damage) override;
 public:
@@ -31,6 +31,8 @@ public:
         int maxDamage, int minDefense, int maxDefense);
     void move(Map* map);
     virtual void attack(Character* character) override;
+    int calculateNpcGoldDrop(int npcMaxLp);
+    bool shouldDrop(int probability);
     ~Npc() override;
 };
 

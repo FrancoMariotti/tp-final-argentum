@@ -7,10 +7,11 @@ Npc::Npc(int lifePoints, Mobility* mobility, int x, int y,int constitution,
          , int maxDamage, int minDefense, int maxDefense):
          Character(lifePoints,x, y,constitution,strength,agility,intelligence,
                  0, 0, 0, 0,
-                 0, 0),mobility(mobility), specie(specie),
-                 minDamage(minDamage), maxDamage(maxDamage),
+                 0, 0),mobility(mobility),
+                 activeWeapon(minDamage, maxDamage,SHORT),
                  armour(minDefense, maxDefense){
     this->level = level;
+    this->specie = specie;
 }
 
 void Npc::move(Map* map) {
@@ -24,10 +25,22 @@ int Npc::defend(int damage) {
     return result;
 }
 
+
+int Npc::calculateNpcGoldDrop(int npcMaxLp) {
+    double modifier = double(rand()) / (double(RAND_MAX) + 0.2);
+    return modifier * npcMaxLp;
+}
+
+bool Npc::shouldDrop(int probability) {
+    int n = 100;
+    int result = std::rand() % (n+1);
+    return result < (probability * n);
+}
+
+
 void Npc::attack(Character* character) {
     if (character->distanceTo(currPos) == 1) {
-        int damage = Character::calculateDamage(strength, minDamage, maxDamage);
-        character->receiveDamage(damage);
+        activeWeapon.attack(character,strength,level,NULL,currPos);
     }
 }
 
