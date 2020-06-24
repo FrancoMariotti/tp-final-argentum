@@ -38,7 +38,10 @@ int Character::receiveDamage(int enemyLevel,int damage) {
     log->write("Danio generado por el enemigo:");
     log->writeInt(damage);
 
-    if (dodge()) return 0;
+    if (dodge()) {
+        log->write("Ataque esquivado");
+        return 0;
+    }
 
     damage = defend(damage);
     log->write("Danio restante despues de defenderme:");

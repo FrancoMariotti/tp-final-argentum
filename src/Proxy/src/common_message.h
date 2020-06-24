@@ -5,6 +5,7 @@
 #ifndef ARGENTUM_COMMON_MESSAGE_H
 #define ARGENTUM_COMMON_MESSAGE_H
 
+#include <string>
 
 class Message {
 protected:
