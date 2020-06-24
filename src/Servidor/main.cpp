@@ -1,6 +1,4 @@
 #include <Servidor/Modelo/EventMove.h>
-#include <Servidor/Modelo/Range.h>
-#include <Servidor/Modelo/ShortRange.h>
 #include <Servidor/Modelo/NormalWeapon.h>
 #include <fstream>
 #include <Servidor/Modelo/Log.h>
@@ -13,8 +11,7 @@ int main(int argc, char const *argv[]) {
 
     Offset offset(0,1);
     Event* event = new EventMove(offset);
-    Range* range = new ShortRange();
-    NormalWeapon sword(2, 5, range);
+    NormalWeapon sword(2, 5, SHORT);
     Equippable shield(2, 5);
 
     Game game("config/config.json");
