@@ -9,6 +9,7 @@
 #include "common_message.h"
 #include "client_protected_list.h"
 #include "client_sdl_world.h"
+#include "client_sdl_exception.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
@@ -21,20 +22,18 @@ const int LEVEL_HEIGHT = 3200;
 #define FONT_SIZE 14
 
 Client::Client(ProxySocket& proxySocket) :
-        window(SCREEN_WIDTH, SCREEN_HEIGHT),
-        font(nullptr),
+        //window(SCREEN_WIDTH, SCREEN_HEIGHT),
+        //font(nullptr),
         proxySocket(proxySocket),
         thSend(clientEvents, proxySocket),
-        thRecv(serverEvents,proxySocket)
-    {
-    //Permito la carga del PNGs
-    window.initPNG();
-    window.initTTF();
+        thRecv(serverEvents,proxySocket),
+        gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents)
+        {
     //Abro la fuente
-    this->font = TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE);
+    /*this->font = TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE);
     if (!font){
-        //throw SdlException("Could not open font in function", TTF_GetError());
-    }
+        throw SdlException("Could not open font", TTF_GetError());
+    }*/
     /*Lanzo los threads*/
     thSend.start();
     thRecv.start();
@@ -42,12 +41,8 @@ Client::Client(ProxySocket& proxySocket) :
     }
 
 int Client::run() {
-    //Cargo las texturas del personaje
-    SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
-    SdlTexture texture("../../Proxy/assets/340.gif", window);
-
     //Cargo el personaje
-    SdlPlayer player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, texture, head_sprite_sheet);
+    /*SdlPlayer player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, window);
 
     SdlTexture mainInterface(LEVEL_WIDTH, LEVEL_HEIGHT,
             "../../Proxy/assets/bg.png", window);
@@ -63,20 +58,20 @@ int Client::run() {
 
     //Cargo el mundo
     SdlWorld world(window);
-
+    */
     //Main loop flag
     bool quit = false;
 
     //Event handler
     SDL_Event event;
 
-    //this->handleServerEvents(world);
+    //this->init(world);
     for (int i = 0; i < 100 ; ++i) {
         for (int j = 0; j < 100 ; ++j) {
             if(i == j){
-                world.add(i, j, "hongo");
+                gui.addTile(i, j, "hongo");
             } else {
-                world.add(i, j, "pasto");
+                gui.addTile(i, j, "pasto");
             }
         }
     }
@@ -84,8 +79,6 @@ int Client::run() {
 
     //While application is running
     while (!quit) {
-        //Consume serverEvents list (actualizar el modelo)
-
         //Handle events on queue
         while (SDL_PollEvent(&event) != 0) {
             switch(event.type){
@@ -95,39 +88,28 @@ int Client::run() {
                     /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        inventory.addItem("16055");
+                        gui.addItem("16055");
                     }
                     break;
             }
-            //Handle del jugador
-            player.handleEvent(event);
-
-            //Handle entrada
-            console.handleEvents(event);
-
-            //Handle de los botones
-            inventory.handleEvents(event);
+            gui.handleEvents(event);
         }
         /*Logic*/
-        player.move(clientEvents, serverEvents);
-        inventory.use(clientEvents);
-        console.execute(clientEvents);
-        camera.move();
+        gui.execute();
+        /*Consumo la lista de eventos del server y actualizo modelo*/
+        this->update();
 
         //Limpio pantalla
-        window.fill(0xFF, 0xFF, 0xFF, 0xFF);
+        //window.fill(0xFF, 0xFF, 0xFF, 0xFF);
 
         //Renderizo mainInterface
-        mainInterface.render(0, 0);
+        //mainInterface.render(0, 0);
 
         //Render objects
-        world.render(camera);
-        player.render(camera);
-        inventory.render();
-        console.render();
+        gui.render();
 
         //Update screen
-        window.render();
+        //window.render();
 
         //Cap FPS 50
         SDL_Delay(20);
@@ -143,24 +125,13 @@ void Client::stop() {
 }
 
 Client::~Client() {
-    if(font){
-        TTF_CloseFont(font);
-    }
-    //Quit SDL subsystems
-    IMG_Quit();
-    SDL_Quit();
-    TTF_Quit();
 }
 
-void Client::handleServerEvents(SdlWorld& world) {
-    /**al consumir la lista solo se dibuja en el primer frame pero en el siguiente frame la lista ya no esta
-     * por lo tanto debo guardar estos mensajes para redibujarlo en cada render */
+void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     for(auto & msg : messages){
-        if(msg->getId() == 'd'){
-            world.add( msg->getTileX(), msg->getTileY(), msg->getTileName());
-        } else if(msg->getId() == 'p'){
-            /**Init de la posicion del jugador*/
+        if(msg->getId() == 'm'){
+            this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
         }
     }
 

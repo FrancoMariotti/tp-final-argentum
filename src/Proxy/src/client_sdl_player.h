@@ -11,6 +11,7 @@
 #include "common_proxy_socket.h"
 #include "client_protected_list.h"
 #include "client_sdl_camera.h"
+#include "client_sdl_texture.h"
 
 class Message;
 class SdlTexture;
@@ -24,8 +25,8 @@ private:
         TOTAL_HEAD_SPRITE
     };
 
-    SdlTexture& bodyTexture;
-    SdlTexture& headSpriteSheetTexture;
+    SdlTexture bodyTexture;
+    SdlTexture headSpriteSheetTexture;
 
     //Dimensiones del jugador
     int width;
@@ -43,21 +44,21 @@ private:
 
 public:
     //Initializes the variables
-    SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head);
+    SdlPlayer(int x, int y, SdlWindow& window);
 
     //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event& e );
 
     //void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
     void
-    move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,
-         ProtectedList<std::unique_ptr<Message>> &serverEvents);
+    move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
     //Muestra al jugador en pantalla
     void render(SdlCamera &camera);
     int getPosX() const;
 
     int getPosY() const;
 
+    void update(const int vel_x, const int vel_y);
 };
 
 

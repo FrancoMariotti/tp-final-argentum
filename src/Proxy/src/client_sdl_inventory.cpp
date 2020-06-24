@@ -14,17 +14,15 @@
 
 
 SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window, SdlPlayer &player) :
-    x_from_player(INVENTORY_X - (screen_width / 2)),
-    y_from_player((screen_height / 2) - INVENTORY_Y),
-    window(window),
-    player(player){
+        window(window),
+        player(player){
     //Tamaño ventana inventario
     this->width = IMAGE_INVENTORY_WIDTH;
     this->height = IMAGE_INVENTORY_HEIGHT;
 
     //inicializo la posicion del inventario
-    this->inventory_x = player.getPosX() + x_from_player;
-    this->inventory_y = player.getPosY() - y_from_player;
+    this->inventory_x = player.getPosX() + X_FROM_PLAYER;
+    this->inventory_y = player.getPosY() - Y_FROM_PLAYER;
 
     this->button_size = 40;
 

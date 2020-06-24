@@ -7,19 +7,20 @@
 #include "client_sdl_texture.h"
 #include "common_message.h"
 #include "client_sdl_camera.h"
+#include "client_sdl_window.h"
 
 #define HUMANOID_HEAD_WIDTH 17
 #define HUMANOID_HEAD_HEIGHT 15
 
-SdlPlayer::SdlPlayer(int x, int y, SdlTexture &texture, SdlTexture &head) :
-        bodyTexture(texture),
-        headSpriteSheetTexture(head){
+SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
+        bodyTexture( "../../Proxy/assets/340.gif", window),
+        headSpriteSheetTexture(17, 15, "../../Proxy/assets/2005.gif", window){
     //Initialize the offsets
     pos_x = x;
     pos_y = y;
 
-    width = texture.getWidth();
-    height = texture.getHeight();
+    //width = 17;
+    //height = 15;
 
     //Initialize the velocity
     vel_x = 0;
@@ -72,23 +73,24 @@ void SdlPlayer::render(SdlCamera &camera) {
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
 /**Ojo que el move no deberia conocer la lista serverEvents, solo para pruebas*/
-void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents,
-                     ProtectedList<std::unique_ptr<Message>> &serverEvents) {
+void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     //Si se movio
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
         //CODIGO DE PRUEBA
-        std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
-        if(!answer.empty()) {
-
-            pos_x += answer.front()->getPlayerVelX();
-            pos_y += answer.front()->getPlayerVelY();
-        }
+        //std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
+        //if(!answer.empty()) {
+        //    pos_x += answer.front()->getPlayerVelX();
+        //    pos_y += answer.front()->getPlayerVelY();
+        //}
         //FIN CODIGO DE PRUEBA
     }
-    /*this->pos_x += vel_x;
-    this->pos_y += vel_y;*/
+}
+
+void SdlPlayer::update(const int p_vel_x, const int p_vel_y) {
+    this->pos_x += p_vel_x;
+    this->pos_y += p_vel_y;
 }
 
 int SdlPlayer::getPosX() const {

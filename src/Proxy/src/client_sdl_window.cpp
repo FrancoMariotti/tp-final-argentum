@@ -26,6 +26,10 @@ SdlWindow::SdlWindow(int width, int height) {
         throw SdlException("Renderer could not be created!", SDL_GetError());
     }
 
+    //Permito la carga del PNGs
+    this->initPNG();
+    this->initTTF();
+
 }
 
 SdlWindow::~SdlWindow() {

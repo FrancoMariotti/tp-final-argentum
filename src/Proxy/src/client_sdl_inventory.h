@@ -18,8 +18,8 @@ private:
     int width;
     int height;
     /*Posicion del inventario*/
-    const int x_from_player;
-    const int y_from_player;
+    const int X_FROM_PLAYER = 308;
+    const int Y_FROM_PLAYER = 204;
 
     int inventory_x;
     int inventory_y;

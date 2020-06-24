@@ -21,17 +21,19 @@
 #include "client_protected_list.h"
 #include "client_th_recv.h"
 #include "client_sdl_world.h"
+#include "client_gui.h"
 
 class Client {
 private:
-    SdlWindow window;
+    //SdlWindow window;
     //SdlTexture mainInterface;
-    TTF_Font* font;
+    //TTF_Font* font;
     ProxySocket& proxySocket;
     BlockingQueue<std::unique_ptr<Message>> clientEvents;
     ProtectedList<std::unique_ptr<Message>> serverEvents;
     ThSend thSend;
     ThRecv thRecv;
+    GUI gui;
 
 public:
     //Start up SDL and create window
@@ -42,7 +44,7 @@ public:
     /*Cierra SDL y libera los recursos*/
     ~Client();
 
-    void handleServerEvents(SdlWorld &world);
+    void update();
 
     void stop();
 };
