@@ -12,6 +12,7 @@
 #include "client_sdl_world.h"
 #include "client_sdl_window.h"
 
+class SdlDynamicRenderable;
 class GUI {
 private:
     SdlWindow window;
@@ -22,7 +23,7 @@ private:
     SdlCamera camera;
     SdlConsole console;
     SdlWorld world;
-    //std::map<std::string, SdlDynamicRenderable>
+    std::map<std::string, SdlDynamicRenderable> dynamic_renderables;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:
@@ -40,9 +41,13 @@ public:
 
     ~GUI();
 
-    void addTile(int x, int y, const std::string &id);
+    void addTile(int x, int y, const std::string &tile_id);
 
-    void addItem(const std::string &id);
+    void addItem(const std::string &item_id);
+
+    void update(const int vel_x, const int vel_y, const std::string &renderable_id);
+
+    void addNpc(const int x, const int y, const std::string &npc_id);
 };
 
 

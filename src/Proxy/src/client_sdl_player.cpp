@@ -61,15 +61,6 @@ void SdlPlayer::handleEvent(SDL_Event &e) {
 }
 
 
-void SdlPlayer::render(SdlCamera &camera) {
-    /**Multiplico por el TILE_SIZE 32*/
-    //Muestra la cabeza y el cuerpo del npc
-    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
-                                  (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
-                                  &head_sprite_clips[e_face_orientation]);
-    bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
-}
-
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
 /**Ojo que el move no deberia conocer la lista serverEvents, solo para pruebas*/
@@ -92,6 +83,15 @@ void SdlPlayer::update(const int p_vel_x, const int p_vel_y) {
     this->pos_x += p_vel_x;
     this->pos_y += p_vel_y;
 }
+
+void SdlPlayer::render(SdlCamera &camera) {
+    //Muestra la cabeza y el cuerpo del npc
+    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
+                                  (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
+                                  &head_sprite_clips[e_face_orientation]);
+    bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
+}
+
 
 int SdlPlayer::getPosX() const {
     return this->pos_x;

@@ -87,9 +87,6 @@ void SdlButton::handleEvent(SDL_Event &e) {
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i) {
     if(times_clicked > 0){
         (*cmd)(clientEvents, i);
-        /*Test*/
-        //std::unique_ptr<Message> msg = clientEvents.pop();
-        //std::cout << msg->getId() << "item pos: " << msg->getIndex() << std::endl;
         times_clicked--;
     }
 }
