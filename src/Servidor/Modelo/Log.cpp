@@ -38,7 +38,7 @@ Log::~Log(){
     hay_instancia = false;
 }
 
-void Log::cerrar(){
+void Log::close() {
     if (hay_instancia){
         delete singleton;
     }

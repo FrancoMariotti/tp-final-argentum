@@ -10,30 +10,28 @@
 #include "Mobility.h"
 #include "Equippable.h"
 #include "NormalWeapon.h"
+#include "NpcWeapon.h"
 #include <string>
 
 class Mobility;
 class Map;
 
 class Npc : public Character {
-private:
     Mobility *mobility;
-    //POR AHORA LO PLANTEO COMO UN STRING
     std::string specie;
-    NormalWeapon activeWeapon;
+    NpcWeapon weapon;
     Equippable armour;
     virtual int defend(int damage) override;
-public:
-    //Pasamos la Mobility por parametro porque pensamos en que puede
-    //haber npcs que se muevan y otros que no.
-    Npc(Map* map,int lifePoints, Mobility *mobility, int x, int y, int constitution,
-        int strength,int agility,int intelligence, int lvl, std::string specie, int minDamage,
-        int maxDamage, int minDefense, int maxDefense);
-    void move();
-    void attack(Character* character) override;
-    int calculateNpcGoldDrop(int npcMaxLp);
-    bool shouldDrop(int probability);
-    ~Npc() override;
+    public:
+        Npc(Map* map,Mobility *mobility,int lifePoints,Position &initialPosition, int constitution,
+            int strength,int agility,int intelligence, int level, std::string specie, int minDamage,
+            int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
+            int classManaFactor,int recoveryFactor,int meditationRecoveryFactor);
+        void move();
+        void attack(Character* character) override;
+        //int calculateNpcGoldDrop(int npcMaxLp);
+        //bool shouldDrop(int probability);
+        ~Npc() override;
 };
 
 

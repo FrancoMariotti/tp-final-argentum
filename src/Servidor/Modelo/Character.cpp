@@ -3,10 +3,11 @@
 #include "Log.h"
 
 
-Character::Character(Map* map,int lifePoints,int x,int y,int constitution,
-                  int strength,int agility,int intelligence,  int raceLifeFactor, int classLifeFactor,
+Character::Character(Map* map,int lifePoints,Position &initialPosition,int constitution,
+                  int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
-                  :map(map),currPos(x,y) {
+                  :map(map),currPos(initialPosition) {
+    this->level = level;
     this->raceLifeFactor = raceLifeFactor;
     this->classLifeFactor = classLifeFactor;
     this->raceManaFactor = raceManaFactor;
@@ -34,13 +35,15 @@ Offset Character::getOffset(Position initialPos) {
 }
 
 int Character::receiveDamage(int enemyLevel,int damage) {
+    int experience = 0;
+
     Log* log = Log::instancia();
     log->write("Danio generado por el enemigo:");
     log->writeInt(damage);
 
     if (dodge()) {
         log->write("Ataque esquivado");
-        return 0;
+        return experience;
     }
 
     damage = defend(damage);
@@ -49,41 +52,47 @@ int Character::receiveDamage(int enemyLevel,int damage) {
     log->write("vida character antes de recibir danio:");
     log->writeInt(this->lifePoints);
 
-    this->lifePoints -= damage;
+    lifePoints -= damage;
+    experience = calculateAttackXp(damage,enemyLevel);
+
+    if (lifePoints <= 0) {
+        int maxLifePoints = calculateMaxLife();
+        experience += calculateKillXp(maxLifePoints,enemyLevel);
+    }
 
     log->write("vida character despues de recibir danio:");
     log->writeInt(this->lifePoints);
-    return calculateAttackXp(damage,enemyLevel);
+    return experience;
 }
 
 /*metodos protected*/
 
 
-int Character::calculateAttackXp(int damage,int enemyLvl) {
+int Character::calculateAttackXp(int damage,int enemyLvl) const {
     return damage * std::max(enemyLvl - level + 10, 0);
 }
 
-int Character::calculateMaxLife() {
+int Character::calculateMaxLife() const {
     return constitution * level * classLifeFactor * raceLifeFactor;
 }
 
-int Character::calculateMaxMana() {
+int Character::calculateMaxMana() const {
     return intelligence * classManaFactor * raceManaFactor * level;
 }
 
-int Character::calculateLvlLimit() {
+int Character::calculateLvlLimit() const {
     return 1000 * pow(level, 1.8);
 }
 
-int Character::calculateRecoverLifePoints(int seconds) {
+int Character::calculateRecoverLifePoints(int seconds) const {
     return recoveryFactor * seconds;
 }
 
-int Character::calculateRecoverMana(int seconds) {
+int Character::calculateRecoverMana(int seconds) const {
     return recoveryFactor * seconds;
 }
 
-int Character::calculateRecoverManaMeditating(int seconds) {
+int Character::calculateRecoverManaMeditating(int seconds) const {
     return meditationRecoveryFactor * seconds;
 }
 
@@ -91,17 +100,17 @@ int Character::calculateSafeGoldCapacity(int lvl) {
     return 100 * pow(lvl, 1.1);
 }
 
-int Character::calculateGoldCapacity() {
+int Character::calculateGoldCapacity() const {
     return calculateSafeGoldCapacity(level) * 1.5;
 }
 
-int Character::calculateKillXp(int enemyMaxLp, int enemyLvl) {
-    double modifier = double(rand()) / (double(RAND_MAX) + 1.0);
+int Character::calculateKillXp(int enemyMaxLp, int enemyLvl) const {
+    double modifier = double(std::rand()) / (double(RAND_MAX) + 1.0);
     return modifier * enemyMaxLp * std::max(enemyLvl - level + 10, 0);
 }
 
-bool Character::dodge() {
-    double modifier = double(rand()) / (double(RAND_MAX) * 1.0);
+bool Character::dodge() const {
+    double modifier = double(std::rand()) / (double(RAND_MAX) * 1.0);
     return pow(modifier, agility) < 0.001;
 }
 

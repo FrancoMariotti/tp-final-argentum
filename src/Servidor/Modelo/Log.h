@@ -21,7 +21,7 @@ class Log {
         //Destructor del Log.
         ~Log();
         //Cierra el Log.
-        static void cerrar();
+        static void close();
         void writePosicion(int x, int y);
         void writeInt(int x);
         void write(std::string contenido);

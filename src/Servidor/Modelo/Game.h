@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Factory.h"
 #include "Weapon.h"
+#include "Armour.h"
 
 class Update;
 class PlayableCharacter;
@@ -25,7 +26,7 @@ public:
     void movePlayer(const std::string& playerName, Offset& offset);
     void attackNpc(const std::string &playerName, Position &position);
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
-    void equipProtection(std::string playerName, Equippable element, int id);
+    void equipProtection(std::string playerName, Equippable element, Equipment equipment);
     ~Game();
 };
 

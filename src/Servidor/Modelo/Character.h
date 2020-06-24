@@ -24,31 +24,32 @@ class Character {
         Map* map;
         Position currPos;
 
-        virtual int defend(int damage) = 0;
-        int calculateMaxLife();
-        int calculateMaxMana();
+        int calculateMaxLife() const;
+        int calculateMaxMana() const;
         //Devuelve la cantidad de vida recuperada en x segundos
-        int calculateRecoverLifePoints(int seconds);
+        int calculateRecoverLifePoints(int seconds) const;
         //Devuelve la cantidad de mana recuperado en x segundos
-        int calculateRecoverMana(int seconds);
+        int calculateRecoverMana(int seconds) const;
         //Devuelve la cantidad de mana recuperado meditando en x segundos
-        int calculateRecoverManaMeditating(int seconds);
-        int calculateAttackXp(int damage,int enemyLvl);
+        int calculateRecoverManaMeditating(int seconds) const;
+        int calculateAttackXp(int damage,int enemyLvl) const;
         //Devuelve la cantidad de oro maxima que puede tener el jugador
-        int calculateGoldCapacity();
-        int calculateLvlLimit();
-        int calculateKillXp (int enemyMaxLp, int enemyLvl);
-        bool dodge();
+        int calculateGoldCapacity() const;
+        int calculateLvlLimit() const;
+        int calculateKillXp (int enemyMaxLp, int enemyLvl) const;
+        bool dodge() const;
+
+        virtual int defend(int damage) = 0;
     public:
-        Character(Map* map,int lifePoints,int x,int y,int constitution,
-                  int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
+        Character(Map* map,int lifePoints,Position &initialPosition,int constitution,
+                  int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         bool collideWith(Position& objPos);
         int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
         virtual void attack(Character* character) = 0;
         int receiveDamage(int enemyLevel,int damage);
-        int calculateSafeGoldCapacity(int lvl);
+        static int calculateSafeGoldCapacity(int lvl);
         bool shouldDrop(int probability);
         virtual ~Character();
 };

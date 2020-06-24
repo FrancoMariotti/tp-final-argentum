@@ -11,8 +11,8 @@ Armour::Armour() {
     }
 }
 
-void Armour::equip(Equippable element, int id) {
-    elements[id] = element;
+void Armour::equip(Equippable element, Equipment equipment) {
+    elements[equipment] = element;
 }
 
 int Armour::use(int damage) const {

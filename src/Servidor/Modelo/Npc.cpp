@@ -1,17 +1,20 @@
 #include "Npc.h"
+
+#include <utility>
 #include "Mobility.h"
 
 //CREO QUE NO HARIA FALTA QUE EL NPC TUVIESE LA CALCULADORA,PODRIAMOS PONERLA DIRECTAMENTE EN EL PLAYABLE CHARACTER
-Npc::Npc(Map* map,int lifePoints, Mobility* mobility, int x, int y,int constitution,
+Npc::Npc(Map* map,Mobility* mobility,int lifePoints,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
-         , int maxDamage, int minDefense, int maxDefense):
-         Character(map,lifePoints,x, y,constitution,strength,agility,intelligence,
-                 0, 0, 0, 0,
-                 0, 0),mobility(mobility),
-                 activeWeapon(minDamage, maxDamage,SHORT),
-                 armour(minDefense, maxDefense){
-    this->level = level;
-    this->specie = specie;
+         , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
+         int classManaFactor,int recoveryFactor,int meditationRecoveryFactor):
+         Character(map,lifePoints,initialPosition,constitution,strength,agility,intelligence,level,
+                 raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
+                 recoveryFactor, meditationRecoveryFactor),
+         mobility(mobility),
+         weapon(minDamage,maxDamage),
+         armour(minDefense,maxDefense){
+    this->specie = std::move(specie);
 }
 
 void Npc::move() {
@@ -25,8 +28,16 @@ int Npc::defend(int damage) {
     return result;
 }
 
+void Npc::attack(Character* character) {
+    weapon.attack(character,strength,level,nullptr,currPos);
+}
 
-int Npc::calculateNpcGoldDrop(int npcMaxLp) {
+Npc::~Npc() {
+    delete this->mobility;
+}
+
+
+/*int Npc::calculateNpcGoldDrop(int npcMaxLp) {
     double modifier = double(rand()) / (double(RAND_MAX) + 0.2);
     return modifier * npcMaxLp;
 }
@@ -35,15 +46,6 @@ bool Npc::shouldDrop(int probability) {
     int n = 100;
     int result = std::rand() % (n+1);
     return result < (probability * n);
-}
+}*/
 
 
-void Npc::attack(Character* character) {
-    if (character->distanceTo(currPos) == 1) {
-        activeWeapon.attack(character,strength,level,NULL,currPos);
-    }
-}
-
-Npc::~Npc() {
-    delete this->mobility;
-}

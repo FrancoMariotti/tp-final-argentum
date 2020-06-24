@@ -44,9 +44,9 @@ void Game::equipWeapon(Weapon* weapon, std::string playerName) {
     character->equipWeapon(weapon);
 }
 
-void Game::equipProtection(std::string playerName, Equippable element, int id) {
+void Game::equipProtection(std::string playerName, Equippable element, Equipment equipment) {
     PlayableCharacter *character = map->getPlayer(playerName);
-    character->equipProtection(element,id);
+    character->equipProtection(element,equipment);
 }
 
 Game::~Game() {

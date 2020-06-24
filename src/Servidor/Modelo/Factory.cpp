@@ -57,14 +57,12 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
     log->write("Creacion de Jugador:" + playerName);
 
-    int life = 100;
-    log->write("vida inicial:");
-    log->writeInt(life);
+    //Position initialPosition = map->asignPosition();
+    Position initialPosition(1,2);
 
-    int x = 1;
-    int y = 1;
-    log->write("Posicion:");
-    log->writePosicion(x,y);
+
+    int initialLife = characterObj["life"].asInt();
+    int level = characterObj["level"].asInt();
     int strength = characterObj["strength"].asInt();
     int agility = characterObj["agility"].asInt();
     int intelligence = characterObj["intelligence"].asInt();
@@ -76,8 +74,8 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
     int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    auto* character =  new PlayableCharacter(map,life,x,y,constitution,strength,agility,intelligence,
-            raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
+    auto* character =  new PlayableCharacter(map,initialLife,initialPosition,constitution,strength,agility,intelligence,
+            level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
     map->addPlayableCharacter(playerName,character);
 }
@@ -90,29 +88,15 @@ NpcFactory::NpcFactory(const std::string configFile) {
 }
 
 void NpcFactory::create(Map* map,const std::string& specie) {
-    std::vector<int> possibleLvls = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    int level = possibleLvls[rand()%possibleLvls.size()];
     int lifePoints = npcsObj["specie"][specie]["lifePoints"].asInt();
+    int maxLevel = npcsObj["maxLevel"].asInt();
+    int minLevel = npcsObj["minLevel"].asInt();
+    int level =  std::rand() % (maxLevel - minLevel) + minLevel;
 
     Mobility* mobility;
 
     if (npcsObj["specie"][specie]["mobility"] == "movable") mobility = new Movable();
     else mobility = new NonMovable();
-    //Mi idea era asignarle una posicion random al npc cuando se crea
-    //Por ahora para hacerlo simple le voy a asignar una pos al azar del vector possibleLvls
-    bool isOccupied = true;
-    int x, y;
-
-    while(isOccupied) {
-        x = possibleLvls[rand()%possibleLvls.size()];
-        y = possibleLvls[rand()%possibleLvls.size()];
-        Position pos(x, y);
-        isOccupied = map->isOccupied(pos);
-    }
-
-    Log* log = Log::instancia();
-    log->write("La posicion random del npc creado es:");
-    log->writePosicion(x,y);
 
     //Seteo los atributos del NPC
     int constitution = npcsObj["specie"][specie]["constitution"].asInt();
@@ -123,10 +107,21 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     int maxDamage = npcsObj["specie"][specie]["maxDamage"].asInt();
     int minDefense = npcsObj["specie"][specie]["minDefense"].asInt();
     int maxDefense = npcsObj["specie"][specie]["maxDefense"].asInt();
+    int raceLifeFactor = npcsObj["lifeFactor"].asInt();
+    int raceManaFactor = npcsObj["manaFactor"].asInt();
+    int recoveryFactor = npcsObj["recoveryFactor"].asInt();
+    int classLifeFactor = npcsObj["lifeFactor"].asInt();
+    int classManaFactor = npcsObj["manaFactor"].asInt();
+    int meditationRecoveryFactor = npcsObj["meditationRecoveryFactor"].asInt();
 
-    Npc *enemy = new Npc(map,lifePoints, mobility, x, y, constitution,
+    //Position initialPosition = map->asignPosition();
+    Position initialPosition(1,1);
+
+    Npc *enemy = new Npc(map,mobility,lifePoints, initialPosition, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
-            maxDamage, minDefense, maxDefense);
+            maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
+            recoveryFactor,meditationRecoveryFactor);
+
     map->addNpc(enemy);
 }
 

@@ -1,19 +1,15 @@
-#include <iostream>
 #include "PlayableCharacter.h"
 #include "Mobility.h"
-#include "Game.h"
-#include "Log.h"
 
-PlayableCharacter::PlayableCharacter(Map* map,int lifePoints, int x, int y,int constitution,
-        int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
+PlayableCharacter::PlayableCharacter(Map* map,int lifePoints, Position &initialPosition,int constitution,
+        int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
-                  :Character(map,lifePoints,x, y,constitution,strength,agility,intelligence,
+                  :Character(map,lifePoints,initialPosition,constitution,strength,agility,intelligence,level,
                           raceLifeFactor, classLifeFactor, raceManaFactor,
                           classManaFactor,recoveryFactor,meditationRecoveryFactor) {
 
         this->activeWeapon = nullptr;
         this->mana = 0;
-        this->level = 1;
         this->gold = 0;
         this->xp =0;
 }
@@ -40,8 +36,8 @@ void PlayableCharacter::equipWeapon(Weapon* weapon) {
     activeWeapon = weapon;
 }
 
-void PlayableCharacter::equipProtection(Equippable element, int id) {
-    armour.equip(element, id);
+void PlayableCharacter::equipProtection(Equippable element, Equipment equipment) {
+    armour.equip(element, equipment);
 }
 
 int PlayableCharacter::defend(int damage) {

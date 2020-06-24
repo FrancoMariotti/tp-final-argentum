@@ -10,10 +10,8 @@
 enum RangeWeapon {SHORT,LONG};
 
 class NormalWeapon : public Weapon {
-    //Range* range;
     RangeWeapon range;
     public:
-        //NormalWeapon(int minDamage,int maxDamage,Range* range);
         NormalWeapon(int minDamage,int maxDamage,RangeWeapon range);
         int attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) override;
         ~NormalWeapon() override;

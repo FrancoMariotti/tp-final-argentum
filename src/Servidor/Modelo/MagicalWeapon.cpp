@@ -1,7 +1,3 @@
-//
-// Created by franco on 18/6/20.
-//
-
 #include "MagicalWeapon.h"
 
 MagicalWeapon::MagicalWeapon(int minDamage, int maxDamage, int cost) {
@@ -17,4 +13,4 @@ int MagicalWeapon::attack(Character *enemy,int strength,int level,int *mana,Posi
     return enemy->receiveDamage(level,damage);
 }
 
-MagicalWeapon::~MagicalWeapon() {}
+MagicalWeapon::~MagicalWeapon() = default;

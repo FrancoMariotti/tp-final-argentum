@@ -20,14 +20,14 @@ class PlayableCharacter: public Character {
     int xp;
     int defend(int damage) override;
     public:
-        PlayableCharacter(Map* map,int lifePoints, int x, int y, int constitution,
-                          int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
+        PlayableCharacter(Map* map,int lifePoints, Position &initialPosition, int constitution,
+                          int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
 
         void attack(Character *character) override;
         void move(Offset& offset);
         void equipWeapon(Weapon* weapon);
-        void equipProtection(Equippable element, int id);
+        void equipProtection(Equippable element, Equipment equipment);
         void recoverLifePoints(int seconds);
         void recoverMana(int seconds);
         ~PlayableCharacter() override;
