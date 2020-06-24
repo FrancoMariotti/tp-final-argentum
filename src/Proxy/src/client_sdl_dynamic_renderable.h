@@ -26,10 +26,10 @@ private:
     enum orientation e_current_orientation;
 
 public:
-    SdlDynamicRenderable(int x, int y, int width, int height, const std::string &id,
+    SdlDynamicRenderable(const int x, const int y, const int width, const int height, const std::string& texture_id,
                          const SdlWindow &window);
 
-    void update(const int vel_x, const int vel_y);
+    void update(const int vel_x, const int vel_y, SdlCamera &camera);
 
     void render(SdlCamera& camera);
 };

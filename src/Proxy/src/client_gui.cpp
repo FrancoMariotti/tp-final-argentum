@@ -37,25 +37,42 @@ void GUI::execute(){
 }
 
 void GUI::update(const int player_vel_x,const int player_vel_y){
-    player.update(player_vel_x, player_vel_y);
+    player.update(player_vel_y, player_vel_x, camera);
 }
 
 void GUI::update(const int vel_x,const int vel_y, const std::string& renderable_id){
-    SdlDynamicRenderable& npc = this->dynamic_renderables.at(renderable_id);
-    npc.update(vel_x, vel_y);
+    this->dynamic_renderables.at(renderable_id).update(vel_x, vel_y, camera);
 }
 
 void GUI::addTile(int x, int y, const std::string &tile_id) {
     world.add(x, y, tile_id);
 }
 
-void GUI::addNpc(const int x, const int y, const std::string& npc_id){
-    if(npc_id.find("arania") != std::string::npos){
-        std::string renderable_id = "4093";
+void GUI::addRenderable(const int x, const int y, const std::string& renderable_id){
+    if(renderable_id.find("arania") != std::string::npos){
+        std::string texture_id = "4093";
         int width = 54;
         int height = 34;
-        this->dynamic_renderables.emplace(std::make_pair(npc_id,
-                SdlDynamicRenderable(x, y, width, height, renderable_id, window)));
+        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
+                SdlDynamicRenderable(x, y, width, height, texture_id, window)));
+    } else if (renderable_id.find("esqueleto") != std::string::npos) {
+        std::string texture_id = "4080";
+        int width = 26;
+        int height = 54;
+        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
+                 SdlDynamicRenderable(x, y, width, height, texture_id, window)));
+    } else if (renderable_id.find("zombie") != std::string::npos) {
+        std::string texture_id = "4070";
+        int width = 24;
+        int height = 46;
+        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
+                 SdlDynamicRenderable(x, y, width, height, texture_id, window)));
+    } else if (renderable_id.find("goblin") != std::string::npos) {
+        std::string texture_id = "4082";
+        int width = 24;
+        int height = 40;
+        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
+                SdlDynamicRenderable(x, y, width, height, texture_id, window)));
     }
 }
 
@@ -75,8 +92,9 @@ void GUI::render(){
 
     //Renderizo dinamicos
     std::map<std::string, SdlDynamicRenderable>::iterator iterator = dynamic_renderables.begin();
-    for(auto it = iterator; it != dynamic_renderables.end(); it++){
+    while(iterator != dynamic_renderables.end()){
         iterator->second.render(camera);
+        iterator++;
     }
 
     //Update screen

@@ -54,7 +54,7 @@ public:
 
     void render(SdlCamera &camera);
 
-    void update(const int vel_x, const int vel_y);
+    void update(const int p_vel_y, const int p_vel_x, SdlCamera &camera);
 
     int getPosX() const;
 

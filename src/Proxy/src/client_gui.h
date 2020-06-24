@@ -47,7 +47,7 @@ public:
 
     void update(const int vel_x, const int vel_y, const std::string &renderable_id);
 
-    void addNpc(const int x, const int y, const std::string &npc_id);
+    void addRenderable(const int x, const int y, const std::string &renderable_id);
 };
 
 

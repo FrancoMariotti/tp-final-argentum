@@ -6,8 +6,8 @@
 #include "client_sdl_camera.h"
 
 SdlDynamicRenderable::SdlDynamicRenderable(const int x, const  int y,
-        const int width, const int height, const std::string& id, const SdlWindow &window) :
-    bodySpriteSheetTexture(width, height,"../../Proxy/assets/" + id + ".png", window),
+        const int width, const int height, const std::string& texture_id, const SdlWindow &window) :
+    bodySpriteSheetTexture(width, height, "../../Proxy/assets/" + texture_id + ".png", window),
     pos_x(x),
     pos_y(y),
     orientation_clips{{0,0,0,0},{0,0,0,0},
@@ -20,9 +20,9 @@ SdlDynamicRenderable::SdlDynamicRenderable(const int x, const  int y,
     }
 }
 
-void SdlDynamicRenderable::update(const int vel_x, const int vel_y){
-    pos_x += vel_x;
-    pos_y -= vel_y;
+void SdlDynamicRenderable::update(const int vel_x, const int vel_y, SdlCamera &camera) {
+    pos_x += camera.toPixels(vel_x);
+    pos_y -= camera.toPixels(vel_y);
     if(vel_x > 0){
         e_current_orientation = RIGHT;
     } else if(vel_x < 0){
