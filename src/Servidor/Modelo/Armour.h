@@ -21,7 +21,8 @@ class Armour {
     /*int chestMinDef, chestMaxDef;
     int shieldMinDef, shieldMaxDef;
     int helmetMinDef, helmetMaxDef;*/
-    std::vector<Equippable> elements;
+    //std::vector<Equippable*> elements;
+    std::vector<Equippable>elements;
 public:
     Armour();
     /*Armour(int chestMinDef, int chestMaxDef, int shieldMinDef, int shieldMaxDef

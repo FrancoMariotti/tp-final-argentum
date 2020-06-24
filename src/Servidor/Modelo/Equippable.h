@@ -8,9 +8,9 @@
 class Equippable {
     int minValue;
     int maxValue;
-public:
-    Equippable(int minValue, int maxValue);
-    int randomize() const;
+    public:
+        Equippable(int minValue, int maxValue);
+        int randomize() const;
 };
 
 

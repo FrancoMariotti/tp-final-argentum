@@ -1,6 +1,3 @@
-//
-// Created by franco on 23/6/20.
-//
 #include "Weapon.h"
 
 int Weapon::calculateDamage(int strength) {
