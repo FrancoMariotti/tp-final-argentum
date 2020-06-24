@@ -28,7 +28,7 @@ class PlayableCharacterFactory {
     Json::Value characterObj;
     public:
         explicit PlayableCharacterFactory(std::string configFile);
-        void create(Game* game,Map* map,const std::string& playerName,const std::string& charRace, const std::string& charClass);
+        void create(Map* map,const std::string& playerName,const std::string& charRace, const std::string& charClass);
         ~PlayableCharacterFactory();
 };
 

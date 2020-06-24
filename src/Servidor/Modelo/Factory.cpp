@@ -51,7 +51,7 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string configFile)
     characterObj = parser.read("character");
 }
 
-void PlayableCharacterFactory::create(Game *game, Map *map, const std::string &playerName, const std::string &charRace,
+void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
                                       const std::string &charClass) {
     Log* log = Log::instancia();
 
@@ -76,7 +76,7 @@ void PlayableCharacterFactory::create(Game *game, Map *map, const std::string &p
     int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
     int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    auto* character =  new PlayableCharacter(life,x,y,constitution,strength,agility,intelligence,
+    auto* character =  new PlayableCharacter(map,life,x,y,constitution,strength,agility,intelligence,
             raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
     map->addPlayableCharacter(playerName,character);
@@ -124,7 +124,7 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     int minDefense = npcsObj["specie"][specie]["minDefense"].asInt();
     int maxDefense = npcsObj["specie"][specie]["maxDefense"].asInt();
 
-    Npc *enemy = new Npc(lifePoints, mobility, x, y, constitution,
+    Npc *enemy = new Npc(map,lifePoints, mobility, x, y, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
             maxDamage, minDefense, maxDefense);
     map->addNpc(enemy);

@@ -21,6 +21,7 @@ class Character {
         int classManaFactor;
         int recoveryFactor;
         int meditationRecoveryFactor;
+        Map* map;
         Position currPos;
 
         virtual int defend(int damage) = 0;
@@ -39,7 +40,7 @@ class Character {
         int calculateKillXp (int enemyMaxLp, int enemyLvl);
         bool dodge();
     public:
-        Character(int lifePoints,int x,int y,int constitution,
+        Character(Map* map,int lifePoints,int x,int y,int constitution,
                   int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         bool collideWith(Position& objPos);

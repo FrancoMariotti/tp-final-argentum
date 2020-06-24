@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
+#include "Npc.h"
 #include "Update.h"
 
 Game::Game(std::string configFile): factoryCharacters(configFile), npcFactory(configFile) {
@@ -12,7 +13,7 @@ Game::Game(std::string configFile): factoryCharacters(configFile), npcFactory(co
 
 void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
-    factoryCharacters.create(this,map,playerName,charRace, charClass);
+    factoryCharacters.create(map,playerName,charRace, charClass);
 }
 
 void Game::createNpc(const std::string& specie) {
@@ -20,24 +21,32 @@ void Game::createNpc(const std::string& specie) {
 }
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
-    map->triggerMove(playerName,offset);
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->move(offset);
 }
 
 void Game::attackNpc(const std::string& playerName, Position& position) {
-    map->triggerAttack(playerName,position);
+    Character* npc = map->findNpcAtPosition(position);
+    if(!npc) return;
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->attack(npc);
 }
 
 void Game::attackPlayer(const std::string& playerName, const std::string& playerNameEnemy) {
-    map->triggerAttack(playerName,playerNameEnemy);
+    PlayableCharacter* enemy = map->getPlayer(playerNameEnemy);
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->attack(enemy);
 }
 
 void Game::equipWeapon(Weapon* weapon, std::string playerName) {
     //aca habria que tener un factory que cree el arma segun el id que le pasan
-    map->triggerEquipWeapon(playerName,weapon);
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->equipWeapon(weapon);
 }
 
 void Game::equipProtection(std::string playerName, Equippable element, int id) {
-    map->triggerEquipProtection(playerName, element, id);
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->equipProtection(element,id);
 }
 
 Game::~Game() {

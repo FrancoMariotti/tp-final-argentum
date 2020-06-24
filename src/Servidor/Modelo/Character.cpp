@@ -3,10 +3,10 @@
 #include "Log.h"
 
 
-Character::Character(int lifePoints,int x,int y,int constitution,
+Character::Character(Map* map,int lifePoints,int x,int y,int constitution,
                   int strength,int agility,int intelligence,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
-                  :currPos(x,y) {
+                  :map(map),currPos(x,y) {
     this->raceLifeFactor = raceLifeFactor;
     this->classLifeFactor = classLifeFactor;
     this->raceManaFactor = raceManaFactor;

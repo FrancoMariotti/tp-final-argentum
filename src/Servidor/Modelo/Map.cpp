@@ -1,3 +1,4 @@
+#include <memory>
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -37,7 +38,7 @@ bool Map::isOccupied(Position pos) {
     return false;
 }
 
-bool Map::outOfBounds(Position &position) {
+bool Map::outOfBounds(Position &position) const {
     return position.outOfBounds(0,height,0,width);
 }
 
@@ -48,7 +49,6 @@ void Map::move(Position& from,Position& to) {
 }
 
 Character* Map::findClosestCharacter(Position pos, int range) {
-    //EL MAPA DEBERIA TEENR UN VECTOR CON TODOS LOS PERSONAJES JUGABLES,ESE VECTOR ES CHARATERS
     int minDist = range;
     PlayableCharacter* enemy = NULL;
     auto it = characters.begin();
@@ -62,38 +62,26 @@ Character* Map::findClosestCharacter(Position pos, int range) {
     return enemy;
 }
 
-void Map::triggerMove(const std::string &playerName, Offset &offset) {
-    characters.at(playerName)->move(this,offset);
-}
-
-Npc* Map::findNpcAtPosition(Position &position) {
+Character* Map::findNpcAtPosition(Position &position) {
+    Npc* enemy = nullptr;
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); ++itrNpcs) {
-        if((*itrNpcs)->collideWith(position)) return *itrNpcs;
+        if((*itrNpcs)->collideWith(position)) enemy = *itrNpcs;
     }
-    return NULL;
+    return enemy;
 }
 
-void Map::triggerAttack(const std::string &playerName, Position &position) {
-    Npc* npc = findNpcAtPosition(position);
-    if(!npc) return;
-    characters.at(playerName)->attack(npc);
+PlayableCharacter *Map::getPlayer(const std::string &playerName) {
+    return characters.at(playerName);
 }
 
-void Map::triggerAttack(const std::string &playerName, const std::string &playerNameEnemy) {
-    PlayableCharacter* enemy = characters.at(playerNameEnemy);
-    characters.at(playerName)->attack(enemy);
-}
-
-void Map::triggerEquipWeapon(const std::string &playerName,Weapon *weapon) {
-    characters.at(playerName)->equipWeapon(weapon);
-}
-
-void Map::triggerEquipProtection(std::string playerName, Equippable element, int id) {
-    characters.at(playerName)->equipProtection(element, id);
-}
 
 Map::~Map() {
+    std::vector<Npc*>::iterator itrNpcs;
+    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
+        delete (*itrNpcs);
+    }
+
     std::map<std::string,PlayableCharacter*>::iterator itCharacters;
     for (itCharacters = characters.begin(); itCharacters != characters.end(); itCharacters++) {
         delete itCharacters->second;
@@ -102,11 +90,6 @@ Map::~Map() {
     std::vector<Obstacle*>::iterator itrObstacles;
     for (itrObstacles = obstacles.begin(); itrObstacles != obstacles.end(); ++itrObstacles) {
         delete (*itrObstacles);
-    }
-
-    std::vector<Npc*>::iterator itrNpcs;
-    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
-        delete (*itrNpcs);
     }
 }
 
