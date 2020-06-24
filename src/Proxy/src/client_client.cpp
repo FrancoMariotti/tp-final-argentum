@@ -121,6 +121,7 @@ Client::~Client() {
 
 void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
+    /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
         if(msg->getId() == 'm'){
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());

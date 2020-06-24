@@ -36,7 +36,7 @@ private:
 public:
     SdlInventory(int screen_width, int screen_height, const SdlWindow &window, SdlPlayer &player);
 
-    void handleEvents(SDL_Event &event);
+    void handleEvents(SDL_Event &event, bool &is_event_handled);
 
     /*logic*/
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);

@@ -26,33 +26,32 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
     this->height = IMAGE_CONSOLE_HEIGHT;
 }
 
-void SdlConsole::handleEvents(const SDL_Event &e) {
+void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
     render_text = false;
     return_times_pressed = 0;
-    if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+    if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
         //Handle backspace
-        if (e.key.keysym.sym == SDLK_BACKSPACE && input_text.length() > 0) {
+        if (event.key.keysym.sym == SDLK_BACKSPACE && input_text.length() > 0) {
             //lop off character
             input_text.pop_back();
             this->render_text = true;
         } //handle copy
-        else if (e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL) {
+        else if (event.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL) {
             SDL_SetClipboardText(input_text.c_str());
         } //Handle paste
-        else if (e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) {
+        else if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) {
             input_text = SDL_GetClipboardText();
             render_text = true;
-        } else if (e.key.keysym.sym == SDLK_RETURN && input_text.length() > 0) {
+        } else if (event.key.keysym.sym == SDLK_RETURN && input_text.length() > 0) {
             render_text = true;
             return_times_pressed += 1;
-            std::cout << return_times_pressed << std::endl;
         }
-    } else if (e.type == SDL_TEXTINPUT){
+    } else if (event.type == SDL_TEXTINPUT){
         //Not copy or pasting
-        if(!(SDL_GetModState() & KMOD_CTRL && (e.text.text[0] == 'c' || e.text.text[0] == 'C' ||
-                                                  e.text.text[0] == 'v' || e.text.text[0] == 'V'))){
+        if(!(SDL_GetModState() & KMOD_CTRL && (event.text.text[0] == 'c' || event.text.text[0] == 'C' ||
+                                               event.text.text[0] == 'v' || event.text.text[0] == 'V'))){
                 //Append character
-                input_text += e.text.text;
+                input_text += event.text.text;
                 render_text = true;
         }
     }
@@ -61,9 +60,9 @@ void SdlConsole::handleEvents(const SDL_Event &e) {
 void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     //Rerender text if needed
     if(return_times_pressed > 0){
-        std::cout << "emplacing" << std::endl;
         recentInputs.emplace_back(input_text, font, text_color, window);
         /**Al apretar enter resuelvo si es un comando valido*/
+        /**TODO: comandos compuestos, que incluyen clicks*/
         this->sendCommandIfValid(clientEvents);
         input_text = " ";
         inputTexture.loadFromRenderedText(" ", text_color, font);

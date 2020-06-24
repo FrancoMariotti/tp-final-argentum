@@ -23,10 +23,11 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
 }
 
 void GUI::handleEvents(SDL_Event &event){
-    //bool event_handled = false;
-    player.handleEvent(event);
-    console.handleEvents(event);
-    inventory.handleEvents(event);
+    bool is_event_handled = false;
+    player.handleEvent(event, is_event_handled);
+    console.handleEvent(event, is_event_handled);
+    inventory.handleEvents(event, is_event_handled);
+
 }
 
 void GUI::execute(){
@@ -35,7 +36,7 @@ void GUI::execute(){
     console.execute(clientEvents);
     camera.move();
 }
-
+/**Factory de eventos de server??*/
 void GUI::update(const int player_vel_x,const int player_vel_y){
     player.update(player_vel_y, player_vel_x, camera);
 }

@@ -35,7 +35,7 @@ SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
 }
 
 
-void SdlPlayer::handleEvent(SDL_Event &e) {
+void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
     //if a key was pressed
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
         //Adjust the velocity
@@ -58,6 +58,7 @@ void SdlPlayer::handleEvent(SDL_Event &e) {
 
         }
     }
+
 }
 
 

@@ -51,10 +51,10 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
 
 }
 
-void SdlInventory::handleEvents(SDL_Event &event) {
+void SdlInventory::handleEvents(SDL_Event &event, bool &is_event_handled) {
     /*Client side events*/
     for(auto & button : buttons){
-        button->handleEvent(event);
+        button->handleEvent(event, is_event_handled);
     }
 }
 

@@ -47,7 +47,7 @@ public:
     SdlPlayer(int x, int y, SdlWindow& window);
 
     //client side: Ajusta la velocidad del jugador
-    void handleEvent(SDL_Event& e );
+    void handleEvent(SDL_Event &e, bool &is_event_handled);
 
     void move(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
     //Muestra al jugador en pantalla

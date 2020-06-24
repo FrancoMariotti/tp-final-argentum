@@ -2,11 +2,9 @@
 // Created by agustin on 12/6/20.
 //
 
-#include <iostream>
 #include "client_sdl_button.h"
 #include "common_proxy_socket.h"
 #include "common_message.h"
-#include "client_sdl_camera.h"
 
 #define BUTTON_WIDTH 300
 #define BUTTON_HEIGHT 200
@@ -37,7 +35,7 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
-void SdlButton::handleEvent(SDL_Event &e) {
+void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
     //if mouse even happend
     if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP){
         int x,y;
@@ -73,6 +71,7 @@ void SdlButton::handleEvent(SDL_Event &e) {
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
                     if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks == 1){
                         this->times_clicked += 1;
+                        is_event_handled = true;
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
