@@ -15,7 +15,6 @@ private:
     Json::Value obj;
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
-    //std::map<std::string, Player> players;
     std::vector<Update> updates;
 public:
     Game(std::string gameConfigFilename);

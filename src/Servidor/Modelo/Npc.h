@@ -26,11 +26,11 @@ private:
 public:
     //Pasamos la Mobility por parametro porque pensamos en que puede
     //haber npcs que se muevan y otros que no.
-    Npc(int lifePoints, Mobility *mobility, int x, int y, int constitution,
+    Npc(Map* map,int lifePoints, Mobility *mobility, int x, int y, int constitution,
         int strength,int agility,int intelligence, int lvl, std::string specie, int minDamage,
         int maxDamage, int minDefense, int maxDefense);
-    void move(Map* map);
-    virtual void attack(Character* character) override;
+    void move();
+    void attack(Character* character) override;
     int calculateNpcGoldDrop(int npcMaxLp);
     bool shouldDrop(int probability);
     ~Npc() override;

@@ -15,17 +15,17 @@ class PlayableCharacter: public Character {
     Weapon* activeWeapon;
     Inventory inventory;
     Armour armour;
-    Game* observer;
     int mana;
     int gold;
     int xp;
-    virtual int defend(int damage) override;
+    int defend(int damage) override;
     public:
-        PlayableCharacter(int lifePoints, int x, int y, int constitution,
+        PlayableCharacter(Map* map,int lifePoints, int x, int y, int constitution,
                           int strength,int agility,int intelligence, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
+
         void attack(Character *character) override;
-        void move(Map* map,Offset& offset);
+        void move(Offset& offset);
         void equipWeapon(Weapon* weapon);
         void equipProtection(Equippable element, int id);
         void recoverLifePoints(int seconds);
