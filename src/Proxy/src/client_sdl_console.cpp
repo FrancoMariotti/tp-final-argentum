@@ -20,7 +20,7 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
     //Enable text input
     SDL_StartTextInput();
 
-    this->console_x = player.getPosX() - X_FROM_PLAYER;
+    this->console_x = player.getPosX() + X_FROM_PLAYER;
     this->console_y = player.getPosY() - Y_FROM_PLAYER;
     this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
@@ -58,9 +58,7 @@ void SdlConsole::handleEvents(const SDL_Event &e) {
     }
 }
 
-void SdlConsole::execute(SdlCamera &camera, BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
-    console_x = player.getPosX() - X_FROM_PLAYER - camera.getX();
-    console_x = player.getPosY() - Y_FROM_PLAYER - camera.getY();
+void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         std::cout << "emplacing" << std::endl;

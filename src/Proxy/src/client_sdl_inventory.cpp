@@ -60,18 +60,12 @@ void SdlInventory::handleEvents(SDL_Event &event) {
     }
 }
 
-void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlCamera &camera) {
-    //this->inventory_x = player.getPosX() + x_from_player - camera.getX();
-    //this->inventory_y = player.getPosY() - y_from_player - camera.getY();
-
+void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
+    /** Sacar la camara  pq renderizo el mundo, por lo tanto el inventario y la consola son estaticos
+     * no necesitan la camara */
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
         /*Veo si fueron clickeados*/
         buttons[i]->use(clientEvents, (int) i);
-        /*Actualizo la posicion de los botones*/
-        int col = (int) i % 4;
-        int fil = (int) i / 4;
-        buttons[i]->setPosition(inventory_x + col * button_size,
-                                inventory_y + fil * button_size);
     }
 }
 
