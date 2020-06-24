@@ -6,6 +6,16 @@
 #define ARGENTUM_COMMON_MESSAGE_H
 
 #include <string>
+#include <vector>
+
+typedef struct position {
+    position(int newX, int newY) {
+        x = newX;
+        y = newY;
+    }
+    int x;
+    int y;
+} position_t;
 
 class Message {
 protected:
@@ -19,6 +29,7 @@ public:
     virtual std::string getTileName() const;
     virtual int getTileX() const;
     virtual int getTileY() const;
+    virtual position_t getPosition();
 };
 
 class Movement : public Message{
@@ -42,13 +53,13 @@ public:
 class Draw : public Message {
 private:
     std::string name; // nombre del tile a dibujar
-    const int x; // x en unidaes del modelo
-    const int y; // y en unidades del modelo
+    std::vector<position_t> positions;// x e y en unidades del modelo
 public:
-    Draw(std::string name, int x, int y);
+    Draw(std::string name, std::vector<position_t>& positions);
     std::string getTileName() const override;
-    int getTileX() const override;
-    int getTileY() const override;
+    virtual position_t getPosition() override;
+    //int getTileX() const override;
+    //int getTileY() const override;
 };
 
 class ExecuteCommand : public Message {

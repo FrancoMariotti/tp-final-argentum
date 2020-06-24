@@ -125,7 +125,13 @@
         "x" : 0,
         "y" : 0,
         "height" :480,
-        "width": 480
+        "width": 224
+      },
+      "ground": {
+        "x" : 224,
+        "y" : 0,
+        "height" :480,
+        "width": 256
       }
     },
     "obstacles": [
