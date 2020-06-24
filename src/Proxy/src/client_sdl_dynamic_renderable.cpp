@@ -4,10 +4,10 @@
 
 #include "client_sdl_dynamic_renderable.h"
 #include "client_sdl_camera.h"
+#include "client_sdl_texture.h"
 
-SdlDynamicRenderable::SdlDynamicRenderable(const int x, const  int y,
-        const int width, const int height, const std::string& texture_id, const SdlWindow &window) :
-    bodySpriteSheetTexture(width, height, "../../Proxy/assets/" + texture_id + ".png", window),
+SdlDynamicRenderable::SdlDynamicRenderable(const int x, const int y, SdlTexture &bodyTexture) :
+    bodySpriteSheetTexture(bodyTexture),
     pos_x(x),
     pos_y(y),
     orientation_clips{{0,0,0,0},{0,0,0,0},
@@ -16,7 +16,7 @@ SdlDynamicRenderable::SdlDynamicRenderable(const int x, const  int y,
 
     /**Deber ia hacer un map que tenga un id y orientation_clips[4] asi resuelvo tod por id*/
     for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        orientation_clips[i] = {0, i*height, width, height};
+        orientation_clips[i] = {0, i*bodyTexture.getHeight(), bodyTexture.getWidth(), bodyTexture.getHeight()};
     }
 }
 

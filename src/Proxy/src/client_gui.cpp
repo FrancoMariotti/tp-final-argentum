@@ -20,6 +20,15 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
+    this->dynamic_renderables_textures.emplace(std::make_pair("arania",
+            SdlTexture(54, 34, "../../Proxy/assets/4093.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("esqueleto",
+            SdlTexture(26, 54, "../../Proxy/assets/4080.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
+            SdlTexture(24, 46, "../../Proxy/assets/4070.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
+            SdlTexture(24, 36, "../../Proxy/assets/4082.png", window)));
+
 }
 
 void GUI::handleEvents(SDL_Event &event){
@@ -27,7 +36,6 @@ void GUI::handleEvents(SDL_Event &event){
     player.handleEvent(event, is_event_handled);
     console.handleEvent(event, is_event_handled);
     inventory.handleEvents(event, is_event_handled);
-
 }
 
 void GUI::execute(){
@@ -51,29 +59,21 @@ void GUI::addTile(int x, int y, const std::string &tile_id) {
 
 void GUI::addRenderable(const int x, const int y, const std::string& renderable_id){
     if(renderable_id.find("arania") != std::string::npos){
-        std::string texture_id = "4093";
-        int width = 54;
-        int height = 34;
-        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
-                SdlDynamicRenderable(x, y, width, height, texture_id, window)));
-    } else if (renderable_id.find("esqueleto") != std::string::npos) {
-        std::string texture_id = "4080";
-        int width = 26;
-        int height = 54;
-        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
-                 SdlDynamicRenderable(x, y, width, height, texture_id, window)));
-    } else if (renderable_id.find("zombie") != std::string::npos) {
-        std::string texture_id = "4070";
-        int width = 24;
-        int height = 46;
-        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
-                 SdlDynamicRenderable(x, y, width, height, texture_id, window)));
-    } else if (renderable_id.find("goblin") != std::string::npos) {
-        std::string texture_id = "4082";
-        int width = 24;
-        int height = 40;
-        this->dynamic_renderables.emplace(std::make_pair(renderable_id,
-                SdlDynamicRenderable(x, y, width, height, texture_id, window)));
+        dynamic_renderables.emplace(std::make_pair(renderable_id,
+                             SdlDynamicRenderable(x , y,
+                             dynamic_renderables_textures.at("arania"))));
+    } else if (renderable_id.find("esqueleto") != std::string::npos){
+        dynamic_renderables.emplace(std::make_pair(renderable_id,
+                                   SdlDynamicRenderable(x , y,
+                                    dynamic_renderables_textures.at("esqueleto"))));
+    } else if (renderable_id.find("zombie") != std::string::npos){
+        dynamic_renderables.emplace(std::make_pair(renderable_id,
+                                   SdlDynamicRenderable(x , y,
+                                    dynamic_renderables_textures.at("zombie"))));
+    } else if (renderable_id.find("goblin") != std::string::npos){
+        dynamic_renderables.emplace(std::make_pair(renderable_id,
+                                   SdlDynamicRenderable(x , y,
+                                    dynamic_renderables_textures.at("goblin"))));
     }
 }
 

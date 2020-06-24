@@ -52,7 +52,7 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
-    //this->init(world);
+    //this->init();
     for (int i = 0; i < 100 ; ++i) {
         for (int j = 0; j < 100 ; ++j) {
             if(i == j){
@@ -116,9 +116,6 @@ void Client::stop() {
     thRecv.join();
 }
 
-Client::~Client() {
-}
-
 void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     /**TODO: Factory de eventos de server ????*/
@@ -127,4 +124,7 @@ void Client::update() {
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
         }
     }
+}
+
+Client::~Client() {
 }

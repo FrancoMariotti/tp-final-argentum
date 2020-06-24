@@ -6,11 +6,13 @@
 #define ARGENTUM_CLIENT_SDL_DYNAMIC_RENDERABLE_H
 
 
-#include "client_sdl_texture.h"
+#include <SDL2/SDL_rect.h>
+
+class SdlTexture;
 class SdlCamera;
 class SdlDynamicRenderable {
 private:
-    SdlTexture bodySpriteSheetTexture;
+    SdlTexture& bodySpriteSheetTexture;
 
     int pos_x;
     int pos_y;
@@ -26,8 +28,7 @@ private:
     enum orientation e_current_orientation;
 
 public:
-    SdlDynamicRenderable(const int x, const int y, const int width, const int height, const std::string& texture_id,
-                         const SdlWindow &window);
+    SdlDynamicRenderable(const int x, const int y, SdlTexture &bodyTexture);
 
     void update(const int vel_x, const int vel_y, SdlCamera &camera);
 

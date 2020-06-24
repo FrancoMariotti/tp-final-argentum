@@ -24,6 +24,7 @@ private:
     SdlConsole console;
     SdlWorld world;
     std::map<std::string, SdlDynamicRenderable> dynamic_renderables;
+    std::map<std::string, SdlTexture> dynamic_renderables_textures;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:
@@ -37,17 +38,17 @@ public:
 
     void update(int player_vel_x, int player_vel_y);
 
-    void render();
+    void update(int vel_x, int vel_y, const std::string &renderable_id);
 
-    ~GUI();
+    void render();
 
     void addTile(int x, int y, const std::string &tile_id);
 
     void addItem(const std::string &item_id);
 
-    void update(const int vel_x, const int vel_y, const std::string &renderable_id);
-
     void addRenderable(const int x, const int y, const std::string &renderable_id);
+
+    ~GUI();
 };
 
 
