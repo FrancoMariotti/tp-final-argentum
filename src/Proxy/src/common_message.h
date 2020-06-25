@@ -8,15 +8,6 @@
 #include <string>
 #include <vector>
 
-typedef struct position {
-    position(int newX, int newY) {
-        x = newX;
-        y = newY;
-    }
-    int x;
-    int y;
-} position_t;
-
 class Message {
 protected:
     const char id;
@@ -29,7 +20,9 @@ public:
     virtual std::string getTileName() const;
     virtual int getTileX() const;
     virtual int getTileY() const;
-    virtual position_t getPosition();
+    virtual std::vector<int> getData();
+    virtual int getWidth();
+    virtual int getHeight();
 };
 
 class Movement : public Message{
@@ -52,12 +45,15 @@ public:
 
 class Draw : public Message {
 private:
-    std::string name; // nombre del tile a dibujar
-    std::vector<position_t> positions;// x e y en unidades del modelo
+    std::string name; // nombre del layer a dibujar
+    int width, height;
+    std::vector<int> data;// x e y en unidades del modelo
 public:
-    Draw(std::string name, std::vector<position_t>& positions);
+    Draw(std::string name, std::vector<int> data, int width, int height);
     std::string getTileName() const override;
-    virtual position_t getPosition() override;
+    std::vector<int> getData() override;
+    int getWidth() override;
+    int getHeight() override;
     //int getTileX() const override;
     //int getTileY() const override;
 };

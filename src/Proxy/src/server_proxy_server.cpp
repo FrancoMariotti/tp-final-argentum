@@ -17,8 +17,8 @@ void ProxyServer::run() {
     //new Mensaje donde mensaje es el mensaje especifico que quiero crear
 
     std::cout << "Server is running" << std::endl;
-
     Game game("src/Servidor/config/config.json");
+    game.initializeMapLayers(proxySocket);
     game.createPlayer("franco", "human", "wizard");
     try{
 
@@ -49,6 +49,10 @@ void ProxyServer::run() {
     }
 
     std::cout << "Server finaliza run" << std::endl;
+}
+
+void ProxyServer::initializeFloor() {
+
 }
 
 void ProxyServer::start() {

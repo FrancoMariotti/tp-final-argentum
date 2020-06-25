@@ -1,12 +1,14 @@
 #include <iostream>
 #include <Proxy/src/common_proxy_socket.h>
+#include <Proxy/src/common_message.h>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Update.h"
 
-Game::Game(std::string configFile): factoryCharacters(configFile), npcFactory(configFile) {
+Game::Game(std::string configFile): configFile(configFile), factoryCharacters(configFile)
+    , npcFactory(configFile) {
     MapFactory factory(configFile);
     map = factory.create();
 }
@@ -47,6 +49,27 @@ void Game::equipWeapon(Weapon* weapon, std::string playerName) {
 void Game::equipProtection(std::string playerName, Equippable element, Equipment equipment) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->equipProtection(element,equipment);
+}
+
+void Game::initializeMapLayers(ProxySocket& pxySkt) {
+    FileParser parser(configFile);
+    Json::Value mapObj =  parser.read("map");
+    int width_map = mapObj["width"].asInt();
+    int height_map = mapObj["height"].asInt();
+    std::vector<int> floorLayer;
+    floorLayer.reserve(width_map*height_map);
+    for (int j = 0; j < width_map*height_map ; ++j) {
+         floorLayer.push_back(mapObj["layers"]["floor"]["data"][j].asInt());
+    }
+    std::vector<int> obstaclesLayer;
+    obstaclesLayer.reserve(width_map*height_map);
+    for (int j = 0; j < width_map*height_map ; ++j) {
+         obstaclesLayer.push_back(mapObj["layers"]["obstacles"]["data"][j].asInt());
+    }
+    pxySkt.writeToClient(std::unique_ptr<Message> (
+            new Draw("floor", floorLayer, width_map, height_map)));
+    pxySkt.writeToClient(std::unique_ptr<Message> (
+            new Draw("obstacles", obstaclesLayer, width_map, height_map)));
 }
 
 Game::~Game() {

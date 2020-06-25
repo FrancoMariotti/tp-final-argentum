@@ -45,8 +45,17 @@ int Message::getTileY() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-position_t Message::getPosition() {
+std::vector<int> Message::getData() {
      throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
+int Message::getWidth() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+int Message::getHeight() {
+    throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
@@ -74,19 +83,25 @@ int UseItem::getIndex() const {
     return inventory_i;
 }
 
-Draw::Draw(const std::string name, std::vector<position_t>& positions) :
-    Message('d'), name(name) {
-    this->positions = std::move(positions);
+Draw::Draw(std::string name, std::vector<int> data, int width, int height) :
+    Message('d'), name(name), width(width), height(height) {
+    this->data = std::move(data);
 }
 
 std::string Draw::getTileName() const {
     return name;
 }
 
-position_t Draw::getPosition() {
-    position_t result = positions.back();
-    positions.pop_back();
-    return result;
+std::vector<int> Draw::getData() {
+    return std::move(data);
+}
+
+int Draw::getWidth() {
+    return width;
+}
+
+int Draw::getHeight() {
+    return height;
 }
 
 

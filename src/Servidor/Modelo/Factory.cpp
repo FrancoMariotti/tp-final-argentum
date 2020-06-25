@@ -28,7 +28,8 @@ MapFactory::MapFactory(const std::string configFile) {
 Map* MapFactory::create() {
     int width_map = mapObj["width"].asInt();
     int height_map = mapObj["height"].asInt();
-    Map *map = new Map(width_map,height_map);
+
+    Map *map = new Map(width_map, height_map);
     Json::Value& obstacles = mapObj["obstacles"];// array of characters
 
     for (auto & i : obstacles){

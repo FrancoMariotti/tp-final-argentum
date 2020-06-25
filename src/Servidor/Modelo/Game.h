@@ -6,12 +6,16 @@
 #include "Factory.h"
 #include "Weapon.h"
 #include "Armour.h"
+#include "Proxy/src/common_proxy_socket.h"
+#include "Proxy/src/common_message.h"
+
 
 class Update;
 class PlayableCharacter;
 
 class Game {
 private:
+    std::string configFile;
     Map* map;
     Json::Value obj;
     PlayableCharacterFactory factoryCharacters;
@@ -27,6 +31,7 @@ public:
     void attackNpc(const std::string &playerName, Position &position);
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
     void equipProtection(std::string playerName, Equippable element, Equipment equipment);
+    void initializeMapLayers(ProxySocket& pxySkt);
     ~Game();
 };
 
