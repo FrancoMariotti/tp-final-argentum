@@ -1,7 +1,3 @@
-//
-// Created by franco on 18/6/20.
-//
-
 #ifndef ARGENTUM_WEAPON_H
 #define ARGENTUM_WEAPON_H
 
@@ -16,7 +12,7 @@ class Weapon {
         int calculateDamage(int strength);
     public:
         Weapon(int minDamage,int maxDamage);
-        virtual void attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) = 0;
+        virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
         virtual ~Weapon() = default;
 };
 

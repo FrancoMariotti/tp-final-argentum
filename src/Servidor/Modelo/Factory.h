@@ -19,7 +19,7 @@ public:
 class MapFactory {
     Json::Value mapObj;
     public:
-        explicit MapFactory(std::string configFile);
+        explicit MapFactory(const std::string& configFile);
         Map* create();
         ~MapFactory();
 };
@@ -27,7 +27,7 @@ class MapFactory {
 class PlayableCharacterFactory {
     Json::Value characterObj;
     public:
-        explicit PlayableCharacterFactory(std::string configFile);
+        explicit PlayableCharacterFactory(const std::string& configFile);
         void create(Map* map,const std::string& playerName,const std::string& charRace,
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
@@ -36,7 +36,7 @@ class PlayableCharacterFactory {
 class NpcFactory {
     Json::Value npcsObj;
     public:
-        explicit NpcFactory(std::string configFile);
+        explicit NpcFactory(const std::string& configFile);
         void create(Map* map,const std::string& specie);
         ~NpcFactory();
 };

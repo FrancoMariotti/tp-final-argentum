@@ -1,13 +1,14 @@
 #include "RangeWeapon.h"
+#include "Log.h"
 
 RangeWeapon::RangeWeapon(int minDamage, int maxDamage, Range range):Weapon(minDamage,maxDamage) {
     this->range = range;
 }
 
-void RangeWeapon::attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) {
-    /*int experience = 0;*/
+int RangeWeapon::attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) {
     if((range == SHORT && enemy->distanceTo(holderPos) == 1) || range == LONG) {
         int damage = calculateDamage(strength);
-        enemy->receiveDamage(level, damage);
+        return enemy->receiveDamage(level, damage);
     }
+    return 0;
 }

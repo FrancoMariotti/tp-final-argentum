@@ -22,8 +22,8 @@ class Npc : public Character {
             int classManaFactor,int recoveryFactor,int meditationRecoveryFactor);
         void move();
         void attack(Character* character) override;
-        //int calculateNpcGoldDrop(int npcMaxLp);
-        //bool shouldDrop(int probability);
+        int calculateNpcGoldDrop(int npcMaxLp);
+        bool shouldDrop(int probability);
         ~Npc() override;
 };
 

@@ -4,11 +4,11 @@ MagicalWeapon::MagicalWeapon(int minDamage, int maxDamage, int cost):Weapon(minD
     this->cost = cost;
 }
 
-void MagicalWeapon::attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) {
-    if(*mana < cost) return;
-    *mana -= cost;
+int MagicalWeapon::attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) {
+    if(mana < cost) return 0;
+    mana -= cost;
     int damage = calculateDamage(strength);
-     enemy->receiveDamage(level,damage);
+    return enemy->receiveDamage(level,damage);
 }
 
 MagicalWeapon::~MagicalWeapon() = default;

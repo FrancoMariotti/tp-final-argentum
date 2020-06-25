@@ -20,7 +20,7 @@ Json::Value FileParser::read(const std::string &parameter) {
     return config[parameter];
 }
 
-MapFactory::MapFactory(const std::string configFile) {
+MapFactory::MapFactory(const std::string& configFile) {
     FileParser parser(configFile);
     mapObj = parser.read("map");
 }
@@ -33,10 +33,10 @@ Map* MapFactory::create() {
     Json::Value& obstacles = mapObj["obstacles"];// array of characters
 
     for (auto & i : obstacles){
-        int width = i["width"].asInt()/32;
-        int height = i["height"].asInt()/32;
-        int x = i["x"].asInt() / 32;
-        int y = i["y"].asInt() / 32;
+        int width = i["width"].asInt();
+        int height = i["height"].asInt();
+        int x = i["x"].asInt();
+        int y = i["y"].asInt();
         auto* obstacle = new Obstacle(x,y,height,width);
         map->addObstacle(obstacle);
     }
@@ -47,7 +47,7 @@ Map* MapFactory::create() {
 MapFactory::~MapFactory() =default;
 
 
-PlayableCharacterFactory::PlayableCharacterFactory(const std::string configFile) {
+PlayableCharacterFactory::PlayableCharacterFactory(const std::string& configFile) {
     FileParser parser(configFile);
     characterObj = parser.read("character");
 }
@@ -63,7 +63,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
 
     //int initialLife = characterObj["life"].asInt();
-    int initialLife = 100;
+    int initialLife = characterObj["lifePoints"].asInt();
     int level = characterObj["level"].asInt();
     int strength = characterObj["strength"].asInt();
     int agility = characterObj["agility"].asInt();
@@ -85,7 +85,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;
 
-NpcFactory::NpcFactory(const std::string configFile) {
+NpcFactory::NpcFactory(const std::string& configFile) {
     FileParser parser(configFile);
     npcsObj = parser.read("npc");
 }

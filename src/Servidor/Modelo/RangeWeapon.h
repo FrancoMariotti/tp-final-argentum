@@ -13,7 +13,7 @@ class RangeWeapon: public Weapon {
     Range range;
     public:
         RangeWeapon(int minDamage,int maxDamage,Range range);
-        void attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) override;
+        int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) override;
 };
 
 

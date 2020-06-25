@@ -56,20 +56,21 @@ void Game::initializeMapLayers(ProxySocket& pxySkt) {
     int width = mapObj["height"].asInt();
     int height = mapObj["width"].asInt();
 
-    int floorLayerid = mapObj["layers"]["floor"]["data"].asInt();
+    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
+    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
 
     std::vector<int> floorLayer;
-    floorLayer.reserve(width*height);
+    floorLayer.reserve(floorLayersid.size());
 
-    for (int j = 0; j < width*height ; ++j) {
-        floorLayer.push_back(floorLayerid);
+    for (const auto & i : floorLayersid){
+        floorLayer.push_back(i.asInt());
     }
 
     std::vector<int> obstaclesLayer;
-    obstaclesLayer.reserve(width*height);
+    obstaclesLayer.reserve(obstaclesLayersid.size());
 
-    for (int j = 0; j < width*height ; ++j) {
-        obstaclesLayer.push_back(mapObj["layers"]["obstacles"]["data"][j].asInt());
+    for (const auto & i : obstaclesLayersid){
+        obstaclesLayer.push_back(i.asInt());
     }
 
     pxySkt.writeToClient(std::unique_ptr<Message> (

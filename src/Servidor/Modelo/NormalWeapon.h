@@ -10,7 +10,7 @@
 class NormalWeapon : public Weapon {
     public:
         NormalWeapon(int minDamage,int maxDamage);
-        void attack(Character *enemy,int strength,int level,int *mana,Position &holderPos)  override;
+        int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos)  override;
         ~NormalWeapon() override;
 };
 

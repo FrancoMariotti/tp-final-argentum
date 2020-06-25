@@ -16,6 +16,18 @@ Npc::Npc(Map* map,int lifePoints,Position &initialPosition,int constitution,
     this->specie = std::move(specie);
 }
 
+int Npc::calculateNpcGoldDrop(int npcMaxLp) {
+    double modifier = double(rand()) / (double(RAND_MAX) + 0.2);
+    return modifier * npcMaxLp;
+}
+
+bool Npc::shouldDrop(int probability) {
+    int n = 100;
+    int result = std::rand() % (n+1);
+    return result < (probability * n);
+}
+
+
 void Npc::move() {
     Offset offset(0,0);
 
@@ -40,21 +52,12 @@ int Npc::defend(int damage) {
 }
 
 void Npc::attack(Character* character) {
-    weapon.attack(character,strength,level, nullptr,currPos);
+    //deberiamos agregarle el mana al npc y que sea cero
+    int mana = 0;
+    weapon.attack(character,strength,level, mana,currPos);
 }
 
 Npc::~Npc() {}
 
-
-/*int Npc::calculateNpcGoldDrop(int npcMaxLp) {
-    double modifier = double(rand()) / (double(RAND_MAX) + 0.2);
-    return modifier * npcMaxLp;
-}
-
-bool Npc::shouldDrop(int probability) {
-    int n = 100;
-    int result = std::rand() % (n+1);
-    return result < (probability * n);
-}*/
 
 
