@@ -2,13 +2,14 @@
 #define ARGENTUM_WEAPON_H
 
 #include "Character.h"
+#include "Equippable.h"
 
 class Character;
 
-class Weapon {
+class Weapon : public Equippable {
     protected:
-        int minDamage;
-        int maxDamage;
+        //int minDamage;
+        //int maxDamage;
         int calculateDamage(int strength);
     public:
         Weapon(int minDamage,int maxDamage);

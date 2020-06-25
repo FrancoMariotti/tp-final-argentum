@@ -2,9 +2,13 @@
 #define ARGENTUM_INVENTORY_H
 
 
+#include <vector>
+
 class Inventory {
     int maxElements;
-    //std::vector<>
+    //std::vector<Storable*> elements;
+public:
+
 };
 
 
