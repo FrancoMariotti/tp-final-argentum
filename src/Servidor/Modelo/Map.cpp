@@ -44,8 +44,8 @@ bool Map::outOfBounds(Position &position) const {
 
 
 void Map::move(Position& from,Position& to) {
-    if(outOfBounds(to)) return;
-    if (!isOccupied(to)) from = to;
+    //if(outOfBounds(to)) return;
+    if (!isOccupied(to) && !outOfBounds(to)) from = to;
 }
 
 Character* Map::findClosestCharacter(Position pos, int range) {

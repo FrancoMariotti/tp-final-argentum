@@ -13,7 +13,7 @@ Game::Game(std::string configFile): configFile(configFile), factoryCharacters(co
 
 void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
-    factoryCharacters.create(map,playerName,charRace, charClass);
+    factoryCharacters.create(map,playerName,charRace, charClass, this);
 }
 
 void Game::createNpc(const std::string& specie) {
@@ -68,6 +68,18 @@ void Game::initializeMapLayers(ProxySocket& pxySkt) {
             new Draw("floor", floorLayer, width_map, height_map)));
     pxySkt.writeToClient(std::unique_ptr<Message> (
             new Draw("obstacles", obstaclesLayer, width_map, height_map)));
+}
+
+void Game::sendUpdates(ProxySocket& pxySkt) {
+    while (!updates.empty()) {
+        pxySkt.writeToClient(std::unique_ptr<Message> (
+               updates.front()));
+        updates.pop();
+    }
+}
+
+void Game::movementUpdate(int x, int y) {
+    updates.push(new Movement(x, y));
 }
 
 Game::~Game() {

@@ -53,7 +53,7 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string configFile)
 }
 
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
-                                      const std::string &charClass) {
+                                      const std::string &charClass, Observer* observer) {
     Log* log = Log::instancia();
 
     log->write("Creacion de Jugador:" + playerName);
@@ -79,6 +79,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     auto* character =  new PlayableCharacter(map,initialLife,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor);
+    character->addObserver(observer);
     map->addPlayableCharacter(playerName,character);
 }
 

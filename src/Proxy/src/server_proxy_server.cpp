@@ -33,13 +33,11 @@ void ProxyServer::run() {
                 std::cout << "VEL X:"<< event->getPlayerVelX() << std::endl;
                 std::cout << "VEL Y:"<< event->getPlayerVelY() << std::endl;
 
-                /*
-                Offset offset(event->getPlayerVelX(), event->getPlayerVelX());
+
+                Offset offset(event->getPlayerVelX(), event->getPlayerVelY());
                 Event* move = new EventMove(offset);
                 move->execute(game, "franco");
-                */
-                proxySocket.writeToClient(std::unique_ptr<Message> (
-                        new Movement(event->getPlayerVelX(),event->getPlayerVelY())));
+                game.sendUpdates(proxySocket);
             }
 
         }

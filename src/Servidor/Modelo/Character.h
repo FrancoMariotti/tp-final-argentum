@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Offset.h"
 #include "Position.h"
+#include "Observer.h"
 
 class Map;
 
@@ -23,6 +24,7 @@ class Character {
         int meditationRecoveryFactor;
         Map* map;
         Position currPos;
+        Observer* observer;
 
         int calculateMaxLife() const;
         int calculateMaxMana() const;
@@ -50,7 +52,8 @@ class Character {
         virtual void attack(Character* character) = 0;
         int receiveDamage(int enemyLevel,int damage);
         static int calculateSafeGoldCapacity(int lvl);
-        bool shouldDrop(int probability);
+        //bool shouldDrop(int probability);
+        void addObserver(Observer* newObserver);
         virtual ~Character();
 };
 

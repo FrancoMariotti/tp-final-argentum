@@ -2,11 +2,10 @@
 #include <cmath>
 #include "Log.h"
 
-
 Character::Character(Map* map,int lifePoints,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
-                  :map(map),currPos(initialPosition) {
+                  : map(map),currPos(initialPosition) {
     this->level = level;
     this->raceLifeFactor = raceLifeFactor;
     this->classLifeFactor = classLifeFactor;
@@ -114,6 +113,9 @@ bool Character::dodge() const {
     return pow(modifier, agility) < 0.001;
 }
 
+void Character::addObserver(Observer *newObserver) {
+    observer = newObserver;
+}
 
 Character::~Character() = default;
 

@@ -2,22 +2,23 @@
 #define ARGENTUM_GAME_H
 
 #include <map>
+#include <queue>
 #include "Map.h"
 #include "Factory.h"
 #include "Weapon.h"
 #include "Armour.h"
 
-class Update;
+class Message;
 class PlayableCharacter;
 class ProxySocket;
 
-class Game {
+class Game : public Observer {
 private:
     std::string configFile;
     Map* map;
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
-    std::vector<Update> updates;
+    std::queue<Message*> updates;
 public:
     Game(std::string gameConfigFilename);
     void createPlayer(const std::string& name, const std::string& charRace,
@@ -29,6 +30,8 @@ public:
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
     void equipProtection(std::string playerName, Equippable element, Equipment equipment);
     void initializeMapLayers(ProxySocket& pxySkt);
+    void movementUpdate(int x, int y) override;
+    void sendUpdates(ProxySocket& pxySkt);
     ~Game();
 };
 

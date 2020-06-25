@@ -14,9 +14,12 @@ PlayableCharacter::PlayableCharacter(Map* map,int lifePoints, Position &initialP
 }
 
 void PlayableCharacter::move(Offset& offset) {
-    Position siguiente(this->currPos);
-    siguiente.apply(offset);
-    map->move(this->currPos,siguiente);
+    Position nextPos(this->currPos);
+    nextPos.apply(offset);
+    map->move(this->currPos,nextPos);
+    if (currPos == nextPos) {
+        observer->movementUpdate(offset.getX(), offset.getY());
+    }
 }
 
 void PlayableCharacter::recoverLifePoints(int seconds) {
