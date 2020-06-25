@@ -17,6 +17,8 @@ SdlWorld::SdlWorld(const SdlWindow& window) :
     }
     /***/
 
+    /**Tiled
+     * Pasto: */
     this->world_tiles_clips.emplace(std::make_pair("pasto", SDL_Rect{32,352,32,32}));
     this->world_tiles_clips.emplace(std::make_pair("hongo", SDL_Rect{17*32,22*32,32,32}));
     this->world_tiles_clips.emplace(std::make_pair("roca", SDL_Rect{20*32,19*32,32,32}));
@@ -41,9 +43,6 @@ void SdlWorld::render(SdlCamera &camera) {
             worldSpriteSheetTexture.render(relative_point.x,
                     relative_point.y,
                     &world_tiles_clips.at(iterator->first));
-            /*worldSpriteSheetTexture.render(value_iterator->x * TILE_SIZE,
-                    value_iterator->y * TILE_SIZE,
-                    &world_tiles_clips.at(iterator->first));*/
         }
         iterator++;
     }

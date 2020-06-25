@@ -11,7 +11,7 @@
 GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents) :
     window(screen_width, screen_height),
     font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
-    player(screen_width / 2,screen_height / 2,window),
+    player(screen_width / 2, screen_height / 2, window),
     inventory(screen_width, screen_height, window, player),
     camera(screen_width, screen_height, player),
     console(screen_width, screen_height, window, font, player),

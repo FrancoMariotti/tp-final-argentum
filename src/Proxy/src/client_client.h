@@ -47,6 +47,8 @@ public:
     void update();
 
     void stop();
+
+    void init();
 };
 
 

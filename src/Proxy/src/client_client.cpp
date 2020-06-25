@@ -22,8 +22,6 @@ Client::Client(ProxySocket& proxySocket) :
         thSend(clientEvents, proxySocket),
         thRecv(serverEvents,proxySocket),
         gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents){
-    /*Me conecto al server*/
-    clientEvents.push(std::unique_ptr<Message>(new Connect("agus")));
 
     /*Lanzo los threads*/
     thSend.start();
@@ -49,6 +47,8 @@ int Client::run() {
     //Cargo el mundo
     SdlWorld world(window);
     */
+    this->init();
+
     //Main loop flag
     bool quit = false;
 
@@ -130,4 +130,25 @@ void Client::update() {
 }
 
 Client::~Client() {
+}
+
+void Client::init() {
+    /*Me conecto al server*/
+    clientEvents.push(std::unique_ptr<Message>(new Connect("agus")));
+    /*Consumo la lista hasta recibir el mensaje draw*/
+    std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
+    //bool success = false;
+    for (auto & msg : messages) {
+        if(msg->getId() == 'd'){
+            /*
+            std::vector<int> data = msg->getData();
+            for(unsigned long i = 0; i < data.size(); i++){
+                int x = i / msg->getMapHeight();
+                int y = i % msg->getMapWidth();
+                int id = data[i];
+            }*/
+            //success = true;
+            //this->gui.addTile(msg->getPosition().x, msg->getPosition().y, msg->getTileName());
+        }
+    }
 }
