@@ -1,7 +1,7 @@
 //
 // Created by franco on 6/6/20.
 //
-
+/*
 #include "PersonajeTest.h"
 #include "Servidor/Modelo/Map.h"
 #include "Servidor/Modelo/Mobility.h"
@@ -69,3 +69,4 @@ void PersonajeTest::testPersonajeNoPuedeirseDelMapa() {
         CPPUNIT_ASSERT(player.currPos == next);
     }
 }
+ */

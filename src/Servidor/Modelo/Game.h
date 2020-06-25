@@ -6,11 +6,10 @@
 #include "Factory.h"
 #include "Weapon.h"
 #include "Armour.h"
-#include <Proxy/src/common_proxy_socket.h>
-
 
 class Update;
 class PlayableCharacter;
+class ProxySocket;
 
 class Game {
 private:
