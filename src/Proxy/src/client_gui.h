@@ -42,7 +42,7 @@ public:
 
     void render();
 
-    void addTile(int x, int y, const std::string &tile_id);
+    void addTile(int x, int y, int tile_id);
 
     void addItem(const std::string &item_id);
 

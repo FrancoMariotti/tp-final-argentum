@@ -53,7 +53,7 @@ void GUI::update(const int vel_x,const int vel_y, const std::string& renderable_
     this->dynamic_renderables.at(renderable_id).update(vel_x, vel_y, camera);
 }
 
-void GUI::addTile(int x, int y, const std::string &tile_id) {
+void GUI::addTile(int x, int y, int tile_id) {
     world.add(x, y, tile_id);
 }
 
