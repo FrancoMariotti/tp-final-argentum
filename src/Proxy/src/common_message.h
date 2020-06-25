@@ -59,4 +59,12 @@ public:
     std::string getCommand();
 };
 
+class Connect : public Message {
+private:
+    const std::string username;
+public:
+    explicit Connect(const std::string username);
+    std::string getUserName() const;
+};
+
 #endif //ARGENTUM_COMMON_MESSAGE_H

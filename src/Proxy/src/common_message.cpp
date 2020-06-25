@@ -96,3 +96,12 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
 std::string ExecuteCommand::getCommand() {
     return command;
 }
+
+Connect::Connect(const std::string username) :
+    Message('c'),
+    username(username)
+    {}
+
+std::string Connect::getUserName() const {
+    return username;
+}

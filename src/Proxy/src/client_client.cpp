@@ -22,6 +22,9 @@ Client::Client(ProxySocket& proxySocket) :
         thSend(clientEvents, proxySocket),
         thRecv(serverEvents,proxySocket),
         gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents){
+    /*Me conecto al server*/
+    clientEvents.push(std::unique_ptr<Message>(new Connect("agus")));
+
     /*Lanzo los threads*/
     thSend.start();
     thRecv.start();

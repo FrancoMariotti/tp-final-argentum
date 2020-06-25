@@ -20,27 +20,31 @@ void ProxyServer::run() {
 
     Game game("src/Servidor/config/config.json");
     game.createPlayer("franco", "human", "wizard");
+    try{
 
-    while(this->keepListening) {
-        /*Si no hay eventos se bloquea*/
-        std::unique_ptr<Message> msg = proxySocket.readServer();
-        if(!msg) break;
-        std::cout << "MSG type:"<< msg->getId() << std::endl;
+        while(this->keepListening) {
+            /*Si no hay eventos se bloquea*/
+            std::unique_ptr<Message> msg = proxySocket.readServer();
+            if(!msg) break;
+            std::cout << "MSG type:"<< msg->getId() << std::endl;
 
-        if (msg->getId() == 'm') {
+            if (msg->getId() == 'm') {
 
-            Movement* event = (Movement*) msg.release();
-            std::cout << "VEL X:"<< event->getPlayerVelX() << std::endl;
-            std::cout << "VEL Y:"<< event->getPlayerVelY() << std::endl;
+                Movement* event = (Movement*) msg.release();
+                std::cout << "VEL X:"<< event->getPlayerVelX() << std::endl;
+                std::cout << "VEL Y:"<< event->getPlayerVelY() << std::endl;
 
-            /*
-            Offset offset(event->getPlayerVelX(), event->getPlayerVelX());
-            Event* move = new EventMove(offset);
-            move->execute(game, "franco");
-            */
-            proxySocket.writeToClient(std::unique_ptr<Message> (
+                /*
+                Offset offset(event->getPlayerVelX(), event->getPlayerVelX());
+                Event* move = new EventMove(offset);
+                move->execute(game, "franco");
+                */
+                proxySocket.writeToClient(std::unique_ptr<Message> (
                         new Movement(event->getPlayerVelX(),event->getPlayerVelY())));
             }
+
+        }
+    } catch (ClosedQueueException &e){
 
     }
 

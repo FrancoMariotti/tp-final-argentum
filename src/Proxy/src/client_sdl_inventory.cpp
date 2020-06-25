@@ -24,12 +24,10 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->inventory_x = player.getPosX() + X_FROM_PLAYER;
     this->inventory_y = player.getPosY() - Y_FROM_PLAYER;
 
-    this->button_size = 40;
-
     //Botones
     inventoryTextures.emplace(std::piecewise_construct,
             std::forward_as_tuple("button"),
-            std::forward_as_tuple(button_size,button_size,"../../Proxy/assets/button.png", window)
+            std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE, "../../Proxy/assets/button.png", window)
             );
     SdlTexture& buttonSpriteSheet = inventoryTextures.at("button");
 
@@ -45,8 +43,8 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
         /*4 botones por fila,
          * 0....3
          * 4....7*/
-        buttons.back()->setPosition(inventory_x + col * button_size,
-                                    inventory_y + fil * button_size);
+        buttons.back()->setPosition(inventory_x + col * BUTTON_SIZE,
+                                    inventory_y + fil * BUTTON_SIZE);
     }
 
 }
@@ -70,7 +68,7 @@ void SdlInventory::addItem(const std::string& item_id){
     /**Deberia cargar todas las texturas posibles de los items en el constructor*/
     inventoryTextures.emplace(std::piecewise_construct,
                               std::forward_as_tuple(item_id),
-                              std::forward_as_tuple(button_size,button_size,
+                              std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE,
                                       "../../Proxy/items/" + item_id + ".png", window)
     );
     SdlTexture& buttonTexture = inventoryTextures.at(item_id);
@@ -78,8 +76,8 @@ void SdlInventory::addItem(const std::string& item_id){
     int fil = (int) buttons.size() / 4;
     Command* cmd = new Use;
     buttons.push_back(new SdlButton(buttonTexture, cmd));
-    buttons.back()->setPosition(inventory_x + col * button_size,
-                                inventory_y + fil * button_size);
+    buttons.back()->setPosition(inventory_x + col * BUTTON_SIZE,
+                                inventory_y + fil * BUTTON_SIZE);
 }
 
 void SdlInventory::render() {

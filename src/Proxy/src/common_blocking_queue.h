@@ -46,8 +46,8 @@ class BlockingQueue {
             std::unique_lock<std::mutex> lock(m);
             while (queue.empty()){
                 if (this->is_close){
-                    //throw ClosedQueueException();
-                    return NULL;
+                    throw ClosedQueueException();
+                    //return NULL;
                 }
                 cond_var.wait(lock);
             }

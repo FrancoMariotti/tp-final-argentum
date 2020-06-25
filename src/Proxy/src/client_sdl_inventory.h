@@ -23,7 +23,7 @@ private:
 
     int inventory_x;
     int inventory_y;
-    int button_size;
+    const int BUTTON_SIZE = 40;
 
     const SdlWindow& window;
     const SdlPlayer& player;

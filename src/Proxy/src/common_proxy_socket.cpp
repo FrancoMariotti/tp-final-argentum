@@ -23,4 +23,5 @@ std::unique_ptr<Message> ProxySocket::readClient() {
 
 void ProxySocket::shutdown() {
     proxyClientSocket.close();
+    proxyServerSocket.close();
 }
