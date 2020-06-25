@@ -2,12 +2,10 @@
 #define ARGENTUM_PLAYABLECHARACTER_H
 
 #include "Character.h"
-#include "Mobility.h"
 #include "Weapon.h"
 #include "Armour.h"
 #include "Inventory.h"
 
-class Mobility;
 class Game;
 
 class PlayableCharacter: public Character {

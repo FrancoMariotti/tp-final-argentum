@@ -13,9 +13,10 @@ class Weapon {
     protected:
         int minDamage;
         int maxDamage;
-        virtual int calculateDamage(int strength);
+        int calculateDamage(int strength);
     public:
-        virtual int attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) = 0;
+        Weapon(int minDamage,int maxDamage);
+        virtual void attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) = 0;
         virtual ~Weapon() = default;
 };
 

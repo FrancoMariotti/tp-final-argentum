@@ -1,5 +1,4 @@
 #include "PlayableCharacter.h"
-#include "Mobility.h"
 
 PlayableCharacter::PlayableCharacter(Map* map,int lifePoints, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -25,7 +24,7 @@ void PlayableCharacter::recoverLifePoints(int seconds) {
 }
 
 void PlayableCharacter::attack(Character *character) {
-    this->xp += activeWeapon->attack(character,strength,level,&mana,currPos);
+    activeWeapon->attack(character,strength,level,&mana,currPos);
 }
 
 void PlayableCharacter::recoverMana(int seconds) {

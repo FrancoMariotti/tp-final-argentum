@@ -1,7 +1,7 @@
 #include <Servidor/Modelo/EventMove.h>
-#include <Servidor/Modelo/NormalWeapon.h>
 #include <Servidor/Modelo/Log.h>
 #include <Servidor/Modelo/Game.h>
+#include <Servidor/Modelo/RangeWeapon.h>
 
 int main(int argc, char const *argv[]) {
     Log* log = Log::instancia();
@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
 
     Offset offset(0,1);
     Event* event = new EventMove(offset);
-    NormalWeapon sword(2, 5, SHORT);
+    RangeWeapon sword(2, 5, SHORT);
     Equippable shield(2, 5);
 
     Game game("config/config.json");

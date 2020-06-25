@@ -1,18 +1,12 @@
 #include "NormalWeapon.h"
 
-NormalWeapon::NormalWeapon(int minDamage,int maxDamage,RangeWeapon range) {
-    this->minDamage = minDamage;
-    this->maxDamage = maxDamage;
-    this->range = range;
-}
+NormalWeapon::NormalWeapon(int minDamage,int maxDamage):Weapon(minDamage,maxDamage) {}
 
-int NormalWeapon::attack(Character *enemy, int strength,int level, int *mana, Position &holderPos) {
-    int experience = 0;
-    if((range == SHORT && enemy->distanceTo(holderPos) == 1) || range == LONG) {
+void NormalWeapon::attack(Character *enemy, int strength,int level, int *mana,Position &holderPos) {
+    if(enemy->distanceTo(holderPos) == 1) {
         int damage = calculateDamage(strength);
-        experience = enemy->receiveDamage(level, damage);
+        enemy->receiveDamage(level, damage);
     }
-    return experience;
 }
 
-NormalWeapon::~NormalWeapon() {}
+NormalWeapon::~NormalWeapon() = default;

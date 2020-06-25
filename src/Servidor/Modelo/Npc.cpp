@@ -1,24 +1,35 @@
 #include "Npc.h"
-
 #include <utility>
-#include "Mobility.h"
 
-//CREO QUE NO HARIA FALTA QUE EL NPC TUVIESE LA CALCULADORA,PODRIAMOS PONERLA DIRECTAMENTE EN EL PLAYABLE CHARACTER
-Npc::Npc(Map* map,Mobility* mobility,int lifePoints,Position &initialPosition,int constitution,
+#define MAX_RANGE 4
+
+
+Npc::Npc(Map* map,int lifePoints,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
          , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
          int classManaFactor,int recoveryFactor,int meditationRecoveryFactor):
          Character(map,lifePoints,initialPosition,constitution,strength,agility,intelligence,level,
                  raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
                  recoveryFactor, meditationRecoveryFactor),
-         mobility(mobility),
          weapon(minDamage,maxDamage),
          armour(minDefense,maxDefense){
     this->specie = std::move(specie);
 }
 
 void Npc::move() {
-    mobility->move(currPos, map);
+    Offset offset(0,0);
+
+    Character* enemy = map->findClosestCharacter(currPos, MAX_RANGE);
+    if (!enemy) {
+        offset.randomDir();
+    } else {
+        offset = enemy->getOffset(currPos);
+        offset.approach();
+    }
+
+    Position next(currPos);
+    next.apply(offset);
+    map->move(currPos,next);
 }
 
 int Npc::defend(int damage) {
@@ -29,12 +40,10 @@ int Npc::defend(int damage) {
 }
 
 void Npc::attack(Character* character) {
-    weapon.attack(character,strength,level,nullptr,currPos);
+    weapon.attack(character,strength,level, nullptr,currPos);
 }
 
-Npc::~Npc() {
-    delete this->mobility;
-}
+Npc::~Npc() {}
 
 
 /*int Npc::calculateNpcGoldDrop(int npcMaxLp) {

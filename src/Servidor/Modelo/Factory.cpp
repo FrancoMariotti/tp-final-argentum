@@ -94,11 +94,6 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     int minLevel = npcsObj["minLevel"].asInt();
     int level =  std::rand() % (maxLevel - minLevel) + minLevel;
 
-    Mobility* mobility;
-
-    if (npcsObj["specie"][specie]["mobility"] == "movable") mobility = new Movable();
-    else mobility = new NonMovable();
-
     //Seteo los atributos del NPC
     int constitution = npcsObj["specie"][specie]["constitution"].asInt();
     int strengh = npcsObj["specie"][specie]["strengh"].asInt();
@@ -118,7 +113,7 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     //Position initialPosition = map->asignPosition();
     Position initialPosition(1,1);
 
-    Npc *enemy = new Npc(map,mobility,lifePoints, initialPosition, constitution,
+    Npc *enemy = new Npc(map,lifePoints, initialPosition, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
             maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
             recoveryFactor,meditationRecoveryFactor);

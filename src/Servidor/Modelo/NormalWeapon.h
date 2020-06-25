@@ -7,13 +7,10 @@
 
 #include "Weapon.h"
 
-enum RangeWeapon {SHORT,LONG};
-
 class NormalWeapon : public Weapon {
-    RangeWeapon range;
     public:
-        NormalWeapon(int minDamage,int maxDamage,RangeWeapon range);
-        int attack(Character *enemy,int strength,int level,int *mana,Position &holderPos) override;
+        NormalWeapon(int minDamage,int maxDamage);
+        void attack(Character *enemy,int strength,int level,int *mana,Position &holderPos)  override;
         ~NormalWeapon() override;
 };
 
