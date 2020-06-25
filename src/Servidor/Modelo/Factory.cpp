@@ -62,7 +62,8 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     Position initialPosition(1,2);
 
 
-    int initialLife = characterObj["life"].asInt();
+    //int initialLife = characterObj["life"].asInt();
+    int initialLife = 100;
     int level = characterObj["level"].asInt();
     int strength = characterObj["strength"].asInt();
     int agility = characterObj["agility"].asInt();

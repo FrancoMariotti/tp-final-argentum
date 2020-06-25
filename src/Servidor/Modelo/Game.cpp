@@ -1,5 +1,3 @@
-#include <iostream>
-#include <Proxy/src/common_proxy_socket.h>
 #include <Proxy/src/common_message.h>
 #include "Game.h"
 #include "Factory.h"
