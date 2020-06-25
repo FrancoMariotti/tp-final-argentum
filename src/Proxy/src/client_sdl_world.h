@@ -16,8 +16,8 @@ class SdlTexture;
 class SdlWorld {
 private:
     SdlTexture worldSpriteSheetTexture;
-    std::map<std::string, SDL_Rect> world_tiles_clips;
-    std::map<std::string, std::vector<SDL_Point>> world_tiles;
+    std::map<int, SDL_Rect> world_tiles_clips;
+    std::map<int, std::vector<SDL_Point>> world_tiles;
 
     const int TILE_SIZE = 32;
 
@@ -29,9 +29,9 @@ public:
      * Cargo el map con los recortes de cada tile que se van a utilizar para dibujar el mundo*/
     explicit SdlWorld(const SdlWindow& window);
 
-    void render(int x, int y, const std::string &id);
+    void render(const int x, const int y, const int tile_id);
 
-    void add( int x, int y, const std::string &id);
+    void add(const int x, const int y, const int tile_id);
 
     void render(SdlCamera &camera);
 

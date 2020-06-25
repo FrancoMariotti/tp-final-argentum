@@ -55,7 +55,7 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
-    //this->init();
+    /*
     for (int i = 0; i < 100 ; ++i) {
         for (int j = 0; j < 100 ; ++j) {
             if(i == j){
@@ -70,7 +70,7 @@ int Client::run() {
     gui.addRenderable(300, 200, "esqueleto12");
     gui.addRenderable(400, 200, "zombie99");
     gui.addRenderable(500, 200, "goblin1");
-    ///
+    */
 
     //While application is running
     while (!quit) {
@@ -112,11 +112,31 @@ int Client::run() {
     return 0;
 }
 
-void Client::stop() {
-    thSend.stop();
-    thRecv.stop();
-    thSend.join();
-    thRecv.join();
+void Client::init() {
+    /*Me conecto al server*/
+    //clientEvents.push(std::unique_ptr<Message>(new Connect("agus")));
+    bool init = false;
+    /*Consumo la lista hasta recibir el mensaje draw*/
+    while(!init){
+    std::cout << "client: consuming" << std::endl;
+    std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
+    for (auto & msg : messages) {
+        std::cout << msg->getId() << std::endl;
+        if(msg->getId() == 'd'){
+            init = true;
+            std::vector<int> data = msg->getData();
+            for(unsigned long i = 0; i < data.size(); i++){
+                int x = i % msg->getHeight();
+                int y = i / msg->getWidth();
+                int id = data[i];
+                if(id == 233){
+                    this->gui.addTile(x, y, id);
+                }
+
+            }
+        }
+    }
+    }
 }
 
 void Client::update() {
@@ -129,26 +149,12 @@ void Client::update() {
     }
 }
 
-Client::~Client() {
+void Client::stop() {
+    thSend.stop();
+    thRecv.stop();
+    thSend.join();
+    thRecv.join();
 }
 
-void Client::init() {
-    /*Me conecto al server*/
-    clientEvents.push(std::unique_ptr<Message>(new Connect("agus")));
-    /*Consumo la lista hasta recibir el mensaje draw*/
-    std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
-    //bool success = false;
-    for (auto & msg : messages) {
-        if(msg->getId() == 'd'){
-            /*
-            std::vector<int> data = msg->getData();
-            for(unsigned long i = 0; i < data.size(); i++){
-                int x = i / msg->getMapHeight();
-                int y = i % msg->getMapWidth();
-                int id = data[i];
-            }*/
-            //success = true;
-            //this->gui.addTile(msg->getPosition().x, msg->getPosition().y, msg->getTileName());
-        }
-    }
+Client::~Client() {
 }
