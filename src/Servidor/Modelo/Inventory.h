@@ -3,12 +3,15 @@
 
 
 #include <vector>
+#include "Equippable.h"
 
 class Inventory {
     int maxElements;
-    //std::vector<Storable*> elements;
+    std::vector<Equippable*> elements;
 public:
-
+    Inventory(int maxElements);
+    bool addEquippable(Equippable* element);
+    Equippable* takeElement(int index);
 };
 
 

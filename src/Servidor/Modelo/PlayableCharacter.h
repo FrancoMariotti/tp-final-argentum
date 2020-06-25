@@ -20,7 +20,8 @@ class PlayableCharacter: public Character {
     public:
         PlayableCharacter(Map* map,int lifePoints, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
+                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
+                  int invMaxElements);
 
         void attack(Character *character) override;
         void move(Offset& offset);

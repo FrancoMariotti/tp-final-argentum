@@ -4,10 +4,11 @@
 
 PlayableCharacter::PlayableCharacter(Map* map,int lifePoints, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
+                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
+                  int invMaxElements)
                   :Character(map,lifePoints,initialPosition,constitution,strength,agility,intelligence,level,
                           raceLifeFactor, classLifeFactor, raceManaFactor,
-                          classManaFactor,recoveryFactor,meditationRecoveryFactor) {
+                          classManaFactor,recoveryFactor,meditationRecoveryFactor), inventory(invMaxElements) {
 
         this->activeWeapon = nullptr;
         this->mana = 0;

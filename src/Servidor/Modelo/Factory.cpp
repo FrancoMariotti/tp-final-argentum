@@ -65,6 +65,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     //int initialLife = characterObj["life"].asInt();
     int initialLife = characterObj["lifePoints"].asInt();
     int level = characterObj["level"].asInt();
+    int invMaxElements = characterObj["invMaxElements"].asInt();
     int strength = characterObj["strength"].asInt();
     int agility = characterObj["agility"].asInt();
     int intelligence = characterObj["intelligence"].asInt();
@@ -78,7 +79,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
     auto* character =  new PlayableCharacter(map,initialLife,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
-            meditationRecoveryFactor);
+            meditationRecoveryFactor, invMaxElements);
     character->addObserver(observer);
     map->addPlayableCharacter(playerName,character);
 }

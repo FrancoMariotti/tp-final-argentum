@@ -2,6 +2,7 @@
   "character" : {
     "lifePoints": 125,
     "level": 1,
+    "invMaxElements": 10,
     "strength": 18,
     "agility": 18,
     "intelligence": 18,
