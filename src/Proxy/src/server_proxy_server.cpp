@@ -11,12 +11,12 @@ ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     {}
 
 void ProxyServer::run() {
-    std::cout << "Server is running" << std::endl;
-    //std::unique_ptr<Message> msg = proxySocket.readServer();
     /*proxySocket.writeToClient(std::unique_ptr<Message> (
-            new Draw("pasto", 10, 10)));*/
+            new Draw("pasto", positions)));*/
     //En el parametro del write le paso un unique_ptr que en su constructor recibe un
     //new Mensaje donde mensaje es el mensaje especifico que quiero crear
+
+    std::cout << "Server is running" << std::endl;
 
     Game game("src/Servidor/config/config.json");
     game.createPlayer("franco", "human", "wizard");

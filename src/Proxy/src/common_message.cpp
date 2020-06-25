@@ -45,6 +45,11 @@ int Message::getTileY() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+position_t Message::getPosition() {
+     throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message('m'),
         player_vel_x(player_vel_x),
@@ -69,24 +74,30 @@ int UseItem::getIndex() const {
     return inventory_i;
 }
 
-Draw::Draw(const std::string name,const int x,const int y) :
-    Message('d'),
-    name(name),
-    x(x),
-    y(y)
-    {}
+Draw::Draw(const std::string name, std::vector<position_t>& positions) :
+    Message('d'), name(name) {
+    this->positions = std::move(positions);
+}
 
 std::string Draw::getTileName() const {
     return name;
 }
 
-int Draw::getTileX() const {
+position_t Draw::getPosition() {
+    position_t result = positions.back();
+    positions.pop_back();
+    return result;
+}
+
+
+/*int Draw::getTileX() const {
     return x;
 }
 
 int Draw::getTileY() const {
     return y;
 }
+*/
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message('/'),
