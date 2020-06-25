@@ -1,7 +1,3 @@
-//
-// Created by franco on 19/6/20.
-//
-
 #include "Armour.h"
 
 Armour::Armour() {

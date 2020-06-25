@@ -20,11 +20,11 @@ private:
     NpcFactory npcFactory;
     std::queue<Message*> updates;
 public:
-    Game(std::string gameConfigFilename);
+    Game(const std::string& gameConfigFilename);
     void createPlayer(const std::string& name, const std::string& charRace,
             const std::string& charClass);
     void createNpc(const std::string& specie);
-    void equipWeapon(Weapon* weapon, std::string playerName);
+    void equipWeapon(Weapon* weapon, const std::string& playerName);
     void movePlayer(const std::string& playerName, Offset& offset);
     void attackNpc(const std::string &playerName, Position &position);
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);

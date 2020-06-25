@@ -1,4 +1,3 @@
-#include <memory>
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -38,14 +37,9 @@ bool Map::isOccupied(Position pos) {
     return false;
 }
 
-bool Map::outOfBounds(Position &position) const {
-    return position.outOfBounds(0,height,0,width);
-}
-
-
 void Map::move(Position& from,Position& to) {
-    //if(outOfBounds(to)) return;
-    if (!isOccupied(to) && !outOfBounds(to)) from = to;
+    bool outOfBounds = to.outOfBounds(0,height,0,width);
+    if (!isOccupied(to) && !outOfBounds) from = to;
 }
 
 Character* Map::findClosestCharacter(Position pos, int range) {
@@ -74,7 +68,6 @@ Character* Map::findNpcAtPosition(Position &position) {
 PlayableCharacter *Map::getPlayer(const std::string &playerName) {
     return characters.at(playerName);
 }
-
 
 Map::~Map() {
     std::vector<Npc*>::iterator itrNpcs;

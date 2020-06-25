@@ -5,7 +5,7 @@
 #include "Npc.h"
 #include "Update.h"
 
-Game::Game(std::string configFile): configFile(configFile), factoryCharacters(configFile)
+Game::Game(const std::string& configFile): configFile(configFile), factoryCharacters(configFile)
     , npcFactory(configFile) {
     MapFactory factory(configFile);
     map = factory.create();
@@ -38,7 +38,7 @@ void Game::attackPlayer(const std::string& playerName, const std::string& player
     character->attack(enemy);
 }
 
-void Game::equipWeapon(Weapon* weapon, std::string playerName) {
+void Game::equipWeapon(Weapon* weapon, const std::string& playerName) {
     //aca habria que tener un factory que cree el arma segun el id que le pasan
     PlayableCharacter *character = map->getPlayer(playerName);
     character->equipWeapon(weapon);
@@ -52,22 +52,30 @@ void Game::equipProtection(std::string playerName, Equippable element, Equipment
 void Game::initializeMapLayers(ProxySocket& pxySkt) {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
-    int width_map = mapObj["width"].asInt();
-    int height_map = mapObj["height"].asInt();
+
+    int width = mapObj["height"].asInt();
+    int height = mapObj["width"].asInt();
+
+    int floorLayerid = mapObj["layers"]["floor"]["data"].asInt();
+
     std::vector<int> floorLayer;
-    floorLayer.reserve(width_map*height_map);
-    for (int j = 0; j < width_map*height_map ; ++j) {
-         floorLayer.push_back(mapObj["layers"]["floor"]["data"][j].asInt());
+    floorLayer.reserve(width*height);
+
+    for (int j = 0; j < width*height ; ++j) {
+        floorLayer.push_back(floorLayerid);
     }
+
     std::vector<int> obstaclesLayer;
-    obstaclesLayer.reserve(width_map*height_map);
-    for (int j = 0; j < width_map*height_map ; ++j) {
-         obstaclesLayer.push_back(mapObj["layers"]["obstacles"]["data"][j].asInt());
+    obstaclesLayer.reserve(width*height);
+
+    for (int j = 0; j < width*height ; ++j) {
+        obstaclesLayer.push_back(mapObj["layers"]["obstacles"]["data"][j].asInt());
     }
+
     pxySkt.writeToClient(std::unique_ptr<Message> (
-            new Draw("floor", floorLayer, width_map, height_map)));
+            new Draw("floor", floorLayer, width, height)));
     pxySkt.writeToClient(std::unique_ptr<Message> (
-            new Draw("obstacles", obstaclesLayer, width_map, height_map)));
+            new Draw("obstacles", obstaclesLayer, width, height)));
 }
 
 void Game::sendUpdates(ProxySocket& pxySkt) {

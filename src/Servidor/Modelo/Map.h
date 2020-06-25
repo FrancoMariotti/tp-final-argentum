@@ -1,5 +1,6 @@
 #ifndef ARGENTUM_MAPA_H
 #define ARGENTUM_MAPA_H
+
 #include "map"
 #include "vector"
 #include "Position.h"
@@ -28,10 +29,8 @@ class Map {
         void move(Position& from,Position& to);
         Character* findNpcAtPosition(Position &position);
         Character* findClosestCharacter(Position pos, int range);
-        bool outOfBounds(Position &position) const;
+        PlayableCharacter *getPlayer(const std::string &basicString);
         ~Map();
-
-    PlayableCharacter *getPlayer(const std::string &basicString);
 };
 
 #endif //ARGENTUM_MAPA_H
