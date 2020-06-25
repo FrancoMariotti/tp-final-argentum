@@ -46,7 +46,7 @@ void PlayableCharacter::attack(Character *character) {
     log->write("El xp actual es:");
     log->writeInt(xp);
 
-    if(totalXp > limit) {
+    if(totalXp >= limit) {
         xp = totalXp - limit;
         this->level ++;
     } else {
