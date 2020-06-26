@@ -69,7 +69,7 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
-                    if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks == 1){
+                    if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks == 2){
                         this->times_clicked += 1;
                         is_event_handled = true;
                     }

@@ -35,6 +35,9 @@ class SdlButton {
         //Imagen del boton
         SdlTexture& buttonSpriteSheetTexture;
 
+        /**TODO: para indicar cantidad de items (e.g. pociones) o si esta equipado (E)*/
+        /*SdlOutput buttonText*/
+
         Use cmd;
 
     public:

@@ -30,11 +30,15 @@ public:
 
     bool isInCameraView(const SDL_Point& point) const;
 
+    bool isInCameraView(const SDL_Point& point, int overload) const;
+
     int toPixels(int value) const;
 
     int getX();
 
     int getY();
+
+    SDL_Point toServerCoordinates(const SDL_Point &mouse_click);
 };
 
 
