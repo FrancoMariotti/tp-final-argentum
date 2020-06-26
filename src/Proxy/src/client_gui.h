@@ -38,6 +38,8 @@ public:
 
     void update(int vel_x, int vel_y, const std::string &renderable_id);
 
+    void update(std::vector<std::string> player_inventory);
+
     void render();
 
     void addTile(int x, int y, int tile_id);

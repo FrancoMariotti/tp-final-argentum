@@ -62,7 +62,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents) 
         /**Al apretar enter resuelvo si es un comando valido*/
         /**TODO: comandos compuestos, que incluyen clicks*/
         this->sendCommandIfValid(clientEvents);
-        input_text = " ";
+        input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
         if(recentInputs.size() > 5){

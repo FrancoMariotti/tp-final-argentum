@@ -3,6 +3,8 @@
 //
 
 #include "client_gui.h"
+
+#include <utility>
 #include "client_sdl_exception.h"
 #include "client_sdl_dynamic_renderable.h"
 
@@ -53,6 +55,10 @@ void GUI::update(const int vel_x,const int vel_y, const std::string& renderable_
     this->dynamic_renderables.at(renderable_id).update(vel_x, vel_y, camera);
 }
 
+void GUI::update(std::vector<std::string> player_inventory) {
+    inventory.update(std::move(player_inventory));
+}
+
 void GUI::addTile(int x, int y, int tile_id) {
     world.add(x, y, tile_id);
 }
@@ -81,6 +87,7 @@ void GUI::addItem(const std::string &item_id) {
     inventory.addItem(item_id);
 }
 
+
 void GUI::render(){
     //Limpio pantalla
     window.fill(0xFF, 0xFF, 0xFF, 0xFF);
@@ -101,7 +108,6 @@ void GUI::render(){
     //Update screen
     window.render();
 }
-
 
 GUI::~GUI(){
     if(font){

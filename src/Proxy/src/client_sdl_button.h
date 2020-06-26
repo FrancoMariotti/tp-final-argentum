@@ -35,11 +35,11 @@ class SdlButton {
         //Imagen del boton
         SdlTexture& buttonSpriteSheetTexture;
 
-        Command* cmd;
+        Use cmd;
 
     public:
         //Initialize internal variables
-        SdlButton(SdlTexture& buttonTexture, Command* cmd);
+        SdlButton(SdlTexture& buttonTexture);
 
         //Sets top left position
         /**Los items se van a ir moviendo en el inventario asi que necesito un set*/

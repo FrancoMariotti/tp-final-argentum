@@ -2,9 +2,7 @@
 // Created by agustin on 8/6/20.
 //
 
-#include <iostream>
 #include "client_sdl_player.h"
-#include "client_sdl_texture.h"
 #include "common_message.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_window.h"
@@ -14,7 +12,8 @@
 
 SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
         bodyTexture( "../../Proxy/assets/340.gif", window),
-        headSpriteSheetTexture(17, 15, "../../Proxy/assets/2005.gif", window){
+        headSpriteSheetTexture(32, 32, "../../Proxy/assets/2005.gif", window),
+        head_sprite_clips{}{
     //Initialize the offsets
     pos_x = x;
     pos_y = y;
@@ -40,10 +39,18 @@ void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
         //Adjust the velocity
         switch(e.key.keysym.sym){
-            case SDLK_UP: vel_y -= VEL; break;
-            case SDLK_DOWN: vel_y += VEL; break;
-            case SDLK_LEFT: vel_x -= VEL; break;
-            case SDLK_RIGHT: vel_x += VEL; break;
+            case SDLK_UP: vel_y -= VEL;
+            e_face_orientation = BACK_HEAD_SPRITE;
+            break;
+            case SDLK_DOWN: vel_y += VEL;
+            e_face_orientation = FRONT_HEAD_SPRITE;
+            break;
+            case SDLK_LEFT: vel_x -= VEL;
+            e_face_orientation = LEFT_HEAD_SPRITE;
+            break;
+            case SDLK_RIGHT: vel_x += VEL;
+            e_face_orientation = RIGHT_HEAD_SPRITE;
+            break;
 
         }
     }
@@ -64,20 +71,12 @@ void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
 /*Logic*/
 /*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
-/**Ojo que el move no deberia conocer la lista serverEvents, solo para pruebas*/
 void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     //Si se movio
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
-        //CODIGO DE PRUEBA
-        //std::list<std::unique_ptr<Message>> answer = serverEvents.consume();
-        //if(!answer.empty()) {
-        //    pos_x += answer.front()->getPlayerVelX();
-        //    pos_y += answer.front()->getPlayerVelY();
-        //}
-        //FIN CODIGO DE PRUEBA
-    }
+     }
 }
 
 void SdlPlayer::update(const int p_vel_y, const int p_vel_x, SdlCamera &camera) {
@@ -87,10 +86,13 @@ void SdlPlayer::update(const int p_vel_y, const int p_vel_x, SdlCamera &camera) 
 
 void SdlPlayer::render(SdlCamera &camera) {
     //Muestra la cabeza y el cuerpo del npc
-    headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
+    /*headSpriteSheetTexture.render((pos_x + (bodyTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
                                   (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
+                                  &head_sprite_clips[e_face_orientation]);*/
+    //bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
+    headSpriteSheetTexture.render(pos_x - camera.getX(),
+                                  pos_y - camera.getY(),
                                   &head_sprite_clips[e_face_orientation]);
-    bodyTexture.render(pos_x - camera.getX(), pos_y - camera.getY());
 }
 
 
