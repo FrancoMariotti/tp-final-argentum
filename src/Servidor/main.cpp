@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]) {
     game.storeInInventory("franco2", &shield);
     game.equip("franco2", 0);
     event->execute(game,"franco");
-    game.sendUpdates();
+    //game.sendUpdates();
     game.attackPlayer("franco","franco2");
     game.attackPlayer("franco","franco2");
     game.attackPlayer("franco","franco2");

@@ -84,11 +84,11 @@ void Game::initializeMapLayers(ProxySocket& pxySkt) {
             new Draw("obstacles", obstaclesLayer, width, height)));
 }
 
-void Game::sendUpdates(/*ProxySocket& pxySkt*/) {
-    ProxySocket sck;
+void Game::sendUpdates(ProxySocket& pxySkt) {
+    //ProxySocket sck;
     while (!updates.empty()) {
         Message* msg = updates.front();
-        sck.writeToClient(std::unique_ptr<Message> (
+        pxySkt.writeToClient(std::unique_ptr<Message> (
               msg));
         //updates.pop();
         updates.pop();
