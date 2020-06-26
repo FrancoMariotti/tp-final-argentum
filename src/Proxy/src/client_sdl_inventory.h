@@ -27,7 +27,7 @@ private:
     const SdlPlayer& player;
 
     //Una lista con todos los items del inventario, son botones
-    std::vector<SdlButton*> buttons;
+    std::vector<SdlButton> buttons;
     //Un map con todas las texturas de los items del inventario
     std::map<std::string, SdlTexture> inventoryTextures;
 
@@ -45,6 +45,7 @@ public:
 
     void addItem(const std::string &item_id);
 
+    void update(std::vector<std::string> inventory);
 };
 
 

@@ -12,10 +12,10 @@
 /**TODO: Hacer un overload para el caso de que no
  * tengan spritesheet y sean imagenes estaticas*/
 
-SdlButton::SdlButton(SdlTexture& buttonTexture, Command* cmd) :
+SdlButton::SdlButton(SdlTexture& buttonTexture) :
     times_clicked(0),
-    buttonSpriteSheetTexture(buttonTexture),
-    cmd(cmd) {
+    buttonSpriteSheetTexture(buttonTexture)
+    {
     position.x = 0;
     position.y = 0;
 
@@ -85,7 +85,7 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i) {
     if(times_clicked > 0){
-        (*cmd)(clientEvents, i);
+        (cmd)(clientEvents, i);
         times_clicked--;
     }
 }
@@ -98,5 +98,4 @@ void SdlButton::render() {
 }
 
 SdlButton::~SdlButton() {
-    delete cmd;
 }

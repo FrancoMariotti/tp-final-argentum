@@ -3,6 +3,7 @@
 //
 
 #include <thread>
+#include <random>
 #include "client_client.h"
 #include "common_message.h"
 #include "client_protected_list.h"
@@ -50,7 +51,14 @@ int Client::run() {
                     /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        gui.addItem("16055");
+                        std::vector<std::string> player_inventory{"16055", "16000", "button"};
+                        gui.update(std::move(player_inventory));
+                        std::random_device rd;
+                        std::mt19937 mt(rd());
+                        std::uniform_real_distribution<float> dist(0.1,1.0);
+                        gui.update(dist(mt));
+                        gui.updateMana(dist(mt));
+                        gui.updateGold(dist(mt));
                     }
                     break;
             }
@@ -74,15 +82,15 @@ int Client::run() {
 void Client::init() {
     /*Me conecto al server*/
     //clientEvents.push(std::unique_ptr<Message>(new Connect("agus")));
-    bool init = false;
-    /*Consumo la lista hasta recibir el mensaje draw*/
-    while(!init){
+    int init = 0;
+    /*Consumo la lista hasta recibir DOS mensaje draw*/
+    while(init < 2){
         std::cout << "client: consuming" << std::endl;
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
             std::cout << msg->getId() << std::endl;
             if(msg->getId() == 'd'){
-                init = true;
+                init += 1;
                 std::vector<int> data = msg->getData();
                 for(unsigned long i = 0; i < data.size(); i++){
                     int x = i % msg->getHeight();
