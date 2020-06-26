@@ -1,4 +1,3 @@
-#include <iostream>
 #include "PlayableCharacter.h"
 #include "Log.h"
 
@@ -93,12 +92,6 @@ int PlayableCharacter::defend(int damage) {
     return armour.use(damage);
 }
 
-PlayableCharacter::~PlayableCharacter() {
-    /*if(activeWeapon){
-        delete activeWeapon;
-    }*/
-}
-
 void PlayableCharacter::heal(int value) {
     Log* log = Log::instancia();
     log->write("Vida antes de curar:");
@@ -127,4 +120,10 @@ void PlayableCharacter::earnMana(int value) {
     }
     log->write("Mana despues de agregar:");
     log->writeInt(mana);
+}
+
+PlayableCharacter::~PlayableCharacter() {
+    /*if(activeWeapon){
+        delete activeWeapon;
+    }*/
 }

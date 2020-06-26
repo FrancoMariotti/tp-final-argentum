@@ -61,12 +61,8 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     //Position initialPosition = map->asignPosition();
     Position initialPosition(1,2);
 
-     //ESTO LO COMENTE PARA QUE LA VIDA INICIAL SEA DIRECTAMENTE ASIGNADA EN EL
-    //CONSTRUCTOR DEL CHARACTER USANDO LA ECUACION calculateMaxLife
-    //SI TE PARECE BIEN PODEMOS SACAR LOS ATRIBUTOS lifePoints DEL JSON
-    //int initialLife = characterObj["lifePoints"].asInt();
+    int invMaxElements = characterObj["inventoryMaxElements"].asInt();
     int level = characterObj["level"].asInt();
-    int invMaxElements = characterObj["invMaxElements"].asInt();
     int strength = characterObj["strength"].asInt();
     int agility = characterObj["agility"].asInt();
     int intelligence = characterObj["intelligence"].asInt();
@@ -93,10 +89,6 @@ NpcFactory::NpcFactory(const std::string& configFile) {
 }
 
 void NpcFactory::create(Map* map,const std::string& specie) {
-    //ESTO LO COMENTE PARA QUE LA VIDA INICIAL SEA DIRECTAMENTE ASIGNADA EN EL
-    //CONSTRUCTOR DEL CHARACTER USANDO LA ECUACION calculateMaxLife
-    //SI TE PARECE BIEN PODEMOS SACAR LOS ATRIBUTOS lifePoints DEL JSON
-    // int lifePoints = npcsObj["specie"][specie]["lifePoints"].asInt();
     int maxLevel = npcsObj["maxLevel"].asInt();
     int minLevel = npcsObj["minLevel"].asInt();
     int level =  std::rand() % (maxLevel - minLevel) + minLevel;

@@ -39,9 +39,8 @@ public:
         void recoverLifePoints(int seconds);
         void recoverMana(int seconds);
         void heal(int value);
+        void earnMana(int value);
         ~PlayableCharacter() override;
-
-    void earnMana(int value);
 };
 
 
