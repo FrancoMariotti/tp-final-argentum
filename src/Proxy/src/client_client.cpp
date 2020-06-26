@@ -3,6 +3,7 @@
 //
 
 #include <thread>
+#include <random>
 #include "client_client.h"
 #include "common_message.h"
 #include "client_protected_list.h"
@@ -52,6 +53,12 @@ int Client::run() {
                     if(event.key.keysym.sym == SDLK_h){
                         std::vector<std::string> player_inventory{"16055", "16000", "button"};
                         gui.update(std::move(player_inventory));
+                        std::random_device rd;
+                        std::mt19937 mt(rd());
+                        std::uniform_real_distribution<float> dist(0.1,1.0);
+                        gui.update(dist(mt));
+                        gui.updateMana(dist(mt));
+                        gui.updateGold(dist(mt));
                     }
                     break;
             }

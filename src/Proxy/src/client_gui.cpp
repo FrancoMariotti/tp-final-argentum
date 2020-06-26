@@ -18,6 +18,9 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     camera(screen_width, screen_height, player),
     console(screen_width, screen_height, window, font, player),
     world(window),
+    healthBar(screen_width - 200,screen_height - 250,0xFF,0x00,0x00,0xFF,window),
+    manaBar(screen_width - 200,screen_height - 200,0x00,0x00,0xFF,0xFF,window),
+    gold(screen_width - 200, screen_height - 150, window, font),
     clientEvents(clientEvents) {
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
@@ -59,9 +62,23 @@ void GUI::update(std::vector<std::string> player_inventory) {
     inventory.update(std::move(player_inventory));
 }
 
+void GUI::update(float percentage){
+    healthBar.update(percentage);
+}
+
+void GUI::updateMana(float percentage) {
+    manaBar.update(percentage);
+}
+
+void GUI::updateGold(float new_gold) {
+    std::string s_gold = std::to_string(new_gold);
+    gold.update(s_gold);
+}
+
 void GUI::addTile(int x, int y, int tile_id) {
     world.add(x, y, tile_id);
 }
+
 
 void GUI::addRenderable(const int x, const int y, const std::string& renderable_id){
     if(renderable_id.find("arania") != std::string::npos){
@@ -87,7 +104,6 @@ void GUI::addItem(const std::string &item_id) {
     inventory.addItem(item_id);
 }
 
-
 void GUI::render(){
     //Limpio pantalla
     window.fill(0xFF, 0xFF, 0xFF, 0xFF);
@@ -97,6 +113,9 @@ void GUI::render(){
     player.render(camera);
     inventory.render();
     console.render();
+    healthBar.render();
+    manaBar.render();
+    gold.render();
 
     //Renderizo dinamicos
     std::map<std::string, SdlDynamicRenderable>::iterator iterator = dynamic_renderables.begin();
