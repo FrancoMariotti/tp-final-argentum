@@ -13,15 +13,13 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
         window(window),
         player(player),
         text_color{0xAA,0xAA,0xFF,0xFF},
-        font(font), render_text(false), return_times_pressed(0),
-        X_FROM_PLAYER(IMAGE_CONSOLE_X - (screen_width / 2)),
-        Y_FROM_PLAYER((screen_height / 2) - IMAGE_CONSOLE_Y){
+        font(font), render_text(false), return_times_pressed(0){
 
     //Enable text input
     SDL_StartTextInput();
 
-    this->console_x = player.getPosX() + X_FROM_PLAYER;
-    this->console_y = player.getPosY() - Y_FROM_PLAYER;
+    this->console_x = IMAGE_CONSOLE_X;
+    this->console_y = IMAGE_CONSOLE_Y;
     this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
 }

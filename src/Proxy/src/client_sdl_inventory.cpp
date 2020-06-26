@@ -21,8 +21,8 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->height = IMAGE_INVENTORY_HEIGHT;
 
     //inicializo la posicion del inventario
-    this->inventory_x = player.getPosX() + X_FROM_PLAYER;
-    this->inventory_y = player.getPosY() - Y_FROM_PLAYER;
+    this->inventory_x = INVENTORY_X;
+    this->inventory_y = INVENTORY_Y;
 
     //Botones
     inventoryTextures.emplace(std::piecewise_construct,

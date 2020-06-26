@@ -34,8 +34,6 @@ public:
 
     void execute();
 
-    void update();
-
     void update(int player_vel_x, int player_vel_y);
 
     void update(int vel_x, int vel_y, const std::string &renderable_id);
@@ -49,6 +47,7 @@ public:
     void addRenderable(const int x, const int y, const std::string &renderable_id);
 
     ~GUI();
+
 };
 
 

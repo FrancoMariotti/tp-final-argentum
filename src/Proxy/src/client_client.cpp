@@ -11,13 +11,7 @@
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 
-//The dimensiones of the level
-const int LEVEL_WIDTH = 3200;
-const int LEVEL_HEIGHT = 3200;
-
 Client::Client(ProxySocket& proxySocket) :
-        //window(SCREEN_WIDTH, SCREEN_HEIGHT),
-        //font(nullptr),
         proxySocket(proxySocket),
         thSend(clientEvents, proxySocket),
         thRecv(serverEvents,proxySocket),
@@ -29,24 +23,6 @@ Client::Client(ProxySocket& proxySocket) :
 }
 
 int Client::run() {
-    //Cargo el personaje
-    /*SdlPlayer player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, window);
-
-    SdlTexture mainInterface(LEVEL_WIDTH, LEVEL_HEIGHT,
-            "../../Proxy/assets/bg.png", window);
-
-    //Creo camara
-    SdlCamera camera(SCREEN_WIDTH, SCREEN_HEIGHT, player);
-
-    //Cargo la consola
-    SdlConsole console(SCREEN_WIDTH, SCREEN_HEIGHT, window, font, player);
-
-    //Cargo el inventario
-    SdlInventory inventory(SCREEN_WIDTH, SCREEN_HEIGHT, window, player);
-
-    //Cargo el mundo
-    SdlWorld world(window);
-    */
     this->init();
 
     //Main loop flag
@@ -56,15 +32,6 @@ int Client::run() {
     SDL_Event event;
 
     /*
-    for (int i = 0; i < 100 ; ++i) {
-        for (int j = 0; j < 100 ; ++j) {
-            if(i == j){
-                gui.addTile(i, j, "hongo");
-            } else {
-                gui.addTile(i, j, "pasto");
-            }
-        }
-    }
     gui.addRenderable(200, 200, "arania1");
     gui.addRenderable(200, 300, "arania1");
     gui.addRenderable(300, 200, "esqueleto12");
@@ -91,20 +58,12 @@ int Client::run() {
         }
         /*Logic*/
         gui.execute();
+
         /*Consumo la lista de eventos del server y actualizo modelo*/
         this->update();
 
-        //Limpio pantalla
-        //window.fill(0xFF, 0xFF, 0xFF, 0xFF);
-
-        //Renderizo mainInterface
-        //mainInterface.render(0, 0);
-
         //Render objects
         gui.render();
-
-        //Update screen
-        //window.render();
 
         //Cap FPS 50
         SDL_Delay(20);
@@ -118,24 +77,23 @@ void Client::init() {
     bool init = false;
     /*Consumo la lista hasta recibir el mensaje draw*/
     while(!init){
-    std::cout << "client: consuming" << std::endl;
-    std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
-    for (auto & msg : messages) {
-        std::cout << msg->getId() << std::endl;
-        if(msg->getId() == 'd'){
-            init = true;
-            std::vector<int> data = msg->getData();
-            for(unsigned long i = 0; i < data.size(); i++){
-                int x = i % msg->getHeight();
-                int y = i / msg->getWidth();
-                int id = data[i];
-                if(id == 233){
-                    this->gui.addTile(x, y, id);
+        std::cout << "client: consuming" << std::endl;
+        std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
+        for (auto & msg : messages) {
+            std::cout << msg->getId() << std::endl;
+            if(msg->getId() == 'd'){
+                init = true;
+                std::vector<int> data = msg->getData();
+                for(unsigned long i = 0; i < data.size(); i++){
+                    int x = i % msg->getHeight();
+                    int y = i / msg->getWidth();
+                    int id = data[i];
+                    if(id != 0){
+                        this->gui.addTile(x, y, id);
+                    }
                 }
-
             }
         }
-    }
     }
 }
 
@@ -158,3 +116,4 @@ void Client::stop() {
 
 Client::~Client() {
 }
+

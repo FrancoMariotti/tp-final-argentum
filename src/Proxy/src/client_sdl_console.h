@@ -33,9 +33,6 @@ private:
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
 
-    const int X_FROM_PLAYER;
-    const int Y_FROM_PLAYER;
-
     std::list<SdlTexture> recentInputs;
 
 public:

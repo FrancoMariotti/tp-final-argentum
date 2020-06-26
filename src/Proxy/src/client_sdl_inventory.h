@@ -17,10 +17,8 @@ private:
     /*Tamaño del inventario*/
     int width;
     int height;
-    /*Posicion del inventario*/
-    const int X_FROM_PLAYER = 308;
-    const int Y_FROM_PLAYER = 204;
 
+    /*Posicion del inventario*/
     int inventory_x;
     int inventory_y;
     const int BUTTON_SIZE = 40;

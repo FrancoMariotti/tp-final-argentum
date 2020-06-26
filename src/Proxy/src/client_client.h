@@ -41,14 +41,15 @@ public:
 
     int run();
 
-    /*Cierra SDL y libera los recursos*/
-    ~Client();
+    void init();
 
     void update();
 
     void stop();
 
-    void init();
+    /*Cierra SDL y libera los recursos*/
+    ~Client();
+
 };
 
 
