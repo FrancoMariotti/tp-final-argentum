@@ -2,7 +2,7 @@
 #include <cmath>
 #include "Log.h"
 
-Character::Character(Map* map,int lifePoints,Position &initialPosition,int constitution,
+Character::Character(Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
                   : map(map),currPos(initialPosition) {
@@ -13,11 +13,11 @@ Character::Character(Map* map,int lifePoints,Position &initialPosition,int const
     this->classManaFactor = classManaFactor;
     this->recoveryFactor = recoveryFactor;
     this->meditationRecoveryFactor = meditationRecoveryFactor;
-    this->lifePoints = lifePoints;
     this->constitution = constitution;
     this->strength = strength;
     this->agility = agility;
     this->intelligence = intelligence;
+    lifePoints = calculateMaxLife();
 }
 
 bool Character::collideWith(Position& objPos) {

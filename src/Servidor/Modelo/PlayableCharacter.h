@@ -5,8 +5,12 @@
 #include "Weapon.h"
 #include "Armour.h"
 #include "Inventory.h"
+#include "Protection.h"
+#include "Equippable.h"
+#include "Potion.h"
 
 class Game;
+class Potion;
 
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
@@ -17,19 +21,27 @@ class PlayableCharacter: public Character {
     int gold;
     int xp;
     int defend(int damage) override;
-    public:
-        PlayableCharacter(Map* map,int lifePoints, Position &initialPosition, int constitution,
+
+public:
+        PlayableCharacter(Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
                   int invMaxElements);
 
         void attack(Character *character) override;
         void move(Offset& offset);
-        void equipWeapon(Weapon* weapon);
-        void equipProtection(Equippable element, Equipment equipment);
+        void equip(int elementIndex);
+        void equip(Equippable* element);
+        void equip(Weapon* weapon);
+        void equip(Protection* protection);
+        void equip(Potion* potion);
+        void store(Equippable* element);
         void recoverLifePoints(int seconds);
         void recoverMana(int seconds);
+        void heal(int value);
         ~PlayableCharacter() override;
+
+    void earnMana(int value);
 };
 
 

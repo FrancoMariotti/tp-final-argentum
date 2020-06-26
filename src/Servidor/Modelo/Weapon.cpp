@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include "PlayableCharacter.h"
 
 Weapon::Weapon(int minDamage, int maxDamage) : Equippable(minDamage, maxDamage) {
     //this->minDamage = minDamage;
@@ -11,3 +12,6 @@ int Weapon::calculateDamage(int strength) {
     return strength * randomize();
 }
 
+void Weapon::equipTo(PlayableCharacter *character) {
+    character->equip(this);
+}

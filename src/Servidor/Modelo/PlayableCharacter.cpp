@@ -2,14 +2,13 @@
 #include "PlayableCharacter.h"
 #include "Log.h"
 
-PlayableCharacter::PlayableCharacter(Map* map,int lifePoints, Position &initialPosition,int constitution,
+PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
                   int invMaxElements)
-                  :Character(map,lifePoints,initialPosition,constitution,strength,agility,intelligence,level,
+                  :Character(map,initialPosition,constitution,strength,agility,intelligence,level,
                           raceLifeFactor, classLifeFactor, raceManaFactor,
                           classManaFactor,recoveryFactor,meditationRecoveryFactor), inventory(invMaxElements) {
-
         this->activeWeapon = nullptr;
         this->mana = 0;
         this->gold = 0;
@@ -61,16 +60,33 @@ void PlayableCharacter::attack(Character *character) {
     log->writeInt(xp);
 }
 
+void PlayableCharacter::store(Equippable* element) {
+    inventory.store(element);
+}
+
 void PlayableCharacter::recoverMana(int seconds) {
     this->mana += calculateRecoverMana(seconds);
 }
 
-void PlayableCharacter::equipWeapon(Weapon* weapon) {
+void PlayableCharacter::equip(int elementIndex) {
+    Equippable* element = inventory.takeElement(elementIndex);
+    equip(element);
+}
+
+void PlayableCharacter::equip(Equippable* element) {
+    element->equipTo(this);
+}
+
+void PlayableCharacter::equip(Weapon* weapon) {
     activeWeapon = weapon;
 }
 
-void PlayableCharacter::equipProtection(Equippable element, Equipment equipment) {
-    armour.equip(element, equipment);
+void PlayableCharacter::equip(Protection* protection) {
+    armour.equip(*protection);
+}
+
+void PlayableCharacter::equip(Potion* potion) {
+    potion->use(this);
 }
 
 int PlayableCharacter::defend(int damage) {
@@ -81,4 +97,34 @@ PlayableCharacter::~PlayableCharacter() {
     /*if(activeWeapon){
         delete activeWeapon;
     }*/
+}
+
+void PlayableCharacter::heal(int value) {
+    Log* log = Log::instancia();
+    log->write("Vida antes de curar:");
+    log->writeInt(lifePoints);
+
+    int maxLife = calculateMaxLife();
+    if (lifePoints + value >= maxLife) {
+        lifePoints = maxLife;
+    } else {
+        lifePoints += value;
+    }
+    log->write("Vida despues de curar:");
+    log->writeInt(lifePoints);
+}
+
+void PlayableCharacter::earnMana(int value) {
+    Log* log = Log::instancia();
+    log->write("Mana antes de agregar:");
+    log->writeInt(mana);
+
+    int maxMana = calculateMaxMana();
+    if (mana + value >= maxMana) {
+        mana = maxMana;
+    } else {
+        mana += value;
+    }
+    log->write("Mana despues de agregar:");
+    log->writeInt(mana);
 }

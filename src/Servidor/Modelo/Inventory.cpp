@@ -2,17 +2,15 @@
 
 Inventory::Inventory(int maxElements) : maxElements(maxElements) {}
 
-bool Inventory::addEquippable(Equippable* element) {
-    if ((int)elements.size() == maxElements) return false;
-    elements.push_back(element);
-    return true;
+void Inventory::store(Equippable* element) {
+    if ((int)elements.size() != maxElements) elements.push_back(element);
 }
 
 Equippable* Inventory::takeElement(int index) {
     Equippable* element = elements[index];
     std::vector<Equippable*> aux;
-    for (auto i = 0; i < maxElements ; ++i) {
-        if (i != index) {
+    for (unsigned int i = 0; i < elements.size() ; ++i) {
+        if (i != (unsigned)index) {
             aux.push_back(elements[i]);
         }
     }

@@ -1,21 +1,21 @@
 #include "Armour.h"
 
 Armour::Armour() {
-    Equippable null(0, 0);
+    Protection null(0, 0, NONE);
     for (int i = 0; i < 3 ; ++i) {
-        elements.push_back(null);
+        protections.push_back(null);
     }
 }
 
-void Armour::equip(Equippable element, Equipment equipment) {
-    elements[equipment] = element;
+void Armour::equip(Protection protection) {
+    protection.equip(protections);
 }
 
 int Armour::use(int damage) const {
     int defense = 0;
 
-    auto it = elements.begin();
-    for(;it != elements.end(); it++) {
+    auto it = protections.begin();
+    for(;it != protections.end(); it++) {
         defense += (*it).randomize();
     }
 

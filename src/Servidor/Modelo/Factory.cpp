@@ -61,9 +61,10 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     //Position initialPosition = map->asignPosition();
     Position initialPosition(1,2);
 
-
-    //int initialLife = characterObj["life"].asInt();
-    int initialLife = characterObj["lifePoints"].asInt();
+     //ESTO LO COMENTE PARA QUE LA VIDA INICIAL SEA DIRECTAMENTE ASIGNADA EN EL
+    //CONSTRUCTOR DEL CHARACTER USANDO LA ECUACION calculateMaxLife
+    //SI TE PARECE BIEN PODEMOS SACAR LOS ATRIBUTOS lifePoints DEL JSON
+    //int initialLife = characterObj["lifePoints"].asInt();
     int level = characterObj["level"].asInt();
     int invMaxElements = characterObj["invMaxElements"].asInt();
     int strength = characterObj["strength"].asInt();
@@ -77,7 +78,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
     int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    auto* character =  new PlayableCharacter(map,initialLife,initialPosition,constitution,strength,agility,intelligence,
+    auto* character =  new PlayableCharacter(map,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor, invMaxElements);
     character->addObserver(observer);
@@ -92,7 +93,10 @@ NpcFactory::NpcFactory(const std::string& configFile) {
 }
 
 void NpcFactory::create(Map* map,const std::string& specie) {
-    int lifePoints = npcsObj["specie"][specie]["lifePoints"].asInt();
+    //ESTO LO COMENTE PARA QUE LA VIDA INICIAL SEA DIRECTAMENTE ASIGNADA EN EL
+    //CONSTRUCTOR DEL CHARACTER USANDO LA ECUACION calculateMaxLife
+    //SI TE PARECE BIEN PODEMOS SACAR LOS ATRIBUTOS lifePoints DEL JSON
+    // int lifePoints = npcsObj["specie"][specie]["lifePoints"].asInt();
     int maxLevel = npcsObj["maxLevel"].asInt();
     int minLevel = npcsObj["minLevel"].asInt();
     int level =  std::rand() % (maxLevel - minLevel) + minLevel;
@@ -116,7 +120,7 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     //Position initialPosition = map->asignPosition();
     Position initialPosition(1,1);
 
-    Npc *enemy = new Npc(map,lifePoints, initialPosition, constitution,
+    Npc *enemy = new Npc(map, initialPosition, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
             maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
             recoveryFactor,meditationRecoveryFactor);

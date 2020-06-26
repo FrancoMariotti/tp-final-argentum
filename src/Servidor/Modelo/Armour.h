@@ -5,27 +5,21 @@
 #ifndef ARGENTUM_ARMOUR_H
 #define ARGENTUM_ARMOUR_H
 
-
-//enum ArmourType {chest, shield, helmet};
-
 #include <vector>
 #include "Equippable.h"
+#include "Protection.h"
 
-enum Equipment {
-    ARMOUR,
-    SHIELD,
-    HELMET
-};
+class Protection;
 
 class Armour {
-    std::vector<Equippable>elements;
+    std::vector<Protection> protections;
 public:
     Armour();
     /*Armour(int chestMinDef, int chestMaxDef, int shieldMinDef, int shieldMaxDef
     , int helmetMinDef, int helmetMaxDef);*/
     //Devuelve el danio final que recibira el personaje luego de defenderse
     //OTRA OPCION SERIA QUE DEVUELVA SOLAMENTE EL VALOR DE DEFENSA Y HACER LA RESTA EN OTRO LADO
-    void equip(Equippable element, Equipment equipment);
+    void equip(Protection protection);
     int use(int damage) const;
     ~Armour() = default;
 };

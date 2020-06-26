@@ -37,16 +37,21 @@ void Game::attackPlayer(const std::string& playerName, const std::string& player
     PlayableCharacter *character = map->getPlayer(playerName);
     character->attack(enemy);
 }
-
+/*
 void Game::equipWeapon(Weapon* weapon, const std::string& playerName) {
     //aca habria que tener un factory que cree el arma segun el id que le pasan
     PlayableCharacter *character = map->getPlayer(playerName);
     character->equipWeapon(weapon);
 }
-
-void Game::equipProtection(std::string playerName, Equippable element, Equipment equipment) {
+*/
+void Game::equip(std::string playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
-    character->equipProtection(element,equipment);
+    character->equip(elementIndex);
+}
+
+void Game::storeInInventory(std::string playerName, Equippable* element) {
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->store(element);
 }
 
 void Game::initializeMapLayers(ProxySocket& pxySkt) {

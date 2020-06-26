@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "Equippable.h"
 #include "NormalWeapon.h"
+#include "Protection.h"
 #include <string>
 
 class Mobility;
@@ -13,10 +14,10 @@ class Map;
 class Npc : public Character {
     std::string specie;
     NormalWeapon weapon;
-    Equippable armour;
+    Protection armour;
     int defend(int damage) override;
     public:
-        Npc(Map* map,int lifePoints,Position &initialPosition, int constitution,
+        Npc(Map* map,Position &initialPosition, int constitution,
             int strength,int agility,int intelligence, int level, std::string specie, int minDamage,
             int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
             int classManaFactor,int recoveryFactor,int meditationRecoveryFactor);

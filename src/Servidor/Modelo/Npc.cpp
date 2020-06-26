@@ -4,15 +4,15 @@
 #define MAX_RANGE 4
 
 
-Npc::Npc(Map* map,int lifePoints,Position &initialPosition,int constitution,
+Npc::Npc(Map* map,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
          , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
          int classManaFactor,int recoveryFactor,int meditationRecoveryFactor):
-         Character(map,lifePoints,initialPosition,constitution,strength,agility,intelligence,level,
+         Character(map,initialPosition,constitution,strength,agility,intelligence,level,
                  raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
                  recoveryFactor, meditationRecoveryFactor),
          weapon(minDamage,maxDamage),
-         armour(minDefense,maxDefense){
+         armour(minDefense,maxDefense, ARMOUR){
     this->specie = std::move(specie);
 }
 

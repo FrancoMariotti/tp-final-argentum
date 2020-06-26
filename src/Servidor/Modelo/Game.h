@@ -24,11 +24,12 @@ public:
     void createPlayer(const std::string& name, const std::string& charRace,
             const std::string& charClass);
     void createNpc(const std::string& specie);
-    void equipWeapon(Weapon* weapon, const std::string& playerName);
     void movePlayer(const std::string& playerName, Offset& offset);
     void attackNpc(const std::string &playerName, Position &position);
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
-    void equipProtection(std::string playerName, Equippable element, Equipment equipment);
+    void storeInInventory(std::string playerName, Equippable* element);
+    //void equipWeapon(Weapon* weapon, const std::string& playerName);
+    void equip(std::string playerName, int elementIndex);
     void initializeMapLayers(ProxySocket& pxySkt);
     void movementUpdate(int x, int y) override;
     void sendUpdates(ProxySocket& pxySkt);

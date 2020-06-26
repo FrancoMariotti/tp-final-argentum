@@ -10,7 +10,7 @@ class Inventory {
     std::vector<Equippable*> elements;
 public:
     Inventory(int maxElements);
-    bool addEquippable(Equippable* element);
+    void store(Equippable* element);
     Equippable* takeElement(int index);
 };
 

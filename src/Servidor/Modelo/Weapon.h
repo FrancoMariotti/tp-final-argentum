@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "Equippable.h"
 
+class Equippable;
 class Character;
 
 class Weapon : public Equippable {
@@ -13,6 +14,7 @@ class Weapon : public Equippable {
         int calculateDamage(int strength);
     public:
         Weapon(int minDamage,int maxDamage);
+        void equipTo(PlayableCharacter *character) override;
         virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
         virtual ~Weapon() = default;
 };

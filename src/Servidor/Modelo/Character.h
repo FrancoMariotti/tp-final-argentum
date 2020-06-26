@@ -43,7 +43,7 @@ class Character {
 
         virtual int defend(int damage) = 0;
     public:
-        Character(Map* map,int lifePoints,Position &initialPosition,int constitution,
+        Character(Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
         bool collideWith(Position& objPos);
