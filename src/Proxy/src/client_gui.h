@@ -11,8 +11,8 @@
 #include "client_sdl_console.h"
 #include "client_sdl_world.h"
 #include "client_sdl_window.h"
-#include "client_sdl_bar.h"
-#include "client_sdl_output.h"
+#include "client_sdl_stats.h"
+#include "common_message_structs.h"
 
 class SdlDynamicRenderable;
 class GUI {
@@ -25,9 +25,7 @@ private:
     SdlCamera camera;
     SdlConsole console;
     SdlWorld world;
-    SdlBar healthBar;
-    SdlBar manaBar;
-    SdlOutput gold;
+    SdlStats playerStats;
     std::map<std::string, SdlDynamicRenderable> dynamic_renderables;
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
 
@@ -55,11 +53,7 @@ public:
 
     ~GUI();
 
-    void update(float percentage);
-
-    void updateGold(float gold);
-
-    void updateMana(float percentage);
+    void update(t_stats new_stats);
 };
 
 

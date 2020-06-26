@@ -4,10 +4,10 @@
 
 #include "client_sdl_output.h"
 
-SdlOutput::SdlOutput(const int x, const int y,const SdlWindow& window, TTF_Font *font) :
+SdlOutput::SdlOutput(const int x, const int y, const SdlWindow &window, TTF_Font *font, const std::string label) :
     text_color{0x33, 0x33, 0x33, 0xFF},
     font(font),
-    LABEL("Oro: "),
+    LABEL(label),
     output(LABEL + "0"),
     outputTexture(output, font, text_color, window),
     X(x),

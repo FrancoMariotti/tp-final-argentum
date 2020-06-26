@@ -56,9 +56,8 @@ int Client::run() {
                         std::random_device rd;
                         std::mt19937 mt(rd());
                         std::uniform_real_distribution<float> dist(0.1,1.0);
-                        gui.update(dist(mt));
-                        gui.updateMana(dist(mt));
-                        gui.updateGold(dist(mt));
+                        t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
+                        gui.update(stats);
                     }
                     break;
             }
