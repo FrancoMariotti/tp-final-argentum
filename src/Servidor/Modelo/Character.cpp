@@ -17,7 +17,7 @@ Character::Character(Map* map,Position &initialPosition,int constitution,
     this->strength = strength;
     this->agility = agility;
     this->intelligence = intelligence;
-    lifePoints = calculateMaxLife();
+    this->lifePoints = calculateMaxLife();
 }
 
 bool Character::collideWith(Position& objPos) {

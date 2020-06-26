@@ -1,6 +1,6 @@
 {
   "character" : {
-    "lifePoints": 125,
+    "inventoryMaxElements": 10,
     "level": 1,
     "strength": 18,
     "agility": 18,

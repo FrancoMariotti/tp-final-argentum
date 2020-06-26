@@ -1,8 +1,7 @@
 {
   "character" : {
-    "lifePoints": 125,
+    "inventoryMaxElements": 10,
     "level": 1,
-    "invMaxElements": 10,
     "strength": 18,
     "agility": 18,
     "intelligence": 18,
@@ -55,7 +54,6 @@
   "npc": {
     "specie": {
       "goblin": {
-        "lifePoints": 110,
         "strength": 5,
         "agility": 5,
         "intelligence": 5,
@@ -70,7 +68,6 @@
         "maxDefense": 5
       },
       "skeleton": {
-        "lifePoints": 50,
         "strength": 5,
         "agility": 5,
         "intelligence": 5,
@@ -85,7 +82,6 @@
         "maxDefense": 5
       },
       "zombie": {
-        "lifePoints": 250,
         "strength": 5,
         "agility": 5,
         "intelligence": 5,
@@ -100,7 +96,6 @@
         "maxDefense": 5
       },
       "spider": {
-        "lifePoints": 125,
         "strength": 5,
         "agility": 5,
         "intelligence": 5,

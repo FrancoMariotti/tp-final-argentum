@@ -32,7 +32,8 @@ public:
     void equip(std::string playerName, int elementIndex);
     void initializeMapLayers(ProxySocket& pxySkt);
     void movementUpdate(int x, int y) override;
-    void sendUpdates(ProxySocket& pxySkt);
+    //void sendUpdates(ProxySocket& pxySkt);
+    void sendUpdates();
     ~Game();
 };
 
