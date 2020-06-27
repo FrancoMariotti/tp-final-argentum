@@ -17,6 +17,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     player(32, 64, window),
     inventory(screen_width, screen_height, window, player),
     camera(screen_width, screen_height, player),
+    mouse(camera),
     console(screen_width, screen_height, window, font, player),
     world(window),
     playerStats(screen_width, screen_height, window, font),
@@ -40,6 +41,7 @@ void GUI::handleEvents(SDL_Event &event){
     player.handleEvent(event, is_event_handled);
     console.handleEvent(event, is_event_handled);
     inventory.handleEvents(event, is_event_handled);
+    mouse.handleEvent(event,is_event_handled);
 }
 
 void GUI::execute(){
