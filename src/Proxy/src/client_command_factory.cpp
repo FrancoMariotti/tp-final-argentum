@@ -11,10 +11,10 @@ CommandFactory::CommandFactory() :
                    "/tomar", "/tirar"}{
 }
 
-Command *CommandFactory::get(const std::string& input_text) {
+Command *CommandFactory::get(const std::string& input_text, const int x, const int y) {
     Command* command = nullptr;
     if(input_text == "/tomar"){
-      command = new ConsoleCommand("tomar");
+      command = new ConsoleCommand("tomar", x, y);
     }
     return command;
 }

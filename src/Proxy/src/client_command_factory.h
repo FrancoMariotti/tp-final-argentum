@@ -18,7 +18,7 @@ private:
 public:
     CommandFactory();
     //CommandFactory* getFactory();
-    Command* get(const std::string& input_text);
+    Command* get(const std::string& input_text, int x, int y);
 
 };
 

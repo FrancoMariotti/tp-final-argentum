@@ -23,8 +23,10 @@ public:
 class ConsoleCommand: public Command{
 private:
     const std::string command;
+    const int player_x;
+    const int player_y;
 public:
-    explicit ConsoleCommand(const std::string command);
+    explicit ConsoleCommand(const std::string command, int x, int y);
     void operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) override;
 };
 

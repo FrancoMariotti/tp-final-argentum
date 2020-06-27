@@ -10,8 +10,10 @@ void Use::operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int 
 }
 
 
-ConsoleCommand::ConsoleCommand(const std::string command) :
-    command(command)
+ConsoleCommand::ConsoleCommand(const std::string command, int x, int y) :
+    command(command),
+    player_x(x),
+    player_y(y)
     {}
 
 void ConsoleCommand::operator()(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i) {

@@ -47,7 +47,7 @@ void GUI::handleEvents(SDL_Event &event){
 void GUI::execute(){
     player.move(clientEvents);
     inventory.use(clientEvents);
-    console.execute(clientEvents);
+    console.execute(clientEvents, mouse);
     camera.move();
 }
 /**Factory de eventos de server??*/

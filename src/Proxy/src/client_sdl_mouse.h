@@ -17,6 +17,9 @@ public:
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 
+    int getX();
+
+    int getY();
 };
 
 

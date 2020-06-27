@@ -55,13 +55,13 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
+void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
         /**Al apretar enter resuelvo si es un comando valido*/
         /**TODO: comandos compuestos, que incluyen clicks*/
-        this->sendCommandIfValid(clientEvents);
+        this->sendCommandIfValid(clientEvents, mouse);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -96,8 +96,10 @@ void SdlConsole::render() {
     this->inputTexture.render(console_x, console_y * 4);
 }
 
-void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents) {
-    Command* cmd = commandFactory.get(this->input_text);
+void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents, SdlMouse& mouse) {
+    /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
+     * pasar player por referencia?*/
+    Command* cmd = commandFactory.get(this->input_text, mouse.getX(), mouse.getY());
     if(cmd){
         (*cmd)(clientEvents, 0);
         delete cmd;

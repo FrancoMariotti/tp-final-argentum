@@ -8,6 +8,7 @@
 #include "client_sdl_texture.h"
 #include "client_sdl_player.h"
 #include "client_command_factory.h"
+#include "client_sdl_mouse.h"
 #include <list>
 
 class SdlConsole {
@@ -43,12 +44,12 @@ public:
     void handleEvent(const SDL_Event &event, bool &is_event_handled);
 
     /*Logic*/
-    void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse);
 
     /*Render*/
     void render();
 
-    void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents);
+    void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents, SdlMouse& mouse);
 };
 
 
