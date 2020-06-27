@@ -21,7 +21,6 @@ class PlayableCharacter: public Character {
     int gold;
     int xp;
     int defend(int damage) override;
-
 public:
         PlayableCharacter(Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -31,16 +30,22 @@ public:
         void attack(Character *character) override;
         void move(Offset& offset);
         void equip(int elementIndex);
-        void equip(Equippable* element);
-        void equip(Weapon* weapon);
-        void equip(Protection* protection);
-        void equip(Potion* potion);
+        void equip(Equippable* element, int index);
+        void equip(Weapon* weapon, int index);
+        void equip(Protection* protection, int index);
+        void equip(Potion* potion, int index);
+        void unequip(int elementIndex);
+        void unequip(Equippable* element);
         void store(Equippable* element);
         void recoverLifePoints(int seconds);
         void recoverMana(int seconds);
         void heal(int value);
         void earnMana(int value);
         ~PlayableCharacter() override;
+
+    void unequip(Weapon *weapon);
+
+    void unequip(Protection *protection);
 };
 
 

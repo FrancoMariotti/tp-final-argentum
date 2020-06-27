@@ -10,10 +10,13 @@ class PlayableCharacter;
 class Equippable {
     int minValue;
     int maxValue;
-    public:
-        Equippable(int minValue, int maxValue);
-        int randomize() const;
-        virtual void equipTo(PlayableCharacter *character) = 0;
+protected:
+    bool equipped;
+public:
+    Equippable(int minValue, int maxValue);
+    int randomize() const;
+    virtual void equipTo(PlayableCharacter *character, int index) = 0;
+    virtual void unequipFrom(PlayableCharacter *character) = 0;
 };
 
 

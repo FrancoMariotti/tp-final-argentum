@@ -22,6 +22,8 @@ public:
     void equip(Protection protection);
     int use(int damage) const;
     ~Armour() = default;
+
+    void unequip(Protection protection);
 };
 
 

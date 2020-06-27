@@ -49,6 +49,11 @@ void Game::equip(std::string playerName, int elementIndex) {
     character->equip(elementIndex);
 }
 
+void Game::unequip(std::string playerName, int elementIndex) {
+    PlayableCharacter *character = map->getPlayer(playerName);
+    character->unequip(elementIndex);
+}
+
 void Game::storeInInventory(std::string playerName, Equippable* element) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->store(element);

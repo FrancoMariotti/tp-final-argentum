@@ -23,3 +23,7 @@ int Armour::use(int damage) const {
     if (result < 0) return 0;
     return result;
 }
+
+void Armour::unequip(Protection protection) {
+    protection.unequip(protections);
+}
