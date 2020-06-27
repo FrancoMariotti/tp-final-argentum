@@ -30,7 +30,8 @@ int main(int argc, char const *argv[]) {
     game.attackPlayer("franco","franco2");
     game.attackPlayer("franco","franco2");
     game.storeInInventory("franco2", &lifePotion);
-    game.equip("franco2", 0);
+    game.equip("franco2", 1);
+    game.unequip("franco2", 0);
     delete event;
 
     log->close();

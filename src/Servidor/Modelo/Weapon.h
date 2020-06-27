@@ -14,9 +14,11 @@ class Weapon : public Equippable {
         int calculateDamage(int strength);
     public:
         Weapon(int minDamage,int maxDamage);
-        void equipTo(PlayableCharacter *character) override;
+        void equipTo(PlayableCharacter *character, int i) override;
         virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
         virtual ~Weapon() = default;
+
+    void unequipFrom(PlayableCharacter *character);
 };
 
 

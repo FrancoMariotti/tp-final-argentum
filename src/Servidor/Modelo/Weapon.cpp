@@ -12,6 +12,12 @@ int Weapon::calculateDamage(int strength) {
     return strength * randomize();
 }
 
-void Weapon::equipTo(PlayableCharacter *character) {
-    character->equip(this);
+void Weapon::equipTo(PlayableCharacter *character, int index) {
+    equipped = true;
+    character->equip(this, index);
+}
+
+void Weapon::unequipFrom(PlayableCharacter *character) {
+    equipped = false;
+    character->unequip(this);
 }

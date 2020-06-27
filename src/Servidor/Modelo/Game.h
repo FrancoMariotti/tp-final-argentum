@@ -30,6 +30,7 @@ public:
     void storeInInventory(std::string playerName, Equippable* element);
     //void equipWeapon(Weapon* weapon, const std::string& playerName);
     void equip(std::string playerName, int elementIndex);
+    void unequip(std::string playerName, int elementIndex);
     void initializeMapLayers(ProxySocket& pxySkt);
     void movementUpdate(int x, int y) override;
     void sendUpdates(ProxySocket& pxySkt);
