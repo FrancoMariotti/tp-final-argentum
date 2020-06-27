@@ -1,7 +1,3 @@
-//
-// Created by franco on 23/6/20.
-//
-
 #include <cstdlib>
 #include "Equippable.h"
 

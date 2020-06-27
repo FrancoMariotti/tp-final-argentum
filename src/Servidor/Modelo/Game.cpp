@@ -44,17 +44,17 @@ void Game::equipWeapon(Weapon* weapon, const std::string& playerName) {
     character->equipWeapon(weapon);
 }
 */
-void Game::equip(std::string playerName, int elementIndex) {
+void Game::equip(const std::string& playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->equip(elementIndex);
 }
 
-void Game::unequip(std::string playerName, int elementIndex) {
+void Game::unequip(const std::string& playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->unequip(elementIndex);
 }
 
-void Game::storeInInventory(std::string playerName, Equippable* element) {
+void Game::storeInInventory(const std::string& playerName, Equippable* element) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->store(element);
 }
@@ -95,15 +95,12 @@ void Game::sendUpdates(ProxySocket& pxySkt) {
         Message* msg = updates.front();
         pxySkt.writeToClient(std::unique_ptr<Message> (
               msg));
-        //updates.pop();
         updates.pop();
-        //delete msg;
     }
 }
 
 void Game::movementUpdate(int x, int y) {
-    //updates.push(new Movement(x,y));
-    updates.emplace(new Movement(x,y));
+    updates.push(new Movement(x,y));
 }
 
 Game::~Game() {

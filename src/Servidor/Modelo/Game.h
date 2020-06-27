@@ -27,10 +27,10 @@ public:
     void movePlayer(const std::string& playerName, Offset& offset);
     void attackNpc(const std::string &playerName, Position &position);
     void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
-    void storeInInventory(std::string playerName, Equippable* element);
+    void storeInInventory(const std::string& playerName, Equippable* element);
     //void equipWeapon(Weapon* weapon, const std::string& playerName);
-    void equip(std::string playerName, int elementIndex);
-    void unequip(std::string playerName, int elementIndex);
+    void equip(const std::string& playerName, int elementIndex);
+    void unequip(const std::string& playerName, int elementIndex);
     void initializeMapLayers(ProxySocket& pxySkt);
     void movementUpdate(int x, int y) override;
     void sendUpdates(ProxySocket& pxySkt);
