@@ -10,6 +10,8 @@ class PlayableCharacter;
 class Equippable {
     int minValue;
     int maxValue;
+    //Corresponde al identifcador de la imagen asociada al equipable
+    int imageId;
 protected:
     bool equipped;
 public:
