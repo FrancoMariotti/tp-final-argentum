@@ -116,12 +116,21 @@ int Draw::getTileY() const {
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message('/'),
-    command(command)
+    command(command),
+    x(-1),
+    y(-1)
     {}
 
 std::string ExecuteCommand::getCommand() {
     return command;
 }
+
+ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) :
+    Message('/'),
+    command(input),
+    x(x),
+    y(y)
+    {}
 
 Connect::Connect(const std::string username) :
     Message('c'),

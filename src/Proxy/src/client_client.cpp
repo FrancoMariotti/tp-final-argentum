@@ -111,6 +111,10 @@ void Client::update() {
         if(msg->getId() == 'm'){
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
         }
+        /**Agregar mensaje con struct t_stats*/
+        if(msg->getId() == 's'){
+            //this->gui.update(msg->getPlayerStats());
+        }
     }
 }
 
