@@ -8,6 +8,7 @@
 #include "Protection.h"
 #include "Equippable.h"
 #include "Potion.h"
+#include "NormalWeapon.h"
 
 class Game;
 class Potion;
@@ -15,6 +16,7 @@ class Potion;
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
     Weapon* activeWeapon;
+    NormalWeapon defaultWeapon;
     Inventory inventory;
     Armour armour;
     int mana;
