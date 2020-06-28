@@ -82,6 +82,7 @@ void SdlInventory::update(std::vector<std::string> inventory){
 }
 
 /*El server me envia el id del item para cargarle la textura*/
+/**Delete*/
 void SdlInventory::addItem(const std::string& item_id){
     SdlTexture& buttonTexture = inventoryTextures.at(item_id);
     int col = (int) buttons.size() % 4;
@@ -99,6 +100,10 @@ void SdlInventory::render() {
         button.render();
     }
 }
+
+/*int SdlInventory::getLastClickedIndex(){
+
+}*/
 
 SdlInventory::~SdlInventory() {
 }

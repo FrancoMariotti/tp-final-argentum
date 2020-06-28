@@ -38,7 +38,7 @@ public:
 
     int getY();
 
-    SDL_Point toServerCoordinates(const SDL_Point &mouse_click);
+    SDL_Point toServerCoordinates(const SDL_Point &point_in_pixels);
 };
 
 

@@ -61,8 +61,11 @@ public:
 class ExecuteCommand : public Message {
 private:
     const std::string command;
+    const int x;
+    const int y;
 public:
     explicit ExecuteCommand(const std::string command);
+    ExecuteCommand(std::string input, int x, int y);
     std::string getCommand();
 };
 

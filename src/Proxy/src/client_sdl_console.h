@@ -9,6 +9,7 @@
 #include "client_sdl_player.h"
 #include "client_command_factory.h"
 #include "client_sdl_mouse.h"
+#include "client_sdl_inventory.h"
 #include <list>
 
 class SdlConsole {
@@ -44,12 +45,14 @@ public:
     void handleEvent(const SDL_Event &event, bool &is_event_handled);
 
     /*Logic*/
-    void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse);
+    void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
+                 SdlInventory &inventory);
 
     /*Render*/
     void render();
 
-    void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>>& clientEvents, SdlMouse& mouse);
+    void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
+                            SdlCamera &camera, SdlInventory &inventory);
 };
 
 

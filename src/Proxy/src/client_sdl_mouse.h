@@ -8,18 +8,19 @@
 class SdlCamera;
 class SdlMouse {
 private:
-    bool clicked_in_map;
     SdlCamera& camera;
     SDL_Point position;
+
+    bool clicked_in_map;
 
 public:
     explicit SdlMouse(SdlCamera& camera);
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 
-    int getX();
+    SDL_Point getPosition();
 
-    int getY();
+    bool clickedInMap();
 };
 
 
