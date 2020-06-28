@@ -32,13 +32,14 @@ int Client::run() {
 
     //Event handler
     SDL_Event event;
-/*
+
     gui.addRenderable(200, 200, "arania1");
     gui.addRenderable(200, 300, "arania1");
     gui.addRenderable(300, 200, "esqueleto12");
     gui.addRenderable(400, 200, "zombie99");
     gui.addRenderable(500, 200, "goblin1");
-*/
+    gui.addRenderable(500, 300, "juancito");
+
     //While application is running
     while (!quit) {
         //Handle events on queue

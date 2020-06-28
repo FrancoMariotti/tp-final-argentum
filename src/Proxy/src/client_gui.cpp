@@ -33,6 +33,16 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
             SdlTexture(24, 46, "../../Proxy/assets/4070.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
             SdlTexture(24, 36, "../../Proxy/assets/4082.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("hacha",
+            SdlTexture(22, 48, "../../Proxy/items/16025.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("armadura de placas",
+              SdlTexture(24, 46, "../../Proxy/items/79.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("cabeza",
+              SdlTexture(24, 46, "../../Proxy/assets/2001.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("casco de hierro",
+          SdlTexture(18, 18, "../../Proxy/items/18007.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("escudo de hierro",
+          SdlTexture(25, 44, "../../Proxy/items/20002.png", window)));
 
 }
 
@@ -56,7 +66,7 @@ void GUI::update(const int player_vel_x,const int player_vel_y){
 }
 
 void GUI::update(const int vel_x,const int vel_y, const std::string& renderable_id){
-    this->dynamic_renderables.at(renderable_id).update(vel_x, vel_y, camera);
+    this->dynamic_renderables.at(renderable_id)->update(vel_x, vel_y, camera);
 }
 
 void GUI::update(std::vector<std::string> player_inventory) {
@@ -74,21 +84,32 @@ void GUI::addTile(int x, int y, int tile_id) {
 
 void GUI::addRenderable(const int x, const int y, const std::string& renderable_id){
     if(renderable_id.find("arania") != std::string::npos){
-        dynamic_renderables.emplace(std::make_pair(renderable_id,
-                             SdlDynamicRenderable(x , y,
-                             dynamic_renderables_textures.at("arania"))));
+        dynamic_renderables.insert(std::make_pair(renderable_id, std::unique_ptr <SdlDynamicRenderable>
+                                     (new SdlDynamicRenderable(x ,y,
+                                             dynamic_renderables_textures.at("arania")))));
+
     } else if (renderable_id.find("esqueleto") != std::string::npos){
-        dynamic_renderables.emplace(std::make_pair(renderable_id,
-                                   SdlDynamicRenderable(x , y,
-                                    dynamic_renderables_textures.at("esqueleto"))));
+        dynamic_renderables.insert(std::make_pair(renderable_id,
+                                   std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
+                                    dynamic_renderables_textures.at("esqueleto")))));
     } else if (renderable_id.find("zombie") != std::string::npos){
-        dynamic_renderables.emplace(std::make_pair(renderable_id,
-                                   SdlDynamicRenderable(x , y,
-                                    dynamic_renderables_textures.at("zombie"))));
+        dynamic_renderables.insert(std::make_pair(renderable_id,
+                                         std::unique_ptr<SdlDynamicRenderable>
+                                              (new SdlDynamicRenderable(x , y,
+                                               dynamic_renderables_textures.at("zombie")))));
     } else if (renderable_id.find("goblin") != std::string::npos){
-        dynamic_renderables.emplace(std::make_pair(renderable_id,
-                                   SdlDynamicRenderable(x , y,
-                                    dynamic_renderables_textures.at("goblin"))));
+        dynamic_renderables.insert(std::make_pair(renderable_id,
+                                  std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
+                                    dynamic_renderables_textures.at("goblin")))));
+    } else {
+        dynamic_renderables.insert(std::make_pair(renderable_id,
+                                  std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(x , y,
+                                      dynamic_renderables_textures.at("armadura de placas"),
+                                      dynamic_renderables_textures.at("cabeza"),
+                                      dynamic_renderables_textures.at("casco de hierro"),
+                                      dynamic_renderables_textures.at("hacha"),
+                                      dynamic_renderables_textures.at("escudo de hierro")
+                                  ))));
     }
 }
 
@@ -108,9 +129,9 @@ void GUI::render(){
     playerStats.render();
 
     //Renderizo dinamicos
-    std::map<std::string, SdlDynamicRenderable>::iterator iterator = dynamic_renderables.begin();
+    auto iterator = dynamic_renderables.begin();
     while(iterator != dynamic_renderables.end()){
-        iterator->second.render(camera);
+        iterator->second->render(camera);
         iterator++;
     }
 

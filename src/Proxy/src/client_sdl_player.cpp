@@ -80,8 +80,8 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
 }
 
 void SdlPlayer::update(const int p_vel_y, const int p_vel_x, SdlCamera &camera) {
-    this->pos_x += camera.toPixels(p_vel_x);
-    this->pos_y += camera.toPixels(p_vel_y);
+    this->pos_x = camera.toPixels(p_vel_x);
+    this->pos_y = camera.toPixels(p_vel_y);
 }
 
 void SdlPlayer::render(SdlCamera &camera) {

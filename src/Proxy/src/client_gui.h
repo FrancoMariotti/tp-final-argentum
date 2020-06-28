@@ -28,7 +28,7 @@ private:
     SdlConsole console;
     SdlWorld world;
     SdlStats playerStats;
-    std::map<std::string, SdlDynamicRenderable> dynamic_renderables;
+    std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;

@@ -52,9 +52,9 @@ private:
 public:
     SdlPlayableCharacter(const int x, const int y, SdlTexture &bodySpriteSheetTexture,
             SdlTexture& headSpriteSheetTexture,
-    SdlTexture& helmetSpriteSheetTexture,
-    SdlTexture& weaponSpriteSheetTexture,
-    SdlTexture& shieldSpriteSheetTexture);
+            SdlTexture& helmetSpriteSheetTexture,
+            SdlTexture& weaponSpriteSheetTexture,
+            SdlTexture& shieldSpriteSheetTexture);
 
     void render(SdlCamera &camera) override;
 };

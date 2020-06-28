@@ -53,7 +53,6 @@ SdlPlayableCharacter::SdlPlayableCharacter(const int x, const int y, SdlTexture 
     }
 }
 
-
 void SdlPlayableCharacter::render(SdlCamera& camera){
     SdlDynamicRenderable::render(camera);
     headSpriteSheetTexture.render(pos_x - camera.getX(), pos_y - camera.getY(), &head_orientation_clips[e_current_orientation]);
