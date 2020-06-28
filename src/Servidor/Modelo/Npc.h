@@ -16,16 +16,16 @@ class Npc : public Character {
     NormalWeapon weapon;
     Protection armour;
     int defend(int damage) override;
-    public:
-        Npc(Map* map,Position &initialPosition, int constitution,
+    void attack(Character* character) override;
+public:
+    Npc(Map* map,Position &initialPosition, int constitution,
             int strength,int agility,int intelligence, int level, std::string specie, int minDamage,
             int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
             int classManaFactor,int recoveryFactor,int meditationRecoveryFactor);
-        void move();
-        void attack(Character* character) override;
-        int calculateNpcGoldDrop(int npcMaxLp);
-        bool shouldDrop(int probability);
-        ~Npc() override;
+    void move();
+    int calculateNpcGoldDrop(int npcMaxLp);
+    bool shouldDrop(int probability);
+    ~Npc() override;
 };
 
 

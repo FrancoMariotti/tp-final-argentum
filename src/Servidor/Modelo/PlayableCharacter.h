@@ -23,6 +23,7 @@ class PlayableCharacter: public Character {
     int gold;
     int xp;
     int defend(int damage) override;
+    void sendStats();
 public:
         PlayableCharacter(Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -43,11 +44,9 @@ public:
         void recoverMana(int seconds);
         void heal(int value);
         void earnMana(int value);
+        void unequip(Protection *protection);
+        void unequip(Weapon *weapon);
         ~PlayableCharacter() override;
-
-    void unequip(Weapon *weapon);
-
-    void unequip(Protection *protection);
 };
 
 

@@ -22,13 +22,13 @@ class Map {
     public:
         Map();
         Map(int width,int height);
-        void addPlayableCharacter(std::string playerName,PlayableCharacter* character);
+        void addPlayableCharacter(const std::string& playerName,PlayableCharacter* character);
         void addNpc(Npc* npc);
         void addObstacle(Obstacle* obstacle);
         bool isOccupied(Position pos);
         void move(Position& from,Position& to);
         Character* findNpcAtPosition(Position &position);
-        Character* findClosestCharacter(Position pos, int range);
+        Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
         ~Map();
 };

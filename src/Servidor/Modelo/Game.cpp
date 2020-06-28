@@ -1,4 +1,6 @@
 #include <Proxy/src/common_message.h>
+
+#include <utility>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
@@ -37,13 +39,7 @@ void Game::attackPlayer(const std::string& playerName, const std::string& player
     PlayableCharacter *character = map->getPlayer(playerName);
     character->attack(enemy);
 }
-/*
-void Game::equipWeapon(Weapon* weapon, const std::string& playerName) {
-    //aca habria que tener un factory que cree el arma segun el id que le pasan
-    PlayableCharacter *character = map->getPlayer(playerName);
-    character->equipWeapon(weapon);
-}
-*/
+
 void Game::equip(const std::string& playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->equip(elementIndex);
@@ -97,6 +93,18 @@ void Game::sendUpdates(ProxySocket& pxySkt) {
               msg));
         updates.pop();
     }
+}
+
+void Game::drawUpdate(std::string id,std::vector<int> layer,int width,int height) {
+    updates.push(new Draw(std::move(id), std::move(layer), width, height));
+}
+
+void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
+    updates.push(new Stats(
+            health_percentage,
+            mana_percentage,
+            exp_percentage,
+            gold,level));
 }
 
 void Game::movementUpdate(int x, int y) {

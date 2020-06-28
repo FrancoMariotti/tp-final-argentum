@@ -131,3 +131,12 @@ Connect::Connect(const std::string username) :
 std::string Connect::getUserName() const {
     return username;
 }
+
+Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)
+        : Message('s') {
+    this->health_percentage = health_percentage;
+    this->mana_percentage = mana_percentage;
+    this->exp_percentage = exp_percentage;
+    this->gold = gold;
+    this->level = level;
+}

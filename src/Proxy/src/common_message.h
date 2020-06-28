@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include "common_message_structs.h"
 
 class Message {
 protected:
@@ -23,6 +24,7 @@ public:
     virtual std::vector<int> getData();
     virtual int getWidth();
     virtual int getHeight();
+    virtual ~Message() = default;
 };
 
 class Movement : public Message{
@@ -72,6 +74,16 @@ private:
 public:
     explicit Connect(const std::string username);
     std::string getUserName() const;
+};
+
+class Stats : public Message {
+    float health_percentage;
+    float mana_percentage;
+    float exp_percentage;
+    int gold;
+    int level;
+public:
+    Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level);
 };
 
 #endif //ARGENTUM_COMMON_MESSAGE_H

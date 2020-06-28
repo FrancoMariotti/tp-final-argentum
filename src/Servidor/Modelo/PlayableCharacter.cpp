@@ -14,6 +14,14 @@ PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int con
         this->mana = 0;
         this->gold = 0;
         this->xp = 0;
+        sendStats();
+}
+
+void PlayableCharacter::sendStats() {
+    float health_percentage = lifePoints / calculateMaxLife() *100;
+    float mana_percentage = mana / calculateMaxMana() * 100;
+    float exp_percentage = xp / calculateLvlLimit();
+    observer->statsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
 
 void PlayableCharacter::move(Offset& offset) {
@@ -108,8 +116,6 @@ void PlayableCharacter::unequip(Weapon* weapon) {
 void PlayableCharacter::unequip(Protection* protection) {
     armour.unequip(*protection);
 }
-
-
 
 int PlayableCharacter::defend(int damage) {
     return armour.use(damage);
