@@ -64,6 +64,23 @@ t_stats Message::getStats() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+std::string Message::getCommand() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
+int Message::getX() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+
+}
+
+int Message::getY() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message('m'),
         player_vel_x(player_vel_x),
@@ -110,15 +127,6 @@ int Draw::getHeight() {
 }
 
 
-/*int Draw::getTileX() const {
-    return x;
-}
-
-int Draw::getTileY() const {
-    return y;
-}
-*/
-
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message('/'),
     command(command),
@@ -126,16 +134,24 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
     y(-1)
     {}
 
-std::string ExecuteCommand::getCommand() {
-    return command;
-}
-
 ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) :
     Message('/'),
     command(input),
     x(x),
     y(y)
     {}
+
+std::string ExecuteCommand::getCommand() const {
+    return command;
+}
+
+int ExecuteCommand::getX() const {
+    return x;
+}
+
+int ExecuteCommand::getY() const {
+    return y;
+}
 
 Connect::Connect(const std::string username) :
     Message('c'),

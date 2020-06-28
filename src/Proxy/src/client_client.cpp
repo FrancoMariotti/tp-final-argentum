@@ -92,8 +92,8 @@ void Client::init() {
                 init += 1;
                 std::vector<int> data = msg->getData();
                 for(unsigned long i = 0; i < data.size(); i++){
-                    int x = i % msg->getHeight();
-                    int y = i / msg->getWidth();
+                    int x = i % msg->getWidth();
+                    int y = i / msg->getHeight();
                     int id = data[i];
                     if(id != 0){
                         this->gui.addTile(x, y, id);
@@ -110,10 +110,10 @@ void Client::update() {
     for(auto & msg : messages){
         if(msg->getId() == 'm'){
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
-        }
-        /**Agregar mensaje con struct t_stats*/
-        if(msg->getId() == 's'){
+        } else if(msg->getId() == 's'){
             this->gui.update(msg->getStats());
+        } else if (msg->getId() == 'i'){
+            //this->gui.update(msg->getInventory()):
         }
     }
 }

@@ -10,13 +10,15 @@
 
 SdlWorld::SdlWorld(const SdlWindow& window) :
         worldSpriteSheetTexture(IMAGE_TILE_SIZE, IMAGE_TILE_SIZE, "../../Proxy/assets/wood-floor-sprite-png.png", window) {
+
+    const int tile = IMAGE_TILE_SIZE;
     /**Tiled
      * Pasto: 233
      * hongo: 480
      * piedra 420
      * lava: */
     /* Hacer una lista de IDs a utilizar y que luego por cada id hago un emplace calculando su x e y mod y / del ID */
-    this->world_tiles_clips.emplace(std::make_pair(233, SDL_Rect{IMAGE_TILE_SIZE,352,IMAGE_TILE_SIZE,IMAGE_TILE_SIZE}));
+    /*this->world_tiles_clips.emplace(std::make_pair(233, SDL_Rect{IMAGE_TILE_SIZE,11*tile,IMAGE_TILE_SIZE,IMAGE_TILE_SIZE}));
     this->world_tiles_clips.emplace(std::make_pair(480, SDL_Rect{17*32,22*32,32,32}));
     this->world_tiles_clips.emplace(std::make_pair(420, SDL_Rect{20*32,19*32,32,32}));
     this->world_tiles_clips.emplace(std::make_pair(304, SDL_Rect{9*32,14*32,32,32}));
@@ -28,7 +30,19 @@ SdlWorld::SdlWorld(const SdlWindow& window) :
     this->world_tiles_clips.emplace(std::make_pair(346, SDL_Rect{9*32,16*32,32,32}));
     this->world_tiles_clips.emplace(std::make_pair(347, SDL_Rect{10*32,16*32,32,32}));
     this->world_tiles_clips.emplace(std::make_pair(348, SDL_Rect{11*32,16*32,32,32}));
+    */
 
+    for (int i = 200; i < 483 ; ++i) {
+        int fil = i / 21;
+        int col = (i % 21);
+        if(col != 0){
+            col--;
+        } else {
+            fil = i / 22;
+            col = i / 21;
+        }
+        this->world_tiles_clips.emplace(std::make_pair(i, SDL_Rect{col*tile,fil*tile,tile,tile}));
+    }
 }
 
 /**El orden en que se agregan los tiles es el orden en el que se muestran, ojo con que se pisen*/

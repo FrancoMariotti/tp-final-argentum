@@ -24,6 +24,9 @@ public:
     virtual std::vector<int> getData();
     virtual int getWidth();
     virtual int getHeight();
+    virtual std::string getCommand() const;
+    virtual int getX() const;
+    virtual int getY() const;
     virtual t_stats getStats();
     virtual ~Message() = default;
 };
@@ -57,8 +60,6 @@ public:
     std::vector<int> getData() override;
     int getWidth() override;
     int getHeight() override;
-    //int getTileX() const override;
-    //int getTileY() const override;
 };
 
 class ExecuteCommand : public Message {
@@ -69,7 +70,9 @@ private:
 public:
     explicit ExecuteCommand(const std::string command);
     ExecuteCommand(std::string input, int x, int y);
-    std::string getCommand();
+    std::string getCommand() const override;
+    int getX() const override;
+    int getY() const override;
 };
 
 class Connect : public Message {
