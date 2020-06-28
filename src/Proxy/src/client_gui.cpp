@@ -15,10 +15,10 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     window(screen_width, screen_height),
     font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
     player(32, 64, window),
-    inventory(screen_width, screen_height, window, player),
+    inventory(screen_width, screen_height, window),
     camera(screen_width, screen_height, player),
     mouse(camera),
-    console(screen_width, screen_height, window, font, player),
+    console(screen_width, screen_height, window, font),
     world(window),
     playerStats(screen_width, screen_height, window, font),
     clientEvents(clientEvents) {
@@ -47,7 +47,7 @@ void GUI::handleEvents(SDL_Event &event){
 void GUI::execute(){
     player.move(clientEvents);
     inventory.use(clientEvents);
-    console.execute(clientEvents, mouse, camera, inventory);
+    console.execute(clientEvents, mouse, camera, inventory, player);
     camera.move();
 }
 /**Factory de eventos de server??*/

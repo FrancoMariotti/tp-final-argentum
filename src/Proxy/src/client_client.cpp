@@ -9,8 +9,9 @@
 #include "client_protected_list.h"
 
 //Screen dimension constants
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 1024//640
+#define SCREEN_HEIGHT 768//480
+
 
 Client::Client(ProxySocket& proxySocket) :
         proxySocket(proxySocket),
