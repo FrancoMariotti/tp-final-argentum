@@ -24,7 +24,6 @@ private:
     const int BUTTON_SIZE = 40;
 
     const SdlWindow& window;
-    const SdlPlayer& player;
 
     //Una lista con todos los items del inventario, son botones
     std::vector<SdlButton> buttons;
@@ -32,7 +31,7 @@ private:
     std::map<std::string, SdlTexture> inventoryTextures;
 
 public:
-    SdlInventory(int screen_width, int screen_height, const SdlWindow &window, SdlPlayer &player);
+    SdlInventory(int screen_width, int screen_height, const SdlWindow &window);
 
     void handleEvents(SDL_Event &event, bool &is_event_handled);
 

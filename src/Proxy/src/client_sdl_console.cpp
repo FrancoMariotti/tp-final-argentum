@@ -14,11 +14,9 @@
 "armadura de placas, tunica azul, capucha, casco de hierro, escudo de tortuga, escudo de hierro, sombrero magico"}
 */
 
-SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font,
-                       SdlPlayer &player) :
+SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font) :
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
         window(window),
-        player(player),
         text_color{0xAA,0xAA,0xFF,0xFF},
         font(font), render_text(false), return_times_pressed(0){
 
@@ -27,8 +25,13 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
 
     this->console_x = IMAGE_CONSOLE_X;
     this->console_y = IMAGE_CONSOLE_Y;
+    this->width = screen_width * 0.75;
+    this->height = screen_height * 0.125;
+    /*this->console_x = IMAGE_CONSOLE_X;
+    this->console_y = IMAGE_CONSOLE_Y;
     this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
+    */
 }
 
 void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
@@ -63,13 +66,13 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
 }
 
 void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         SdlInventory &inventory) {
+                         SdlInventory &inventory, SdlPlayer &player) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
         /**Al apretar enter resuelvo si es un comando valido*/
         /**TODO: comandos compuestos, que incluyen clicks*/
-        this->sendCommandIfValid(clientEvents, mouse, camera, inventory);
+        this->sendCommandIfValid(clientEvents, mouse, camera, inventory, player);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -91,7 +94,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
 }
 
 void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, SdlInventory &inventory) {
+                                    SdlCamera &camera, SdlInventory &inventory, SdlPlayer &player) {
     /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
      * pasar player por referencia?*/
     /**Primero el click luego el comando*/
@@ -124,9 +127,9 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text == ("/tomar")) {
         SDL_Point player_server_pos = camera.toServerCoordinates(SDL_Point{player.getPosX(), player.getPosY()});
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, player_server_pos.x, player_server_pos.y)));
-    } else if (input_text == ("/tirar") && clicked_in_map) {
-        //clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, inventory.getLastCickedIndex())));
-    } else if (input_text.find("@") == 0) {
+    } else if (input_text == ("/tirar")) {
+        //clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, inventory.getLastClickedIndex())));
+    } else if (input_text.find('@') == 0) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
     }
 }

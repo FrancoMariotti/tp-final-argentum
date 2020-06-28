@@ -9,8 +9,9 @@
 #include "client_protected_list.h"
 
 //Screen dimension constants
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 1024//640
+#define SCREEN_HEIGHT 768//480
+
 
 Client::Client(ProxySocket& proxySocket) :
         proxySocket(proxySocket),
@@ -31,15 +32,13 @@ int Client::run() {
 
     //Event handler
     SDL_Event event;
-
-    /*
+/*
     gui.addRenderable(200, 200, "arania1");
     gui.addRenderable(200, 300, "arania1");
     gui.addRenderable(300, 200, "esqueleto12");
     gui.addRenderable(400, 200, "zombie99");
     gui.addRenderable(500, 200, "goblin1");
-    */
-
+*/
     //While application is running
     while (!quit) {
         //Handle events on queue
@@ -92,8 +91,8 @@ void Client::init() {
                 init += 1;
                 std::vector<int> data = msg->getData();
                 for(unsigned long i = 0; i < data.size(); i++){
-                    int x = i % msg->getHeight();
-                    int y = i / msg->getWidth();
+                    int x = i % msg->getWidth();
+                    int y = i / msg->getHeight();
                     int id = data[i];
                     if(id != 0){
                         this->gui.addTile(x, y, id);
@@ -110,10 +109,10 @@ void Client::update() {
     for(auto & msg : messages){
         if(msg->getId() == 'm'){
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
-        }
-        /**Agregar mensaje con struct t_stats*/
-        if(msg->getId() == 's'){
+        } else if(msg->getId() == 's'){
             this->gui.update(msg->getStats());
+        } else if (msg->getId() == 'i'){
+            //this->gui.update(msg->getInventory()):
         }
     }
 }

@@ -13,9 +13,9 @@
 #define INVENTORY_Y 180
 
 
-SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window, SdlPlayer &player) :
-        window(window),
-        player(player){
+SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window) :
+        window(window)
+        {
     //Tamaño ventana inventario
     this->width = IMAGE_INVENTORY_WIDTH;
     this->height = IMAGE_INVENTORY_HEIGHT;

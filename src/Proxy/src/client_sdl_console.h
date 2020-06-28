@@ -16,7 +16,6 @@ class SdlConsole {
 private:
     SdlTexture inputTexture;
     const SdlWindow& window;
-    const SdlPlayer& player;
     CommandFactory commandFactory;
     SDL_Color text_color;
     TTF_Font* font;
@@ -38,21 +37,20 @@ private:
     std::list<SdlTexture> recentInputs;
 
 public:
-    SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font,
-               SdlPlayer &player);
+    SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font);
 
     /*Handle*/
     void handleEvent(const SDL_Event &event, bool &is_event_handled);
 
     /*Logic*/
     void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                 SdlInventory &inventory);
+                 SdlInventory &inventory, SdlPlayer &player);
 
     /*Render*/
     void render();
 
     void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                            SdlCamera &camera, SdlInventory &inventory);
+                            SdlCamera &camera, SdlInventory &inventory, SdlPlayer &player);
 };
 
 
