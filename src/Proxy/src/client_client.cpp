@@ -113,7 +113,7 @@ void Client::update() {
         }
         /**Agregar mensaje con struct t_stats*/
         if(msg->getId() == 's'){
-            //this->gui.update(msg->getPlayerStats());
+            this->gui.update(msg->getStats());
         }
     }
 }

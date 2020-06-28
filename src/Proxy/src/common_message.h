@@ -24,6 +24,7 @@ public:
     virtual std::vector<int> getData();
     virtual int getWidth();
     virtual int getHeight();
+    virtual t_stats getStats();
     virtual ~Message() = default;
 };
 
@@ -87,6 +88,8 @@ class Stats : public Message {
     int level;
 public:
     Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level);
+
+    t_stats getStats() override;
 };
 
 #endif //ARGENTUM_COMMON_MESSAGE_H

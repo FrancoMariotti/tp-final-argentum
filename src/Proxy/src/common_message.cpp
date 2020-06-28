@@ -59,6 +59,11 @@ int Message::getHeight() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+t_stats Message::getStats() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message('m'),
         player_vel_x(player_vel_x),
@@ -148,4 +153,8 @@ Stats::Stats(float health_percentage, float mana_percentage, float exp_percentag
     this->exp_percentage = exp_percentage;
     this->gold = gold;
     this->level = level;
+}
+
+t_stats Stats::getStats(){
+    return t_stats{health_percentage, mana_percentage, exp_percentage, gold, level};
 }
