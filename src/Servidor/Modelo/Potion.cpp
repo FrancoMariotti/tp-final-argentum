@@ -13,6 +13,6 @@ void Potion::equipTo(PlayableCharacter *character, int index) {
 
 void Potion::unequipFrom(PlayableCharacter *character) {
     //LA POCION NO HACE NADA YA QUE NO SE PUEDE DESEQUIPAR
-    //SIN E,MBARGO TENGO QUE DEFINIR EL METODO PORQUE ESTE ES UN METODO ABSTRACTO
+    //SIN EMBARGO TENGO QUE DEFINIR EL METODO PORQUE ESTE ES UN METODO ABSTRACTO
     //DE LA CLASE EQUIPPABLE
 }

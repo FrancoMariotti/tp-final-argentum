@@ -8,11 +8,20 @@ PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int con
                   int invMaxElements)
                   :Character(map,initialPosition,constitution,strength,agility,intelligence,level,
                           raceLifeFactor, classLifeFactor, raceManaFactor,
-                          classManaFactor,recoveryFactor,meditationRecoveryFactor), inventory(invMaxElements) {
-        this->activeWeapon = nullptr;
+                          classManaFactor,recoveryFactor,meditationRecoveryFactor), defaultWeapon(1, 1)
+                          , inventory(invMaxElements) {
+        this->activeWeapon = &defaultWeapon;
         this->mana = 0;
         this->gold = 0;
         this->xp = 0;
+        sendStats();
+}
+
+void PlayableCharacter::sendStats() {
+    float health_percentage = lifePoints / calculateMaxLife() *100;
+    float mana_percentage = mana / calculateMaxMana() * 100;
+    float exp_percentage = xp / calculateLvlLimit();
+    observer->statsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
 
 void PlayableCharacter::move(Offset& offset) {
@@ -79,6 +88,7 @@ void PlayableCharacter::equip(Equippable* element, int index) {
 
 void PlayableCharacter::equip(Weapon* weapon, int index) {
     activeWeapon = weapon;
+
 }
 
 void PlayableCharacter::equip(Protection* protection, int index) {
@@ -100,18 +110,12 @@ void PlayableCharacter::unequip(Equippable* element) {
 }
 
 void PlayableCharacter::unequip(Weapon* weapon) {
-    /*TODO aca deberia asignarle un arma con 1 de ataque al jugador,pero si hago un new
-     * al desequipar deberia hacer un delete de el arma nula al equipar otro arma.Sin embargo tendria
-     * el problema que quizas desequipo una arma que no es nula y querria hacerle un delete porque sino
-     * pierdo la referencia del inventario*/
-    activeWeapon = new NormalWeapon(1, 1);
+    activeWeapon = &defaultWeapon;
 }
 
 void PlayableCharacter::unequip(Protection* protection) {
     armour.unequip(*protection);
 }
-
-
 
 int PlayableCharacter::defend(int damage) {
     return armour.use(damage);

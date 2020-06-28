@@ -8,6 +8,7 @@
 #include "Protection.h"
 #include "Equippable.h"
 #include "Potion.h"
+#include "NormalWeapon.h"
 
 class Game;
 class Potion;
@@ -15,12 +16,14 @@ class Potion;
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
     Weapon* activeWeapon;
+    NormalWeapon defaultWeapon;
     Inventory inventory;
     Armour armour;
     int mana;
     int gold;
     int xp;
     int defend(int damage) override;
+    void sendStats();
 public:
         PlayableCharacter(Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -41,11 +44,9 @@ public:
         void recoverMana(int seconds);
         void heal(int value);
         void earnMana(int value);
+        void unequip(Protection *protection);
+        void unequip(Weapon *weapon);
         ~PlayableCharacter() override;
-
-    void unequip(Weapon *weapon);
-
-    void unequip(Protection *protection);
 };
 
 

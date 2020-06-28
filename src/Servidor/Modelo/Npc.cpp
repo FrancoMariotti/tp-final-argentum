@@ -32,16 +32,19 @@ void Npc::move() {
     Offset offset(0,0);
 
     Character* enemy = map->findClosestCharacter(currPos, MAX_RANGE);
-    if (!enemy) {
-        offset.randomDir();
-    } else {
+    bool enemyFound = (enemy != nullptr);
+    if (enemyFound) {
         offset = enemy->getOffset(currPos);
         offset.approach();
+    } else {
+        offset.randomDir();
     }
 
     Position next(currPos);
     next.apply(offset);
     map->move(currPos,next);
+
+    if(enemyFound) this->attack(enemy);
 }
 
 int Npc::defend(int damage) {

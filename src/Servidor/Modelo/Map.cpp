@@ -6,7 +6,7 @@ Map::Map() = default;
 
 Map::Map(int width,int height):width(width),height(height) {}
 
-void Map::addPlayableCharacter(std::string playerName, PlayableCharacter *character) {
+void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
 }
 
@@ -42,9 +42,9 @@ void Map::move(Position& from,Position& to) {
     if (!isOccupied(to) && !outOfBounds) from = to;
 }
 
-Character* Map::findClosestCharacter(Position pos, int range) {
+Character* Map::findClosestCharacter(const Position& pos, int range) {
     int minDist = range;
-    PlayableCharacter* enemy = NULL;
+    PlayableCharacter* enemy = nullptr;
     auto it = characters.begin();
     for (; it != characters.end(); ++it) {
         int currDist = it->second->distanceTo(pos);

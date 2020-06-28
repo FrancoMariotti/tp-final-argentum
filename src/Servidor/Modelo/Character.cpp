@@ -80,8 +80,7 @@ int Character::calculateMaxMana() const {
 }
 
 int Character::calculateLvlLimit() const {
-    //return 1000 * pow(level, 1.8);
-    return  300* pow(level, 1.8);
+    return 1000 * pow(level, 1.8);
 }
 
 int Character::calculateRecoverLifePoints(int seconds) const {
