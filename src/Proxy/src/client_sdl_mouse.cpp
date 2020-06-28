@@ -28,8 +28,6 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-/**Refactorizar y setear position a pos invalida en cada handle y luego preguntar si es valida la posicion
- * en vez de utilizar un booleano*/
 SDL_Point SdlMouse::getPosition(){
     SDL_Point copy_position = position;
     position.x = -1;
