@@ -11,15 +11,15 @@ PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int con
                           classManaFactor,recoveryFactor,meditationRecoveryFactor), defaultWeapon(1, 1)
                           , inventory(invMaxElements) {
         this->activeWeapon = &defaultWeapon;
-        this->mana = 0;
+        this->mana = calculateMaxMana();
         this->gold = 0;
         this->xp = 0;
 }
 
 void PlayableCharacter::sendStats() {
-    float health_percentage = lifePoints / calculateMaxLife() *100;
-    float mana_percentage = mana / calculateMaxMana() * 100;
-    float exp_percentage = xp / calculateLvlLimit();
+    float health_percentage = (float)lifePoints / (float)calculateMaxLife();
+    float mana_percentage = (float)mana / (float)calculateMaxMana();
+    float exp_percentage = (float)xp / (float)calculateLvlLimit();
     observer->statsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
 
@@ -27,9 +27,7 @@ void PlayableCharacter::move(Offset& offset) {
     Position nextPos(this->currPos);
     nextPos.apply(offset);
     map->move(this->currPos,nextPos);
-    if (currPos == nextPos) {
-        observer->movementUpdate(offset.getX(), offset.getY());
-    }
+    observer->movementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 
 void PlayableCharacter::recoverLifePoints(int seconds) {
@@ -56,7 +54,7 @@ void PlayableCharacter::attack(Character *character) {
 
     if(totalXp >= limit) {
         xp = totalXp - limit;
-        this->level ++;
+        this->level++;
     } else {
         xp += earnedXp;
     }
@@ -87,7 +85,6 @@ void PlayableCharacter::equip(Equippable* element, int index) {
 
 void PlayableCharacter::equip(Weapon* weapon, int index) {
     activeWeapon = weapon;
-
 }
 
 void PlayableCharacter::equip(Protection* protection, int index) {

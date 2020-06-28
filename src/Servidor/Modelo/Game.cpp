@@ -86,7 +86,6 @@ void Game::initializeMapLayers(ProxySocket& pxySkt) {
 }
 
 void Game::sendUpdates(ProxySocket& pxySkt) {
-    //ProxySocket sck;
     while (!updates.empty()) {
         Message* msg = updates.front();
         pxySkt.writeToClient(std::unique_ptr<Message> (
@@ -112,5 +111,9 @@ void Game::movementUpdate(int x, int y) {
 }
 
 Game::~Game() {
+    while(!updates.empty()) {
+        delete updates.front();
+        updates.pop();
+    }
     delete map;
 }
