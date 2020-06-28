@@ -78,6 +78,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor, invMaxElements);
     character->addObserver(observer);
+    character->sendStats();
     map->addPlayableCharacter(playerName,character);
 }
 

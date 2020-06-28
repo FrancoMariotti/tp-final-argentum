@@ -14,7 +14,6 @@ PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int con
         this->mana = 0;
         this->gold = 0;
         this->xp = 0;
-        sendStats();
 }
 
 void PlayableCharacter::sendStats() {

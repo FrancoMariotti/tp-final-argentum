@@ -34,12 +34,9 @@ public:
     void initializeMapLayers(ProxySocket& pxySkt);
     void movementUpdate(int x, int y) override;
     void sendUpdates(ProxySocket& pxySkt);
-    //void sendUpdates();
-    ~Game();
-
-    void statsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level);
-
+    void statsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) override;
     void drawUpdate(std::string id, std::vector<int> layer, int width, int height);
+    ~Game();
 };
 
 
