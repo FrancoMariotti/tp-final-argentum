@@ -4,6 +4,7 @@
 #include "../../Servidor/Modelo/Game.h"
 #include "../../Servidor/Modelo/Event.h"
 #include "../../Servidor/Modelo/EventMove.h"
+#include "../../Servidor/Modelo/NormalWeapon.h"
 
 ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     keepListening(true),
@@ -21,6 +22,8 @@ void ProxyServer::run() {
     //game.initializePlayer(); //Mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
     //game.sendUpdates(proxySocket);
     game.initializeMapLayers(proxySocket);
+    NormalWeapon sword("sword", 2, 5);
+    game.storeInInventory("franco",&sword);
     try{
 
         while(this->keepListening) {

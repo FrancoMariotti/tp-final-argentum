@@ -1,6 +1,15 @@
 #include "Inventory.h"
+#include "string"
 
-Inventory::Inventory(unsigned int maxElements) : maxElements(maxElements) {}
+Inventory::Inventory(unsigned int maxElements, Observer *observer):maxElements(maxElements), observer(observer) {}
+
+void Inventory::sendItems() {
+    std::vector<std::string> items;
+    for(auto &element:elements) {
+        items.push_back(element->getName());
+    }
+    observer->updateCharacterItems(items);
+}
 
 void Inventory::store(Equippable* element) {
     if (elements.size() != maxElements) elements.push_back(element);

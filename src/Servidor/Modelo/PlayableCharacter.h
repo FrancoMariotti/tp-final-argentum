@@ -27,7 +27,7 @@ public:
         PlayableCharacter(Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-                  int invMaxElements);
+                  int invMaxElements,Observer* observer);
         void attack(Character *character) override;
         void move(Offset& offset);
         void equip(int elementIndex);

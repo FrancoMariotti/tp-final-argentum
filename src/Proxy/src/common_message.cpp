@@ -174,3 +174,11 @@ Stats::Stats(float health_percentage, float mana_percentage, float exp_percentag
 t_stats Stats::getStats(){
     return t_stats{health_percentage, mana_percentage, exp_percentage, gold, level};
 }
+
+InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) : Message('i') {
+    this->items = std::move(items);
+}
+
+std::vector<std::string> InventoryUpdate::getItems() {
+    return items;
+}

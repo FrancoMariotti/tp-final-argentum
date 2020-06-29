@@ -37,6 +37,8 @@ public:
     void statsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) override;
     void drawUpdate(std::string id, std::vector<int> layer, int width, int height);
     ~Game();
+
+    void updateCharacterItems(std::vector<std::string> &vector);
 };
 
 

@@ -37,7 +37,7 @@ class NpcFactory {
     Json::Value npcsObj;
     public:
         explicit NpcFactory(const std::string& configFile);
-        void create(Map* map,const std::string& specie);
+        void create(Map* map,const std::string& specie,Observer* observer);
         ~NpcFactory();
 };
 

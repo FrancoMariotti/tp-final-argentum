@@ -1,12 +1,13 @@
 TODO Cosas por hacer
 1) agregar comerciante
-2) agregar fantasma, y sacerdote
-3) agregar drops
-4) agregar banquero
-5) agregar chat
-6) agregar game loop
-7)agregar recuperacion de vida y mana por tiempo
-8)agregar comunicacion
-9)Persistencia de jugadores
-10)Log in
-11) Agregar identificador de raza o calse para mostrar la imagen correcta
+2) agregar state a magical weapon
+3) agregar fantasma, y sacerdote
+4) agregar drops
+5) agregar banquero
+6) agregar chat
+7) agregar game loop
+8) agregar recuperacion de vida y mana por tiempo
+9) agregar comunicacion
+10) Persistencia de jugadores
+11) Log in
+12) Agregar identificador de raza o calse para mostrar la imagen correcta

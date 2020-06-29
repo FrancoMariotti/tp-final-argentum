@@ -106,6 +106,10 @@ void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_p
             gold,level));
 }
 
+void Game::updateCharacterItems(std::vector<std::string>& vector) {
+    updates.push(new InventoryUpdate(vector));
+}
+
 void Game::movementUpdate(int x, int y) {
     updates.push(new Movement(x,y));
 }

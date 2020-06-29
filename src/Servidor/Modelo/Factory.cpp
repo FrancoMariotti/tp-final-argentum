@@ -76,9 +76,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
     auto* character =  new PlayableCharacter(map,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
-            meditationRecoveryFactor, invMaxElements);
-    character->addObserver(observer);
-    character->sendStats();
+            meditationRecoveryFactor, invMaxElements,observer);
     map->addPlayableCharacter(playerName,character);
 }
 
@@ -89,7 +87,7 @@ NpcFactory::NpcFactory(const std::string& configFile) {
     npcsObj = parser.read("npc");
 }
 
-void NpcFactory::create(Map* map,const std::string& specie) {
+void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int maxLevel = npcsObj["maxLevel"].asInt();
     int minLevel = npcsObj["minLevel"].asInt();
     int level =  std::rand() % (maxLevel - minLevel) + minLevel;
@@ -116,7 +114,7 @@ void NpcFactory::create(Map* map,const std::string& specie) {
     Npc *enemy = new Npc(map, initialPosition, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
             maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
-            recoveryFactor,meditationRecoveryFactor);
+            recoveryFactor,meditationRecoveryFactor,observer);
 
     map->addNpc(enemy);
 }

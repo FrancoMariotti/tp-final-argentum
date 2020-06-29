@@ -45,7 +45,7 @@ class Character {
     public:
         Character(Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor);
+                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer);
         bool collideWith(Position& objPos);
         int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
@@ -53,7 +53,6 @@ class Character {
         int receiveDamage(int enemyLevel,int damage);
         static int calculateSafeGoldCapacity(int lvl);
         //bool shouldDrop(int probability);
-        void addObserver(Observer* newObserver);
         virtual ~Character();
 };
 

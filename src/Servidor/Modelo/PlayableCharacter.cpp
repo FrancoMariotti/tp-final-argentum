@@ -4,16 +4,16 @@
 
 PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-                  int invMaxElements)
-                  :Character(map,initialPosition,constitution,strength,agility,intelligence,level,
-                          raceLifeFactor, classLifeFactor, raceManaFactor,
-                          classManaFactor,recoveryFactor,meditationRecoveryFactor), defaultWeapon("fists", 1, 1)
-                          , inventory(invMaxElements) {
+        int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
+        int invMaxElements,Observer* observer):
+        Character(map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
+                classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
+                defaultWeapon("fists",1, 1), inventory(invMaxElements) {
         this->activeWeapon = &defaultWeapon;
         this->mana = calculateMaxMana();
         this->gold = 0;
         this->xp = 0;
+    sendStats();
 }
 
 void PlayableCharacter::sendStats() {
@@ -68,6 +68,7 @@ void PlayableCharacter::attack(Character *character) {
 
 void PlayableCharacter::store(Equippable* element) {
     inventory.store(element);
+    inventory.sendItems();
 }
 
 void PlayableCharacter::recoverMana(int seconds) {

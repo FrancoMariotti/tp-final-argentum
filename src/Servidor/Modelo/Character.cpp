@@ -4,8 +4,9 @@
 
 Character::Character(Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
-                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor)
+                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer)
                   : map(map),currPos(initialPosition) {
+    this->observer = observer;
     this->level = level;
     this->raceLifeFactor = raceLifeFactor;
     this->classLifeFactor = classLifeFactor;
@@ -111,10 +112,6 @@ int Character::calculateKillXp(int enemyMaxLp, int enemyLvl) const {
 bool Character::dodge() const {
     double modifier = double(std::rand()) / (double(RAND_MAX) * 1.0);
     return pow(modifier, agility) < 0.001;
-}
-
-void Character::addObserver(Observer *newObserver) {
-    observer = newObserver;
 }
 
 Character::~Character() = default;
