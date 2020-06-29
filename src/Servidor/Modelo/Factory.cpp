@@ -111,7 +111,7 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int classManaFactor = npcsObj["manaFactor"].asInt();
     int meditationRecoveryFactor = npcsObj["meditationRecoveryFactor"].asInt();
 
-    Position initialPosition = map->asinRandomPosition();
+    Position initialPosition = map->asignRandomPosition();
 
     std::string id = specie + std::to_string(counter);
 
