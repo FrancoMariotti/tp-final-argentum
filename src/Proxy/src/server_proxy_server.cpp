@@ -23,6 +23,7 @@ void ProxyServer::run() {
     game.initializeMap();
     NormalWeapon sword("sword", 2, 5);
     game.storeInInventory("franco",&sword);
+    game.createNpc("goblin");
     game.sendUpdates(proxySocket);
     try{
 

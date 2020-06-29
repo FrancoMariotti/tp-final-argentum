@@ -34,6 +34,7 @@ class Map {
         void sendLayers(Observer *observer,std::string configFile) const;
         ~Map();
 
+    Position asignRandomPosition();
 };
 
 #endif //ARGENTUM_MAPA_H
