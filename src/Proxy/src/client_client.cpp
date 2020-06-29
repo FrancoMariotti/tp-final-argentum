@@ -53,7 +53,11 @@ int Client::run() {
                     /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        std::vector<std::string> player_inventory{"sword", "16000", "button"};
+                        std::vector<std::string> player_inventory{"sword","axe","hammer","fresnoWand"
+                                ,"crimpStick","commonBow", "rareBow"
+                                ,"leatherArmour", "ironArmour", "blueTunic",
+                                                                  "hood", "ironHelmet", "turtleShell", "ironShield",
+                                                                  "magicHat", "smallLifePotion", "smallManaPotion"};
                         gui.updateInventory(std::move(player_inventory));
                         std::random_device rd;
                         std::mt19937 mt(rd());

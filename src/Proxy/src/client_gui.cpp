@@ -26,23 +26,23 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
         throw SdlException("Could not open font", TTF_GetError());
     }
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
-            SdlTexture(54, 34, "../../Proxy/assets/4093.png", window)));
+            SdlTexture(54, 34, "../../Proxy/assets/spiderSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("skeleton",
-            SdlTexture(26, 54, "../../Proxy/assets/4080.png", window)));
+            SdlTexture(26, 54, "../../Proxy/assets/skeletonSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
-            SdlTexture(24, 46, "../../Proxy/assets/4070.png", window)));
+            SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
-            SdlTexture(24, 36, "../../Proxy/assets/4082.png", window)));
+            SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axe",
-            SdlTexture(22, 48, "../../Proxy/items/16025.png", window)));
+            SdlTexture(22, 48, "../../Proxy/items/sAxe.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("plate armor",
-              SdlTexture(24, 46, "../../Proxy/items/79.png", window)));
+              SdlTexture(24, 46, "../../Proxy/items/sIronArmour.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("human head",
               SdlTexture(24, 46, "../../Proxy/assets/2001.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("iron helmet",
-          SdlTexture(18, 18, "../../Proxy/items/18007.png", window)));
+          SdlTexture(18, 18, "../../Proxy/items/ironHelmetSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("iron shield",
-          SdlTexture(25, 44, "../../Proxy/items/20002.png", window)));
+          SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
 
 }
 
