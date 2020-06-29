@@ -17,6 +17,9 @@ private:
     SdlBar healthBar;
     SdlBar manaBar;
     SdlOutput gold;
+    //Agrego esto para mostrar el texto "life" y "mana"
+    SdlOutput manaLabel;
+    SdlOutput lifeLabel;
 public:
     SdlStats(int screen_width, int screen_height,const SdlWindow& window, TTF_Font *font);
 

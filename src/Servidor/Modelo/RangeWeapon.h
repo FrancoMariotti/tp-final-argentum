@@ -12,7 +12,7 @@ enum Range {SHORT,LONG};
 class RangeWeapon: public Weapon {
     Range range;
     public:
-        RangeWeapon(int minDamage,int maxDamage,Range range);
+        RangeWeapon(std::string name, int minDamage,int maxDamage,Range range);
         int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) override;
 };
 

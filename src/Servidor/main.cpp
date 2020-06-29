@@ -11,9 +11,9 @@ int main(int argc, char const *argv[]) {
 
     Offset offset(0,1);
     Event* event = new EventMove(offset);
-    RangeWeapon sword(2, 5, SHORT);
-    Protection shield(2, 5, SHIELD);
-    LifePotion lifePotion(1000);
+    NormalWeapon sword("sword", 2, 5);
+    Protection shield("shield", 2, 5, SHIELD);
+    LifePotion lifePotion("megaLifePotion",1000);
 
     Game game("config/config.json");
 

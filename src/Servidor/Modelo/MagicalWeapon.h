@@ -6,7 +6,7 @@
 class MagicalWeapon: public Weapon {
     int cost;
     public:
-        MagicalWeapon(int minDamage,int maxDamage,int cost);
+        MagicalWeapon(std::string name, int minDamage,int maxDamage,int cost);
         int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) override;
         ~MagicalWeapon() override;
 };

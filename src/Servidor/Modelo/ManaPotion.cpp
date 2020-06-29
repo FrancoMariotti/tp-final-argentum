@@ -5,7 +5,7 @@
 #include "ManaPotion.h"
 #include "Log.h"
 
-ManaPotion::ManaPotion(int value) : Potion(value) {}
+ManaPotion::ManaPotion(std::string name, int value) : Potion(name, value) {}
 
 void ManaPotion::use(PlayableCharacter *character) {
     Log* log = Log::instancia();

@@ -10,7 +10,7 @@
 
 class LifePotion : public Potion {
 public:
-    LifePotion(int value);
+    LifePotion(std::string name, int value);
     void use(PlayableCharacter* character);
 };
 

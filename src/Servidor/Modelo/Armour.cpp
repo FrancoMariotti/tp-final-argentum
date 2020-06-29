@@ -1,7 +1,7 @@
 #include "Armour.h"
 
 Armour::Armour() {
-    Protection null(0, 0, NONE);
+    Protection null("none", 0, 0, NONE);
     for (int i = 0; i < 3 ; ++i) {
         protections.push_back(null);
     }

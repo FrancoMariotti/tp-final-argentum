@@ -11,8 +11,8 @@ Npc::Npc(Map* map,Position &initialPosition,int constitution,
          Character(map,initialPosition,constitution,strength,agility,intelligence,level,
                  raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
                  recoveryFactor, meditationRecoveryFactor),
-         weapon(minDamage,maxDamage),
-         armour(minDefense,maxDefense, ARMOUR){
+         weapon("npcWeapon", minDamage,maxDamage),
+         armour("npcArmour", minDefense,maxDefense, ARMOUR){
     this->specie = std::move(specie);
 }
 

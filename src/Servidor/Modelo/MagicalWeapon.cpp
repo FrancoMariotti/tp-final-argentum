@@ -1,6 +1,7 @@
 #include "MagicalWeapon.h"
 
-MagicalWeapon::MagicalWeapon(int minDamage, int maxDamage, int cost):Weapon(minDamage,maxDamage) {
+MagicalWeapon::MagicalWeapon(std::string name, int minDamage, int maxDamage, int cost)
+    :Weapon(name, minDamage,maxDamage) {
     this->cost = cost;
 }
 

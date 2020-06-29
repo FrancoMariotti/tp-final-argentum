@@ -9,7 +9,7 @@
 
 class NormalWeapon : public Weapon {
     public:
-        NormalWeapon(int minDamage,int maxDamage);
+        NormalWeapon(std::string name, int minDamage,int maxDamage);
         int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos)  override;
         ~NormalWeapon() override;
 };

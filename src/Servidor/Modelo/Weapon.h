@@ -13,7 +13,7 @@ class Weapon : public Equippable {
         //int maxDamage;
         int calculateDamage(int strength);
     public:
-        Weapon(int minDamage,int maxDamage);
+        Weapon(std::string name, int minDamage,int maxDamage);
         void equipTo(PlayableCharacter *character, int i) override;
         virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
         virtual ~Weapon() = default;

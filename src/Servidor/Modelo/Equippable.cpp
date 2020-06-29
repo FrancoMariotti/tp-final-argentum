@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include "Equippable.h"
 
-Equippable::Equippable(int minValue, int maxValue) : minValue(minValue),
+Equippable::Equippable(std::string name, int minValue, int maxValue) : name(name), minValue(minValue),
     maxValue(maxValue), equipped(false){}
 
 int Equippable::randomize() const {

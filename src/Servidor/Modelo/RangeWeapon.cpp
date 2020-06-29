@@ -1,7 +1,8 @@
 #include "RangeWeapon.h"
 #include "Log.h"
 
-RangeWeapon::RangeWeapon(int minDamage, int maxDamage, Range range):Weapon(minDamage,maxDamage) {
+RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, Range range)
+    :Weapon(name, minDamage,maxDamage) {
     this->range = range;
 }
 

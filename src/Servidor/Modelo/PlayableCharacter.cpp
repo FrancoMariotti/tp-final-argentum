@@ -8,7 +8,7 @@ PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int con
                   int invMaxElements)
                   :Character(map,initialPosition,constitution,strength,agility,intelligence,level,
                           raceLifeFactor, classLifeFactor, raceManaFactor,
-                          classManaFactor,recoveryFactor,meditationRecoveryFactor), defaultWeapon(1, 1)
+                          classManaFactor,recoveryFactor,meditationRecoveryFactor), defaultWeapon("fists", 1, 1)
                           , inventory(invMaxElements) {
         this->activeWeapon = &defaultWeapon;
         this->mana = calculateMaxMana();
