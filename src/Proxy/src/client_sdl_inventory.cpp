@@ -24,7 +24,11 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->inventory_x = INVENTORY_X;
     this->inventory_y = INVENTORY_Y;
 
-    std::vector<std::string> game_items_id{"button", "16000", "16002","sword"};
+    std::vector<std::string> game_items_id{"sword","axe","hammer","fresnoWand"
+                                           ,"crimpStick","commonBow", "rareBow"
+                                           ,"leatherArmour", "ironArmour", "blueTunic",
+                                           "hood", "ironHelmet", "turtleShell", "ironShield",
+                                           "magicHat", "smallLifePotion", "smallManaPotion"};
     for(auto it = game_items_id.begin(); it != game_items_id.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
                 std::forward_as_tuple(*it),
@@ -32,20 +36,6 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
         );
     }
 
-    SdlTexture& buttonSpriteSheet = inventoryTextures.at("button");
-
-    for (int i = 0; i < 5 ; ++i) {
-        int col = (int) buttons.size() % 4;
-        int fil = (int) buttons.size() / 4;
-        buttons.emplace_back(buttonSpriteSheet);
-        /*Seteo la posicion relativa al inventario,
-         * a medida que pusheo se van acomodando uno al lado del otro*/
-        /*4 botones por fila,
-         * 0....3
-         * 4....7*/
-        buttons.back().setPosition(inventory_x + col * BUTTON_SIZE,
-                                    inventory_y + fil * BUTTON_SIZE);
-    }
 
 }
 
