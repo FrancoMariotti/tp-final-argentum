@@ -13,7 +13,7 @@
 SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
         bodyTexture( "../../Proxy/assets/340.gif", window),
         headSpriteSheetTexture(32, 32, "../../Proxy/assets/2005.gif", window),
-        head_sprite_clips{}{
+        lock_movement(false){
     //Initialize the offsets
     pos_x = x;
     pos_y = y;
@@ -35,9 +35,7 @@ SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
 
 
 void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
-    //if a key was pressed
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
-        //Adjust the velocity
         switch(e.key.keysym.sym){
             case SDLK_UP: vel_y -= VEL;
             e_face_orientation = BACK_HEAD_SPRITE;
@@ -54,9 +52,8 @@ void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
         }
     }
-    //if key was released
     /*Cuando se suelta la tecla tenemos que deshacer los cambios*/
-    if(e.type == SDL_KEYUP && e.key.repeat == 0){
+    /*if(e.type == SDL_KEYUP && e.key.repeat == 0){
         switch(e.key.keysym.sym){
             case SDLK_UP: vel_y += VEL; break;
             case SDLK_DOWN: vel_y -= VEL; break;
@@ -64,7 +61,7 @@ void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
             case SDLK_RIGHT: vel_x -= VEL; break;
 
         }
-    }
+    }*/
 
 }
 
@@ -76,12 +73,16 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
-     }
+        this->lock_movement = true;
+        vel_x = 0;
+        vel_y = 0;
+    }
 }
 
 void SdlPlayer::update(const int p_vel_y, const int p_vel_x, SdlCamera &camera) {
     this->pos_x = camera.toPixels(p_vel_x);
     this->pos_y = camera.toPixels(p_vel_y);
+    this->lock_movement = false;
 }
 
 void SdlPlayer::render(SdlCamera &camera) {

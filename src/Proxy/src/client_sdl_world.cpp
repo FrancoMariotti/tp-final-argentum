@@ -50,20 +50,17 @@ void SdlWorld::add(const int x, const int y, const int tile_id){
     world_tiles[tile_id].emplace_back(SDL_Point{x, y});
 }
 
-void SdlWorld::render(const int x, const int y, const int tile_id){
-    worldSpriteSheetTexture.render(x, y, &world_tiles_clips.at(tile_id));
-}
-
-
 void SdlWorld::render(SdlCamera &camera) {
     std::map<int, std::vector<SDL_Point>>::iterator iterator = world_tiles.begin();
     while(iterator != world_tiles.end()){
         for(auto value_iterator = iterator->second.begin();
         value_iterator != iterator->second.end() ; ++value_iterator) {
-            SDL_Point relative_point = camera.getCoordinates(*value_iterator);
-            worldSpriteSheetTexture.render(relative_point.x,
-                    relative_point.y,
-                    &world_tiles_clips.at(iterator->first));
+            if(camera.isInCameraView(*value_iterator)){
+                SDL_Point relative_point = camera.getCoordinates(*value_iterator);
+                worldSpriteSheetTexture.render(relative_point.x,
+                                               relative_point.y,
+                                               &world_tiles_clips.at(iterator->first));
+            }
         }
         iterator++;
     }
