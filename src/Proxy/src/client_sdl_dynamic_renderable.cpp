@@ -19,16 +19,16 @@ SdlDynamicRenderable::SdlDynamicRenderable(const int x, const int y, SdlTexture 
     }
 }
 
-void SdlDynamicRenderable::update(const int vel_x, const int vel_y, SdlCamera &camera) {
-    pos_x += camera.toPixels(vel_x);
-    pos_y -= camera.toPixels(vel_y);
-    if(vel_x > 0){
+void SdlDynamicRenderable::update(const int new_x, const int new_y, SdlCamera &camera) {
+    pos_x = camera.toPixels(new_x);
+    pos_y = camera.toPixels(new_y);
+    if(new_x > 0){
         e_current_orientation = RIGHT;
-    } else if(vel_x < 0){
+    } else if(new_x < 0){
         e_current_orientation = LEFT;
-    } else if(vel_y > 0){
+    } else if(new_y > 0){
         e_current_orientation = FRONT;
-    } else if(vel_y < 0){
+    } else if(new_y < 0){
         e_current_orientation = BACK;
     }
 }

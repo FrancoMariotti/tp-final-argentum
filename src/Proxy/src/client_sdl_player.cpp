@@ -79,9 +79,9 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     }
 }
 
-void SdlPlayer::update(const int p_vel_y, const int p_vel_x, SdlCamera &camera) {
-    this->pos_x = camera.toPixels(p_vel_x);
-    this->pos_y = camera.toPixels(p_vel_y);
+void SdlPlayer::update(const int player_x, const int player_y, SdlCamera &camera) {
+    this->pos_x = camera.toPixels(player_x);
+    this->pos_y = camera.toPixels(player_y);
     this->lock_movement = false;
 }
 

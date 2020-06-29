@@ -54,12 +54,12 @@ int Client::run() {
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
                         std::vector<std::string> player_inventory{"sword", "16000", "button"};
-                        gui.update(std::move(player_inventory));
+                        gui.updateInventory(std::move(player_inventory));
                         std::random_device rd;
                         std::mt19937 mt(rd());
                         std::uniform_real_distribution<float> dist(0.1,1.0);
                         t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
-                        gui.update(stats);
+                        gui.updatePlayerStats(stats);
                     }
                     break;
             }
@@ -104,9 +104,9 @@ void Client::init() {
                     }
                 }
             } else if(msg->getId() == INVENTORY_UPDATE_MESSAGE_ID) {
-                 this->gui.update(msg->getItems());
+                this->gui.updateInventory(msg->getItems());
             } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID) {
-                 this->gui.update(msg->getStats());
+                this->gui.updatePlayerStats(msg->getStats());
             }
         }
     }
@@ -117,11 +117,13 @@ void Client::update() {
     /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
         if(msg->getId() == MOVEMENT_MESSAGE_ID){
-            this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
+            this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
         } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){
-            this->gui.update(msg->getStats());
+            this->gui.updatePlayerStats(msg->getStats());
         } else if (msg->getId() == INVENTORY_UPDATE_MESSAGE_ID){
-            this->gui.update(msg->getItems());
+            this->gui.updateInventory(msg->getItems());
+        } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
+            this->gui.updateRenderables(msg->getSpawnData());
         }
     }
 }

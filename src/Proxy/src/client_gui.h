@@ -41,11 +41,11 @@ public:
 
     void execute();
 
-    void update(int player_vel_x, int player_vel_y);
+    void updatePlayerPos(const int player_x, const int player_y);
 
-    void update(int vel_x, int vel_y, const std::string &renderable_id);
+    void updateRenderablesPos(const int new_x, const int new_y, const std::string &renderable_id);
 
-    void update(std::vector<std::string> player_inventory);
+    void updateInventory(std::vector<std::string> player_inventory);
 
     void render();
 
@@ -53,7 +53,7 @@ public:
 
     ~GUI();
 
-    void update(t_stats new_stats);
+    void updatePlayerStats(t_stats new_stats);
 
     void addFloorTile(int x, int y, int tile_id);
 

@@ -32,7 +32,7 @@ private:
 public:
     SdlDynamicRenderable(const int x, const int y, SdlTexture &bodyTexture);
 
-    void update(const int vel_x, const int vel_y, SdlCamera &camera);
+    void update(const int new_x, const int new_y, SdlCamera &camera);
 
     virtual void render(SdlCamera& camera);
 };

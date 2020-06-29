@@ -61,19 +61,19 @@ void GUI::execute(){
     camera.move();
 }
 /**Factory de eventos de server??*/
-void GUI::update(const int player_vel_x,const int player_vel_y){
-    player.update(player_vel_y, player_vel_x, camera);
+void GUI::updatePlayerPos(const int player_x, const int player_y){
+    player.update(player_x, player_y, camera);
 }
 
-void GUI::update(const int vel_x,const int vel_y, const std::string& renderable_id){
-    this->dynamic_renderables.at(renderable_id)->update(vel_x, vel_y, camera);
+void GUI::updateRenderablesPos(const int new_x, const int new_y, const std::string& renderable_id){
+    this->dynamic_renderables.at(renderable_id)->update(new_x, new_y, camera);
 }
 
-void GUI::update(std::vector<std::string> player_inventory) {
+void GUI::updateInventory(std::vector<std::string> player_inventory) {
     inventory.update(std::move(player_inventory));
 }
 
-void GUI::update(t_stats new_stats) {
+void GUI::updatePlayerStats(t_stats new_stats) {
     playerStats.update(new_stats);
 }
 
@@ -97,7 +97,6 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
                 texture_id = renderable_id;
             }
         }
-        /**El insert no permite actualizaciones asi que mejor seria usar operator[]*/
         if(texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
                     (new SdlDynamicRenderable(it->x ,it->y,
@@ -142,36 +141,4 @@ GUI::~GUI(){
 void GUI::renderWorld() {
     world.renderFloor(camera);
     world.renderObstacles(camera);
-    //Update Screen
-    //window.render();
 }
-
-/*
-        if(it->id.find("arania") != std::string::npos){
-            dynamic_renderables.insert(std::make_pair(it->id, std::unique_ptr <SdlDynamicRenderable>
-                    (new SdlDynamicRenderable(it->x ,it->y,
-                                              dynamic_renderables_textures.at("arania")))));
-
-        } else if (renderable_id.find("esqueleto") != std::string::npos){
-            dynamic_renderables.insert(std::make_pair(renderable_id,
-                                                      std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
-                                                                                                                      dynamic_renderables_textures.at("esqueleto")))));
-        } else if (renderable_id.find("zombie") != std::string::npos){
-            dynamic_renderables.insert(std::make_pair(renderable_id,
-                                                      std::unique_ptr<SdlDynamicRenderable>
-                                                              (new SdlDynamicRenderable(x , y,
-                                                                                        dynamic_renderables_textures.at("zombie")))));
-        } else if (renderable_id.find("goblin") != std::string::npos){
-            dynamic_renderables.insert(std::make_pair(renderable_id,
-                                                      std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
-                                                                                                                      dynamic_renderables_textures.at("goblin")))));
-        } else {
-            dynamic_renderables.insert(std::make_pair(renderable_id,
-                                                      std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(x , y,
-                                                                                                                      dynamic_renderables_textures.at("armadura de placas"),
-                                                                                                                      dynamic_renderables_textures.at("cabeza"),
-                                                                                                                      dynamic_renderables_textures.at("casco de hierro"),
-                                                                                                                      dynamic_renderables_textures.at("hacha"),
-                                                                                                                      dynamic_renderables_textures.at("escudo de hierro")
-                                                      ))));
-        }*/

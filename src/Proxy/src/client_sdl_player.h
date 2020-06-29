@@ -57,7 +57,7 @@ public:
 
     void render(SdlCamera &camera);
 
-    void update(const int p_vel_y, const int p_vel_x, SdlCamera &camera);
+    void update(const int player_x, const int player_y, SdlCamera &camera);
 
     int getPosX() const;
 
