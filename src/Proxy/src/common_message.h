@@ -28,6 +28,7 @@ public:
     virtual int getX() const;
     virtual int getY() const;
     virtual t_stats getStats();
+    virtual std::vector<std::string> getItems();
     virtual ~Message() = default;
 };
 
@@ -91,8 +92,14 @@ class Stats : public Message {
     int level;
 public:
     Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level);
-
     t_stats getStats() override;
+};
+
+class InventoryUpdate: public Message {
+    std::vector<std::string> items;
+public:
+    explicit InventoryUpdate(std::vector<std::string> &items);
+    std::vector<std::string> getItems() override;
 };
 
 #endif //ARGENTUM_COMMON_MESSAGE_H
