@@ -37,7 +37,7 @@ private:
     std::list<SdlTexture> recentInputs;
 
 public:
-    SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font);
+    SdlConsole(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font);
 
     /*Handle*/
     void handleEvent(const SDL_Event &event, bool &is_event_handled);

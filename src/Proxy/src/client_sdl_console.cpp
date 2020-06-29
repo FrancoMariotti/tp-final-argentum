@@ -70,8 +70,6 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
-        /**Al apretar enter resuelvo si es un comando valido*/
-        /**TODO: comandos compuestos, que incluyen clicks*/
         this->sendCommandIfValid(clientEvents, mouse, camera, inventory, player);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
@@ -138,6 +136,10 @@ void SdlConsole::render() {
     SDL_Rect outline_rect = {console_x, console_y, width, height};
     SDL_SetRenderDrawColor(window.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
     SDL_RenderDrawRect(window.getRenderer(), &outline_rect);
+    SDL_Rect background = {console_x, console_y, width, height};
+    SDL_SetRenderDrawColor(window.getRenderer(), 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderFillRect(window.getRenderer(), &background);
+
     /*Renderizo los mensajes anteriores*/
     int i=0;
     for(auto & recent_input: recentInputs){

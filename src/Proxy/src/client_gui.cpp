@@ -33,15 +33,15 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
             SdlTexture(24, 46, "../../Proxy/assets/4070.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
             SdlTexture(24, 36, "../../Proxy/assets/4082.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("hacha",
+    this->dynamic_renderables_textures.emplace(std::make_pair("axe",
             SdlTexture(22, 48, "../../Proxy/items/16025.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("armadura de placas",
+    this->dynamic_renderables_textures.emplace(std::make_pair("plate armor",
               SdlTexture(24, 46, "../../Proxy/items/79.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("cabeza",
+    this->dynamic_renderables_textures.emplace(std::make_pair("human head",
               SdlTexture(24, 46, "../../Proxy/assets/2001.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("casco de hierro",
+    this->dynamic_renderables_textures.emplace(std::make_pair("iron helmet",
           SdlTexture(18, 18, "../../Proxy/items/18007.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("escudo de hierro",
+    this->dynamic_renderables_textures.emplace(std::make_pair("iron shield",
           SdlTexture(25, 44, "../../Proxy/items/20002.png", window)));
 
 }
@@ -50,7 +50,7 @@ void GUI::handleEvents(SDL_Event &event){
     bool is_event_handled = false;
     player.handleEvent(event, is_event_handled);
     console.handleEvent(event, is_event_handled);
-    inventory.handleEvents(event, is_event_handled);
+    inventory.handleEvent(event, is_event_handled);
     mouse.handleEvent(event,is_event_handled);
 }
 
@@ -102,6 +102,14 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
                     (new SdlDynamicRenderable(it->x ,it->y,
                             dynamic_renderables_textures.at(texture_id)));
 
+        } else {
+            dynamic_renderables.insert(std::make_pair(it->id,
+                  std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(it->x , it->y,
+                  dynamic_renderables_textures.at("plate armor"),
+                  dynamic_renderables_textures.at("human head"),
+                  dynamic_renderables_textures.at("iron helmet"),
+                  dynamic_renderables_textures.at("axe"),
+                  dynamic_renderables_textures.at("iron shield")))));
         }
     }
 }
@@ -112,17 +120,17 @@ void GUI::render(){
 
     //Render objects
     renderWorld();
-    player.render(camera);
-    inventory.render();
-    console.render();
-    playerStats.render();
-
     //Renderizo dinamicos
     auto iterator = dynamic_renderables.begin();
     while(iterator != dynamic_renderables.end()){
         iterator->second->render(camera);
         iterator++;
     }
+    player.render(camera);
+    inventory.render();
+    console.render();
+    playerStats.render();
+
 
     //Update screen
     window.render();

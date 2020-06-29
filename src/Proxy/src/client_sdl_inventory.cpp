@@ -49,7 +49,7 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
 
 }
 
-void SdlInventory::handleEvents(SDL_Event &event, bool &is_event_handled) {
+void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {
     /*Client side events*/
     for(auto & button : buttons){
         button.handleEvent(event, is_event_handled);
@@ -81,21 +81,14 @@ void SdlInventory::update(std::vector<std::string> inventory){
     }
 }
 
-/*El server me envia el id del item para cargarle la textura*/
-/**Delete*/
-void SdlInventory::addItem(const std::string& item_id){
-    SdlTexture& buttonTexture = inventoryTextures.at(item_id);
-    int col = (int) buttons.size() % 4;
-    int fil = (int) buttons.size() / 4;
-    buttons.emplace_back(buttonTexture);
-    buttons.back().setPosition(inventory_x + col * BUTTON_SIZE,
-                                inventory_y + fil * BUTTON_SIZE);
-}
-
 void SdlInventory::render() {
     SDL_Rect outline_rect = {inventory_x, inventory_y, width, height};
     SDL_SetRenderDrawColor(window.getRenderer(), 0x00, 0xFF, 0x00, 0xFF);
     SDL_RenderDrawRect(window.getRenderer(), &outline_rect);
+    SDL_Rect background = {inventory_x, inventory_y, width, height};
+    SDL_SetRenderDrawColor(window.getRenderer(), 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderFillRect(window.getRenderer(), &background);
+
     for (auto & button : buttons) {
         button.render();
     }

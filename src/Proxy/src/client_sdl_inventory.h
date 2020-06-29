@@ -33,18 +33,15 @@ private:
 public:
     SdlInventory(int screen_width, int screen_height, const SdlWindow &window);
 
-    void handleEvents(SDL_Event &event, bool &is_event_handled);
+    void handleEvent(SDL_Event &event, bool &is_event_handled);
 
-    /*logic*/
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+
+    void update(std::vector<std::string> inventory);
 
     void render();
 
     ~SdlInventory();
-
-    void addItem(const std::string &item_id);
-
-    void update(std::vector<std::string> inventory);
 };
 
 
