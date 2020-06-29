@@ -24,6 +24,7 @@ void ProxyServer::run() {
     game.initializeMapLayers(proxySocket);
     NormalWeapon sword("sword", 2, 5);
     game.storeInInventory("franco",&sword);
+    game.sendUpdates(proxySocket);
     try{
 
         while(this->keepListening) {

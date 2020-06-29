@@ -51,7 +51,7 @@ int Client::run() {
                     /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        std::vector<std::string> player_inventory{"16055", "16000", "button"};
+                        std::vector<std::string> player_inventory{"sword", "16000", "button"};
                         gui.update(std::move(player_inventory));
                         std::random_device rd;
                         std::mt19937 mt(rd());
@@ -101,6 +101,10 @@ void Client::init() {
                         else this->gui.addObstacleTile(x, y, id);
                     }
                 }
+            } else if(msg->getId() == 'i') {
+                 this->gui.update(msg->getItems());
+            } else if(msg->getId() == 's') {
+                 this->gui.update(msg->getStats());
             }
         }
     }
@@ -115,7 +119,7 @@ void Client::update() {
         } else if(msg->getId() == 's'){
             this->gui.update(msg->getStats());
         } else if (msg->getId() == 'i'){
-            //this->gui.update(msg->getInventory()):
+            this->gui.update(msg->getItems());
         }
     }
 }

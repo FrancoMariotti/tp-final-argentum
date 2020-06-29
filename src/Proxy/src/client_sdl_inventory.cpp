@@ -24,7 +24,7 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->inventory_x = INVENTORY_X;
     this->inventory_y = INVENTORY_Y;
 
-    std::vector<std::string> game_items_id{"button", "16000", "16002","16055"};
+    std::vector<std::string> game_items_id{"button", "16000", "16002","sword"};
     for(auto it = game_items_id.begin(); it != game_items_id.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
                 std::forward_as_tuple(*it),
