@@ -3,10 +3,7 @@
 
 Inventory::Inventory(unsigned int maxElements):maxElements(maxElements) {}
 
-void Inventory::addObserver(Observer *obs) {
-    this->observer = obs;
-}
-void Inventory::sendItems() {
+void Inventory::sendItems(Observer *observer) {
     std::vector<std::string> items;
     for(auto &element:elements) {
         items.push_back(element->getName());

@@ -1,11 +1,13 @@
 #include "Character.h"
 #include <cmath>
+#include <utility>
 #include "Log.h"
 
-Character::Character(Map* map,Position &initialPosition,int constitution,
+Character::Character(std::string id,Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer)
                   : map(map),currPos(initialPosition) {
+    this->id = std::move(id);
     this->observer = observer;
     this->level = level;
     this->raceLifeFactor = raceLifeFactor;

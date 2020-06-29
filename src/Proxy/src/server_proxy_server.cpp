@@ -19,9 +19,8 @@ void ProxyServer::run() {
     std::cout << "Server is running" << std::endl;
     Game game("config/config.json");
     game.createPlayer("franco", "human", "wizard");
-    //game.initializePlayer(); //Mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
-    //game.sendUpdates(proxySocket);
-    game.initializeMapLayers(proxySocket);
+    //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
+    game.initializeMap();
     NormalWeapon sword("sword", 2, 5);
     game.storeInInventory("franco",&sword);
     game.sendUpdates(proxySocket);
@@ -30,16 +29,9 @@ void ProxyServer::run() {
         while(this->keepListening) {
             /*Si no hay eventos se bloquea*/
             std::unique_ptr<Message> msg = proxySocket.readServer();
-            if(!msg) break;
-            std::cout << "MSG type:"<< msg->getId() << std::endl;
 
             if (msg->getId() == 'm') {
-
                 Movement* event = (Movement*) msg.release();
-                std::cout << "VEL X:"<< event->getPlayerVelX() << std::endl;
-                std::cout << "VEL Y:"<< event->getPlayerVelY() << std::endl;
-
-
                 Offset offset(event->getPlayerVelX(), event->getPlayerVelY());
                 Event* move = new EventMove(offset);
                 move->execute(game, "franco");
@@ -63,18 +55,3 @@ void ProxyServer::stop() {
 }
 
 ProxyServer::~ProxyServer() {}
-
-/*
-t_command ProxyServer::processCommand(t_command command) {
-    std::string type = command.command;
-    t_command result;
-
-    if (type == "m") {
-        Offset offset(command.x,command.y);
-        Event* event = new EventMove(offset);
-        event->execute(game,"franco");
-        delete event;
-    }
-
-    return game.sendPlayerPosition();
-}*/

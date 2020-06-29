@@ -4,16 +4,17 @@
 #define MAX_RANGE 4
 
 
-Npc::Npc(Map* map,Position &initialPosition,int constitution,
+Npc::Npc(std::string id,Map* map,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
         , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
          int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer):
-        Character(map,initialPosition,constitution,strength,agility,intelligence,level,
+        Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,
                   raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
                   recoveryFactor, meditationRecoveryFactor,observer),
         weapon("npcWeapon", minDamage,maxDamage),
         armour("npcArmour", minDefense,maxDefense, ARMOUR){
     this->specie = std::move(specie);
+    this->mana = 0;
 }
 
 int Npc::calculateNpcGoldDrop(int npcMaxLp) {
@@ -55,12 +56,10 @@ int Npc::defend(int damage) {
 }
 
 void Npc::attack(Character* character) {
-    //deberiamos agregarle el mana al npc y que sea cero
-    int mana = 0;
     weapon.attack(character,strength,level, mana,currPos);
 }
 
-Npc::~Npc() {}
+Npc::~Npc() = default;
 
 
 

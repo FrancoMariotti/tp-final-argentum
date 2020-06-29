@@ -34,6 +34,7 @@ class PlayableCharacterFactory {
 };
 
 class NpcFactory {
+    int counter;
     Json::Value npcsObj;
     public:
         explicit NpcFactory(const std::string& configFile);

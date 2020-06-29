@@ -10,6 +10,7 @@ class Map;
 
 class Character {
     protected:
+        std::string id;
         int lifePoints;
         int level;
         int constitution;
@@ -28,14 +29,10 @@ class Character {
 
         int calculateMaxLife() const;
         int calculateMaxMana() const;
-        //Devuelve la cantidad de vida recuperada en x segundos
         int calculateRecoverLifePoints(int seconds) const;
-        //Devuelve la cantidad de mana recuperado en x segundos
         int calculateRecoverMana(int seconds) const;
-        //Devuelve la cantidad de mana recuperado meditando en x segundos
         int calculateRecoverManaMeditating(int seconds) const;
         int calculateAttackXp(int damage,int enemyLvl) const;
-        //Devuelve la cantidad de oro maxima que puede tener el jugador
         int calculateGoldCapacity() const;
         int calculateLvlLimit() const;
         int calculateKillXp (int enemyMaxLp, int enemyLvl) const;
@@ -43,7 +40,7 @@ class Character {
 
         virtual int defend(int damage) = 0;
     public:
-        Character(Map* map,Position &initialPosition,int constitution,
+        Character(std::string id,Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer);
         bool collideWith(Position& objPos);
@@ -52,7 +49,6 @@ class Character {
         virtual void attack(Character* character) = 0;
         int receiveDamage(int enemyLevel,int damage);
         static int calculateSafeGoldCapacity(int lvl);
-        //bool shouldDrop(int probability);
         virtual ~Character();
 };
 

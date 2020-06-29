@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
+#include "Factory.h"
 
 Map::Map() = default;
 
@@ -84,6 +85,31 @@ Map::~Map() {
     for (itrObstacles = obstacles.begin(); itrObstacles != obstacles.end(); ++itrObstacles) {
         delete (*itrObstacles);
     }
+}
+
+void Map::sendLayers(Observer* observer,std::string configFile) const {
+    FileParser parser(configFile);
+    Json::Value mapObj =  parser.read("map");
+
+    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
+    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
+
+    std::vector<int> floorLayer;
+    floorLayer.reserve(floorLayersid.size());
+
+    for (const auto & i : floorLayersid){
+        floorLayer.push_back(i.asInt());
+    }
+    observer->drawUpdate("floor",floorLayer,width,height);
+
+    std::vector<int> obstaclesLayer;
+    obstaclesLayer.reserve(obstaclesLayersid.size());
+
+    for (const auto & i : obstaclesLayersid){
+        obstaclesLayer.push_back(i.asInt());
+    }
+
+    observer->drawUpdate("obstacles",obstaclesLayer,width,height);
 }
 
 

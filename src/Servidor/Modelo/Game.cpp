@@ -1,5 +1,4 @@
 #include <Proxy/src/common_message.h>
-
 #include <utility>
 #include "Game.h"
 #include "Factory.h"
@@ -55,34 +54,8 @@ void Game::storeInInventory(const std::string& playerName, Equippable* element) 
     character->store(element);
 }
 
-void Game::initializeMapLayers(ProxySocket& pxySkt) {
-    FileParser parser(configFile);
-    Json::Value mapObj =  parser.read("map");
-
-    int width = mapObj["height"].asInt();
-    int height = mapObj["width"].asInt();
-
-    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
-    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
-
-    std::vector<int> floorLayer;
-    floorLayer.reserve(floorLayersid.size());
-
-    for (const auto & i : floorLayersid){
-        floorLayer.push_back(i.asInt());
-    }
-
-    std::vector<int> obstaclesLayer;
-    obstaclesLayer.reserve(obstaclesLayersid.size());
-
-    for (const auto & i : obstaclesLayersid){
-        obstaclesLayer.push_back(i.asInt());
-    }
-
-    pxySkt.writeToClient(std::unique_ptr<Message> (
-            new Draw("floor", floorLayer, width, height)));
-    pxySkt.writeToClient(std::unique_ptr<Message> (
-            new Draw("obstacles", obstaclesLayer, width, height)));
+void Game::initializeMap() {
+    map->sendLayers(this,configFile);
 }
 
 void Game::sendUpdates(ProxySocket& pxySkt) {

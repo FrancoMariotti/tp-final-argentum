@@ -7,6 +7,7 @@
 #include "Obstacle.h"
 #include "Weapon.h"
 #include "Equippable.h"
+#include "Observer.h"
 
 class Character;
 class Npc;
@@ -30,7 +31,9 @@ class Map {
         Character* findNpcAtPosition(Position &position);
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
+        void sendLayers(Observer *observer,std::string configFile) const;
         ~Map();
+
 };
 
 #endif //ARGENTUM_MAPA_H

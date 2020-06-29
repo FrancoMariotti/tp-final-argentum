@@ -934,5 +934,114 @@
                  "x":480,
                  "y":704
                 }]
-  }
+  },
+ "equippables": [{
+   "sword": {
+     "type": "NormalWeapon",
+     "min": 2,
+     "max": 5
+   },
+   "axe": {
+     "type": "NormalWeapon",
+     "min": 4,
+     "max": 5
+   },
+   "hammer": {
+     "type": "NormalWeapon",
+     "min": 1,
+     "max": 9
+   },
+   "fresnoWand": {
+     "type": "MagicalWeapon",
+     "spellType": "damage",
+     "min": 2,
+     "max": 5,
+     "manaCost": 5
+   },
+   "elvenFlute": {
+     "type": "MagicalWeapon",
+     "spellType": "heal",
+     "manaCost": 100
+   },
+   "knottyStick": {
+     "type": "MagicalWeapon",
+     "spellType": "damage",
+     "min": 4,
+     "max": 8,
+     "manaCost": 15
+   },
+   "crimpStick": {
+     "type": "MagicalWeapon",
+     "spellType": "damage",
+     "min": 8,
+     "max": 20,
+     "manaCost": 30
+   },
+   "commonBow": {
+     "type": "RangeWeapon",
+     "min": 1,
+     "max": 4
+   },
+   "rareBow": {
+     "type": "RangeWeapon",
+     "min": 4,
+     "max": 16
+   },
+   "smallLifePotion": {
+     "type": "LifePotion",
+     "value": 25
+   },
+   "bigLifePotion": {
+     "type": "LifePotion",
+     "value": 100
+   },
+   "smallManaPotion": {
+     "type": "ManaPotion",
+     "value": 25
+   },
+   "bigManaPotion": {
+     "type": "ManaPotion",
+     "value": 100
+   },
+   "leatherArmour": {
+     "type": "Armour",
+     "min": 2,
+     "max": 6
+   },
+   "ironArmour": {
+     "type": "Armour",
+     "min": 15,
+     "max": 30
+   },
+   "blueTunic": {
+     "type": "Armour",
+     "min": 6,
+     "max": 10
+   },
+   "hood": {
+     "type": "Helmet",
+     "min": 1,
+     "max": 4
+   },
+   "ironHelmet": {
+     "type": "Helmet",
+     "min": 4,
+     "max": 8
+   },
+   "turtleShell": {
+     "type": "Shield",
+     "min": 1,
+     "max": 2
+   },
+   "ironShield": {
+     "type": "Shield",
+     "min": 1,
+     "max": 4
+   },
+   "magicHat": {
+     "type": "Helmet",
+     "min": 4,
+     "max": 12
+   }
+  }]
 }

@@ -24,7 +24,7 @@ class PlayableCharacter: public Character {
     int xp;
     int defend(int damage) override;
 public:
-        PlayableCharacter(Map* map, Position &initialPosition, int constitution,
+        PlayableCharacter(std::string id,Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
                   int invMaxElements,Observer* observer);

@@ -8,7 +8,7 @@ file(COPY config DESTINATION ./)
 add_executable(SDLTest src/client_main.cpp)
 FILE(GLOB sdlSRCS src/*.cpp src/*.h)
 add_library(clienteSRCS ${sdlSRCS})
-target_link_libraries(SDLTest clienteSRCS servidorModeloLib SDL2 SDL2_image SDL2_ttf jsoncpp)
+target_link_libraries(SDLTest clienteSRCS servidorModeloLib commonLib SDL2 SDL2_image SDL2_ttf jsoncpp)
 
 
 

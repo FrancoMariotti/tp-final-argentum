@@ -1,5 +1,6 @@
 #include <jsoncpp/json/json.h>
 #include <iostream>
+#include <Servidor/Common/Utils.h>
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -30,7 +31,7 @@ Map* MapFactory::create() {
     int height_map = mapObj["height"].asInt();
 
     Map *map = new Map(width_map, height_map);
-    Json::Value& obstacles = mapObj["obstacles"];// array of characters
+    Json::Value& obstacles = mapObj["obstacles"];
 
     for (auto & i : obstacles){
         int width = i["width"].asInt()/32;
@@ -74,7 +75,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
     int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-    auto* character =  new PlayableCharacter(map,initialPosition,constitution,strength,agility,intelligence,
+    auto* character =  new PlayableCharacter(playerName,map,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor, invMaxElements,observer);
     map->addPlayableCharacter(playerName,character);
@@ -83,6 +84,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;
 
 NpcFactory::NpcFactory(const std::string& configFile) {
+    this->counter = 1;
     FileParser parser(configFile);
     npcsObj = parser.read("npc");
 }
@@ -90,7 +92,8 @@ NpcFactory::NpcFactory(const std::string& configFile) {
 void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int maxLevel = npcsObj["maxLevel"].asInt();
     int minLevel = npcsObj["minLevel"].asInt();
-    int level =  std::rand() % (maxLevel - minLevel) + minLevel;
+
+    int level =  Utils::random_int_number(minLevel,maxLevel);
 
     //Seteo los atributos del NPC
     int constitution = npcsObj["specie"][specie]["constitution"].asInt();
@@ -111,7 +114,9 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     //Position initialPosition = map->asignPosition();
     Position initialPosition(1,1);
 
-    Npc *enemy = new Npc(map, initialPosition, constitution,
+    std::string id = specie + std::to_string(counter);
+
+    Npc *enemy = new Npc(id,map, initialPosition, constitution,
             strengh, agility, intelligence, level, specie, minDamage,
             maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
             recoveryFactor,meditationRecoveryFactor,observer);
