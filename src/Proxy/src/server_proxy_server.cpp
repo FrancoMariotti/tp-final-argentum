@@ -29,10 +29,8 @@ void ProxyServer::run() {
         while(this->keepListening) {
             /*Si no hay eventos se bloquea*/
             std::unique_ptr<Message> msg = proxySocket.readServer();
-
-            if (msg->getId() == 'm') {
-                Movement* event = (Movement*) msg.release();
-                Offset offset(event->getPlayerVelX(), event->getPlayerVelY());
+            if (msg->getId() == MOVEMENT_MESSAGE_ID) {
+                Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
                 Event* move = new EventMove(offset);
                 move->execute(game, "franco");
                 game.sendUpdates(proxySocket);

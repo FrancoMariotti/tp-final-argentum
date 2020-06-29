@@ -116,5 +116,9 @@ bool Character::dodge() const {
     return pow(modifier, agility) < 0.001;
 }
 
+void Character::restoreLife() {
+    this->lifePoints = calculateMaxLife();
+}
+
 Character::~Character() = default;
 

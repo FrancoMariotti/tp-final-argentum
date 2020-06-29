@@ -50,6 +50,8 @@ class Character {
         int receiveDamage(int enemyLevel,int damage);
         static int calculateSafeGoldCapacity(int lvl);
         virtual ~Character();
+
+    void restoreLife();
 };
 
 #endif //ARGENTUM_CHARACTER_H

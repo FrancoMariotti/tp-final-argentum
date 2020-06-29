@@ -88,7 +88,7 @@ void Client::init() {
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
             std::cout << msg->getId() << std::endl;
-            if(msg->getId() == 'd'){
+            if(msg->getId() == DRAW_MESSAGE_ID){
                 init += 1;
                 std::vector<int> data = msg->getData();
                 for(unsigned long i = 0; i < data.size(); i++){
@@ -101,9 +101,9 @@ void Client::init() {
                         else this->gui.addObstacleTile(x, y, id);
                     }
                 }
-            } else if(msg->getId() == 'i') {
+            } else if(msg->getId() == INVENTORY_UPDATE_MESSAGE_ID) {
                  this->gui.update(msg->getItems());
-            } else if(msg->getId() == 's') {
+            } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID) {
                  this->gui.update(msg->getStats());
             }
         }
@@ -114,11 +114,11 @@ void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
-        if(msg->getId() == 'm'){
+        if(msg->getId() == MOVEMENT_MESSAGE_ID){
             this->gui.update(msg->getPlayerVelX(), msg->getPlayerVelY());
-        } else if(msg->getId() == 's'){
+        } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){
             this->gui.update(msg->getStats());
-        } else if (msg->getId() == 'i'){
+        } else if (msg->getId() == INVENTORY_UPDATE_MESSAGE_ID){
             this->gui.update(msg->getItems());
         }
     }

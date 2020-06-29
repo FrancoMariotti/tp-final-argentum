@@ -3,7 +3,10 @@
 #include "Npc.h"
 #include "Factory.h"
 
-Map::Map() = default;
+Map::Map() {
+    this->width = 0;
+    this->height = 0;
+}
 
 Map::Map(int width,int height):width(width),height(height) {}
 
@@ -86,7 +89,6 @@ Map::~Map() {
         delete (*itrObstacles);
     }
 }
-
 void Map::sendLayers(Observer* observer,std::string configFile) const {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
@@ -111,6 +113,7 @@ void Map::sendLayers(Observer* observer,std::string configFile) const {
 
     observer->drawUpdate("obstacles",obstaclesLayer,width,height);
 }
+
 
 
 

@@ -7,11 +7,11 @@
 #include "common_osexception.h"
 
 
-Message::Message(const char id) :
+Message::Message(const int id) :
     id(id)
     {}
 
-char Message::getId() const {
+int Message::getId() const {
     return id;
 }
 
@@ -86,8 +86,13 @@ int Message::getY() const {
 
 }
 
+spawn_character_t Message::getSpawnData() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
-        Message('m'),
+        Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
         player_vel_y(player_vel_y)
         {
@@ -111,7 +116,7 @@ int UseItem::getIndex() const {
 }
 
 Draw::Draw(std::string name, std::vector<int> data, int width, int height) :
-    Message('d'), name(name), width(width), height(height) {
+    Message(DRAW_MESSAGE_ID), name(name), width(width), height(height) {
     this->data = std::move(data);
 }
 
@@ -133,14 +138,14 @@ int Draw::getHeight() {
 
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
-    Message('/'),
+    Message(COMMAND_MESSAGE_ID),
     command(command),
     x(-1),
     y(-1)
     {}
 
 ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) :
-    Message('/'),
+    Message(COMMAND_MESSAGE_ID),
     command(input),
     x(x),
     y(y)
@@ -168,7 +173,7 @@ std::string Connect::getUserName() const {
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)
-        : Message('s') {
+        : Message(STATS_UPDATE_MESSAGE_ID) {
     this->health_percentage = health_percentage;
     this->mana_percentage = mana_percentage;
     this->exp_percentage = exp_percentage;
@@ -180,10 +185,20 @@ t_stats Stats::getStats(){
     return t_stats{health_percentage, mana_percentage, exp_percentage, gold, level};
 }
 
-InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) : Message('i') {
+InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) : Message(INVENTORY_UPDATE_MESSAGE_ID) {
     this->items = std::move(items);
 }
 
 std::vector<std::string> InventoryUpdate::getItems() {
     return items;
+}
+
+SpawnNpc::SpawnNpc(std::string idNpc, int x, int y) : Message(SPAWN_NPC_MESSAGE_ID) {
+    this->idNpc = std::move(idNpc);
+    this->x = x;
+    this->y = y;
+}
+
+spawn_character_t SpawnNpc::getSpawnData() {
+    return spawn_character_t {x,y,idNpc};
 }

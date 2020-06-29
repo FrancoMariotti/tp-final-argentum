@@ -8,13 +8,22 @@
 #include <string>
 #include <vector>
 #include "common_message_structs.h"
+enum MESSAGES {
+MOVEMENT_MESSAGE_ID,
+DRAW_MESSAGE_ID,
+COMMAND_MESSAGE_ID,
+INVENTORY_UPDATE_MESSAGE_ID,
+SPAWN_NPC_MESSAGE_ID,
+STATS_UPDATE_MESSAGE_ID
+};
+
 
 class Message {
 protected:
-    const char id;
-    explicit Message(char id);
+    const int id;
+    explicit Message(int id);
 public:
-    char getId() const;
+    int getId() const;
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;
@@ -29,6 +38,7 @@ public:
     virtual int getY() const;
     virtual t_stats getStats();
     virtual std::vector<std::string> getItems();
+    virtual spawn_character_t getSpawnData();
     virtual ~Message() = default;
 };
 
@@ -38,8 +48,8 @@ private:
     const int player_vel_y;
 public:
     Movement(int player_vel_x, int player_vel_y);
-    int getPlayerVelX() const override ;
-    int getPlayerVelY() const override ;
+    int getPlayerVelX() const override;
+    int getPlayerVelY() const override;
 };
 
 class UseItem : public Message{
@@ -101,5 +111,16 @@ public:
     explicit InventoryUpdate(std::vector<std::string> &items);
     std::vector<std::string> getItems() override;
 };
+
+class SpawnNpc: public Message {
+    std::string idNpc;
+    int x;
+    int y;
+public:
+    SpawnNpc(std::string idNpc, int x, int y);
+    spawn_character_t getSpawnData() override;
+};
+
+
 
 #endif //ARGENTUM_COMMON_MESSAGE_H

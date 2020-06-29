@@ -13,4 +13,10 @@ typedef struct t_stats{
     int level;
 }t_stats;
 
+typedef struct spawn_character {
+    int x;
+    int y;
+    std::string id;
+} spawn_character_t;
+
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H
