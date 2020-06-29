@@ -64,6 +64,11 @@ t_stats Message::getStats() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+std::vector<std::string> Message::getItems() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 std::string Message::getCommand() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);

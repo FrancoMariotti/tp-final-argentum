@@ -9,10 +9,11 @@ PlayableCharacter::PlayableCharacter(Map* map, Position &initialPosition,int con
         Character(map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
                 defaultWeapon("fists",1, 1), inventory(invMaxElements) {
-        this->activeWeapon = &defaultWeapon;
-        this->mana = calculateMaxMana();
-        this->gold = 0;
-        this->xp = 0;
+    inventory.addObserver(observer);
+    this->activeWeapon = &defaultWeapon;
+    this->mana = calculateMaxMana();
+    this->gold = 0;
+    this->xp = 0;
     sendStats();
 }
 

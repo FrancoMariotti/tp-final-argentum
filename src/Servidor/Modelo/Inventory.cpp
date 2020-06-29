@@ -1,8 +1,11 @@
 #include "Inventory.h"
 #include "string"
 
-Inventory::Inventory(unsigned int maxElements, Observer *observer):maxElements(maxElements), observer(observer) {}
+Inventory::Inventory(unsigned int maxElements):maxElements(maxElements) {}
 
+void Inventory::addObserver(Observer *obs) {
+    this->observer = obs;
+}
 void Inventory::sendItems() {
     std::vector<std::string> items;
     for(auto &element:elements) {

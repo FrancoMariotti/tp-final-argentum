@@ -10,10 +10,11 @@ class Inventory {
     std::vector<Equippable*> elements;
     Observer* observer;
 public:
-    explicit Inventory(unsigned int maxElements,Observer* observer);
+    explicit Inventory(unsigned int maxElements);
     void store(Equippable* element);
     Equippable* chooseElement(int index);
     Equippable* takeElement(int index);
+    void addObserver(Observer *obs);
     void sendItems();
 };
 

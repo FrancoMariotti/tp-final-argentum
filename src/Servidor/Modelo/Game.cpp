@@ -19,7 +19,7 @@ void Game::createPlayer(const std::string& playerName, const std::string& charRa
 }
 
 void Game::createNpc(const std::string& specie) {
-    npcFactory.create(map,specie);
+    npcFactory.create(map,specie,this);
 }
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
