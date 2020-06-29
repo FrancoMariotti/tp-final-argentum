@@ -96,7 +96,9 @@ void Client::init() {
                     int y = i / msg->getHeight();
                     int id = data[i];
                     if(id != 0){
-                        this->gui.addTile(x, y, id);
+                        //this->gui.addTile(x, y, id);
+                        if(init == 1) this->gui.addFloorTile(x, y, id);
+                        else this->gui.addObstacleTile(x, y, id);
                     }
                 }
             }

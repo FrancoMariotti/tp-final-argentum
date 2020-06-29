@@ -47,7 +47,6 @@ public:
 
     void render();
 
-    void addTile(int x, int y, int tile_id);
 
     void addItem(const std::string &item_id);
 
@@ -56,6 +55,14 @@ public:
     ~GUI();
 
     void update(t_stats new_stats);
+
+    //void addTile(int x, int y, int tile_id);
+
+    void addFloorTile(int x, int y, int tile_id);
+
+    void addObstacleTile(int x, int y, int tile_id);
+
+    void renderWorld();
 };
 
 

@@ -33,10 +33,10 @@ Map* MapFactory::create() {
     Json::Value& obstacles = mapObj["obstacles"];// array of characters
 
     for (auto & i : obstacles){
-        int width = i["width"].asInt();
-        int height = i["height"].asInt();
-        int x = i["x"].asInt();
-        int y = i["y"].asInt();
+        int width = i["width"].asInt()/32;
+        int height = i["height"].asInt()/32;
+        int x = i["x"].asInt()/32;
+        int y = i["y"].asInt()/32;
         auto* obstacle = new Obstacle(x,y,height,width);
         map->addObstacle(obstacle);
     }

@@ -76,11 +76,19 @@ void GUI::update(std::vector<std::string> player_inventory) {
 void GUI::update(t_stats new_stats) {
     playerStats.update(new_stats);
 }
-
+/*
 void GUI::addTile(int x, int y, int tile_id) {
     world.add(x, y, tile_id);
 }
+*/
 
+void GUI::addFloorTile(int x, int y, int tile_id) {
+    world.addFloorTile(x, y, tile_id);
+}
+
+void GUI::addObstacleTile(int x, int y, int tile_id) {
+    world.addObstacleTile(x, y, tile_id);
+}
 
 void GUI::addRenderable(const int x, const int y, const std::string& renderable_id){
     if(renderable_id.find("arania") != std::string::npos){
@@ -122,7 +130,7 @@ void GUI::render(){
     window.fill(0xFF, 0xFF, 0xFF, 0xFF);
 
     //Render objects
-    world.render(camera);
+    renderWorld();
     player.render(camera);
     inventory.render();
     console.render();
@@ -147,4 +155,11 @@ GUI::~GUI(){
     IMG_Quit();
     SDL_Quit();
     TTF_Quit();
+}
+
+void GUI::renderWorld() {
+    world.renderFloor(camera);
+    world.renderObstacles(camera);
+    //Update Screen
+    //window.render();
 }
