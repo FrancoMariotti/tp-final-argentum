@@ -38,7 +38,7 @@ public:
     virtual int getY() const;
     virtual t_stats getStats();
     virtual std::vector<std::string> getItems();
-    virtual spawn_character_t getSpawnData();
+    virtual std::vector<spawn_character_t> getSpawnData();
     virtual ~Message() = default;
 };
 
@@ -113,12 +113,10 @@ public:
 };
 
 class SpawnNpc: public Message {
-    std::string idNpc;
-    int x;
-    int y;
+    std::vector<spawn_character_t> renderables;
 public:
-    SpawnNpc(std::string idNpc, int x, int y);
-    spawn_character_t getSpawnData() override;
+    explicit SpawnNpc(std::vector<spawn_character_t> renderables);
+    std::vector<spawn_character_t> getSpawnData() override;
 };
 
 

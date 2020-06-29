@@ -25,9 +25,9 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
-    this->dynamic_renderables_textures.emplace(std::make_pair("arania",
+    this->dynamic_renderables_textures.emplace(std::make_pair("spider",
             SdlTexture(54, 34, "../../Proxy/assets/4093.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("esqueleto",
+    this->dynamic_renderables_textures.emplace(std::make_pair("skeleton",
             SdlTexture(26, 54, "../../Proxy/assets/4080.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
             SdlTexture(24, 46, "../../Proxy/assets/4070.png", window)));
@@ -76,11 +76,6 @@ void GUI::update(std::vector<std::string> player_inventory) {
 void GUI::update(t_stats new_stats) {
     playerStats.update(new_stats);
 }
-/*
-void GUI::addTile(int x, int y, int tile_id) {
-    world.add(x, y, tile_id);
-}
-*/
 
 void GUI::addFloorTile(int x, int y, int tile_id) {
     world.addFloorTile(x, y, tile_id);
@@ -90,39 +85,26 @@ void GUI::addObstacleTile(int x, int y, int tile_id) {
     world.addObstacleTile(x, y, tile_id);
 }
 
-void GUI::addRenderable(const int x, const int y, const std::string& renderable_id){
-    if(renderable_id.find("arania") != std::string::npos){
-        dynamic_renderables.insert(std::make_pair(renderable_id, std::unique_ptr <SdlDynamicRenderable>
-                                     (new SdlDynamicRenderable(x ,y,
-                                             dynamic_renderables_textures.at("arania")))));
+/*Itera @param renderables y busca el id de textura que corresponde con el id del renderizable y lo agrega al map
+ * con key: id y value: puntero a SdlDynamicRenderable*/
+void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
+    dynamic_renderables.clear();
+    auto it = renderables.begin();
+    for(; it != renderables.end(); it++) {
+        std::string texture_id = "player";
+        for(auto & renderable_id : RENDERABLES_TEXTURES_ID){
+            if(it->id.find(renderable_id) != std::string::npos){
+                texture_id = renderable_id;
+            }
+        }
+        /**El insert no permite actualizaciones asi que mejor seria usar operator[]*/
+        if(texture_id != "player"){
+            dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
+                    (new SdlDynamicRenderable(it->x ,it->y,
+                            dynamic_renderables_textures.at(texture_id)));
 
-    } else if (renderable_id.find("esqueleto") != std::string::npos){
-        dynamic_renderables.insert(std::make_pair(renderable_id,
-                                   std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
-                                    dynamic_renderables_textures.at("esqueleto")))));
-    } else if (renderable_id.find("zombie") != std::string::npos){
-        dynamic_renderables.insert(std::make_pair(renderable_id,
-                                         std::unique_ptr<SdlDynamicRenderable>
-                                              (new SdlDynamicRenderable(x , y,
-                                               dynamic_renderables_textures.at("zombie")))));
-    } else if (renderable_id.find("goblin") != std::string::npos){
-        dynamic_renderables.insert(std::make_pair(renderable_id,
-                                  std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
-                                    dynamic_renderables_textures.at("goblin")))));
-    } else {
-        dynamic_renderables.insert(std::make_pair(renderable_id,
-                                  std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(x , y,
-                                      dynamic_renderables_textures.at("armadura de placas"),
-                                      dynamic_renderables_textures.at("cabeza"),
-                                      dynamic_renderables_textures.at("casco de hierro"),
-                                      dynamic_renderables_textures.at("hacha"),
-                                      dynamic_renderables_textures.at("escudo de hierro")
-                                  ))));
+        }
     }
-}
-
-void GUI::addItem(const std::string &item_id) {
-    inventory.addItem(item_id);
 }
 
 void GUI::render(){
@@ -163,3 +145,33 @@ void GUI::renderWorld() {
     //Update Screen
     //window.render();
 }
+
+/*
+        if(it->id.find("arania") != std::string::npos){
+            dynamic_renderables.insert(std::make_pair(it->id, std::unique_ptr <SdlDynamicRenderable>
+                    (new SdlDynamicRenderable(it->x ,it->y,
+                                              dynamic_renderables_textures.at("arania")))));
+
+        } else if (renderable_id.find("esqueleto") != std::string::npos){
+            dynamic_renderables.insert(std::make_pair(renderable_id,
+                                                      std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
+                                                                                                                      dynamic_renderables_textures.at("esqueleto")))));
+        } else if (renderable_id.find("zombie") != std::string::npos){
+            dynamic_renderables.insert(std::make_pair(renderable_id,
+                                                      std::unique_ptr<SdlDynamicRenderable>
+                                                              (new SdlDynamicRenderable(x , y,
+                                                                                        dynamic_renderables_textures.at("zombie")))));
+        } else if (renderable_id.find("goblin") != std::string::npos){
+            dynamic_renderables.insert(std::make_pair(renderable_id,
+                                                      std::unique_ptr<SdlDynamicRenderable> (new SdlDynamicRenderable(x , y,
+                                                                                                                      dynamic_renderables_textures.at("goblin")))));
+        } else {
+            dynamic_renderables.insert(std::make_pair(renderable_id,
+                                                      std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(x , y,
+                                                                                                                      dynamic_renderables_textures.at("armadura de placas"),
+                                                                                                                      dynamic_renderables_textures.at("cabeza"),
+                                                                                                                      dynamic_renderables_textures.at("casco de hierro"),
+                                                                                                                      dynamic_renderables_textures.at("hacha"),
+                                                                                                                      dynamic_renderables_textures.at("escudo de hierro")
+                                                      ))));
+        }*/

@@ -31,6 +31,8 @@ private:
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
 
+    const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
+
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:
     GUI(int screen_width, int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents);
@@ -47,22 +49,19 @@ public:
 
     void render();
 
-
-    void addItem(const std::string &item_id);
-
-    void addRenderable(const int x, const int y, const std::string &renderable_id);
+    //void addRenderable(const int x, const int y, const std::string &renderable_id);
 
     ~GUI();
 
     void update(t_stats new_stats);
-
-    //void addTile(int x, int y, int tile_id);
 
     void addFloorTile(int x, int y, int tile_id);
 
     void addObstacleTile(int x, int y, int tile_id);
 
     void renderWorld();
+
+    void updateRenderables(std::vector<spawn_character_t> renderables);
 };
 
 

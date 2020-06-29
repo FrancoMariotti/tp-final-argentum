@@ -86,7 +86,7 @@ int Message::getY() const {
 
 }
 
-spawn_character_t Message::getSpawnData() {
+std::vector<spawn_character_t> Message::getSpawnData() {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -193,12 +193,10 @@ std::vector<std::string> InventoryUpdate::getItems() {
     return items;
 }
 
-SpawnNpc::SpawnNpc(std::string idNpc, int x, int y) : Message(SPAWN_NPC_MESSAGE_ID) {
-    this->idNpc = std::move(idNpc);
-    this->x = x;
-    this->y = y;
-}
+SpawnNpc::SpawnNpc(std::vector<spawn_character_t> renderables) : Message(SPAWN_NPC_MESSAGE_ID),
+    renderables(std::move(renderables))
+    {}
 
-spawn_character_t SpawnNpc::getSpawnData() {
-    return spawn_character_t {x,y,idNpc};
+std::vector<spawn_character_t> SpawnNpc::getSpawnData() {
+    return std::move(renderables);
 }

@@ -46,13 +46,6 @@ SdlWorld::SdlWorld(const SdlWindow& window) :
     }
 }
 
-/**El orden en que se agregan los tiles es el orden en el que se muestran, ojo con que se pisen*/
-/*
-void SdlWorld::add(const int x, const int y, const int tile_id){
-    world_tiles[tile_id].emplace_back(SDL_Point{x, y});
-}
-*/
-
 void SdlWorld::addFloorTile(const int x, const int y, const int tile_id){
     world_floor_tiles[tile_id].emplace_back(SDL_Point{x, y});
 }
@@ -60,25 +53,6 @@ void SdlWorld::addFloorTile(const int x, const int y, const int tile_id){
 void SdlWorld::addObstacleTile(const int x, const int y, const int tile_id){
     world_obstacles_tiles[tile_id].emplace_back(SDL_Point{x, y});
 }
-
-/*
-void SdlWorld::render(SdlCamera &camera) {
-    std::map<int, std::vector<SDL_Point>>::iterator iterator = world_tiles.begin();
-    while(iterator != world_tiles.end()){
-        for(auto value_iterator = iterator->second.begin();
-        value_iterator != iterator->second.end() ; ++value_iterator) {
-            if(camera.isInCameraView(*value_iterator)){
-                SDL_Point relative_point = camera.getCoordinates(*value_iterator);
-                if (relative_point.x == 736 && relative_point.y == 352) std::cout << "En :" << relative_point.x << " " << relative_point.y << " esta la imagen"<< iterator->first << std::endl;
-                worldSpriteSheetTexture.render(relative_point.x,
-                                               relative_point.y,
-                                               &world_tiles_clips.at(iterator->first));
-            }
-        }
-        iterator++;
-    }
-}
-*/
 
 void SdlWorld::renderFloor(SdlCamera &camera) {
     std::map<int, std::vector<SDL_Point>>::iterator iterator = world_floor_tiles.begin();
