@@ -24,6 +24,7 @@ public:
             int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
             int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer);
     void move();
+    int receiveDamage(int enemyLevel, int damage) override;
     int receiveAttackFrom(PlayableCharacter *enemy) override;
     ~Npc() override;
 };

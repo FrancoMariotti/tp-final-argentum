@@ -22,8 +22,9 @@ void Map::update(Observer* observer) {
     for(int i=0; i<4 ; i++) {
         npcFactory.create(this,"spider",observer);
     }
-    observer->spawnNpcUpdate(spawns);
+    observer->notifySpawnNpcUpdate(spawns);
 }
+
 void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
 }
@@ -65,6 +66,7 @@ Character* Map::findClosestCharacter(const Position& pos, int range) {
     PlayableCharacter* enemy = nullptr;
     auto it = characters.begin();
     for (; it != characters.end(); ++it) {
+        if(it->second->isDead()) continue;
         int currDist = it->second->distanceTo(pos);
         if (currDist <= range && currDist <= minDist) {
             minDist = currDist;

@@ -15,30 +15,30 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
     this->mana = calculateMaxMana();
     this->gold = 0;
     this->xp = 0;
-    sendStats();
-    sendEquipment();
+    notifyStats();
+    notifyEquipment();
 }
 
-void PlayableCharacter::sendStats() {
+void PlayableCharacter::notifyStats() {
     float health_percentage = (float)lifePoints / (float)calculateMaxLife();
     float mana_percentage = (float)mana / (float)calculateMaxMana();
     float exp_percentage = (float)xp / (float)calculateLvlLimit();
-    observer->statsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
+    observer->notifyStatsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
 
-void PlayableCharacter::sendEquipment() {
+void PlayableCharacter::notifyEquipment() {
     std::string weaponName = activeWeapon->getName();
     std::string armourName = armour.getName(ARMOUR);
     std::string shieldName = armour.getName(SHIELD);
     std::string helmetName = armour.getName(HELMET);
-    observer->equipmentUpdate(weaponName, armourName, shieldName, helmetName);
+    observer->notifyEquipmentUpdate(weaponName, armourName, shieldName, helmetName);
 }
 
 void PlayableCharacter::move(Offset& offset) {
     Position nextPos(this->currPos);
     nextPos.apply(offset);
     map->move(this->currPos,nextPos);
-    observer->movementUpdate(this->currPos.getX(), this->currPos.getY());
+    observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 
 void PlayableCharacter::recoverLifePoints(int seconds) {
@@ -78,9 +78,34 @@ void PlayableCharacter::attack(Character *character) {
     log->writeInt(xp);
 }
 
+int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
+    if(lifePoints <= 0) return 0;
+    int xpEarned = 0;
+
+    if (dodge()) {
+        return xpEarned;
+    }
+
+    damage = defend(damage);
+    int newLife = lifePoints - damage;
+    xpEarned = calculateAttackXp(damage,enemyLevel);
+
+    if (newLife <= 0) {
+        lifePoints = 0;
+        int maxLifePoints = calculateMaxLife();
+        xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
+    } else {
+        lifePoints = newLife;
+    }
+
+    notifyStats();
+    return xpEarned;
+}
+
 int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     bool canAttack = enemy->checkFairPlay(level);
     if(canAttack) return activeWeapon->attack(enemy,strength,level,mana,currPos);
+    enemy->notifyStats();
     return 0;
 }
 
@@ -108,12 +133,12 @@ void PlayableCharacter::equip(Equippable* element, int index) {
 
 void PlayableCharacter::equip(Weapon* weapon, int index) {
     activeWeapon = weapon;
-    sendEquipment();
+    notifyEquipment();
 }
 
 void PlayableCharacter::equip(Protection* protection, int index) {
     armour.equip(*protection);
-    sendEquipment();
+    notifyEquipment();
 }
 
 void PlayableCharacter::equip(Potion* potion, int index) {
@@ -132,12 +157,12 @@ void PlayableCharacter::unequip(Equippable* element) {
 
 void PlayableCharacter::unequip(Weapon* weapon) {
     activeWeapon = &defaultWeapon;
-    sendEquipment();
+    notifyEquipment();
 }
 
 void PlayableCharacter::unequip(Protection* protection) {
     armour.unequip(*protection);
-    sendEquipment();
+    notifyEquipment();
 }
 
 int PlayableCharacter::defend(int damage) {
@@ -184,6 +209,10 @@ bool PlayableCharacter::checkFairPlay(int enemyLevel) {
 
 int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
     return enemy->attackTo(this);
+}
+
+bool PlayableCharacter::isDead() {
+    return (lifePoints == 0);
 }
 
 

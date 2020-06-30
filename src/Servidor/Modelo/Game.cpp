@@ -87,11 +87,11 @@ void Game::sendUpdates(ProxySocket& pxySkt) {
     }
 }
 
-void Game::spawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
+void Game::notifySpawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
     updates.push(new SpawnNpc(npcs));
 }
 
-void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
+void Game::notifyStatsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
     updates.push(new Stats(
             health_percentage,
             mana_percentage,
@@ -99,20 +99,19 @@ void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_p
             gold,level));
 }
 
-void Game::equipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName,
-        std::string helmetName) {
+void Game::notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
     updates.push(new EquipmentUpdate(weaponName, armourName, shieldName, helmetName));
 }
-
-void Game::itemsUpdate(std::vector<std::string>& vector) {
+void Game::notifyItemsUpdate(std::vector<std::string> &vector) {
     updates.push(new InventoryUpdate(vector));
+
 }
 
-void Game::movementUpdate(int x, int y) {
+void Game::notifymovementUpdate(int x, int y) {
     updates.push(new Movement(x,y));
 }
 
-void Game::movementNpcUpdate(std::string idNpc, int x, int y) {
+void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
     updates.push(new MovementNpcUpdate(idNpc,x,y));
 }
 
