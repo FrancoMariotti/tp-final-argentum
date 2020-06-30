@@ -7,7 +7,7 @@ Character::Character(std::string id,Map* map,Position &initialPosition,int const
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer)
                   : map(map),currPos(initialPosition) {
-    this->id = std::move(id);
+    this->id = id;
     this->observer = observer;
     this->level = level;
     this->raceLifeFactor = raceLifeFactor;

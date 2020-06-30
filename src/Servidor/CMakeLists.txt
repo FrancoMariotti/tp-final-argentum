@@ -8,6 +8,7 @@ add_executable(Servidor main.cpp)
 add_library(proxysources
         ./../Proxy/src/common_proxy_socket.h
         ./../Proxy/src/common_proxy_socket.cpp
+        ./../Proxy/src/common_message_structs.h
         ./../Proxy/src/common_message.h
         ./../Proxy/src/common_message.cpp
         ./../Proxy/src/common_osexception.h

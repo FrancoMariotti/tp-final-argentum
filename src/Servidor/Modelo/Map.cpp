@@ -1,15 +1,29 @@
+#include <Proxy/src/common_proxy_socket.h>
+#include <Proxy/src/common_message.h>
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Factory.h"
 
-Map::Map() {
+Map::Map():npcFactory("") {
     this->width = 0;
     this->height = 0;
 }
 
-Map::Map(int width,int height):width(width),height(height) {}
+Map::Map(std::string configFile,int width,int height):width(width),height(height),npcFactory(configFile) {}
 
+
+void Map::registerNpcSpawn(spawn_character_t spawn) {
+    spawns.push_back(spawn);
+}
+
+void Map::update(Observer* observer) {
+    /*for(int i=0; i<4 ; i++) {
+
+    }*/
+    npcFactory.create(this,"spider",observer);
+    observer->spawnNpcUpdate(spawns);
+}
 void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
 }
@@ -89,7 +103,7 @@ Map::~Map() {
         delete (*itrObstacles);
     }
 }
-void Map::sendLayers(Observer* observer,std::string configFile) const {
+void Map::sendLayers(ProxySocket& sck,std::string configFile) const {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
 
@@ -102,7 +116,9 @@ void Map::sendLayers(Observer* observer,std::string configFile) const {
     for (const auto & i : floorLayersid){
         floorLayer.push_back(i.asInt());
     }
-    observer->drawUpdate("floor",floorLayer,width,height);
+
+    sck.writeToClient(std::unique_ptr<Message> (
+              new Draw("floor",floorLayer,width,height)));
 
     std::vector<int> obstaclesLayer;
     obstaclesLayer.reserve(obstaclesLayersid.size());
@@ -110,8 +126,8 @@ void Map::sendLayers(Observer* observer,std::string configFile) const {
     for (const auto & i : obstaclesLayersid){
         obstaclesLayer.push_back(i.asInt());
     }
-
-    observer->drawUpdate("obstacles",obstaclesLayer,width,height);
+    sck.writeToClient(std::unique_ptr<Message> (
+              new Draw("obstacles",obstaclesLayer,width,height)));
 }
 
 

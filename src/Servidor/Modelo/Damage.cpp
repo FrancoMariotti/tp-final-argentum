@@ -5,7 +5,7 @@
 #include "Damage.h"
 Damage::Damage() {}
 
-int Damage::giveAbilityTo(MagicalWeapon *weapon, Character *target, int strength, int level) {
+int Damage::useOn(Character *target, int strength, int level, MagicalWeapon *weapon) {
     return weapon->use(this,target,strength,level);
 }
 

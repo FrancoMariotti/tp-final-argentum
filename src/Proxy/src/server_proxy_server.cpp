@@ -20,7 +20,7 @@ void ProxyServer::run() {
     Game game("config/config.json");
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
-    game.initializeMap();
+    game.initializeMap(proxySocket);
     NormalWeapon sword("sword", 2, 5);
     game.storeInInventory("franco",&sword);
     game.sendUpdates(proxySocket);

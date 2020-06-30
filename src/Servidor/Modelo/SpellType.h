@@ -10,7 +10,7 @@
 
 class SpellType {
 public:
-    virtual int giveAbilityTo(MagicalWeapon *weapon,Character *target,int strength,int level) = 0;
+    virtual int useOn(Character *target,int strength,int level,MagicalWeapon *weapon) = 0;
 };
 
 

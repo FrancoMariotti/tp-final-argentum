@@ -3,10 +3,11 @@
 
 #include <fstream>
 #include <jsoncpp/json/value.h>
-#include "Map.h"
 #include "string"
+#include "Observer.h"
 
 class Game;
+class Map;
 
 class FileParser {
     std::ifstream file;
@@ -17,6 +18,7 @@ public:
 };
 
 class MapFactory {
+    std::string file;
     Json::Value mapObj;
     public:
         explicit MapFactory(const std::string& configFile);

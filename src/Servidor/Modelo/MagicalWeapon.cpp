@@ -11,7 +11,7 @@ MagicalWeapon::MagicalWeapon(std::string name,SpellType*spellType, int minDamage
 int MagicalWeapon::attack(Character *target,int strength,int level,int &mana,Position &holderPos) {
     if(mana < cost) return 0;
     mana -= cost;
-    int xp = spellType->giveAbilityTo(this,target,strength,level);
+    int xp = spellType->useOn(target,strength,level,this);
     return xp;
 }
 

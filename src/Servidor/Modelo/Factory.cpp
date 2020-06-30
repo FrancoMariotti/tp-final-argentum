@@ -22,6 +22,7 @@ Json::Value FileParser::read(const std::string &parameter) {
 }
 
 MapFactory::MapFactory(const std::string& configFile) {
+    file = configFile;
     FileParser parser(configFile);
     mapObj = parser.read("map");
 }
@@ -30,7 +31,7 @@ Map* MapFactory::create() {
     int width_map = mapObj["width"].asInt();
     int height_map = mapObj["height"].asInt();
 
-    Map *map = new Map(width_map, height_map);
+    Map *map = new Map(file,width_map, height_map);
     Json::Value& obstacles = mapObj["obstacles"];
 
     for (auto & i : obstacles){
@@ -97,7 +98,7 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
 
     //Seteo los atributos del NPC
     int constitution = npcsObj["specie"][specie]["constitution"].asInt();
-    int strengh = npcsObj["specie"][specie]["strengh"].asInt();
+    int strengh = npcsObj["specie"][specie]["strength"].asInt();
     int agility = npcsObj["specie"][specie]["agility"].asInt();
     int intelligence = npcsObj["specie"][specie]["intelligence"].asInt();
     int minDamage = npcsObj["specie"][specie]["minDamage"].asInt();
@@ -112,7 +113,7 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int meditationRecoveryFactor = npcsObj["meditationRecoveryFactor"].asInt();
 
     //Position initialPosition = map->asignPosition();
-    Position initialPosition(1,1);
+    Position initialPosition(5,5);
 
     std::string id = specie + std::to_string(counter);
 

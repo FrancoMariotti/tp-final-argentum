@@ -8,7 +8,7 @@ void Inventory::sendItems(Observer *observer) {
     for(auto &element:elements) {
         items.push_back(element->getName());
     }
-    observer->updateCharacterItems(items);
+    observer->itemsUpdate(items);
 }
 
 void Inventory::store(Equippable* element) {

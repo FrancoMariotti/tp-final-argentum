@@ -1,5 +1,6 @@
 #include "Npc.h"
 #include <utility>
+#include <Proxy/src/common_message_structs.h>
 
 #define MAX_RANGE 4
 
@@ -8,13 +9,15 @@ Npc::Npc(std::string id,Map* map,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
         , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
          int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer):
-        Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,
+        Character(id,map,initialPosition,constitution,strength,agility,intelligence,level,
                   raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
                   recoveryFactor, meditationRecoveryFactor,observer),
         weapon("npcWeapon", minDamage,maxDamage),
         armour("npcArmour", minDefense,maxDefense, ARMOUR){
     this->specie = std::move(specie);
     this->mana = 0;
+    spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
+    map->registerNpcSpawn(spawn);
 }
 
 int Npc::calculateNpcGoldDrop(int npcMaxLp) {

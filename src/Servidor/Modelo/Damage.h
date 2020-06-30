@@ -6,7 +6,7 @@
 class Damage: public SpellType {
 public:
     Damage();
-    int giveAbilityTo(MagicalWeapon *weapon,Character *target,int strength,int level);
+    int useOn(Character *target,int strength,int level,MagicalWeapon *weapon) override;
     ~Damage();
 };
 

@@ -14,9 +14,9 @@ class Position {
         Offset operator-(Position& position) const;
         int getX() const;
         int getY() const;
+        bool outOfBounds(int initialX, int finalX, int initialY, int finalY);
         ~Position();
 
-    bool outOfBounds(int initialX, int finalX, int initialY, int finalY);
 };
 
 

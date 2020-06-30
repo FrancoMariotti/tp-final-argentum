@@ -1,24 +1,19 @@
 #include <Proxy/src/common_message.h>
-#include <utility>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Update.h"
 
-Game::Game(const std::string& configFile): configFile(configFile), factoryCharacters(configFile)
-    , npcFactory(configFile) {
+Game::Game(const std::string& configFile): configFile(configFile), factoryCharacters(configFile) {
     MapFactory factory(configFile);
     map = factory.create();
+    map->update(this);
 }
 
 void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
     factoryCharacters.create(map,playerName,charRace, charClass, this);
-}
-
-void Game::createNpc(const std::string& specie) {
-    npcFactory.create(map,specie,this);
 }
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
@@ -54,8 +49,8 @@ void Game::storeInInventory(const std::string& playerName, Equippable* element) 
     character->store(element);
 }
 
-void Game::initializeMap() {
-    map->sendLayers(this,configFile);
+void Game::initializeMap(ProxySocket& pxySkt) {
+    map->sendLayers(pxySkt,configFile);
 }
 
 void Game::sendUpdates(ProxySocket& pxySkt) {
@@ -67,8 +62,8 @@ void Game::sendUpdates(ProxySocket& pxySkt) {
     }
 }
 
-void Game::drawUpdate(std::string id,std::vector<int> layer,int width,int height) {
-    updates.push(new Draw(std::move(id), std::move(layer), width, height));
+void Game::spawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
+    updates.push(new SpawnNpc(npcs));
 }
 
 void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
@@ -79,7 +74,7 @@ void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_p
             gold,level));
 }
 
-void Game::updateCharacterItems(std::vector<std::string>& vector) {
+void Game::itemsUpdate(std::vector<std::string>& vector) {
     updates.push(new InventoryUpdate(vector));
 }
 
