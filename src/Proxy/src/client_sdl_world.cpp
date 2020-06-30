@@ -6,6 +6,8 @@
 #include <iostream>
 #include "client_sdl_world.h"
 #include "client_sdl_camera.h"
+#include "common_message_structs.h"
+#include "client_sdl_inventory.h"
 
 #define IMAGE_TILE_SIZE 32
 
@@ -83,5 +85,32 @@ void SdlWorld::renderObstacles(SdlCamera &camera) {
             }
         }
         iterator++;
+    }
+}
+
+void SdlWorld::setDimensions(int w, int h) {
+    this->map_width = w;
+    this->map_height = h;
+}
+
+
+void SdlWorld::updateDrops(const std::vector<std::string>& drops){
+    for(auto & world_drop : world_drops){
+        world_drop.second.clear();
+    }
+    for (int i = 0; i < (int) drops.size() ; ++i) {
+        int x = i % this->map_width;
+        int y = i / this->map_height;
+        world_drops[drops[i]].emplace_back(SDL_Point{x, y});
+    }
+}
+
+void SdlWorld::renderDrops(SdlInventory &inventory) {
+    auto it = world_drops.begin();
+    for(; it != world_drops.end(); it++){
+        auto value_it = it->second.begin();
+        for(; value_it != it->second.end(); value_it++){
+            inventory.renderDrop(value_it->x, value_it->y, it->first);
+        }
     }
 }

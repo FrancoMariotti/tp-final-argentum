@@ -33,14 +33,14 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
-    /*spawn_character_t npc{200,200, "spider1"};
+    spawn_character_t npc{200,200, "spider1"};
     spawn_character_t npc1{200,300, "spider1"};
     spawn_character_t npc2{300,200, "skeleton12"};
     spawn_character_t npc3{400,200, "zombie99"};
     spawn_character_t npc4{500,200, "goblin1"};
     spawn_character_t npc5{500,200, "juancito"};
     std::vector<spawn_character_t> test{npc,npc1,npc2,npc3,npc4,npc5};
-    gui.updateRenderables(test);*/
+    gui.updateRenderables(test);
 
     //While application is running
     while (!quit) {
@@ -53,13 +53,19 @@ int Client::run() {
                     /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        std::vector<std::string> player_inventory{"sword", "16000", "button"};
+                        std::vector<std::string> player_inventory{"sword","axe","hammer","fresnoWand"
+                                ,"crimpStick","commonBow", "rareBow"
+                                ,"leatherArmour", "ironArmour", "blueTunic",
+                                                                  "hood", "ironHelmet", "turtleShell", "ironShield",
+                                                                  "magicHat", "smallLifePotion", "smallManaPotion"};
                         gui.updateInventory(std::move(player_inventory));
                         std::random_device rd;
                         std::mt19937 mt(rd());
                         std::uniform_real_distribution<float> dist(0.1,1.0);
                         t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
                         gui.updatePlayerStats(stats);
+                        //std::vector<std::string> drops{"sword","axe"};
+                        //gui.updateDrops(drops);
                     }
                     break;
             }
@@ -93,6 +99,7 @@ void Client::init() {
             if(msg->getId() == DRAW_MESSAGE_ID){
                 init += 1;
                 std::vector<int> data = msg->getData();
+                this->gui.setWorldDimensions(msg->getWidth(), msg->getHeight());
                 for(unsigned long i = 0; i < data.size(); i++){
                     int x = i % msg->getWidth();
                     int y = i / msg->getHeight();
@@ -107,7 +114,7 @@ void Client::init() {
                 this->gui.updateInventory(msg->getItems());
             } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID) {
                 this->gui.updatePlayerStats(msg->getStats());
-            } else if(msg->getId() == SPAWN_NPC_MESSAGE_ID) {
+            } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
                 this->gui.updateRenderables(msg->getSpawnData());
             }
         }

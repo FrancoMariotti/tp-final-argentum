@@ -40,6 +40,7 @@ class Map {
         void update(Observer *observer);
         ~Map();
 
+    Position asignRandomPosition();
 };
 
 #endif //ARGENTUM_MAPA_H

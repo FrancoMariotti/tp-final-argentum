@@ -4,6 +4,7 @@
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Factory.h"
+#include "Servidor/Common/Utils.h"
 
 Map::Map():npcFactory("") {
     this->width = 0;
@@ -128,6 +129,17 @@ void Map::sendLayers(ProxySocket& sck,std::string configFile) const {
     }
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("obstacles",obstaclesLayer,width,height)));
+}
+
+Position Map::asignRandomPosition() {
+    int x, y;
+    x = Utils::random_int_number(0, height - 1);
+    y = Utils::random_int_number(0, width - 1);
+    while (isOccupied(Position(x, y))) {
+        x = Utils::random_int_number(0, height - 1);
+        y = Utils::random_int_number(0, width - 1);
+    }
+    return Position(x, y);
 }
 
 

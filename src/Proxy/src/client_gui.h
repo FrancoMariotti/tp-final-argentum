@@ -31,6 +31,12 @@ private:
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
 
+    typedef struct t_sprite_dimensions{
+        int x;
+        int y;
+        std::string id;
+    }t_sprite_dimensions;
+
     const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
@@ -45,13 +51,9 @@ public:
 
     void updateRenderablesPos(const int new_x, const int new_y, const std::string &renderable_id);
 
+    void updateRenderables(std::vector<spawn_character_t> renderables);
+
     void updateInventory(std::vector<std::string> player_inventory);
-
-    void render();
-
-    //void addRenderable(const int x, const int y, const std::string &renderable_id);
-
-    ~GUI();
 
     void updatePlayerStats(t_stats new_stats);
 
@@ -59,9 +61,15 @@ public:
 
     void addObstacleTile(int x, int y, int tile_id);
 
+    void render();
+
     void renderWorld();
 
-    void updateRenderables(std::vector<spawn_character_t> renderables);
+    ~GUI();
+
+    void setWorldDimensions(int w, int h);
+
+    void updateDrops(const std::vector<std::string> &drops);
 };
 
 

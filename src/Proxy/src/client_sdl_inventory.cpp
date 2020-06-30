@@ -24,28 +24,13 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->inventory_x = INVENTORY_X;
     this->inventory_y = INVENTORY_Y;
 
-    std::vector<std::string> game_items_id{"button", "16000", "16002","sword"};
-    for(auto it = game_items_id.begin(); it != game_items_id.end(); ++it){
+    for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
                 std::forward_as_tuple(*it),
                 std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE, "../../Proxy/items/" + *it +".png", window)
         );
     }
 
-    SdlTexture& buttonSpriteSheet = inventoryTextures.at("button");
-
-    for (int i = 0; i < 5 ; ++i) {
-        int col = (int) buttons.size() % 4;
-        int fil = (int) buttons.size() / 4;
-        buttons.emplace_back(buttonSpriteSheet);
-        /*Seteo la posicion relativa al inventario,
-         * a medida que pusheo se van acomodando uno al lado del otro*/
-        /*4 botones por fila,
-         * 0....3
-         * 4....7*/
-        buttons.back().setPosition(inventory_x + col * BUTTON_SIZE,
-                                    inventory_y + fil * BUTTON_SIZE);
-    }
 
 }
 
@@ -97,6 +82,10 @@ void SdlInventory::render() {
 /*int SdlInventory::getLastClickedIndex(){
 
 }*/
+
+void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
+    this->inventoryTextures.at(id).render(x,y);
+}
 
 SdlInventory::~SdlInventory() {
 }

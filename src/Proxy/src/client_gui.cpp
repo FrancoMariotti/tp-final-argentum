@@ -26,23 +26,23 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
         throw SdlException("Could not open font", TTF_GetError());
     }
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
-            SdlTexture(54, 34, "../../Proxy/assets/4093.png", window)));
+            SdlTexture(54, 34, "../../Proxy/assets/spiderSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("skeleton",
-            SdlTexture(26, 54, "../../Proxy/assets/4080.png", window)));
+            SdlTexture(26, 54, "../../Proxy/assets/skeletonSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
-            SdlTexture(24, 46, "../../Proxy/assets/4070.png", window)));
+            SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
-            SdlTexture(24, 36, "../../Proxy/assets/4082.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("axe",
-            SdlTexture(22, 48, "../../Proxy/items/16025.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("plate armor",
-              SdlTexture(24, 46, "../../Proxy/items/79.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("human head",
-              SdlTexture(24, 46, "../../Proxy/assets/2001.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("iron helmet",
-          SdlTexture(18, 18, "../../Proxy/items/18007.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("iron shield",
-          SdlTexture(25, 44, "../../Proxy/items/20002.png", window)));
+            SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
+            SdlTexture(22, 48, "../../Proxy/items/sAxe.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
+              SdlTexture(24, 46, "../../Proxy/items/sIronArmour.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
+              SdlTexture(24, 46, "../../Proxy/assets/humanHeadSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
+          SdlTexture(18, 18, "../../Proxy/items/ironHelmetSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
+          SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
 
 }
 
@@ -77,14 +77,6 @@ void GUI::updatePlayerStats(t_stats new_stats) {
     playerStats.update(new_stats);
 }
 
-void GUI::addFloorTile(int x, int y, int tile_id) {
-    world.addFloorTile(x, y, tile_id);
-}
-
-void GUI::addObstacleTile(int x, int y, int tile_id) {
-    world.addObstacleTile(x, y, tile_id);
-}
-
 /*Itera @param renderables y busca el id de textura que corresponde con el id del renderizable y lo agrega al map
  * con key: id y value: puntero a SdlDynamicRenderable*/
 void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
@@ -100,18 +92,26 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
         if(texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
                     (new SdlDynamicRenderable(it->x ,it->y,
-                            dynamic_renderables_textures.at(texture_id)));
+                                              dynamic_renderables_textures.at(texture_id)));
 
         } else {
             dynamic_renderables.insert(std::make_pair(it->id,
                   std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(it->x , it->y,
-                  dynamic_renderables_textures.at("plate armor"),
-                  dynamic_renderables_textures.at("human head"),
-                  dynamic_renderables_textures.at("iron helmet"),
-                  dynamic_renderables_textures.at("axe"),
-                  dynamic_renderables_textures.at("iron shield")))));
+                  dynamic_renderables_textures.at("ironArmourSprite"),
+                  dynamic_renderables_textures.at("humanHeadSprite"),
+                  dynamic_renderables_textures.at("ironHelmetSprite"),
+                  dynamic_renderables_textures.at("axeSprite"),
+                  dynamic_renderables_textures.at("ironShieldSprite")))));
         }
     }
+}
+
+void GUI::addFloorTile(int x, int y, int tile_id) {
+    world.addFloorTile(x, y, tile_id);
+}
+
+void GUI::addObstacleTile(int x, int y, int tile_id) {
+    world.addObstacleTile(x, y, tile_id);
 }
 
 void GUI::render(){
@@ -136,6 +136,21 @@ void GUI::render(){
     window.render();
 }
 
+
+void GUI::renderWorld() {
+    world.renderFloor(camera);
+    world.renderObstacles(camera);
+    //world.renderDrops(inventory, camera);
+}
+
+void GUI::setWorldDimensions(int w, int h) {
+    world.setDimensions(w,h);
+}
+
+void GUI::updateDrops(const std::vector<std::string> &drops) {
+    world.updateDrops(drops);
+}
+
 GUI::~GUI(){
     if(font){
         TTF_CloseFont(font);
@@ -146,7 +161,3 @@ GUI::~GUI(){
     TTF_Quit();
 }
 
-void GUI::renderWorld() {
-    world.renderFloor(camera);
-    world.renderObstacles(camera);
-}
