@@ -38,8 +38,6 @@ private:
     //Offset del movimiento
     int vel_x, vel_y;
 
-    bool lock_movement;
-
     SDL_Rect head_sprite_clips[TOTAL_HEAD_SPRITE];
 
     enum e_head_orientation e_face_orientation;

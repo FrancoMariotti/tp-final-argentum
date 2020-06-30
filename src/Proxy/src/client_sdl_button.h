@@ -11,6 +11,7 @@
 #include "client_command.h"
 #include "common_proxy_socket.h"
 #include "client_sdl_camera.h"
+#include "client_sdl_mouse.h"
 
 class Message;
 class SdlButton {
@@ -25,8 +26,9 @@ class SdlButton {
 
         int width;
         int height;
-        int times_clicked;
-        //Top left position
+        int double_click;
+        int single_click;
+
         SDL_Point position;
         //Currently used sprite
         e_button_sprite current_sprite;
@@ -45,18 +47,18 @@ class SdlButton {
         SdlButton(SdlTexture& buttonTexture);
 
         //Sets top left position
-        /**Los items se van a ir moviendo en el inventario asi que necesito un set*/
         void setPosition(int x, int y);
 
         //Handles mouse event
         void handleEvent(SDL_Event &e, bool &is_event_handled);
 
-        void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i);
+        void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse);
 
         //Shows button sprite
         void render();
 
         ~SdlButton();
+
 };
 
 

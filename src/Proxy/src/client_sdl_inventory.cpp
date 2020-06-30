@@ -41,10 +41,10 @@ void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
+void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse) {
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
         /*Veo si fueron clickeados*/
-        buttons[i].use(clientEvents, (int) i);
+        buttons[i].use(clientEvents, (int) i, mouse);
     }
 }
 
@@ -78,10 +78,6 @@ void SdlInventory::render() {
         button.render();
     }
 }
-
-/*int SdlInventory::getLastClickedIndex(){
-
-}*/
 
 void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
     this->inventoryTextures.at(id).render(x,y);

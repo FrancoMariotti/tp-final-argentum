@@ -10,7 +10,7 @@ class SdlMouse {
 private:
     SdlCamera& camera;
     SDL_Point position;
-
+    int inventory_clicked_index;
     bool clicked_in_map;
 
 public:
@@ -21,6 +21,10 @@ public:
     SDL_Point getPosition();
 
     bool clickedInMap();
+
+    void setLastClickedItemIndex(const int i);
+
+    void clear();
 };
 
 

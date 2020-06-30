@@ -12,8 +12,8 @@
 
 SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
         bodyTexture( "../../Proxy/assets/340.gif", window),
-        headSpriteSheetTexture(32, 32, "../../Proxy/assets/2005.gif", window),
-        lock_movement(false){
+        headSpriteSheetTexture(32, 32, "../../Proxy/assets/2005.gif", window)
+        {
     //Initialize the offsets
     pos_x = x;
     pos_y = y;
@@ -73,7 +73,6 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     if(vel_x != 0 || vel_y != 0){
         clientEvents.push(std::unique_ptr<Message> (
                 new Movement(vel_x, vel_y)));
-        this->lock_movement = true;
         vel_x = 0;
         vel_y = 0;
     }
@@ -82,7 +81,6 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
 void SdlPlayer::update(const int player_x, const int player_y, SdlCamera &camera) {
     this->pos_x = camera.toPixels(player_x);
     this->pos_y = camera.toPixels(player_y);
-    this->lock_movement = false;
 }
 
 void SdlPlayer::render(SdlCamera &camera) {

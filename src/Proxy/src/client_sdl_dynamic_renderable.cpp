@@ -20,15 +20,17 @@ SdlDynamicRenderable::SdlDynamicRenderable(const int x, const int y, SdlTexture 
 }
 
 void SdlDynamicRenderable::update(const int new_x, const int new_y, SdlCamera &camera) {
+    int old_x = pos_x;
+    int old_y = pos_y;
     pos_x = camera.toPixels(new_x);
     pos_y = camera.toPixels(new_y);
-    if(new_x > 0){
+    if(pos_x > old_x){
         e_current_orientation = RIGHT;
-    } else if(new_x < 0){
+    } else if(pos_x < old_x){
         e_current_orientation = LEFT;
-    } else if(new_y > 0){
+    } else if(pos_y > old_y){
         e_current_orientation = FRONT;
-    } else if(new_y < 0){
+    } else if(pos_y < old_y){
         e_current_orientation = BACK;
     }
 }
@@ -46,8 +48,8 @@ SdlPlayableCharacter::SdlPlayableCharacter(const int x, const int y, SdlTexture 
        weaponSpriteSheetTexture(weaponSpriteSheetTexture),
        shieldSpriteSheetTexture(shieldSpriteSheetTexture){
     for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        head_orientation_clips[i] = {0, i*headSpriteSheetTexture.getHeight(), headSpriteSheetTexture.getWidth(), headSpriteSheetTexture.getHeight()};
-        helmet_orientation_clips[i] = {0, i*helmetSpriteSheetTexture.getHeight(), helmetSpriteSheetTexture.getWidth(), helmetSpriteSheetTexture.getHeight()};
+        head_orientation_clips[i] = {i*headSpriteSheetTexture.getHeight(), 0, headSpriteSheetTexture.getWidth(), headSpriteSheetTexture.getHeight()};
+        helmet_orientation_clips[i] = {i*helmetSpriteSheetTexture.getHeight(), 0, helmetSpriteSheetTexture.getWidth(), helmetSpriteSheetTexture.getHeight()};
         weapon_orientation_clips[i] = {0, i*weaponSpriteSheetTexture.getHeight(), weaponSpriteSheetTexture.getWidth(), weaponSpriteSheetTexture.getHeight()};
         shield_orientation_clips[i] = {0, i*shieldSpriteSheetTexture.getHeight(), shieldSpriteSheetTexture.getWidth(), shieldSpriteSheetTexture.getHeight()};
     }
