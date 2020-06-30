@@ -32,6 +32,8 @@ public:
     void sendUpdates(ProxySocket& pxySkt);
     void movementUpdate(int x, int y) override;
     void statsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) override;
+    void equipmentUpdate(std::string weaponName, std::string armourName,
+             std::string shieldName, std::string helmetName) override;
     void itemsUpdate(std::vector<std::string> &vector) override ;
     void spawnNpcUpdate(std::vector<spawn_character_t> &npcs) override;
     void updateModel();

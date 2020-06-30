@@ -1,7 +1,7 @@
 #include "Armour.h"
 
 Armour::Armour() {
-    Protection null("none", 0, 0, NONE);
+    Protection null("none", 0, 0, NONE, 0);
     for (int i = 0; i < 3 ; ++i) {
         protections.push_back(null);
     }
@@ -26,4 +26,8 @@ int Armour::use(int damage) const {
 
 void Armour::unequip(Protection protection) {
     protection.unequip(protections);
+}
+
+std::string Armour::getName(int equipmentId) {
+    return protections[equipmentId].getName();
 }

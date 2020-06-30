@@ -3,8 +3,8 @@
 #include "PlayableCharacter.h"
 #include "Npc.h"
 
-RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, Range range)
-    :Weapon(name, minDamage,maxDamage) {
+RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, Range range, int goldCost)
+    :Weapon(name, minDamage,maxDamage, goldCost) {
     this->range = range;
 }
 

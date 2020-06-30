@@ -10,7 +10,7 @@
 
 class ManaPotion : public Potion {
 public:
-    ManaPotion(std::string name, int value);
+    ManaPotion(std::string name, int value, int goldCost);
     void use(PlayableCharacter* character);
 };
 

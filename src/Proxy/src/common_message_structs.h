@@ -13,6 +13,13 @@ typedef struct t_stats{
     int level;
 }t_stats;
 
+typedef struct equipment {
+    std::string weaponName;
+    std::string armourName;
+    std::string shieldName;
+    std::string helmetName;
+} equipment_t;
+
 typedef struct spawn_character {
     int x;
     int y;

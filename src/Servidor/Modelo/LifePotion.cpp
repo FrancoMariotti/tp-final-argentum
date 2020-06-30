@@ -5,7 +5,8 @@
 #include "LifePotion.h"
 #include "Log.h"
 
-LifePotion::LifePotion(std::string name, int value) : Potion(name, value) {}
+LifePotion::LifePotion(std::string name, int value, int goldCost)
+    : Potion(name, value, goldCost) {}
 
 void LifePotion::use(PlayableCharacter *character) {
     Log* log = Log::instancia();

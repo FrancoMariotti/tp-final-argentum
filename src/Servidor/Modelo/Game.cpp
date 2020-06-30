@@ -99,6 +99,11 @@ void Game::statsUpdate(float health_percentage,float mana_percentage,float exp_p
             gold,level));
 }
 
+void Game::equipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName,
+        std::string helmetName) {
+    updates.push(new EquipmentUpdate(weaponName, armourName, shieldName, helmetName));
+}
+
 void Game::itemsUpdate(std::vector<std::string>& vector) {
     updates.push(new InventoryUpdate(vector));
 }

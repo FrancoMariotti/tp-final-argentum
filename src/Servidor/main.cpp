@@ -11,9 +11,11 @@ int main(int argc, char const *argv[]) {
 
     Offset offset(0,1);
     Event* event = new EventMove(offset);
-    NormalWeapon sword("sword", 2, 5);
-    Protection shield("shield", 2, 5, SHIELD);
-    LifePotion lifePotion("megaLifePotion",1000);
+    NormalWeapon sword("sword", 2, 5, 0);
+    Protection helmet("helmet", 3, 6, HELMET, 0);
+    Protection shield("shield", 2, 5, SHIELD, 0);
+    Protection armour("armour", 4, 7, ARMOUR, 0);
+    LifePotion lifePotion("megaLifePotion",1000, 0);
 
     Game game("config/config.json");
 
@@ -23,6 +25,11 @@ int main(int argc, char const *argv[]) {
     game.equip("franco", 0);
     game.storeInInventory("franco2", &shield);
     game.equip("franco2", 0);
+    game.storeInInventory("franco2", &helmet);
+    game.equip("franco2", 1);
+    game.storeInInventory("franco2", &armour);
+    game.equip("franco2", 2);
+    game.unequip("franco2", 1);
     event->execute(game,"franco");
     game.attackPlayer("franco","franco2");
     game.attackPlayer("franco","franco2");

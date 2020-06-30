@@ -15,7 +15,8 @@ COMMAND_MESSAGE_ID,
 INVENTORY_UPDATE_MESSAGE_ID,
 SPAWN_NPC_MESSAGE_ID,
 STATS_UPDATE_MESSAGE_ID,
-NPC_MOVEMENT_UPDATE_MESSAGE_ID
+NPC_MOVEMENT_UPDATE_MESSAGE_ID,
+EQUIPMENT_UPDATE_MESSAGE_ID
 };
 
 
@@ -38,6 +39,7 @@ public:
     virtual int getX() const;
     virtual int getY() const;
     virtual t_stats getStats();
+    virtual equipment_t getEquipment();
     virtual std::vector<std::string> getItems();
     virtual std::vector<spawn_character_t> getSpawnData();
     virtual npc_movement_t getMovement();
@@ -105,6 +107,18 @@ class Stats : public Message {
 public:
     Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level);
     t_stats getStats() override;
+};
+
+class EquipmentUpdate : public Message {
+    std::string weaponName;
+    std::string armourName;
+    std::string shieldName;
+    std::string helmetName;
+public:
+    EquipmentUpdate(std::string weaponName, std::string armourName,
+            std::string shieldName, std::string helmetName);
+    equipment_t getEquipment() override;
+
 };
 
 class InventoryUpdate: public Message {

@@ -13,8 +13,8 @@ Npc::Npc(std::string id,Map* map,Position &initialPosition,int constitution,
         Character(id,map,initialPosition,constitution,strength,agility,intelligence,level,
                   raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,
                   recoveryFactor, meditationRecoveryFactor,observer),
-        weapon("npcWeapon", minDamage,maxDamage),
-        armour("npcArmour", minDefense,maxDefense, ARMOUR){
+        weapon("npcWeapon", minDamage,maxDamage, 0),
+        armour("npcArmour", minDefense,maxDefense, ARMOUR, 0){
     this->specie = std::move(specie);
     this->mana = 0;
     spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};

@@ -939,109 +939,130 @@
    "sword": {
      "type": "NormalWeapon",
      "min": 2,
-     "max": 5
+     "max": 5,
+     "goldCost" : 100
    },
    "axe": {
      "type": "NormalWeapon",
      "min": 4,
-     "max": 5
+     "max": 5,
+     "goldCost" : 100
    },
    "hammer": {
      "type": "NormalWeapon",
      "min": 1,
-     "max": 9
+     "max": 9,
+     "goldCost" : 100
    },
    "fresnoWand": {
      "type": "MagicalWeapon",
      "spellType": "damage",
      "min": 2,
      "max": 5,
-     "manaCost": 5
+     "manaCost": 5,
+     "goldCost" : 100
    },
    "elvenFlute": {
      "type": "MagicalWeapon",
      "spellType": "heal",
-     "manaCost": 100
+     "manaCost": 100,
+     "goldCost" : 100
    },
    "knottyStick": {
      "type": "MagicalWeapon",
      "spellType": "damage",
      "min": 4,
      "max": 8,
-     "manaCost": 15
+     "manaCost": 15,
+     "goldCost" : 100
    },
    "crimpStick": {
      "type": "MagicalWeapon",
      "spellType": "damage",
      "min": 8,
      "max": 20,
-     "manaCost": 30
+     "manaCost": 30,
+     "goldCost" : 100
    },
    "commonBow": {
      "type": "RangeWeapon",
      "min": 1,
-     "max": 4
+     "max": 4,
+     "goldCost" : 100
    },
    "rareBow": {
      "type": "RangeWeapon",
      "min": 4,
-     "max": 16
+     "max": 16,
+     "goldCost" : 100
    },
    "smallLifePotion": {
      "type": "LifePotion",
-     "value": 25
+     "value": 25,
+     "goldCost" : 100
    },
    "bigLifePotion": {
      "type": "LifePotion",
-     "value": 100
+     "value": 100,
+     "goldCost" : 100
    },
    "smallManaPotion": {
      "type": "ManaPotion",
-     "value": 25
+     "value": 25,
+     "goldCost" : 100
    },
    "bigManaPotion": {
      "type": "ManaPotion",
-     "value": 100
+     "value": 100,
+     "goldCost" : 100
    },
    "leatherArmour": {
      "type": "Armour",
      "min": 2,
-     "max": 6
+     "max": 6,
+     "goldCost" : 100
    },
    "ironArmour": {
      "type": "Armour",
      "min": 15,
-     "max": 30
+     "max": 30,
+     "goldCost" : 100
    },
    "blueTunic": {
      "type": "Armour",
      "min": 6,
-     "max": 10
+     "max": 10,
+     "goldCost" : 100
    },
    "hood": {
      "type": "Helmet",
      "min": 1,
-     "max": 4
+     "max": 4,
+     "goldCost" : 100
    },
    "ironHelmet": {
      "type": "Helmet",
      "min": 4,
-     "max": 8
+     "max": 8,
+     "goldCost" : 100
    },
    "turtleShell": {
      "type": "Shield",
      "min": 1,
-     "max": 2
+     "max": 2,
+     "goldCost" : 100
    },
    "ironShield": {
      "type": "Shield",
      "min": 1,
-     "max": 4
+     "max": 4,
+     "goldCost" : 100
    },
    "magicHat": {
      "type": "Helmet",
      "min": 4,
-     "max": 12
+     "max": 12,
+     "goldCost" : 100
    }
   }]
 }

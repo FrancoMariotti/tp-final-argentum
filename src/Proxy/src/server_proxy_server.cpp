@@ -17,8 +17,12 @@ void ProxyServer::run() {
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
     game.initializeMap(proxySocket);
-    NormalWeapon sword("sword", 2, 5);
+    NormalWeapon sword("sword", 2, 5, 0);
     game.storeInInventory("franco",&sword);
+    Protection shield("ironShield", 4, 6, SHIELD, 0);
+    game.storeInInventory("franco", &shield);
+    game.equip("franco", 0);
+    game.equip("franco", 1);
     game.sendUpdates(proxySocket);
     try{
 
@@ -32,6 +36,9 @@ void ProxyServer::run() {
                 Event* move = new EventMove(offset);
                 move->execute(game, "franco");
             }
+            //ESTA LINEA HACE QUE LOS NPCS SE MUEVAN POR LO TANTO AL TODAVIA NO TENER RENDERIZADOS
+            //LOS NPCS EN TIEMPO REAL PUEDE QUE NO PUEDAS MOVERTE EN CIERTAS DIRECCIONES EN DETERMINADAS
+            //SITUACIONES ESTO ES PORQUE TENES UN NPC AL LADO.
             game.updateModel();
             end = std::chrono::system_clock::now();
             int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>

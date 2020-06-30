@@ -48,6 +48,8 @@ public:
         bool checkFairPlay(int enemyLevel);
         int receiveAttackFrom(PlayableCharacter *enemy) override;
         ~PlayableCharacter() override;
+
+    void sendEquipment();
 };
 
 
