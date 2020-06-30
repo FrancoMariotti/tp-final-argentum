@@ -1,6 +1,7 @@
 #ifndef ARGENTUM_MAGICALWEAPON_H
 #define ARGENTUM_MAGICALWEAPON_H
 
+#include "Character.h"
 #include "Weapon.h"
 
 class SpellType;

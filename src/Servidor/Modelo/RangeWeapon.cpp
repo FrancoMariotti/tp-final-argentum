@@ -1,5 +1,7 @@
 #include "RangeWeapon.h"
 #include "Log.h"
+#include "PlayableCharacter.h"
+#include "Npc.h"
 
 RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, Range range)
     :Weapon(name, minDamage,maxDamage) {

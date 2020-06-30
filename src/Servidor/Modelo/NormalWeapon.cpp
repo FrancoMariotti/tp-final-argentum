@@ -1,4 +1,6 @@
 #include "NormalWeapon.h"
+#include "PlayableCharacter.h"
+#include "Npc.h"
 
 NormalWeapon::NormalWeapon(std::string name, int minDamage,int maxDamage):Weapon(name, minDamage,maxDamage) {}
 

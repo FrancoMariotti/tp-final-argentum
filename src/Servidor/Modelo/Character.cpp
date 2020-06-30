@@ -2,6 +2,7 @@
 #include <cmath>
 #include <utility>
 #include "Log.h"
+#include "PlayableCharacter.h"
 
 Character::Character(std::string id,Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
@@ -35,12 +36,7 @@ Offset Character::getOffset(Position initialPos) {
     Position final(currPos);
     return final - initialPos;
 }
-
-int Character::receiveDamage(int enemyLevel,int damage) {
-    bool enemyisnewbie = (enemyLevel <= 12);
-    bool imnewbie = (level <= 12);
-    if(imnewbie != enemyisnewbie) return 0;
-
+int Character::receiveDamage(int enemyLevel, int damage) {
     int xpEarned = 0;
 
     Log* log = Log::instancia();
@@ -102,7 +98,7 @@ int Character::calculateRecoverManaMeditating(int seconds) const {
     return meditationRecoveryFactor * seconds;
 }
 
-int Character::calculateSafeGoldCapacity(int lvl) {
+int Character::calculateSafeGoldCapacity(int lvl) const {
     return 100 * pow(lvl, 1.1);
 }
 
@@ -123,6 +119,7 @@ bool Character::dodge() const {
 void Character::restoreLife() {
     this->lifePoints = calculateMaxLife();
 }
+
 
 Character::~Character() = default;
 

@@ -1,12 +1,13 @@
 #ifndef ARGENTUM_CHARACTER_H
 #define ARGENTUM_CHARACTER_H
 
-#include "Map.h"
-#include "Offset.h"
+#include "string"
 #include "Position.h"
 #include "Observer.h"
 
 class Map;
+class PlayableCharacter;
+class Npc;
 
 class Character {
     protected:
@@ -37,21 +38,20 @@ class Character {
         int calculateLvlLimit() const;
         int calculateKillXp (int enemyMaxLp, int enemyLvl) const;
         bool dodge() const;
-
+        int calculateSafeGoldCapacity(int lvl) const;
         virtual int defend(int damage) = 0;
     public:
         Character(std::string id,Map* map,Position &initialPosition,int constitution,
-                  int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-                  int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer);
+                      int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
+                      int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer);
         bool collideWith(Position& objPos);
         int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
         virtual void attack(Character* character) = 0;
         int receiveDamage(int enemyLevel,int damage);
-        static int calculateSafeGoldCapacity(int lvl);
+        virtual int receiveAttackFrom(PlayableCharacter *enemy) = 0;
+        void restoreLife();
         virtual ~Character();
-
-    void restoreLife();
 };
 
 #endif //ARGENTUM_CHARACTER_H

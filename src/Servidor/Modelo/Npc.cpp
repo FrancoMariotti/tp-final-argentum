@@ -1,6 +1,7 @@
 #include "Npc.h"
 #include <utility>
 #include <Proxy/src/common_message_structs.h>
+#include "PlayableCharacter.h"
 
 #define MAX_RANGE 4
 
@@ -60,6 +61,10 @@ int Npc::defend(int damage) {
 
 void Npc::attack(Character* character) {
     weapon.attack(character,strength,level, mana,currPos);
+}
+
+int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
+    return enemy->attackTo(this);
 }
 
 Npc::~Npc() = default;

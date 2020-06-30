@@ -1,24 +1,22 @@
 #ifndef ARGENTUM_WEAPON_H
 #define ARGENTUM_WEAPON_H
 
-#include "Character.h"
 #include "Equippable.h"
+#include "Position.h"
 
 class Equippable;
 class Character;
+class PlayableCharacter;
 
 class Weapon : public Equippable {
     protected:
-        //int minDamage;
-        //int maxDamage;
         int calculateDamage(int strength);
     public:
         Weapon(std::string name, int minDamage,int maxDamage);
         void equipTo(PlayableCharacter *character, int i) override;
         virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
+        void unequipFrom(PlayableCharacter *character) override ;
         virtual ~Weapon() = default;
-
-    void unequipFrom(PlayableCharacter *character);
 };
 
 

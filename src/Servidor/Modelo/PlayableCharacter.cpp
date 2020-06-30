@@ -1,6 +1,8 @@
 #include "PlayableCharacter.h"
 #include "Log.h"
-#include "NormalWeapon.h"
+#include "Potion.h"
+#include "Map.h"
+#include "Npc.h"
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -35,7 +37,8 @@ void PlayableCharacter::recoverLifePoints(int seconds) {
 }
 
 void PlayableCharacter::attack(Character *character) {
-    int earnedXp= activeWeapon->attack(character,strength,level,mana,currPos);
+    int earnedXp = character->receiveAttackFrom(this);
+
     int limit = calculateLvlLimit();
     int totalXp = earnedXp + xp;
 
@@ -64,6 +67,16 @@ void PlayableCharacter::attack(Character *character) {
 
     log->write("El xp actual es:");
     log->writeInt(xp);
+}
+
+int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
+    bool canAttack = enemy->checkFairPlay(level);
+    if(canAttack) return activeWeapon->attack(enemy,strength,level,mana,currPos);
+    return 0;
+}
+
+int PlayableCharacter::attackTo(Npc *enemy) {
+    return activeWeapon->attack(enemy,strength,level,mana,currPos);
 }
 
 void PlayableCharacter::store(Equippable* element) {
@@ -146,6 +159,18 @@ void PlayableCharacter::earnMana(int value) {
     }
     log->write("Mana despues de agregar:");
     log->writeInt(mana);
+}
+
+bool PlayableCharacter::checkFairPlay(int enemyLevel) {
+    bool enemyisnewbie = (enemyLevel <= 12);
+    bool imnewbie = (level <= 12);
+    if(imnewbie != enemyisnewbie) return false;
+    int levelDifference = abs(enemyLevel - level);
+    return levelDifference <= 10;
+}
+
+int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
+    return enemy->attackTo(this);
 }
 
 PlayableCharacter::~PlayableCharacter() = default;

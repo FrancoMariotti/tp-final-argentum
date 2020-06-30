@@ -3,12 +3,10 @@
 
 #include "Character.h"
 #include "Weapon.h"
-#include "Armour.h"
-#include "Inventory.h"
-#include "Protection.h"
-#include "Equippable.h"
-#include "Potion.h"
 #include "NormalWeapon.h"
+#include "Inventory.h"
+#include "Armour.h"
+#include "Position.h"
 
 class Game;
 class Potion;
@@ -45,6 +43,10 @@ public:
         void unequip(Protection *protection);
         void unequip(Weapon *weapon);
         void sendStats();
+        int attackTo(PlayableCharacter *enemy);
+        int attackTo(Npc *enemy);
+        bool checkFairPlay(int enemyLevel);
+        int receiveAttackFrom(PlayableCharacter *enemy) override;
         ~PlayableCharacter() override;
 };
 
