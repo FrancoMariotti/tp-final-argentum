@@ -162,15 +162,16 @@ void PlayableCharacter::earnMana(int value) {
 }
 
 bool PlayableCharacter::checkFairPlay(int enemyLevel) {
+    int levelDifference = abs(enemyLevel - level);
+    if(levelDifference > 10) return false;
     bool enemyisnewbie = (enemyLevel <= 12);
     bool imnewbie = (level <= 12);
-    if(imnewbie != enemyisnewbie) return false;
-    int levelDifference = abs(enemyLevel - level);
-    return levelDifference <= 10;
+    return (imnewbie && enemyisnewbie);
 }
 
 int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
     return enemy->attackTo(this);
 }
+
 
 PlayableCharacter::~PlayableCharacter() = default;

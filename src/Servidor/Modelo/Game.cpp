@@ -16,6 +16,7 @@ void Game::createPlayer(const std::string& playerName, const std::string& charRa
     factoryCharacters.create(map,playerName,charRace, charClass, this);
 }
 
+
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->move(offset);

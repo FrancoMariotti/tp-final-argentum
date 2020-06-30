@@ -35,6 +35,8 @@ public:
     void itemsUpdate(std::vector<std::string> &vector) override ;
     void spawnNpcUpdate(std::vector<spawn_character_t> &npcs) override;
     ~Game();
+
+    void setPlayerLevel(const std::string &playerName, int level);
 };
 
 
