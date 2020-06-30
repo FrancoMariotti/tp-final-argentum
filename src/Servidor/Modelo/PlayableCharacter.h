@@ -42,14 +42,13 @@ public:
         void earnMana(int value);
         void unequip(Protection *protection);
         void unequip(Weapon *weapon);
-        void sendStats();
+        void notifyStats();
         int attackTo(PlayableCharacter *enemy);
         int attackTo(Npc *enemy);
         bool checkFairPlay(int enemyLevel);
         int receiveAttackFrom(PlayableCharacter *enemy) override;
+        void notifyEquipment();
         ~PlayableCharacter() override;
-
-    void sendEquipment();
 };
 
 

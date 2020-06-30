@@ -22,7 +22,7 @@ void Map::update(Observer* observer) {
     for(int i=0; i<4 ; i++) {
         npcFactory.create(this,"spider",observer);
     }
-    observer->spawnNpcUpdate(spawns);
+    observer->notifySpawnNpcUpdate(spawns);
 }
 void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;

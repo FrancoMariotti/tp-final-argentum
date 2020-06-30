@@ -46,7 +46,7 @@ void ProxyServer::run() {
             end = std::chrono::system_clock::now();
             int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
                     (end-start).count();
-            std::this_thread::sleep_for(std::chrono::milliseconds(50 - elapsed_seconds));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100 - elapsed_seconds));
             game.sendUpdates(proxySocket);
         }
     } catch (ClosedQueueException &e){

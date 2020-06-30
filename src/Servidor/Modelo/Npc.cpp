@@ -48,7 +48,7 @@ void Npc::move() {
     Position next(currPos);
     next.apply(offset);
     map->move(currPos,next);
-    observer->movementNpcUpdate(id,currPos.getX(),currPos.getY());
+    observer->notifyMovementNpcUpdate(id,currPos.getX(),currPos.getY());
 
     if(enemyFound) this->attack(enemy);
 }
