@@ -48,7 +48,7 @@ class Character {
         int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
         virtual void attack(Character* character) = 0;
-        int receiveDamage(int enemyLevel,int damage);
+        virtual int receiveDamage(int enemyLevel,int damage) = 0;
         virtual int receiveAttackFrom(PlayableCharacter *enemy) = 0;
         void restoreLife();
         virtual ~Character();

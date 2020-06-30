@@ -78,9 +78,34 @@ void PlayableCharacter::attack(Character *character) {
     log->writeInt(xp);
 }
 
+int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
+    if(lifePoints <= 0) return 0;
+    int xpEarned = 0;
+
+    if (dodge()) {
+        return xpEarned;
+    }
+
+    damage = defend(damage);
+    int newLife = lifePoints - damage;
+    xpEarned = calculateAttackXp(damage,enemyLevel);
+
+    if (newLife <= 0) {
+        lifePoints = 0;
+        int maxLifePoints = calculateMaxLife();
+        xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
+    } else {
+        lifePoints = newLife;
+    }
+
+    notifyStats();
+    return xpEarned;
+}
+
 int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     bool canAttack = enemy->checkFairPlay(level);
     if(canAttack) return activeWeapon->attack(enemy,strength,level,mana,currPos);
+    enemy->notifyStats();
     return 0;
 }
 

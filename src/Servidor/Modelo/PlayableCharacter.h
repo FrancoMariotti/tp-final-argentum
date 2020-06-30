@@ -26,6 +26,7 @@ public:
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
                   int invMaxElements,Observer* observer);
+        int receiveDamage(int enemyLevel, int damage) override;
         void attack(Character *character) override;
         void move(Offset& offset);
         void equip(int elementIndex);

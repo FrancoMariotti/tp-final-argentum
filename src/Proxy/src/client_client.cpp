@@ -83,7 +83,7 @@ void Client::init() {
     int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw*/
     while(init < 2){
-        std::cout << "client: consuming" << std::endl;
+        //std::cout << "client: consuming" << std::endl;
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
             std::cout << msg->getId() << std::endl;

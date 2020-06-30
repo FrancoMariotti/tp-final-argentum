@@ -36,7 +36,7 @@ bool Npc::shouldDrop(int probability) {
 void Npc::move() {
     Offset offset(0,0);
 
-    Character* enemy = map->findClosestCharacter(currPos, MAX_RANGE);
+    PlayableCharacter* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos, MAX_RANGE);
     bool enemyFound = (enemy != nullptr);
     if (enemyFound) {
         offset = enemy->getOffset(currPos);
@@ -50,7 +50,28 @@ void Npc::move() {
     map->move(currPos,next);
     observer->notifyMovementNpcUpdate(id,currPos.getX(),currPos.getY());
 
-    if(enemyFound) this->attack(enemy);
+    if(enemyFound) {
+        this->attack(enemy);
+    }
+}
+
+int Npc::receiveDamage(int enemyLevel, int damage) {
+    int xpEarned = 0;
+
+    if (dodge()) {
+        return xpEarned;
+    }
+
+    damage = defend(damage);
+    lifePoints -= damage;
+    xpEarned = calculateAttackXp(damage,enemyLevel);
+
+    if (lifePoints <= 0) {
+        int maxLifePoints = calculateMaxLife();
+        xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
+    }
+
+    return xpEarned;
 }
 
 int Npc::defend(int damage) {

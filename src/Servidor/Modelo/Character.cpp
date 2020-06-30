@@ -36,36 +36,6 @@ Offset Character::getOffset(Position initialPos) {
     Position final(currPos);
     return final - initialPos;
 }
-int Character::receiveDamage(int enemyLevel, int damage) {
-    int xpEarned = 0;
-
-    Log* log = Log::instancia();
-    log->write("Danio generado por el enemigo:");
-    log->writeInt(damage);
-
-    if (dodge()) {
-        log->write("Ataque esquivado");
-        return xpEarned;
-    }
-
-    damage = defend(damage);
-    log->write("Danio restante despues de defenderme:");
-    log->writeInt(damage);
-    log->write("vida character antes de recibir danio:");
-    log->writeInt(this->lifePoints);
-
-    lifePoints -= damage;
-    xpEarned = calculateAttackXp(damage,enemyLevel);
-
-    if (lifePoints <= 0) {
-        int maxLifePoints = calculateMaxLife();
-        xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
-    }
-
-    log->write("vida character despues de recibir danio:");
-    log->writeInt(this->lifePoints);
-    return xpEarned;
-}
 
 /*metodos protected*/
 
