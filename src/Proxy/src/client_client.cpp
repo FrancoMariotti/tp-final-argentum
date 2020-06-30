@@ -38,7 +38,7 @@ int Client::run() {
     spawn_character_t npc2{300,200, "skeleton12"};
     spawn_character_t npc3{400,200, "zombie99"};
     spawn_character_t npc4{500,200, "goblin1"};
-    spawn_character_t npc5{500,200, "juancito"};
+    spawn_character_t npc5{600,200, "juancito"};
     std::vector<spawn_character_t> test{npc,npc1,npc2,npc3,npc4,npc5};
     gui.updateRenderables(test);
 
