@@ -18,6 +18,7 @@ class ProxyServer: public Thread{
         void start() override;
         void run() override;
         void stop();
+        bool somethingToRead();
         ~ProxyServer() override;
 };
 

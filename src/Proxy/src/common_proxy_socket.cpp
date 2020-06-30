@@ -25,3 +25,7 @@ void ProxySocket::shutdown() {
     proxyClientSocket.close();
     proxyServerSocket.close();
 }
+
+bool ProxySocket::isEmpty() {
+    return proxyServerSocket.isEmpty();
+}

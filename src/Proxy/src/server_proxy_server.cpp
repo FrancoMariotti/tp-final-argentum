@@ -30,11 +30,14 @@ void ProxyServer::run() {
             /*Si no hay eventos se bloquea*/
             std::chrono::time_point<std::chrono::system_clock> start, end;
             start = std::chrono::system_clock::now();
-            std::unique_ptr<Message> msg = proxySocket.readServer();
-            if (msg->getId() == MOVEMENT_MESSAGE_ID) {
-                Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
-                Event* move = new EventMove(offset);
-                move->execute(game, "franco");
+            std::unique_ptr<Message> msg;
+            if(!proxySocket.isEmpty()) {
+                msg = proxySocket.readServer();
+                if (msg->getId() == MOVEMENT_MESSAGE_ID) {
+                    Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
+                    Event* move = new EventMove(offset);
+                    move->execute(game, "franco");
+                }
             }
             //ESTA LINEA HACE QUE LOS NPCS SE MUEVAN POR LO TANTO AL TODAVIA NO TENER RENDERIZADOS
             //LOS NPCS EN TIEMPO REAL PUEDE QUE NO PUEDAS MOVERTE EN CIERTAS DIRECCIONES EN DETERMINADAS
@@ -62,3 +65,7 @@ void ProxyServer::stop() {
 }
 
 ProxyServer::~ProxyServer() {}
+
+bool ProxyServer::somethingToRead() {
+    return proxySocket.isEmpty();
+}
