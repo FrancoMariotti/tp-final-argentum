@@ -50,6 +50,8 @@ public:
         int receiveAttackFrom(PlayableCharacter *enemy) override;
         void notifyEquipment();
         ~PlayableCharacter() override;
+
+    bool isDead();
 };
 
 

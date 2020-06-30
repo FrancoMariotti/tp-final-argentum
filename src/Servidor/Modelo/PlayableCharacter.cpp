@@ -211,5 +211,9 @@ int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
     return enemy->attackTo(this);
 }
 
+bool PlayableCharacter::isDead() {
+    return (lifePoints == 0);
+}
+
 
 PlayableCharacter::~PlayableCharacter() = default;
