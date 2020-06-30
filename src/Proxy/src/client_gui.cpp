@@ -35,9 +35,9 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
             SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
-            SdlTexture(22, 48, "../../Proxy/items/sAxe.png", window)));
+            SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
-              SdlTexture(24, 46, "../../Proxy/items/sIronArmour.png", window)));
+              SdlTexture(24, 46, "../../Proxy/items/ironArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
               SdlTexture(18, 18, "../../Proxy/assets/humanHeadSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",

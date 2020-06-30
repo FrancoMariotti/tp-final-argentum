@@ -27,8 +27,18 @@ private:
         TOTAL_HEAD_SPRITE
     };
 
-    SdlTexture bodyTexture;
-    SdlTexture headSpriteSheetTexture;
+    enum orientation{
+        FRONT,
+        BACK,
+        LEFT,
+        RIGHT,
+        TOTAL_ORIENTATIONS,
+    };
+
+    SdlTexture& armourSpriteSheetTexture;
+    SdlTexture& headSpriteSheetTexture;
+    SdlTexture& weaponSpriteSheetTexture;
+    SdlTexture& shieldSpriteSheetTexture;
 
     //Dimensiones del jugador
     //int width;
@@ -40,12 +50,13 @@ private:
     //Offset del movimiento
     int vel_x, vel_y;
 
-    SDL_Rect head_sprite_clips[TOTAL_HEAD_SPRITE];
+    SDL_Rect armour_orientation_clips[TOTAL_HEAD_SPRITE];
+    SDL_Rect head_orientation_clips[TOTAL_HEAD_SPRITE];
     SDL_Rect weapon_orientation_clips[TOTAL_HEAD_SPRITE];
     SDL_Rect shield_orientation_clips[TOTAL_HEAD_SPRITE];
 
     enum e_head_orientation e_face_orientation;
-
+    enum orientation e_body_orientation;
 
 public:
     //Initializes the variables

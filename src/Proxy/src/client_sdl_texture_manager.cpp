@@ -16,13 +16,15 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
                                                               SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
-                                                              SdlTexture(22, 48, "../../Proxy/items/sAxe.png", window)));
+                                                              SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("defaultArmourSprite",
+                                                              SdlTexture(24, 46, "../../Proxy/items/defaultArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
-                                                              SdlTexture(24, 46, "../../Proxy/items/sIronArmour.png", window)));
+                                                              SdlTexture(24, 46, "../../Proxy/items/ironArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
-                                                              SdlTexture(18, 18, "../../Proxy/assets/humanHeadSprite.png", window)));
+                                                              SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/humanHeadSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
-                                                              SdlTexture(18, 18, "../../Proxy/items/ironHelmetSprite.png", window)));
+                                                              SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/ironHelmetSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
                                                               SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
 }
@@ -32,5 +34,13 @@ SdlTexture& SdlTextureManager::initHead(){
 }
 
 SdlTexture& SdlTextureManager::initArmour(){
-    return dynamic_renderables_textures.at("ironArmourSprite");
+    return dynamic_renderables_textures.at("defaultArmourSprite");
+}
+
+SdlTexture& SdlTextureManager::initShield(){
+    return dynamic_renderables_textures.at("ironShieldSprite");
+}
+
+SdlTexture& SdlTextureManager::initWeapon(){
+    return dynamic_renderables_textures.at("axeSprite");
 }
