@@ -113,8 +113,8 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int meditationRecoveryFactor = npcsObj["meditationRecoveryFactor"].asInt();
 
     Position initialPosition = map->asignRandomPosition();
-    //Position initialPosition(5,5);
     std::string id = specie + std::to_string(counter);
+    counter++;
 
     Npc *enemy = new Npc(id,map, initialPosition, constitution,
             strengh, agility, intelligence, level, specie, minDamage,

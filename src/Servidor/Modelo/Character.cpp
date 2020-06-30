@@ -37,6 +37,10 @@ Offset Character::getOffset(Position initialPos) {
 }
 
 int Character::receiveDamage(int enemyLevel,int damage) {
+    bool enemyisnewbie = (enemyLevel <= 12);
+    bool imnewbie = (level <= 12);
+    if(imnewbie != enemyisnewbie) return 0;
+
     int xpEarned = 0;
 
     Log* log = Log::instancia();

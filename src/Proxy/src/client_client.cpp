@@ -33,15 +33,6 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
-    spawn_character_t npc{200,200, "spider1"};
-    spawn_character_t npc1{200,300, "spider1"};
-    spawn_character_t npc2{300,200, "skeleton12"};
-    spawn_character_t npc3{400,200, "zombie99"};
-    spawn_character_t npc4{500,200, "goblin1"};
-    spawn_character_t npc5{500,200, "juancito"};
-    std::vector<spawn_character_t> test{npc,npc1,npc2,npc3,npc4,npc5};
-    gui.updateRenderables(test);
-
     //While application is running
     while (!quit) {
         //Handle events on queue

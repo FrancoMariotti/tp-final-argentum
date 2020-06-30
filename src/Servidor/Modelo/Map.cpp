@@ -19,10 +19,9 @@ void Map::registerNpcSpawn(spawn_character_t spawn) {
 }
 
 void Map::update(Observer* observer) {
-    /*for(int i=0; i<4 ; i++) {
-
-    }*/
-    npcFactory.create(this,"spider",observer);
+    for(int i=0; i<4 ; i++) {
+        npcFactory.create(this,"spider",observer);
+    }
     observer->spawnNpcUpdate(spawns);
 }
 void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {

@@ -91,7 +91,7 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
         }
         if(texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
-                    (new SdlDynamicRenderable(it->x ,it->y,
+                    (new SdlDynamicRenderable(camera.toPixels(it->x) ,camera.toPixels(it->y),
                                               dynamic_renderables_textures.at(texture_id)));
 
         } else {
