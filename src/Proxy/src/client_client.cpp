@@ -124,6 +124,9 @@ void Client::update() {
             this->gui.updateInventory(msg->getItems());
         } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
             this->gui.updateRenderables(msg->getSpawnData());
+        } else if(msg->getId() == NPC_MOVEMENT_UPDATE_MESSAGE_ID){
+            npc_movement_t  movement = msg->getMovement();
+            this->gui.updateRenderablesPos(movement.x,movement.y,movement.id);
         }
     }
 }

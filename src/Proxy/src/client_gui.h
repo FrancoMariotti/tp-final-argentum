@@ -49,7 +49,7 @@ public:
 
     void updatePlayerPos(const int player_x, const int player_y);
 
-    void updateRenderablesPos(const int new_x, const int new_y, const std::string &renderable_id);
+    void updateRenderablesPos(const int new_x, const int new_y,const std::string &renderable_id);
 
     void updateRenderables(std::vector<spawn_character_t> renderables);
 

@@ -19,4 +19,11 @@ typedef struct spawn_character {
     std::string id;
 } spawn_character_t;
 
+
+typedef struct npc_movement {
+    int x;
+    int y;
+    std::string id;
+} npc_movement_t;
+
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H

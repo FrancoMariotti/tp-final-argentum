@@ -40,6 +40,7 @@ public:
     virtual t_stats getStats();
     virtual std::vector<std::string> getItems();
     virtual std::vector<spawn_character_t> getSpawnData();
+    virtual npc_movement_t getMovement();
     virtual ~Message() = default;
 };
 
@@ -127,6 +128,7 @@ class MovementNpcUpdate: public Message {
     int y;
 public:
     explicit MovementNpcUpdate(std::string id,int x,int y);
+    npc_movement_t getMovement();
 };
 
 

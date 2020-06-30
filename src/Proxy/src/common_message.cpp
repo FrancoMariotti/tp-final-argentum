@@ -91,6 +91,10 @@ std::vector<spawn_character_t> Message::getSpawnData() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+npc_movement_t Message::getMovement() {
+    return npc_movement_t();
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
@@ -204,4 +208,8 @@ MovementNpcUpdate::MovementNpcUpdate(std::string id, int x, int y):Message(NPC_M
     this->id =id;
     this->x = x;
     this->y = y;
+}
+
+npc_movement_t MovementNpcUpdate::getMovement() {
+    return npc_movement_t{x,y,id};
 }

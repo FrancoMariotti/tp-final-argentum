@@ -19,13 +19,11 @@ int main(int argc, char const *argv[]) {
 
     game.createPlayer("franco", "human", "wizard");
     game.createPlayer("franco2", "human", "wizard");
-    //game.createNpc("goblin");
     game.storeInInventory("franco", &sword);
     game.equip("franco", 0);
     game.storeInInventory("franco2", &shield);
     game.equip("franco2", 0);
     event->execute(game,"franco");
-    //game.sendUpdates();
     game.attackPlayer("franco","franco2");
     game.attackPlayer("franco","franco2");
     game.attackPlayer("franco","franco2");
