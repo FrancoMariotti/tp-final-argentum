@@ -68,6 +68,10 @@ public:
     void renderWorld();
 
     void updateRenderables(std::vector<spawn_character_t> renderables);
+
+    void setWorldDimensions(int w, int h);
+
+    void updateDrops(const std::vector<std::string> &drops);
 };
 
 

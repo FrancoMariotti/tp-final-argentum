@@ -24,12 +24,7 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->inventory_x = INVENTORY_X;
     this->inventory_y = INVENTORY_Y;
 
-    std::vector<std::string> game_items_id{"sword","axe","hammer","fresnoWand"
-                                           ,"crimpStick","commonBow", "rareBow"
-                                           ,"leatherArmour", "ironArmour", "blueTunic",
-                                           "hood", "ironHelmet", "turtleShell", "ironShield",
-                                           "magicHat", "smallLifePotion", "smallManaPotion"};
-    for(auto it = game_items_id.begin(); it != game_items_id.end(); ++it){
+    for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
                 std::forward_as_tuple(*it),
                 std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE, "../../Proxy/items/" + *it +".png", window)
@@ -87,6 +82,10 @@ void SdlInventory::render() {
 /*int SdlInventory::getLastClickedIndex(){
 
 }*/
+
+void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
+    this->inventoryTextures.at(id).render(x,y);
+}
 
 SdlInventory::~SdlInventory() {
 }

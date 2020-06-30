@@ -136,6 +136,21 @@ void GUI::render(){
     window.render();
 }
 
+
+void GUI::renderWorld() {
+    world.renderFloor(camera);
+    world.renderObstacles(camera);
+    //world.renderDrops(inventory, camera);
+}
+
+void GUI::setWorldDimensions(int w, int h) {
+    world.setDimensions(w,h);
+}
+
+void GUI::updateDrops(const std::vector<std::string> &drops) {
+    world.updateDrops(drops);
+}
+
 GUI::~GUI(){
     if(font){
         TTF_CloseFont(font);
@@ -146,7 +161,3 @@ GUI::~GUI(){
     TTF_Quit();
 }
 
-void GUI::renderWorld() {
-    world.renderFloor(camera);
-    world.renderObstacles(camera);
-}

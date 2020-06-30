@@ -22,6 +22,11 @@ private:
     int inventory_x;
     int inventory_y;
     const int BUTTON_SIZE = 40;
+    const std::vector<std::string> GAME_ITEMS_ID{"sword","axe","hammer","fresnoWand"
+            ,"crimpStick","commonBow", "rareBow"
+            ,"leatherArmour", "ironArmour", "blueTunic",
+            "hood", "ironHelmet", "turtleShell", "ironShield",
+            "magicHat", "smallLifePotion", "smallManaPotion"};
 
     const SdlWindow& window;
 
@@ -42,6 +47,8 @@ public:
     void render();
 
     ~SdlInventory();
+
+    void renderDrop(const int x, const int y, const std::string &id);
 };
 
 

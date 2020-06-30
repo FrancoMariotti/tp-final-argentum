@@ -64,6 +64,8 @@ int Client::run() {
                         std::uniform_real_distribution<float> dist(0.1,1.0);
                         t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
                         gui.updatePlayerStats(stats);
+                        //std::vector<std::string> drops{"sword","axe"};
+                        //gui.updateDrops(drops);
                     }
                     break;
             }
@@ -97,12 +99,12 @@ void Client::init() {
             if(msg->getId() == DRAW_MESSAGE_ID){
                 init += 1;
                 std::vector<int> data = msg->getData();
+                this->gui.setWorldDimensions(msg->getWidth(), msg->getHeight());
                 for(unsigned long i = 0; i < data.size(); i++){
                     int x = i % msg->getWidth();
                     int y = i / msg->getHeight();
                     int id = data[i];
                     if(id != 0){
-                        //this->gui.addTile(x, y, id);
                         if(init == 1) this->gui.addFloorTile(x, y, id);
                         else this->gui.addObstacleTile(x, y, id);
                     }
