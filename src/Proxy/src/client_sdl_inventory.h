@@ -9,6 +9,7 @@
 #include "client_sdl_button.h"
 #include "client_sdl_player.h"
 #include "client_sdl_mouse.h"
+#include "common_message_structs.h"
 #include <vector>
 #include <map>
 
@@ -27,7 +28,8 @@ private:
             ,"crimpStick","commonBow", "rareBow"
             ,"leatherArmour", "ironArmour", "blueTunic",
             "hood", "ironHelmet", "turtleShell", "ironShield",
-            "magicHat", "smallLifePotion", "smallManaPotion"};
+            "magicHat", "smallLifePotion", "smallManaPotion",
+            "bigLifePotion", "bigManaPotion"};
 
     const SdlWindow& window;
 
@@ -50,6 +52,7 @@ public:
     ~SdlInventory();
 
     void renderDrop(const int x, const int y, const std::string &id);
+
 };
 
 

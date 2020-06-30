@@ -7,7 +7,7 @@
 
 
 class Merchant {
-    stock;
+    //stock;
 };
 
 

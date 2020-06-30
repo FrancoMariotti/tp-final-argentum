@@ -20,6 +20,7 @@ class GUI {
 private:
     SdlWindow window;
     TTF_Font* font;
+    SdlTextureManager textureManager;
 
     SdlPlayer player;
     SdlInventory inventory;
@@ -49,7 +50,7 @@ public:
 
     void updatePlayerPos(const int player_x, const int player_y);
 
-    void updateRenderablesPos(const int new_x, const int new_y,const std::string &renderable_id);
+    void updateRenderablePos(const int new_x, const int new_y, const std::string &renderable_id);
 
     void updateRenderables(std::vector<spawn_character_t> renderables);
 
@@ -72,6 +73,8 @@ public:
     void updateDrops(const std::vector<std::string> &drops);
 
     void addWorldLayer(std::vector<int> data, const int init);
+
+    void updatePlayerEquipment(equipment_t equipment);
 };
 
 

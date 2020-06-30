@@ -12,6 +12,8 @@
 #include "client_protected_list.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_texture.h"
+#include "common_message_structs.h"
+#include "client_sdl_texture_manager.h"
 
 class Message;
 class SdlTexture;
@@ -39,13 +41,15 @@ private:
     int vel_x, vel_y;
 
     SDL_Rect head_sprite_clips[TOTAL_HEAD_SPRITE];
+    SDL_Rect weapon_orientation_clips[TOTAL_HEAD_SPRITE];
+    SDL_Rect shield_orientation_clips[TOTAL_HEAD_SPRITE];
 
     enum e_head_orientation e_face_orientation;
 
 
 public:
     //Initializes the variables
-    SdlPlayer(int x, int y, SdlWindow& window);
+    SdlPlayer(SdlWindow &window, SdlTextureManager &textureManager);
 
     //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event &e, bool &is_event_handled);
@@ -61,6 +65,9 @@ public:
 
     int getPosY() const;
 
+    void update();
+
+    void update(SdlTexture &weapon_sprite, SdlTexture &shield_sprite);
 };
 
 

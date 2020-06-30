@@ -126,7 +126,9 @@ void Client::update() {
             this->gui.updateRenderables(msg->getSpawnData());
         } else if(msg->getId() == NPC_MOVEMENT_UPDATE_MESSAGE_ID){
             npc_movement_t  movement = msg->getMovement();
-            this->gui.updateRenderablesPos(movement.x,movement.y,movement.id);
+            this->gui.updateRenderablePos(movement.x, movement.y, movement.id);
+        } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
+            gui.updatePlayerEquipment(msg->getEquipment());
         }
     }
 }

@@ -5,6 +5,7 @@
 #include "client_sdl_inventory.h"
 #include "client_sdl_player.h"
 #include "client_sdl_window.h"
+#include "common_message_structs.h"
 
 /*Estos tamaños son con 1024 x 768*/
 #define IMAGE_INVENTORY_WIDTH 165
@@ -62,9 +63,9 @@ void SdlInventory::update(std::vector<std::string> inventory){
          * 4....7*/
         buttons.back().setPosition(inventory_x + col * BUTTON_SIZE,
                                        inventory_y + fil * BUTTON_SIZE);
-
     }
 }
+
 
 void SdlInventory::render() {
     SDL_Rect outline_rect = {inventory_x, inventory_y, width, height};

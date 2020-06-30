@@ -10,18 +10,15 @@
 #define HUMANOID_HEAD_WIDTH 17
 #define HUMANOID_HEAD_HEIGHT 15
 
-SdlPlayer::SdlPlayer(int x, int y, SdlWindow& window) :
+SdlPlayer::SdlPlayer(SdlWindow &window, SdlTextureManager &textureManager) :
         bodyTexture( "../../Proxy/assets/340.gif", window),
-        headSpriteSheetTexture(32, 32, "../../Proxy/assets/2005.gif", window)
-        {
-    //Initialize the offsets
-    pos_x = x;
-    pos_y = y;
+        headSpriteSheetTexture(32, 32, "../../Proxy/assets/2005.gif", window){
+    pos_x = 0;
+    pos_y = 0;
 
     //width = 17;
     //height = 15;
 
-    //Initialize the velocity
     vel_x = 0;
     vel_y = 0;
 
@@ -81,6 +78,10 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
 void SdlPlayer::update(const int player_x, const int player_y, SdlCamera &camera) {
     this->pos_x = camera.toPixels(player_x);
     this->pos_y = camera.toPixels(player_y);
+}
+
+void SdlPlayer::update(SdlTexture& weapon_sprite, SdlTexture& shield_sprite) {
+
 }
 
 void SdlPlayer::render(SdlCamera &camera) {
