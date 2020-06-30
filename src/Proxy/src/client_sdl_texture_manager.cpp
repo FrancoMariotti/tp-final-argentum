@@ -59,3 +59,7 @@ SdlTexture& SdlTextureManager::getTexture(const std::string &texture_id) {
     return dynamic_renderables_textures.at(texture_id);
 }
 
+SdlTexture& SdlTextureManager::getSpriteTexture(const std::string &texture_id) {
+    return dynamic_renderables_textures.at(texture_id + "Sprite");
+}
+

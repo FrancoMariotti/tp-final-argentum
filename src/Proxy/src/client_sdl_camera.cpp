@@ -28,8 +28,8 @@ void SdlCamera::move() {
 
 bool SdlCamera::isInCameraView(const SDL_Point& point) const {
     bool render = false;
-    if(point.x * TILE_SIZE > camera_x && point.x * TILE_SIZE < camera_x + CAMERA_WIDTH
-        && point.y * TILE_SIZE > camera_y && point.y * TILE_SIZE < camera_y + CAMERA_HEIGHT) {
+    if(point.x * TILE_SIZE >= camera_x && point.x * TILE_SIZE <= camera_x + CAMERA_WIDTH
+        && point.y * TILE_SIZE >= camera_y && point.y * TILE_SIZE <= camera_y + CAMERA_HEIGHT) {
         render = true;
     }
     return render;

@@ -60,10 +60,8 @@ void GUI::updatePlayerStats(t_stats new_stats) {
     playerStats.update(new_stats);
 }
 
-void GUI::updatePlayerEquipment(equipment_t equipment) {
-    std::string weapon_sprite = equipment.weaponName + "Sprite";
-    std::string shield_sprite = equipment.shieldName + "Sprite";
-    player.update(textureManager.getTexture(weapon_sprite), textureManager.getTexture(shield_sprite));
+void GUI::updatePlayerEquipment(const equipment_t& equipment) {
+    player.update(equipment);
 }
 
 

@@ -72,7 +72,7 @@ public:
 
     void addWorldLayer(std::vector<int> data, const int init);
 
-    void updatePlayerEquipment(equipment_t equipment);
+    void updatePlayerEquipment(const equipment_t& equipment);
 };
 
 

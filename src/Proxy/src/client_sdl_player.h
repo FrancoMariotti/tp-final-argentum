@@ -35,10 +35,11 @@ private:
         TOTAL_ORIENTATIONS,
     };
 
-    SdlTexture& armourSpriteSheetTexture;
-    SdlTexture& headSpriteSheetTexture;
-    SdlTexture& weaponSpriteSheetTexture;
-    SdlTexture& shieldSpriteSheetTexture;
+    SdlTextureManager& textureManager;
+    SdlTexture* armourSpriteSheetTexture;
+    SdlTexture* headSpriteSheetTexture;
+    SdlTexture* weaponSpriteSheetTexture;
+    SdlTexture* shieldSpriteSheetTexture;
 
     //Dimensiones del jugador
     //int width;
@@ -78,7 +79,7 @@ public:
 
     void update();
 
-    void update(SdlTexture &newWeaponSheet, SdlTexture &newShieldSheet);
+    void update(const equipment_t& equipment);
 };
 
 
