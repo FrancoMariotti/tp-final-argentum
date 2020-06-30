@@ -36,6 +36,9 @@ void ProxyServer::run() {
                 Event* move = new EventMove(offset);
                 move->execute(game, "franco");
             }
+            //ESTA LINEA HACE QUE LOS NPCS SE MUEVAN POR LO TANTO AL TODAVIA NO TENER RENDERIZADOS
+            //LOS NPCS EN TIEMPO REAL PUEDE QUE NO PUEDAS MOVERTE EN CIERTAS DIRECCIONES EN DETERMINADAS
+            //SITUACIONES ESTO ES PORQUE TENES UN NPC AL LADO.
             game.updateModel();
             end = std::chrono::system_clock::now();
             int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
