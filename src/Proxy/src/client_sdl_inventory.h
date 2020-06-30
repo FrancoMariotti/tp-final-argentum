@@ -8,6 +8,7 @@
 
 #include "client_sdl_button.h"
 #include "client_sdl_player.h"
+#include "client_sdl_mouse.h"
 #include <vector>
 #include <map>
 
@@ -40,7 +41,7 @@ public:
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 
-    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse);
 
     void update(std::vector<std::string> inventory);
 

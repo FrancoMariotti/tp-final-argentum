@@ -14,7 +14,7 @@
 GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents) :
     window(screen_width, screen_height),
     font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
-    player(32, 64, window),
+    player(0, 0, window),
     inventory(screen_width, screen_height, window),
     camera(screen_width, screen_height, player),
     mouse(camera),
@@ -38,7 +38,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
               SdlTexture(24, 46, "../../Proxy/items/sIronArmour.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
-              SdlTexture(24, 46, "../../Proxy/assets/humanHeadSprite.png", window)));
+              SdlTexture(18, 18, "../../Proxy/assets/humanHeadSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
           SdlTexture(18, 18, "../../Proxy/items/ironHelmetSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
@@ -56,7 +56,7 @@ void GUI::handleEvents(SDL_Event &event){
 
 void GUI::execute(){
     player.move(clientEvents);
-    inventory.use(clientEvents);
+    inventory.use(clientEvents, mouse);
     console.execute(clientEvents, mouse, camera, inventory, player);
     camera.move();
 }
@@ -106,6 +106,11 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     }
 }
 
+
+void GUI::addWorldLayer(std::vector<int> data, const int init) {
+    this->world.addLayer(std::move(data), init);
+}
+
 void GUI::addFloorTile(int x, int y, int tile_id) {
     world.addFloorTile(x, y, tile_id);
 }
@@ -113,6 +118,7 @@ void GUI::addFloorTile(int x, int y, int tile_id) {
 void GUI::addObstacleTile(int x, int y, int tile_id) {
     world.addObstacleTile(x, y, tile_id);
 }
+
 
 void GUI::render(){
     //Limpio pantalla
@@ -136,10 +142,10 @@ void GUI::render(){
     window.render();
 }
 
-
 void GUI::renderWorld() {
-    world.renderFloor(camera);
-    world.renderObstacles(camera);
+    world.render(camera);
+    //world.renderFloor(camera);
+    //world.renderObstacles(camera);
     //world.renderDrops(inventory, camera);
 }
 

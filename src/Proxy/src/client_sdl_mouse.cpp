@@ -10,11 +10,15 @@
 SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),
     position{-1,-1},
+    inventory_clicked_index(-1),
     clicked_in_map(false)
     {}
 
+    /*Si el cliente hizo click se invalidan todos los atributos de posicion y si esta dentro de los limites
+     * de la camara se guarda la nueva posicion del mapa en coordenadas del server*/
 void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     if ((event.type == SDL_MOUSEBUTTONDOWN) && !is_event_handled) {
+        this->clear();
         int x,y;
         /*Devuelve la posicion del mouse*/
         SDL_GetMouseState(&x,&y);
@@ -28,15 +32,30 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-SDL_Point SdlMouse::getPosition(){
-    SDL_Point copy_position = position;
+/*Cada vez que el usuario hace un nuevo click se inicializan las entradas
+ * position e index*/
+void SdlMouse::clear(){
     position.x = -1;
     position.y = -1;
+    inventory_clicked_index = -1;
+    clicked_in_map = false;
+}
+
+SDL_Point SdlMouse::getPosition(){
+    SDL_Point copy_position = position;
+    //position.x = -1;
+    //position.y = -1;
     return  copy_position;
 }
 
 bool SdlMouse::clickedInMap(){
     bool cpy = clicked_in_map;
-    clicked_in_map = false;
+    //clicked_in_map = false;
     return cpy;
+}
+
+/*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
+void SdlMouse::setLastClickedItemIndex(const int i){
+    this->clear();
+    this->inventory_clicked_index = i;
 }

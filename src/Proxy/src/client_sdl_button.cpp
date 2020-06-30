@@ -10,11 +10,14 @@
 #define BUTTON_HEIGHT 200
 
 /**TODO: Hacer un overload para el caso de que no
- * tengan spritesheet y sean imagenes estaticas*/
+ * tengan spritesheet y sean imagenes estaticas
+ * agregar una segunda textura para los clips, e.g recuadro verde al
+ * pasar el mouse por encima*/
 
 SdlButton::SdlButton(SdlTexture& buttonTexture) :
-    times_clicked(0),
-    buttonSpriteSheetTexture(buttonTexture)
+        double_click(0),
+        single_click(0),
+        buttonSpriteSheetTexture(buttonTexture)
     {
     position.x = 0;
     position.y = 0;
@@ -43,7 +46,7 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
         SDL_GetMouseState(&x,&y);
 
         /*Boton no se clickeo*/
-        this->times_clicked = 0;
+        this->double_click = 0;
 
         //Check if mouse is in button
         bool inside = true;
@@ -70,8 +73,11 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
                 case SDL_MOUSEBUTTONDOWN:
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
                     if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks == 2){
-                        this->times_clicked += 1;
-                        is_event_handled = true;
+                            this->double_click += 1;
+                            is_event_handled = true;
+                    } else if(e.button.button == SDL_BUTTON_RIGHT && e.button.clicks == 1){
+                            this->single_click +=1;
+                            is_event_handled = true;
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
@@ -83,10 +89,15 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
 }
 
-void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i) {
-    if(times_clicked > 0){
+void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse) {
+    if(double_click > 0){
+        std::cout << "double" << std::endl;
         (cmd)(clientEvents, i);
-        times_clicked--;
+        double_click--;
+    } else if (single_click > 0){
+        std::cout << "single" << std::endl;
+        mouse.setLastClickedItemIndex(i);
+        single_click--;
     }
 }
 
@@ -95,6 +106,7 @@ void SdlButton::render() {
     this->buttonSpriteSheetTexture.render(position.x,
             position.y,
             &this->button_sprite_clips[current_sprite]);
+    //this->outlineButtonSPriteSheetTexture.render(
 }
 
 SdlButton::~SdlButton() {
