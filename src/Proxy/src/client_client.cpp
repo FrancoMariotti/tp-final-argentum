@@ -113,6 +113,8 @@ void Client::init() {
                 this->gui.updateInventory(msg->getItems());
             } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID) {
                 this->gui.updatePlayerStats(msg->getStats());
+            } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
+                this->gui.updateRenderables(msg->getSpawnData());
             }
         }
     }
