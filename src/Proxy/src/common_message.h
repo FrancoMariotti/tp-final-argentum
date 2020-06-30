@@ -9,14 +9,15 @@
 #include <vector>
 #include "common_message_structs.h"
 enum MESSAGES {
-MOVEMENT_MESSAGE_ID,
-DRAW_MESSAGE_ID,
-COMMAND_MESSAGE_ID,
-INVENTORY_UPDATE_MESSAGE_ID,
-SPAWN_NPC_MESSAGE_ID,
-STATS_UPDATE_MESSAGE_ID,
-NPC_MOVEMENT_UPDATE_MESSAGE_ID,
-EQUIPMENT_UPDATE_MESSAGE_ID
+    DRAW_MESSAGE_ID,
+    MOVEMENT_MESSAGE_ID,
+    USE_ITEM_MESSAGE_ID,
+    COMMAND_MESSAGE_ID,
+    INVENTORY_UPDATE_MESSAGE_ID,
+    SPAWN_NPC_MESSAGE_ID,
+    STATS_UPDATE_MESSAGE_ID,
+    NPC_MOVEMENT_UPDATE_MESSAGE_ID,
+    EQUIPMENT_UPDATE_MESSAGE_ID
 };
 
 
@@ -29,7 +30,7 @@ public:
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;
-    virtual std::string getTileName() const;
+    virtual std::string getLayerName() const;
     virtual int getTileX() const;
     virtual int getTileY() const;
     virtual std::vector<int> getData();
@@ -44,6 +45,19 @@ public:
     virtual std::vector<spawn_character_t> getSpawnData();
     virtual npc_movement_t getMovement();
     virtual ~Message() = default;
+};
+
+class Draw : public Message {
+private:
+    std::string name; // nombre del layer a dibujar
+    int width, height;
+    std::vector<int> data;// x e y en unidades del modelo
+public:
+    Draw(std::string name, std::vector<int> data, int width, int height);
+    std::string getLayerName() const override;
+    std::vector<int> getData() override;
+    int getWidth() override;
+    int getHeight() override;
 };
 
 class Movement : public Message{
@@ -62,19 +76,6 @@ private:
 public:
     explicit UseItem(int i);
     int getIndex() const override;
-};
-
-class Draw : public Message {
-private:
-    std::string name; // nombre del layer a dibujar
-    int width, height;
-    std::vector<int> data;// x e y en unidades del modelo
-public:
-    Draw(std::string name, std::vector<int> data, int width, int height);
-    std::string getTileName() const override;
-    std::vector<int> getData() override;
-    int getWidth() override;
-    int getHeight() override;
 };
 
 class ExecuteCommand : public Message {

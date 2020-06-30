@@ -91,16 +91,16 @@ void Client::init() {
                 init += 1;
                 std::vector<int> data = msg->getData();
                 this->gui.setWorldDimensions(msg->getWidth(), msg->getHeight());
-                for(unsigned long i = 0; i < data.size(); i++){
+                this->gui.addWorldLayer(std::move(data), init);
+                /*for(unsigned long i = 0; i < data.size(); i++){
                     int x = i % msg->getWidth();
                     int y = i / msg->getHeight();
                     int id = data[i];
                     if(id != 0){
-                        //this->gui.addTile(x, y, id);
                         if(init == 1) this->gui.addFloorTile(x, y, id);
                         else this->gui.addObstacleTile(x, y, id);
                     }
-                }
+                }*/
             } else if(msg->getId() == INVENTORY_UPDATE_MESSAGE_ID) {
                 this->gui.updateInventory(msg->getItems());
             } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID) {

@@ -106,6 +106,11 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     }
 }
 
+
+void GUI::addWorldLayer(std::vector<int> data, const int init) {
+    this->world.addLayer(std::move(data), init);
+}
+
 void GUI::addFloorTile(int x, int y, int tile_id) {
     world.addFloorTile(x, y, tile_id);
 }
@@ -113,6 +118,7 @@ void GUI::addFloorTile(int x, int y, int tile_id) {
 void GUI::addObstacleTile(int x, int y, int tile_id) {
     world.addObstacleTile(x, y, tile_id);
 }
+
 
 void GUI::render(){
     //Limpio pantalla
@@ -136,10 +142,10 @@ void GUI::render(){
     window.render();
 }
 
-
 void GUI::renderWorld() {
-    world.renderFloor(camera);
-    world.renderObstacles(camera);
+    world.render(camera);
+    //world.renderFloor(camera);
+    //world.renderObstacles(camera);
     //world.renderDrops(inventory, camera);
 }
 

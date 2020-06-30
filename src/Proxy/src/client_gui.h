@@ -70,6 +70,8 @@ public:
     void setWorldDimensions(int w, int h);
 
     void updateDrops(const std::vector<std::string> &drops);
+
+    void addWorldLayer(std::vector<int> data, const int init);
 };
 
 

@@ -30,7 +30,7 @@ int Message::getIndex() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-std::string Message::getTileName() const {
+std::string Message::getLayerName() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -116,7 +116,7 @@ int Movement::getPlayerVelY() const {
 }
 
 UseItem::UseItem(const int i) :
-    Message('u'),
+    Message(USE_ITEM_MESSAGE_ID),
     inventory_i(i)
     {}
 
@@ -129,7 +129,7 @@ Draw::Draw(std::string name, std::vector<int> data, int width, int height) :
     this->data = std::move(data);
 }
 
-std::string Draw::getTileName() const {
+std::string Draw::getLayerName() const {
     return name;
 }
 
