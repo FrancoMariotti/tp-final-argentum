@@ -8,15 +8,18 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 class SdlTexture;
 class SdlWindow;
 class SdlTextureManager {
 private:
-    std::map<std::string, SdlTexture> dynamic_renderables_textures;
-
     const int HEAD_WIDTH = 17;
     const int HEAD_HEIGHT = 16;
+
+    std::map<std::string, SdlTexture> dynamic_renderables_textures;
+
+    const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
 
 public:
     explicit SdlTextureManager(const SdlWindow& window);
@@ -28,6 +31,10 @@ public:
     SdlTexture &initShield();
 
     SdlTexture &initWeapon();
+
+    std::string findTextureId(const std::string &id);
+
+    SdlTexture &getTexture(const std::string &texture_id);
 };
 
 

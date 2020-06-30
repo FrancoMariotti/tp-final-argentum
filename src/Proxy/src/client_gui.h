@@ -30,7 +30,6 @@ private:
     SdlWorld world;
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
-    std::map<std::string, SdlTexture> dynamic_renderables_textures;
 
     typedef struct t_sprite_dimensions{
         int x;
@@ -38,7 +37,6 @@ private:
         std::string id;
     }t_sprite_dimensions;
 
-    const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:

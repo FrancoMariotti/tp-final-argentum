@@ -26,24 +26,6 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
-    this->dynamic_renderables_textures.emplace(std::make_pair("spider",
-            SdlTexture(54, 34, "../../Proxy/assets/spiderSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("skeleton",
-            SdlTexture(26, 54, "../../Proxy/assets/skeletonSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
-            SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
-            SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
-            SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
-              SdlTexture(24, 46, "../../Proxy/items/ironArmourSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
-              SdlTexture(18, 18, "../../Proxy/assets/humanHeadSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
-          SdlTexture(18, 18, "../../Proxy/items/ironHelmetSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
-          SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
 
 }
 
@@ -81,7 +63,7 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 void GUI::updatePlayerEquipment(equipment_t equipment) {
     std::string weapon_sprite = equipment.weaponName + "Sprite";
     std::string shield_sprite = equipment.shieldName + "Sprite";
-    //player.update(weapon_sprite, shield_sprite);
+    player.update(textureManager.getTexture(weapon_sprite), textureManager.getTexture(shield_sprite));
 }
 
 
@@ -91,18 +73,14 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     dynamic_renderables.clear();
     auto it = renderables.begin();
     for(; it != renderables.end(); it++) {
-        std::string texture_id = "player";
-        for(auto & renderable_id : RENDERABLES_TEXTURES_ID){
-            if(it->id.find(renderable_id) != std::string::npos){
-                texture_id = renderable_id;
-            }
-        }
-        if(texture_id != "player"){
+        std::string texture_id = textureManager.findTextureId(it->id);
+        if (texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
                     (new SdlDynamicRenderable(camera.toPixels(it->x) ,camera.toPixels(it->y),
-                                              dynamic_renderables_textures.at(texture_id)));
+                                              textureManager.getTexture(texture_id)));
+                            //dynamic_renderables_textures.at(texture_id)));
 
-        } else {
+        } /*else {
             dynamic_renderables.insert(std::make_pair(it->id,
                   std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(it->x , it->y,
                   dynamic_renderables_textures.at("ironArmourSprite"),
@@ -110,7 +88,7 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
                   dynamic_renderables_textures.at("ironHelmetSprite"),
                   dynamic_renderables_textures.at("axeSprite"),
                   dynamic_renderables_textures.at("ironShieldSprite")))));
-        }
+        }*/
     }
 }
 

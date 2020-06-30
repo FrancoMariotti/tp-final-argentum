@@ -78,7 +78,7 @@ public:
 
     void update();
 
-    void update(SdlTexture &weapon_sprite, SdlTexture &shield_sprite);
+    void update(SdlTexture &newWeaponSheet, SdlTexture &newShieldSheet);
 };
 
 

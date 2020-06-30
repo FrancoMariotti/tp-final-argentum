@@ -86,8 +86,8 @@ void SdlPlayer::update(const int player_x, const int player_y, SdlCamera &camera
     this->pos_y = camera.toPixels(player_y);
 }
 
-void SdlPlayer::update(SdlTexture& weapon_sprite, SdlTexture& shield_sprite) {
-
+void SdlPlayer::update(SdlTexture& newWeaponSheet, SdlTexture& newShieldSheet) {
+    //weaponSpriteSheetTexture = newWeaponSheet;
 }
 
 void SdlPlayer::render(SdlCamera &camera) {
@@ -103,12 +103,12 @@ void SdlPlayer::render(SdlCamera &camera) {
     armourSpriteSheetTexture.render(pos_x - camera.getX(),
             (pos_y - body_offset_y) - camera.getY(),
             &armour_orientation_clips[e_body_orientation]);
-    //weaponSpriteSheetTexture.render(pos_x - camera.getX(),
-    // (pos_y - body_offset_y) - camera.getY(),
-    // &weapon_orientation_clips[e_body_orientation]);
-    //shieldSpriteSheetTexture.render(pos_x - camera.getX(),
-    // (pos_y - body_offset_y) - camera.getY(),
-    // &shield_orientation_clips[e_body_orientation]);
+    weaponSpriteSheetTexture.render(pos_x - camera.getX(),
+            (pos_y - body_offset_y) - camera.getY(),
+            &weapon_orientation_clips[e_body_orientation]);
+    shieldSpriteSheetTexture.render(pos_x - camera.getX(),
+            (pos_y - body_offset_y) - camera.getY(),
+            &shield_orientation_clips[e_body_orientation]);
 
 }
 
