@@ -107,6 +107,8 @@ void Client::init() {
                 this->gui.updatePlayerStats(msg->getStats());
             } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
                 this->gui.updateRenderables(msg->getSpawnData());
+            } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
+                gui.updatePlayerEquipment(msg->getEquipment());
             }
         }
     }

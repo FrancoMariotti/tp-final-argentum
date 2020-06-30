@@ -96,8 +96,11 @@ void SdlPlayer::update(const int player_x, const int player_y, SdlCamera &camera
 }
 
 void SdlPlayer::update(const equipment_t& equipment) {
-    weaponSpriteSheetTexture = &textureManager.getSpriteTexture(equipment.weaponName);
-    shieldSpriteSheetTexture = &textureManager.getSpriteTexture(equipment.shieldName);
+    /*rompe pq no tengo "fists" en el map de texturas*/
+    //std::cout << equipment.weaponName << std::endl;
+    if(equipment.weaponName != "fists"){
+        weaponSpriteSheetTexture = &textureManager.getSpriteTexture(equipment.weaponName);
+    }
 }
 
 void SdlPlayer::render(SdlCamera &camera) {

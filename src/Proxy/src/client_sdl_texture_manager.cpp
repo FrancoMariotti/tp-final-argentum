@@ -17,6 +17,8 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
                                                               SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
                                                               SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
+                                                              SdlTexture(22, 48, "../../Proxy/items/swordSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("defaultArmourSprite",
                                                               SdlTexture(24, 46, "../../Proxy/items/defaultArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
