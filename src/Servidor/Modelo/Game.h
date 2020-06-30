@@ -34,9 +34,9 @@ public:
     void statsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) override;
     void itemsUpdate(std::vector<std::string> &vector) override ;
     void spawnNpcUpdate(std::vector<spawn_character_t> &npcs) override;
+    void updateModel();
+    void movementNpcUpdate(std::string idNpc, int x, int y) override;
     ~Game();
-
-    void setPlayerLevel(const std::string &playerName, int level);
 };
 
 

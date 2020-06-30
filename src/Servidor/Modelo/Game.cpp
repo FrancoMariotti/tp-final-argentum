@@ -1,4 +1,5 @@
 #include <Proxy/src/common_message.h>
+#include <thread>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
@@ -10,6 +11,29 @@ Game::Game(const std::string& configFile): configFile(configFile), factoryCharac
     map = factory.create();
     map->update(this);
 }
+
+void Game::updateModel() {
+    map->moveNpcs();
+}
+
+/*void Game::start() {
+    this->keep_playing = true;
+    while(this->keep_playing) {
+        //std::chrono
+        //receive events
+        //update model
+        updateModel();
+        //sleep(step)
+        //sendUpdates()
+        std::chrono::time_point<std::chrono::system_clock> start, end;
+        start = std::chrono::system_clock::now();
+        end = std::chrono::system_clock::now();
+        int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
+                (end-start).count();
+        int gameloopDuration = elapsed_seconds;
+        std::this_thread::sleep_for(std::chrono::seconds(gameloopDuration));
+    }
+}*/
 
 void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
@@ -81,6 +105,10 @@ void Game::itemsUpdate(std::vector<std::string>& vector) {
 
 void Game::movementUpdate(int x, int y) {
     updates.push(new Movement(x,y));
+}
+
+void Game::movementNpcUpdate(std::string idNpc, int x, int y) {
+    updates.push(new MovementNpcUpdate(idNpc,x,y));
 }
 
 Game::~Game() {

@@ -41,6 +41,8 @@ class Map {
         ~Map();
 
     Position asignRandomPosition();
+
+    void moveNpcs();
 };
 
 #endif //ARGENTUM_MAPA_H

@@ -136,7 +136,6 @@ int Draw::getHeight() {
     return height;
 }
 
-
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message(COMMAND_MESSAGE_ID),
     command(command),
@@ -199,4 +198,10 @@ SpawnNpc::SpawnNpc(std::vector<spawn_character_t> renderables) : Message(SPAWN_N
 
 std::vector<spawn_character_t> SpawnNpc::getSpawnData() {
     return std::move(renderables);
+}
+
+MovementNpcUpdate::MovementNpcUpdate(std::string id, int x, int y):Message(NPC_MOVEMENT_UPDATE_MESSAGE_ID) {
+    this->id =id;
+    this->x = x;
+    this->y = y;
 }

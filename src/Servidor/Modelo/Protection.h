@@ -22,7 +22,7 @@ public:
     void equip(std::vector<Protection> &protections);
     void equipTo(PlayableCharacter *character, int i) override;
     void unequip(std::vector<Protection> &protections);
-    void unequipFrom(PlayableCharacter *character) override ;
+    void unequipFrom(PlayableCharacter *character) override;
 };
 
 

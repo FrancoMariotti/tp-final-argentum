@@ -87,22 +87,6 @@ PlayableCharacter *Map::getPlayer(const std::string &playerName) {
     return characters.at(playerName);
 }
 
-Map::~Map() {
-    std::vector<Npc*>::iterator itrNpcs;
-    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
-        delete (*itrNpcs);
-    }
-
-    std::map<std::string,PlayableCharacter*>::iterator itCharacters;
-    for (itCharacters = characters.begin(); itCharacters != characters.end(); itCharacters++) {
-        delete itCharacters->second;
-    }
-
-    std::vector<Obstacle*>::iterator itrObstacles;
-    for (itrObstacles = obstacles.begin(); itrObstacles != obstacles.end(); ++itrObstacles) {
-        delete (*itrObstacles);
-    }
-}
 void Map::sendLayers(ProxySocket& sck,std::string configFile) const {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
@@ -129,7 +113,6 @@ void Map::sendLayers(ProxySocket& sck,std::string configFile) const {
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("obstacles",obstaclesLayer,width,height)));
 }
-
 Position Map::asignRandomPosition() {
     int x, y;
     x = Utils::random_int_number(0, height - 1);
@@ -139,6 +122,30 @@ Position Map::asignRandomPosition() {
         y = Utils::random_int_number(0, width - 1);
     }
     return Position(x, y);
+}
+
+void Map::moveNpcs() {
+    std::vector<Npc*>::iterator itrNpcs;
+    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
+        (*itrNpcs)->move();
+    }
+}
+
+Map::~Map() {
+    std::vector<Npc*>::iterator itrNpcs;
+    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
+        delete (*itrNpcs);
+    }
+
+    std::map<std::string,PlayableCharacter*>::iterator itCharacters;
+    for (itCharacters = characters.begin(); itCharacters != characters.end(); itCharacters++) {
+        delete itCharacters->second;
+    }
+
+    std::vector<Obstacle*>::iterator itrObstacles;
+    for (itrObstacles = obstacles.begin(); itrObstacles != obstacles.end(); ++itrObstacles) {
+        delete (*itrObstacles);
+    }
 }
 
 

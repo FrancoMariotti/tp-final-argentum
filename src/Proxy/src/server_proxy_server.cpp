@@ -12,10 +12,6 @@ ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     {}
 
 void ProxyServer::run() {
-    /*proxySocket.writeToClient(std::unique_ptr<Message> (
-            new Draw("pasto", positions)));*/
-    //En el parametro del write le paso un unique_ptr que en su constructor recibe un
-    //new Mensaje donde mensaje es el mensaje especifico que quiero crear
     std::cout << "Server is running" << std::endl;
     Game game("config/config.json");
     game.createPlayer("franco", "human", "wizard");
@@ -23,20 +19,25 @@ void ProxyServer::run() {
     game.initializeMap(proxySocket);
     NormalWeapon sword("sword", 2, 5);
     game.storeInInventory("franco",&sword);
-    //game.createNpc("goblin");
     game.sendUpdates(proxySocket);
     try{
 
         while(this->keepListening) {
             /*Si no hay eventos se bloquea*/
+            std::chrono::time_point<std::chrono::system_clock> start, end;
+            start = std::chrono::system_clock::now();
             std::unique_ptr<Message> msg = proxySocket.readServer();
             if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
                 Event* move = new EventMove(offset);
                 move->execute(game, "franco");
-                game.sendUpdates(proxySocket);
             }
-
+            game.updateModel();
+            end = std::chrono::system_clock::now();
+            int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
+                    (end-start).count();
+            std::this_thread::sleep_for(std::chrono::milliseconds(50 - elapsed_seconds));
+            game.sendUpdates(proxySocket);
         }
     } catch (ClosedQueueException &e){
 

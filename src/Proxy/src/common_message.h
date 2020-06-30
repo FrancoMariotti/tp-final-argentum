@@ -14,7 +14,8 @@ DRAW_MESSAGE_ID,
 COMMAND_MESSAGE_ID,
 INVENTORY_UPDATE_MESSAGE_ID,
 SPAWN_NPC_MESSAGE_ID,
-STATS_UPDATE_MESSAGE_ID
+STATS_UPDATE_MESSAGE_ID,
+NPC_MOVEMENT_UPDATE_MESSAGE_ID
 };
 
 
@@ -117,6 +118,15 @@ class SpawnNpc: public Message {
 public:
     explicit SpawnNpc(std::vector<spawn_character_t> renderables);
     std::vector<spawn_character_t> getSpawnData() override;
+};
+
+
+class MovementNpcUpdate: public Message {
+    std::string id;
+    int x;
+    int y;
+public:
+    explicit MovementNpcUpdate(std::string id,int x,int y);
 };
 
 

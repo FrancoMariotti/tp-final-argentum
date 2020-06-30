@@ -12,6 +12,8 @@ public:
     virtual void itemsUpdate(std::vector<std::string> &vector) = 0;
 
     virtual void spawnNpcUpdate(std::vector<spawn_character_t> &npcs) = 0;
+
+    virtual void movementNpcUpdate(std::string idNpc, int x, int y) = 0;
 };
 
 #endif //ARGENTUM_OBSERVER_H
