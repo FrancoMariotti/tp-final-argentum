@@ -4,9 +4,10 @@
 #include "PlayableCharacter.h"
 
 #define MAX_RANGE 4
+#define NPC_UPDATE_TIME 800
 
 
-Npc::Npc(std::string id,Map* map,Position &initialPosition,int constitution,
+Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
         , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
          int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer):
@@ -17,6 +18,7 @@ Npc::Npc(std::string id,Map* map,Position &initialPosition,int constitution,
         armour("npcArmour", minDefense,maxDefense, ARMOUR, 0){
     this->specie = std::move(specie);
     this->mana = 0;
+    this->updateTime = 0;
     spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
     map->registerNpcSpawn(spawn);
 }
@@ -33,26 +35,29 @@ bool Npc::shouldDrop(int probability) {
 }
 
 
-void Npc::move() {
-    Offset offset(0,0);
+void Npc::move(float looptime) {
+    updateTime += looptime;
+    if(updateTime >= NPC_UPDATE_TIME){
+        Offset offset(0,0);
 
-    PlayableCharacter* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos, MAX_RANGE);
-    bool enemyFound = (enemy != nullptr);
-    if (enemyFound) {
-        offset = enemy->getOffset(currPos);
-        offset.approach();
-    } else {
-        offset.randomDir();
+        auto* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos, MAX_RANGE);
+        bool enemyFound = (enemy != nullptr);
+        if (enemyFound) {
+            offset = enemy->getOffset(currPos);
+            offset.approach();
+        } else {
+            offset.randomDir();
+        }
+        Position next(currPos);
+        next.apply(offset);
+        map->move(currPos,next);
+        observer->notifyMovementNpcUpdate(id,currPos.getX(),currPos.getY());
+        updateTime = 0;
+        if(enemyFound) {
+            this->attack(enemy);
+        }
     }
 
-    Position next(currPos);
-    next.apply(offset);
-    map->move(currPos,next);
-    observer->notifyMovementNpcUpdate(id,currPos.getX(),currPos.getY());
-
-    if(enemyFound) {
-        this->attack(enemy);
-    }
 }
 
 int Npc::receiveDamage(int enemyLevel, int damage) {
