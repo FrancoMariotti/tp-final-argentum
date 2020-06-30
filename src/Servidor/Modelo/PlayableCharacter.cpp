@@ -10,12 +10,13 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
         int invMaxElements,Observer* observer):
         Character(id,map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-                defaultWeapon("fists",1, 1), inventory(invMaxElements) {
+                defaultWeapon("fists",1, 1, 0), inventory(invMaxElements) {
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
     this->gold = 0;
     this->xp = 0;
     sendStats();
+    sendEquipment();
 }
 
 void PlayableCharacter::sendStats() {
@@ -23,6 +24,14 @@ void PlayableCharacter::sendStats() {
     float mana_percentage = (float)mana / (float)calculateMaxMana();
     float exp_percentage = (float)xp / (float)calculateLvlLimit();
     observer->statsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
+}
+
+void PlayableCharacter::sendEquipment() {
+    std::string weaponName = activeWeapon->getName();
+    std::string armourName = armour.getName(ARMOUR);
+    std::string shieldName = armour.getName(SHIELD);
+    std::string helmetName = armour.getName(HELMET);
+    observer->equipmentUpdate(weaponName, armourName, shieldName, helmetName);
 }
 
 void PlayableCharacter::move(Offset& offset) {
@@ -99,10 +108,12 @@ void PlayableCharacter::equip(Equippable* element, int index) {
 
 void PlayableCharacter::equip(Weapon* weapon, int index) {
     activeWeapon = weapon;
+    sendEquipment();
 }
 
 void PlayableCharacter::equip(Protection* protection, int index) {
     armour.equip(*protection);
+    sendEquipment();
 }
 
 void PlayableCharacter::equip(Potion* potion, int index) {
@@ -121,10 +132,12 @@ void PlayableCharacter::unequip(Equippable* element) {
 
 void PlayableCharacter::unequip(Weapon* weapon) {
     activeWeapon = &defaultWeapon;
+    sendEquipment();
 }
 
 void PlayableCharacter::unequip(Protection* protection) {
     armour.unequip(*protection);
+    sendEquipment();
 }
 
 int PlayableCharacter::defend(int damage) {

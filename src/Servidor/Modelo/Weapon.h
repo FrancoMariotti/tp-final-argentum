@@ -12,7 +12,7 @@ class Weapon : public Equippable {
     protected:
         int calculateDamage(int strength);
     public:
-        Weapon(std::string name, int minDamage,int maxDamage);
+        Weapon(std::string name, int minDamage,int maxDamage, int goldCost);
         void equipTo(PlayableCharacter *character, int i) override;
         virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
         void unequipFrom(PlayableCharacter *character) override ;

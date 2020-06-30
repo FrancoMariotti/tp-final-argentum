@@ -14,10 +14,11 @@ class Equippable {
     std::string name;
     int minValue;
     int maxValue;
+    int goldCost;
 protected:
     bool equipped;
 public:
-    Equippable(std::string name, int minValue, int maxValue);
+    Equippable(std::string name, int minValue, int maxValue, int goldCost);
     int randomize() const;
     virtual void equipTo(PlayableCharacter *character, int index) = 0;
     virtual void unequipFrom(PlayableCharacter *character) = 0;

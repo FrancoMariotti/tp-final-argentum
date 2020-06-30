@@ -64,6 +64,11 @@ t_stats Message::getStats() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+equipment_t Message::getEquipment() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 std::vector<std::string> Message::getItems() {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
@@ -182,6 +187,15 @@ Stats::Stats(float health_percentage, float mana_percentage, float exp_percentag
 
 t_stats Stats::getStats(){
     return t_stats{health_percentage, mana_percentage, exp_percentage, gold, level};
+}
+
+EquipmentUpdate::EquipmentUpdate(std::string weaponName, std::string armourName,
+        std::string shieldName, std::string helmetName) : Message(EQUIPMENT_UPDATE_MESSAGE_ID),
+        weaponName(weaponName), armourName(armourName), shieldName(shieldName),
+        helmetName(helmetName) {}
+
+equipment_t EquipmentUpdate::getEquipment() {
+    return equipment_t {weaponName, armourName, shieldName, helmetName};
 }
 
 InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) : Message(INVENTORY_UPDATE_MESSAGE_ID) {

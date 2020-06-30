@@ -4,7 +4,8 @@
 
 #include "Potion.h"
 
-Potion::Potion(std::string name, int value) : Equippable(name, value, value){}
+Potion::Potion(std::string name, int value, int goldCost)
+    : Equippable(name, value, value, goldCost){}
 
 void Potion::equipTo(PlayableCharacter *character, int index) {
     equipped = true;

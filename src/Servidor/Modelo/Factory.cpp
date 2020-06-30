@@ -105,12 +105,12 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int maxDamage = npcsObj["specie"][specie]["maxDamage"].asInt();
     int minDefense = npcsObj["specie"][specie]["minDefense"].asInt();
     int maxDefense = npcsObj["specie"][specie]["maxDefense"].asInt();
-    int raceLifeFactor = npcsObj["lifeFactor"].asInt();
-    int raceManaFactor = npcsObj["manaFactor"].asInt();
-    int recoveryFactor = npcsObj["recoveryFactor"].asInt();
-    int classLifeFactor = npcsObj["lifeFactor"].asInt();
-    int classManaFactor = npcsObj["manaFactor"].asInt();
-    int meditationRecoveryFactor = npcsObj["meditationRecoveryFactor"].asInt();
+    int raceLifeFactor = npcsObj["specie"][specie]["lifeFactor"].asInt();
+    int raceManaFactor = npcsObj["specie"][specie]["manaFactor"].asInt();
+    int recoveryFactor = npcsObj["specie"][specie]["recoveryFactor"].asInt();
+    int classLifeFactor = npcsObj["specie"][specie]["lifeFactor"].asInt();
+    int classManaFactor = npcsObj["specie"][specie]["manaFactor"].asInt();
+    int meditationRecoveryFactor = npcsObj["specie"][specie]["meditationRecoveryFactor"].asInt();
 
     Position initialPosition = map->asignRandomPosition();
     std::string id = specie + std::to_string(counter);
