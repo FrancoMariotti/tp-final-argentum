@@ -126,10 +126,10 @@ Position Map::asignRandomPosition() {
     return Position(x, y);
 }
 
-void Map::moveNpcs() {
+void Map::moveNpcs(float looptime) {
     std::vector<Npc*>::iterator itrNpcs;
     for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
-        (*itrNpcs)->move();
+        (*itrNpcs)->move(looptime);
     }
 }
 

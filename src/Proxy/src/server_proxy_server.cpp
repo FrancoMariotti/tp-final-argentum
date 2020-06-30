@@ -42,11 +42,12 @@ void ProxyServer::run() {
             //ESTA LINEA HACE QUE LOS NPCS SE MUEVAN POR LO TANTO AL TODAVIA NO TENER RENDERIZADOS
             //LOS NPCS EN TIEMPO REAL PUEDE QUE NO PUEDAS MOVERTE EN CIERTAS DIRECCIONES EN DETERMINADAS
             //SITUACIONES ESTO ES PORQUE TENES UN NPC AL LADO.
-            game.updateModel();
+            float looptime = 60;
+            game.updateModel(looptime);
             end = std::chrono::system_clock::now();
             int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
                     (end-start).count();
-            std::this_thread::sleep_for(std::chrono::milliseconds(60 - elapsed_seconds));
+            std::this_thread::sleep_for(std::chrono::milliseconds(60- elapsed_seconds));
             game.sendUpdates(proxySocket);
         }
     } catch (ClosedQueueException &e){

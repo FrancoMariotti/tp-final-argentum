@@ -38,11 +38,9 @@ class Map {
         void sendLayers(ProxySocket& sck,std::string configFile) const;
         void registerNpcSpawn(spawn_character_t spawn);
         void update(Observer *observer);
+        void moveNpcs(float looptime);
+        Position asignRandomPosition();
         ~Map();
-
-    Position asignRandomPosition();
-
-    void moveNpcs();
 };
 
 #endif //ARGENTUM_MAPA_H

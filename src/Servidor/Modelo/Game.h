@@ -36,7 +36,7 @@ public:
     void notifyItemsUpdate(std::vector<std::string> &vector) override;
     void notifySpawnNpcUpdate(std::vector<spawn_character_t> &npcs) override;
     void notifyMovementNpcUpdate(std::string idNpc, int x, int y) override;
-    void updateModel();
+    void updateModel(float looptime);
     ~Game();
 };
 
