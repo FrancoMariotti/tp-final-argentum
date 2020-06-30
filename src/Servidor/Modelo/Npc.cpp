@@ -7,7 +7,7 @@
 #define NPC_UPDATE_TIME 800
 
 
-Npc::Npc(std::string id,Map* map,Position &initialPosition,int constitution,
+Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level, std::string specie, int minDamage
         , int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
          int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer):
@@ -36,29 +36,28 @@ bool Npc::shouldDrop(int probability) {
 
 
 void Npc::move(float looptime) {
-    Offset offset(0,0);
-
-    auto* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos, MAX_RANGE);
-    bool enemyFound = (enemy != nullptr);
-    if (enemyFound) {
-        offset = enemy->getOffset(currPos);
-        offset.approach();
-    } else {
-        offset.randomDir();
-    }
-
     updateTime += looptime;
     if(updateTime >= NPC_UPDATE_TIME){
+        Offset offset(0,0);
+
+        auto* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos, MAX_RANGE);
+        bool enemyFound = (enemy != nullptr);
+        if (enemyFound) {
+            offset = enemy->getOffset(currPos);
+            offset.approach();
+        } else {
+            offset.randomDir();
+        }
         Position next(currPos);
         next.apply(offset);
         map->move(currPos,next);
         observer->notifyMovementNpcUpdate(id,currPos.getX(),currPos.getY());
         updateTime = 0;
+        if(enemyFound) {
+            this->attack(enemy);
+        }
     }
 
-    if(enemyFound) {
-        this->attack(enemy);
-    }
 }
 
 int Npc::receiveDamage(int enemyLevel, int damage) {
