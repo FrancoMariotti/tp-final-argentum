@@ -50,16 +50,11 @@ void SdlMouse::clear(){
 }
 
 SDL_Point SdlMouse::getPosition(){
-    SDL_Point copy_position = position;
-    //position.x = -1;
-    //position.y = -1;
-    return  copy_position;
+    return position;
 }
 
 bool SdlMouse::clickedInMap(){
-    bool cpy = clicked_in_map;
-    //clicked_in_map = false;
-    return cpy;
+    return clicked_in_map;
 }
 
 /*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/

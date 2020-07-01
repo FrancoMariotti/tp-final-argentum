@@ -5,9 +5,6 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_player.h"
 
-#define MAP_WIDTH 15
-#define MAP_HEIGHT 15
-
 SdlCamera::SdlCamera(const int screen_width,const int screen_height, SdlPlayer& player) :
         CAMERA_WIDTH(screen_width),
         CAMERA_HEIGHT(screen_height),
@@ -36,12 +33,7 @@ bool SdlCamera::isInCameraView(const SDL_Point& point) const {
 }
 
 bool SdlCamera::isInCameraView(const SDL_Point &point, int overload) const {
-    bool is_inside = false;
-    if(point.x  > camera_x && point.x  < camera_x + CAMERA_WIDTH
-       && point.y > camera_y && point.y < camera_y + CAMERA_HEIGHT) {
-        is_inside = true;
-    }
-    return is_inside;
+    return (point.x  > 0 && point.x < CAMERA_WIDTH && point.y > 0 && point.y < CAMERA_HEIGHT);
 }
 
 int SdlCamera::getX() const{
