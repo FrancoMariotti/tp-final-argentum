@@ -3,15 +3,11 @@
 #include "PlayableCharacter.h"
 #include "Npc.h"
 
-RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, Range range, int goldCost)
+RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, int goldCost)
     :Weapon(name, minDamage,maxDamage, goldCost) {
-    this->range = range;
 }
 
 int RangeWeapon::attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) {
-    if((range == SHORT && enemy->distanceTo(holderPos) == 1) || range == LONG) {
-        int damage = calculateDamage(strength);
-        return enemy->receiveDamage(level, damage);
-    }
-    return 0;
+    int damage = calculateDamage(strength);
+    return enemy->receiveDamage(level, damage);
 }
