@@ -17,10 +17,14 @@ void ProxyServer::run() {
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
     game.initializeMap(proxySocket);
-    NormalWeapon* sword = new NormalWeapon("sword", 2, 5, 0);
+    auto* sword = new NormalWeapon("sword", 2, 5, 0);
     game.storeInInventory("franco",sword);
-    Protection* shield = new Protection("turtleShell", 4, 6, SHIELD, 0);
+    auto* axe = new NormalWeapon("axe", 3, 6, 0);
+    game.storeInInventory("franco",axe);
+    auto* shield = new Protection("turtleShell", 4, 6, SHIELD, 0);
     game.storeInInventory("franco", shield);
+    auto* shield2 = new Protection("ironShield", 5, 7, SHIELD, 0);
+    game.storeInInventory("franco", shield2);
     game.equip("franco", 0);
     game.equip("franco", 1);
     game.sendUpdates(proxySocket);
@@ -44,6 +48,10 @@ void ProxyServer::run() {
                 if (msg->getId() == COMMAND_MESSAGE_ID) {
                     //execute command
                     //command pattern
+                }
+
+                if (msg->getId() == USE_ITEM_MESSAGE_ID) {
+                    game.equip("franco", msg->getIndex());
                 }
             }
             float looptimeInSeconds = 60 * 0.001;
