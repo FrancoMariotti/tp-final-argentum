@@ -8,7 +8,7 @@ Character::Character(std::string id,Map* map,Position &initialPosition,int const
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer)
                   : map(map),currPos(initialPosition) {
-    this->id = id;
+    this->id = std::move(id);
     this->observer = observer;
     this->level = level;
     this->raceLifeFactor = raceLifeFactor;
@@ -37,31 +37,28 @@ Offset Character::getOffset(Position initialPos) {
     return final - initialPos;
 }
 
-/*metodos protected*/
-
-
 int Character::calculateAttackXp(int damage,int enemyLvl) const {
     return damage * std::max(enemyLvl - level + 10, 0);
 }
 
 float Character::calculateMaxLife() const {
-    return constitution * level * classLifeFactor * raceLifeFactor;
+    return (float)(constitution * level * classLifeFactor * raceLifeFactor);
 }
 
-int Character::calculateMaxMana() const {
-    return intelligence * classManaFactor * raceManaFactor * level;
+float Character::calculateMaxMana() const {
+    return (float)(intelligence * classManaFactor * raceManaFactor * level);
 }
 
 int Character::calculateLvlLimit() const {
-    return 1000 * pow(level, 1.8);
+    return (int)(1000 * pow(level, 1.8));
 }
 
-int Character::calculateRecoverLifePoints(int seconds) const {
-    return recoveryFactor * seconds;
+float Character::calculateRecoverLifePoints(float seconds) const {
+    return (float)recoveryFactor * seconds;
 }
 
-int Character::calculateRecoverMana(int seconds) const {
-    return recoveryFactor * seconds;
+float Character::calculateRecoverMana(float seconds) const {
+    return (float)recoveryFactor * seconds;
 }
 
 int Character::calculateRecoverManaMeditating(int seconds) const {
@@ -69,20 +66,20 @@ int Character::calculateRecoverManaMeditating(int seconds) const {
 }
 
 int Character::calculateSafeGoldCapacity(int lvl) const {
-    return 100 * pow(lvl, 1.1);
+    return (int)(100 * pow(lvl, 1.1));
 }
 
 int Character::calculateGoldCapacity() const {
-    return calculateSafeGoldCapacity(level) * 1.5;
+    return (int)(calculateSafeGoldCapacity(level) * 1.5);
 }
 
 int Character::calculateKillXp(int enemyMaxLp, int enemyLvl) const {
-    double modifier = double(std::rand()) / (double(RAND_MAX) + 1.0);
-    return modifier * enemyMaxLp * std::max(enemyLvl - level + 10, 0);
+    float modifier = Utils::random_real_number(0,0.1);
+    return (int)(modifier * enemyMaxLp * std::max(enemyLvl - level + 10, 0));
 }
 
 bool Character::dodge() const {
-    double modifier = double(std::rand()) / (double(RAND_MAX) * 1.0);
+    float modifier = Utils::random_real_number(0,1);
     return pow(modifier, agility) < 0.001;
 }
 

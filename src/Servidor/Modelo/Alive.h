@@ -12,10 +12,10 @@ class Alive: public LifeState {
     void attackEnemy(PlayableCharacter *character, Character *enemy) override;
     int modifyLifePointsFrom(PlayableCharacter *character, int enemyLevel, int damage) override;
     void store(Equippable *element, Inventory &inventory, Observer *observer) override;
-    void heal(int maxLife, int &lifePoints, int value) override;
-    void earnMana(int maxMana, int &mana, int value) override;
-    void recoverLifePoints(int &lifePoints,int maxLife,int recoveredLifePoints) override;
-    void recoverMana(int &mana, int maxMana, int recoveredMana) override;
+    void heal(float maxLife, float &lifePoints, float value) override;
+    void earnMana(float maxMana, float &mana, float value) override;
+    void recoverLifePoints(float &lifePoints,float maxLife,float recoveredLifePoints) override;
+    void recoverMana(float &mana, float maxMana, float recoveredMana) override;
     void equip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     void unequip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     bool dead() override;

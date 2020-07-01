@@ -9,7 +9,7 @@ MagicalWeapon::MagicalWeapon(std::string name,SpellType*spellType, int minDamage
     this->cost = cost;
 }
 
-int MagicalWeapon::attack(Character *target,int strength,int level,int &mana,Position &holderPos) {
+int MagicalWeapon::attack(Character *target,int strength,int level,float &mana,Position &holderPos) {
     if(mana < cost) return 0;
     mana -= cost;
     int damage = calculateDamage(strength);

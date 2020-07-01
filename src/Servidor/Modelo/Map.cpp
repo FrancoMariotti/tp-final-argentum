@@ -142,6 +142,14 @@ void Map::moveNpcs(float looptime) {
     }
 }
 
+void Map::updateAllPlayers(float looptime) {
+    auto itrCharacters = characters.begin();
+    for (; itrCharacters != characters.end(); itrCharacters++) {
+        itrCharacters->second->recoverMana(looptime);
+        itrCharacters->second->recoverLifePoints(looptime);
+    }
+}
+
 void Map::addDrop(Drop drop) {
 
 }

@@ -26,8 +26,8 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
 }
 
 void PlayableCharacter::notifyStats() {
-    float health_percentage = (float)lifePoints / (float)calculateMaxLife();
-    float mana_percentage = (float)mana / (float)calculateMaxMana();
+    float health_percentage = lifePoints / calculateMaxLife();
+    float mana_percentage = mana / calculateMaxMana();
     float exp_percentage = (float)xp / (float)calculateLvlLimit();
     observer->notifyStatsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
@@ -47,17 +47,17 @@ void PlayableCharacter::move(Offset& offset) {
     observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 
-void PlayableCharacter::recoverLifePoints(int seconds) {
-    int maxLife = (int)calculateMaxLife();
-    int recoveredLifePoints = calculateRecoverLifePoints(seconds);
+void PlayableCharacter::recoverLifePoints(float seconds) {
+    float maxLife = calculateMaxLife();
+    float recoveredLifePoints = calculateRecoverLifePoints(seconds);
     lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
     notifyStats();
 }
 
-void PlayableCharacter::recoverMana(int seconds) {
-    int maxMana = calculateMaxMana();
-    int recoveredMana = calculateRecoverMana(seconds);
-    lifeState->recoverMana(mana,maxMana,recoveredMana);
+void PlayableCharacter::recoverMana(float seconds) {
+    float maxMana = calculateMaxMana();
+    float recoveredMana = calculateRecoverMana(seconds);
+    lifeState->recoverMana(mana, maxMana, recoveredMana);
     notifyStats();
 }
 
@@ -92,7 +92,7 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
 
     damage = defend(damage);
 
-    int newLife = lifePoints - damage;
+    float newLife = lifePoints - damage;
     xpEarned = calculateAttackXp(damage,enemyLevel);
 
     if (newLife <= 0) {
@@ -170,13 +170,13 @@ int PlayableCharacter::defend(int damage) {
 }
 
 void PlayableCharacter::heal(int value) {
-    int maxLife = (int)calculateMaxLife();
-    lifeState->heal(maxLife,lifePoints,value);
+    float maxLife = calculateMaxLife();
+    lifeState->heal(maxLife,lifePoints,(float)value);
 }
 
 void PlayableCharacter::earnMana(int value) {
-    int maxMana = calculateMaxMana();
-    lifeState->earnMana(maxMana,mana,value);
+    float maxMana = calculateMaxMana();
+    lifeState->earnMana(maxMana,mana,(float)value);
 
 }
 
@@ -216,9 +216,9 @@ void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
     delete item;
 }
 
-void PlayableCharacter::buyFrom(std::string itemName, Merchant *merchant) {
+void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant) {
     Equippable* item = merchant->sell(itemName, &gold);
-    if (item != NULL) inventory.store(item);
+    if (item != nullptr) inventory.store(item);
 }
 
 PlayableCharacter::~PlayableCharacter() {

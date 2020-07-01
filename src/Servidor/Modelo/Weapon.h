@@ -14,9 +14,9 @@ class Weapon : public Equippable {
     public:
         Weapon(std::string name, int minDamage,int maxDamage, int goldCost);
         void equipTo(PlayableCharacter *character, int i) override;
-        virtual int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) = 0;
+        virtual int attack(Character *enemy,int strength,int level,float &mana,Position &holderPos) = 0;
         void unequipFrom(PlayableCharacter *character) override ;
-        virtual ~Weapon() = default;
+        ~Weapon() override = default;
 };
 
 

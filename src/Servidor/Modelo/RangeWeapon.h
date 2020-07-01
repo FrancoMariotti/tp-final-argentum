@@ -11,7 +11,7 @@
 class RangeWeapon: public Weapon {
     public:
         RangeWeapon(std::string name, int minDamage,int maxDamage, int goldCost);
-        int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) override;
+        int attack(Character *enemy,int strength,int level,float &mana,Position &holderPos) override;
 };
 
 

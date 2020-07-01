@@ -16,7 +16,7 @@ void Alive::store(Equippable* element,Inventory& inventory,Observer* observer) {
     inventory.sendItems(observer);
 }
 
-void Alive::heal(int maxLife,int &lifePoints,int value) {
+void Alive::heal(float maxLife,float &lifePoints,float value) {
     if (lifePoints + value >= maxLife) {
         lifePoints = maxLife;
     } else {
@@ -24,7 +24,7 @@ void Alive::heal(int maxLife,int &lifePoints,int value) {
     }
 }
 
-void Alive::earnMana(int maxMana,int &mana,int value) {
+void Alive::earnMana(float maxMana,float &mana,float value) {
     if (mana + value >= maxMana) {
         mana = maxMana;
     } else {
@@ -32,17 +32,17 @@ void Alive::earnMana(int maxMana,int &mana,int value) {
     }
 }
 
-void Alive::recoverLifePoints(int &lifePoints,int maxLife,int recoveredLifePoints) {
+void Alive::recoverLifePoints(float &lifePoints,float maxLife,float recoveredLifePoints) {
     if(lifePoints == maxLife) return;
-    int newLife = lifePoints + recoveredLifePoints;
+    float newLife = lifePoints + recoveredLifePoints;
 
     if(newLife >= maxLife) lifePoints = maxLife;
     else lifePoints = newLife;
 }
 
-void Alive::recoverMana(int &mana,int maxMana,int recoveredMana) {
+void Alive::recoverMana(float &mana,float maxMana,float recoveredMana) {
     if(mana == maxMana) return;
-    int newMana = mana + recoveredMana;
+    float newMana = mana + recoveredMana;
 
     if(newMana >= maxMana) mana = maxMana;
     else mana = newMana;

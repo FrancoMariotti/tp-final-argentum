@@ -8,13 +8,13 @@ int Ghost::modifyLifePointsFrom(PlayableCharacter *character, int enemyLevel, in
 
 void Ghost::store(Equippable *element, Inventory &inventory, Observer *observer) {}
 
-void Ghost::heal(int maxLife, int &lifePoints, int value) {}
+void Ghost::heal(float maxLife, float &lifePoints, float value) {}
 
-void Ghost::earnMana(int maxMana, int &mana, int value) {}
+void Ghost::earnMana(float maxMana, float &mana, float value) {}
 
-void Ghost::recoverLifePoints(int &lifePoints, int maxLife, int recoveredLifePoints) {}
+void Ghost::recoverLifePoints(float &lifePoints, float maxLife, float recoveredLifePoints) {}
 
-void Ghost::recoverMana(int &mana, int maxMana, int recoveredMana) {}
+void Ghost::recoverMana(float &mana, float maxMana, float recoveredMana) {}
 
 void Ghost::equip(PlayableCharacter *character, Inventory &inventory, int indexElement) {}
 
