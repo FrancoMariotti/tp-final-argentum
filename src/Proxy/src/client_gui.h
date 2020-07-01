@@ -22,7 +22,7 @@ private:
     SdlWindow window;
     TTF_Font* font;
     SdlTextureManager textureManager;
-
+    SdlTexture interface;
     SdlPlayer player;
     SdlInventory inventory;
     SdlCamera camera;
@@ -32,13 +32,6 @@ private:
     SdlWorld world;
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
-
-    typedef struct t_sprite_dimensions{
-        int x;
-        int y;
-        std::string id;
-    }t_sprite_dimensions;
-
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:

@@ -15,6 +15,14 @@ protected:
     int pos_x;
     int pos_y;
 
+    enum e_head_orientation{
+        FRONT_HEAD_SPRITE,
+        RIGHT_HEAD_SPRITE,
+        LEFT_HEAD_SPRITE,
+        BACK_HEAD_SPRITE,
+        TOTAL_HEAD_SPRITE
+    };
+
     enum orientation{
         FRONT,
         BACK,
@@ -22,8 +30,9 @@ protected:
         RIGHT,
         TOTAL_ORIENTATIONS,
     };
-    SDL_Rect orientation_clips[TOTAL_ORIENTATIONS];
-    enum orientation e_current_orientation;
+    SDL_Rect body_orientation_clips[TOTAL_ORIENTATIONS];
+    enum orientation e_body_orientation;
+    enum e_head_orientation e_face_orientation;
 
 private:
     SdlTexture& bodySpriteSheetTexture;
@@ -54,6 +63,8 @@ public:
             SdlTexture& helmetSpriteSheetTexture,
             SdlTexture& weaponSpriteSheetTexture,
             SdlTexture& shieldSpriteSheetTexture);
+
+    void update(int new_x, int new_y, SdlCamera &camera);
 
     void render(SdlCamera &camera) override;
 };

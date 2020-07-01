@@ -15,6 +15,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     window(screen_width, screen_height),
     font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
     textureManager(window),
+    interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
     player(textureManager),
     inventory(screen_width, screen_height, window),
     camera(screen_width, screen_height, player),
@@ -121,8 +122,8 @@ void GUI::render(){
     player.render(camera);
     inventory.render();
     console.render();
+    interface.render(0,0);
     playerStats.render();
-
 
     //Update screen
     window.render();
