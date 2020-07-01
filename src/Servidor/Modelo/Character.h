@@ -39,14 +39,13 @@ class Character {
         int calculateKillXp (int enemyMaxLp, int enemyLvl) const;
         bool dodge() const;
         int calculateSafeGoldCapacity(int lvl) const;
-        virtual int defend(int damage) = 0;
     public:
         Character(std::string id,Map* map,Position &initialPosition,int constitution,
                       int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                       int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,Observer* observer);
         bool collideWith(Position& objPos);
-        int distanceTo(Position pos);
         Offset getOffset(Position initialPos);
+        int distanceTo(Position pos);
         virtual void attack(Character* character) = 0;
         virtual int receiveDamage(int enemyLevel,int damage) = 0;
         virtual int receiveAttackFrom(PlayableCharacter *enemy) = 0;

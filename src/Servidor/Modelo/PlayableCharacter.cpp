@@ -3,6 +3,8 @@
 #include "Potion.h"
 #include "Map.h"
 #include "Npc.h"
+#include "Alive.h"
+#include "Ghost.h"
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -11,6 +13,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
         Character(id,map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
                 defaultWeapon("fists",1, 1, 0), inventory(invMaxElements) {
+    this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
     this->gold = 0;
@@ -42,27 +45,28 @@ void PlayableCharacter::move(Offset& offset) {
 }
 
 void PlayableCharacter::recoverLifePoints(int seconds) {
-    this->lifePoints += calculateRecoverLifePoints(seconds);
+    int maxLife = calculateMaxLife();
+    int recoveredLifePoints = calculateRecoverLifePoints(seconds);
+    lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
+    notifyStats();
+}
+
+void PlayableCharacter::recoverMana(int seconds) {
+    int maxMana = calculateMaxMana();
+    int recoveredMana = calculateRecoverMana(seconds);
+    lifeState->recoverMana(mana,maxMana,recoveredMana);
+    notifyStats();
 }
 
 void PlayableCharacter::attack(Character *character) {
+    lifeState->attackEnemy(this,character);
+}
+
+void PlayableCharacter::makeDamageTo(Character *character) {
     int earnedXp = character->receiveAttackFrom(this);
 
     int limit = calculateLvlLimit();
     int totalXp = earnedXp + xp;
-
-    Log* log = Log::instancia();
-    log->write("El limit level es:");
-    log->writeInt(limit);
-
-    log->write("El xp ganado es:");
-    log->writeInt(earnedXp);
-
-    log->write("El level actual es:");
-    log->writeInt(level);
-
-    log->write("El xp actual es:");
-    log->writeInt(xp);
 
     if(totalXp >= limit) {
         xp = totalXp - limit;
@@ -70,16 +74,13 @@ void PlayableCharacter::attack(Character *character) {
     } else {
         xp += earnedXp;
     }
-
-    log->write("El level actual es:");
-    log->writeInt(level);
-
-    log->write("El xp actual es:");
-    log->writeInt(xp);
 }
 
 int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
-    if(lifePoints <= 0) return 0;
+    return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
+}
+
+int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     int xpEarned = 0;
 
     if (dodge()) {
@@ -92,6 +93,7 @@ int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
 
     if (newLife <= 0) {
         lifePoints = 0;
+        die();
         int maxLifePoints = calculateMaxLife();
         xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
     } else {
@@ -103,10 +105,10 @@ int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
 }
 
 int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
+    int earnedXp = 0;
     bool canAttack = enemy->checkFairPlay(level);
-    if(canAttack) return activeWeapon->attack(enemy,strength,level,mana,currPos);
-    enemy->notifyStats();
-    return 0;
+    if(canAttack) earnedXp = activeWeapon->attack(enemy,strength,level,mana,currPos);
+    return earnedXp;
 }
 
 int PlayableCharacter::attackTo(Npc *enemy) {
@@ -114,17 +116,11 @@ int PlayableCharacter::attackTo(Npc *enemy) {
 }
 
 void PlayableCharacter::store(Equippable* element) {
-    inventory.store(element);
-    inventory.sendItems(observer);
-}
-
-void PlayableCharacter::recoverMana(int seconds) {
-    this->mana += calculateRecoverMana(seconds);
+    lifeState->store(element,inventory,observer);
 }
 
 void PlayableCharacter::equip(int elementIndex) {
-    Equippable* element = inventory.chooseElement(elementIndex);
-    equip(element, elementIndex);
+    lifeState->equip(this,inventory,elementIndex);
 }
 
 void PlayableCharacter::equip(Equippable* element, int index) {
@@ -147,8 +143,7 @@ void PlayableCharacter::equip(Potion* potion, int index) {
 }
 
 void PlayableCharacter::unequip(int elementIndex) {
-    Equippable* element = inventory.chooseElement(elementIndex);
-    unequip(element);
+    lifeState->unequip(this,inventory,elementIndex);
 }
 
 void PlayableCharacter::unequip(Equippable* element) {
@@ -170,33 +165,14 @@ int PlayableCharacter::defend(int damage) {
 }
 
 void PlayableCharacter::heal(int value) {
-    Log* log = Log::instancia();
-    log->write("Vida antes de curar:");
-    log->writeInt(lifePoints);
-
     int maxLife = calculateMaxLife();
-    if (lifePoints + value >= maxLife) {
-        lifePoints = maxLife;
-    } else {
-        lifePoints += value;
-    }
-    log->write("Vida despues de curar:");
-    log->writeInt(lifePoints);
+    lifeState->heal(maxLife,lifePoints,value);
 }
 
 void PlayableCharacter::earnMana(int value) {
-    Log* log = Log::instancia();
-    log->write("Mana antes de agregar:");
-    log->writeInt(mana);
-
     int maxMana = calculateMaxMana();
-    if (mana + value >= maxMana) {
-        mana = maxMana;
-    } else {
-        mana += value;
-    }
-    log->write("Mana despues de agregar:");
-    log->writeInt(mana);
+    lifeState->earnMana(maxMana,mana,value);
+
 }
 
 bool PlayableCharacter::checkFairPlay(int enemyLevel) {
@@ -212,8 +188,17 @@ int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
 }
 
 bool PlayableCharacter::isDead() {
-    return (lifePoints == 0);
+    return lifeState->dead();
+}
+
+void PlayableCharacter::die() {
+    //aca vendria la logica de drop
+
+    delete lifeState;
+    lifeState = new Ghost();
 }
 
 
-PlayableCharacter::~PlayableCharacter() = default;
+PlayableCharacter::~PlayableCharacter() {
+    delete lifeState;
+}

@@ -4,7 +4,7 @@
 #include "PlayableCharacter.h"
 
 #define MAX_RANGE 4
-#define NPC_UPDATE_TIME 800
+#define NPC_UPDATE_TIME 600
 
 
 Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,
@@ -35,8 +35,8 @@ bool Npc::shouldDrop(int probability) {
 }
 
 
-void Npc::move(float looptime) {
-    updateTime += looptime;
+void Npc::move(float loopTime) {
+    updateTime += loopTime;
     if(updateTime >= NPC_UPDATE_TIME){
         Offset offset(0,0);
 
