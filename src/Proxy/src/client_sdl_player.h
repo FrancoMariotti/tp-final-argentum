@@ -31,9 +31,7 @@ private:
     SdlTextureManager::e_head_orientation head_or;
 
     SdlTextureManager::t_player_appearance t_appearance;
-
 public:
-    //Initializes the variables
     explicit SdlPlayer(SdlTextureManager &textureManager);
 
     void render(SdlCamera &camera);

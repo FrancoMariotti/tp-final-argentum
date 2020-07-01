@@ -31,6 +31,15 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
 
 }
 
+void GUI::setWorldDimensions(int w, int h) {
+    world.setDimensions(w,h);
+}
+
+void GUI::addWorldLayer(std::vector<int> data, const int init) {
+    this->world.addLayer(std::move(data), init);
+}
+
+
 void GUI::handleEvents(SDL_Event &event){
     bool is_event_handled = false;
     keyboard.handleEvent(event, is_event_handled);
@@ -52,13 +61,6 @@ void GUI::updatePlayerPos(const int player_x, const int player_y){
     player.updatePos(player_x, player_y, camera);
 }
 
-void GUI::updateRenderablePos(const int new_x, const int new_y, const std::string& renderable_id){
-    this->dynamic_renderables.at(renderable_id)->update(new_x, new_y, camera);
-}
-
-void GUI::updateInventory(std::vector<std::string> player_inventory) {
-    inventory.update(std::move(player_inventory));
-}
 
 void GUI::updatePlayerStats(t_stats new_stats) {
     playerStats.update(new_stats);
@@ -68,42 +70,41 @@ void GUI::updatePlayerEquipment(const equipment_t& equipment) {
     player.updateEquipment(equipment);
 }
 
+void GUI::updateInventory(std::vector<std::string> player_inventory) {
+    inventory.update(std::move(player_inventory));
+}
 
 /*Itera @param renderables y busca el id de textura que corresponde con el id del renderizable y lo agrega al map
- * con key: id y value: puntero a SdlDynamicRenderable*/
+ * con key: id y value: puntero a DynamicRenderable*/
 void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     dynamic_renderables.clear();
+    /**Test para dibujar otro jugador*/
+    dynamic_renderables["player123"] = std::unique_ptr <DynamicRenderable>
+            (new RenderablePlayable(camera.toPixels(10), camera.toPixels(10), textureManager));
     auto it = renderables.begin();
     for(; it != renderables.end(); it++) {
         std::string texture_id = textureManager.findTextureId(it->id);
         if (texture_id != "player"){
-            dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
-                    (new SdlDynamicRenderable(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
-                                              texture_id));
-
-        } /*else {
-            dynamic_renderables.insert(std::make_pair(it->id,
-                  std::unique_ptr<SdlDynamicRenderable> (new SdlPlayableCharacter(it->x , it->y,
-                  dynamic_renderables_textures.at("ironArmourSprite"),
-                  dynamic_renderables_textures.at("humanHeadSprite"),
-                  dynamic_renderables_textures.at("ironHelmetSprite"),
-                  dynamic_renderables_textures.at("axeSprite"),
-                  dynamic_renderables_textures.at("ironShieldSprite")))));
-        }*/
+            dynamic_renderables[it->id] = std::unique_ptr <DynamicRenderable>
+                    (new RenderableNPC(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
+                                       texture_id));
+        } else {
+        }
     }
 }
 
-void GUI::addWorldLayer(std::vector<int> data, const int init) {
-    this->world.addLayer(std::move(data), init);
+void GUI::updateRenderablePos(const int new_x, const int new_y, const std::string& renderable_id){
+    this->dynamic_renderables.at(renderable_id)->updatePos(new_x, new_y, camera);
 }
 
-void GUI::addFloorTile(int x, int y, int tile_id) {
-    world.addFloorTile(x, y, tile_id);
+void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
+                                            const std::string& renderable_id) {
+    this->dynamic_renderables.at(renderable_id)->updateEquipment(equipment);
 }
 
 
-void GUI::addObstacleTile(int x, int y, int tile_id) {
-    world.addObstacleTile(x, y, tile_id);
+void GUI::updateDrops(const std::vector<std::string> &drops) {
+    world.updateDrops(drops);
 }
 
 void GUI::render(){
@@ -133,14 +134,6 @@ void GUI::renderWorld() {
     //world.renderFloor(camera);
     //world.renderObstacles(camera);
     //world.renderDrops(inventory, camera);
-}
-
-void GUI::setWorldDimensions(int w, int h) {
-    world.setDimensions(w,h);
-}
-
-void GUI::updateDrops(const std::vector<std::string> &drops) {
-    world.updateDrops(drops);
 }
 
 GUI::~GUI(){
