@@ -11,7 +11,7 @@ SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
         textureManager(textureManager),
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
-        t_appearance{"humanHead","defaultArmour","none","none","none"}{
+        t_appearance{"humanHead","none","defaultArmour","none","none"}{
     pos_x = 0;
     pos_y = 0;
 }
@@ -37,18 +37,19 @@ void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &cam
 }
 
 void SdlPlayer::updateEquipment(const equipment_t& equipment) {
-    /*rompe pq no tengo "fists" en el map de texturas*/
-    //std::cout << equipment.weaponName << std::endl;
-
-    if(equipment.weaponName != "fists"){
-
-    }
+    std::cout << equipment.weaponName << std::endl;
+    std::cout << equipment.armourName << std::endl;
+    std::cout << equipment.shieldName << std::endl;
+    std::cout << equipment.helmetName << std::endl;
+    t_appearance.weapon = equipment.weaponName;
+    t_appearance.armour = equipment.armourName;
+    t_appearance.helmet = equipment.helmetName;
+    t_appearance.shield = equipment.shieldName;
 }
 
 void SdlPlayer::render(SdlCamera &camera) {
-    SdlTextureManager::t_player_appearance appearance{"humanHead","ironHelmet",
-                                           "defaultArmour","axe","ironShield"};
-    textureManager.renderPC(appearance, pos_x, pos_y, camera, body_or, head_or);
+    textureManager.renderPC(t_appearance, pos_x, pos_y,
+            camera, body_or, head_or);
 
     /*
     int body_offset_y = armourSpriteSheetTexture->getHeight() - 32;

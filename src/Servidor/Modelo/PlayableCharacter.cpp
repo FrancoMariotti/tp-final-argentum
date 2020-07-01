@@ -15,7 +15,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
         int invMaxElements,Observer* observer):
         Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-                defaultWeapon("fists",1, 1, 0), inventory(invMaxElements) {
+                defaultWeapon("none",1, 1, 0), inventory(invMaxElements) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();

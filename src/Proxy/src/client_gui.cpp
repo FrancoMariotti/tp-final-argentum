@@ -78,9 +78,8 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
         std::string texture_id = textureManager.findTextureId(it->id);
         if (texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
-                    (new SdlDynamicRenderable(camera.toPixels(it->x) ,camera.toPixels(it->y),
-                                              textureManager.getTexture(texture_id)));
-                            //dynamic_renderables_textures.at(texture_id)));
+                    (new SdlDynamicRenderable(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
+                                              texture_id));
 
         } /*else {
             dynamic_renderables.insert(std::make_pair(it->id,
@@ -122,7 +121,7 @@ void GUI::render(){
     player.render(camera);
     inventory.render();
     console.render();
-    interface.render(0,0);
+    //interface.render(0,0);
     playerStats.render();
 
     //Update screen

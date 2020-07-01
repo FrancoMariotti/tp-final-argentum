@@ -6,6 +6,7 @@
 #include "client_sdl_texture.h"
 #include "client_sdl_player.h"
 
+
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
             SdlTexture(54, 34, "../../Proxy/assets/spiderSprite.png", window)));
@@ -15,10 +16,12 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
             SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
-    this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
-            SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("noneSprite",
+                      SdlTexture(1, 1, "../../Proxy/items/noneSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
             SdlTexture(22, 48, "../../Proxy/items/swordSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
+            SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("defaultArmourSprite",
             SdlTexture(24, 46, "../../Proxy/items/defaultArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
@@ -27,6 +30,8 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/humanHeadSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/ironHelmetSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("turtleShellSprite",
+            SdlTexture(25, 44, ITEMS_PATH + "turtleShellSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
             SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
 }
@@ -69,9 +74,9 @@ SdlTexture& SdlTextureManager::getSpriteTexture(const std::string &texture_id) {
     return dynamic_renderables_textures.at(texture_id + "Sprite");
 }
 
-void SdlTextureManager::renderNPC(const std::string &texture_id, const int x, const int y, e_body_orientation e){
+void SdlTextureManager::renderNPC(const std::string &texture_id, const int x, const int y, e_body_orientation e) {
     SDL_Rect body_orientation_clips[TOTAL_ORIENTATIONS];
-    SdlTexture& bodySpriteSheetTexture = this->getSpriteTexture(texture_id);
+    SdlTexture& bodySpriteSheetTexture = this->getTexture(texture_id);
     for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
         body_orientation_clips[i] = {0, i * bodySpriteSheetTexture.getHeight(),
                                      bodySpriteSheetTexture.getWidth(), bodySpriteSheetTexture.getHeight()};
@@ -91,12 +96,13 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
         head_orientation_clips[i] = {i*headSpriteSheetTexture.getWidth(),
                                      0, headSpriteSheetTexture.getWidth(),
                                      headSpriteSheetTexture.getHeight()};
-        }
-
-    SdlTexture& armourSpriteSheetTexture = this->getSpriteTexture(appearance.armour);
-
+    }
+    std::string armour = appearance.armour;
+    if(appearance.armour == "none"){
+        armour = "defaultArmour";
+    }
+    SdlTexture& armourSpriteSheetTexture = this->getSpriteTexture(armour);
     SdlTexture& weaponSpriteSheetTexture = this->getSpriteTexture(appearance.weapon);
-
     SdlTexture& shieldSpriteSheetTexture = this->getSpriteTexture(appearance.shield);
 
     SDL_Rect armour_orientation_clips[TOTAL_ORIENTATIONS];
@@ -113,7 +119,6 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
         shield_orientation_clips[i] = {0, i*shieldSpriteSheetTexture.getHeight(),
                                        shieldSpriteSheetTexture.getWidth(),
                                        shieldSpriteSheetTexture.getHeight()};
-
     }
 
     int body_offset_y = armourSpriteSheetTexture.getHeight() - 32;

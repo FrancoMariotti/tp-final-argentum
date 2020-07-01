@@ -44,11 +44,11 @@ bool SdlCamera::isInCameraView(const SDL_Point &point, int overload) const {
     return is_inside;
 }
 
-int SdlCamera::getX(){
+int SdlCamera::getX() const{
     return camera_x;
 }
 
-int SdlCamera::getY(){
+int SdlCamera::getY() const{
     return camera_y;
 }
 

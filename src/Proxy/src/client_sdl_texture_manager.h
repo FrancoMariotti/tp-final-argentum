@@ -17,12 +17,13 @@ class SdlTexture;
 class SdlWindow;
 class SdlTextureManager {
 private:
-
     const int HEAD_WIDTH = 17;
     const int HEAD_HEIGHT = 16;
 
+    const std::string ASSETS_PATH = "../../Proxy/assets/";
+    const std::string ITEMS_PATH = "../../Proxy/items/";
+    const std::string SPRITE_SUFFIX = "Sprite";
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
-
     const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
 
 public:

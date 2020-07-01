@@ -34,9 +34,9 @@ public:
 
     int toPixels(int value) const;
 
-    int getX();
+    int getX() const;
 
-    int getY();
+    int getY() const;
 
     SDL_Point toServerCoordinates(const SDL_Point &point_in_pixels);
 };
