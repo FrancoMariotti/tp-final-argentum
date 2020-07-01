@@ -5,6 +5,9 @@
 #ifndef ARGENTUM_CLIENT_SDL_MOUSE_H
 #define ARGENTUM_CLIENT_SDL_MOUSE_H
 
+#include "common_blocking_queue.h"
+#include "common_message.h"
+
 class SdlCamera;
 class SdlMouse {
 private:
@@ -22,9 +25,11 @@ public:
 
     bool clickedInMap();
 
-    void setLastClickedItemIndex(const int i);
+    void setLastClickedItemIndex(int i);
 
     void clear();
+
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
 };
 
 

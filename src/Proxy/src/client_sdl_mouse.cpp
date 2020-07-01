@@ -6,6 +6,7 @@
 #include <iostream>
 #include "client_sdl_mouse.h"
 #include "client_sdl_camera.h"
+#include "common_blocking_queue.h"
 
 SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),
@@ -29,6 +30,13 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
             this->position = camera.toServerCoordinates(mouse_click);
             std::cout <<"click_x: " << position.x << "click_y: " << position.y << std::endl;
         }
+    }
+}
+
+void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
+    if(position.x > -1 && position.y > -1){
+          // clientEvents.push(std::unique_ptr <Message>(new Attack(username, position.x, position.y)))
+        this->clear();
     }
 }
 

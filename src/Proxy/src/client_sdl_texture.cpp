@@ -60,7 +60,8 @@ SDL_Texture* SdlTexture::loadFromFile(const std::string &path) {
         throw SdlException("Unable to load image SDL_image Error:", SDL_GetError());
     }
     //Color key image
-    SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
+    /*Elimina el fondo negro de las texturas*/
+    SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0x00, 0x00, 0x00));
     //Create texture from surface pixels
     newTexture = SDL_CreateTextureFromSurface(m_renderer, loadedSurface);
     if(newTexture == nullptr){

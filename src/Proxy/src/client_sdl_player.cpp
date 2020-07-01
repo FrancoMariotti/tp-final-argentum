@@ -7,10 +7,11 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_window.h"
 
-SdlPlayer::SdlPlayer(SdlWindow &window, SdlTextureManager &textureManager) :
+SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
         textureManager(textureManager),
         armourSpriteSheetTexture(&textureManager.initArmour()),
         headSpriteSheetTexture(&textureManager.initHead()),
+        helmetSpriteSheetTexture(&textureManager.initHelmet()),
         weaponSpriteSheetTexture(&textureManager.initWeapon()),
         shieldSpriteSheetTexture(&textureManager.initShield()),
         e_body_orientation(FRONT){
@@ -46,20 +47,12 @@ void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
         switch(e.key.keysym.sym){
             case SDLK_UP: vel_y -= VEL;
-            e_body_orientation = BACK;
-            e_face_orientation = BACK_HEAD_SPRITE;
             break;
             case SDLK_DOWN: vel_y += VEL;
-            e_body_orientation = FRONT;
-            e_face_orientation = FRONT_HEAD_SPRITE;
             break;
             case SDLK_LEFT: vel_x -= VEL;
-            e_body_orientation = LEFT;
-            e_face_orientation = LEFT_HEAD_SPRITE;
             break;
             case SDLK_RIGHT: vel_x += VEL;
-            e_body_orientation = RIGHT;
-            e_face_orientation = RIGHT_HEAD_SPRITE;
             break;
 
         }
@@ -90,12 +83,27 @@ void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     }
 }
 
-void SdlPlayer::update(const int player_x, const int player_y, SdlCamera &camera) {
+void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &camera) {
+    int old_x = pos_x;
+    int old_y = pos_y;
     this->pos_x = camera.toPixels(player_x);
     this->pos_y = camera.toPixels(player_y);
+    if(pos_x > old_x){
+        e_face_orientation = RIGHT_HEAD_SPRITE;
+        e_body_orientation = RIGHT;
+    } else if(pos_x < old_x){
+        e_face_orientation = LEFT_HEAD_SPRITE;
+        e_body_orientation = LEFT;
+    } else if(pos_y > old_y){
+        e_face_orientation = FRONT_HEAD_SPRITE;
+        e_body_orientation = FRONT;
+    } else if(pos_y < old_y){
+        e_face_orientation = BACK_HEAD_SPRITE;
+        e_body_orientation = BACK;
+    }
 }
 
-void SdlPlayer::update(const equipment_t& equipment) {
+void SdlPlayer::updateEquipment(const equipment_t& equipment) {
     /*rompe pq no tengo "fists" en el map de texturas*/
     //std::cout << equipment.weaponName << std::endl;
     if(equipment.weaponName != "fists"){
@@ -116,10 +124,10 @@ void SdlPlayer::render(SdlCamera &camera) {
     armourSpriteSheetTexture->render(pos_x - camera.getX(),
             (pos_y - body_offset_y) - camera.getY(),
             &armour_orientation_clips[e_body_orientation]);
-    weaponSpriteSheetTexture->render(pos_x - weaponSpriteSheetTexture->getWidth() - camera.getX(),
+    weaponSpriteSheetTexture->render(pos_x - camera.getX(),
             (pos_y - body_offset_y) - camera.getY(),
             &weapon_orientation_clips[e_body_orientation]);
-    shieldSpriteSheetTexture->render(pos_x + shieldSpriteSheetTexture->getWidth() - camera.getX(),
+    shieldSpriteSheetTexture->render(pos_x - camera.getX(),
             (pos_y - body_offset_y) - camera.getY(),
             &shield_orientation_clips[e_body_orientation]);
 

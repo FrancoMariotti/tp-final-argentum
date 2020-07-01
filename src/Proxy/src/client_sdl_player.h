@@ -27,7 +27,7 @@ private:
         TOTAL_HEAD_SPRITE
     };
 
-    enum orientation{
+    enum e_equipment_orientation{
         FRONT,
         BACK,
         LEFT,
@@ -38,6 +38,7 @@ private:
     SdlTextureManager& textureManager;
     SdlTexture* armourSpriteSheetTexture;
     SdlTexture* headSpriteSheetTexture;
+    SdlTexture* helmetSpriteSheetTexture;
     SdlTexture* weaponSpriteSheetTexture;
     SdlTexture* shieldSpriteSheetTexture;
 
@@ -57,11 +58,11 @@ private:
     SDL_Rect shield_orientation_clips[TOTAL_HEAD_SPRITE];
 
     enum e_head_orientation e_face_orientation;
-    enum orientation e_body_orientation;
+    enum e_equipment_orientation e_body_orientation;
 
 public:
     //Initializes the variables
-    SdlPlayer(SdlWindow &window, SdlTextureManager &textureManager);
+    explicit SdlPlayer(SdlTextureManager &textureManager);
 
     //client side: Ajusta la velocidad del jugador
     void handleEvent(SDL_Event &e, bool &is_event_handled);
@@ -71,15 +72,13 @@ public:
 
     void render(SdlCamera &camera);
 
-    void update(const int player_x, const int player_y, SdlCamera &camera);
+    void updatePos(int player_x, int player_y, SdlCamera &camera);
+
+    void updateEquipment(const equipment_t& equipment);
 
     int getPosX() const;
 
     int getPosY() const;
-
-    void update();
-
-    void update(const equipment_t& equipment);
 };
 
 

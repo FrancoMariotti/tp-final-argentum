@@ -44,13 +44,13 @@ public:
 
     /*Logic*/
     void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                 SdlInventory &inventory, SdlPlayer &player);
+                 SdlPlayer &player);
 
     /*Render*/
     void render();
 
     void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                            SdlCamera &camera, SdlInventory &inventory, SdlPlayer &player);
+                            SdlCamera &camera, SdlPlayer &player);
 };
 
 

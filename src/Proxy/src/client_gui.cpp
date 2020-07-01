@@ -15,10 +15,11 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     window(screen_width, screen_height),
     font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
     textureManager(window),
-    player(window, textureManager),
+    player(textureManager),
     inventory(screen_width, screen_height, window),
     camera(screen_width, screen_height, player),
     mouse(camera),
+    keyboard(),
     console(screen_width, screen_height, window, font),
     world(window),
     playerStats(screen_width, screen_height, window, font),
@@ -31,21 +32,23 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
 
 void GUI::handleEvents(SDL_Event &event){
     bool is_event_handled = false;
-    player.handleEvent(event, is_event_handled);
+    keyboard.handleEvent(event, is_event_handled);
+    //player.handleEvent(event, is_event_handled);
     console.handleEvent(event, is_event_handled);
     inventory.handleEvent(event, is_event_handled);
     mouse.handleEvent(event,is_event_handled);
 }
 
 void GUI::execute(){
-    player.move(clientEvents);
+    //player.move(clientEvents);
+    keyboard.movePlayer(clientEvents);
     inventory.use(clientEvents, mouse);
-    console.execute(clientEvents, mouse, camera, inventory, player);
+    console.execute(clientEvents, mouse, camera, player);
     camera.move();
 }
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
-    player.update(player_x, player_y, camera);
+    player.updatePos(player_x, player_y, camera);
 }
 
 void GUI::updateRenderablePos(const int new_x, const int new_y, const std::string& renderable_id){
@@ -61,7 +64,7 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 }
 
 void GUI::updatePlayerEquipment(const equipment_t& equipment) {
-    player.update(equipment);
+    player.updateEquipment(equipment);
 }
 
 

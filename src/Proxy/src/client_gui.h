@@ -14,6 +14,7 @@
 #include "client_sdl_stats.h"
 #include "common_message_structs.h"
 #include "client_sdl_mouse.h"
+#include "client_sdl_keyboard.h"
 
 class SdlDynamicRenderable;
 class GUI {
@@ -26,6 +27,7 @@ private:
     SdlInventory inventory;
     SdlCamera camera;
     SdlMouse mouse;
+    SdlKeyboard keyboard;
     SdlConsole console;
     SdlWorld world;
     SdlStats playerStats;

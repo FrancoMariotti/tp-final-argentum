@@ -32,6 +32,8 @@ public:
 
     SdlTexture &initWeapon();
 
+    SdlTexture &initHelmet();
+
     std::string findTextureId(const std::string &id);
 
     SdlTexture &getTexture(const std::string &texture_id);

@@ -66,11 +66,11 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
 }
 
 void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         SdlInventory &inventory, SdlPlayer &player) {
+                         SdlPlayer &player) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
-        this->sendCommandIfValid(clientEvents, mouse, camera, inventory, player);
+        this->sendCommandIfValid(clientEvents, mouse, camera, player);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -92,7 +92,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
 }
 
 void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, SdlInventory &inventory, SdlPlayer &player) {
+                                    SdlCamera &camera, SdlPlayer &player) {
     /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
      * pasar player por referencia?*/
     /**Primero el click luego el comando*/

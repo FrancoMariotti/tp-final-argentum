@@ -47,6 +47,10 @@ SdlTexture& SdlTextureManager::initWeapon(){
     return dynamic_renderables_textures.at("axeSprite");
 }
 
+SdlTexture &SdlTextureManager::initHelmet() {
+    return dynamic_renderables_textures.at("ironHelmetSprite");
+}
+
 std::string SdlTextureManager::findTextureId(const std::string &id) {
     std::string texture_id = "player";
     for (auto & renderable_id : RENDERABLES_TEXTURES_ID){

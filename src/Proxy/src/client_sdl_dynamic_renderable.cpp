@@ -48,9 +48,8 @@ SdlPlayableCharacter::SdlPlayableCharacter(const int x, const int y, SdlTexture 
        weaponSpriteSheetTexture(weaponSpriteSheetTexture),
        shieldSpriteSheetTexture(shieldSpriteSheetTexture){
     for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        head_orientation_clips[i] = {i*headSpriteSheetTexture.getHeight(), 0, headSpriteSheetTexture.getWidth(), headSpriteSheetTexture.getHeight()};
-        helmet_orientation_clips[i] = {i*helmetSpriteSheetTexture.getHeight(), 0, helmetSpriteSheetTexture.getWidth(), helmetSpriteSheetTexture.getHeight()};
-        weapon_orientation_clips[i] = {0, i*weaponSpriteSheetTexture.getHeight(), weaponSpriteSheetTexture.getWidth(), weaponSpriteSheetTexture.getHeight()};
+        head_orientation_clips[i] = {i * headSpriteSheetTexture.getHeight(), 0, headSpriteSheetTexture.getWidth(), headSpriteSheetTexture.getHeight()};
+        weapon_orientation_clips[i] = {0, i * weaponSpriteSheetTexture.getHeight(), weaponSpriteSheetTexture.getWidth(), weaponSpriteSheetTexture.getHeight()};
         shield_orientation_clips[i] = {0, i*shieldSpriteSheetTexture.getHeight(), shieldSpriteSheetTexture.getWidth(), shieldSpriteSheetTexture.getHeight()};
     }
 }
@@ -58,7 +57,7 @@ SdlPlayableCharacter::SdlPlayableCharacter(const int x, const int y, SdlTexture 
 void SdlPlayableCharacter::render(SdlCamera& camera){
     SdlDynamicRenderable::render(camera);
     headSpriteSheetTexture.render(pos_x - camera.getX(), pos_y - camera.getY(), &head_orientation_clips[e_current_orientation]);
-    helmetSpriteSheetTexture.render(pos_x - camera.getX(), pos_y - camera.getY(), &helmet_orientation_clips[e_current_orientation]);
+    helmetSpriteSheetTexture.render(pos_x - camera.getX(), pos_y - camera.getY(), &head_orientation_clips[e_current_orientation]);
     weaponSpriteSheetTexture.render(pos_x - camera.getX(), pos_y - camera.getY(), &weapon_orientation_clips[e_current_orientation]);
     shieldSpriteSheetTexture.render(pos_x - camera.getX(), pos_y - camera.getY(), &shield_orientation_clips[e_current_orientation]);
 }

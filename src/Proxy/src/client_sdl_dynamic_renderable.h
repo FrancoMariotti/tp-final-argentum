@@ -30,9 +30,9 @@ private:
 
 
 public:
-    SdlDynamicRenderable(const int x, const int y, SdlTexture &bodyTexture);
+    SdlDynamicRenderable(int x, int y, SdlTexture &bodyTexture);
 
-    void update(const int new_x, const int new_y, SdlCamera &camera);
+    void update(int new_x, int new_y, SdlCamera &camera);
 
     virtual void render(SdlCamera& camera);
 };
@@ -45,12 +45,11 @@ private:
     SdlTexture& shieldSpriteSheetTexture;
 
     SDL_Rect head_orientation_clips[TOTAL_ORIENTATIONS];
-    SDL_Rect helmet_orientation_clips[TOTAL_ORIENTATIONS];
     SDL_Rect weapon_orientation_clips[TOTAL_ORIENTATIONS];
     SDL_Rect shield_orientation_clips[TOTAL_ORIENTATIONS];
 
 public:
-    SdlPlayableCharacter(const int x, const int y, SdlTexture &bodySpriteSheetTexture,
+    SdlPlayableCharacter(int x, int y, SdlTexture &bodySpriteSheetTexture,
             SdlTexture& headSpriteSheetTexture,
             SdlTexture& helmetSpriteSheetTexture,
             SdlTexture& weaponSpriteSheetTexture,
