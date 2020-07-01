@@ -5,12 +5,11 @@
 #ifndef ARGENTUM_HEAL_H
 #define ARGENTUM_HEAL_H
 
-
 #include "SpellType.h"
 
 class Heal: public SpellType {
 public:
-    int useOn(Character *target, int strength, int level, MagicalWeapon *weapon) override;
+    int use(Character *target, int strength, int level,int damage) override;
 };
 
 

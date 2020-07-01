@@ -1,11 +1,12 @@
 #ifndef ARGENTUM_CHARACTER_H
 #define ARGENTUM_CHARACTER_H
 
+#include "Map.h"
 #include "string"
 #include "Position.h"
 #include "Observer.h"
 
-class Map;
+//class Map;
 class PlayableCharacter;
 class Npc;
 
@@ -28,7 +29,7 @@ class Character {
         Position currPos;
         Observer* observer;
 
-        int calculateMaxLife() const;
+        float calculateMaxLife() const;
         int calculateMaxMana() const;
         int calculateRecoverLifePoints(int seconds) const;
         int calculateRecoverMana(int seconds) const;

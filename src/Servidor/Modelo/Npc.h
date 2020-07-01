@@ -1,13 +1,12 @@
 #ifndef ARGENTUM_NPC_H
 #define ARGENTUM_NPC_H
-#include "Map.h"
 #include "Character.h"
 #include "Equippable.h"
 #include "NormalWeapon.h"
 #include "Protection.h"
 #include <string>
 
-class Map;
+//class Map;
 
 class Npc : public Character {
     int mana;
@@ -15,10 +14,12 @@ class Npc : public Character {
     std::string specie;
     NormalWeapon weapon;
     Protection armour;
+private:
     int defend(int damage);
     void attack(Character* character) override;
-    int calculateNpcGoldDrop(int npcMaxLp);
-    bool shouldDrop(int probability);
+    float calculateNpcGoldDrop();
+    bool shouldDrop(float probability);
+    void die();
 public:
     Npc(const std::string& id,Map* map,Position &initialPosition, int constitution,
             int strength,int agility,int intelligence, int level, std::string specie, int minDamage,
@@ -27,7 +28,6 @@ public:
     void move(float loopTime);
     int receiveDamage(int enemyLevel, int damage) override;
     int receiveAttackFrom(PlayableCharacter *enemy) override;
-
     ~Npc() override;
 };
 

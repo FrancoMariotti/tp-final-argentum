@@ -20,7 +20,7 @@ void Map::registerNpcSpawn(spawn_character_t spawn) {
 
 void Map::update(Observer* observer) {
     for(int i=0; i<4 ; i++) {
-        npcFactory.create(this,"spider",observer);
+        npcFactory.create(this,"skeleton",observer);
     }
     observer->notifySpawnNpcUpdate(spawns);
 }
@@ -29,11 +29,20 @@ void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter 
     this->characters[playerName] = character;
 }
 
-void Map::addNpc(Npc* npc) {
-    this->npcs.push_back(npc);
+void Map::removePlayableCharacter(const std::string& playerName) {
+    characters.erase(playerName);
 }
 
-void Map::addObstacle(Obstacle* obstacle) {
+
+void Map::addNpc(std::string idNpc ,Npc* npc) {
+    this->npcs[idNpc] = npc;
+}
+
+void Map::removeNpc(const std::string& idNpc) {
+    npcs.erase(idNpc);
+}
+
+void Map::addObstacle(const Obstacle& obstacle) {
     this->obstacles.push_back(obstacle);
 }
 
@@ -45,12 +54,12 @@ bool Map::isOccupied(Position pos) {
 
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); ++itrNpcs) {
-        if((*itrNpcs)->collideWith(pos)) return true;
+        if(itrNpcs->second->collideWith(pos)) return true;
     }
 
     auto itrObstacles = obstacles.begin();
     for (; itrObstacles != obstacles.end(); ++itrObstacles) {
-        if((*itrObstacles)->ocupies(pos)) return true;
+        if((*itrObstacles).ocupies(pos)) return true;
     }
 
     return false;
@@ -80,16 +89,16 @@ Character* Map::findNpcAtPosition(Position &position) {
     Npc* enemy = nullptr;
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); ++itrNpcs) {
-        if((*itrNpcs)->collideWith(position)) enemy = *itrNpcs;
+        if((*itrNpcs).second->collideWith(position)) enemy = itrNpcs->second;
     }
     return enemy;
 }
 
-PlayableCharacter *Map::getPlayer(const std::string &playerName) {
+PlayableCharacter* Map::getPlayer(const std::string &playerName) {
     return characters.at(playerName);
 }
 
-void Map::sendLayers(ProxySocket& sck,std::string configFile) const {
+void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
 
@@ -127,26 +136,25 @@ Position Map::asignRandomPosition() {
 }
 
 void Map::moveNpcs(float looptime) {
-    std::vector<Npc*>::iterator itrNpcs;
-    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
-        (*itrNpcs)->move(looptime);
+    auto itrNpcs = npcs.begin();
+    for (; itrNpcs != npcs.end(); itrNpcs++) {
+        itrNpcs->second->move(looptime);
     }
 }
 
+void Map::addDrop(Drop drop) {
+
+}
+
 Map::~Map() {
-    std::vector<Npc*>::iterator itrNpcs;
-    for (itrNpcs = npcs.begin(); itrNpcs != npcs.end(); itrNpcs++) {
-        delete (*itrNpcs);
+    auto itrNpcs = npcs.begin();
+    for (; itrNpcs != npcs.end(); itrNpcs++) {
+        delete itrNpcs->second;
     }
 
-    std::map<std::string,PlayableCharacter*>::iterator itCharacters;
-    for (itCharacters = characters.begin(); itCharacters != characters.end(); itCharacters++) {
+    auto itCharacters = characters.begin();
+    for (; itCharacters != characters.end(); itCharacters++) {
         delete itCharacters->second;
-    }
-
-    std::vector<Obstacle*>::iterator itrObstacles;
-    for (itrObstacles = obstacles.begin(); itrObstacles != obstacles.end(); ++itrObstacles) {
-        delete (*itrObstacles);
     }
 }
 

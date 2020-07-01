@@ -44,7 +44,7 @@ int Character::calculateAttackXp(int damage,int enemyLvl) const {
     return damage * std::max(enemyLvl - level + 10, 0);
 }
 
-int Character::calculateMaxLife() const {
+float Character::calculateMaxLife() const {
     return constitution * level * classLifeFactor * raceLifeFactor;
 }
 

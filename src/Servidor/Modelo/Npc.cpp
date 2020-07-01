@@ -2,7 +2,13 @@
 #include <utility>
 #include <Proxy/src/common_message_structs.h>
 #include "PlayableCharacter.h"
+#include "Servidor/Common/Utils.h"
+#include "Drop.h"
+#include "Map.h"
 
+#define GOLD_DROP_PROBABILITY 0.8
+#define POTION_DROP_PROBABILITY 0.01
+#define OBJECT_DROP_PROBABILITY 0.01
 #define MAX_RANGE 4
 #define NPC_UPDATE_TIME 600
 
@@ -23,14 +29,14 @@ Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constituti
     map->registerNpcSpawn(spawn);
 }
 
-int Npc::calculateNpcGoldDrop(int npcMaxLp) {
-    double modifier = double(rand()) / (double(RAND_MAX) + 0.2);
-    return modifier * npcMaxLp;
+float Npc::calculateNpcGoldDrop() {
+    float random = Utils::random_real_number(0.01,0.2);
+    return random * calculateMaxLife();
 }
 
-bool Npc::shouldDrop(int probability) {
+bool Npc::shouldDrop(float probability) {
     int n = 100;
-    int result = std::rand() % (n+1);
+    int result = Utils::random_int_number(0,n);
     return result < (probability * n);
 }
 
@@ -72,7 +78,8 @@ int Npc::receiveDamage(int enemyLevel, int damage) {
     xpEarned = calculateAttackXp(damage,enemyLevel);
 
     if (lifePoints <= 0) {
-        int maxLifePoints = calculateMaxLife();
+        die();
+        int maxLifePoints = (int)calculateMaxLife();
         xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
     }
 
@@ -92,6 +99,28 @@ void Npc::attack(Character* character) {
 
 int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
     return enemy->attackTo(this);
+}
+
+void Npc::die() {
+    Drop drop(currPos);
+
+    if(shouldDrop(GOLD_DROP_PROBABILITY)) {
+        int gold = (int)calculateNpcGoldDrop();
+        drop.addGold(gold);
+    }
+
+    if(shouldDrop(POTION_DROP_PROBABILITY)) {
+        //CREATE POTION
+        //drop.addEquippable(gold);
+    }
+
+    if(shouldDrop(OBJECT_DROP_PROBABILITY)) {
+        //CREATE RANDOM OBJECT
+        //drop.addEquippable(gold);
+    }
+
+    map->addDrop(drop);
+    map->removeNpc(id);
 }
 
 Npc::~Npc() = default;

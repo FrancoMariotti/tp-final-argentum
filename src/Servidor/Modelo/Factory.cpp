@@ -6,6 +6,7 @@
 #include "Npc.h"
 #include "Log.h"
 #include "string"
+#include "Obstacle.h"
 
 FileParser::FileParser(const std::string &filename):file(filename) {}
 
@@ -39,7 +40,7 @@ Map* MapFactory::create() {
         int height = i["height"].asInt()/32;
         int x = i["x"].asInt()/32;
         int y = i["y"].asInt()/32;
-        auto* obstacle = new Obstacle(x,y,height,width);
+        Obstacle obstacle(x,y,height,width);
         map->addObstacle(obstacle);
     }
 
@@ -121,7 +122,7 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
             maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
             recoveryFactor,meditationRecoveryFactor,observer);
 
-    map->addNpc(enemy);
+    map->addNpc(id,enemy);
 }
 
 NpcFactory::~NpcFactory() = default;

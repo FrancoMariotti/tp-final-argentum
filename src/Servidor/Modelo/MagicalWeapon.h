@@ -15,8 +15,6 @@ class MagicalWeapon: public Weapon {
         MagicalWeapon(std::string name,SpellType *spellType,
                 int minDamage,int maxDamage,int cost, int goldCost);
         int attack(Character *enemy,int strength,int level,int &mana,Position &holderPos) override;
-        int use(Heal *spell, Character *target, int strength, int level);
-        int use(Damage *spell, Character *target, int strength, int level);
         ~MagicalWeapon() override;
 
 };

@@ -1,16 +1,19 @@
 #include "PlayableCharacter.h"
-#include "Log.h"
+#include <utility>
 #include "Potion.h"
 #include "Map.h"
 #include "Npc.h"
 #include "Alive.h"
 #include "Ghost.h"
 
+#define NEWBIE_LEVEL 12
+#define LEVEL_DIFFERENCE 10
+
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
         int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
         int invMaxElements,Observer* observer):
-        Character(id,map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
+        Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
                 defaultWeapon("fists",1, 1, 0), inventory(invMaxElements) {
     this->lifeState = new Alive();
@@ -45,7 +48,7 @@ void PlayableCharacter::move(Offset& offset) {
 }
 
 void PlayableCharacter::recoverLifePoints(int seconds) {
-    int maxLife = calculateMaxLife();
+    int maxLife = (int)calculateMaxLife();
     int recoveredLifePoints = calculateRecoverLifePoints(seconds);
     lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
     notifyStats();
@@ -88,13 +91,14 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     }
 
     damage = defend(damage);
+
     int newLife = lifePoints - damage;
     xpEarned = calculateAttackXp(damage,enemyLevel);
 
     if (newLife <= 0) {
         lifePoints = 0;
         die();
-        int maxLifePoints = calculateMaxLife();
+        int maxLifePoints = (int)calculateMaxLife();
         xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
     } else {
         lifePoints = newLife;
@@ -165,7 +169,7 @@ int PlayableCharacter::defend(int damage) {
 }
 
 void PlayableCharacter::heal(int value) {
-    int maxLife = calculateMaxLife();
+    int maxLife = (int)calculateMaxLife();
     lifeState->heal(maxLife,lifePoints,value);
 }
 
@@ -177,9 +181,9 @@ void PlayableCharacter::earnMana(int value) {
 
 bool PlayableCharacter::checkFairPlay(int enemyLevel) {
     int levelDifference = abs(enemyLevel - level);
-    if(levelDifference > 10) return false;
-    bool enemyisnewbie = (enemyLevel <= 12);
-    bool imnewbie = (level <= 12);
+    if(levelDifference > LEVEL_DIFFERENCE) return false;
+    bool enemyisnewbie = (enemyLevel <= NEWBIE_LEVEL);
+    bool imnewbie = (level <= NEWBIE_LEVEL);
     return (imnewbie && enemyisnewbie);
 }
 
@@ -192,7 +196,14 @@ bool PlayableCharacter::isDead() {
 }
 
 void PlayableCharacter::die() {
-    //aca vendria la logica de drop
+    /*Drop drop(currPos.nearAvailablePosition(map));
+    int safeGold = calculateSafeGoldCapacity(level);
+    if (gold > safeGold) {
+        int amountGoldDrop = gold - safeGold;
+        drop.addGold(amountGoldDrop);
+    }*/
+
+    //logica drop items inventario
 
     delete lifeState;
     lifeState = new Ghost();
