@@ -17,10 +17,10 @@ void ProxyServer::run() {
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
     game.initializeMap(proxySocket);
-    NormalWeapon sword("sword", 2, 5, 0);
-    game.storeInInventory("franco",&sword);
-    Protection shield("turtleShell", 4, 6, SHIELD, 0);
-    game.storeInInventory("franco", &shield);
+    NormalWeapon* sword = new NormalWeapon("sword", 2, 5, 0);
+    game.storeInInventory("franco",sword);
+    Protection* shield = new Protection("turtleShell", 4, 6, SHIELD, 0);
+    game.storeInInventory("franco", shield);
     game.equip("franco", 0);
     game.equip("franco", 1);
     game.sendUpdates(proxySocket);
