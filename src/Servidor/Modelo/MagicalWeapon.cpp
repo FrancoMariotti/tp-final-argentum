@@ -17,4 +17,6 @@ int MagicalWeapon::attack(Character *target,int strength,int level,int &mana,Pos
     return xp;
 }
 
-MagicalWeapon::~MagicalWeapon() = default;
+MagicalWeapon::~MagicalWeapon() {
+    delete spellType;
+}

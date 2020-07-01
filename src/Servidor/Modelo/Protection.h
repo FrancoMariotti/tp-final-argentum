@@ -5,8 +5,8 @@
 #ifndef ARGENTUM_PROTECTION_H
 #define ARGENTUM_PROTECTION_H
 
+#include <vector>
 #include "Equippable.h"
-#include "Armour.h"
 
 enum Equipment {
     ARMOUR,
@@ -19,10 +19,10 @@ class Protection : public Equippable {
     int id;
 public:
     Protection(std::string name, int minVal, int maxVal,
-            Equipment id, int goldCost);
-    void equip(std::vector<Protection> &protections);
+            int id, int goldCost);
+    void equip(std::vector<Protection*> &protections);
     void equipTo(PlayableCharacter *character, int i) override;
-    void unequip(std::vector<Protection> &protections);
+    void unequip(std::vector<Protection*> &protections, Protection* defaultProtection);
     void unequipFrom(PlayableCharacter *character) override;
 };
 

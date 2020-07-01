@@ -24,6 +24,7 @@ void ThSend::run() {
     try{
         while(this->keep_sending){
             //std::cout << "sending event" << std::endl;
+            //socket.send()
             proxySocket.writeToServer(clientEvents.pop());
         }
     } catch (ClosedQueueException &e){

@@ -137,13 +137,14 @@ void PlayableCharacter::equip(Weapon* weapon, int index) {
 }
 
 void PlayableCharacter::equip(Protection* protection, int index) {
-    armour.equip(*protection);
+    armour.equip(protection);
     notifyEquipment();
 }
 
 void PlayableCharacter::equip(Potion* potion, int index) {
     potion->use(this);
-    inventory.takeElement(index);
+    Equippable* element = inventory.takeElement(index);
+    delete element;
 }
 
 void PlayableCharacter::unequip(int elementIndex) {
@@ -160,7 +161,7 @@ void PlayableCharacter::unequip(Weapon* weapon) {
 }
 
 void PlayableCharacter::unequip(Protection* protection) {
-    armour.unequip(*protection);
+    armour.unequip(protection);
     notifyEquipment();
 }
 
@@ -209,7 +210,18 @@ void PlayableCharacter::die() {
     lifeState = new Ghost();
 }
 
+void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
+    Equippable* item = inventory.takeElement(itemIndex);
+    gold += merchant->buy(item->getName());
+    delete item;
+}
+
+void PlayableCharacter::buyFrom(std::string itemName, Merchant *merchant) {
+    Equippable* item = merchant->sell(itemName, &gold);
+    if (item != NULL) inventory.store(item);
+}
 
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
+    if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }

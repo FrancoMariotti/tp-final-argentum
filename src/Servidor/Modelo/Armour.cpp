@@ -1,14 +1,13 @@
 #include "Armour.h"
 
-Armour::Armour() {
-    Protection null("none", 0, 0, NONE, 0);
+Armour::Armour() : defaultProtection("none", 0, 0, NONE, 0) {
     for (int i = 0; i < 3 ; ++i) {
-        protections.push_back(null);
+        protections.push_back(&defaultProtection);
     }
 }
 
-void Armour::equip(Protection protection) {
-    protection.equip(protections);
+void Armour::equip(Protection* protection) {
+    protection->equip(protections);
 }
 
 int Armour::use(int damage) const {
@@ -16,7 +15,7 @@ int Armour::use(int damage) const {
 
     auto it = protections.begin();
     for(;it != protections.end(); it++) {
-        defense += (*it).randomize();
+        defense += (*it)->randomize();
     }
 
     int result = damage - defense;
@@ -24,10 +23,16 @@ int Armour::use(int damage) const {
     return result;
 }
 
-void Armour::unequip(Protection protection) {
-    protection.unequip(protections);
+void Armour::unequip(Protection* protection) {
+    protection->unequip(protections, &defaultProtection);
 }
 
 std::string Armour::getName(int equipmentId) {
-    return protections[equipmentId].getName();
+    return protections[equipmentId]->getName();
+}
+
+Armour::~Armour() {
+    for (auto it = protections.begin(); it != protections.end(); it++) {
+        if ((*it) != &defaultProtection) delete (*it);
+    }
 }

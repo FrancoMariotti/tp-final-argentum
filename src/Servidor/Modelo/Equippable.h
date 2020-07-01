@@ -23,6 +23,7 @@ public:
     virtual void equipTo(PlayableCharacter *character, int index) = 0;
     virtual void unequipFrom(PlayableCharacter *character) = 0;
     std::string getName();
+    virtual ~Equippable() = default;
 };
 
 

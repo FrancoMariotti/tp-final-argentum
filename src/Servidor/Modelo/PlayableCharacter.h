@@ -7,6 +7,7 @@
 #include "Inventory.h"
 #include "Armour.h"
 #include "Position.h"
+#include "Merchant.h"
 
 class LifeState;
 class Game;
@@ -54,6 +55,8 @@ public:
     void notifyEquipment();
     int defend(int damage);
     int modifyLifePoints(int enemyLevel, int damage);
+    void sellTo(int itemIndex, Merchant* merchant);
+    void buyFrom(std::string itemName, Merchant* merchant);
     ~PlayableCharacter() override;
 
     bool isDead();

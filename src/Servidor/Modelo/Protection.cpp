@@ -5,15 +5,15 @@
 #include "Protection.h"
 #include "PlayableCharacter.h"
 
-Protection::Protection(std::string name, int minVal, int maxVal, Equipment id, int goldCost)
+Protection::Protection(std::string name, int minVal, int maxVal, int id, int goldCost)
     : Equippable(name, minVal, maxVal, goldCost), id(id) {}
 
-void Protection::equip(std::vector<Protection> &protections) {
-    protections[id] = (*this);
+void Protection::equip(std::vector<Protection*> &protections) {
+    protections[id] = this;
 }
 
-void Protection::unequip(std::vector<Protection> &protections) {
-    protections[id] = Protection("none", 0, 0, NONE, 0);
+void Protection::unequip(std::vector<Protection*> &protections, Protection* defaultProtection) {
+    protections[id] = defaultProtection;
 }
 
 void Protection::equipTo(PlayableCharacter *character, int index) {

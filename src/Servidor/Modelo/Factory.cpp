@@ -7,6 +7,12 @@
 #include "Log.h"
 #include "string"
 #include "Obstacle.h"
+#include "RangeWeapon.h"
+#include "LifePotion.h"
+#include "ManaPotion.h"
+#include "MagicalWeapon.h"
+#include "Heal.h"
+#include "Damage.h"
 
 FileParser::FileParser(const std::string &filename):file(filename) {}
 
@@ -127,3 +133,40 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
 
 NpcFactory::~NpcFactory() = default;
 
+Equippable* NormalWeaponFactory::create(Json::Value itemObj) {
+    return new NormalWeapon(itemObj.asString(), itemObj["min"].asInt(),
+            itemObj["max"].asInt(), itemObj["goldCost"].asInt());
+}
+
+Equippable* RangeWeaponFactory::create(Json::Value itemObj) {
+    return new RangeWeapon(itemObj.asString(), itemObj["min"].asInt(),
+            itemObj["max"].asInt(), itemObj["goldCost"].asInt());
+}
+
+Equippable* ProtectionFactory::create(Json::Value itemObj) {
+    return new Protection(itemObj.asString(), itemObj["min"].asInt(),
+            itemObj["max"].asInt(), itemObj["id"].asInt(),
+            itemObj["goldCost"].asInt());
+}
+
+Equippable* LifePotionFactory::create(Json::Value itemObj) {
+    return new LifePotion(itemObj.asString(), itemObj["value"].asInt(),
+            itemObj["goldCost"].asInt());
+}
+
+Equippable* ManaPotionFactory::create(Json::Value itemObj) {
+    return new ManaPotion(itemObj.asString(), itemObj["value"].asInt(),
+            itemObj["goldCost"].asInt());
+}
+
+Equippable* MagicalWeaponFactory::create(Json::Value itemObj) {
+    SpellType* spellType = NULL;
+    if (itemObj["spellType"].asString() == "heal") {
+        spellType = new Heal();
+    } else {
+        spellType = new Damage();
+    }
+    return new MagicalWeapon(itemObj.asString(), spellType, itemObj["min"].asInt(),
+            itemObj["max"].asInt(), itemObj["manaCost"].asInt(),
+            itemObj["goldCost"].asInt());
+}

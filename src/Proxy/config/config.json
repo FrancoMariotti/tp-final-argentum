@@ -935,7 +935,7 @@
                  "y":704
                 }]
   },
- "equippables": [{
+ "merchantItems": [{
    "sword": {
      "type": "NormalWeapon",
      "min": 2,
@@ -952,36 +952,6 @@
      "type": "NormalWeapon",
      "min": 1,
      "max": 9,
-     "goldCost" : 100
-   },
-   "fresnoWand": {
-     "type": "MagicalWeapon",
-     "spellType": "damage",
-     "min": 2,
-     "max": 5,
-     "manaCost": 5,
-     "goldCost" : 100
-   },
-   "elvenFlute": {
-     "type": "MagicalWeapon",
-     "spellType": "heal",
-     "manaCost": 100,
-     "goldCost" : 100
-   },
-   "knottyStick": {
-     "type": "MagicalWeapon",
-     "spellType": "damage",
-     "min": 4,
-     "max": 8,
-     "manaCost": 15,
-     "goldCost" : 100
-   },
-   "crimpStick": {
-     "type": "MagicalWeapon",
-     "spellType": "damage",
-     "min": 8,
-     "max": 20,
-     "manaCost": 30,
      "goldCost" : 100
    },
    "commonBow": {
@@ -1017,51 +987,111 @@
      "goldCost" : 100
    },
    "leatherArmour": {
-     "type": "Armour",
+     "type": "Protection",
+     "id": 0,
      "min": 2,
      "max": 6,
      "goldCost" : 100
    },
    "ironArmour": {
-     "type": "Armour",
+     "type": "Protection",
+     "id": 0,
      "min": 15,
      "max": 30,
      "goldCost" : 100
    },
    "blueTunic": {
-     "type": "Armour",
+     "type": "Protection",
+     "id": 0,
      "min": 6,
      "max": 10,
      "goldCost" : 100
    },
    "hood": {
-     "type": "Helmet",
+     "type": "Protection",
+     "id": 2,
      "min": 1,
      "max": 4,
      "goldCost" : 100
    },
    "ironHelmet": {
-     "type": "Helmet",
+     "type": "Protection",
+     "id": 2,
      "min": 4,
      "max": 8,
      "goldCost" : 100
    },
    "turtleShell": {
-     "type": "Shield",
+     "type": "Protection",
+     "id": 1,
      "min": 1,
      "max": 2,
      "goldCost" : 100
    },
    "ironShield": {
-     "type": "Shield",
+     "type": "Protection",
+     "id": 1,
      "min": 1,
      "max": 4,
      "goldCost" : 100
    },
    "magicHat": {
-     "type": "Helmet",
+     "type": "Protection",
+     "id": 2,
      "min": 4,
      "max": 12,
+     "goldCost" : 100
+   }
+  }],
+  "priestItems": [{
+   "fresnoWand": {
+     "type": "MagicalWeapon",
+     "spellType": "damage",
+     "min": 2,
+     "max": 5,
+     "manaCost": 5,
+     "goldCost" : 100
+   },
+   "elvenFlute": {
+     "type": "MagicalWeapon",
+     "spellType": "heal",
+     "manaCost": 100,
+     "goldCost" : 100
+   },
+   "knottyStick": {
+     "type": "MagicalWeapon",
+     "spellType": "damage",
+     "min": 4,
+     "max": 8,
+     "manaCost": 15,
+     "goldCost" : 100
+   },
+   "crimpStick": {
+     "type": "MagicalWeapon",
+     "spellType": "damage",
+     "min": 8,
+     "max": 20,
+     "manaCost": 30,
+     "goldCost" : 100
+   },
+   "smallLifePotion": {
+     "type": "LifePotion",
+     "value": 25,
+     "goldCost" : 100
+   },
+   "bigLifePotion": {
+     "type": "LifePotion",
+     "value": 100,
+     "goldCost" : 100
+   },
+   "smallManaPotion": {
+     "type": "ManaPotion",
+     "value": 25,
+     "goldCost" : 100
+   },
+   "bigManaPotion": {
+     "type": "ManaPotion",
+     "value": 100,
      "goldCost" : 100
    }
   }]

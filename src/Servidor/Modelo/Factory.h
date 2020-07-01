@@ -5,6 +5,7 @@
 #include <jsoncpp/json/value.h>
 #include "string"
 #include "Observer.h"
+#include "NormalWeapon.h"
 
 class Game;
 class Map;
@@ -42,6 +43,42 @@ class NpcFactory {
         explicit NpcFactory(const std::string& configFile);
         void create(Map* map,const std::string& specie,Observer* observer);
         ~NpcFactory();
+};
+
+class EquippableFactory {
+public:
+    virtual Equippable* create(Json::Value itemObj)= 0;
+    virtual ~EquippableFactory() = default;
+};
+
+class NormalWeaponFactory : public EquippableFactory {
+public:
+    Equippable* create(Json::Value itemObj) override;
+};
+
+class RangeWeaponFactory : public EquippableFactory{
+public:
+    Equippable* create(Json::Value itemObj) override;
+};
+
+class ProtectionFactory : public EquippableFactory {
+public:
+    Equippable* create(Json::Value itemObj) override;
+};
+
+class LifePotionFactory : public EquippableFactory {
+public:
+    Equippable* create(Json::Value itemObj) override;
+};
+
+class ManaPotionFactory : public EquippableFactory {
+public:
+    Equippable* create(Json::Value itemObj) override;
+};
+
+class MagicalWeaponFactory : public EquippableFactory {
+public:
+    Equippable* create(Json::Value itemObj) override;
 };
 
 #endif //ARGENTUM_FACTORY_H
