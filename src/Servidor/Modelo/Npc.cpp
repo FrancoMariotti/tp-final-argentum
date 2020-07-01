@@ -1,8 +1,6 @@
 #include "Npc.h"
 #include <utility>
-#include <Proxy/src/common_message_structs.h>
 #include "PlayableCharacter.h"
-#include "Servidor/Common/Utils.h"
 #include "Drop.h"
 #include "Map.h"
 
@@ -10,7 +8,7 @@
 #define POTION_DROP_PROBABILITY 0.01
 #define OBJECT_DROP_PROBABILITY 0.01
 #define MAX_RANGE 4
-#define NPC_UPDATE_TIME 600
+#define NPC_UPDATE_TIME 0.6
 
 
 Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,
@@ -25,8 +23,6 @@ Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constituti
     this->specie = std::move(specie);
     this->mana = 0;
     this->updateTime = 0;
-    spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
-    map->registerNpcSpawn(spawn);
 }
 
 float Npc::calculateNpcGoldDrop() {

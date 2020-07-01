@@ -40,6 +40,7 @@ class Map {
         void registerNpcSpawn(spawn_character_t spawn);
         void update(Observer *observer);
         void moveNpcs(float looptime);
+        void updateAllPlayers(float looptime);
         Position asignRandomPosition();
         void addDrop(Drop drop);
         void removePlayableCharacter(const std::string &playerName);

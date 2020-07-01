@@ -15,7 +15,7 @@ class Potion;
 
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
-    int mana;
+    float mana;
     int gold;
     int xp;
     Weapon* activeWeapon;
@@ -41,8 +41,8 @@ public:
     void unequip(int elementIndex);
     void unequip(Equippable* element);
     void store(Equippable* element);
-    void recoverLifePoints(int seconds);
-    void recoverMana(int seconds);
+    void recoverLifePoints(float seconds);
+    void recoverMana(float seconds);
     void heal(int value);
     void earnMana(int value);
     void unequip(Protection *protection);
@@ -56,12 +56,10 @@ public:
     int defend(int damage);
     int modifyLifePoints(int enemyLevel, int damage);
     void sellTo(int itemIndex, Merchant* merchant);
-    void buyFrom(std::string itemName, Merchant* merchant);
-    ~PlayableCharacter() override;
-
+    void buyFrom(const std::string& itemName, Merchant* merchant);
     bool isDead();
-
     void die();
+    ~PlayableCharacter() override;
 };
 
 

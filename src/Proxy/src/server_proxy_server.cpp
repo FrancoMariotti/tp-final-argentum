@@ -33,14 +33,21 @@ void ProxyServer::run() {
             std::unique_ptr<Message> msg;
             if(!proxySocket.isEmpty()) {
                 msg = proxySocket.readServer();
+
+                std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
                 if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                     Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
                     Event* move = new EventMove(offset);
                     move->execute(game, "franco");
                 }
+
+                if (msg->getId() == COMMAND_MESSAGE_ID) {
+                    //execute command
+                    //command pattern
+                }
             }
-            float looptime = 60;
-            game.updateModel(looptime);
+            float looptimeInSeconds = 60 * 0.001;
+            game.updateModel(looptimeInSeconds);
             end = std::chrono::system_clock::now();
             int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
                     (end-start).count();

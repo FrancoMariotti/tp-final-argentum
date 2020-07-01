@@ -9,7 +9,7 @@
 //class Map;
 
 class Npc : public Character {
-    int mana;
+    float mana;
     float updateTime;
     std::string specie;
     NormalWeapon weapon;

@@ -1,6 +1,7 @@
 #include <jsoncpp/json/json.h>
 #include <iostream>
 #include <Servidor/Common/Utils.h>
+#include <Proxy/src/common_message_structs.h>
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -128,6 +129,8 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
             maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
             recoveryFactor,meditationRecoveryFactor,observer);
 
+    spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
+    map->registerNpcSpawn(spawn);
     map->addNpc(id,enemy);
 }
 

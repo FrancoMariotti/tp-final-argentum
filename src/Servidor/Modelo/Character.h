@@ -5,15 +5,15 @@
 #include "string"
 #include "Position.h"
 #include "Observer.h"
+#include "Servidor/Common/Utils.h"
 
-//class Map;
 class PlayableCharacter;
 class Npc;
 
 class Character {
     protected:
         std::string id;
-        int lifePoints;
+        float lifePoints;
         int level;
         int constitution;
         int agility;
@@ -30,9 +30,9 @@ class Character {
         Observer* observer;
 
         float calculateMaxLife() const;
-        int calculateMaxMana() const;
-        int calculateRecoverLifePoints(int seconds) const;
-        int calculateRecoverMana(int seconds) const;
+        float calculateMaxMana() const;
+        float calculateRecoverLifePoints(float seconds) const;
+        float calculateRecoverMana(float seconds) const;
         int calculateRecoverManaMeditating(int seconds) const;
         int calculateAttackXp(int damage,int enemyLvl) const;
         int calculateGoldCapacity() const;
