@@ -6,8 +6,8 @@ Armour::Armour() : defaultProtection("none", 0, 0, NONE, 0) {
     }
 }
 
-void Armour::equip(Protection* protection) {
-    protection->equip(protections);
+void Armour::equipTo(Protection* protection, PlayableCharacter* character) {
+    protection->equip(protections, &defaultProtection, character);
 }
 
 int Armour::use(int damage) const {

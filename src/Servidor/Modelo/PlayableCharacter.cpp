@@ -132,12 +132,13 @@ void PlayableCharacter::equip(Equippable* element, int index) {
 }
 
 void PlayableCharacter::equip(Weapon* weapon, int index) {
+    if (activeWeapon != &defaultWeapon) activeWeapon->unequipFrom(this);
     activeWeapon = weapon;
     notifyEquipment();
 }
 
 void PlayableCharacter::equip(Protection* protection, int index) {
-    armour.equip(protection);
+    armour.equipTo(protection, this);
     notifyEquipment();
 }
 

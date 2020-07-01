@@ -20,9 +20,10 @@ class Protection : public Equippable {
 public:
     Protection(std::string name, int minVal, int maxVal,
             int id, int goldCost);
-    void equip(std::vector<Protection*> &protections);
+    void equip(std::vector<Protection*> &protections, Protection* defaultProtection,
+            PlayableCharacter* character);
     void equipTo(PlayableCharacter *character, int i) override;
-    void unequip(std::vector<Protection*> &protections, Protection* defaultProtection);
+    void unequip(std::vector<Protection*> &protections, Protection* defaultProtection) const;
     void unequipFrom(PlayableCharacter *character) override;
 };
 
