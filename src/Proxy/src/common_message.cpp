@@ -3,6 +3,7 @@
 //
 
 #include <string>
+#include <iostream>
 #include "common_message.h"
 #include "common_osexception.h"
 
@@ -157,7 +158,9 @@ ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) 
     command(input),
     x(x),
     y(y)
-    {}
+    {
+    std::cout << command << std::endl;
+    }
 
 std::string ExecuteCommand::getCommand() const {
     return command;

@@ -9,78 +9,11 @@
 
 SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
         textureManager(textureManager),
-        armourSpriteSheetTexture(&textureManager.initArmour()),
-        headSpriteSheetTexture(&textureManager.initHead()),
-        helmetSpriteSheetTexture(&textureManager.initHelmet()),
-        weaponSpriteSheetTexture(&textureManager.initWeapon()),
-        shieldSpriteSheetTexture(&textureManager.initShield()),
-        e_body_orientation(FRONT){
+        body_or(SdlTextureManager::FRONT),
+        head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
+        t_appearance{"humanHead","defaultArmour","none","none","none"}{
     pos_x = 0;
     pos_y = 0;
-    //width = 17;
-    //height = 15;
-
-    vel_x = 0;
-    vel_y = 0;
-
-    for (int i = 0; i < TOTAL_HEAD_SPRITE ; ++i) {
-        head_orientation_clips[i] = {i*headSpriteSheetTexture->getWidth(),
-                                     0, headSpriteSheetTexture->getWidth(),
-                                     headSpriteSheetTexture->getHeight()};
-    }
-    for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        armour_orientation_clips[i] = {0, i*armourSpriteSheetTexture->getHeight(),
-                                       armourSpriteSheetTexture->getWidth(),
-                                       armourSpriteSheetTexture->getHeight()};
-        weapon_orientation_clips[i] = {0, i*weaponSpriteSheetTexture->getHeight(),
-                                       weaponSpriteSheetTexture->getWidth(),
-                                       weaponSpriteSheetTexture->getHeight()};
-        shield_orientation_clips[i] = {0, i*shieldSpriteSheetTexture->getHeight(),
-                                       shieldSpriteSheetTexture->getWidth(),
-                                       shieldSpriteSheetTexture->getHeight()};
-    }
-
-    e_face_orientation = FRONT_HEAD_SPRITE;
-}
-
-void SdlPlayer::handleEvent(SDL_Event &e, bool &is_event_handled) {
-    if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
-        switch(e.key.keysym.sym){
-            case SDLK_UP: vel_y -= VEL;
-            break;
-            case SDLK_DOWN: vel_y += VEL;
-            break;
-            case SDLK_LEFT: vel_x -= VEL;
-            break;
-            case SDLK_RIGHT: vel_x += VEL;
-            break;
-
-        }
-    }
-    /*Cuando se suelta la tecla tenemos que deshacer los cambios*/
-    /*if(e.type == SDL_KEYUP && e.key.repeat == 0){
-        switch(e.key.keysym.sym){
-            case SDLK_UP: vel_y += VEL; break;
-            case SDLK_DOWN: vel_y -= VEL; break;
-            case SDLK_LEFT: vel_x += VEL; break;
-            case SDLK_RIGHT: vel_x -= VEL; break;
-
-        }
-    }*/
-
-}
-
-
-/*Logic*/
-/*Crea el msg con el offset al que se quiere mover, lo encola en @param clientEvents*/
-void SdlPlayer::move(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
-    //Si se movio
-    if(vel_x != 0 || vel_y != 0){
-        clientEvents.push(std::unique_ptr<Message> (
-                new Movement(vel_x, vel_y)));
-        vel_x = 0;
-        vel_y = 0;
-    }
 }
 
 void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &camera) {
@@ -89,33 +22,35 @@ void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &cam
     this->pos_x = camera.toPixels(player_x);
     this->pos_y = camera.toPixels(player_y);
     if(pos_x > old_x){
-        e_face_orientation = RIGHT_HEAD_SPRITE;
-        e_body_orientation = RIGHT;
+        head_or = SdlTextureManager::RIGHT_HEAD_SPRITE;
+        body_or = SdlTextureManager::RIGHT;
     } else if(pos_x < old_x){
-        e_face_orientation = LEFT_HEAD_SPRITE;
-        e_body_orientation = LEFT;
+        head_or = SdlTextureManager::LEFT_HEAD_SPRITE;
+        body_or = SdlTextureManager::LEFT;
     } else if(pos_y > old_y){
-        e_face_orientation = FRONT_HEAD_SPRITE;
-        e_body_orientation = FRONT;
+        head_or = SdlTextureManager::FRONT_HEAD_SPRITE;
+        body_or = SdlTextureManager::FRONT;
     } else if(pos_y < old_y){
-        e_face_orientation = BACK_HEAD_SPRITE;
-        e_body_orientation = BACK;
+        head_or = SdlTextureManager::BACK_HEAD_SPRITE;
+        body_or = SdlTextureManager::BACK;
     }
 }
 
 void SdlPlayer::updateEquipment(const equipment_t& equipment) {
     /*rompe pq no tengo "fists" en el map de texturas*/
     //std::cout << equipment.weaponName << std::endl;
+
     if(equipment.weaponName != "fists"){
-        weaponSpriteSheetTexture = &textureManager.getSpriteTexture(equipment.weaponName);
+
     }
 }
 
 void SdlPlayer::render(SdlCamera &camera) {
-    /*headSpriteSheetTexture.render((pos_x + (armourSpriteSheetTexture.getWidth() - HUMANOID_HEAD_WIDTH) / 2) - camera.getX(),
-                                  (pos_y - HUMANOID_HEAD_HEIGHT) - camera.getY(),
-                                  &head_sprite_clips[e_face_orientation]);*/
+    SdlTextureManager::t_player_appearance appearance{"humanHead","ironHelmet",
+                                           "defaultArmour","axe","ironShield"};
+    textureManager.renderPC(appearance, pos_x, pos_y, camera, body_or, head_or);
 
+    /*
     int body_offset_y = armourSpriteSheetTexture->getHeight() - 32;
 
     headSpriteSheetTexture->render((pos_x + (armourSpriteSheetTexture->getWidth() - headSpriteSheetTexture->getWidth() )/ 2) - camera.getX(),
@@ -130,7 +65,7 @@ void SdlPlayer::render(SdlCamera &camera) {
     shieldSpriteSheetTexture->render(pos_x - camera.getX(),
             (pos_y - body_offset_y) - camera.getY(),
             &shield_orientation_clips[e_body_orientation]);
-
+*/
 }
 
 
