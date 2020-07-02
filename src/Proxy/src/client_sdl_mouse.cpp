@@ -12,6 +12,7 @@ SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),
     position{-1,-1},
     inventory_clicked_index(-1),
+    right_click(0),
     clicked_in_map(false)
     {}
 
@@ -19,6 +20,9 @@ SdlMouse::SdlMouse(SdlCamera& camera) :
      * de la camara se guarda la nueva posicion del mapa en coordenadas del server*/
 void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     if ((event.type == SDL_MOUSEBUTTONDOWN) && !is_event_handled) {
+        if (event.button.button == SDL_BUTTON_RIGHT){
+            right_click++;
+        }
         this->clear();
         int x,y;
         /*Devuelve la posicion del mouse*/
@@ -34,8 +38,10 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
 }
 
 void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
-    if(position.x > -1 && position.y > -1){
+    if(position.x > -1 && position.y > -1 && right_click > 0){
+        std::cout << "attack" << std::endl;
           // clientEvents.push(std::unique_ptr <Message>(new Attack(username, position.x, position.y)))
+        right_click--;
         this->clear();
     }
 }

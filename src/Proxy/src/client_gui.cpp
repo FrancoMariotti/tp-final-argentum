@@ -43,14 +43,13 @@ void GUI::addWorldLayer(std::vector<int> data, const int init) {
 void GUI::handleEvents(SDL_Event &event){
     bool is_event_handled = false;
     keyboard.handleEvent(event, is_event_handled);
-    //player.handleEvent(event, is_event_handled);
     console.handleEvent(event, is_event_handled);
     inventory.handleEvent(event, is_event_handled);
     mouse.handleEvent(event,is_event_handled);
 }
 
 void GUI::execute(){
-    //player.move(clientEvents);
+    mouse.use(clientEvents);
     keyboard.movePlayer(clientEvents);
     inventory.use(clientEvents, mouse);
     console.execute(clientEvents, mouse, camera, player);
