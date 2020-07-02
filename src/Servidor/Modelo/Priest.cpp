@@ -3,6 +3,7 @@
 //
 
 #include "Priest.h"
+#include "PlayableCharacter.h"
 
 Priest::Priest(const std::string& configFile) {
     FileParser parser(configFile);

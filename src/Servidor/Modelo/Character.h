@@ -7,8 +7,8 @@
 #include "Observer.h"
 #include "Servidor/Common/Utils.h"
 
-class PlayableCharacter;
-class Npc;
+//class PlayableCharacter;
+//class Npc;
 
 class Character {
     protected:

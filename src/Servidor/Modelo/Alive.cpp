@@ -3,6 +3,7 @@
 //
 
 #include "Alive.h"
+#include "PlayableCharacter.h"
 
 void Alive::attackEnemy(PlayableCharacter *character, Character *enemy) {
     character->makeDamageTo(enemy);

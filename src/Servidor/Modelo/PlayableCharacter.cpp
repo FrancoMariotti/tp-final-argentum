@@ -147,7 +147,7 @@ void PlayableCharacter::equip(Protection* protection, int index) {
 
 void PlayableCharacter::equip(Potion* potion, int index) {
     potion->use(this);
-    Equippable* element = inventory.takeElement(index,this);
+    Equippable* element = inventory.takeElement(index, this);
     delete element;
 }
 
@@ -215,7 +215,7 @@ void PlayableCharacter::die() {
 }
 
 void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
-    Equippable* item = inventory.takeElement(itemIndex,this);
+    Equippable* item = inventory.takeElement(itemIndex, this);
     gold += merchant->buy(item->getName());
     delete item;
 }

@@ -4,14 +4,14 @@
 
 #include "BankAccount.h"
 
-BankAccount::BankAccount() : gold(0), objects(100) {}
+BankAccount::BankAccount() : gold(0), items(100) {}
 
 void BankAccount::deposit(int amount) {
     gold += amount;
 }
 
 void BankAccount::deposit(Equippable* object) {
-    objects.store(object);
+    items.push_back(object);
 }
 
 int BankAccount::extractGold(int amount) {
@@ -22,5 +22,7 @@ int BankAccount::extractGold(int amount) {
 }
 
 Equippable* BankAccount::extractObject(int index) {
-    return objects.takeElement(index);
+    Equippable* item = items[index];
+    items.erase(items.begin() + index);
+    return item;
 }

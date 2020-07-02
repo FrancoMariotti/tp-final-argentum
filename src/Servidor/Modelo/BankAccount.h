@@ -9,7 +9,7 @@
 
 class BankAccount {
     int gold;
-    Inventory objects;
+     std::vector<Equippable*> items;
 public:
     BankAccount();
     void deposit(int amount);

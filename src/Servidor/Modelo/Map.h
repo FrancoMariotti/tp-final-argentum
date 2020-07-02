@@ -11,12 +11,14 @@
 #include "Factory.h"
 #include "Drop.h"
 #include "City.h"
+#include "Banker.h"
 
 class Character;
 class Npc;
 class PlayableCharacter;
 class Weapon;
 class ProxySocket;
+
 
 class Map {
     int width;
@@ -26,9 +28,10 @@ class Map {
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
     std::vector<City> cities;
+    Banker banker;
     public:
-        Map();
-        Map(int width, int height);
+        //Map();
+        Map(std::string configFile, int width, int height);
         void addPlayableCharacter(const std::string& playerName,PlayableCharacter* character);
         void addNpc(std::string idNpc, Npc *npc);
         void addObstacle(const Obstacle& obstacle);
@@ -49,6 +52,8 @@ class Map {
         ~Map();
 
     bool posInCity(Position position);
+
+    Banker *getBankerAtPosition(int x, int y);
 };
 
 #endif //ARGENTUM_MAPA_H

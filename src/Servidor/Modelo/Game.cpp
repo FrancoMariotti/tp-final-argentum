@@ -129,8 +129,8 @@ void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
 void Game::executeCommand(std::unique_ptr<Message>& command) {
     //std::string username = command->;
     std::string action = command->getCommand();
-    int x = command->getX();
-    int y = command->getY();
+    //int x = command->getX();
+    //int y = command->getY();
     //commadExecutor.execute(command);
 }
 

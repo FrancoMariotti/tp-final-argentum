@@ -8,12 +8,14 @@
 
 #define NPCSAMOUNT 4
 
+/*
 Map::Map() {
     this->width = 0;
     this->height = 0;
 }
-
-Map::Map(int width,int height):width(width),height(height) {}
+*/
+Map::Map(std::string configFile,int width,int height):width(width),
+    height(height) {}
 
 void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
     spawns.push_back(spawn);
@@ -171,6 +173,11 @@ bool Map::posInCity(Position position) {
         if (city.ocupies(position)) return true;
     }
     return false;
+}
+
+Banker *Map::getBankerAtPosition(int x, int y) {
+    //HAY QUE IMPLEMENTARLA
+    return nullptr;
 }
 
 

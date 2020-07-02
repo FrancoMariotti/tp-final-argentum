@@ -7,6 +7,7 @@
 #include "Factory.h"
 #include "Weapon.h"
 #include "Armour.h"
+#include <memory>
 
 class Message;
 class PlayableCharacter;

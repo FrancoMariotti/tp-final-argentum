@@ -59,6 +59,7 @@ Map* MapFactory::create() {
         int y = i["y"].asInt();
         City city(x,y,height,width);
         map->addCity(city);
+
     }
 
     return map;

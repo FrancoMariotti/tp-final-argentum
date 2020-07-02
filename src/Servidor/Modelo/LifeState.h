@@ -5,7 +5,8 @@
 #ifndef ARGENTUM_LIFESTATE_H
 #define ARGENTUM_LIFESTATE_H
 
-#include "PlayableCharacter.h"
+#include "Inventory.h"
+#include "Character.h"
 
 class LifeState {
 public:

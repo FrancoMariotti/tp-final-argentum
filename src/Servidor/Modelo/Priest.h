@@ -5,7 +5,9 @@
 #ifndef ARGENTUM_PRIEST_H
 #define ARGENTUM_PRIEST_H
 
-#include "PlayableCharacter.h"
+//#include "PlayableCharacter.h"
+
+#include "Factory.h"
 
 class Priest {
     Json::Value obj;
