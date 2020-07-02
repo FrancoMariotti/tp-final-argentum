@@ -9,4 +9,8 @@ int Equippable::randomize() const {
     return Utils::random_int_number(minValue,maxValue);
 }
 
+bool Equippable::isEquipped() {
+    return equipped;
+}
+
 

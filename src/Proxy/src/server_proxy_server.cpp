@@ -45,12 +45,11 @@ void ProxyServer::run() {
                     move->execute(game, "franco");
                     delete move;
                 }
-
                 if (msg->getId() == COMMAND_MESSAGE_ID) {
-                    //execute command
-                    //command pattern
-                }
+                   /*if (msg->getCommand().find("depositar")) {
 
+                   }*/
+                }
                 if (msg->getId() == USE_ITEM_MESSAGE_ID) {
                     game.equip("franco", msg->getIndex());
                 }

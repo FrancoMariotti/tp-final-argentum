@@ -12,7 +12,7 @@ public:
     explicit Inventory(unsigned int maxElements);
     void store(Equippable* element);
     Equippable* chooseElement(int index);
-    Equippable* takeElement(int index);
+    Equippable* takeElement(int index, PlayableCharacter* character);
     void sendItems(Observer *observer);
 };
 
