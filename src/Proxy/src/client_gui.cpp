@@ -60,7 +60,6 @@ void GUI::updatePlayerPos(const int player_x, const int player_y){
     player.updatePos(player_x, player_y, camera);
 }
 
-
 void GUI::updatePlayerStats(t_stats new_stats) {
     playerStats.update(new_stats);
 }
@@ -87,7 +86,6 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
             dynamic_renderables[it->id] = std::unique_ptr <DynamicRenderable>
                     (new RenderableNPC(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
                                        texture_id));
-        } else {
         }
     }
 }

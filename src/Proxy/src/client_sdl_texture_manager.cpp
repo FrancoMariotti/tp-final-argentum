@@ -22,38 +22,45 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(22, 48, "../../Proxy/items/swordSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
             SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("hammerSprite",
+            SdlTexture(22, 48, "../../Proxy/items/hammerSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("fresnoWandSprite",
+            SdlTexture(22, 48, "../../Proxy/items/fresnoWandSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("elvenFluteSprite",
+            SdlTexture(22, 48, "../../Proxy/items/elvenFluteSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("knottyStickSprite",
+            SdlTexture(22, 48, "../../Proxy/items/knottyStickSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("crimpStickSprite",
+            SdlTexture(22, 48, "../../Proxy/items/crimpStickSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("commonBowSprite",
+            SdlTexture(22, 48, "../../Proxy/items/commonBowSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("rareBowSprite",
+            SdlTexture(22, 48, "../../Proxy/items/rareBowSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("defaultArmourSprite",
             SdlTexture(24, 46, "../../Proxy/items/defaultArmourSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("leatherArmourSprite",
+            SdlTexture(24, 46, "../../Proxy/items/leatherArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
             SdlTexture(24, 46, "../../Proxy/items/ironArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/humanHeadSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("elfHeadSprite",
+            SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/elfHeadSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("dwarfHeadSprite",
+            SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/dwarfHeadSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("gnomeHeadSprite",
+            SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/gnomeHeadSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("hoodSprite",
+            SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/hoodSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/ironHelmetSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("turtleShellSprite",
             SdlTexture(25, 44, ITEMS_PATH + "turtleShellSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
             SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
-}
+    this->dynamic_renderables_textures.emplace(std::make_pair("magicHatSprite",
+            SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/magicHatSprite.png", window)));
 
-SdlTexture& SdlTextureManager::initHead(){
-    return dynamic_renderables_textures.at("humanHeadSprite");
-}
-
-SdlTexture& SdlTextureManager::initArmour(){
-    return dynamic_renderables_textures.at("defaultArmourSprite");
-}
-
-SdlTexture& SdlTextureManager::initShield(){
-    return dynamic_renderables_textures.at("ironShieldSprite");
-}
-
-SdlTexture& SdlTextureManager::initWeapon(){
-    return dynamic_renderables_textures.at("axeSprite");
-}
-
-SdlTexture &SdlTextureManager::initHelmet() {
-    return dynamic_renderables_textures.at("ironHelmetSprite");
 }
 
 std::string SdlTextureManager::findTextureId(const std::string &id) {

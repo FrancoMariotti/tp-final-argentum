@@ -16,14 +16,6 @@
 class Message;
 class SdlButton {
 private:
-    enum e_button_sprite{
-        BUTTON_SPRITE_MOUSE_OUT = 0,
-        BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
-        BUTTON_SPRITE_MOUSE_DOWN = 2,
-        BUTTON_SPRITE_MOUSE_UP = 3,
-        BUTTON_SPRITE_TOTAL = 4,
-    };
-
     enum e_outline_sprite{
         OUTLINE_SPRITE_MOUSE_OVER_MOTION,
         OUTLINE_SPRITE_MOUSE_OUT,
@@ -32,15 +24,13 @@ private:
 
     int width;
     int height;
-    int double_click;
-    int single_click;
+    int left_click;
+    int right_click;
 
     SDL_Point position;
     //Currently used sprite
-    e_button_sprite current_sprite;
     e_outline_sprite outline_sprite;
     //Sprites de cada estado del boton
-    SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
     SDL_Rect outline_sprite_clips[OUTLINE_SPRITE_TOTAL];
     //Imagen del boton
     SdlTexture& buttonSpriteSheetTexture;
@@ -60,7 +50,7 @@ public:
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse);
     /*Muestra los sprites de los botones*/
     void render();
-    ~SdlButton();
+    ~SdlButton() = default;
 
 };
 

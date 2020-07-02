@@ -52,16 +52,6 @@ public:
     }t_player_appearance;
     explicit SdlTextureManager(const SdlWindow& window);
 
-    SdlTexture &initHead();
-
-    SdlTexture &initArmour();
-
-    SdlTexture &initShield();
-
-    SdlTexture &initWeapon();
-
-    SdlTexture &initHelmet();
-
     std::string findTextureId(const std::string &id);
 
     SdlTexture &getTexture(const std::string &texture_id);
