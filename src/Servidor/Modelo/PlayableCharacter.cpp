@@ -82,10 +82,8 @@ void PlayableCharacter::makeDamageTo(Character *character) {
 }
 
 int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
-    if(!inCity) {
-        return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
-    }
-    return 0;
+    if(inCity) return 0;
+    return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
 }
 
 int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {

@@ -129,6 +129,13 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text.find('@') == 0) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
     }
+    //agrego este mouse clear para que no tome varios mouse clicks
+    //cuando mando los comandos.
+    //ej: si hago tres clicks y mando /resucitar sin hacer click la
+    //segunda y tercer vez, los eventos se mandan igual.De este modo
+    // una vez que se setea clicked in map en true, recien ahi ingresamos
+    // el comando en la consola.
+    mouse.clear();
 }
 
 void SdlConsole::render() {
