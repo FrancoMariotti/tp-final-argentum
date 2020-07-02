@@ -6,23 +6,21 @@
 #include "Factory.h"
 #include "Servidor/Common/Utils.h"
 
-Map::Map():npcFactory("") {
+#define NPCSAMOUNT 4
+
+
+Map::Map() {
     this->width = 0;
     this->height = 0;
 }
 
-Map::Map(std::string configFile,int width,int height):width(width),height(height),npcFactory(configFile) {}
+Map::Map(std::string configFile,int width,int height):width(width),height(height) {}
 
-
-void Map::registerNpcSpawn(spawn_character_t spawn) {
+void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
     spawns.push_back(spawn);
-}
-
-void Map::update(Observer* observer) {
-    for(int i=0; i<4 ; i++) {
-        npcFactory.create(this,"skeleton",observer);
+    if(spawns.size() == NPCSAMOUNT) {
+        observer->notifySpawnNpcUpdate(spawns);
     }
-    observer->notifySpawnNpcUpdate(spawns);
 }
 
 void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {
@@ -32,7 +30,6 @@ void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter 
 void Map::removePlayableCharacter(const std::string& playerName) {
     characters.erase(playerName);
 }
-
 
 void Map::addNpc(std::string idNpc ,Npc* npc) {
     this->npcs[idNpc] = npc;

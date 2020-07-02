@@ -41,6 +41,16 @@ void Game::createPlayer(const std::string& playerName, const std::string& charRa
     factoryCharacters.create(map,playerName,charRace, charClass, this);
 }
 
+void Game::createNpc(const std::string& specie) {
+    npcFactory.create(map,specie,this);
+}
+
+void Game::initialize() {
+    for(int i=0; i<4 ; i++) {
+        createNpc("skeleton");
+    }
+}
+
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);

@@ -43,6 +43,7 @@ void ProxyServer::run() {
                     Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
                     Event* move = new EventMove(offset);
                     move->execute(game, "franco");
+                    delete move;
                 }
 
                 if (msg->getId() == COMMAND_MESSAGE_ID) {

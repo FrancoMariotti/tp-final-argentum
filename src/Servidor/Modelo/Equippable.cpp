@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include "Equippable.h"
 #include "Servidor/Common/Utils.h"
 

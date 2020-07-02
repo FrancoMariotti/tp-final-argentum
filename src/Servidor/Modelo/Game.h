@@ -17,6 +17,7 @@ private:
     std::string configFile;
     Map* map;
     PlayableCharacterFactory factoryCharacters;
+    NpcFactory npcFactory;
     std::queue<Message*> updates;
 public:
     explicit Game(const std::string& gameConfigFilename);
@@ -38,6 +39,10 @@ public:
     void notifyMovementNpcUpdate(std::string idNpc, int x, int y) override;
     void updateModel(float looptime);
     ~Game();
+
+    void createNpc(const std::string &specie);
+
+    void initialize();
 };
 
 

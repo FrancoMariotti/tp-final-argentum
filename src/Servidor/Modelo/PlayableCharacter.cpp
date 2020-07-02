@@ -44,6 +44,10 @@ void PlayableCharacter::move(Offset& offset) {
     Position nextPos(this->currPos);
     nextPos.apply(offset);
     map->move(this->currPos,nextPos);
+    bool inCity = map->inCity();
+    if(inCity) {
+
+    }
     observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 
@@ -66,6 +70,9 @@ void PlayableCharacter::attack(Character *character) {
 }
 
 void PlayableCharacter::makeDamageTo(Character *character) {
+
+
+
     int earnedXp = character->receiveAttackFrom(this);
 
     int limit = calculateLvlLimit();

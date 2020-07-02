@@ -130,7 +130,7 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
             recoveryFactor,meditationRecoveryFactor,observer);
 
     spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
-    map->registerNpcSpawn(spawn);
+    map->registerNpcSpawn(observer,spawn);
     map->addNpc(id,enemy);
 }
 

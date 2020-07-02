@@ -20,7 +20,6 @@ class ProxySocket;
 class Map {
     int width;
     int height;
-    NpcFactory npcFactory;
     std::vector<spawn_character_t> spawns;
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
@@ -37,8 +36,7 @@ class Map {
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
         void sendLayers(ProxySocket& sck,const std::string& configFile) const;
-        void registerNpcSpawn(spawn_character_t spawn);
-        void update(Observer *observer);
+        void registerNpcSpawn(Observer * observer,spawn_character_t spawn);
         void moveNpcs(float looptime);
         void updateAllPlayers(float looptime);
         Position asignRandomPosition();
