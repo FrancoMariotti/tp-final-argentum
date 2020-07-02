@@ -8,13 +8,12 @@
 
 #define NPCSAMOUNT 4
 
-
 Map::Map() {
     this->width = 0;
     this->height = 0;
 }
 
-Map::Map(std::string configFile,int width,int height):width(width),height(height) {}
+Map::Map(int width,int height):width(width),height(height) {}
 
 void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
     spawns.push_back(spawn);

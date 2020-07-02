@@ -14,6 +14,8 @@ public:
     Equippable* chooseElement(int index);
     Equippable* takeElement(int index, PlayableCharacter* character);
     void sendItems(Observer *observer);
+
+    Equippable *takeElement(std::string elementName, PlayableCharacter *character);
 };
 
 

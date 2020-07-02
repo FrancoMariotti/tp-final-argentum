@@ -47,9 +47,7 @@ void ProxyServer::run() {
                     delete move;
                 }
                 if (msg->getId() == COMMAND_MESSAGE_ID) {
-                   /*if (msg->getCommand().find("depositar")) {
-
-                   }*/
+                   game.executeCommand(msg);
                 }
                 if (msg->getId() == USE_ITEM_MESSAGE_ID) {
                     game.equip("franco", msg->getIndex());

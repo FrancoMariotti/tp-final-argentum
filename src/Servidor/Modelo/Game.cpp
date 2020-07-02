@@ -10,7 +10,6 @@ Game::Game(const std::string& configFile): configFile(configFile), factoryCharac
     , npcFactory(configFile) {
     MapFactory factory(configFile);
     map = factory.create();
-    //map->update(this);
 }
 
 void Game::updateModel(float looptime) {
@@ -125,6 +124,14 @@ void Game::notifymovementUpdate(int x, int y) {
 
 void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
     updates.push(new MovementNpcUpdate(idNpc,x,y));
+}
+
+void Game::executeCommand(std::unique_ptr<Message>& command) {
+    //std::string username = command->;
+    std::string action = command->getCommand();
+    int x = command->getX();
+    int y = command->getY();
+    //commadExecutor.execute(command);
 }
 
 Game::~Game() {

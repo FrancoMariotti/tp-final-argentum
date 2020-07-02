@@ -8,6 +8,7 @@
 #include "Armour.h"
 #include "Position.h"
 #include "Merchant.h"
+#include "Banker.h"
 
 class LifeState;
 class Game;
@@ -64,6 +65,7 @@ public:
     void restoreMana();
     ~PlayableCharacter() override;
 
+    void deposit(std::string element, Banker *banker);
 };
 
 

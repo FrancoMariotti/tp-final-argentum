@@ -80,12 +80,14 @@ public:
 
 class ExecuteCommand : public Message {
 private:
+    const std::string username;
     const std::string command;
     const int x;
     const int y;
 public:
     explicit ExecuteCommand(std::string command);
     ExecuteCommand(std::string input, int x, int y);
+    std::string getUserName() const;
     std::string getCommand() const override;
     int getX() const override;
     int getY() const override;

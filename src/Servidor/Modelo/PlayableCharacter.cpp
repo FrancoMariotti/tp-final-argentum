@@ -147,7 +147,7 @@ void PlayableCharacter::equip(Protection* protection, int index) {
 
 void PlayableCharacter::equip(Potion* potion, int index) {
     potion->use(this);
-    Equippable* element = inventory.takeElement(index);
+    Equippable* element = inventory.takeElement(index,this);
     delete element;
 }
 
@@ -215,7 +215,7 @@ void PlayableCharacter::die() {
 }
 
 void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
-    Equippable* item = inventory.takeElement(itemIndex);
+    Equippable* item = inventory.takeElement(itemIndex,this);
     gold += merchant->buy(item->getName());
     delete item;
 }
@@ -228,15 +228,20 @@ void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant)
 void PlayableCharacter::revive() {
     delete lifeState;
     lifeState = new Alive();
-    lifePoints = calculateMaxLife();
+    restoreLife();
+    restoreMana();
+}
+
+void PlayableCharacter::deposit(std::string element, Banker *banker) {
+    Equippable *equippable = inventory.takeElement(std::move(element),this);
+    banker->deposit(id,equippable);
+}
+
+void PlayableCharacter::restoreMana() {
     mana = calculateMaxMana();
 }
 
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
-}
-
-void PlayableCharacter::restoreMana() {
-    mana = calculateMaxMana();
 }

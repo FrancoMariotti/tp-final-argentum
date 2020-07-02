@@ -28,7 +28,7 @@ class Map {
     std::vector<City> cities;
     public:
         Map();
-        Map(std::string configFile, int width, int height);
+        Map(int width, int height);
         void addPlayableCharacter(const std::string& playerName,PlayableCharacter* character);
         void addNpc(std::string idNpc, Npc *npc);
         void addObstacle(const Obstacle& obstacle);

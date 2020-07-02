@@ -25,3 +25,13 @@ Equippable* Inventory::takeElement(int index, PlayableCharacter* character) {
     elements.erase(elements.begin() + index);
     return element;
 }
+
+Equippable* Inventory::takeElement(std::string elementName,PlayableCharacter* character) {
+    for(auto &element:elements) {
+        if(element->getName() == elementName) {
+            element->unequipFrom(character);
+            return element;
+        }
+    }
+    return nullptr;
+}

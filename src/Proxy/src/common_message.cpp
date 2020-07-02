@@ -148,6 +148,7 @@ int Draw::getHeight() {
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message(COMMAND_MESSAGE_ID),
+    username("franco"),
     command(command),
     x(-1),
     y(-1)
@@ -173,6 +174,10 @@ int ExecuteCommand::getX() const {
 
 int ExecuteCommand::getY() const {
     return y;
+}
+
+std::string ExecuteCommand::getUserName() const {
+    return username;
 }
 
 Connect::Connect(const std::string username) :
