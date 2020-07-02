@@ -933,7 +933,31 @@
                  "width":32,
                  "x":480,
                  "y":704
-                }]
+                }],
+    "cities": [{
+        "x": 0,
+        "y": 0,
+        "width": 9,
+        "heigth": 9
+      } ,
+      {
+        "x": 35,
+        "y": 0,
+        "width": 9,
+        "heigth": 9
+      },
+      {
+        "x": 41,
+        "y": 33,
+        "width": 9,
+        "heigth": 9
+      },
+      {
+        "x": 0,
+        "y": 32,
+        "width": 9,
+        "heigth": 9
+      }]
   },
  "merchantItems": [{
    "sword": {

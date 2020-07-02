@@ -15,7 +15,8 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
         int invMaxElements,Observer* observer):
         Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-                defaultWeapon("none",1, 1, 0), inventory(invMaxElements) {
+                defaultWeapon("none",1, 1, 0), inventory(invMaxElements)
+                , inCity(true) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
@@ -44,10 +45,7 @@ void PlayableCharacter::move(Offset& offset) {
     Position nextPos(this->currPos);
     nextPos.apply(offset);
     map->move(this->currPos,nextPos);
-    bool inCity = map->inCity();
-    if(inCity) {
-
-    }
+    inCity = map->posInCity(currPos);
     observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 
@@ -66,13 +64,10 @@ void PlayableCharacter::recoverMana(float seconds) {
 }
 
 void PlayableCharacter::attack(Character *character) {
-    lifeState->attackEnemy(this,character);
+    if (!inCity) lifeState->attackEnemy(this,character);
 }
 
 void PlayableCharacter::makeDamageTo(Character *character) {
-
-
-
     int earnedXp = character->receiveAttackFrom(this);
 
     int limit = calculateLvlLimit();
@@ -87,7 +82,10 @@ void PlayableCharacter::makeDamageTo(Character *character) {
 }
 
 int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
-    return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
+    if(!inCity) {
+        return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
+    }
+    return 0;
 }
 
 int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {

@@ -10,6 +10,7 @@
 #include "Observer.h"
 #include "Factory.h"
 #include "Drop.h"
+#include "City.h"
 
 class Character;
 class Npc;
@@ -24,12 +25,14 @@ class Map {
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
+    std::vector<City> cities;
     public:
         Map();
         Map(std::string configFile, int width, int height);
         void addPlayableCharacter(const std::string& playerName,PlayableCharacter* character);
         void addNpc(std::string idNpc, Npc *npc);
         void addObstacle(const Obstacle& obstacle);
+        void addCity(City city);
         bool isOccupied(Position pos);
         void move(Position& from,Position& to);
         Character* findNpcAtPosition(Position &position);
@@ -44,6 +47,8 @@ class Map {
         void removePlayableCharacter(const std::string &playerName);
         void removeNpc(const std::string& idNpc);
         ~Map();
+
+    bool posInCity(Position position);
 };
 
 #endif //ARGENTUM_MAPA_H

@@ -43,6 +43,10 @@ void Map::addObstacle(const Obstacle& obstacle) {
     this->obstacles.push_back(obstacle);
 }
 
+void Map::addCity(City city) {
+    cities.push_back(city);
+}
+
 bool Map::isOccupied(Position pos) {
     auto itrCharacters = characters.begin();
     for (; itrCharacters != characters.end(); ++itrCharacters) {
@@ -162,6 +166,14 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
+bool Map::posInCity(Position position) {
+    for (auto & city : cities) {
+        if (city.ocupies(position)) return true;
+    }
+    return false;
+}
+
 
 
 

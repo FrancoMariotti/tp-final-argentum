@@ -41,6 +41,7 @@ Map* MapFactory::create() {
 
     Map *map = new Map(file,width_map, height_map);
     Json::Value& obstacles = mapObj["obstacles"];
+    Json::Value& cities = mapObj["cities"];
 
     for (auto & i : obstacles){
         int width = i["width"].asInt()/32;
@@ -49,6 +50,15 @@ Map* MapFactory::create() {
         int y = i["y"].asInt()/32;
         Obstacle obstacle(x,y,height,width);
         map->addObstacle(obstacle);
+    }
+
+    for (auto & i : cities) {
+        int width = i["width"].asInt();
+        int height = i["height"].asInt();
+        int x = i["x"].asInt();
+        int y = i["y"].asInt();
+        City city(x,y,height,width);
+        map->addCity(city);
     }
 
     return map;
