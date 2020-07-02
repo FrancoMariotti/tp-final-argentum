@@ -24,6 +24,8 @@ public:
     virtual void unequipFrom(PlayableCharacter *character) = 0;
     std::string getName();
     virtual ~Equippable() = default;
+
+    bool isEquipped();
 };
 
 

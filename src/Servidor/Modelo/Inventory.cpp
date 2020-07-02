@@ -19,8 +19,9 @@ Equippable* Inventory::chooseElement(int index) {
     return elements[index];
 }
 
-Equippable* Inventory::takeElement(int index) {
+Equippable* Inventory::takeElement(int index, PlayableCharacter* character) {
     Equippable* element = elements[index];
+    if (element->isEquipped()) element->unequipFrom(character);
     elements.erase(elements.begin() + index);
     return element;
 }
