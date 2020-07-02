@@ -6,10 +6,11 @@
 #include "Npc.h"
 #include "Update.h"
 
-Game::Game(const std::string& configFile): configFile(configFile), factoryCharacters(configFile) {
+Game::Game(const std::string& configFile): configFile(configFile), factoryCharacters(configFile)
+    , npcFactory(configFile) {
     MapFactory factory(configFile);
     map = factory.create();
-    map->update(this);
+    //map->update(this);
 }
 
 void Game::updateModel(float looptime) {

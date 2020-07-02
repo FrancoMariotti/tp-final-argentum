@@ -23,6 +23,7 @@ class PlayableCharacter: public Character {
     Inventory inventory;
     Armour armour;
     LifeState *lifeState;
+    bool inCity;
 private:
     bool checkFairPlay(int enemyLevel);
 public:
