@@ -31,8 +31,9 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
                 std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE, "../../Proxy/items/" + *it +".png", window)
         );
     }
-
-
+    inventoryTextures.emplace(std::make_pair("outline", SdlTexture(BUTTON_SIZE,
+            BUTTON_SIZE,
+            "../../Proxy/assets/1.png" ,window)));
 }
 
 void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {
@@ -53,9 +54,10 @@ void SdlInventory::update(std::vector<std::string> inventory){
     buttons.clear();
     for(auto it = inventory.begin(); it != inventory.end(); it ++){
         SdlTexture& buttonSpriteSheet = inventoryTextures.at(*it);
+        SdlTexture& outline = inventoryTextures.at("outline");
         int col = (int) buttons.size() % 4;
         int fil = (int) buttons.size() / 4;
-        buttons.emplace_back(buttonSpriteSheet);
+        buttons.emplace_back(buttonSpriteSheet, outline);
         /*Seteo la posicion relativa al inventario,
          * a medida que pusheo se van acomodando uno al lado del otro*/
         /*4 botones por fila,

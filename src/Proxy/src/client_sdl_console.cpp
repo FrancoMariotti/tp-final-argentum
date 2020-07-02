@@ -112,7 +112,6 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text == "/curar" && clicked_in_map) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
     } else if (input_text.find("/depositar") == 0 && clicked_in_map) {
-        /*si el comando empieza con depositar e hizo click, envio el input entero y el server lo valida*/
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
     } else if (input_text.find("/retirar") == 0 && clicked_in_map) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));

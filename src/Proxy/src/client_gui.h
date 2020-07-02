@@ -16,7 +16,7 @@
 #include "client_sdl_mouse.h"
 #include "client_sdl_keyboard.h"
 
-class SdlDynamicRenderable;
+class DynamicRenderable;
 class GUI {
 private:
     SdlWindow window;
@@ -31,29 +31,23 @@ private:
     SdlConsole console;
     SdlWorld world;
     SdlStats playerStats;
-    std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
+    std::map<std::string, std::unique_ptr<DynamicRenderable>> dynamic_renderables;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:
     GUI(int screen_width, int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents);
-
+    void setWorldDimensions(int w, int h);
+    void addWorldLayer(std::vector<int> data, int init);
     void handleEvents(SDL_Event &event);
-
     void execute();
-
-    void updatePlayerPos(const int player_x, const int player_y);
-
-    void updateRenderablePos(const int new_x, const int new_y, const std::string &renderable_id);
-
-    void updateRenderables(std::vector<spawn_character_t> renderables);
-
-    void updateInventory(std::vector<std::string> player_inventory);
-
+    void updatePlayerPos(int player_x, int player_y);
+    void updatePlayerEquipment(const equipment_t& equipment);
     void updatePlayerStats(t_stats new_stats);
-
-    void addFloorTile(int x, int y, int tile_id);
-
-    void addObstacleTile(int x, int y, int tile_id);
+    void updateInventory(std::vector<std::string> player_inventory);
+    void updateRenderables(std::vector<spawn_character_t> renderables);
+    void updateRenderablePos(int new_x, const int new_y, const std::string &renderable_id);
+    void updateRenderablePlayableEquipment(const equipment_t &equipment, const std::string &renderable_id);
+    void updateDrops(const std::vector<std::string> &drops);
 
     void render();
 
@@ -61,13 +55,6 @@ public:
 
     ~GUI();
 
-    void setWorldDimensions(int w, int h);
-
-    void updateDrops(const std::vector<std::string> &drops);
-
-    void addWorldLayer(std::vector<int> data, const int init);
-
-    void updatePlayerEquipment(const equipment_t& equipment);
 };
 
 

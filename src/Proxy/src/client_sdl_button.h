@@ -32,10 +32,13 @@ class SdlButton {
         SDL_Point position;
         //Currently used sprite
         e_button_sprite current_sprite;
+        e_button_sprite outline_sprite;
         //Sprites de cada estado del boton
         SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
+        SDL_Rect outline_sprite_clips[BUTTON_SPRITE_TOTAL];
         //Imagen del boton
         SdlTexture& buttonSpriteSheetTexture;
+        SdlTexture& outlineTexture;
 
         /**TODO: para indicar cantidad de items (e.g. pociones) o si esta equipado (E)*/
         /*SdlOutput buttonText*/
@@ -44,7 +47,7 @@ class SdlButton {
 
     public:
         //Initialize internal variables
-        SdlButton(SdlTexture& buttonTexture);
+        SdlButton(SdlTexture& buttonTexture, SdlTexture& outlineTexture);
 
         //Sets top left position
         void setPosition(int x, int y);

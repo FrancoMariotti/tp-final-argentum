@@ -6,27 +6,50 @@
 #define ARGENTUM_CLIENT_SDL_DYNAMIC_RENDERABLE_H
 
 
-#include <SDL2/SDL_rect.h>
 #include "client_sdl_texture_manager.h"
+#include "common_message_structs.h"
 
 class SdlTexture;
 class SdlCamera;
-class SdlDynamicRenderable {
-private:
+class DynamicRenderable {
+protected:
     int pos_x;
     int pos_y;
-    const std::string texture_id;
     SdlTextureManager& textureManager;
     SdlTextureManager::e_body_orientation body_or;
+    SdlTextureManager::e_head_orientation head_or;
 
 public:
-    SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager,
-            std::string texture_id);
-
-    void update(int new_x, int new_y, SdlCamera &camera);
-
-    virtual void render(const SdlCamera& camera);
+    DynamicRenderable(int x, int y, SdlTextureManager &textureManager);
+    virtual void updatePos(int new_x, int new_y, SdlCamera &camera);
+    virtual void updateEquipment(const equipment_t& equipment) = 0;
+    virtual void render(const SdlCamera& camera) = 0;
+    virtual ~DynamicRenderable() = default;
 };
 
+
+class RenderableNPC : public DynamicRenderable {
+private:
+    const std::string texture_id;
+public:
+    RenderableNPC(int x, int y, SdlTextureManager &textureManager,
+                         std::string texture_id);
+
+    void updateEquipment(const equipment_t& equipment) override;
+
+    void render(const SdlCamera& camera) override;
+};
+
+class RenderablePlayable : public DynamicRenderable{
+private:
+    SdlTextureManager::t_player_appearance t_appearance;
+
+public:
+    RenderablePlayable(int x, int y, SdlTextureManager &textureManager);
+
+    void updateEquipment(const equipment_t& equipment) override ;
+
+    void render(const SdlCamera& camera) override;
+};
 
 #endif //ARGENTUM_CLIENT_SDL_DYNAMIC_RENDERABLE_H

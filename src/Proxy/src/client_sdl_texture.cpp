@@ -22,7 +22,6 @@ SdlTexture::SdlTexture(int width, int height, const std::string &filename, const
     this->m_height = height;
 }
 
-//Este constructor lo agregue para crear textura a partir de un string
 SdlTexture::SdlTexture(const std::string &text, TTF_Font *font, SDL_Color colour, const SdlWindow &window) :
         m_renderer(window.getRenderer()) {
     loadFromRenderedText(text, colour, font);

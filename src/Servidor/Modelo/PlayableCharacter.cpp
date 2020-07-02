@@ -229,7 +229,18 @@ void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant)
     if (item != nullptr) inventory.store(item);
 }
 
+void PlayableCharacter::revive() {
+    delete lifeState;
+    lifeState = new Alive();
+    lifePoints = calculateMaxLife();
+    mana = calculateMaxMana();
+}
+
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
+}
+
+void PlayableCharacter::restoreMana() {
+    mana = calculateMaxMana();
 }

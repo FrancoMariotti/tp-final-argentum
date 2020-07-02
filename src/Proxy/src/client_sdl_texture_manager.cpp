@@ -86,7 +86,7 @@ void SdlTextureManager::renderNPC(const std::string &texture_id, const int x, co
 
 
 void SdlTextureManager::renderPC(const t_player_appearance& appearance, const int pos_x,
-                                 const int pos_y, SdlCamera& camera,
+                                 const int pos_y,const SdlCamera& camera,
                                  e_body_orientation body, e_head_orientation head){
 
     SDL_Rect head_orientation_clips[TOTAL_ORIENTATIONS];

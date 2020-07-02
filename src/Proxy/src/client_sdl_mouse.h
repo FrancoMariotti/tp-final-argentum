@@ -14,6 +14,7 @@ private:
     SdlCamera& camera;
     SDL_Point position;
     int inventory_clicked_index;
+    int right_click;
     bool clicked_in_map;
 
 public:

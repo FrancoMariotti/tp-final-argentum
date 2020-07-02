@@ -160,6 +160,7 @@ ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) 
     y(y)
     {
     std::cout << command << std::endl;
+    std::cout << "x:" << x << "y:" << y << std::endl;
     }
 
 std::string ExecuteCommand::getCommand() const {

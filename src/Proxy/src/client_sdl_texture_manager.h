@@ -69,7 +69,7 @@ public:
 
     void renderNPC(const std::string &texture_id, int x, int y, e_body_orientation e);
 
-    void renderPC(const t_player_appearance &appearance, const int pos_x, const int pos_y, SdlCamera &camera,
+    void renderPC(const t_player_appearance &appearance, int pos_x, int pos_y,const SdlCamera &camera,
                   e_body_orientation body, e_head_orientation head);
 };
 
