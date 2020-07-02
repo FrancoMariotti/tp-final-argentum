@@ -59,7 +59,10 @@ public:
     void buyFrom(const std::string& itemName, Merchant* merchant);
     bool isDead();
     void die();
+    void revive();
+    void restoreMana();
     ~PlayableCharacter() override;
+
 };
 
 
