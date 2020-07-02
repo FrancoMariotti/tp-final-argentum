@@ -49,10 +49,10 @@ void GUI::handleEvents(SDL_Event &event){
 }
 
 void GUI::execute(){
-    mouse.use(clientEvents);
     keyboard.movePlayer(clientEvents);
-    inventory.use(clientEvents, mouse);
     console.execute(clientEvents, mouse, camera, player);
+    inventory.use(clientEvents, mouse);
+    mouse.use(clientEvents);
     camera.move();
 }
 /**Factory de eventos de server??*/

@@ -68,3 +68,8 @@ void SdlMouse::setLastClickedItemIndex(const int i){
     this->clear();
     this->inventory_clicked_index = i;
 }
+
+/*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
+int SdlMouse::getLastClickedItemIndex() const{
+    return inventory_clicked_index;
+}

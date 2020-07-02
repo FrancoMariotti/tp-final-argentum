@@ -1,132 +1,33 @@
- try {
-        //Start up SDL and create window
-        SdlWindow window(SCREEN_WIDTH,SCREEN_HEIGHT);
-        //Load media
-        SdlTexture head_sprite_sheet(17,15,"../../Proxy/assets/2005.gif", window);
-        SdlTexture texture("../../Proxy/assets/340.gif", window);
-        //Cargo fondo
-        window.initPNG();
-        SdlTexture mainInterface(SCREEN_WIDTH, SCREEN_HEIGHT, "../../Proxy/assets/dungeon.png", window);
 
-        /**Factory de comandos, y a cada boton le asigno un comando, cuando lo apreta
-         * ejecuta el operator() del comando que envia el mensaje*/
 
-        //Botones
-        std::vector<SdlButton*> buttons;
-        SdlTexture buttonSpriteSheet(100,100,"../../Proxy/assets/button.png", window);
-        for (int i = 0; i < 3 ; ++i) {
-            Command* cmd = new Equip();
-            /*Alojo los botones en el heap dado el parametro new Command*/
-            buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
-            buttons.back()->setPosition(SCREEN_WIDTH - (buttonSpriteSheet.getWidth()),
-                    buttonSpriteSheet.getHeight() * i);
-        }
-        Command* cmd = new Consume();
-        buttons.push_back(new SdlButton(buttonSpriteSheet, cmd));
-        buttons.back()->setPosition(SCREEN_WIDTH - (2*buttonSpriteSheet.getWidth()), 0);
-
-        //Main loop flag
-        bool quit = false;
-        //Event handler
-        SDL_Event event;
-
-        BlockingQueue<t_command> proxyPeerSocket;
-        BlockingQueue<t_command> proxyClientSocket;
-
-        SdlPlayer player(100, 100, texture, head_sprite_sheet);
-
-        //While application is running
-        while (!quit) {
-            //Handle events on queue
-            while (SDL_PollEvent(&event) != 0) {
-                switch(event.type){
-                    case SDL_QUIT:
-                        quit = true;
-                        break;
-                    case SDL_KEYDOWN:
-                        player.handleEvent(event, proxyPeerSocket);
-                        proxyServerRecieve(proxyPeerSocket, proxyClientSocket);
-                        t_command movement = proxyClientSocket.pop();
-                        player.move(movement);
-                        break;
-                }
-            }
-            //Handle de los botones
-            for(auto & button : buttons){
-                button->handleEvent(&event, proxyPeerSocket, proxyClientSocket);
-            }
-            //Renderizo mainInterface
-            mainInterface.render(0,0);
-            //Render objects
-            player.render();
-            //Renderizo botones
-            for (auto & button : buttons) {
-                button->render();
-            }
-            //Update screen
-            window.render();
+        WALKING_ANIMATION_SPRITE.clear();
+        int old_y = 0;
+        int old_x = 0;
+        int frames = 1;
+        int ofx=0, ofy=0;
+        if(body == FRONT){
+            old_y = pos_y - 32;
+            ofy = 32;
+            frames = 6;
+        } else if (body == BACK){
+            old_y = pos_y + 32;
+            ofy = -32;
+            frames = 6;
+        } else if (body == LEFT){
+            old_x = pos_x + 32;
+            ofx = -32;
+            frames = 4;
+        } else if (body == RIGHT){
+            old_x = pos_x - 32;
+            ofx = 32;
+            frames = 4;
         }
 
-        //delete buttons
-        for(auto & button : buttons){
-            delete button;
-        }
-        //Close SDL
-        close();
 
-    } catch (std::exception &e) {
-        printf("%s", e.what());
-    } catch (...){
-        printf("%s", "Unknow error");
+    for (int i = 0; i < frames ; ++i) {
+        WALKING_ANIMATION_SPRITE.push_back(SDL_Rect{i * armourSpriteSheetTexture.getWidth(), body * armourSpriteSheetTexture.getHeight(),
+                                    armourSpriteSheetTexture.getWidth(),armourSpriteSheetTexture.getHeight()});
     }
 
-}
-
-
-/*Proxy del socket, se llama cada vez que el jugador mueve al personaje
- * recibe un struct con el offset*/
-void proxyServerRecieve(BlockingQueue<t_command> &read, BlockingQueue<t_command> &write) {
-    t_command move = read.pop();
-    std::cout << "movimiento en x:" << move.x << "\n movimiento en y:" << move.y
-              << std::endl;
-    //if movimiento valido
-        t_command response;
-        response.command = "move";
-        response.x = move.x;
-        response.y = move.y;
-    //else response = {"move", 0, 0};
-    write.push(response);
-}
-
-void close(){
-    //Quit SDL subsystems
-    IMG_Quit();
-    SDL_Quit();
-}
-
-!!!!!!
-
-   //Render red filled quad
-    SDL_Rect fillRect = {SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
-    SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
-    /*Dibuja el rectangulo opaco*/
-    SDL_RenderFillRect(gRenderer, &fillRect);
-
-
-ProtectedList<std::unique_ptr<Message>> serverEvents;
-        serverEvents.push(std::unique_ptr<Message>(new UseItem(1)));
-        serverEvents.push(std::unique_ptr<Message>(new UseItem(2)));
-        serverEvents.push(std::unique_ptr<Message>(new UseItem(3)));
-
-        std::list<std::unique_ptr<Message>> events = serverEvents.consume();
-        std::cout << "Lista a iterar" << std::endl;
-        for(auto & msg : events){
-            std::cout << msg->getId() << msg->getIndex() << std::endl;
-            }
-        std::cout << "server events" << std::endl;
-        serverEvents.testShow();
-        serverEvents.push(std::unique_ptr<Message>(new UseItem(4)));
-        serverEvents.push(std::unique_ptr<Message>(new UseItem(5)));
-        serverEvents.push(std::unique_ptr<Message>(new UseItem(6)));
-        serverEvents.testShow();
-
+for (int j = 0; j < frames ; ++j) {
+    }

@@ -26,6 +26,7 @@ private:
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
     const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
 
+    std::vector<SDL_Rect> WALKING_ANIMATION_SPRITE;
 public:
     enum e_body_orientation{
         FRONT,

@@ -17,25 +17,20 @@
 SdlButton::SdlButton(SdlTexture& buttonTexture, SdlTexture& outlineTexture) :
         double_click(0),
         single_click(0),
-        outline_sprite(BUTTON_SPRITE_MOUSE_DOWN),
+        position{0,0},
+        current_sprite(BUTTON_SPRITE_MOUSE_OUT),
+        outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
         buttonSpriteSheetTexture(buttonTexture),
-        outlineTexture(outlineTexture)
-    {
-    position.x = 0;
-    position.y = 0;
-
+        outlineTexture(outlineTexture) {
     this->width = buttonTexture.getWidth();
     this->height = buttonTexture.getHeight();
 
     for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i) {
         this->button_sprite_clips[i] = {0, i * BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
     }
-    for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i) {
-        this->outline_sprite_clips[i] = {i * 32, 32, 32, 32};
+    for (int i = 0; i < OUTLINE_SPRITE_TOTAL; ++i) {
+        this->outline_sprite_clips[i] = {(i+1) * 32, 32, 32, 32};
     }
-
-
-    this->current_sprite = BUTTON_SPRITE_MOUSE_OUT;
 }
 
 void SdlButton::setPosition(int x, int y) {
@@ -67,7 +62,7 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
         }
         if (!inside){
             current_sprite = BUTTON_SPRITE_MOUSE_OUT;
-            outline_sprite = BUTTON_SPRITE_MOUSE_DOWN;
+            outline_sprite = OUTLINE_SPRITE_MOUSE_OUT;
         }
         //Mouse is inside button
         else {
@@ -75,18 +70,17 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
             switch (e.type){
                 case SDL_MOUSEMOTION:
                     current_sprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+                    outline_sprite = OUTLINE_SPRITE_MOUSE_OVER_MOTION;
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    outline_sprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
                     current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
-                    if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks == 2){
+                    is_event_handled = true;
+                    if(e.button.button == SDL_BUTTON_LEFT && e.button.clicks >= 2){
                         /*usa item*/
                         this->double_click += 1;
-                        is_event_handled = true;
                     } else if(e.button.button == SDL_BUTTON_RIGHT && e.button.clicks == 1){
                         /*selecciona item*/
                         this->single_click +=1;
-                        is_event_handled = true;
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
@@ -112,9 +106,7 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
 
 void SdlButton::render() {
     //Show current button sprite
-    this->buttonSpriteSheetTexture.render(position.x,
-            position.y,
-            &this->button_sprite_clips[current_sprite]);
+    this->buttonSpriteSheetTexture.render(position.x,position.y);
     this->outlineTexture.render(position.x,position.y,&outline_sprite_clips[outline_sprite]);
 }
 

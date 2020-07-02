@@ -125,7 +125,7 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
         SDL_Point player_server_pos = camera.toServerCoordinates(SDL_Point{player.getPosX(), player.getPosY()});
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, player_server_pos.x, player_server_pos.y)));
     } else if (input_text == ("/tirar")) {
-        //clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, inventory.getLastClickedIndex())));
+        clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, mouse.getLastClickedItemIndex(),-1)));
     } else if (input_text.find('@') == 0) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
     }

@@ -31,6 +31,8 @@ public:
     void clear();
 
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+
+    int getLastClickedItemIndex() const;
 };
 
 

@@ -15,52 +15,52 @@
 
 class Message;
 class SdlButton {
-    private:
-        enum e_button_sprite{
-            BUTTON_SPRITE_MOUSE_OUT = 0,
-            BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
-            BUTTON_SPRITE_MOUSE_DOWN = 2,
-            BUTTON_SPRITE_MOUSE_UP = 3,
-            BUTTON_SPRITE_TOTAL = 4,
-        };
+private:
+    enum e_button_sprite{
+        BUTTON_SPRITE_MOUSE_OUT = 0,
+        BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
+        BUTTON_SPRITE_MOUSE_DOWN = 2,
+        BUTTON_SPRITE_MOUSE_UP = 3,
+        BUTTON_SPRITE_TOTAL = 4,
+    };
 
-        int width;
-        int height;
-        int double_click;
-        int single_click;
+    enum e_outline_sprite{
+        OUTLINE_SPRITE_MOUSE_OVER_MOTION,
+        OUTLINE_SPRITE_MOUSE_OUT,
+        OUTLINE_SPRITE_TOTAL,
+    };
 
-        SDL_Point position;
-        //Currently used sprite
-        e_button_sprite current_sprite;
-        e_button_sprite outline_sprite;
-        //Sprites de cada estado del boton
-        SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
-        SDL_Rect outline_sprite_clips[BUTTON_SPRITE_TOTAL];
-        //Imagen del boton
-        SdlTexture& buttonSpriteSheetTexture;
-        SdlTexture& outlineTexture;
+    int width;
+    int height;
+    int double_click;
+    int single_click;
 
-        /**TODO: para indicar cantidad de items (e.g. pociones) o si esta equipado (E)*/
-        /*SdlOutput buttonText*/
+    SDL_Point position;
+    //Currently used sprite
+    e_button_sprite current_sprite;
+    e_outline_sprite outline_sprite;
+    //Sprites de cada estado del boton
+    SDL_Rect button_sprite_clips[BUTTON_SPRITE_TOTAL];
+    SDL_Rect outline_sprite_clips[OUTLINE_SPRITE_TOTAL];
+    //Imagen del boton
+    SdlTexture& buttonSpriteSheetTexture;
+    SdlTexture& outlineTexture;
 
-        Use cmd;
+    /**TODO: para indicar cantidad de items (e.g. pociones) o si esta equipado (E)*/
+    /*SdlOutput buttonText*/
 
-    public:
-        //Initialize internal variables
-        SdlButton(SdlTexture& buttonTexture, SdlTexture& outlineTexture);
+    Use cmd;
 
-        //Sets top left position
-        void setPosition(int x, int y);
-
-        //Handles mouse event
-        void handleEvent(SDL_Event &e, bool &is_event_handled);
-
-        void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse);
-
-        //Shows button sprite
-        void render();
-
-        ~SdlButton();
+public:
+    SdlButton(SdlTexture& buttonTexture, SdlTexture& outlineTexture);
+    void setPosition(int x, int y);
+    //Handles mouse event
+    void handleEvent(SDL_Event &e, bool &is_event_handled);
+    /*Si el jugador hizo click en algun item envia el comando a la cola de eventos*/
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse);
+    /*Muestra los sprites de los botones*/
+    void render();
+    ~SdlButton();
 
 };
 
