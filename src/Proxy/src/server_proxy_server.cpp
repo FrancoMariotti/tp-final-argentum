@@ -52,6 +52,11 @@ void ProxyServer::run() {
                 if (msg->getId() == USE_ITEM_MESSAGE_ID) {
                     game.equip("franco", msg->getIndex());
                 }
+                if (msg->getId() == PLAYER_ATTACK_MESSAGE_ID) {
+                    t_player_attack attackInfo = msg->getAttack();
+                    Position pos(attackInfo.enemy_x, attackInfo.enemy_y);
+                    game.attack(attackInfo.username, pos);
+                }
             }
             float looptimeInSeconds = 60 * 0.001;
             game.updateModel(looptimeInSeconds);

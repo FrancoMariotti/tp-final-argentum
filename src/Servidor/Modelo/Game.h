@@ -26,8 +26,9 @@ public:
             const std::string& charClass);
     void initializeMap(ProxySocket& sck);
     void movePlayer(const std::string& playerName, Offset& offset);
-    void attackNpc(const std::string &playerName, Position &position);
-    void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
+    //void attackNpc(const std::string &playerName, Position &position);
+    //void attackPlayer(const std::string &playerName, const std::string &playerNameEnemy);
+    void attack(const std::string &playerName, Position &position);
     void storeInInventory(const std::string& playerName, Equippable* element);
     void equip(const std::string& playerName, int elementIndex);
     void unequip(const std::string& playerName, int elementIndex);

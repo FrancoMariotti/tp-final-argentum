@@ -37,7 +37,7 @@ class Map {
         void addCity(City city);
         bool isOccupied(Position pos);
         void move(Position& from,Position& to);
-        Character* findNpcAtPosition(Position &position);
+        //Character* findNpcAtPosition(Position &position);
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
         void sendLayers(ProxySocket& sck,const std::string& configFile) const;
@@ -53,6 +53,8 @@ class Map {
     bool posInCity(Position position);
 
     Banker *getBankerAtPosition(int x, int y);
+
+    Character *findCharacterAtPosition(Position &position);
 };
 
 #endif //ARGENTUM_MAPA_H

@@ -1,5 +1,6 @@
 #include "Npc.h"
 #include <utility>
+#include <iostream>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
@@ -62,6 +63,7 @@ void Npc::move(float loopTime) {
 }
 
 int Npc::receiveDamage(int enemyLevel, int damage) {
+    std::cout << "puntos de vida del npc antes de ser atacado" << lifePoints << std::endl;
     int xpEarned = 0;
 
     if (dodge()) {
@@ -78,11 +80,14 @@ int Npc::receiveDamage(int enemyLevel, int damage) {
         xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
     }
 
+    std::cout << "puntos de vida del npc despues de ser atacado" << lifePoints << std::endl;
+
     return xpEarned;
 }
 
 int Npc::defend(int damage) {
     int defense = armour.randomize();
+    std::cout << "puntos de ataque defendidos" << defense << std::endl;
     int result = damage - defense;
     if (result < 0) return 0;
     return result;

@@ -56,7 +56,7 @@ void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->move(offset);
 }
-
+/*
 void Game::attackNpc(const std::string& playerName, Position& position) {
     Character* npc = map->findNpcAtPosition(position);
     if(!npc) return;
@@ -68,6 +68,13 @@ void Game::attackPlayer(const std::string& playerName, const std::string& player
     PlayableCharacter* enemy = map->getPlayer(playerNameEnemy);
     PlayableCharacter *character = map->getPlayer(playerName);
     character->attack(enemy);
+}
+*/
+
+void Game::attack(const std::string &playerName, Position &position) {
+    PlayableCharacter *character = map->getPlayer(playerName);
+    Character* enemy = map->findCharacterAtPosition(position);
+    if (enemy) character->attack(enemy);
 }
 
 void Game::equip(const std::string& playerName, int elementIndex) {

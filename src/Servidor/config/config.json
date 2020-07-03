@@ -52,6 +52,8 @@
     }
   },
   "npc": {
+    "minLevel" : 1,
+    "maxLevel" : 15,
     "specie": {
       "goblin": {
         "strength": 5,

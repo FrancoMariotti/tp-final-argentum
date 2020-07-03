@@ -31,9 +31,9 @@ int main(int argc, char const *argv[]) {
     game.equip("franco2", 2);
     game.unequip("franco2", 1);
     event->execute(game,"franco");
-    game.attackPlayer("franco","franco2");
-    game.attackPlayer("franco","franco2");
-    game.attackPlayer("franco","franco2");
+    //game.attackPlayer("franco","franco2");
+    //game.attackPlayer("franco","franco2");
+    //game.attackPlayer("franco","franco2");
     game.storeInInventory("franco2", &lifePotion);
     game.equip("franco2", 1);
     game.unequip("franco2", 0);

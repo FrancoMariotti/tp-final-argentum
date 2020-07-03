@@ -90,12 +90,25 @@ Character* Map::findClosestCharacter(const Position& pos, int range) {
     }
     return enemy;
 }
-
+/*
 Character* Map::findNpcAtPosition(Position &position) {
     Npc* enemy = nullptr;
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); ++itrNpcs) {
         if((*itrNpcs).second->collideWith(position)) enemy = itrNpcs->second;
+    }
+    return enemy;
+}*/
+
+Character* Map::findCharacterAtPosition(Position &position) {
+    Character* enemy = nullptr;
+    for (auto &npc : npcs) {
+        if (npc.second->collideWith(position)) enemy = npc.second;
+    }
+    if (!enemy) {
+        for (auto &character : characters) {
+            if (character.second->collideWith(position)) enemy = character.second;
+        }
     }
     return enemy;
 }
@@ -183,6 +196,7 @@ Banker *Map::getBankerAtPosition(int x, int y) {
     //HAY QUE IMPLEMENTARLA
     return nullptr;
 }
+
 
 
 
