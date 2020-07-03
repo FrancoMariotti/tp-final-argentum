@@ -11,7 +11,7 @@
 class SpellType {
 public:
     virtual ~SpellType() = default;
-    virtual int use(Character *target,int strength,int level,int damage) = 0;
+    virtual int use(Character* owner,Character *target,int strength,int level,int damage) = 0;
 };
 
 

@@ -1,22 +1,25 @@
 #include "Banker.h"
-
+/*
 void Banker::registerAccount(const std::string& playerName) {
     this->accounts[playerName] = BankAccount();
 }
+*/
 
-void Banker::deposit(const std::string& playerName, int deposit) {
-    this->accounts.at(playerName).deposit(deposit);
+Banker::Banker(Position pos) : pos(pos) {}
+
+void Banker::deposit(BankAccount* account, int deposit) {
+    account->deposit(deposit);
 }
 
-void Banker::deposit(const std::string& playerName, Equippable* object) {
-     this->accounts.at(playerName).deposit(object);
+void Banker::deposit(BankAccount* account, Equippable* object) {
+     account->deposit(object);
 }
 
-int Banker::extractGold(const std::string& playerName, int amount) {
-   return this->accounts.at(playerName).extractGold(amount);
+int Banker::extract(BankAccount* account, int amount) {
+   return account->extract(amount);
 }
 
-Equippable* Banker::extractObject(const std::string& playerName, int index) {
-    return this->accounts.at(playerName).extractObject(index);
+Equippable* Banker::extract(BankAccount* account, std::string itemName) {
+    return account->extract(itemName);
 }
 

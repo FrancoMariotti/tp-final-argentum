@@ -2,16 +2,19 @@
 #define ARGENTUM_BANKER_H
 #include "map"
 #include "BankAccount.h"
+#include "Position.h"
 
 
 class Banker {
-    std::map<std::string, BankAccount> accounts;
+    friend class City;
+    Position pos;
 public:
-    void registerAccount(const std::string &playerName);
-    void deposit(const std::string &playerName, int deposit);
-    void deposit(const std::string& playerName, Equippable* object);
-    int extractGold(const std::string& playerName, int amount);
-    Equippable* extractObject(const std::string& playerName, int index);
+    explicit Banker(Position pos);
+    //void registerAccount(const std::string &playerName);
+    void deposit(BankAccount* account, int deposit);
+    void deposit(BankAccount* account, Equippable* object);
+    int extract(BankAccount* account, int amount);
+    Equippable* extract(BankAccount* account, std::string itemName);
 };
 
 

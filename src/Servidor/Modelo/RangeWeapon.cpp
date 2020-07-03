@@ -7,7 +7,8 @@ RangeWeapon::RangeWeapon(std::string name, int minDamage, int maxDamage, int gol
     :Weapon(name, minDamage,maxDamage, goldCost) {
 }
 
-int RangeWeapon::attack(Character *enemy,int strength,int level,float &mana,Position &holderPos) {
+int RangeWeapon::attack(Character* owner,Character *enemy,int strength,int level,float &mana,Position &holderPos) {
+    if(owner == enemy) return 0;
     int damage = calculateDamage(strength);
     return enemy->receiveDamage(level, damage);
 }

@@ -84,9 +84,8 @@ bool Character::dodge() const {
 }
 
 void Character::restoreLife() {
-    this->lifePoints = calculateMaxLife();
+    lifePoints = calculateMaxLife();
 }
-
 
 Character::~Character() = default;
 

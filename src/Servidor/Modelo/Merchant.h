@@ -11,14 +11,16 @@
 #include "Factory.h"
 
 class Merchant {
+    friend class City;
+    Position pos;
     Json::Value obj;
     std::map<std::string, EquippableFactory*> stock;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Merchant(const std::string& configFile);
+    Merchant(const std::string& configFile, Position pos);
     ~Merchant();
     Equippable* sell(const std::string& name, int *gold);
-    int buy(std::string itemName);
+    int buy(const std::string& itemName);
 };
 
 

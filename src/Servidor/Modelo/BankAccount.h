@@ -8,14 +8,15 @@
 #include "Inventory.h"
 
 class BankAccount {
+    friend class Banker;
     int gold;
-     std::vector<Equippable*> items;
-public:
-    BankAccount();
+    std::vector<Equippable*> items;
     void deposit(int amount);
     void deposit(Equippable* object);
-    int extractGold(int amount);
-    Equippable* extractObject(int index);
+    int extract(int amount);
+    Equippable* extract(std::string itemName);
+public:
+    BankAccount();
 };
 
 

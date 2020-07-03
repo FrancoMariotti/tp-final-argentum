@@ -3,10 +3,11 @@
 //
 
 #include "Damage.h"
-Damage::Damage() {}
+Damage::Damage() = default;
 
-int Damage::use(Character *target, int strength, int level, int damage) {
+int Damage::use(Character* owner,Character *target, int strength, int level, int damage) {
+    if(owner == target) return 0;
     return target->receiveDamage(level,damage);
 }
 
-Damage::~Damage() {}
+Damage::~Damage() = default;

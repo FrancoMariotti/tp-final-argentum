@@ -1,10 +1,6 @@
-//
-// Created by franco on 30/6/20.
-//
-
 #include "Merchant.h"
 
-Merchant::Merchant(const std::string& configFile) {
+Merchant::Merchant(const std::string& configFile, Position pos) : pos(pos) {
     FileParser parser(configFile);
     obj = parser.read("merchantItems");
     factories.at("NormalWeapon") = new NormalWeaponFactory();
@@ -19,12 +15,12 @@ Merchant::Merchant(const std::string& configFile) {
 
 Equippable* Merchant::sell(const std::string& name, int *gold) {
     int cost = obj[name]["goldCost"].asInt();
-    if (cost > *gold) return NULL;
+    if (cost > *gold) return nullptr;
     *gold -= cost;
     return stock.at(name)->create(obj[name]);
 }
 
-int Merchant::buy(std::string itemName) {
+int Merchant::buy(const std::string& itemName) {
     return obj[itemName]["goldCost"].asInt();
 }
 

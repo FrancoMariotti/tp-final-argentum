@@ -64,6 +64,10 @@ bool Map::isOccupied(Position pos) {
         if((*itrObstacles).ocupies(pos)) return true;
     }
 
+    for (auto &city : cities) {
+        if (city.isOcupied(pos)) return true;
+    }
+
     return false;
 }
 

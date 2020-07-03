@@ -5,7 +5,7 @@
 #include "Priest.h"
 #include "PlayableCharacter.h"
 
-Priest::Priest(const std::string& configFile) {
+Priest::Priest(const std::string& configFile, Position pos) : pos(pos) {
     FileParser parser(configFile);
     obj = parser.read("priestItems");
     factories.at("MagicalWeapon") = new MagicalWeaponFactory();

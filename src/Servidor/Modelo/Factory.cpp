@@ -57,9 +57,11 @@ Map* MapFactory::create() {
         int height = i["height"].asInt();
         int x = i["x"].asInt();
         int y = i["y"].asInt();
-        City city(x,y,height,width);
+        Position priestPos(i["Priest"]["x"].asInt(), i["Priest"]["y"].asInt());
+        Position merchantPos(i["Merchant"]["x"].asInt(), i["Merchant"]["y"].asInt());
+        Position bankerPos(i["Banker"]["x"].asInt(), i["Banker"]["y"].asInt());
+        City city(x,y,height,width, file, priestPos, merchantPos, bankerPos);
         map->addCity(city);
-
     }
 
     return map;
