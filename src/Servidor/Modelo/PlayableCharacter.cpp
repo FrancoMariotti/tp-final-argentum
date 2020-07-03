@@ -240,7 +240,7 @@ void PlayableCharacter::revive() {
     restoreMana();
 }
 
-void PlayableCharacter::deposit(std::string element, Banker &banker) {
+void PlayableCharacter::deposit(std::string element, Banker* banker) {
     if(!inCity) return;
     Equippable *equippable = inventory.takeElement(std::move(element),this);
     banker->deposit(&bankAccount, equippable);

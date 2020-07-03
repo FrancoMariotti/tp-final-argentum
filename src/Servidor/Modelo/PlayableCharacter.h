@@ -64,7 +64,6 @@ public:
     void deposit(int amount, Banker* banker);
     void extract(const std::string& itemName, Banker *banker);
     void extract(int amount, Banker* banker);
-    void restoreLife();
     bool isDead();
     void die();
     void revive();
