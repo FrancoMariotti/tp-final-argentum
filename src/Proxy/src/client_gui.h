@@ -15,12 +15,14 @@
 #include "common_message_structs.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_keyboard.h"
+#include "client_sdl_audio_manager.h"
 
 class DynamicRenderable;
 class GUI {
 private:
     SdlWindow window;
     TTF_Font* font;
+    SdlAudioManager audioManager;
     SdlTextureManager textureManager;
     SdlTexture interface;
     SdlPlayer player;

@@ -98,7 +98,7 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
 
     SDL_Rect head_orientation_clips[TOTAL_ORIENTATIONS];
     SdlTexture& headSpriteSheetTexture = this->getSpriteTexture(appearance.head);
-    //SdlTexture& helmetSpriteSheetTexture = this->getSpriteTexture(appearance.helmet);
+    SdlTexture& helmetSpriteSheetTexture = this->getSpriteTexture(appearance.helmet);
     for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
         head_orientation_clips[i] = {i*headSpriteSheetTexture.getWidth(),
                                      0, headSpriteSheetTexture.getWidth(),
@@ -133,6 +133,9 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
     headSpriteSheetTexture.render((pos_x + (armourSpriteSheetTexture.getWidth() - headSpriteSheetTexture.getWidth() )/ 2) - camera.getX(),
                                    (pos_y - headSpriteSheetTexture.getHeight() - body_offset_y) - camera.getY(),
                                    &head_orientation_clips[head]);
+    helmetSpriteSheetTexture.render((pos_x + (armourSpriteSheetTexture.getWidth() - headSpriteSheetTexture.getWidth() )/ 2) - camera.getX(),
+                                  (pos_y - headSpriteSheetTexture.getHeight() - body_offset_y) - camera.getY(),
+                                  &head_orientation_clips[head]);
     armourSpriteSheetTexture.render(pos_x - camera.getX(),
                                      (pos_y - body_offset_y) - camera.getY(),
                                      &armour_orientation_clips[body]);

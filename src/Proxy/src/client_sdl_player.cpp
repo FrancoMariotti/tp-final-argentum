@@ -37,10 +37,10 @@ void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &cam
 }
 
 void SdlPlayer::updateEquipment(const equipment_t& equipment) {
-    std::cout << equipment.weaponName << std::endl;
-    std::cout << equipment.armourName << std::endl;
-    std::cout << equipment.shieldName << std::endl;
-    std::cout << equipment.helmetName << std::endl;
+    std::cout << "DEBUG: " << equipment.weaponName << std::endl;
+    std::cout << "DEBUG: " << equipment.armourName << std::endl;
+    std::cout << "DEBUG: " << equipment.shieldName << std::endl;
+    std::cout << "DEBUG: " << equipment.helmetName << std::endl;
     t_appearance.weapon = equipment.weaponName;
     t_appearance.armour = equipment.armourName;
     t_appearance.helmet = equipment.helmetName;

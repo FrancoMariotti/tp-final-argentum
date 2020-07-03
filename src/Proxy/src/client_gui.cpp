@@ -29,7 +29,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
-
+    audioManager.playMainMenuMusic(-1);
 }
 
 void GUI::setWorldDimensions(int w, int h) {
@@ -59,6 +59,7 @@ void GUI::execute(){
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
     player.updatePos(player_x, player_y, camera);
+    audioManager.playSound("step1",0);
 }
 
 void GUI::updatePlayerStats(t_stats new_stats) {
