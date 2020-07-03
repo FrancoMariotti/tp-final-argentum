@@ -142,7 +142,10 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     int classManaFactor = npcsObj["specie"][specie]["manaFactor"].asInt();
     int meditationRecoveryFactor = npcsObj["specie"][specie]["meditationRecoveryFactor"].asInt();
 
+    //Le asigno al npc una posicion que no este dentro de una ciudad
     Position initialPosition = map->asignRandomPosition();
+    while (map->posInCity(initialPosition)) initialPosition = map->asignRandomPosition();
+
     std::string id = specie + std::to_string(counter);
     counter++;
 

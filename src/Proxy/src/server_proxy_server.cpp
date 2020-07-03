@@ -5,6 +5,9 @@
 #include "../../Servidor/Modelo/Event.h"
 #include "../../Servidor/Modelo/EventMove.h"
 #include "../../Servidor/Modelo/NormalWeapon.h"
+#include "../../Servidor/Modelo/RangeWeapon.h"
+#include "../../Servidor/Modelo/MagicalWeapon.h"
+#include "../../Servidor/Modelo/Damage.h"
 
 ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     keepListening(true),
@@ -20,8 +23,10 @@ void ProxyServer::run() {
     game.initialize();
     auto* sword = new NormalWeapon("sword", 2, 5, 0);
     game.storeInInventory("franco",sword);
-    auto* axe = new NormalWeapon("axe", 3, 6, 0);
-    game.storeInInventory("franco",axe);
+    auto* bow = new RangeWeapon("commonBow", 1, 4, 0);
+    game.storeInInventory("franco",bow);
+    auto* wand = new MagicalWeapon("fresnoWand", new Damage(), 2, 5, 5, 0);
+    game.storeInInventory("franco", wand);
     auto* shield = new Protection("turtleShell", 4, 6, SHIELD, 0);
     game.storeInInventory("franco", shield);
     auto* shield2 = new Protection("ironShield", 5, 7, SHIELD, 0);

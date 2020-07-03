@@ -48,6 +48,9 @@ void Game::createNpc(const std::string& specie) {
 void Game::initialize() {
     for(int i=0; i<4 ; i++) {
         createNpc("skeleton");
+        createNpc("goblin");
+        createNpc("spider");
+        createNpc("zombie");
     }
 }
 

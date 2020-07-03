@@ -6,7 +6,7 @@
 #include "Factory.h"
 #include "Servidor/Common/Utils.h"
 
-#define NPCSAMOUNT 4
+#define NPCSAMOUNT 16
 
 /*
 Map::Map() {
@@ -36,8 +36,12 @@ void Map::addNpc(std::string idNpc ,Npc* npc) {
     this->npcs[idNpc] = npc;
 }
 
-void Map::removeNpc(const std::string& idNpc) {
+void Map::removeNpc(const std::string& idNpc, Observer* observer) {
     npcs.erase(idNpc);
+    for (unsigned int i = 0; i < spawns.size() ; ++i) {
+        if (spawns[i].id == idNpc) spawns.erase(spawns.begin() + i);
+    }
+    observer->notifySpawnNpcUpdate(spawns);
 }
 
 void Map::addObstacle(const Obstacle& obstacle) {

@@ -47,7 +47,7 @@ class Map {
         Position asignRandomPosition();
         void addDrop(Drop drop);
         void removePlayableCharacter(const std::string &playerName);
-        void removeNpc(const std::string& idNpc);
+        void removeNpc(const std::string& idNpc, Observer* observer);
         ~Map();
 
     bool posInCity(Position position);
