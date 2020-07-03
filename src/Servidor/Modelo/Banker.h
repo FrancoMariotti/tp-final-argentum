@@ -11,7 +11,7 @@ class Banker {
 public:
     explicit Banker(Position pos);
     //void registerAccount(const std::string &playerName);
-    void deposit(BankAccount* account, int deposit);
+    void deposit(BankAccount* account, int deposit,int& gold);
     void deposit(BankAccount* account, Equippable* object);
     int extract(BankAccount* account, int amount);
     Equippable* extract(BankAccount* account, std::string itemName);

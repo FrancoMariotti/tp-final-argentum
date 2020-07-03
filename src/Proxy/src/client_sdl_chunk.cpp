@@ -10,6 +10,11 @@ SdlChunk::SdlChunk(const std::string& path) :
         this->loadWAV(path);
 }
 
+SdlChunk::SdlChunk(SdlChunk &&other) noexcept :
+        p_chunk(other.p_chunk){
+    other.p_chunk = nullptr;
+}
+
 void SdlChunk::loadWAV(const std::string& path){
     this->free();
     p_chunk = Mix_LoadWAV(path.c_str());
@@ -31,9 +36,4 @@ void SdlChunk::free(){
 
 SdlChunk::~SdlChunk(){
     this->free();
-}
-
-SdlChunk::SdlChunk(SdlChunk &&other) :
-    p_chunk(other.p_chunk){
-        other.p_chunk = nullptr;
 }

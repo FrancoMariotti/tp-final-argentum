@@ -8,13 +8,13 @@
 
 #define NPCSAMOUNT 16
 
-/*
+
 Map::Map() {
     this->width = 0;
     this->height = 0;
 }
-*/
-Map::Map(std::string configFile,int width,int height):width(width),
+
+Map::Map(const std::string& configFile,int width,int height):width(width),
     height(height) {}
 
 void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
@@ -94,15 +94,6 @@ Character* Map::findClosestCharacter(const Position& pos, int range) {
     }
     return enemy;
 }
-/*
-Character* Map::findNpcAtPosition(Position &position) {
-    Npc* enemy = nullptr;
-    auto itrNpcs = npcs.begin();
-    for (; itrNpcs != npcs.end(); ++itrNpcs) {
-        if((*itrNpcs).second->collideWith(position)) enemy = itrNpcs->second;
-    }
-    return enemy;
-}*/
 
 Character* Map::findCharacterAtPosition(Position &position) {
     Character* enemy = nullptr;
@@ -177,6 +168,25 @@ void Map::addDrop(Drop drop) {
 
 }
 
+bool Map::posInCity(Position position) {
+    for (auto & city : cities) {
+        if (city.ocupies(position)) return true;
+    }
+    return false;
+}
+
+void Map::depositInBankCity(PlayableCharacter *player,Position position,std::string element) {
+    for (City & city : cities) {
+        city.depositInBank(position,player,element);
+    }
+}
+
+void Map::depositInBankCity(PlayableCharacter *player,Position position,int gold_amount) {
+    for (City & city : cities) {
+        city.depositInBank(position,player,gold_amount);
+    }
+}
+
 Map::~Map() {
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); itrNpcs++) {
@@ -189,17 +199,6 @@ Map::~Map() {
     }
 }
 
-bool Map::posInCity(Position position) {
-    for (auto & city : cities) {
-        if (city.ocupies(position)) return true;
-    }
-    return false;
-}
-
-Banker *Map::getBankerAtPosition(int x, int y) {
-    //HAY QUE IMPLEMENTARLA
-    return nullptr;
-}
 
 
 

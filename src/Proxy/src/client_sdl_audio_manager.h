@@ -8,6 +8,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "client_sdl_music.h"
 #include "client_sdl_chunk.h"
 
@@ -17,6 +18,7 @@ private:
 
     SdlMusic mainMenuMusic;
     SdlMusic worldMusic;
+    std::vector<SdlMusic> game_music;
     std::map<std::string, SdlChunk> game_sounds;
 
 

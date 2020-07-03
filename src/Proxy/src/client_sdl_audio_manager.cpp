@@ -9,6 +9,8 @@ SdlAudioManager::SdlAudioManager() :
         mainMenuMusic(AUDIO_PATH + "/world.mp3"),
         worldMusic(AUDIO_PATH + "/main_menu.mp3"){
 
+    game_music.emplace_back(AUDIO_PATH + "/main_menu.mp3");
+    game_music.emplace_back(AUDIO_PATH + "/world.mp3");
     game_sounds.emplace(std::make_pair("death", SdlChunk(AUDIO_PATH + "/death.wav")));
     game_sounds.emplace(std::make_pair("explosion", SdlChunk(AUDIO_PATH + "/explosion.wav")));
     game_sounds.emplace(std::make_pair("heal", SdlChunk(AUDIO_PATH + "/heal.wav")));

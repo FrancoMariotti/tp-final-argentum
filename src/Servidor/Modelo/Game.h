@@ -16,8 +16,9 @@ class ProxySocket;
 
 class Game : public Observer {
 private:
-    Map* map;
     std::string configFile;
+    MapFactory mapFactory;
+    Map* map;
     CommandExecutor commandExecutor;
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
