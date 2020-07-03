@@ -9,13 +9,13 @@
 
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
-            SdlTexture(54, 34, "../../Proxy/assets/spiderSprite.png", window)));
+            SdlTexture(54, 35, "../../Proxy/assets/spiderSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("skeleton",
             SdlTexture(26, 52, "../../Proxy/assets/skeletonSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
             SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
-            SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
+            SdlTexture(24, 32, "../../Proxy/assets/goblinSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("noneSprite",
                       SdlTexture(1, 1, ITEMS_PATH + "noneSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
@@ -33,7 +33,7 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("crimpStickSprite",
             SdlTexture(22, 48, ITEMS_PATH + "crimpStickSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("commonBowSprite",
-            SdlTexture(22, 48, ITEMS_PATH + "commonBowSprite.png", window)));
+            SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "commonBowSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("rareBowSprite",
             SdlTexture(22, 48, ITEMS_PATH + "rareBowSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("defaultArmourSprite",
