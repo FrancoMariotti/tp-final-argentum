@@ -18,6 +18,9 @@ public:
     virtual void
     notifyEquipmentUpdate(std::string weaponName, std::string armourName,
             std::string shieldName, std::string helmetName) = 0;
+
+    virtual void
+    notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) = 0;
 };
 
 #endif //ARGENTUM_OBSERVER_H

@@ -108,6 +108,8 @@ void Client::init() {
                 this->gui.updateRenderables(msg->getSpawnData());
             } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
                 gui.updatePlayerEquipment(msg->getEquipment());
+            } else if (msg->getId() == SPAWN_CITY_CHARACTERS_MESSAGE_ID) {
+                gui.initStaticRenderables(msg->getSpawnData());
             }
         }
     }
