@@ -98,7 +98,13 @@ std::vector<spawn_character_t> Message::getSpawnData() {
 }
 
 npc_movement_t Message::getMovement() {
-    return npc_movement_t();
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
+t_player_attack Message::getAttack() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
@@ -235,4 +241,15 @@ MovementNpcUpdate::MovementNpcUpdate(std::string id, int x, int y):Message(NPC_M
 
 npc_movement_t MovementNpcUpdate::getMovement() {
     return npc_movement_t{x,y,id};
+}
+
+Attack::Attack(const std::string username, int enemy_x, int enemy_y) :
+    Message(PLAYER_ATTACK_MESSAGE_ID),
+    username(username),
+    enemy_x(enemy_x),
+    enemy_y(enemy_y)
+    {}
+
+t_player_attack Attack::getAttack(){
+    return t_player_attack{username, enemy_x, enemy_y};
 }

@@ -7,6 +7,7 @@
 #include "client_client.h"
 #include "common_message.h"
 #include "client_protected_list.h"
+#include "client_sdl_chunk.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024//640
@@ -33,6 +34,8 @@ int Client::run() {
     //Event handler
     SDL_Event event;
 
+    SdlChunk testChunk("../../Proxy/audio/27.wav");
+
     //While application is running
     while (!quit) {
         //Handle events on queue
@@ -57,6 +60,8 @@ int Client::run() {
                         gui.updatePlayerStats(stats);
                         //std::vector<std::string> drops{"sword","axe"};
                         //gui.updateDrops(drops);
+                    } else if (event.key.keysym.sym == SDLK_o){
+                        testChunk.play(0);
                     }
                     break;
             }

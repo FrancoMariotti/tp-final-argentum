@@ -89,7 +89,7 @@ int Npc::defend(int damage) {
 }
 
 void Npc::attack(Character* character) {
-    weapon.attack(character,strength,level, mana,currPos);
+    weapon.attack(this,character,strength,level, mana,currPos);
 }
 
 int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
