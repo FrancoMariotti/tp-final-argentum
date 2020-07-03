@@ -51,3 +51,7 @@ int SdlCamera::toPixels(const int value) const{
 SDL_Point SdlCamera::toServerCoordinates(const SDL_Point& point_in_pixels){
     return SDL_Point{(camera_x + point_in_pixels.x) / TILE_SIZE, (camera_y + point_in_pixels.y) / TILE_SIZE};
 }
+
+int SdlCamera::getTileSize() const {
+    return TILE_SIZE;
+}

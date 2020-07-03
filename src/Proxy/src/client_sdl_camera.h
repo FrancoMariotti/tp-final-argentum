@@ -38,6 +38,8 @@ public:
 
     int getY() const;
 
+    int getTileSize() const;
+
     SDL_Point toServerCoordinates(const SDL_Point &point_in_pixels);
 };
 
