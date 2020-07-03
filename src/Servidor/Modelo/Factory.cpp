@@ -65,9 +65,20 @@ Map* MapFactory::create() {
         int x = i["x"].asInt();
         int y = i["y"].asInt();
 
+        //Voy creando los city characters y agregandolos al vector de spawns para luego mandarle al
+        //cliente y que los renderice correctamente
+        std::vector<spawn_character_t> cityCharacters;
         Position priestPos(i["Priest"]["x"].asInt(), i["Priest"]["y"].asInt());
+        spawn_character_t  priestSpawn = {priestPos.getX(),priestPos.getY(),"priest"};
+        cityCharacters.push_back(priestSpawn);
         Position merchantPos(i["Merchant"]["x"].asInt(), i["Merchant"]["y"].asInt());
+        spawn_character_t  merchantSpawn = {merchantPos.getX(),merchantPos.getY(),"merchant"};
+        cityCharacters.push_back(merchantSpawn);
         Position bankerPos(i["Banker"]["x"].asInt(), i["Banker"]["y"].asInt());
+        spawn_character_t  bankerSpawn = {bankerPos.getX(),bankerPos.getY(),"banker"};
+        cityCharacters.push_back(bankerSpawn);
+
+        map->registerCityCharactersSpawns(cityCharacters);
 
         City city(x,y,height,width, priestItems,priestPos, merchantItems,merchantPos, bankerPos);
         map->addCity(std::move(city));

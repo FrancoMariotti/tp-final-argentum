@@ -43,6 +43,7 @@ void Game::createNpc(const std::string& specie) {
 }
 
 void Game::initialize() {
+    map->spawnCityCharacters(this);
     for(int i=0; i<4 ; i++) {
         createNpc("skeleton");
         createNpc("goblin");
@@ -95,6 +96,10 @@ void Game::notifySpawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
     updates.push(new SpawnNpc(npcs));
 }
 
+void Game::notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) {
+    updates.push(new SpawnCityCharacters(spawns));
+}
+
 void Game::notifyStatsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
     updates.push(new Stats(
             health_percentage,
@@ -133,3 +138,4 @@ Game::~Game() {
     }
     delete map;
 }
+

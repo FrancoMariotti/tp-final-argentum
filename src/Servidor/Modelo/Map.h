@@ -23,7 +23,8 @@ class ProxySocket;
 class Map {
     int width;
     int height;
-    std::vector<spawn_character_t> spawns;
+    std::vector<spawn_character_t> cityCharactersSpawns;
+    std::vector<spawn_character_t> npcSpawns;
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
@@ -50,9 +51,12 @@ class Map {
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
         void depositInBankCity(PlayableCharacter *player, Position position,std::string element);
+        void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
+        void depositInBankCity(PlayableCharacter *player, Position position, int gold_amount);
         ~Map();
 
-    void depositInBankCity(PlayableCharacter *player, Position position, int gold_amount);
+
+    void spawnCityCharacters(Observer *observer);
 };
 
 #endif //ARGENTUM_MAPA_H

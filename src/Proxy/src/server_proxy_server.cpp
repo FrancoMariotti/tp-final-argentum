@@ -47,9 +47,9 @@ void ProxyServer::run() {
                 std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
                 if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                     Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
-                    Event* move = new EventMove(offset);
+                    EventMove event(offset);
+                    Event *move =&event;
                     move->execute(game, "franco");
-                    delete move;
                 }
                 if (msg->getId() == COMMAND_MESSAGE_ID) {
                    game.executeCommand(msg);

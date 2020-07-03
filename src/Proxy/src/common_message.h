@@ -18,7 +18,8 @@ enum MESSAGES {
     STATS_UPDATE_MESSAGE_ID,
     NPC_MOVEMENT_UPDATE_MESSAGE_ID,
     EQUIPMENT_UPDATE_MESSAGE_ID,
-    PLAYER_ATTACK_MESSAGE_ID
+    PLAYER_ATTACK_MESSAGE_ID,
+    SPAWN_CITY_CHARACTERS_MESSAGE_ID
 };
 
 
@@ -140,6 +141,12 @@ public:
     std::vector<spawn_character_t> getSpawnData() override;
 };
 
+class SpawnCityCharacters : public Message {
+    std::vector<spawn_character_t> renderables;
+public:
+    SpawnCityCharacters(std::vector<spawn_character_t> renderables);
+    std::vector<spawn_character_t> getSpawnData() override;
+};
 
 class MovementNpcUpdate: public Message {
     std::string id;

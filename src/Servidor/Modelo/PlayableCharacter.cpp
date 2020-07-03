@@ -248,6 +248,7 @@ void PlayableCharacter::deposit(std::string element, Banker* banker) {
 }
 
 void PlayableCharacter::deposit(int amount, Banker *banker) {
+    if(!inCity) return;
     banker->deposit(&bankAccount, amount,gold);
     notifyStats();
 }
