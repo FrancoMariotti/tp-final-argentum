@@ -20,7 +20,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
-    this->gold = 0;
+    this->gold = 1000;
     this->xp = 0;
     notifyStats();
     notifyEquipment();
@@ -248,7 +248,7 @@ void PlayableCharacter::deposit(std::string element, Banker* banker) {
 }
 
 void PlayableCharacter::deposit(int amount, Banker *banker) {
-    banker->deposit(&bankAccount, amount);
+    banker->deposit(&bankAccount, amount,gold);
     notifyStats();
 }
 

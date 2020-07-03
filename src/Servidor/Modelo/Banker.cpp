@@ -7,8 +7,11 @@ void Banker::registerAccount(const std::string& playerName) {
 
 Banker::Banker(Position pos) : pos(pos) {}
 
-void Banker::deposit(BankAccount* account, int deposit) {
-    account->deposit(deposit);
+void Banker::deposit(BankAccount *account, int deposit, int &gold) {
+    if(gold >= deposit) {
+        account->deposit(deposit);
+        gold -= deposit;
+    }
 }
 
 void Banker::deposit(BankAccount* account, Equippable* object) {
