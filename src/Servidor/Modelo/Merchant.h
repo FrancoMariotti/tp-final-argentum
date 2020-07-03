@@ -18,7 +18,7 @@ public:
     Merchant(const std::string& configFile);
     ~Merchant();
     Equippable* sell(const std::string& name, int *gold);
-    int buy(std::string itemName);
+    int buy(const std::string& itemName);
 };
 
 
