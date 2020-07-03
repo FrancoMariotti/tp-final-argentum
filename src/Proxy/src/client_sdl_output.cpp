@@ -18,7 +18,6 @@ SdlOutput::SdlOutput(const int x, const int y, const SdlWindow &window, TTF_Font
 void SdlOutput::update(const std::string& new_output){
     this->output = LABEL + new_output;
     outputTexture.loadFromRenderedText(output,text_color,font);
-
 }
 
 void SdlOutput::render(){

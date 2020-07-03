@@ -12,11 +12,11 @@
 
 class SdlStats {
 private:
+    SdlOutput levelLabel;
     SdlBar xpBar;
-    SdlOutput level;
     SdlBar healthBar;
     SdlBar manaBar;
-    SdlOutput gold;
+    SdlOutput goldLabel;
     //Agrego esto para mostrar el texto "life" y "mana"
     SdlOutput manaLabel;
     SdlOutput lifeLabel;

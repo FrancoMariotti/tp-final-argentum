@@ -7,7 +7,8 @@
 #include "client_sdl_window.h"
 
 SdlTexture::SdlTexture(const std::string &filename, const SdlWindow& window) :
-    m_renderer(window.getRenderer()){
+    m_renderer(window.getRenderer()),
+    m_texture(nullptr){
     //Initialize
     this->m_height = 0;
     this->m_width = 0;
@@ -15,7 +16,8 @@ SdlTexture::SdlTexture(const std::string &filename, const SdlWindow& window) :
 }
 
 SdlTexture::SdlTexture(int width, int height, const std::string &filename, const SdlWindow& window) :
-        m_renderer(window.getRenderer()){
+        m_renderer(window.getRenderer()),
+        m_texture(nullptr){
     //Initialize
     this->m_texture = loadFromFile(filename);
     this->m_width = width;
@@ -23,7 +25,10 @@ SdlTexture::SdlTexture(int width, int height, const std::string &filename, const
 }
 
 SdlTexture::SdlTexture(const std::string &text, TTF_Font *font, SDL_Color colour, const SdlWindow &window) :
-        m_renderer(window.getRenderer()) {
+    m_renderer(window.getRenderer()),
+    m_texture(nullptr),
+    m_width(0),
+    m_height(0) {
     loadFromRenderedText(text, colour, font);
 }
 
@@ -36,21 +41,9 @@ SdlTexture::SdlTexture(SdlTexture &&other) noexcept :
         other.m_texture = nullptr;
 }
 
-SDL_Texture *SdlTexture::loadTexture(const std::string &filename) {
-    SDL_Texture* texture = IMG_LoadTexture(this->m_renderer,
-                                           filename.c_str());
-    if (!texture) {
-        throw SdlException("Error al cargar la textura", SDL_GetError());
-    }
-
-    return texture;
-}
-
 SDL_Texture* SdlTexture::loadFromFile(const std::string &path) {
     //Get rid of preexisting texture
-    /**Puede producir SIGSEV*/
-    //free();
-
+    this->free();
     //The final texture
     SDL_Texture* newTexture = nullptr;
     //Load image at specified path
@@ -79,6 +72,7 @@ SDL_Texture* SdlTexture::loadFromFile(const std::string &path) {
 #if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
 void SdlTexture::loadFromRenderedText(const std::string &text,
                                       SDL_Color textColor, TTF_Font *font) {
+    this->free();
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
     if(textSurface == nullptr){
         throw SdlException("Unable to render text surface!", TTF_GetError());

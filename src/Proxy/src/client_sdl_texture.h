@@ -41,9 +41,6 @@ public:
     //Loads image at specified path
     SDL_Texture * loadFromFile(const std::string &path);
 
-    //Clase SDL-QT
-    SDL_Texture *loadTexture(const std::string &filename);
-
 #if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
     //Creates image from font string
     void loadFromRenderedText(const std::string &text, SDL_Color textColor, TTF_Font *font);
@@ -67,6 +64,7 @@ public:
     int getWidth() const;
     int getHeight() const;
 
+private:
     //Deallocates texture
     void free();
 
