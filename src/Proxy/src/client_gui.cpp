@@ -78,10 +78,10 @@ void GUI::updateInventory(std::vector<std::string> player_inventory) {
 
 void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderables){
     for(auto it = renderables.begin(); it != renderables.end(); it++){
-        static_renderables[it->id] = std::unique_ptr<DynamicRenderable>
+        static_renderables.push_back(std::unique_ptr<DynamicRenderable>
                 (new RenderableNPC(camera.toPixels(it->x),
                         camera.toPixels(it->y),
-                        textureManager, it->id));
+                        textureManager, it->id)));
     }
 }
 
@@ -89,19 +89,6 @@ void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderable
  * con key: id y value: puntero a DynamicRenderable*/
 void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     dynamic_renderables.clear();
-    /**Test para dibujar otro jugador*/
-    static_renderables["player123"] = std::unique_ptr <DynamicRenderable>
-            (new RenderablePlayable(camera.toPixels(10), camera.toPixels(10), textureManager));
-    static_renderables["banker1"] = std::unique_ptr <DynamicRenderable>
-            (new RenderableNPC(camera.toPixels(0), camera.toPixels(0), textureManager,
-                               "banker"));
-    static_renderables["priest1"] = std::unique_ptr <DynamicRenderable>
-            (new RenderableNPC(camera.toPixels(1), camera.toPixels(0), textureManager,
-                               "priest"));
-    static_renderables["merchant1"] = std::unique_ptr <DynamicRenderable>
-            (new RenderableNPC(camera.toPixels(2), camera.toPixels(0), textureManager,
-                               "merchant"));
-    /**Fin Test*/
     auto it = renderables.begin();
     for(; it != renderables.end(); it++) {
         std::string texture_id = textureManager.findTextureId(it->id);
@@ -136,14 +123,14 @@ void GUI::render(){
     //renderizo estaticos
     auto iterator = static_renderables.begin();
     while(iterator != static_renderables.end()){
-        iterator->second->render(camera);
+        (*iterator)->render(camera);
         iterator++;
     }
     //Renderizo dinamicos
-    iterator = dynamic_renderables.begin();
-    while(iterator != dynamic_renderables.end()){
-        iterator->second->render(camera);
-        iterator++;
+    auto it = dynamic_renderables.begin();
+    while(it != dynamic_renderables.end()){
+        it->second->render(camera);
+        it++;
     }
     player.render(camera, timer);
     inventory.render();

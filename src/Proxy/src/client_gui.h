@@ -36,7 +36,7 @@ private:
     SdlWorld world;
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<DynamicRenderable>> dynamic_renderables;
-    std::map<std::string, std::unique_ptr<DynamicRenderable>> static_renderables;
+    std::vector<std::unique_ptr<DynamicRenderable>> static_renderables;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:
