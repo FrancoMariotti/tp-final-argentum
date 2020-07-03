@@ -18,7 +18,9 @@ class SdlWindow;
 class SdlTextureManager {
 private:
     const int HEAD_WIDTH = 17;
-    const int HEAD_HEIGHT = 16;
+    const int HEAD_HEIGHT = 14;
+    const int ARMOUR_WIDTH = 24;
+    const int ARMOUR_HEIGHT = 45;
 
     const std::string ASSETS_PATH = "../../Proxy/assets/";
     const std::string ITEMS_PATH = "../../Proxy/items/";

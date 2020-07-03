@@ -11,37 +11,37 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
             SdlTexture(54, 34, "../../Proxy/assets/spiderSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("skeleton",
-            SdlTexture(26, 54, "../../Proxy/assets/skeletonSprite.png", window)));
+            SdlTexture(26, 52, "../../Proxy/assets/skeletonSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("zombie",
             SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
             SdlTexture(24, 36, "../../Proxy/assets/goblinSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("noneSprite",
-                      SdlTexture(1, 1, "../../Proxy/items/noneSprite.png", window)));
+                      SdlTexture(1, 1, ITEMS_PATH + "noneSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
-            SdlTexture(22, 48, "../../Proxy/items/swordSprite.png", window)));
+            SdlTexture(24, 45, ITEMS_PATH + "swordSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
-            SdlTexture(22, 48, "../../Proxy/items/axeSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "axeSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("hammerSprite",
-            SdlTexture(22, 48, "../../Proxy/items/hammerSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "hammerSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("fresnoWandSprite",
-            SdlTexture(22, 48, "../../Proxy/items/fresnoWandSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "fresnoWandSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("elvenFluteSprite",
-            SdlTexture(22, 48, "../../Proxy/items/elvenFluteSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "elvenFluteSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("knottyStickSprite",
-            SdlTexture(22, 48, "../../Proxy/items/knottyStickSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "knottyStickSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("crimpStickSprite",
-            SdlTexture(22, 48, "../../Proxy/items/crimpStickSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "crimpStickSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("commonBowSprite",
-            SdlTexture(22, 48, "../../Proxy/items/commonBowSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "commonBowSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("rareBowSprite",
-            SdlTexture(22, 48, "../../Proxy/items/rareBowSprite.png", window)));
+            SdlTexture(22, 48, ITEMS_PATH + "rareBowSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("defaultArmourSprite",
-            SdlTexture(24, 46, "../../Proxy/items/defaultArmourSprite.png", window)));
+            SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "defaultArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("leatherArmourSprite",
-            SdlTexture(24, 46, "../../Proxy/items/leatherArmourSprite.png", window)));
+            SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "leatherArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
-            SdlTexture(24, 46, "../../Proxy/items/ironArmourSprite.png", window)));
+            SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "ironArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/humanHeadSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("elfHeadSprite",
@@ -55,9 +55,9 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("ironHelmetSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/ironHelmetSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("turtleShellSprite",
-            SdlTexture(25, 44, ITEMS_PATH + "turtleShellSprite.png", window)));
+            SdlTexture(24, 45, ITEMS_PATH + "turtleShellSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironShieldSprite",
-            SdlTexture(25, 44, "../../Proxy/items/ironShieldSprite.png", window)));
+            SdlTexture(24, 45, "../../Proxy/items/ironShieldSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("magicHatSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/magicHatSprite.png", window)));
 
@@ -88,7 +88,9 @@ void SdlTextureManager::renderNPC(const std::string &texture_id, const int x, co
         body_orientation_clips[i] = {0, i * bodySpriteSheetTexture.getHeight(),
                                      bodySpriteSheetTexture.getWidth(), bodySpriteSheetTexture.getHeight()};
     }
-    bodySpriteSheetTexture.render(x, y, &body_orientation_clips[e]);
+    int body_x = (32 - bodySpriteSheetTexture.getWidth()) / 2;
+    int body_y = (bodySpriteSheetTexture.getHeight() - (32 / 2));
+    bodySpriteSheetTexture.render(x + body_x, y - body_y, &body_orientation_clips[e]);
 }
 
 
@@ -120,29 +122,43 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
         armour_orientation_clips[i] = {0, i * armourSpriteSheetTexture.getHeight(),
                                       armourSpriteSheetTexture.getWidth(),
                                       armourSpriteSheetTexture.getHeight()};
-        weapon_orientation_clips[i] = {0, i*weaponSpriteSheetTexture.getHeight(),
+        weapon_orientation_clips[i] = {0, i * weaponSpriteSheetTexture.getHeight(),
                                        weaponSpriteSheetTexture.getWidth(),
                                        weaponSpriteSheetTexture.getHeight()};
-        shield_orientation_clips[i] = {0, i*shieldSpriteSheetTexture.getHeight(),
+        shield_orientation_clips[i] = {0, i * shieldSpriteSheetTexture.getHeight(),
                                        shieldSpriteSheetTexture.getWidth(),
                                        shieldSpriteSheetTexture.getHeight()};
     }
 
-    int body_offset_y = armourSpriteSheetTexture.getHeight() - 32;
+    const int tile_size = camera.getTileSize();
 
-    headSpriteSheetTexture.render((pos_x + (armourSpriteSheetTexture.getWidth() - headSpriteSheetTexture.getWidth() )/ 2) - camera.getX(),
-                                   (pos_y - headSpriteSheetTexture.getHeight() - body_offset_y) - camera.getY(),
+    int head_w = headSpriteSheetTexture.getWidth();
+    int head_h = headSpriteSheetTexture.getHeight();
+    int armour_w = armourSpriteSheetTexture.getWidth();
+    int armour_h = armourSpriteSheetTexture.getHeight();
+
+    /*Variables arbitrarias para corregir la division de entero y eliminar
+     * parte del recorte del png*/
+    int png_offset_y = 4;
+    int png_offset_x = 1;
+
+    int head_x = ((tile_size - head_w) / 2) + png_offset_x;
+    int armour_x = (tile_size - armour_w) / 2;
+    int armour_y = (armour_h - tile_size / 2) - png_offset_y;
+
+    headSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
+                                   (pos_y - head_h - armour_y + png_offset_y) - camera.getY(),
                                    &head_orientation_clips[head]);
-    helmetSpriteSheetTexture.render((pos_x + (armourSpriteSheetTexture.getWidth() - headSpriteSheetTexture.getWidth() )/ 2) - camera.getX(),
-                                  (pos_y - headSpriteSheetTexture.getHeight() - body_offset_y) - camera.getY(),
+    helmetSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
+                                  (pos_y - head_h - armour_y + png_offset_y) - camera.getY(),
                                   &head_orientation_clips[head]);
-    armourSpriteSheetTexture.render(pos_x - camera.getX(),
-                                     (pos_y - body_offset_y) - camera.getY(),
+    armourSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
+                                     (pos_y - armour_y) - camera.getY(),
                                      &armour_orientation_clips[body]);
-    weaponSpriteSheetTexture.render(pos_x - camera.getX(),
-                                     (pos_y - body_offset_y) - camera.getY(),
+    weaponSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
+                                     (pos_y - armour_y) - camera.getY(),
                                      &weapon_orientation_clips[body]);
-    shieldSpriteSheetTexture.render(pos_x - camera.getX(),
-                                     (pos_y - body_offset_y) - camera.getY(),
+    shieldSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
+                                     (pos_y - armour_y) - camera.getY(),
                                      &shield_orientation_clips[body]);
 }
