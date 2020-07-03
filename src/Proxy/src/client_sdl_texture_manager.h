@@ -26,7 +26,8 @@ private:
     const std::string ITEMS_PATH = "../../Proxy/items/";
     const std::string SPRITE_SUFFIX = "Sprite";
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
-    const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie","spider"};
+    const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie",
+                                                           "spider","banker","priest","merchant"};
 
     std::vector<SDL_Rect> WALKING_ANIMATION_SPRITE;
 public:

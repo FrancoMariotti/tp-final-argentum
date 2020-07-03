@@ -34,6 +34,7 @@ private:
     SdlWorld world;
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<DynamicRenderable>> dynamic_renderables;
+    std::map<std::string, std::unique_ptr<DynamicRenderable>> static_renderables;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:
@@ -46,13 +47,15 @@ public:
     void updatePlayerEquipment(const equipment_t& equipment);
     void updatePlayerStats(t_stats new_stats);
     void updateInventory(std::vector<std::string> player_inventory);
+    /*Inicializa los NPC comerciantes que no se mueven durante el juego*/
+    void initStaticRenderables(const std::vector<spawn_character_t>& renderables);
+    /*Actualiza los NPC que se encuentran vivos, eliminando lso que estan muertos*/
     void updateRenderables(std::vector<spawn_character_t> renderables);
+    /**/
     void updateRenderablePos(int new_x, const int new_y, const std::string &renderable_id);
     void updateRenderablePlayableEquipment(const equipment_t &equipment, const std::string &renderable_id);
     void updateDrops(const std::vector<std::string> &drops);
-
     void render();
-
     void renderWorld();
 
     ~GUI();

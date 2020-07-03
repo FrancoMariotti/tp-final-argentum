@@ -16,8 +16,14 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(24, 46, "../../Proxy/assets/zombieSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("goblin",
             SdlTexture(24, 32, "../../Proxy/assets/goblinSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("merchant",
+            SdlTexture(26, 46, ASSETS_PATH + "merchantSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("priest",
+            SdlTexture(26, 46, ASSETS_PATH + "priestSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("banker",
+            SdlTexture(26, 48, ASSETS_PATH + "bankerSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("noneSprite",
-                      SdlTexture(1, 1, ITEMS_PATH + "noneSprite.png", window)));
+            SdlTexture(1, 1, ITEMS_PATH + "noneSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
             SdlTexture(24, 45, ITEMS_PATH + "swordSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("axeSprite",
