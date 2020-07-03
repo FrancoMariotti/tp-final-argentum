@@ -10,11 +10,13 @@
 #include "Factory.h"
 
 class Priest {
+    friend class City;
+    Position pos;
     Json::Value obj;
     std::map<std::string, EquippableFactory*> stock;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Priest(const std::string& configFile);
+    Priest(const std::string& configFile, Position pos);
     ~Priest();
     Equippable* sell(const std::string& name, int *gold);
     void restoreManaAndLife(PlayableCharacter* character);

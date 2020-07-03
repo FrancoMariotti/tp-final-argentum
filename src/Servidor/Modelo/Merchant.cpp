@@ -4,7 +4,7 @@
 
 #include "Merchant.h"
 
-Merchant::Merchant(const std::string& configFile) {
+Merchant::Merchant(const std::string& configFile, Position pos) : pos(pos) {
     FileParser parser(configFile);
     obj = parser.read("merchantItems");
     factories.at("NormalWeapon") = new NormalWeaponFactory();

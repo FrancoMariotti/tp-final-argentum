@@ -25,6 +25,7 @@ class PlayableCharacter: public Character {
     Armour armour;
     LifeState *lifeState;
     bool inCity;
+    BankAccount bankAccount;
 private:
     bool checkFairPlay(int enemyLevel);
 public:
@@ -42,30 +43,33 @@ public:
     void equip(Potion* potion, int index);
     void unequip(int elementIndex);
     void unequip(Equippable* element);
+    void unequip(Protection *protection);
+    void unequip(Weapon *weapon);
     void store(Equippable* element);
     void recoverLifePoints(float seconds);
     void recoverMana(float seconds);
     void heal(int value);
     void earnMana(int value);
-    void unequip(Protection *protection);
-    void unequip(Weapon *weapon);
     void notifyStats();
+    void notifyEquipment();
     void makeDamageTo(Character *character);
     int attackTo(PlayableCharacter *enemy);
     int attackTo(Npc *enemy);
     int receiveAttackFrom(PlayableCharacter *enemy) override;
-    void notifyEquipment();
     int defend(int damage);
     int modifyLifePoints(int enemyLevel, int damage);
     void sellTo(int itemIndex, Merchant* merchant);
     void buyFrom(const std::string& itemName, Merchant* merchant);
+    void deposit(std::string element, Banker *banker);
+    void deposit(int amount, Banker* banker);
+    void extract(const std::string& itemName, Banker *banker);
+    void extract(int amount, Banker* banker);
     bool isDead();
     void die();
     void revive();
     void restoreMana();
     ~PlayableCharacter() override;
 
-    void deposit(std::string element, Banker *banker);
 };
 
 

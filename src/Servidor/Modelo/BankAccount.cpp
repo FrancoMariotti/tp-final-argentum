@@ -14,15 +14,21 @@ void BankAccount::deposit(Equippable* object) {
     items.push_back(object);
 }
 
-int BankAccount::extractGold(int amount) {
+int BankAccount::extract(int amount) {
     if (amount <= gold) {
         gold -= amount;
     }
     return amount;
 }
 
-Equippable* BankAccount::extractObject(int index) {
-    Equippable* item = items[index];
-    items.erase(items.begin() + index);
-    return item;
+Equippable* BankAccount::extract(std::string itemName) {
+    Equippable* item = nullptr;
+    for(unsigned int i = 0; i < items.size(); i++) {
+        item = items[i];
+        if(item->getName() == itemName) {
+            items.erase(items.begin() + i);
+            return item;
+        }
+    }
+    return nullptr;
 }

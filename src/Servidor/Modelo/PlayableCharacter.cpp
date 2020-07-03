@@ -124,6 +124,7 @@ int PlayableCharacter::attackTo(Npc *enemy) {
 
 void PlayableCharacter::store(Equippable* element) {
     lifeState->store(element,inventory,observer);
+    //AGREGAR NOTIFIY INVENTORY
 }
 
 void PlayableCharacter::equip(int elementIndex) {
@@ -218,11 +219,16 @@ void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
     Equippable* item = inventory.takeElement(itemIndex, this);
     gold += merchant->buy(item->getName());
     delete item;
+    //AGREGAR NOTIFIY INVENTORY
+    notifyStats();
 }
 
 void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant) {
     Equippable* item = merchant->sell(itemName, &gold);
-    if (item != nullptr) inventory.store(item);
+    if (item != nullptr) {
+        inventory.store(item);
+        //AGREGAR NOTIFIY INVENTORY
+    }
 }
 
 void PlayableCharacter::revive() {
@@ -234,7 +240,26 @@ void PlayableCharacter::revive() {
 
 void PlayableCharacter::deposit(std::string element, Banker *banker) {
     Equippable *equippable = inventory.takeElement(std::move(element),this);
-    banker->deposit(id,equippable);
+    banker->deposit(&bankAccount, equippable);
+    //AGREGAR NOTIFIY INVENTORY
+}
+
+void PlayableCharacter::deposit(int amount, Banker *banker) {
+    banker->deposit(&bankAccount, amount);
+    notifyStats();
+}
+
+void PlayableCharacter::extract(const std::string& itemName, Banker *banker) {
+    Equippable* itemExtracted = banker->extract(&bankAccount, itemName);
+    if (itemExtracted != nullptr) {
+        inventory.store(itemExtracted);
+        //AGREGAR NOTIFIY INVENTORY
+    }
+}
+
+void PlayableCharacter::extract(int amount, Banker *banker) {
+    gold += banker->extract(&bankAccount, amount);
+    notifyStats();
 }
 
 void PlayableCharacter::restoreMana() {

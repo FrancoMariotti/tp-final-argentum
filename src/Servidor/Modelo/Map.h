@@ -28,7 +28,6 @@ class Map {
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
     std::vector<City> cities;
-    Banker banker;
     public:
         //Map();
         Map(std::string configFile, int width, int height);
