@@ -17,7 +17,7 @@ public:
     /*Creo un unico sonido a ser utilizado*/
     explicit SdlChunk(const std::string& path);
     SdlChunk(const SdlChunk& other) = delete;
-    SdlChunk(SdlChunk&& other);
+    SdlChunk(SdlChunk&& other) noexcept;
     /*Cargo el sonido correspondiente a @param path
      * se puede usar para asignar un nuevo sonido*/
     void loadWAV(const std::string &path);
