@@ -59,13 +59,13 @@ public:
     int modifyLifePoints(int enemyLevel, int damage);
     void sellTo(int itemIndex, Merchant* merchant);
     void buyFrom(const std::string& itemName, Merchant* merchant);
+    void restoreLife();
     bool isDead();
     void die();
     void revive();
     void restoreMana();
+    void deposit(std::string element, Banker &banker);
     ~PlayableCharacter() override;
-
-    void deposit(std::string element, Banker *banker);
 };
 
 

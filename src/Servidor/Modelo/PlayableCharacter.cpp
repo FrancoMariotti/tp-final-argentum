@@ -64,7 +64,9 @@ void PlayableCharacter::recoverMana(float seconds) {
 }
 
 void PlayableCharacter::attack(Character *character) {
-    if (!inCity) lifeState->attackEnemy(this,character);
+    if (!inCity) {
+        lifeState->attackEnemy(this,character);
+    }
 }
 
 void PlayableCharacter::makeDamageTo(Character *character) {
@@ -114,12 +116,12 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
 int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     int earnedXp = 0;
     bool canAttack = enemy->checkFairPlay(level);
-    if(canAttack) earnedXp = activeWeapon->attack(enemy,strength,level,mana,currPos);
+    if(canAttack) earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
     return earnedXp;
 }
 
 int PlayableCharacter::attackTo(Npc *enemy) {
-    return activeWeapon->attack(enemy,strength,level,mana,currPos);
+    return activeWeapon->attack(this,enemy,strength,level,mana,currPos);
 }
 
 void PlayableCharacter::store(Equippable* element) {
@@ -228,13 +230,14 @@ void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant)
 void PlayableCharacter::revive() {
     delete lifeState;
     lifeState = new Alive();
-    restoreLife();
+    Character::restoreLife();
     restoreMana();
 }
 
-void PlayableCharacter::deposit(std::string element, Banker *banker) {
+void PlayableCharacter::deposit(std::string element, Banker &banker) {
+    if(!inCity) return;
     Equippable *equippable = inventory.takeElement(std::move(element),this);
-    banker->deposit(id,equippable);
+    banker.deposit(id,equippable);
 }
 
 void PlayableCharacter::restoreMana() {

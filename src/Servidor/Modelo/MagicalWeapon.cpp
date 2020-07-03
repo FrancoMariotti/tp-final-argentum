@@ -9,11 +9,11 @@ MagicalWeapon::MagicalWeapon(std::string name,SpellType*spellType, int minDamage
     this->cost = cost;
 }
 
-int MagicalWeapon::attack(Character *target,int strength,int level,float &mana,Position &holderPos) {
+int MagicalWeapon::attack(Character* owner,Character *target,int strength,int level,float &mana,Position &holderPos) {
     if(mana < cost) return 0;
     mana -= cost;
     int damage = calculateDamage(strength);
-    int xp = spellType->use(target,strength,level,damage);
+    int xp = spellType->use(owner,target,strength,level,damage);
     return xp;
 }
 

@@ -9,7 +9,7 @@
 
 class Heal: public SpellType {
 public:
-    int use(Character *target, int strength, int level,int damage) override;
+    int use(Character *owner,Character *target, int strength, int level,int damage) override;
 };
 
 
