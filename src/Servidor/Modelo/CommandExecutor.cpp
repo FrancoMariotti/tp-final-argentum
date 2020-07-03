@@ -20,7 +20,6 @@ void CommandExecutor::execute(const std::string& username, const std::string& co
         std::string item = command.substr( command.find(delimiter) + 1);
         commands.at(token)->execute(username,item,x,y);
     }
-
 }
 
 CommandExecutor::~CommandExecutor() {

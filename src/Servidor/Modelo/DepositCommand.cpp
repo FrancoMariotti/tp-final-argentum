@@ -10,15 +10,13 @@ DepositCommand::DepositCommand(Map *map): map(map){}
 
 void DepositCommand::execute(std::string username,std::string command,int x,int y) {
     std::string element = command;
-    char delimiter = ' ';
-    int pos = command.find(" ");
-    std::string type = command.substr(0,pos);
+    std::string delimiter = " ";
+    std::string type = command.substr(0,command.find(delimiter));
     PlayableCharacter* player = map->getPlayer(username);
     if(type == "oro") {
         std::string gold = command.substr( element.find(delimiter));
         int gold_amount = std::stoi(gold);
         map->depositInBankCity(player,Position(x,y),gold_amount);
-
     } else {
         map->depositInBankCity(player,Position(x,y),element);
     }

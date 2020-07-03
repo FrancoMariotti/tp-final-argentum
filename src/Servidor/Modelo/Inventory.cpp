@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Inventory.h"
 #include "string"
 
@@ -26,14 +27,22 @@ Equippable* Inventory::takeElement(int index, PlayableCharacter* character) {
     return element;
 }
 
-Equippable* Inventory::takeElement(std::string elementName,PlayableCharacter* character) {
-    for(unsigned int i = 0; i < elements.size(); i++) {
-        if(elements[i]->getName() == elementName) {
-            if (elements[i]->isEquipped())elements[i]->unequipFrom(character);
-            Equippable* result = elements[i];
-            elements.erase(elements.begin() + i);
-            return result;
+Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharacter* character) {
+    Equippable* result = nullptr;
+    auto itr = elements.begin();
+    for (;itr != elements.end(); itr ++) {
+        if ((*itr)->getName() ==  elementName) {
+            result = *itr;
+            if (result->isEquipped()) {
+                result->unequipFrom(character);
+            }
         }
     }
-    return nullptr;
+
+    elements.erase(std::remove_if(elements.begin(),
+                                  elements.end(),
+                                  [elementName](Equippable * equippable){return equippable->getName() == elementName;}),
+                   elements.end());
+
+    return result;
 }
