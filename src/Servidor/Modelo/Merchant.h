@@ -17,7 +17,8 @@ class Merchant {
     std::map<std::string, EquippableFactory*> stock;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Merchant(const std::string& configFile, Position pos);
+    Merchant(const Json::Value& items, Position pos);
+    Merchant(Merchant&& merchant) noexcept ;
     ~Merchant();
     Equippable* sell(const std::string& name, int *gold);
     int buy(const std::string& itemName);

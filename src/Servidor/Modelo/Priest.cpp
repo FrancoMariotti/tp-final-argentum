@@ -5,22 +5,20 @@
 #include "Priest.h"
 #include "PlayableCharacter.h"
 
-Priest::Priest(const std::string& configFile, Position pos) : pos(pos) {
-    FileParser parser(configFile);
-    obj = parser.read("priestItems");
-    factories.at("MagicalWeapon") = new MagicalWeaponFactory();
-    factories.at("LifePotion") = new LifePotionFactory();
-    factories.at("ManaPotion") = new ManaPotionFactory();
-    for (const auto &equipmentName : obj) {
-        stock.at(equipmentName.asString()) = factories.at(equipmentName["type"].asString());
+Priest::Priest(const Json::Value& items, const Position& pos):pos(pos) {
+    factories["MagicalWeapon"] = new MagicalWeaponFactory();
+    factories["LifePotion"] = new LifePotionFactory();
+    factories["ManaPotion"] = new ManaPotionFactory();
+    for (const auto &item : items) {
+        stock[item["name"].asString()] = factories.at(item["type"].asString());
     }
 }
 
 Equippable* Priest::sell(const std::string& name, int *gold) {
-    int cost = obj[name]["goldCost"].asInt();
-    if (cost > *gold) return NULL;
+    int cost = items[name]["goldCost"].asInt();
+    if (cost > *gold) return nullptr;
     *gold -= cost;
-    return stock.at(name)->create(obj[name]);
+    return stock.at(name)->create(items[name]);
 }
 
 void Priest::restoreManaAndLife(PlayableCharacter* character) {
@@ -34,8 +32,15 @@ void Priest::revive(PlayableCharacter* character) {
     if (character->isDead())character->revive();
 }
 
-Priest::~Priest() {
-     for (auto & factorie : factories) {
-        delete factorie.second;
+Priest::~Priest(){
+    auto it = factories.begin();
+    for(;it!=factories.end();it++) {
+        delete it->second;
     }
 }
+
+Priest::Priest(Priest &&priest) noexcept:pos(priest.pos)  {
+    this->factories = priest.factories;
+    priest.factories.clear();
+}
+

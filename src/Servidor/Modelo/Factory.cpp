@@ -31,17 +31,22 @@ Json::Value FileParser::read(const std::string &parameter) {
 
 MapFactory::MapFactory(const std::string& configFile) {
     file = configFile;
-    FileParser parser(configFile);
-    mapObj = parser.read("map");
 }
 
 Map* MapFactory::create() {
+
+    FileParser parser(file);
+    mapObj = parser.read("map");
+
     int width_map = mapObj["width"].asInt();
     int height_map = mapObj["height"].asInt();
 
     Map *map = new Map(file,width_map, height_map);
     Json::Value& obstacles = mapObj["obstacles"];
     Json::Value& cities = mapObj["cities"];
+
+    Json::Value priestItems = mapObj["priestItems"];
+    Json::Value merchantItems = mapObj["merchantItems"];
 
     for (auto & i : obstacles){
         int width = i["width"].asInt()/32;
@@ -52,16 +57,20 @@ Map* MapFactory::create() {
         map->addObstacle(obstacle);
     }
 
+
+
     for (auto & i : cities) {
         int width = i["width"].asInt();
         int height = i["height"].asInt();
         int x = i["x"].asInt();
         int y = i["y"].asInt();
+
         Position priestPos(i["Priest"]["x"].asInt(), i["Priest"]["y"].asInt());
         Position merchantPos(i["Merchant"]["x"].asInt(), i["Merchant"]["y"].asInt());
         Position bankerPos(i["Banker"]["x"].asInt(), i["Banker"]["y"].asInt());
-        City city(x,y,height,width, file, priestPos, merchantPos, bankerPos);
-        map->addCity(city);
+
+        City city(x,y,height,width, priestItems,priestPos, merchantItems,merchantPos, bankerPos);
+        map->addCity(std::move(city));
     }
 
     return map;

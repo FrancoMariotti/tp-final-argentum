@@ -15,9 +15,11 @@ class City : public Obstacle {
     Merchant merchant;
     Banker banker;
 public:
-    City(int x, int y, int height, int width, std::string configFile,
-            Position priestPos, Position merchantPos, Position bankerPos);
-    bool isOcupied(Position pos);
+    City(int x, int y, int height, int width,
+         const Json::Value& priestItems,const Position& priestPos, const Json::Value& merchantItems,
+         const Position& merchantPos, const Position& bankerPos);
+    City(City &&city) noexcept ;
+    bool isOcupied(const Position& pos);
 };
 
 

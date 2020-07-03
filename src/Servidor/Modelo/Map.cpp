@@ -45,7 +45,7 @@ void Map::addObstacle(const Obstacle& obstacle) {
 }
 
 void Map::addCity(City city) {
-    cities.push_back(city);
+    cities.push_back(std::move(city));
 }
 
 bool Map::isOccupied(Position pos) {

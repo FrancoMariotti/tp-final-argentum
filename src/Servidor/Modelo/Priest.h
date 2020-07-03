@@ -12,11 +12,12 @@
 class Priest {
     friend class City;
     Position pos;
-    Json::Value obj;
+    Json::Value items;
     std::map<std::string, EquippableFactory*> stock;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Priest(const std::string& configFile, Position pos);
+    Priest(const Json::Value& items, const Position& pos);
+    Priest(Priest&& priest) noexcept ;
     ~Priest();
     Equippable* sell(const std::string& name, int *gold);
     void restoreManaAndLife(PlayableCharacter* character);
