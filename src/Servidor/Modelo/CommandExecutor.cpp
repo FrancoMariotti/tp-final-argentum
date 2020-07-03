@@ -5,17 +5,20 @@
 #include "CommandExecutor.h"
 #include "DepositCommand.h"
 
-CommandExecutor::CommandExecutor() {
-    this->commands["/depositar"] = new DepositCommand();
+CommandExecutor::CommandExecutor() = default;
+
+CommandExecutor::CommandExecutor(Map* map) {
+    this->commands["/depositar"] = new DepositCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {
     std::string delimiter = " ";
-    std::string token = command.substr(0, command.find(delimiter)); // token is "scott"
+    std::string token = command.substr(0, command.find(delimiter));
     auto itr = commands.find(token);
 
     if(itr != commands.end()) {
-        commands.at(token)->execute(username,command,x,y);
+        std::string item = command.substr( command.find(delimiter) + 1);
+        commands.at(token)->execute(username,item,x,y);
     }
 
 }

@@ -29,15 +29,14 @@ class Map {
     std::vector<Obstacle> obstacles;
     std::vector<City> cities;
     public:
-        //Map();
-        Map(std::string configFile, int width, int height);
+        Map();
+        Map(const std::string& configFile, int width, int height);
         void addPlayableCharacter(const std::string& playerName,PlayableCharacter* character);
         void addNpc(std::string idNpc, Npc *npc);
         void addObstacle(const Obstacle& obstacle);
         void addCity(City city);
         bool isOccupied(Position pos);
         void move(Position& from,Position& to);
-        //Character* findNpcAtPosition(Position &position);
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
         void sendLayers(ProxySocket& sck,const std::string& configFile) const;
@@ -47,14 +46,13 @@ class Map {
         Position asignRandomPosition();
         void addDrop(Drop drop);
         void removePlayableCharacter(const std::string &playerName);
-        void removeNpc(const std::string& idNpc);
+        void removeNpc(const std::string& idNpc, Observer* observer);
+        bool posInCity(Position position);
+        Character *findCharacterAtPosition(Position &position);
+        void depositInBankCity(PlayableCharacter *player, Position position,std::string element);
         ~Map();
 
-    bool posInCity(Position position);
-
-    Banker *getBankerAtPosition(int x, int y);
-
-    Character *findCharacterAtPosition(Position &position);
+    void depositInBankCity(PlayableCharacter *player, Position position, int gold_amount);
 };
 
 #endif //ARGENTUM_MAPA_H

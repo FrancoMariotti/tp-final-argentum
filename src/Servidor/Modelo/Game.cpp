@@ -6,11 +6,8 @@
 #include "Npc.h"
 #include "Update.h"
 
-Game::Game(const std::string& configFile): configFile(configFile), factoryCharacters(configFile)
-    , npcFactory(configFile) {
-    MapFactory factory(configFile);
-    map = factory.create();
-}
+Game::Game(const std::string& configFile): configFile(configFile),mapFactory(configFile),map(mapFactory.create()),
+    commandExecutor(map), factoryCharacters(configFile), npcFactory(configFile) {}
 
 void Game::updateModel(float looptime) {
     map->updateAllPlayers(looptime);
@@ -48,6 +45,9 @@ void Game::createNpc(const std::string& specie) {
 void Game::initialize() {
     for(int i=0; i<4 ; i++) {
         createNpc("skeleton");
+        createNpc("goblin");
+        createNpc("spider");
+        createNpc("zombie");
     }
 }
 
@@ -56,20 +56,6 @@ void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->move(offset);
 }
-/*
-void Game::attackNpc(const std::string& playerName, Position& position) {
-    Character* npc = map->findNpcAtPosition(position);
-    if(!npc) return;
-    PlayableCharacter *character = map->getPlayer(playerName);
-    character->attack(npc);
-}
-
-void Game::attackPlayer(const std::string& playerName, const std::string& playerNameEnemy) {
-    PlayableCharacter* enemy = map->getPlayer(playerNameEnemy);
-    PlayableCharacter *character = map->getPlayer(playerName);
-    character->attack(enemy);
-}
-*/
 
 void Game::attack(const std::string &playerName, Position &position) {
     PlayableCharacter *character = map->getPlayer(playerName);

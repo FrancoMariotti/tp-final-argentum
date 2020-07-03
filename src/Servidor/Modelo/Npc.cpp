@@ -4,6 +4,7 @@
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
+#include "Servidor/Common/Utils.h"
 
 #define GOLD_DROP_PROBABILITY 0.8
 #define POTION_DROP_PROBABILITY 0.01
@@ -53,7 +54,8 @@ void Npc::move(float loopTime) {
         }
         Position next(currPos);
         next.apply(offset);
-        map->move(currPos,next);
+        //Permito que se mueva solo si la nueva posicion no esta dentro de una ciudad
+        if (!map->posInCity(next)) map->move(currPos,next);
         observer->notifyMovementNpcUpdate(id,currPos.getX(),currPos.getY());
         updateTime = 0;
         if(enemyFound) {
@@ -120,7 +122,7 @@ void Npc::die() {
     }
 
     map->addDrop(drop);
-    map->removeNpc(id);
+    map->removeNpc(id, observer);
 }
 
 Npc::~Npc() = default;

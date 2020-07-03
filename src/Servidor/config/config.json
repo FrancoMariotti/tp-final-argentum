@@ -957,7 +957,7 @@
         "x": 35,
         "y": 0,
         "width": 9,
-        "heigth": 9,
+        "height": 9,
         "Banker" : {
           "x" : 36,
           "y" : 0
@@ -975,7 +975,7 @@
         "x": 41,
         "y": 33,
         "width": 9,
-        "heigth": 9,
+        "height": 9,
         "Banker" : {
           "x" : 42,
           "y" : 34
@@ -993,7 +993,7 @@
         "x": 0,
         "y": 32,
         "width": 9,
-        "heigth": 9,
+        "height": 9,
         "Banker" : {
           "x" : 0,
           "y" : 33
