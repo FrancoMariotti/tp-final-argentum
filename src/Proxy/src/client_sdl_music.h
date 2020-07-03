@@ -16,7 +16,8 @@ private:
 public:
     /*Ctor*/
     explicit SdlMusic(const std::string& path);
-
+    SdlMusic(const SdlMusic& other) = delete;
+    SdlMusic(SdlMusic&& other) noexcept;
     /*Carga la musica ubicada en @param path
      * puede reutilizarse la funcion para cargar una nueva musica*/
     void loadMusic(const std::string& path);

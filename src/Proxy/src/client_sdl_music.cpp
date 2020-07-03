@@ -10,6 +10,11 @@ SdlMusic::SdlMusic(const std::string &path) :
         this->loadMusic(path);
 }
 
+SdlMusic::SdlMusic(SdlMusic &&other) noexcept :
+    p_music(other.p_music){
+        p_music = nullptr;
+}
+
 void SdlMusic::loadMusic(const std::string& path){
     this->free();
     p_music = Mix_LoadMUS(path.c_str());
