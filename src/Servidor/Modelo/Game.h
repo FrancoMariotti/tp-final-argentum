@@ -7,6 +7,7 @@
 #include "Factory.h"
 #include "Weapon.h"
 #include "Armour.h"
+#include "CommandExecutor.h"
 #include <memory>
 
 class Message;
@@ -15,8 +16,9 @@ class ProxySocket;
 
 class Game : public Observer {
 private:
-    std::string configFile;
     Map* map;
+    std::string configFile;
+    CommandExecutor commandExecutor;
     PlayableCharacterFactory factoryCharacters;
     NpcFactory npcFactory;
     std::queue<Message*> updates;

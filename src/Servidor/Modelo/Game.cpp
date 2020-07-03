@@ -122,7 +122,6 @@ void Game::notifyEquipmentUpdate(std::string weaponName, std::string armourName,
 }
 void Game::notifyItemsUpdate(std::vector<std::string> &vector) {
     updates.push(new InventoryUpdate(vector));
-
 }
 
 void Game::notifymovementUpdate(int x, int y) {
@@ -136,9 +135,9 @@ void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
 void Game::executeCommand(std::unique_ptr<Message>& command) {
     //std::string username = command->;
     std::string action = command->getCommand();
-    //int x = command->getX();
-    //int y = command->getY();
-    //commadExecutor.execute(command);
+    int x = command->getX();
+    int y = command->getY();
+    commandExecutor.execute("franco",action,x,y);
 }
 
 Game::~Game() {

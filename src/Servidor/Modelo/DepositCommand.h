@@ -10,7 +10,7 @@
 #include "Map.h"
 
 class DepositCommand: public Command {
-    Map* map;
+    Map* map{};
 public:
     DepositCommand();
     void execute(std::string username,std::string command,int x,int y) override;
