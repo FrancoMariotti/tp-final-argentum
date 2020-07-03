@@ -46,7 +46,7 @@ int Client::run() {
                     /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        std::vector<std::string> player_inventory{"sword","axe","hammer","fresnoWand"
+                        /*std::vector<std::string> player_inventory{"sword","axe","hammer","fresnoWand"
                                 ,"crimpStick","commonBow", "rareBow"
                                 ,"leatherArmour", "ironArmour", "blueTunic",
                                                                   "hood", "ironHelmet", "turtleShell", "ironShield",
@@ -56,7 +56,7 @@ int Client::run() {
                         std::mt19937 mt(rd());
                         std::uniform_real_distribution<float> dist(0.1,1.0);
                         t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
-                        gui.updatePlayerStats(stats);
+                        gui.updatePlayerStats(stats);*/
                         //std::vector<std::string> drops{"sword","axe"};
                         //gui.updateDrops(drops);
                     } else if (event.key.keysym.sym == SDLK_o){
