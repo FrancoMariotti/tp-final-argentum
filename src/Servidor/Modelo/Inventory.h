@@ -15,7 +15,7 @@ public:
     Equippable* takeElement(int index, PlayableCharacter* character);
     void sendItems(Observer *observer);
 
-    Equippable *takeElement(std::string elementName, PlayableCharacter *character);
+    Equippable *takeElement(const std::string& elementName, PlayableCharacter *character);
 };
 
 

@@ -1,5 +1,6 @@
 #include <Proxy/src/common_proxy_socket.h>
 #include <Proxy/src/common_message.h>
+#include <algorithm>
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -38,9 +39,10 @@ void Map::addNpc(std::string idNpc ,Npc* npc) {
 
 void Map::removeNpc(const std::string& idNpc, Observer* observer) {
     npcs.erase(idNpc);
-    for (unsigned int i = 0; i < spawns.size() ; ++i) {
-        if (spawns[i].id == idNpc) spawns.erase(spawns.begin() + i);
-    }
+    spawns.erase(std::remove_if(spawns.begin(),
+                              spawns.end(),
+                              [idNpc](spawn_character_t npc){return npc.id == idNpc;}),
+               spawns.end());
     observer->notifySpawnNpcUpdate(spawns);
 }
 
