@@ -33,4 +33,11 @@ typedef struct npc_movement {
     std::string id;
 } npc_movement_t;
 
+typedef struct player_attack {
+    std::string username;
+    int enemy_x;
+    int enemy_y;
+} t_player_attack;
+
+
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H

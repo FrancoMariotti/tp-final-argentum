@@ -5,6 +5,7 @@
 #include "client_gui.h"
 
 #include <utility>
+#include <SDL2/SDL_mixer.h>
 #include "client_sdl_exception.h"
 #include "client_sdl_dynamic_renderable.h"
 #include "common_message_structs.h"
@@ -128,8 +129,6 @@ void GUI::render(){
 
 void GUI::renderWorld() {
     world.render(camera);
-    //world.renderFloor(camera);
-    //world.renderObstacles(camera);
     //world.renderDrops(inventory, camera);
 }
 
@@ -138,8 +137,9 @@ GUI::~GUI(){
         TTF_CloseFont(font);
     }
     //Quit SDL subsystems
+    Mix_Quit();
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
-    TTF_Quit();
 }
 

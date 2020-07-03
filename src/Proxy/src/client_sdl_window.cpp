@@ -3,11 +3,12 @@
 //
 
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "client_sdl_window.h"
 #include "client_sdl_exception.h"
 
 SdlWindow::SdlWindow(int width, int height) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0 ) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 ) {
         throw SdlException("SDL could not initialize! SDL_Error:", SDL_GetError());
     }
     //Set texture filtering to linear
@@ -26,22 +27,9 @@ SdlWindow::SdlWindow(int width, int height) {
         throw SdlException("Renderer could not be created!", SDL_GetError());
     }
 
-    //Permito la carga del PNGs
     this->initPNG();
     this->initTTF();
-
-}
-
-SdlWindow::~SdlWindow() {
-    //Destroy Window
-    if(this->m_renderer){
-        SDL_DestroyRenderer(m_renderer);
-        m_renderer = nullptr;
-    }
-    if(this->m_window){
-        SDL_DestroyWindow(m_window);
-        m_window = nullptr;
-    }
+    this->initMix();
 
 }
 
@@ -70,10 +58,31 @@ void SdlWindow::initTTF() const{
     }
 }
 
+void SdlWindow::initMix() {
+    //Initialize SDL_mixer
+    /**Chunksize es el tamaño de la muestra y se puede variar para reducir el lag del sonido*/
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2,2048) < 0){
+        throw SdlException("SDL_mixer could not initialize!", Mix_GetError());
+    }
+}
+
 SDL_Renderer* SdlWindow::getRenderer() const{
     return m_renderer;
 }
 
 void SdlWindow::render() {
     SDL_RenderPresent(m_renderer);
+}
+
+SdlWindow::~SdlWindow() {
+    //Destroy Window
+    if(this->m_renderer){
+        SDL_DestroyRenderer(m_renderer);
+        m_renderer = nullptr;
+    }
+    if(this->m_window){
+        SDL_DestroyWindow(m_window);
+        m_window = nullptr;
+    }
+
 }

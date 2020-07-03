@@ -17,7 +17,8 @@ enum MESSAGES {
     SPAWN_NPC_MESSAGE_ID,
     STATS_UPDATE_MESSAGE_ID,
     NPC_MOVEMENT_UPDATE_MESSAGE_ID,
-    EQUIPMENT_UPDATE_MESSAGE_ID
+    EQUIPMENT_UPDATE_MESSAGE_ID,
+    PLAYER_ATTACK_MESSAGE_ID
 };
 
 
@@ -44,6 +45,7 @@ public:
     virtual std::vector<std::string> getItems();
     virtual std::vector<spawn_character_t> getSpawnData();
     virtual npc_movement_t getMovement();
+    virtual t_player_attack getAttack();
     virtual ~Message() = default;
 };
 
@@ -148,6 +150,14 @@ public:
     npc_movement_t getMovement();
 };
 
-
+class Attack : public Message{
+private:
+    std::string username;
+    int enemy_x;
+    int enemy_y;
+public:
+    Attack(std::string username, int enemy_x, int enemy_y);
+    t_player_attack getAttack() override;
+};
 
 #endif //ARGENTUM_COMMON_MESSAGE_H

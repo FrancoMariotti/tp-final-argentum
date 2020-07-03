@@ -21,6 +21,8 @@ public:
     void fill();
     void render();
     SDL_Renderer* getRenderer() const;
+
+    void initMix();
 };
 
 
