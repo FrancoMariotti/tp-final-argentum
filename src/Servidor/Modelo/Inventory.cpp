@@ -30,8 +30,9 @@ Equippable* Inventory::takeElement(std::string elementName,PlayableCharacter* ch
     for(unsigned int i = 0; i < elements.size(); i++) {
         if(elements[i]->getName() == elementName) {
             if (elements[i]->isEquipped())elements[i]->unequipFrom(character);
+            Equippable* result = elements[i];
             elements.erase(elements.begin() + i);
-            return elements[i];
+            return result;
         }
     }
     return nullptr;
