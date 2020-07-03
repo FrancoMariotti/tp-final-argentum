@@ -14,6 +14,7 @@
 #include "client_sdl_texture.h"
 #include "common_message_structs.h"
 #include "client_sdl_texture_manager.h"
+#include "client_sdl_timer.h"
 
 class Message;
 class SdlTexture;
@@ -26,6 +27,10 @@ private:
     int height;
 
     int pos_x, pos_y;
+    int old_x, old_y;
+
+    int animation_frame;
+
 
     SdlTextureManager::e_body_orientation body_or;
     SdlTextureManager::e_head_orientation head_or;
@@ -34,7 +39,7 @@ private:
 public:
     explicit SdlPlayer(SdlTextureManager &textureManager);
 
-    void render(SdlCamera &camera);
+    void render(SdlCamera &camera, SdlTimer &timer);
 
     void updatePos(int player_x, int player_y, SdlCamera &camera);
 
@@ -43,6 +48,7 @@ public:
     int getPosX() const;
 
     int getPosY() const;
+
 };
 
 

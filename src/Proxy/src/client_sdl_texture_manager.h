@@ -12,7 +12,7 @@
 #include <SDL2/SDL_rect.h>
 #include "client_sdl_camera.h"
 
-
+class SdlTimer;
 class SdlTexture;
 class SdlWindow;
 class SdlTextureManager {
@@ -65,6 +65,10 @@ public:
 
     void renderPC(const t_player_appearance &appearance, int pos_x, int pos_y,const SdlCamera &camera,
                   e_body_orientation body, e_head_orientation head);
+
+    void testRenderPC(const SdlTextureManager::t_player_appearance &appearance, int pos_x, int pos_y,
+                      const SdlCamera &camera,
+                      int old_x, int old_y, const SdlTimer &timer, int animation_frame);
 };
 
 

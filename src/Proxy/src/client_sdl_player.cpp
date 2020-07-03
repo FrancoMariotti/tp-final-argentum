@@ -14,11 +14,15 @@ SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
         t_appearance{"humanHead","none","defaultArmour","none","none"}{
     pos_x = 0;
     pos_y = 0;
+    old_x = 0;
+    old_y = 0;
+    animation_frame = 0;
 }
 
 void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &camera) {
-    int old_x = pos_x;
-    int old_y = pos_y;
+    this->animation_frame = 0;
+    this->old_x = pos_x;
+    this->old_y = pos_y;
     this->pos_x = camera.toPixels(player_x);
     this->pos_y = camera.toPixels(player_y);
     if(pos_x > old_x){
@@ -47,10 +51,16 @@ void SdlPlayer::updateEquipment(const equipment_t& equipment) {
     t_appearance.shield = equipment.shieldName;
 }
 
-void SdlPlayer::render(SdlCamera &camera) {
-    textureManager.renderPC(t_appearance, pos_x, pos_y,
-            camera, body_or, head_or);
+void SdlPlayer::render(SdlCamera &camera, SdlTimer &timer) {
+    /*textureManager.renderPC(t_appearance, pos_x, pos_y,
+            camera, body_or, head_or);*/
 
+    textureManager.testRenderPC(t_appearance, pos_x, pos_y,
+                                camera, old_x, old_y, timer, animation_frame);
+    this->animation_frame++;
+    if(animation_frame > 3){
+        animation_frame = 4;
+    }
     /*
     int body_offset_y = armourSpriteSheetTexture->getHeight() - 32;
 

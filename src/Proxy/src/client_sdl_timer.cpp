@@ -74,3 +74,7 @@ bool SdlTimer::isStarted() {
 bool SdlTimer::isPaused() {
     return is_started && is_paused;
 }
+
+unsigned int SdlTimer::getAnimationFrame() const {
+    return (frames % FRAMES_PER_ANIMATION) + 1;
+}

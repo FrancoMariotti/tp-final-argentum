@@ -16,6 +16,7 @@ private:
     bool is_paused;
     bool is_started;
 
+    const unsigned int FRAMES_PER_ANIMATION = 4;
 public:
     SdlTimer();
     /*Empieza a contar*/
@@ -31,8 +32,8 @@ public:
     uint32_t getTicks();
     bool isStarted();
     bool isPaused();
-
     void incrementFrames();
+    unsigned int getAnimationFrame() const;
 };
 
 
