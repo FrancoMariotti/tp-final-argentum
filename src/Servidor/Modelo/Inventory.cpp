@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "Inventory.h"
 #include "string"
 
@@ -40,9 +39,9 @@ Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharac
     }
 
     elements.erase(std::remove_if(elements.begin(),
-                                elements.end(),
-                                [elementName](Equippable * equippable){return equippable->getName() == elementName;}),
-                 elements.end());
+                                  elements.end(),
+                                  [elementName](Equippable * equippable){return equippable->getName() == elementName;}),
+                   elements.end());
 
     return result;
 }
