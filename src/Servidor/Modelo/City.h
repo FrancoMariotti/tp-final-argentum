@@ -22,6 +22,7 @@ public:
     bool isOcupied(const Position& pos);
     void depositInBank(const Position& pos, PlayableCharacter *player,std::string item);
     void depositInBank(const Position& pos, PlayableCharacter *player, int gold_amount);
+    void searchPriestToRevive(PlayableCharacter* character, Position pos);
 };
 
 

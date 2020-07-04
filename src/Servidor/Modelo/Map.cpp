@@ -195,6 +195,12 @@ void Map::depositInBankCity(PlayableCharacter *player,Position position,int gold
     }
 }
 
+void Map::searchPriestToRevive(PlayableCharacter *character, Position position) {
+    for (City & city : cities) {
+        city.searchPriestToRevive(character, position);
+    }
+}
+
 Map::~Map() {
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); itrNpcs++) {
@@ -210,6 +216,7 @@ Map::~Map() {
 void Map::spawnCityCharacters(Observer *observer) {
     observer->notifyCityCharactersSpawn(cityCharactersSpawns);
 }
+
 
 
 

@@ -57,6 +57,8 @@ class Map {
 
 
     void spawnCityCharacters(Observer *observer);
+
+    void searchPriestToRevive(PlayableCharacter *character, Position position);
 };
 
 #endif //ARGENTUM_MAPA_H

@@ -101,7 +101,6 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     xpEarned = calculateAttackXp(damage,enemyLevel);
 
     if (newLife <= 0) {
-        lifePoints = 0;
         die();
         int maxLifePoints = (int)calculateMaxLife();
         xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
@@ -209,13 +208,16 @@ void PlayableCharacter::die() {
     if (gold > safeGold) {
         int amountGoldDrop = gold - safeGold;
         drop.addGold(amountGoldDrop);
+        gold -= amounGoldDrop
     }*/
 
     //logica drop items inventario
-
     delete lifeState;
     lifeState = new Ghost();
-    observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
+    lifePoints = 0;
+    mana = 0;
+    //LO COMENTO HASTA ASEGURARME DE QUE ESTEN LOS SPRITES DEL GHOST
+    //observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
 
 }
 

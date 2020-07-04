@@ -21,3 +21,7 @@ void City::depositInBank(const Position& pos, PlayableCharacter *player, std::st
 void City::depositInBank(const Position& pos, PlayableCharacter *player, int gold_amount) {
     if(banker.pos == pos) player->deposit(gold_amount,&banker);
 }
+
+void City::searchPriestToRevive(PlayableCharacter* character, Position pos) {
+    if(priest.pos == pos) priest.revive(character);
+}

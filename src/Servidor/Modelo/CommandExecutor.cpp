@@ -4,11 +4,13 @@
 
 #include "CommandExecutor.h"
 #include "DepositCommand.h"
+#include "ReviveCommand.h"
 
 CommandExecutor::CommandExecutor() = default;
 
 CommandExecutor::CommandExecutor(Map* map) {
     this->commands["/depositar"] = new DepositCommand(map);
+    this->commands["/resucitar"] = new ReviveCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {
