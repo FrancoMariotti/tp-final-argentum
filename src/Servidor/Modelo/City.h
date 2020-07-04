@@ -22,6 +22,8 @@ public:
     bool isOcupied(const Position& pos);
     void depositInBank(const Position& pos, PlayableCharacter *player,std::string item);
     void depositInBank(const Position& pos, PlayableCharacter *player, int gold_amount);
+    void extractFromBank(const Position& pos, PlayableCharacter *player,std::string item);
+    void extractFromBank(const Position& pos, PlayableCharacter *player, int goldAmount);
 };
 
 

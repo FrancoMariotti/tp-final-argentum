@@ -14,7 +14,7 @@ class BankAccount {
     void deposit(int amount);
     void deposit(Equippable* object);
     int extract(int amount);
-    Equippable* extract(std::string itemName);
+    Equippable* extract(const std::string& itemName);
 public:
     BankAccount();
 };

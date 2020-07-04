@@ -4,11 +4,13 @@
 
 #include "CommandExecutor.h"
 #include "DepositCommand.h"
+#include "ExtractCommand.h"
 
 CommandExecutor::CommandExecutor() = default;
 
 CommandExecutor::CommandExecutor(Map* map) {
     this->commands["/depositar"] = new DepositCommand(map);
+    this->commands["/retirar"] = new ExtractCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {
@@ -17,8 +19,8 @@ void CommandExecutor::execute(const std::string& username, const std::string& co
     auto itr = commands.find(token);
 
     if(itr != commands.end()) {
-        std::string item = command.substr( command.find(delimiter) + 1);
-        commands.at(token)->execute(username,item,x,y);
+        std::string params = command.substr( command.find(delimiter) + 1);
+        commands.at(token)->execute(username,params,x,y);
     }
 }
 

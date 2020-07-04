@@ -21,3 +21,11 @@ void City::depositInBank(const Position& pos, PlayableCharacter *player, std::st
 void City::depositInBank(const Position& pos, PlayableCharacter *player, int gold_amount) {
     if(banker.pos == pos) player->deposit(gold_amount,&banker);
 }
+
+void City::extractFromBank(const Position &pos, PlayableCharacter *player, std::string item) {
+    if(banker.pos == pos) player->extract(item,&banker);
+}
+
+void City::extractFromBank(const Position &pos, PlayableCharacter *player, int goldAmount) {
+    if(banker.pos == pos) player->extract(goldAmount,&banker);
+}

@@ -16,9 +16,9 @@ void DepositCommand::execute(std::string username,std::string command,int x,int 
     if(type == "oro") {
         std::string gold = command.substr( element.find(delimiter));
         int gold_amount = std::stoi(gold);
-        map->depositInBankCity(player,Position(x,y),gold_amount);
+        map->depositInBank(player,Position(x,y),gold_amount);
     } else {
-        map->depositInBankCity(player,Position(x,y),element);
+        map->depositInBank(player,Position(x,y),element);
     }
 
 }
