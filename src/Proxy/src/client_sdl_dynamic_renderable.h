@@ -15,6 +15,10 @@ class DynamicRenderable {
 protected:
     int pos_x;
     int pos_y;
+    int old_x, old_y;
+    int animation_frame;
+    bool is_moving;
+    const int MAX_FRAMES = 4;
     SdlTextureManager& textureManager;
     SdlTextureManager::e_body_orientation body_or;
     SdlTextureManager::e_head_orientation head_or;
@@ -25,6 +29,10 @@ public:
     virtual void updateEquipment(const equipment_t& equipment) = 0;
     virtual void render(const SdlCamera& camera) = 0;
     virtual ~DynamicRenderable() = default;
+
+protected:
+    void startAnimation();
+    void endAnimationIfComplete();
 };
 
 

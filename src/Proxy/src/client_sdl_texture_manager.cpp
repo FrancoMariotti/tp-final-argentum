@@ -87,22 +87,51 @@ SdlTexture& SdlTextureManager::getSpriteTexture(const std::string &texture_id) {
     return dynamic_renderables_textures.at(texture_id + "Sprite");
 }
 
-void SdlTextureManager::renderNPC(const std::string &texture_id, const int x, const int y, e_body_orientation e) {
-    SDL_Rect body_orientation_clips[TOTAL_ORIENTATIONS];
+void
+SdlTextureManager::renderStillNPC(const std::string &texture_id,
+        const int pos_x, const int pos_y, e_body_orientation body_or,
+                                  const SdlCamera &camera) {
     SdlTexture& bodySpriteSheetTexture = this->getTexture(texture_id);
-    for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        body_orientation_clips[i] = {0, i * bodySpriteSheetTexture.getHeight(),
-                                     bodySpriteSheetTexture.getWidth(), bodySpriteSheetTexture.getHeight()};
-    }
-    int body_x = (32 - bodySpriteSheetTexture.getWidth()) / 2;
-    int body_y = (bodySpriteSheetTexture.getHeight() - (32 / 2));
-    bodySpriteSheetTexture.render(x + body_x, y - body_y, &body_orientation_clips[e]);
+    SDL_Rect body_orientation_clip {0,
+                                    body_or * bodySpriteSheetTexture.getHeight(),
+                                     bodySpriteSheetTexture.getWidth(),
+                                     bodySpriteSheetTexture.getHeight()};
+
+    int tile_size = camera.getTileSize();
+
+    int body_x = armourX(tile_size, bodySpriteSheetTexture.getWidth());
+    int body_y = armourY(tile_size, bodySpriteSheetTexture.getHeight(), 0);
+    bodySpriteSheetTexture.render(pos_x + body_x - camera.getX(),
+            pos_y - body_y - camera.getY(), &body_orientation_clip);
 }
 
+void
+SdlTextureManager::renderMovingNPC(const std::string &texture_id, const int old_x,
+        const int old_y, e_body_orientation body_or,
+        const int of_x, const int of_y, int animation_frame,const SdlCamera &camera) {
+    SdlTexture& bodySpriteSheetTexture = this->getTexture(texture_id);
+    if(texture_id == "spider" && animation_frame > 3 ){
+        animation_frame = 3;
+    }
+    SDL_Rect body_orientation_clip {animation_frame * bodySpriteSheetTexture.getWidth(),
+                                    body_or * bodySpriteSheetTexture.getHeight(),
+                                    bodySpriteSheetTexture.getWidth(), bodySpriteSheetTexture.getHeight()};
 
-void SdlTextureManager::renderPC(const t_player_appearance& appearance, const int pos_x,
-                                 const int pos_y,const SdlCamera& camera,
-                                 e_body_orientation body, e_head_orientation head){
+    int tile_size = camera.getTileSize();
+
+    int body_x = armourX(tile_size, bodySpriteSheetTexture.getWidth());
+    int body_y = armourY(tile_size, bodySpriteSheetTexture.getHeight(), 0);
+
+    int animation_x = getAnimationPosFor(old_x, of_x, animation_frame);
+    int animation_y = getAnimationPosFor(old_y, of_y, animation_frame);
+
+    bodySpriteSheetTexture.render(animation_x + body_x - camera.getX(),
+            animation_y - body_y - camera.getY(), &body_orientation_clip);
+}
+
+void SdlTextureManager::renderStillPC(const t_player_appearance& appearance, const int pos_x,
+                                      const int pos_y,const SdlCamera& camera,
+                                      e_body_orientation body, e_head_orientation head){
     SdlTexture& headSpriteSheetTexture = this->getSpriteTexture(appearance.head);
     SdlTexture& helmetSpriteSheetTexture = this->getSpriteTexture(appearance.helmet);
     std::string armour = appearance.armour;
@@ -112,28 +141,18 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
     SdlTexture& armourSpriteSheetTexture = this->getSpriteTexture(armour);
     SdlTexture& weaponSpriteSheetTexture = this->getSpriteTexture(appearance.weapon);
     SdlTexture& shieldSpriteSheetTexture = this->getSpriteTexture(appearance.shield);
-    SDL_Rect head_orientation_clips[TOTAL_ORIENTATIONS];
-    SDL_Rect armour_orientation_clips[TOTAL_ORIENTATIONS];
-    SDL_Rect weapon_orientation_clips[TOTAL_ORIENTATIONS];
-    SDL_Rect shield_orientation_clips[TOTAL_ORIENTATIONS];
-
-    for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        head_orientation_clips[i] = {i*headSpriteSheetTexture.getWidth(),
-                                     0, headSpriteSheetTexture.getWidth(),
-                                     headSpriteSheetTexture.getHeight()};
-    }
-
-    for (int i = 0; i < TOTAL_ORIENTATIONS ; ++i) {
-        armour_orientation_clips[i] = {0, i * armourSpriteSheetTexture.getHeight(),
-                                      armourSpriteSheetTexture.getWidth(),
-                                      armourSpriteSheetTexture.getHeight()};
-        weapon_orientation_clips[i] = {0, i * weaponSpriteSheetTexture.getHeight(),
-                                       weaponSpriteSheetTexture.getWidth(),
-                                       weaponSpriteSheetTexture.getHeight()};
-        shield_orientation_clips[i] = {0, i * shieldSpriteSheetTexture.getHeight(),
-                                       shieldSpriteSheetTexture.getWidth(),
-                                       shieldSpriteSheetTexture.getHeight()};
-    }
+    SDL_Rect head_orientation_clip = {head * headSpriteSheetTexture.getWidth(),
+                                      0, headSpriteSheetTexture.getWidth(),
+                                      headSpriteSheetTexture.getHeight()};
+    SDL_Rect armour_orientation_clip = {0, body * armourSpriteSheetTexture.getHeight(),
+                                        armourSpriteSheetTexture.getWidth(),
+                                        armourSpriteSheetTexture.getHeight()};
+    SDL_Rect weapon_orientation_clip = {0, body * weaponSpriteSheetTexture.getHeight(),
+                                        weaponSpriteSheetTexture.getWidth(),
+                                        weaponSpriteSheetTexture.getHeight()};
+    SDL_Rect shield_orientation_clip = {0, body * shieldSpriteSheetTexture.getHeight(),
+                                        shieldSpriteSheetTexture.getWidth(),
+                                        shieldSpriteSheetTexture.getHeight()};
 
     const int tile_size = camera.getTileSize();
 
@@ -144,28 +163,26 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
 
     /*Variables arbitrarias para corregir la division de entero y eliminar
      * parte del recorte del png*/
-    int png_offset_y = 4;
-    int png_offset_x = 1;
 
-    int head_x = ((tile_size - head_w) / 2) + png_offset_x;
-    int armour_x = (tile_size - armour_w) / 2;
-    int armour_y = (armour_h - tile_size / 2) - png_offset_y;
+    int head_x = headX(tile_size, head_w);
+    int armour_x = armourX(tile_size, armour_w);
+    int armour_y = armourY(tile_size,armour_h, PNG_OFFSET_Y);
 
     headSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
-                                   (pos_y - head_h - armour_y + png_offset_y) - camera.getY(),
-                                   &head_orientation_clips[head]);
+                                  (pos_y - head_h - armour_y + PNG_OFFSET_Y) - camera.getY(),
+                                  &head_orientation_clip);
     helmetSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
-                                  (pos_y - head_h - armour_y + png_offset_y) - camera.getY(),
-                                  &head_orientation_clips[head]);
+                                    (pos_y - head_h - armour_y + PNG_OFFSET_Y) - camera.getY(),
+                                    &head_orientation_clip);
     armourSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
-                                     (pos_y - armour_y) - camera.getY(),
-                                     &armour_orientation_clips[body]);
+                                    (pos_y - armour_y) - camera.getY(),
+                                    &armour_orientation_clip);
     weaponSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
-                                     (pos_y - armour_y) - camera.getY(),
-                                     &weapon_orientation_clips[body]);
+                                    (pos_y - armour_y) - camera.getY(),
+                                    &weapon_orientation_clip);
     shieldSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
-                                     (pos_y - armour_y) - camera.getY(),
-                                     &shield_orientation_clips[body]);
+                                    (pos_y - armour_y) - camera.getY(),
+                                    &shield_orientation_clip);
 }
 
 void
@@ -233,6 +250,11 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
                                     &shield_orientation_clip);
 }
 
+int SdlTextureManager::getAnimationPosFor(const int old, const int off, int animation_frame) const {
+    int animation_pos = old + (off / 4) * animation_frame;
+    return animation_pos;
+}
+
 int SdlTextureManager::headX(const int tile_size, const int head_w) const {
     return ((tile_size - head_w) / 2);
 }
@@ -246,60 +268,3 @@ int SdlTextureManager::armourX(const int tile_size, int armour_w) const {
     int armour_x = (tile_size - armour_w) / 2;
     return armour_x;
 }
-
-void SdlTextureManager::renderStillPC(const t_player_appearance& appearance, const int pos_x,
-                                 const int pos_y,const SdlCamera& camera,
-                                 e_body_orientation body, e_head_orientation head){
-    SdlTexture& headSpriteSheetTexture = this->getSpriteTexture(appearance.head);
-    SdlTexture& helmetSpriteSheetTexture = this->getSpriteTexture(appearance.helmet);
-    std::string armour = appearance.armour;
-    if(appearance.armour == "none"){
-        armour = "defaultArmour";
-    }
-    SdlTexture& armourSpriteSheetTexture = this->getSpriteTexture(armour);
-    SdlTexture& weaponSpriteSheetTexture = this->getSpriteTexture(appearance.weapon);
-    SdlTexture& shieldSpriteSheetTexture = this->getSpriteTexture(appearance.shield);
-    SDL_Rect head_orientation_clip = {head * headSpriteSheetTexture.getWidth(),
-                                      0, headSpriteSheetTexture.getWidth(),
-                                      headSpriteSheetTexture.getHeight()};
-    SDL_Rect armour_orientation_clip = {0, body * armourSpriteSheetTexture.getHeight(),
-                                        armourSpriteSheetTexture.getWidth(),
-                                        armourSpriteSheetTexture.getHeight()};
-    SDL_Rect weapon_orientation_clip = {0, body * weaponSpriteSheetTexture.getHeight(),
-                                        weaponSpriteSheetTexture.getWidth(),
-                                        weaponSpriteSheetTexture.getHeight()};
-    SDL_Rect shield_orientation_clip = {0, body * shieldSpriteSheetTexture.getHeight(),
-                                        shieldSpriteSheetTexture.getWidth(),
-                                        shieldSpriteSheetTexture.getHeight()};
-
-    const int tile_size = camera.getTileSize();
-
-    int head_w = headSpriteSheetTexture.getWidth();
-    int head_h = headSpriteSheetTexture.getHeight();
-    int armour_w = armourSpriteSheetTexture.getWidth();
-    int armour_h = armourSpriteSheetTexture.getHeight();
-
-    /*Variables arbitrarias para corregir la division de entero y eliminar
-     * parte del recorte del png*/
-
-    int head_x = headX(tile_size, head_w);
-    int armour_x = armourX(tile_size, armour_w);
-    int armour_y = armourY(tile_size,armour_h, PNG_OFFSET_Y);
-
-    headSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
-                                  (pos_y - head_h - armour_y + PNG_OFFSET_Y) - camera.getY(),
-                                  &head_orientation_clip);
-    helmetSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
-                                    (pos_y - head_h - armour_y + PNG_OFFSET_Y) - camera.getY(),
-                                    &head_orientation_clip);
-    armourSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
-                                    (pos_y - armour_y) - camera.getY(),
-                                    &armour_orientation_clip);
-    weaponSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
-                                    (pos_y - armour_y) - camera.getY(),
-                                    &weapon_orientation_clip);
-    shieldSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
-                                    (pos_y - armour_y) - camera.getY(),
-                                    &shield_orientation_clip);
-}
-

@@ -21,7 +21,6 @@ SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
 }
 
 void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &camera) {
-    this->animation_frame = 0;
     this->old_x = pos_x;
     this->old_y = pos_y;
     this->pos_x = camera.toPixels(player_x);
@@ -78,7 +77,6 @@ void SdlPlayer::endAnimationIfComplete() {
     if(is_moving) {
         if (animation_frame >= MAX_FRAMES) {
             is_moving = false;
-            animation_frame = MAX_FRAMES;
         } else {
             animation_frame++;
         }

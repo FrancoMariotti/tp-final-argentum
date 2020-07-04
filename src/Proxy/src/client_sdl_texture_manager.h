@@ -53,31 +53,44 @@ public:
         std::string weapon;
         std::string shield;
     }t_player_appearance;
+
     explicit SdlTextureManager(const SdlWindow& window);
 
+    /*Recibe el id de un npc y devuelve el id de la textura asociada a ese npc
+     * e.g.: "spider33" devuelve "spider" */
     std::string findTextureId(const std::string &id);
 
+    /*Devuelve una referencia a la textura con key: @param texture_id*/
     SdlTexture &getTexture(const std::string &texture_id);
 
+    /*Devuelve una referencia al spriteSheet asociado a la textura con key @param texture_id*/
     SdlTexture &getSpriteTexture(const std::string &texture_id);
 
-    void renderNPC(const std::string &texture_id, int x, int y, e_body_orientation e);
+    /*Renderizado del npc @param texture_id, cuando esta quieto*/
+    void renderStillNPC(const std::string &texture_id, int pos_x, int pos_y, e_body_orientation body_or,
+                        const SdlCamera &camera);
 
-    void renderPC(const t_player_appearance &appearance, int pos_x, int pos_y,const SdlCamera &camera,
-                  e_body_orientation body, e_head_orientation head);
+    /*Renderizado de un jugador cuando se esta moviendo*/
+    void renderMovingNPC(const std::string &texture_id, int old_x, int old_y, e_body_orientation body_or,
+                         int of_x, int of_y, int animation_frame, const SdlCamera &camera);
 
+    /*Renderizado de un jugador cuando esta quieto*/
+    void renderStillPC(const t_player_appearance &appearance, int pos_x, int pos_y, const SdlCamera &camera,
+                       e_body_orientation body, e_head_orientation head);
+
+    /*Renderizado del frame de la animacion de un NPC*/
     void renderMovingPC(const t_player_appearance &appearance, int of_x, int of_y, const SdlCamera &camera,
                         int old_x, int old_y, int animation_frame, e_body_orientation body_or,
                         e_head_orientation head_or);
 
-    void renderStillPC(const t_player_appearance &appearance, const int pos_x, const int pos_y, const SdlCamera &camera,
-                       e_body_orientation body, e_head_orientation head);
+private:
+    int headX(int tile_size, int head_w) const;
 
-    int headX(const int tile_size, const int head_w) const;
+    int armourX(int tile_size, int armour_w) const;
 
-    int armourX(const int tile_size, int armour_w) const;
+    int armourY(int tile_size, int armour_h, int png_offset_y) const;
 
-    int armourY(const int tile_size, int armour_h, int png_offset_y) const;
+    int getAnimationPosFor(int old, int off, int animation_frame) const;
 };
 
 
