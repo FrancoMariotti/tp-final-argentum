@@ -156,6 +156,7 @@ void PlayableCharacter::equip(Potion* potion, int index) {
     potion->use(this);
     Equippable* element = inventory.takeElement(index, this);
     delete element;
+    notifyEquipment();
 }
 
 void PlayableCharacter::unequip(int elementIndex) {

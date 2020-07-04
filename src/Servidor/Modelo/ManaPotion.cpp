@@ -14,4 +14,5 @@ void ManaPotion::use(PlayableCharacter *character) {
     int mana = randomize();
     log->writeInt(mana);
     character->earnMana(mana);
+    character->notifyStats();
 }

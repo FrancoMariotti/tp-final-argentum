@@ -25,7 +25,7 @@ public:
     void buyFromMerchant(const Position& pos, PlayableCharacter *player, const std::string& item);
     void searchPriestToRevive(PlayableCharacter* character, Position pos);
     void searchPriestToHeal(PlayableCharacter* character, Position pos);
-    void extractFromBank(const Position& pos, PlayableCharacter *player,std::string item);
+    void extractFromBank(const Position &pos, PlayableCharacter *player, const std::string &item);
     void extractFromBank(const Position& pos, PlayableCharacter *player, int goldAmount);
     int distanceToPriest(PlayableCharacter* character);
     void revivePlayerHere(PlayableCharacter *character, Map* map);

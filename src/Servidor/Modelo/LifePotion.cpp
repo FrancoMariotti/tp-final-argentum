@@ -14,4 +14,5 @@ void LifePotion::use(PlayableCharacter *character) {
     int heal = randomize();
     log->writeInt(heal);
     character->heal(heal);
+    character->notifyStats();
 }
