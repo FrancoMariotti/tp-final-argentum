@@ -75,6 +75,8 @@ public:
             int *minDistance, int range);
 
     void healedByPriest();
+
+    void buyFrom(const std::string &itemName, Priest *priest);
 };
 
 

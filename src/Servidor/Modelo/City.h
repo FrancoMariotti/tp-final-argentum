@@ -22,7 +22,7 @@ public:
     bool isOcupied(const Position& pos);
     void depositInBank(const Position& pos, PlayableCharacter *player,std::string item);
     void depositInBank(const Position& pos, PlayableCharacter *player, int gold_amount);
-    void buyFromMerchant(const Position& pos, PlayableCharacter *player, const std::string& item);
+    void buyItem(const Position& pos, PlayableCharacter *player, const std::string& item);
     void searchPriestToRevive(PlayableCharacter* character, Position pos);
     void searchPriestToHeal(PlayableCharacter* character, Position pos);
     void extractFromBank(const Position& pos, PlayableCharacter *player, const std::string& item);
