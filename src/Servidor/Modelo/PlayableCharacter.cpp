@@ -238,6 +238,14 @@ void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant)
     }
 }
 
+void PlayableCharacter::buyFrom(const std::string& itemName, Priest* priest) {
+    Equippable* item = priest->sell(itemName, &gold);
+    if (item != nullptr) {
+        inventory.store(item);
+        inventory.sendItems(observer);
+    }
+}
+
 void PlayableCharacter::revive() {
     LifeState* oldLifeState = lifeState;
     lifeState = lifeState->revive(this);

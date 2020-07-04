@@ -17,6 +17,7 @@ Priest::Priest(std::string configFile,const Json::Value& items, const Position& 
 }
 
 Equippable* Priest::sell(const std::string& name, int *gold) {
+    if (costs.find(name) == costs.end() || stock.find(name) == stock.end()) return nullptr;
     int cost = costs.at(name);
     if (cost > *gold) return nullptr;
     *gold -= cost;

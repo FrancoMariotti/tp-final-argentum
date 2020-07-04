@@ -60,7 +60,7 @@ class Map {
         void searchPriestToRevive(PlayableCharacter *character, Position position);
         void reviveNextToClosestPriest(PlayableCharacter *character);
         void searchPriestToHeal(PlayableCharacter *character, Position position);
-        void buyFromMerchant(PlayableCharacter *player, const Position& position, const std::string& item);
+        void buyItem(PlayableCharacter *player, const Position& position, const std::string& item);
         ~Map();
 
 };

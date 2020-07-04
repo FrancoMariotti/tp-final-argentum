@@ -251,9 +251,9 @@ void Map::extractFromBank(PlayableCharacter *player, const Position& position, c
     observer->notifyCityCharactersSpawn(cityCharactersSpawns);
 }*/
 
-void Map::buyFromMerchant(PlayableCharacter *player, const Position& position, const std::string& item) {
+void Map::buyItem(PlayableCharacter *player, const Position& position, const std::string& item) {
     for (City & city : cities) {
-        city.buyFromMerchant(position,player,item);
+        city.buyItem(position,player,item);
     }
 }
 

@@ -43,8 +43,9 @@ void City::extractFromBank(const Position &pos, PlayableCharacter *player, int g
     if(banker.pos == pos) player->extract(goldAmount,&banker);
 }
 
-void City::buyFromMerchant(const Position &pos, PlayableCharacter *player, const std::string& item) {
+void City::buyItem(const Position &pos, PlayableCharacter *player, const std::string& item) {
     if(merchant.pos == pos) player->buyFrom(item,&merchant);
+    if(priest.pos == pos) player->buyFrom(item,&priest);
 }
 
 Position City::getRandomPos(Map *map) {
