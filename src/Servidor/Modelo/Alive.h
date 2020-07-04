@@ -19,7 +19,8 @@ class Alive: public LifeState {
     void equip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     void unequip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     bool dead() override;
-    LifeState* revive(PlayableCharacter *character) override ;
+    LifeState* revive(PlayableCharacter *character) override;
+    Position teleportFromTo(Position from, Position to) override ;
 };
 
 

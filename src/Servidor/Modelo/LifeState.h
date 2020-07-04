@@ -22,6 +22,8 @@ public:
     virtual bool dead() = 0;
     virtual ~LifeState() = default;
     virtual LifeState* revive(PlayableCharacter *character) = 0 ;
+    virtual Position teleportFromTo(Position from, Position to) = 0;
+
 };
 
 

@@ -66,3 +66,7 @@ bool Alive::dead() {
 LifeState *Alive::revive(PlayableCharacter *character) {
     return nullptr;
 }
+
+Position Alive::teleportFromTo(Position from, Position to) {
+    return from;
+}

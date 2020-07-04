@@ -50,7 +50,7 @@ void PlayableCharacter::move(Offset& offset) {
 }
 
 void PlayableCharacter::teleportTo(Position position) {
-    currPos = position;
+    currPos = lifeState->teleportFromTo(currPos, position);
     observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 

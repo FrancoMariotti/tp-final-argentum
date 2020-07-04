@@ -34,4 +34,8 @@ LifeState* Ghost::revive(PlayableCharacter *character) {
     return new Alive();
 }
 
+Position Ghost::teleportFromTo(Position from, Position to) {
+    return to;
+}
+
 
