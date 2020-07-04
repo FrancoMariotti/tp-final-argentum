@@ -24,6 +24,8 @@ public:
     virtual LifeState* revive(PlayableCharacter *character) = 0 ;
     virtual Position teleportFromTo(Position from, Position to) = 0;
 
+    virtual PlayableCharacter* closestToInRange(const Position &position,
+            PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) = 0;
 };
 
 

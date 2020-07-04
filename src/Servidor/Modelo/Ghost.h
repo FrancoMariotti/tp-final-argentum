@@ -22,6 +22,9 @@ public:
     bool dead() override;
     LifeState* revive(PlayableCharacter *character) override;
     Position teleportFromTo(Position from, Position to) override;
+    PlayableCharacter* closestToInRange(const Position &position,
+            PlayableCharacter *closestEnemy, int *minDist, int range,
+            PlayableCharacter *me) override;
 };
 
 

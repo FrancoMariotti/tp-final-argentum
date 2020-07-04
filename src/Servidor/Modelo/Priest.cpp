@@ -22,10 +22,8 @@ Equippable* Priest::sell(const std::string& name, int *gold) {
 }
 
 void Priest::restoreManaAndLife(PlayableCharacter* character) {
-    if(!character->isDead()) {
-        character->restoreLife();
-        character->restoreMana();
-    }
+    character->restoreLife();
+    character->restoreMana();
 }
 
 void Priest::revive(PlayableCharacter* character) {

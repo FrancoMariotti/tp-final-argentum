@@ -93,12 +93,13 @@ Character* Map::findClosestCharacter(const Position& pos, int range) {
     PlayableCharacter* enemy = nullptr;
     auto it = characters.begin();
     for (; it != characters.end(); ++it) {
-        if(it->second->isDead()) continue;
+        /*if(it->second->isDead()) continue;
         int currDist = it->second->distanceTo(pos);
         if (currDist <= range && currDist <= minDist) {
             minDist = currDist;
             enemy = it->second;
-        }
+        }*/
+        enemy = it->second->closestToInRange(pos, enemy, &minDist, range);
     }
     return enemy;
 }

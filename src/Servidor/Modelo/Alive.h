@@ -20,7 +20,9 @@ class Alive: public LifeState {
     void unequip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     bool dead() override;
     LifeState* revive(PlayableCharacter *character) override;
-    Position teleportFromTo(Position from, Position to) override ;
+    Position teleportFromTo(Position from, Position to) override;
+    PlayableCharacter* closestToInRange(const Position &position,
+            PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) override;
 };
 
 

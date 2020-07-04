@@ -70,3 +70,13 @@ LifeState *Alive::revive(PlayableCharacter *character) {
 Position Alive::teleportFromTo(Position from, Position to) {
     return from;
 }
+
+PlayableCharacter *Alive::closestToInRange(const Position &position,
+        PlayableCharacter *closestEnemy, int *minDist, int range, PlayableCharacter *me) {
+    int myDistance = me->distanceTo(position);
+    if (myDistance <= *minDist && myDistance <= range) {
+        *minDist = myDistance;
+        return me;
+    }
+    return closestEnemy;
+}

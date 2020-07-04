@@ -67,11 +67,12 @@ public:
     void deposit(int amount, Banker* banker);
     void extract(const std::string& itemName, Banker *banker);
     void extract(int amount, Banker* banker);
-    bool isDead();
     void die();
     void restoreMana();
     ~PlayableCharacter() override;
 
+    PlayableCharacter* closestToInRange(const Position &pos, PlayableCharacter *closestEnemy,
+            int *minDistance, int range);
 };
 
 

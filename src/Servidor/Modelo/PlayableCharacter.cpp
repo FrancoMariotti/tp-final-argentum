@@ -203,10 +203,6 @@ int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
     return enemy->attackTo(this);
 }
 
-bool PlayableCharacter::isDead() {
-    return lifeState->dead();
-}
-
 void PlayableCharacter::die() {
     /*Drop drop(currPos.nearAvailablePosition(map));
     int safeGold = calculateSafeGoldCapacity(level);
@@ -285,5 +281,10 @@ void PlayableCharacter::restoreMana() {
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
+}
+
+PlayableCharacter* PlayableCharacter::closestToInRange(const Position &pos,
+        PlayableCharacter *closestEnemy, int *minDistance, int range) {
+    return lifeState->closestToInRange(pos, closestEnemy, minDistance, range, this);
 }
 

@@ -38,4 +38,10 @@ Position Ghost::teleportFromTo(Position from, Position to) {
     return to;
 }
 
+PlayableCharacter * Ghost::closestToInRange(const Position &position,
+        PlayableCharacter *closestEnemy, int *minDist, int range,
+        PlayableCharacter *me) {
+    return closestEnemy;
+}
+
 
