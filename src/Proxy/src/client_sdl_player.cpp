@@ -9,6 +9,7 @@
 
 SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
         textureManager(textureManager),
+        is_moving(false),
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
         t_appearance{"humanHead","none","defaultArmour","none","none"}{
@@ -38,6 +39,7 @@ void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &cam
         head_or = SdlTextureManager::BACK_HEAD_SPRITE;
         body_or = SdlTextureManager::BACK;
     }
+    this->startAnimation();
 }
 
 void SdlPlayer::updateEquipment(const equipment_t& equipment) {
@@ -52,33 +54,36 @@ void SdlPlayer::updateEquipment(const equipment_t& equipment) {
 }
 
 void SdlPlayer::render(SdlCamera &camera, SdlTimer &timer) {
-    /*textureManager.renderPC(t_appearance, pos_x, pos_y,
-            camera, body_or, head_or);*/
-
-    textureManager.testRenderPC(t_appearance, pos_x, pos_y,
-                                camera, old_x, old_y, timer, animation_frame);
-    this->animation_frame++;
-    if(animation_frame > 3){
-        animation_frame = 4;
+    if(is_moving){
+        int of_x = pos_x - old_x;
+        int of_y = pos_y - old_y;
+        textureManager.renderMovingPC(t_appearance, of_x, of_y,
+                                      camera, old_x, old_y,
+                                      animation_frame,
+                                      body_or, head_or);
+    } else {
+        textureManager.renderStillPC(t_appearance, pos_x, pos_y,
+                camera, body_or, head_or);
     }
-    /*
-    int body_offset_y = armourSpriteSheetTexture->getHeight() - 32;
-
-    headSpriteSheetTexture->render((pos_x + (armourSpriteSheetTexture->getWidth() - headSpriteSheetTexture->getWidth() )/ 2) - camera.getX(),
-                                  (pos_y - headSpriteSheetTexture->getHeight() - body_offset_y) - camera.getY(),
-                                  &head_orientation_clips[e_face_orientation]);
-    armourSpriteSheetTexture->render(pos_x - camera.getX(),
-            (pos_y - body_offset_y) - camera.getY(),
-            &armour_orientation_clips[e_body_orientation]);
-    weaponSpriteSheetTexture->render(pos_x - camera.getX(),
-            (pos_y - body_offset_y) - camera.getY(),
-            &weapon_orientation_clips[e_body_orientation]);
-    shieldSpriteSheetTexture->render(pos_x - camera.getX(),
-            (pos_y - body_offset_y) - camera.getY(),
-            &shield_orientation_clips[e_body_orientation]);
-*/
+    this->endAnimationIfComplete();
 }
 
+
+void SdlPlayer::startAnimation() {
+    animation_frame = 0;
+    is_moving = true;
+}
+
+void SdlPlayer::endAnimationIfComplete() {
+    if(is_moving) {
+        if (animation_frame >= MAX_FRAMES) {
+            is_moving = false;
+            animation_frame = MAX_FRAMES;
+        } else {
+            animation_frame++;
+        }
+    }
+}
 
 int SdlPlayer::getPosX() const {
     return this->pos_x;

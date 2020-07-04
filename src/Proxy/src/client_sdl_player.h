@@ -29,8 +29,9 @@ private:
     int pos_x, pos_y;
     int old_x, old_y;
 
+    const int MAX_FRAMES = 4;
     int animation_frame;
-
+    bool is_moving;
 
     SdlTextureManager::e_body_orientation body_or;
     SdlTextureManager::e_head_orientation head_or;
@@ -49,6 +50,9 @@ public:
 
     int getPosY() const;
 
+    void startAnimation();
+
+    void endAnimationIfComplete();
 };
 
 
