@@ -168,27 +168,10 @@ void SdlTextureManager::renderPC(const t_player_appearance& appearance, const in
                                      &shield_orientation_clips[body]);
 }
 
-void SdlTextureManager::renderMovingPC(const t_player_appearance &appearance,
-        int pos_x, int pos_y, const SdlCamera &camera,
-        int old_x, int old_y, int animation_frame) {
-    e_head_orientation head_or = FRONT_HEAD_SPRITE;
-    e_body_orientation body_or = FRONT;
-    int ofx = pos_x - old_x;
-    int ofy = pos_y - old_y;
-    if(pos_x > old_x){
-        head_or = RIGHT_HEAD_SPRITE;
-        body_or = RIGHT;
-    } else if(pos_x < old_x){
-        head_or = LEFT_HEAD_SPRITE;
-        body_or = LEFT;
-    } else if(pos_y > old_y){
-        head_or = FRONT_HEAD_SPRITE;
-        body_or = FRONT;
-    } else if(pos_y < old_y){
-        head_or = BACK_HEAD_SPRITE;
-        body_or = BACK;
-    }
-
+void
+SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_x, int of_y, const SdlCamera &camera,
+                                  int old_x, int old_y, int animation_frame, e_body_orientation body_or,
+                                  e_head_orientation head_or) {
     SdlTexture& headSpriteSheetTexture = this->getSpriteTexture(appearance.head);
     SdlTexture& helmetSpriteSheetTexture = this->getSpriteTexture(appearance.helmet);
     std::string armour = appearance.armour;
@@ -226,13 +209,12 @@ void SdlTextureManager::renderMovingPC(const t_player_appearance &appearance,
      * parte del recorte del png*/
     int png_offset_y = 4;
     //int png_offset_x = 1;
+    int head_x = this->headX(tile_size, head_w);
+    int armour_x = this->armourX(tile_size, armour_w);
+    int armour_y = this->armourY(tile_size, armour_h, png_offset_y);
 
-    int head_x = ((tile_size - head_w) / 2);
-    int armour_x = (tile_size - armour_w) / 2;
-    int armour_y = (armour_h - tile_size / 2) - png_offset_y;
-
-    int animation_x = old_x + (ofx/4) * animation_frame;
-    int animation_y = old_y + (ofy/4) * animation_frame;
+    int animation_x = old_x + (of_x/4) * animation_frame;
+    int animation_y = old_y + (of_y/4) * animation_frame;
 
     headSpriteSheetTexture.render(animation_x + head_x - camera.getX(),
                                   (animation_y - head_h - armour_y + png_offset_y) - camera.getY(),
@@ -251,10 +233,23 @@ void SdlTextureManager::renderMovingPC(const t_player_appearance &appearance,
                                     &shield_orientation_clip);
 }
 
+int SdlTextureManager::headX(const int tile_size, const int head_w) const {
+    return ((tile_size - head_w) / 2);
+}
+
+int SdlTextureManager::armourY(const int tile_size, int armour_h, int png_offset_y) const {
+    int armour_y = (armour_h - tile_size / 2) - png_offset_y;
+    return armour_y;
+}
+
+int SdlTextureManager::armourX(const int tile_size, int armour_w) const {
+    int armour_x = (tile_size - armour_w) / 2;
+    return armour_x;
+}
+
 void SdlTextureManager::renderStillPC(const t_player_appearance& appearance, const int pos_x,
                                  const int pos_y,const SdlCamera& camera,
                                  e_body_orientation body, e_head_orientation head){
-
     SdlTexture& headSpriteSheetTexture = this->getSpriteTexture(appearance.head);
     SdlTexture& helmetSpriteSheetTexture = this->getSpriteTexture(appearance.helmet);
     std::string armour = appearance.armour;
@@ -286,18 +281,16 @@ void SdlTextureManager::renderStillPC(const t_player_appearance& appearance, con
 
     /*Variables arbitrarias para corregir la division de entero y eliminar
      * parte del recorte del png*/
-    int png_offset_y = 4;
-    //int png_offset_x = 1;
 
-    int head_x = ((tile_size - head_w) / 2);
-    int armour_x = (tile_size - armour_w) / 2;
-    int armour_y = (armour_h - tile_size / 2) - png_offset_y;
+    int head_x = headX(tile_size, head_w);
+    int armour_x = armourX(tile_size, armour_w);
+    int armour_y = armourY(tile_size,armour_h, PNG_OFFSET_Y);
 
     headSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
-                                  (pos_y - head_h - armour_y + png_offset_y) - camera.getY(),
+                                  (pos_y - head_h - armour_y + PNG_OFFSET_Y) - camera.getY(),
                                   &head_orientation_clip);
     helmetSpriteSheetTexture.render(pos_x + head_x - camera.getX(),
-                                    (pos_y - head_h - armour_y + png_offset_y) - camera.getY(),
+                                    (pos_y - head_h - armour_y + PNG_OFFSET_Y) - camera.getY(),
                                     &head_orientation_clip);
     armourSpriteSheetTexture.render(pos_x + armour_x - camera.getX(),
                                     (pos_y - armour_y) - camera.getY(),

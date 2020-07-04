@@ -29,6 +29,7 @@ private:
     int pos_x, pos_y;
     int old_x, old_y;
 
+    const int MAX_FRAMES = 4;
     int animation_frame;
     bool is_moving;
 

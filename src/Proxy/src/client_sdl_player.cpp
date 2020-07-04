@@ -54,31 +54,18 @@ void SdlPlayer::updateEquipment(const equipment_t& equipment) {
 }
 
 void SdlPlayer::render(SdlCamera &camera, SdlTimer &timer) {
-
     if(is_moving){
-        textureManager.renderMovingPC(t_appearance, pos_x, pos_y,
-                                      camera, old_x, old_y, animation_frame);
+        int of_x = pos_x - old_x;
+        int of_y = pos_y - old_y;
+        textureManager.renderMovingPC(t_appearance, of_x, of_y,
+                                      camera, old_x, old_y,
+                                      animation_frame,
+                                      body_or, head_or);
     } else {
         textureManager.renderStillPC(t_appearance, pos_x, pos_y,
                 camera, body_or, head_or);
     }
     this->endAnimationIfComplete();
-    /*
-    int body_offset_y = armourSpriteSheetTexture->getHeight() - 32;
-
-    headSpriteSheetTexture->render((pos_x + (armourSpriteSheetTexture->getWidth() - headSpriteSheetTexture->getWidth() )/ 2) - camera.getX(),
-                                  (pos_y - headSpriteSheetTexture->getHeight() - body_offset_y) - camera.getY(),
-                                  &head_orientation_clips[e_face_orientation]);
-    armourSpriteSheetTexture->render(pos_x - camera.getX(),
-            (pos_y - body_offset_y) - camera.getY(),
-            &armour_orientation_clips[e_body_orientation]);
-    weaponSpriteSheetTexture->render(pos_x - camera.getX(),
-            (pos_y - body_offset_y) - camera.getY(),
-            &weapon_orientation_clips[e_body_orientation]);
-    shieldSpriteSheetTexture->render(pos_x - camera.getX(),
-            (pos_y - body_offset_y) - camera.getY(),
-            &shield_orientation_clips[e_body_orientation]);
-*/
 }
 
 
@@ -87,21 +74,21 @@ void SdlPlayer::startAnimation() {
     is_moving = true;
 }
 
+void SdlPlayer::endAnimationIfComplete() {
+    if(is_moving) {
+        if (animation_frame >= MAX_FRAMES) {
+            is_moving = false;
+            animation_frame = MAX_FRAMES;
+        } else {
+            animation_frame++;
+        }
+    }
+}
+
 int SdlPlayer::getPosX() const {
     return this->pos_x;
 }
 
 int SdlPlayer::getPosY() const {
     return this->pos_y;
-}
-
-void SdlPlayer::endAnimationIfComplete() {
-    if(is_moving) {
-        if (animation_frame >= 4) {
-            is_moving = false;
-            animation_frame = 4;
-        } else {
-            animation_frame++;
-        }
-    }
 }
