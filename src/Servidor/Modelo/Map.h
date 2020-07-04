@@ -54,18 +54,11 @@ class Map {
         void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
         void depositInBank(PlayableCharacter *player, const Position& position, int gold_amount);
         void spawnCityCharacters(Observer *observer);
+        void extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount);
+        void extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element);
+        void searchPriestToRevive(PlayableCharacter *character, Position position);
         ~Map();
 
-    void extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount);
-
-    void extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element);
-        void depositInBankCity(PlayableCharacter *player, Position position, int gold_amount);
-        ~Map();
-
-
-    void spawnCityCharacters(Observer *observer);
-
-    void searchPriestToRevive(PlayableCharacter *character, Position position);
 };
 
 #endif //ARGENTUM_MAPA_H

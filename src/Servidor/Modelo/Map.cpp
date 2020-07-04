@@ -229,9 +229,6 @@ Map::~Map() {
     }
 }
 
-void Map::spawnCityCharacters(Observer *observer) {
-    observer->notifyCityCharactersSpawn(cityCharactersSpawns);
-}
 
 
 
