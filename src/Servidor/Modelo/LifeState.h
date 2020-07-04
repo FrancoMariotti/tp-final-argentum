@@ -21,6 +21,7 @@ public:
     virtual void unequip(PlayableCharacter *character, Inventory &inventory, int indexElement) = 0;
     virtual bool dead() = 0;
     virtual ~LifeState() = default;
+    virtual LifeState* revive(PlayableCharacter *character) = 0 ;
 };
 
 

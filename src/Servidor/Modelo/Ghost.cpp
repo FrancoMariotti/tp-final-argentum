@@ -1,4 +1,6 @@
 #include "Ghost.h"
+#include "PlayableCharacter.h"
+#include "Alive.h"
 
 void Ghost::attackEnemy(PlayableCharacter *character, Character *enemy) {}
 
@@ -22,6 +24,14 @@ void Ghost::unequip(PlayableCharacter *character, Inventory &inventory, int inde
 
 bool Ghost::dead() {
     return true;
+}
+
+LifeState* Ghost::revive(PlayableCharacter *character) {
+    character->restoreLife();
+    character->restoreMana();
+    character->notifyEquipment();
+    character->notifyStats();
+    return new Alive();
 }
 
 

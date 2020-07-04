@@ -62,3 +62,7 @@ void Alive::unequip(PlayableCharacter *character, Inventory &inventory, int inde
 bool Alive::dead() {
     return false;
 }
+
+LifeState *Alive::revive(PlayableCharacter *character) {
+    return nullptr;
+}

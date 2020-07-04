@@ -49,6 +49,11 @@ void PlayableCharacter::move(Offset& offset) {
     observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
 }
 
+void PlayableCharacter::teleportTo(Position position) {
+    currPos = position;
+    observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
+}
+
 void PlayableCharacter::recoverLifePoints(float seconds) {
     float maxLife = calculateMaxLife();
     float recoveredLifePoints = calculateRecoverLifePoints(seconds);
@@ -238,12 +243,13 @@ void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant)
 }
 
 void PlayableCharacter::revive() {
-    delete lifeState;
-    lifeState = new Alive();
-    Character::restoreLife();
-    restoreMana();
-    notifyEquipment();
-    notifyStats();
+    LifeState* oldLifeState = lifeState;
+    lifeState = lifeState->revive(this);
+    if (lifeState) {
+        delete oldLifeState;
+    } else {
+        lifeState = oldLifeState;
+    }
 }
 
 void PlayableCharacter::deposit(std::string element, Banker* banker) {
@@ -280,3 +286,4 @@ PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }
+

@@ -201,6 +201,20 @@ void Map::searchPriestToRevive(PlayableCharacter *character, Position position) 
     }
 }
 
+void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
+    int minDistance = -1;
+    int currDistance;
+    City* nearestCity = nullptr;
+    for (City & city : cities) {
+        currDistance = city.distanceToPriest(character);
+        if (minDistance < 0 || currDistance < minDistance) {
+            minDistance = currDistance;
+            nearestCity = &city;
+        }
+    }
+    nearestCity->revivePlayerHere(character, this);
+}
+
 void Map::extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount) {
     for (City & city : cities) {
         city.extractFromBank(position,player,goldAmount);
@@ -228,6 +242,7 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
 
 
 

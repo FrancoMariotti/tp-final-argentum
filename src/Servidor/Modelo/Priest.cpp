@@ -29,7 +29,12 @@ void Priest::restoreManaAndLife(PlayableCharacter* character) {
 }
 
 void Priest::revive(PlayableCharacter* character) {
-    if (character->isDead())character->revive();
+    character->revive();
+}
+
+void Priest::reviveIn(PlayableCharacter *character, Position position) {
+    character->revive();
+    character->teleportTo(position);
 }
 
 Priest::~Priest(){

@@ -1,4 +1,5 @@
 #include <utility>
+#include <Servidor/Common/Utils.h>
 #include "City.h"
 #include "PlayableCharacter.h"
 
@@ -26,10 +27,29 @@ void City::searchPriestToRevive(PlayableCharacter* character, Position pos) {
     if(priest.pos == pos) priest.revive(character);
 }
 
+int City::distanceToPriest(PlayableCharacter *character) {
+    return character->distanceTo(priest.pos);
+}
+
 void City::extractFromBank(const Position &pos, PlayableCharacter *player, std::string item) {
     if(banker.pos == pos) player->extract(item,&banker);
 }
 
 void City::extractFromBank(const Position &pos, PlayableCharacter *player, int goldAmount) {
     if(banker.pos == pos) player->extract(goldAmount,&banker);
+}
+
+Position City::getRandomPos(Map *map) {
+    int x, y;
+    x = Utils::random_int_number(position.getX(), position.getX() + height - 1);
+    y = Utils::random_int_number(position.getY(), position.getY() + width - 1);
+    while (map->isOccupied(Position(x, y))) {
+        x = Utils::random_int_number(position.getX(), position.getX() + height - 1);
+        y = Utils::random_int_number(position.getY(), position.getY() + width - 1);
+    }
+    return Position(x, y);
+}
+
+void City::revivePlayerHere(PlayableCharacter *character, Map* map) {
+    priest.reviveIn(character, getRandomPos(map));
 }

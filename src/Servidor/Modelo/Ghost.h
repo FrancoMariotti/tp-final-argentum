@@ -20,6 +20,7 @@ public:
     void equip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     void unequip(PlayableCharacter *character, Inventory &inventory, int indexElement) override;
     bool dead() override;
+    LifeState* revive(PlayableCharacter *character) override;
 };
 
 

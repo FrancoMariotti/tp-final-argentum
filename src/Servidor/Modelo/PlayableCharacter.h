@@ -16,6 +16,7 @@ class Potion;
 
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
+    friend class Priest;
     float mana;
     int gold;
     int xp;
@@ -28,6 +29,8 @@ class PlayableCharacter: public Character {
     BankAccount bankAccount;
 private:
     bool checkFairPlay(int enemyLevel);
+    void revive();
+    void teleportTo(Position position);
 public:
     PlayableCharacter(std::string id,Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -66,7 +69,6 @@ public:
     void extract(int amount, Banker* banker);
     bool isDead();
     void die();
-    void revive();
     void restoreMana();
     ~PlayableCharacter() override;
 

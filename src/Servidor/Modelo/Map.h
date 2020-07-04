@@ -57,6 +57,7 @@ class Map {
         void extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount);
         void extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element);
         void searchPriestToRevive(PlayableCharacter *character, Position position);
+        void reviveNextToClosestPriest(PlayableCharacter *character);
         ~Map();
 
 };

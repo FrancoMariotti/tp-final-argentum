@@ -22,6 +22,8 @@ public:
     Equippable* sell(const std::string& name, int *gold);
     void restoreManaAndLife(PlayableCharacter* character);
     void revive(PlayableCharacter* character);
+
+    void reviveIn(PlayableCharacter *character, Position position);
 };
 
 
