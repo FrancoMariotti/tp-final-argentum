@@ -60,6 +60,7 @@ class Map {
         void reviveNextToClosestPriest(PlayableCharacter *character);
         ~Map();
 
+    void searchPriestToHeal(PlayableCharacter *character, Position position);
 };
 
 #endif //ARGENTUM_MAPA_H

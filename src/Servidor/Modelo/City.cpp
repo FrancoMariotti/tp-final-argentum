@@ -27,6 +27,10 @@ void City::searchPriestToRevive(PlayableCharacter* character, Position pos) {
     if(priest.pos == pos) priest.revive(character);
 }
 
+void City::searchPriestToHeal(PlayableCharacter *character, Position pos) {
+    if(priest.pos == pos) priest.restoreManaAndLife(character);
+}
+
 int City::distanceToPriest(PlayableCharacter *character) {
     return character->distanceTo(priest.pos);
 }
@@ -53,3 +57,4 @@ Position City::getRandomPos(Map *map) {
 void City::revivePlayerHere(PlayableCharacter *character, Map* map) {
     priest.reviveIn(character, getRandomPos(map));
 }
+

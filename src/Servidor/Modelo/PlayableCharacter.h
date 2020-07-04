@@ -73,6 +73,8 @@ public:
 
     PlayableCharacter* closestToInRange(const Position &pos, PlayableCharacter *closestEnemy,
             int *minDistance, int range);
+
+    void healedByPriest();
 };
 
 

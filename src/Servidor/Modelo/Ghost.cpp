@@ -44,4 +44,6 @@ PlayableCharacter * Ghost::closestToInRange(const Position &position,
     return closestEnemy;
 }
 
+void Ghost::healedByPriest(PlayableCharacter *character) {}
+
 

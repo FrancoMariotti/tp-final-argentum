@@ -288,3 +288,7 @@ PlayableCharacter* PlayableCharacter::closestToInRange(const Position &pos,
     return lifeState->closestToInRange(pos, closestEnemy, minDistance, range, this);
 }
 
+void PlayableCharacter::healedByPriest() {
+    lifeState->healedByPriest(this);
+}
+

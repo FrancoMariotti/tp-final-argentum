@@ -26,6 +26,8 @@ public:
 
     virtual PlayableCharacter* closestToInRange(const Position &position,
             PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) = 0;
+
+    virtual void healedByPriest(PlayableCharacter* character) = 0;
 };
 
 

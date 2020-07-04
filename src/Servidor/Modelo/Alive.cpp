@@ -80,3 +80,9 @@ PlayableCharacter *Alive::closestToInRange(const Position &position,
     }
     return closestEnemy;
 }
+
+void Alive::healedByPriest(PlayableCharacter* character) {
+    character->restoreLife();
+    character->restoreMana();
+    character->notifyStats();
+}

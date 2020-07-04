@@ -23,6 +23,7 @@ class Alive: public LifeState {
     Position teleportFromTo(Position from, Position to) override;
     PlayableCharacter* closestToInRange(const Position &position,
             PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) override;
+    void healedByPriest(PlayableCharacter* character) override;
 };
 
 

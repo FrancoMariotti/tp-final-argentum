@@ -202,6 +202,12 @@ void Map::searchPriestToRevive(PlayableCharacter *character, Position position) 
     }
 }
 
+void Map::searchPriestToHeal(PlayableCharacter *character, Position position) {
+    for (City & city : cities) {
+        city.searchPriestToHeal(character, position);
+    }
+}
+
 void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
     int minDistance = -1;
     int currDistance;
@@ -243,6 +249,7 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
 
 
 

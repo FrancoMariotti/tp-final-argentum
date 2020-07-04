@@ -6,6 +6,7 @@
 #include "DepositCommand.h"
 #include "ReviveCommand.h"
 #include "ExtractCommand.h"
+#include "HealCommand.h"
 
 CommandExecutor::CommandExecutor() = default;
 
@@ -13,6 +14,7 @@ CommandExecutor::CommandExecutor(Map* map) {
     this->commands["/depositar"] = new DepositCommand(map);
     this->commands["/resucitar"] = new ReviveCommand(map);
     this->commands["/retirar"] = new ExtractCommand(map);
+    this->commands["/curar"] = new HealCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {
