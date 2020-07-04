@@ -32,10 +32,10 @@ class Map {
     public:
         Map();
         Map(const std::string& configFile, int width, int height);
-        void addPlayableCharacter(const std::string& playerName,PlayableCharacter* character);
-        void addNpc(std::string idNpc, Npc *npc);
-        void addObstacle(const Obstacle& obstacle);
-        void addCity(City city);
+        void add(const std::string& playerName,PlayableCharacter* character);
+        void add(std::string idNpc, Npc *npc);
+        void add(const Obstacle& obstacle);
+        void add(City city);
         bool isOccupied(Position pos);
         void move(Position& from,Position& to);
         Character* findClosestCharacter(const Position& pos, int range);
@@ -50,8 +50,15 @@ class Map {
         void removeNpc(const std::string& idNpc, Observer* observer);
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
-        void depositInBankCity(PlayableCharacter *player, Position position,std::string element);
+        void depositInBank(PlayableCharacter *player, const Position& position,const std::string& element);
         void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
+        void depositInBank(PlayableCharacter *player, const Position& position, int gold_amount);
+        void spawnCityCharacters(Observer *observer);
+        ~Map();
+
+    void extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount);
+
+    void extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element);
         void depositInBankCity(PlayableCharacter *player, Position position, int gold_amount);
         ~Map();
 

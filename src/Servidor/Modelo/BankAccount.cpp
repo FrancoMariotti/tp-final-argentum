@@ -2,6 +2,7 @@
 // Created by franco on 27/6/20.
 //
 
+#include <algorithm>
 #include "BankAccount.h"
 
 BankAccount::BankAccount() : gold(0), items(100) {}
@@ -21,14 +22,22 @@ int BankAccount::extract(int amount) {
     return amount;
 }
 
-Equippable* BankAccount::extract(std::string itemName) {
+Equippable* BankAccount::extract(const std::string& itemName) {
     Equippable* item = nullptr;
-    for(unsigned int i = 0; i < items.size(); i++) {
-        item = items[i];
-        if(item->getName() == itemName) {
-            items.erase(items.begin() + i);
-            return item;
-        }
+    auto itr = items.begin();
+    for (;itr != items.end(); ++itr) {
+        item = *itr;
+        if(!item) continue;
+        if (item->getName() ==  itemName) break;
     }
-    return nullptr;
+
+    items.erase(std::remove_if(items.begin(),
+                               items.end(),
+                                  [itemName](Equippable * equippable){
+                                        if (equippable) return equippable->getName() == itemName;
+                                        return false;
+                                    }),
+                   items.end());
+
+    return item;
 }

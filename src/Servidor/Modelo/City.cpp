@@ -25,3 +25,11 @@ void City::depositInBank(const Position& pos, PlayableCharacter *player, int gol
 void City::searchPriestToRevive(PlayableCharacter* character, Position pos) {
     if(priest.pos == pos) priest.revive(character);
 }
+
+void City::extractFromBank(const Position &pos, PlayableCharacter *player, std::string item) {
+    if(banker.pos == pos) player->extract(item,&banker);
+}
+
+void City::extractFromBank(const Position &pos, PlayableCharacter *player, int goldAmount) {
+    if(banker.pos == pos) player->extract(goldAmount,&banker);
+}

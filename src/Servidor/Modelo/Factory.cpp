@@ -54,7 +54,7 @@ Map* MapFactory::create() {
         int x = i["x"].asInt()/32;
         int y = i["y"].asInt()/32;
         Obstacle obstacle(x,y,height,width);
-        map->addObstacle(obstacle);
+        map->add(obstacle);
     }
 
 
@@ -81,7 +81,7 @@ Map* MapFactory::create() {
         map->registerCityCharactersSpawns(cityCharacters);
 
         City city(x,y,height,width, priestItems,priestPos, merchantItems,merchantPos, bankerPos);
-        map->addCity(std::move(city));
+        map->add(std::move(city));
     }
 
     return map;
@@ -120,7 +120,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
     auto* character =  new PlayableCharacter(playerName,map,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
             meditationRecoveryFactor, invMaxElements,observer);
-    map->addPlayableCharacter(playerName,character);
+    map->add(playerName,character);
 }
 
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;
@@ -167,7 +167,7 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
 
     spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
     map->registerNpcSpawn(observer,spawn);
-    map->addNpc(id,enemy);
+    map->add(id,enemy);
 }
 
 NpcFactory::~NpcFactory() = default;

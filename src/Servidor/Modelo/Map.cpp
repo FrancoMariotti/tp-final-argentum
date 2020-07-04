@@ -31,16 +31,24 @@ void Map::registerCityCharactersSpawns(std::vector<spawn_character_t>& spawns) {
     }
 }
 
-void Map::addPlayableCharacter(const std::string& playerName, PlayableCharacter *character) {
-    this->characters[playerName] = character;
-}
-
 void Map::removePlayableCharacter(const std::string& playerName) {
     characters.erase(playerName);
 }
 
-void Map::addNpc(std::string idNpc ,Npc* npc) {
+void Map::add(const std::string& playerName, PlayableCharacter *character) {
+    this->characters[playerName] = character;
+}
+
+void Map::add(std::string idNpc ,Npc* npc) {
     this->npcs[idNpc] = npc;
+}
+
+void Map::add(City city) {
+    cities.push_back(std::move(city));
+}
+
+void Map::add(const Obstacle& obstacle) {
+    this->obstacles.push_back(obstacle);
 }
 
 void Map::removeNpc(const std::string& idNpc, Observer* observer) {
@@ -50,14 +58,6 @@ void Map::removeNpc(const std::string& idNpc, Observer* observer) {
                               [idNpc](spawn_character_t npc){return npc.id == idNpc;}),
                npcSpawns.end());
     observer->notifySpawnNpcUpdate(npcSpawns);
-}
-
-void Map::addObstacle(const Obstacle& obstacle) {
-    this->obstacles.push_back(obstacle);
-}
-
-void Map::addCity(City city) {
-    cities.push_back(std::move(city));
 }
 
 bool Map::isOccupied(Position pos) {
@@ -183,13 +183,13 @@ bool Map::posInCity(Position position) {
     return false;
 }
 
-void Map::depositInBankCity(PlayableCharacter *player,Position position,std::string element) {
+void Map::depositInBank(PlayableCharacter *player,const Position& position,const std::string& element) {
     for (City & city : cities) {
         city.depositInBank(position,player,element);
     }
 }
 
-void Map::depositInBankCity(PlayableCharacter *player,Position position,int gold_amount) {
+void Map::depositInBank(PlayableCharacter *player,const Position& position,int gold_amount) {
     for (City & city : cities) {
         city.depositInBank(position,player,gold_amount);
     }
@@ -199,6 +199,22 @@ void Map::searchPriestToRevive(PlayableCharacter *character, Position position) 
     for (City & city : cities) {
         city.searchPriestToRevive(character, position);
     }
+}
+
+void Map::extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount) {
+    for (City & city : cities) {
+        city.extractFromBank(position,player,goldAmount);
+    }
+}
+
+void Map::extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element) {
+    for (City & city : cities) {
+        city.extractFromBank(position,player,element);
+    }
+}
+
+void Map::spawnCityCharacters(Observer *observer) {
+    observer->notifyCityCharactersSpawn(cityCharactersSpawns);
 }
 
 Map::~Map() {
