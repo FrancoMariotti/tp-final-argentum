@@ -99,8 +99,8 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string& configFile
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
                                       const std::string &charClass, Observer* observer) {
 
-    //Position initialPosition = map->asignPosition();
-    Position initialPosition(1,2);
+    Position initialPosition = map->asignRandomPosInAnyCity();
+    //Position initialPosition(1,2);
 
     int invMaxElements = characterObj["inventoryMaxElements"].asInt();
     int level = characterObj["level"].asInt();
