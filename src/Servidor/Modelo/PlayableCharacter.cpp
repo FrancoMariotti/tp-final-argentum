@@ -215,6 +215,8 @@ void PlayableCharacter::die() {
 
     delete lifeState;
     lifeState = new Ghost();
+    observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
+
 }
 
 void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
@@ -238,6 +240,8 @@ void PlayableCharacter::revive() {
     lifeState = new Alive();
     Character::restoreLife();
     restoreMana();
+    notifyEquipment();
+    notifyStats();
 }
 
 void PlayableCharacter::deposit(std::string element, Banker* banker) {
