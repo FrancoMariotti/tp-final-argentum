@@ -13,10 +13,12 @@ class Priest {
     friend class City;
     Position pos;
     Json::Value items;
+    std::string configFile;
+    std::map<std::string, int> costs;
     std::map<std::string, EquippableFactory*> stock;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Priest(const Json::Value& items, const Position& pos);
+    Priest(std::string configFile,const Json::Value& items, const Position& pos);
     Priest(Priest&& priest) noexcept ;
     ~Priest();
     Equippable* sell(const std::string& name, int *gold);

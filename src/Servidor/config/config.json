@@ -1011,35 +1011,25 @@
         {
           "name": "sword",
           "type": "NormalWeapon",
-          "min": 2,
-          "max": 5,
           "goldCost": 100
         }, {
           "name": "axe",
           "type": "NormalWeapon",
-          "min": 4,
-          "max": 5,
           "goldCost": 100
         },
         {
-        "name": "hammer",
+          "name": "hammer",
           "type": "NormalWeapon",
-          "min": 1,
-          "max": 9,
           "goldCost": 100
         },
          {
           "name": "commonBow",
           "type": "RangeWeapon",
-          "min": 1,
-          "max": 4,
           "goldCost": 100
         },
          {
           "name": "rareBow",
           "type": "RangeWeapon",
-          "min": 4,
-          "max": 16,
           "goldCost": 100
         },
         {
@@ -1061,7 +1051,7 @@
           "goldCost": 100
         },
          {
-        "name":"bigManaPotion",
+          "name":"bigManaPotion",
           "type": "ManaPotion",
           "value": 100,
           "goldCost": 100
@@ -1188,5 +1178,28 @@
           "value": 100,
           "goldCost": 100
         }]
+  },
+  "weapons": {
+    "sword": {
+      "min": 2,
+      "max": 5
+    },
+    "axe": {
+      "min": 4,
+      "max": 5
+    },
+    "hammer": {
+      "min": 1,
+      "max": 9
+    },
+    "commonBow": {
+      "min": 1,
+      "max": 4
+    },
+    "rareBow": {
+      "min": 4,
+      "max": 16
+    }
+
   }
 }

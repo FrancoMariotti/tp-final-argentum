@@ -12,12 +12,13 @@
 
 class Merchant {
     friend class City;
+    std::string configFile;
     Position pos;
-    Json::Value obj;
     std::map<std::string, EquippableFactory*> stock;
+    std::map<std::string, int> costs;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Merchant(const Json::Value& items, Position pos);
+    Merchant(std::string& configFile,const Json::Value& items, Position pos);
     Merchant(Merchant&& merchant) noexcept ;
     ~Merchant();
     Equippable* sell(const std::string& name, int *gold);

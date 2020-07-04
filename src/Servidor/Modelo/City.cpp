@@ -3,10 +3,10 @@
 #include "City.h"
 #include "PlayableCharacter.h"
 
-City::City(int x, int y, int height, int width,
+City::City(int x, int y, int height, int width,std::string configFile,
            const Json::Value& priestItems,const Position& priestPos, const Json::Value& merchantItems,
            const Position& merchantPos, const Position& bankerPos): Obstacle(x, y, height, width),
-           priest(priestItems,priestPos),merchant(merchantItems,merchantPos), banker(bankerPos){}
+           priest(configFile,priestItems,priestPos),merchant(configFile,merchantItems,merchantPos), banker(bankerPos){}
 
 City::City(City &&city) noexcept:Obstacle(city),priest(std::move(city.priest)),
                 merchant(std::move(city.merchant)),banker(city.banker)  {}
@@ -35,12 +35,16 @@ int City::distanceToPriest(PlayableCharacter *character) {
     return character->distanceTo(priest.pos);
 }
 
-void City::extractFromBank(const Position &pos, PlayableCharacter *player, std::string item) {
+void City::extractFromBank(const Position &pos, PlayableCharacter *player, const std::string& item) {
     if(banker.pos == pos) player->extract(item,&banker);
 }
 
 void City::extractFromBank(const Position &pos, PlayableCharacter *player, int goldAmount) {
     if(banker.pos == pos) player->extract(goldAmount,&banker);
+}
+
+void City::buyFromMerchant(const Position &pos, PlayableCharacter *player, const std::string& item) {
+    if(merchant.pos == pos) player->buyFrom(item,&merchant);
 }
 
 Position City::getRandomPos(Map *map) {

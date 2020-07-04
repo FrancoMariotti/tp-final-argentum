@@ -1,5 +1,6 @@
 #include <jsoncpp/json/json.h>
 #include <iostream>
+#include <utility>
 #include <Servidor/Common/Utils.h>
 #include <Proxy/src/common_message_structs.h>
 #include "Factory.h"
@@ -80,7 +81,7 @@ Map* MapFactory::create() {
 
         map->registerCityCharactersSpawns(cityCharacters);
 
-        City city(x,y,height,width, priestItems,priestPos, merchantItems,merchantPos, bankerPos);
+        City city(x,y,height,width,file,priestItems,priestPos, merchantItems,merchantPos, bankerPos);
         map->add(std::move(city));
     }
 
@@ -97,9 +98,6 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string& configFile
 
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
                                       const std::string &charClass, Observer* observer) {
-    Log* log = Log::instancia();
-
-    log->write("Creacion de Jugador:" + playerName);
 
     //Position initialPosition = map->asignPosition();
     Position initialPosition(1,2);
@@ -172,40 +170,60 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
 
 NpcFactory::~NpcFactory() = default;
 
-Equippable* NormalWeaponFactory::create(Json::Value itemObj) {
-    return new NormalWeapon(itemObj.asString(), itemObj["min"].asInt(),
-            itemObj["max"].asInt(), itemObj["goldCost"].asInt());
+Equippable* NormalWeaponFactory::create(std::string configFile,std::string itemName,int cost) {
+    FileParser parser(configFile);
+    Json::Value weaponsData = parser.read("weapons");
+    int max = weaponsData[itemName]["max"].asInt();
+    int min = weaponsData[itemName]["min"].asInt();
+    return new NormalWeapon(itemName, min,max, cost);
 }
 
-Equippable* RangeWeaponFactory::create(Json::Value itemObj) {
-    return new RangeWeapon(itemObj.asString(), itemObj["min"].asInt(),
-            itemObj["max"].asInt(), itemObj["goldCost"].asInt());
+Equippable* RangeWeaponFactory::create(std::string configFile,std::string itemName,int cost) {
+    FileParser parser(configFile);
+    Json::Value weaponsData = parser.read("weapons");
+    int max = weaponsData[itemName]["max"].asInt();
+    int min = weaponsData[itemName]["min"].asInt();
+    return new RangeWeapon(itemName, min,
+            max, cost);
 }
 
-Equippable* ProtectionFactory::create(Json::Value itemObj) {
-    return new Protection(itemObj.asString(), itemObj["min"].asInt(),
-            itemObj["max"].asInt(), itemObj["id"].asInt(),
-            itemObj["goldCost"].asInt());
+Equippable* ProtectionFactory::create(std::string configFile,std::string itemName,int cost) {
+    FileParser parser(configFile);
+    Json::Value weaponsData = parser.read("weapons");
+    int max = weaponsData[itemName]["max"].asInt();
+    int min = weaponsData[itemName]["min"].asInt();
+    int id = weaponsData[itemName]["id"].asInt();
+    return new Protection(itemName, min,max, id,cost);
 }
 
-Equippable* LifePotionFactory::create(Json::Value itemObj) {
-    return new LifePotion(itemObj.asString(), itemObj["value"].asInt(),
-            itemObj["goldCost"].asInt());
+Equippable* LifePotionFactory::create(std::string configFile,std::string itemName,int cost) {
+    FileParser parser(configFile);
+    Json::Value weaponsData = parser.read("weapons");
+    int value = weaponsData[itemName]["value"].asInt();
+    return new LifePotion(itemName,value,cost);
 }
 
-Equippable* ManaPotionFactory::create(Json::Value itemObj) {
-    return new ManaPotion(itemObj.asString(), itemObj["value"].asInt(),
-            itemObj["goldCost"].asInt());
+Equippable* ManaPotionFactory::create(std::string configFile,std::string itemName,int cost) {
+    FileParser parser(configFile);
+    Json::Value weaponsData = parser.read("weapons");
+    int value = weaponsData[itemName]["value"].asInt();
+    return new ManaPotion(itemName, value,cost);
 }
 
-Equippable* MagicalWeaponFactory::create(Json::Value itemObj) {
-    SpellType* spellType = NULL;
-    if (itemObj["spellType"].asString() == "heal") {
-        spellType = new Heal();
+Equippable* MagicalWeaponFactory::create(std::string configFile,std::string itemName,int cost) {
+    FileParser parser(configFile);
+    Json::Value weaponsData = parser.read("weapons");
+    int max = weaponsData[itemName]["max"].asInt();
+    int min = weaponsData[itemName]["min"].asInt();
+    int manaCost = weaponsData[itemName]["manaCost"].asInt();
+    std::string spellType = weaponsData[itemName]["spellType"].asString();
+    SpellType* spell = nullptr;
+    if (spellType == "heal") {
+        spell = new Heal();
     } else {
-        spellType = new Damage();
+        spell = new Damage();
     }
-    return new MagicalWeapon(itemObj.asString(), spellType, itemObj["min"].asInt(),
-            itemObj["max"].asInt(), itemObj["manaCost"].asInt(),
-            itemObj["goldCost"].asInt());
+    return new MagicalWeapon(itemName,spell,min,max,manaCost,cost);
 }
+
+

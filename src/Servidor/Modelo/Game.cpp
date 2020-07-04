@@ -1,10 +1,10 @@
+#include "Proxy/src/common_proxy_socket.h"
 #include <Proxy/src/common_message.h>
 #include <thread>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
-#include "Update.h"
 
 Game::Game(const std::string& configFile): configFile(configFile),mapFactory(configFile),map(mapFactory.create()),
     commandExecutor(map), factoryCharacters(configFile), npcFactory(configFile) {}
@@ -43,7 +43,7 @@ void Game::createNpc(const std::string& specie) {
 }
 
 void Game::initialize() {
-    map->spawnCityCharacters(this);
+    //map->spawnCityCharacters(this);
     for(int i=0; i<4 ; i++) {
         createNpc("skeleton");
         createNpc("goblin");

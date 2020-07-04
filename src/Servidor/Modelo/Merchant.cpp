@@ -1,6 +1,10 @@
 #include "Merchant.h"
+#include <tuple>
+#define COST 0
+#define MAX 1
+#define MIN 2
 
-Merchant::Merchant(const Json::Value& items, Position pos) : pos(pos) {
+Merchant::Merchant(std::string& configFile,const Json::Value& items, Position pos) : configFile(configFile),pos(pos) {
     factories["NormalWeapon"] = new NormalWeaponFactory();
     factories["RangeWeapon"] = new RangeWeaponFactory();
     factories["Protection"] = new ProtectionFactory();
@@ -8,19 +12,30 @@ Merchant::Merchant(const Json::Value& items, Position pos) : pos(pos) {
     factories["ManaPotion"] = new ManaPotionFactory();
 
     for (const auto &item : items) {
-        stock[item["name"].asString()] = factories.at(item["type"].asString());
+        std::string itemName = item["name"].asString();
+        costs[itemName] = item["goldCost"].asInt();
+        stock[itemName] = factories.at(item["type"].asString());
     }
 }
 
 Equippable* Merchant::sell(const std::string& name, int *gold) {
-    int cost = obj[name]["goldCost"].asInt();
+    int cost = costs.at(name);
     if (cost > *gold) return nullptr;
     *gold -= cost;
-    return stock.at(name)->create(obj[name]);
+    return stock.at(name)->create(configFile,name,cost);
 }
 
 int Merchant::buy(const std::string& itemName) {
-    return obj[itemName]["goldCost"].asInt();
+    return costs.at(itemName);
+}
+
+Merchant::Merchant(Merchant &&merchant) noexcept :configFile(merchant.configFile),pos(merchant.pos) {
+    this->costs = merchant.costs;
+    this->stock = merchant.stock;
+    this->factories = merchant.factories;
+    merchant.stock.clear();
+    merchant.costs.clear();
+    merchant.factories.clear();
 }
 
 Merchant::~Merchant() {
@@ -28,9 +43,4 @@ Merchant::~Merchant() {
     for(;it!=factories.end();it++) {
         delete it->second;
     }
-}
-
-Merchant::Merchant(Merchant &&merchant) noexcept :pos(merchant.pos) {
-    this->factories = merchant.factories;
-    merchant.factories.clear();
 }

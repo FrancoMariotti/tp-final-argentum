@@ -63,7 +63,7 @@ public:
     int modifyLifePoints(int enemyLevel, int damage);
     void sellTo(int itemIndex, Merchant* merchant);
     void buyFrom(const std::string& itemName, Merchant* merchant);
-    void deposit(std::string element, Banker *banker);
+    void deposit(const std::string& element, Banker *banker);
     void deposit(int amount, Banker* banker);
     void extract(const std::string& itemName, Banker *banker);
     void extract(int amount, Banker* banker);

@@ -5,20 +5,22 @@
 #include "Priest.h"
 #include "PlayableCharacter.h"
 
-Priest::Priest(const Json::Value& items, const Position& pos):pos(pos) {
+Priest::Priest(std::string configFile,const Json::Value& items, const Position& pos):pos(pos),configFile(configFile) {
     factories["MagicalWeapon"] = new MagicalWeaponFactory();
     factories["LifePotion"] = new LifePotionFactory();
     factories["ManaPotion"] = new ManaPotionFactory();
     for (const auto &item : items) {
-        stock[item["name"].asString()] = factories.at(item["type"].asString());
+        std::string itemName = item["name"].asString();
+        stock[itemName] = factories.at(item["type"].asString());
+        costs[itemName] = item["goldCost"].asInt();
     }
 }
 
 Equippable* Priest::sell(const std::string& name, int *gold) {
-    int cost = items[name]["goldCost"].asInt();
+    int cost = costs.at(name);
     if (cost > *gold) return nullptr;
     *gold -= cost;
-    return stock.at(name)->create(items[name]);
+    return stock.at(name)->create(configFile,name,cost);
 }
 
 void Priest::restoreManaAndLife(PlayableCharacter* character) {
@@ -41,7 +43,7 @@ Priest::~Priest(){
     }
 }
 
-Priest::Priest(Priest &&priest) noexcept:pos(priest.pos)  {
+Priest::Priest(Priest &&priest) noexcept:pos(priest.pos), configFile(priest.configFile) {
     this->factories = priest.factories;
     priest.factories.clear();
 }

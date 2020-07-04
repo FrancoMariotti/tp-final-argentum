@@ -138,6 +138,9 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("floor",floorLayer,width,height)));
 
+    sck.writeToClient(std::unique_ptr<Message> (
+            new SpawnCityCharacters(cityCharactersSpawns)));
+
     std::vector<int> obstaclesLayer;
     obstaclesLayer.reserve(obstaclesLayersid.size());
 
@@ -234,8 +237,14 @@ void Map::extractFromBank(PlayableCharacter *player, const Position& position, c
     }
 }
 
-void Map::spawnCityCharacters(Observer *observer) {
+/*void Map::spawnCityCharacters(Observer *observer) {
     observer->notifyCityCharactersSpawn(cityCharactersSpawns);
+}*/
+
+void Map::buyFromMerchant(PlayableCharacter *player, const Position& position, const std::string& item) {
+    for (City & city : cities) {
+        city.buyFromMerchant(position,player,item);
+    }
 }
 
 Map::~Map() {

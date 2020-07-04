@@ -15,7 +15,7 @@ class ReviveCommand : public Command {
     Map* map;
 public:
     explicit ReviveCommand(Map *map);
-    void execute(std::string username,std::string command,int x,int y) override;
+    void execute(std::string username,std::string params,int x,int y) override;
 };
 
 

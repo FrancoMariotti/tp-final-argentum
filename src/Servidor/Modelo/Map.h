@@ -58,9 +58,10 @@ class Map {
         void extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element);
         void searchPriestToRevive(PlayableCharacter *character, Position position);
         void reviveNextToClosestPriest(PlayableCharacter *character);
+        void searchPriestToHeal(PlayableCharacter *character, Position position);
+        void buyFromMerchant(PlayableCharacter *player, const Position& position, const std::string& item);
         ~Map();
 
-    void searchPriestToHeal(PlayableCharacter *character, Position position);
 };
 
 #endif //ARGENTUM_MAPA_H

@@ -47,38 +47,38 @@ class NpcFactory {
 
 class EquippableFactory {
 public:
-    virtual Equippable* create(Json::Value itemObj)= 0;
+    virtual Equippable* create(std::string configFile,std::string itemName,int cost)= 0;
     virtual ~EquippableFactory() = default;
 };
 
 class NormalWeaponFactory : public EquippableFactory {
 public:
-    Equippable* create(Json::Value itemObj) override;
+    Equippable* create(std::string configFile,std::string itemName,int cost) override;
 };
 
 class RangeWeaponFactory : public EquippableFactory{
 public:
-    Equippable* create(Json::Value itemObj) override;
+    Equippable* create(std::string configFile,std::string itemName,int cost) override;
 };
 
 class ProtectionFactory : public EquippableFactory {
 public:
-    Equippable* create(Json::Value itemObj) override;
+    Equippable * create(std::string configFile, std::string itemName, int cost) override;
 };
 
 class LifePotionFactory : public EquippableFactory {
 public:
-    Equippable* create(Json::Value itemObj) override;
+    Equippable * create(std::string configFile, std::string itemName, int cost) override;
 };
 
 class ManaPotionFactory : public EquippableFactory {
 public:
-    Equippable* create(Json::Value itemObj) override;
+    Equippable * create(std::string configFile, std::string itemName, int cost) override;
 };
 
 class MagicalWeaponFactory : public EquippableFactory {
 public:
-    Equippable* create(Json::Value itemObj) override;
+    Equippable * create(std::string configFile, std::string itemName, int cost) override;
 };
 
 #endif //ARGENTUM_FACTORY_H

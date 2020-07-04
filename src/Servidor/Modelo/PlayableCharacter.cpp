@@ -188,7 +188,6 @@ void PlayableCharacter::heal(int value) {
 void PlayableCharacter::earnMana(int value) {
     float maxMana = calculateMaxMana();
     lifeState->earnMana(maxMana,mana,(float)value);
-
 }
 
 bool PlayableCharacter::checkFairPlay(int enemyLevel) {
@@ -248,9 +247,9 @@ void PlayableCharacter::revive() {
     }
 }
 
-void PlayableCharacter::deposit(std::string element, Banker* banker) {
+void PlayableCharacter::deposit(const std::string& element, Banker* banker) {
     if(!inCity) return;
-    Equippable *equippable = inventory.takeElement(std::move(element),this);
+    Equippable *equippable = inventory.takeElement(element,this);
     banker->deposit(&bankAccount, equippable);
     inventory.sendItems(observer);
 }
