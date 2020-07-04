@@ -19,7 +19,7 @@ class SdlTextureManager {
 private:
     const int HEAD_WIDTH = 17;
     const int HEAD_HEIGHT = 14;
-    const int ARMOUR_WIDTH = 24;
+    const int ARMOUR_WIDTH = 25;
     const int ARMOUR_HEIGHT = 45;
 
     const std::string ASSETS_PATH = "../../Proxy/assets/";
@@ -28,8 +28,9 @@ private:
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
     const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie",
                                                            "spider","banker","priest","merchant"};
-
+    const int WALKING_ANIMATION_FRAMES = 5;
     std::vector<SDL_Rect> WALKING_ANIMATION_SPRITE;
+
 public:
     enum e_body_orientation{
         FRONT,
@@ -66,9 +67,14 @@ public:
     void renderPC(const t_player_appearance &appearance, int pos_x, int pos_y,const SdlCamera &camera,
                   e_body_orientation body, e_head_orientation head);
 
-    void testRenderPC(const SdlTextureManager::t_player_appearance &appearance, int pos_x, int pos_y,
-                      const SdlCamera &camera,
-                      int old_x, int old_y, const SdlTimer &timer, int animation_frame);
+    void renderMovingPC(const t_player_appearance &appearance, int pos_x, int pos_y, const SdlCamera &camera,
+                        int old_x, int old_y, int animation_frame);
+
+    void renderStillPC(const t_player_appearance &appearance, int pos_x, int pos_y, const SdlCamera &camera, int old_x,
+                       int old_y, int animation_frame);
+
+    void renderStillPC(const t_player_appearance &appearance, const int pos_x, const int pos_y, const SdlCamera &camera,
+                       e_body_orientation body, e_head_orientation head);
 };
 
 

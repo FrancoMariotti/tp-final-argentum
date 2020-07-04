@@ -118,7 +118,6 @@ void GUI::render(){
     //Limpio pantalla
     window.fill(0xFF, 0xFF, 0xFF, 0xFF);
 
-    //Render objects
     renderWorld();
     //renderizo estaticos
     auto iterator = static_renderables.begin();

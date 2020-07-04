@@ -9,6 +9,7 @@
 
 SdlPlayer::SdlPlayer(SdlTextureManager &textureManager) :
         textureManager(textureManager),
+        is_moving(false),
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
         t_appearance{"humanHead","none","defaultArmour","none","none"}{
@@ -38,6 +39,7 @@ void SdlPlayer::updatePos(const int player_x, const int player_y, SdlCamera &cam
         head_or = SdlTextureManager::BACK_HEAD_SPRITE;
         body_or = SdlTextureManager::BACK;
     }
+    this->startAnimation();
 }
 
 void SdlPlayer::updateEquipment(const equipment_t& equipment) {
@@ -52,15 +54,15 @@ void SdlPlayer::updateEquipment(const equipment_t& equipment) {
 }
 
 void SdlPlayer::render(SdlCamera &camera, SdlTimer &timer) {
-    /*textureManager.renderPC(t_appearance, pos_x, pos_y,
-            camera, body_or, head_or);*/
 
-    textureManager.testRenderPC(t_appearance, pos_x, pos_y,
-                                camera, old_x, old_y, timer, animation_frame);
-    this->animation_frame++;
-    if(animation_frame > 3){
-        animation_frame = 4;
+    if(is_moving){
+        textureManager.renderMovingPC(t_appearance, pos_x, pos_y,
+                                      camera, old_x, old_y, animation_frame);
+    } else {
+        textureManager.renderStillPC(t_appearance, pos_x, pos_y,
+                camera, body_or, head_or);
     }
+    this->endAnimationIfComplete();
     /*
     int body_offset_y = armourSpriteSheetTexture->getHeight() - 32;
 
@@ -80,10 +82,26 @@ void SdlPlayer::render(SdlCamera &camera, SdlTimer &timer) {
 }
 
 
+void SdlPlayer::startAnimation() {
+    animation_frame = 0;
+    is_moving = true;
+}
+
 int SdlPlayer::getPosX() const {
     return this->pos_x;
 }
 
 int SdlPlayer::getPosY() const {
     return this->pos_y;
+}
+
+void SdlPlayer::endAnimationIfComplete() {
+    if(is_moving) {
+        if (animation_frame >= 4) {
+            is_moving = false;
+            animation_frame = 4;
+        } else {
+            animation_frame++;
+        }
+    }
 }
