@@ -7,6 +7,7 @@
 #include "Factory.h"
 #include "Servidor/Common/Utils.h"
 
+
 #define NPCSAMOUNT 16
 
 
@@ -37,6 +38,9 @@ void Map::removePlayableCharacter(const std::string& playerName) {
 
 void Map::add(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
+    //Esto lo agrego para que el personaje se renderice en la posicion inicial
+    Offset nullOffset (0, 0);
+    character->move(nullOffset);
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
@@ -150,6 +154,7 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("obstacles",obstaclesLayer,width,height)));
 }
+
 Position Map::asignRandomPosition() {
     int x, y;
     x = Utils::random_int_number(0, height - 1);
@@ -159,6 +164,11 @@ Position Map::asignRandomPosition() {
         y = Utils::random_int_number(0, width - 1);
     }
     return Position(x, y);
+}
+
+Position Map::asignRandomPosInAnyCity() {
+    int randomCityIndex = Utils::random_int_number(0, cities.size() - 1);
+    return cities[randomCityIndex].getRandomPos(this);
 }
 
 void Map::moveNpcs(float looptime) {

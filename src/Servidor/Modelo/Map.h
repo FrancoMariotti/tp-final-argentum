@@ -45,6 +45,7 @@ class Map {
         void moveNpcs(float looptime);
         void updateAllPlayers(float looptime);
         Position asignRandomPosition();
+        Position asignRandomPosInAnyCity();
         void addDrop(Drop drop);
         void removePlayableCharacter(const std::string &playerName);
         void removeNpc(const std::string& idNpc, Observer* observer);
