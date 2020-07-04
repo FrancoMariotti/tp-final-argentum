@@ -19,7 +19,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     audioManager(),
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
-    player(textureManager),
+    player(0,0,textureManager),
     inventory(screen_width, screen_height, window),
     camera(screen_width, screen_height, player),
     mouse(camera),
@@ -131,7 +131,7 @@ void GUI::render(){
         it->second->render(camera);
         it++;
     }
-    player.render(camera, timer);
+    player.render(camera);
     inventory.render();
     console.render();
     //interface.render(0,0);

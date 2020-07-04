@@ -93,7 +93,24 @@ void RenderablePlayable::updateEquipment(const equipment_t &equipment) {
 }
 
 void RenderablePlayable::render(const SdlCamera &camera) {
-    textureManager.renderStillPC(t_appearance, pos_x, pos_y,
-                            camera, body_or, head_or);
+    if(is_moving){
+        int of_x = pos_x - old_x;
+        int of_y = pos_y - old_y;
+        textureManager.renderMovingPC(t_appearance, of_x, of_y,
+                                       camera, old_x, old_y,
+                                       animation_frame,
+                                       body_or, head_or);
+    } else{
+        textureManager.renderStillPC(t_appearance, pos_x, pos_y,
+                                     camera, body_or, head_or);
+    }
+    this->endAnimationIfComplete();
 }
 
+int RenderablePlayable::getPosX() const {
+    return pos_x;
+}
+
+int RenderablePlayable::getPosY() const {
+    return pos_y;
+}

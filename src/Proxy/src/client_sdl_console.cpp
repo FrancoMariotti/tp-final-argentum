@@ -8,11 +8,7 @@
 #include "client_command.h"
 #include "common_message.h"
 #include "client_sdl_inventory.h"
-
-/* {"espada", "hacha", "martillo", "vara de fresno",
-"flauta elfica", "baculo nudoso", "baculo engarzado", "arco simple", "arco compuesto", "armadura de cuero",
-"armadura de placas, tunica azul, capucha, casco de hierro, escudo de tortuga, escudo de hierro, sombrero magico"}
-*/
+#include "client_sdl_dynamic_renderable.h"
 
 SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font) :
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
@@ -66,7 +62,7 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
 }
 
 void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         SdlPlayer &player) {
+                         RenderablePlayable &player) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
@@ -92,7 +88,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
 }
 
 void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, SdlPlayer &player) {
+                                    SdlCamera &camera, RenderablePlayable &player) {
     /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
      * pasar player por referencia?*/
     /**Primero el click luego el comando*/

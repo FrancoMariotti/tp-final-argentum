@@ -17,6 +17,7 @@
 #include "client_sdl_keyboard.h"
 #include "client_sdl_audio_manager.h"
 #include "client_sdl_timer.h"
+#include "client_sdl_dynamic_renderable.h"
 
 class DynamicRenderable;
 class GUI {
@@ -27,7 +28,7 @@ private:
     SdlAudioManager audioManager;
     SdlTextureManager textureManager;
     SdlTexture interface;
-    SdlPlayer player;
+    RenderablePlayable player;
     SdlInventory inventory;
     SdlCamera camera;
     SdlMouse mouse;

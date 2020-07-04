@@ -8,12 +8,12 @@
 
 #include <SDL2/SDL_rect.h>
 
-class SdlPlayer;
+class RenderablePlayable;
 class SdlCamera {
 private:
     const int CAMERA_WIDTH;
     const int CAMERA_HEIGHT;
-    const SdlPlayer& player;
+    const RenderablePlayable& player;
     int camera_x;
     int camera_y;
 
@@ -21,7 +21,7 @@ private:
 
 public:
     /*Inicializo la camara con las dimensiones de la pantalla*/
-    SdlCamera(int screen_width, int screen_height, SdlPlayer& player);
+    SdlCamera(int screen_width, int screen_height, RenderablePlayable& player);
 
     /*Devuelvo las coordenadas del @param point aplicando el offset de la camara*/
     SDL_Point getCoordinates(SDL_Point point);

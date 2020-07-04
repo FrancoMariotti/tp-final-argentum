@@ -50,6 +50,7 @@ public:
 
 class RenderablePlayable : public DynamicRenderable{
 private:
+    std::string username;
     SdlTextureManager::t_player_appearance t_appearance;
 
 public:
@@ -58,6 +59,10 @@ public:
     void updateEquipment(const equipment_t& equipment) override ;
 
     void render(const SdlCamera& camera) override;
+
+    int getPosX() const;
+
+    int getPosY() const;
 };
 
 #endif //ARGENTUM_CLIENT_SDL_DYNAMIC_RENDERABLE_H
