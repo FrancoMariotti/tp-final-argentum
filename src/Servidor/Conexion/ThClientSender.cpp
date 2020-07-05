@@ -1,6 +1,7 @@
 #include "ThClientSender.h"
 
-ThClientSender::ThClientSender(Socket client,BlockingQueue<Message*>& messages):client(std::move(client)),messages(messages) {
+ThClientSender::ThClientSender(Socket client,BlockingQueue<Message*>& messages):
+                                client(std::move(client)),messages(messages) {
     this->keepTalking = true;
 }
 
@@ -20,7 +21,6 @@ void ThClientSender::run() {
             stop();
         }
     }
-
 }
 
 void ThClientSender::stop() {

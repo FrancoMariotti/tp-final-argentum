@@ -7,12 +7,12 @@
 
 class Protocol {
 public:
+    uint16_t valueToBigEndian(uint16_t value);
+    uint16_t valueToLocalEndian(uint16_t value);
+    void send(Socket &socket, uint16_t number);
     void send(Socket& socket,Message* message);
-    Message* receive(Socket& socket);
-
-    uint16_t valueToBigEndian(const uint16_t value);
-
-    int send(Socket &socket, uint16_t number);
+    Message* recieve(Socket &socket);
+    uint16_t recieve(Socket &socket, int overload);
 };
 
 
