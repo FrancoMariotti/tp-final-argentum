@@ -20,6 +20,7 @@ private:
     std::map<int, SDL_Rect> world_tiles_clips;
     std::map<int, std::vector<SDL_Point>> world_floor_tiles;
     std::map<int, std::vector<SDL_Point>> world_obstacles_tiles;
+    /*Mapea por id de item y posicion en la que se encuentra*/
     std::map<std::string, std::vector<SDL_Point>> world_drops;
     int map_width;
     int map_height;
@@ -41,9 +42,9 @@ public:
 
     //void renderFloor(SdlCamera &camera);
 
-    void updateDrops(const std::vector<std::string> &drops);
+    void updateDrops(const std::vector<spawn_character_t> &drops);
 
-    void renderDrops(SdlInventory &inventory);
+    void renderDrops(SdlInventory &inventory, const SdlCamera &camera);
 
     void render(SdlCamera &camera);
 

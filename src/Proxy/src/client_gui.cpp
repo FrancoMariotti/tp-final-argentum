@@ -110,7 +110,7 @@ void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
 }
 
 
-void GUI::updateDrops(const std::vector<std::string> &drops) {
+void GUI::updateDrops(const std::vector<spawn_character_t> &drops) {
     world.updateDrops(drops);
 }
 
@@ -145,7 +145,7 @@ void GUI::render(){
 
 void GUI::renderWorld() {
     world.render(camera);
-    //world.renderDrops(inventory, camera);
+    world.renderDrops(inventory, camera);
 }
 
 GUI::~GUI(){

@@ -135,7 +135,7 @@ void Client::update() {
             //CON LA POSICION EN LA QUE LO TENES QUE RENDERIZAR Y EL NOMBRE DE LA IMAGEN QUE TENES QUE PONER
             // EJ:sword, axe,commonbow.EN EL CASO EN EL QUE SE DROPEE ORO TE MANDO EL ID = goldBag
             //DEBERIAMOS AGREGAR UNA IMAGEN DE UNA BOLSITA DE ORO
-            //this->gui.updateRenderables(msg->getSpawnData());
+            this->gui.updateDrops(msg->getSpawnData());
         } else if(msg->getId() == NPC_MOVEMENT_UPDATE_MESSAGE_ID){
             npc_movement_t  movement = msg->getMovement();
             this->gui.updateRenderablePos(movement.x, movement.y, movement.id);

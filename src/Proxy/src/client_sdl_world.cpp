@@ -113,23 +113,27 @@ void SdlWorld::setDimensions(int w, int h) {
 }
 
 
-void SdlWorld::updateDrops(const std::vector<std::string>& drops){
+void SdlWorld::updateDrops(const std::vector<spawn_character_t> &drops) {
     for(auto & world_drop : world_drops){
         world_drop.second.clear();
     }
-    for (int i = 0; i < (int) drops.size() ; ++i) {
-        int x = i % this->map_width;
-        int y = i / this->map_height;
-        world_drops[drops[i]].emplace_back(SDL_Point{x, y});
+    for(auto it = drops.begin(); it != drops.end(); it++ ){
+        int x = it->x;
+        int y = it->y;
+        world_drops[it->id].emplace_back(SDL_Point{x, y});
     }
+
 }
 
-void SdlWorld::renderDrops(SdlInventory &inventory) {
+void SdlWorld::renderDrops(SdlInventory &inventory, const SdlCamera &camera) {
     auto it = world_drops.begin();
     for(; it != world_drops.end(); it++){
         auto value_it = it->second.begin();
         for(; value_it != it->second.end(); value_it++){
-            inventory.renderDrop(value_it->x, value_it->y, it->first);
+            if(camera.isInCameraView(*value_it)){
+                SDL_Point relativeDropPosition = camera.getCoordinates(*value_it);
+                inventory.renderDrop(relativeDropPosition.x, relativeDropPosition.y, it->first);
+            }
         }
     }
 }

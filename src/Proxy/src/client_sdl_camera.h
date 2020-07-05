@@ -24,7 +24,7 @@ public:
     SdlCamera(int screen_width, int screen_height, SdlRenderablePlayable& player);
 
     /*Devuelvo las coordenadas del @param point aplicando el offset de la camara*/
-    SDL_Point getCoordinates(SDL_Point point);
+    SDL_Point getCoordinates(SDL_Point point) const;
 
     void move();
 

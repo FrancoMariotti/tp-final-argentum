@@ -57,7 +57,7 @@ public:
     /**/
     void updateRenderablePos(int new_x, const int new_y, const std::string &renderable_id);
     void updateRenderablePlayableEquipment(const equipment_t &equipment, const std::string &renderable_id);
-    void updateDrops(const std::vector<std::string> &drops);
+    void updateDrops(const std::vector<spawn_character_t> &drops);
     void render();
     void renderWorld();
 

@@ -11,7 +11,8 @@ class SdlWindow {
 private:
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
-
+    /**TODO: guardar atributos widht, height y reemplazar los parametros screen_width, screen height
+  * por window en el resto de las clases*/
 public:
     SdlWindow(int width, int height);
     ~SdlWindow();

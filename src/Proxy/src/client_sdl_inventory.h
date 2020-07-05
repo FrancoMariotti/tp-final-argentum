@@ -25,11 +25,11 @@ private:
     int inventory_y;
     const int BUTTON_SIZE = 40;
     const std::vector<std::string> GAME_ITEMS_ID{"sword","axe","hammer","fresnoWand"
-            ,"crimpStick","commonBow", "rareBow"
+            ,"crimpStick","knottyStick","elvenFlute","commonBow", "rareBow","defaultArmour"
             ,"leatherArmour", "ironArmour", "blueTunic",
             "hood", "ironHelmet", "turtleShell", "ironShield",
             "magicHat", "smallLifePotion", "smallManaPotion",
-            "bigLifePotion", "bigManaPotion"};
+            "bigLifePotion", "bigManaPotion", "goldBag"};
 
     const SdlWindow& window;
     TTF_Font* font;

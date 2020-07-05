@@ -13,7 +13,7 @@ SdlCamera::SdlCamera(const int screen_width, const int screen_height, SdlRendera
     camera_y = player.getPosY() - CAMERA_HEIGHT / 2;
 }
 
-SDL_Point SdlCamera::getCoordinates(const SDL_Point point) {
+SDL_Point SdlCamera::getCoordinates(const SDL_Point point) const {
     return SDL_Point{(point.x * TILE_SIZE) - camera_x
             ,(point.y * TILE_SIZE) - camera_y};
 }
