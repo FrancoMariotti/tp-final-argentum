@@ -224,6 +224,7 @@ void PlayableCharacter::die() {
 }
 
 void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
+    if (!inCity) return;
     Equippable* item = inventory.takeElement(itemIndex, this);
     gold += merchant->buy(item->getName());
     delete item;
@@ -232,6 +233,7 @@ void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
 }
 
 void PlayableCharacter::buyFrom(const std::string& itemName, ItemSeller *seller) {
+    if (!inCity) return;
     Equippable* item = seller->sell(itemName, &gold);
     if (item != nullptr) {
         inventory.store(item);
@@ -240,6 +242,7 @@ void PlayableCharacter::buyFrom(const std::string& itemName, ItemSeller *seller)
 }
 
 void PlayableCharacter::revive() {
+    if (!inCity) return;
     LifeState* oldLifeState = lifeState;
     lifeState = lifeState->revive(this);
     if (lifeState) {
@@ -263,6 +266,7 @@ void PlayableCharacter::deposit(int amount, Banker* banker) {
 }
 
 void PlayableCharacter::extract(const std::string& itemName, Banker *banker) {
+    if (!inCity) return;
     Equippable* itemExtracted = banker->extract(&bankAccount, itemName);
     if (itemExtracted != nullptr) {
         inventory.store(itemExtracted);
@@ -271,6 +275,7 @@ void PlayableCharacter::extract(const std::string& itemName, Banker *banker) {
 }
 
 void PlayableCharacter::extract(int amount, Banker *banker) {
+    if (!inCity) return;
     gold += banker->extract(&bankAccount, amount);
     notifyStats();
 }
@@ -290,6 +295,7 @@ PlayableCharacter* PlayableCharacter::closestToInRange(const Position &pos,
 }
 
 void PlayableCharacter::healedByPriest() {
+    if (!inCity) return;
     lifeState->healedByPriest(this);
 }
 
