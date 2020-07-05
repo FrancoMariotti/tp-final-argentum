@@ -8,21 +8,29 @@
 
 #include <map>
 #include <string>
-#include "Factory.h"
+#include "Position.h"
+#include "Equippable.h"
+#include "ItemSeller.h"
 
-class Merchant {
-    friend class City;
-    std::string configFile;
-    Position pos;
-    std::map<std::string, EquippableFactory*> stock;
-    std::map<std::string, int> costs;
+
+class EquippableFactory;
+typedef struct item item_t;
+
+class Merchant: public ItemSeller {
+    std::vector<Position>positions;
+    std::map<std::string,item_t> stock;
     std::map<std::string, EquippableFactory*> factories;
 public:
-    Merchant(std::string& configFile,const Json::Value& items, Position pos);
+    Merchant() = default;
+    Merchant(std::vector<Position> positions, std::map<std::string,item_t> stock,
+            std::map<std::string, EquippableFactory*> factories);
+    //Merchant(Merchant& merchant) noexcept ;
+    Merchant& operator=(const Merchant&);
     Merchant(Merchant&& merchant) noexcept ;
-    ~Merchant();
-    Equippable* sell(const std::string& name, int *gold);
+    Equippable* sell(const std::string& name, int *gold) override;
     int buy(const std::string& itemName);
+    bool ocupies(Position position);
+    ~Merchant();
 };
 
 

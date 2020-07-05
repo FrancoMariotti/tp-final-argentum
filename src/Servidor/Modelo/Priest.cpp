@@ -1,27 +1,17 @@
-//
-// Created by franco on 1/7/20.
-//
-
 #include "Priest.h"
+#include <utility>
 #include "PlayableCharacter.h"
 
-Priest::Priest(std::string configFile,const Json::Value& items, const Position& pos):pos(pos),configFile(configFile) {
-    factories["MagicalWeapon"] = new MagicalWeaponFactory();
-    factories["LifePotion"] = new LifePotionFactory();
-    factories["ManaPotion"] = new ManaPotionFactory();
-    for (const auto &item : items) {
-        std::string itemName = item["name"].asString();
-        stock[itemName] = factories.at(item["type"].asString());
-        costs[itemName] = item["goldCost"].asInt();
-    }
-}
+Priest::Priest(std::vector<Position> positions, std::map<std::string, item_t> stock ,
+        std::map<std::string, EquippableFactory*> factories):
+        positions(std::move(positions)),stock(std::move(stock)),factories(std::move(factories)) {}
 
 Equippable* Priest::sell(const std::string& name, int *gold) {
-    if (costs.find(name) == costs.end() || stock.find(name) == stock.end()) return nullptr;
-    int cost = costs.at(name);
-    if (cost > *gold) return nullptr;
-    *gold -= cost;
-    return stock.at(name)->create(configFile,name,cost);
+    if (stock.find(name) == stock.end()) return nullptr;
+    item_t item = stock.at(name);
+    if (item.goldCost > *gold) return nullptr;
+    *gold -= item.goldCost;
+    return factories.at(name)->create(item);
 }
 
 void Priest::restoreManaAndLife(PlayableCharacter* character) {
@@ -32,9 +22,39 @@ void Priest::revive(PlayableCharacter* character) {
     character->revive();
 }
 
-void Priest::reviveIn(PlayableCharacter *character, Position position) {
+void Priest::reviveIn(PlayableCharacter *character, const Position& position) {
     character->revive();
     character->teleportTo(position);
+}
+
+Priest& Priest::operator=(const Priest& priest) {
+    return *this;
+}
+
+Priest::Priest(Priest &&priest) noexcept: positions(priest.positions),
+                            stock(priest.stock),factories(priest.factories) {
+    priest.factories.clear();
+}
+
+bool Priest::ocupies(const Position& position) {
+    for (Position & pos : positions) {
+        if (pos == position) return true;
+    }
+    return false;
+}
+
+Position Priest::closestPositionTo(PlayableCharacter *player) {
+    int minDistance = -1;
+    int currDistance;
+    Position nearestPosition(0,0);
+    for (Position & position : positions) {
+        currDistance = player->distanceTo(position);
+        if (minDistance < 0 || currDistance < minDistance) {
+            minDistance = currDistance;
+            nearestPosition = position;
+        }
+    }
+    return nearestPosition;
 }
 
 Priest::~Priest(){
@@ -42,10 +62,5 @@ Priest::~Priest(){
     for(;it!=factories.end();it++) {
         delete it->second;
     }
-}
-
-Priest::Priest(Priest &&priest) noexcept:pos(priest.pos), configFile(priest.configFile) {
-    this->factories = priest.factories;
-    priest.factories.clear();
 }
 

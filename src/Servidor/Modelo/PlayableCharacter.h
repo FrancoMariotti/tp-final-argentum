@@ -62,21 +62,18 @@ public:
     int defend(int damage);
     int modifyLifePoints(int enemyLevel, int damage);
     void sellTo(int itemIndex, Merchant* merchant);
-    void buyFrom(const std::string& itemName, Merchant* merchant);
+    void buyFrom(const std::string& itemName, ItemSeller* seller);
     void deposit(const std::string& element, Banker *banker);
     void deposit(int amount, Banker* banker);
     void extract(const std::string& itemName, Banker *banker);
     void extract(int amount, Banker* banker);
     void die();
     void restoreMana();
-    ~PlayableCharacter() override;
-
     PlayableCharacter* closestToInRange(const Position &pos, PlayableCharacter *closestEnemy,
-            int *minDistance, int range);
+                                        int *minDistance, int range);
 
     void healedByPriest();
-
-    void buyFrom(const std::string &itemName, Priest *priest);
+    ~PlayableCharacter() override;
 };
 
 

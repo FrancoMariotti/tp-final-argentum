@@ -15,6 +15,8 @@
 #include "MagicalWeapon.h"
 #include "Heal.h"
 #include "Damage.h"
+#include "Merchant.h"
+
 
 FileParser::FileParser(const std::string &filename):file(filename) {}
 
@@ -30,6 +32,117 @@ Json::Value FileParser::read(const std::string &parameter) {
     return config[parameter];
 }
 
+void MerchantFactory::create(Map* map, std::string file) {
+    FileParser parser(file);
+    Json::Value merchantObj = parser.read("merchant");
+    Json::Value& merchantPositions = merchantObj["positions"];
+    std::vector<Position> positions;
+
+    std::vector<spawn_character_t> spawnsMerchant;
+    for (auto& pos: merchantPositions) {
+        Position merchantPos(pos["x"].asInt(), pos["y"].asInt());
+        spawn_character_t  merchantSpawn = {merchantPos.getX(),merchantPos.getY(),"merchant"};
+        positions.push_back(merchantPos);
+        spawnsMerchant.push_back(merchantSpawn);
+    }
+    map->registerCityCharactersSpawns(spawnsMerchant);
+    Json::Value& merchantItems = merchantObj["items"];
+
+    std::map<std::string,item_t> stock;
+    std::map<std::string, EquippableFactory*> factories;
+
+    factories["NormalWeapon"] = new NormalWeaponFactory();
+    factories["RangeWeapon"] = new RangeWeaponFactory();
+    factories["Protection"] = new ProtectionFactory();
+    factories["LifePotion"] = new LifePotionFactory();
+    factories["ManaPotion"] = new ManaPotionFactory();
+
+    for(auto& item: merchantItems) {
+        item_t newItem {
+                item["name"].asString(),
+                item["type"].asString(),
+                item["spellType"].asString(),
+                item["protectionId"].asInt(),
+                item["max"].asInt(),
+                item["min"].asInt(),
+                item["value"].asInt(),
+                item["goldCost"].asInt(),
+                item["manaCost"].asInt()
+        };
+        stock[newItem.name] = newItem;
+    }
+
+    Merchant merchant(positions,stock,factories);
+
+    map->add(std::move(merchant));
+}
+
+void PriestFactory::create(Map* map, std::string file) {
+    FileParser parser(file);
+    Json::Value priestObj = parser.read("priest");
+
+    Json::Value& priestPositions = priestObj["positions"];
+    std::vector<Position> positions;
+
+    std::vector<spawn_character_t> spawnsPriest;
+    for (auto& pos: priestPositions) {
+        Position priestPos(pos["x"].asInt(), pos["y"].asInt());
+        spawn_character_t  priestSpawn = {priestPos.getX(),priestPos.getY(),"priest"};
+        positions.push_back(priestPos);
+        spawnsPriest.push_back(priestSpawn);
+    }
+    map->registerCityCharactersSpawns(spawnsPriest);
+    Json::Value& priestItems = priestObj["items"];
+
+    std::map<std::string,item_t> stock;
+    std::map<std::string, EquippableFactory*> factories;
+
+    factories["MagicalWeapon"] = new MagicalWeaponFactory();
+    factories["LifePotion"] = new LifePotionFactory();
+    factories["ManaPotion"] = new ManaPotionFactory();
+
+    for(auto& item: priestItems) {
+        item_t newItem {
+                item["name"].asString(),
+                item["type"].asString(),
+                item["spellType"].asString(),
+                item["protectionId"].asInt(),
+                item["max"].asInt(),
+                item["min"].asInt(),
+                item["value"].asInt(),
+                item["goldCost"].asInt(),
+                item["manaCost"].asInt()
+        };
+        stock[newItem.name] = newItem;
+    }
+
+    Priest priest(positions,stock,factories);
+
+    map->add(std::move(priest));
+}
+
+void BankerFactory::create(Map* map, std::string file) {
+    FileParser parser(file);
+    Json::Value bankerObj = parser.read("banker");
+
+    Json::Value& bankerPositions = bankerObj["positions"];
+    std::vector<Position> positions;
+
+    std::vector<spawn_character_t> spawnsBanker;
+    for (auto& pos: bankerPositions) {
+        Position bankerPos(pos["x"].asInt(), pos["y"].asInt());
+        spawn_character_t  bankerSpawn = {bankerPos.getX(),bankerPos.getY(),"banker"};
+        spawnsBanker.push_back(bankerSpawn);
+        positions.push_back(bankerPos);
+    }
+    map->registerCityCharactersSpawns(spawnsBanker);
+    Banker banker(positions);
+
+    map->add(std::move(banker));
+}
+
+
+
 MapFactory::MapFactory(const std::string& configFile) {
     file = configFile;
 }
@@ -42,12 +155,19 @@ Map* MapFactory::create() {
     int width_map = mapObj["width"].asInt();
     int height_map = mapObj["height"].asInt();
 
-    Map *map = new Map(file,width_map, height_map);
     Json::Value& obstacles = mapObj["obstacles"];
     Json::Value& cities = mapObj["cities"];
 
-    Json::Value priestItems = mapObj["priestItems"];
-    Json::Value merchantItems = mapObj["merchantItems"];
+    MerchantFactory merchantFactory;
+    BankerFactory bankerFactory;
+    PriestFactory priestFactory;
+
+
+    Map *map = new Map(width_map, height_map);
+
+    merchantFactory.create(map,file);
+    bankerFactory.create(map,file);
+    priestFactory.create(map,file);
 
     for (auto & i : obstacles){
         int width = i["width"].asInt()/32;
@@ -58,30 +178,13 @@ Map* MapFactory::create() {
         map->add(obstacle);
     }
 
-
-
     for (auto & i : cities) {
         int width = i["width"].asInt();
         int height = i["height"].asInt();
         int x = i["x"].asInt();
         int y = i["y"].asInt();
 
-        //Voy creando los city characters y agregandolos al vector de spawns para luego mandarle al
-        //cliente y que los renderice correctamente
-        std::vector<spawn_character_t> cityCharacters;
-        Position priestPos(i["Priest"]["x"].asInt(), i["Priest"]["y"].asInt());
-        spawn_character_t  priestSpawn = {priestPos.getX(),priestPos.getY(),"priest"};
-        cityCharacters.push_back(priestSpawn);
-        Position merchantPos(i["Merchant"]["x"].asInt(), i["Merchant"]["y"].asInt());
-        spawn_character_t  merchantSpawn = {merchantPos.getX(),merchantPos.getY(),"merchant"};
-        cityCharacters.push_back(merchantSpawn);
-        Position bankerPos(i["Banker"]["x"].asInt(), i["Banker"]["y"].asInt());
-        spawn_character_t  bankerSpawn = {bankerPos.getX(),bankerPos.getY(),"banker"};
-        cityCharacters.push_back(bankerSpawn);
-
-        map->registerCityCharactersSpawns(cityCharacters);
-
-        City city(x,y,height,width,file,priestItems,priestPos, merchantItems,merchantPos, bankerPos);
+        City city(x,y,height,width);
         map->add(std::move(city));
     }
 
@@ -170,60 +273,34 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
 
 NpcFactory::~NpcFactory() = default;
 
-Equippable* NormalWeaponFactory::create(std::string configFile,std::string itemName,int cost) {
-    FileParser parser(configFile);
-    Json::Value weaponsData = parser.read("weapons");
-    int max = weaponsData[itemName]["max"].asInt();
-    int min = weaponsData[itemName]["min"].asInt();
-    return new NormalWeapon(itemName, min,max, cost);
+Equippable* NormalWeaponFactory::create(item_t item) {
+    return new NormalWeapon(item.name, item.min,item.max, item.goldCost);
 }
 
-Equippable* RangeWeaponFactory::create(std::string configFile,std::string itemName,int cost) {
-    FileParser parser(configFile);
-    Json::Value weaponsData = parser.read("weapons");
-    int max = weaponsData[itemName]["max"].asInt();
-    int min = weaponsData[itemName]["min"].asInt();
-    return new RangeWeapon(itemName, min,
-            max, cost);
+Equippable* RangeWeaponFactory::create(item_t item) {
+    return new RangeWeapon(item.name, item.min,item.max, item.goldCost);
 }
 
-Equippable* ProtectionFactory::create(std::string configFile,std::string itemName,int cost) {
-    FileParser parser(configFile);
-    Json::Value weaponsData = parser.read("weapons");
-    int max = weaponsData[itemName]["max"].asInt();
-    int min = weaponsData[itemName]["min"].asInt();
-    int id = weaponsData[itemName]["id"].asInt();
-    return new Protection(itemName, min,max, id,cost);
+Equippable* ProtectionFactory::create(item_t item) {
+    return new Protection(item.name, item.min,item.max, item.protectionId,item.goldCost);
 }
 
-Equippable* LifePotionFactory::create(std::string configFile,std::string itemName,int cost) {
-    FileParser parser(configFile);
-    Json::Value weaponsData = parser.read("weapons");
-    int value = weaponsData[itemName]["value"].asInt();
-    return new LifePotion(itemName,value,cost);
+Equippable* LifePotionFactory::create(item_t item) {
+    return new LifePotion(item.name,item.value,item.goldCost);
 }
 
-Equippable* ManaPotionFactory::create(std::string configFile,std::string itemName,int cost) {
-    FileParser parser(configFile);
-    Json::Value weaponsData = parser.read("weapons");
-    int value = weaponsData[itemName]["value"].asInt();
-    return new ManaPotion(itemName, value,cost);
+Equippable* ManaPotionFactory::create(item_t item) {
+    return new ManaPotion(item.name, item.value,item.goldCost);
 }
 
-Equippable* MagicalWeaponFactory::create(std::string configFile,std::string itemName,int cost) {
-    FileParser parser(configFile);
-    Json::Value weaponsData = parser.read("weapons");
-    int max = weaponsData[itemName]["max"].asInt();
-    int min = weaponsData[itemName]["min"].asInt();
-    int manaCost = weaponsData[itemName]["manaCost"].asInt();
-    std::string spellType = weaponsData[itemName]["spellType"].asString();
-    SpellType* spell = nullptr;
-    if (spellType == "heal") {
+Equippable* MagicalWeaponFactory::create(item_t item) {
+    SpellType* spell;
+    if (item.spelltype == "heal") {
         spell = new Heal();
     } else {
         spell = new Damage();
     }
-    return new MagicalWeapon(itemName,spell,min,max,manaCost,cost);
+    return new MagicalWeapon(item.name,spell,item.min,item.max,item.manaCost,item.goldCost);
 }
 
 

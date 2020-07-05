@@ -12,13 +12,14 @@ void DepositCommand::execute(std::string username,std::string params,int x,int y
     std::string delimiter = " ";
     std::string type = params.substr(0,params.find(delimiter));
     PlayableCharacter* player = map->getPlayer(username);
+    Banker* banker = map->getBankerAtPosition(Position(x,y));
     if(type == "oro") {
         std::string gold = params.substr( params.find(delimiter));
         //aca faltaria manejar la excepcion
         int gold_amount = std::stoi(gold);
-        map->depositInBank(player,Position(x,y),gold_amount);
+        player->deposit(gold_amount,banker);
     } else {
-        map->depositInBank(player,Position(x,y),params);
+        player->deposit(params,banker);
     }
 
 }

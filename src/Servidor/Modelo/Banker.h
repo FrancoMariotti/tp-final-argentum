@@ -6,15 +6,15 @@
 
 
 class Banker {
-    friend class City;
-    Position pos;
+    std::vector<Position> positions;
 public:
-    explicit Banker(Position pos);
-    //void registerAccount(const std::string &playerName);
+    Banker() = default;
+    explicit Banker(std::vector<Position> positions);
     void deposit(BankAccount* account, int deposit,int& gold);
     void deposit(BankAccount* account, Equippable* object);
     int extract(BankAccount* account, int amount);
     Equippable* extract(BankAccount* account, std::string itemName);
+    bool ocupies(const Position &position);
 };
 
 

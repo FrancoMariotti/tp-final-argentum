@@ -1,23 +1,28 @@
 #include <Proxy/src/common_proxy_socket.h>
 #include <Proxy/src/common_message.h>
 #include <algorithm>
+#include <utility>
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Factory.h"
 #include "Servidor/Common/Utils.h"
 
-
 #define NPCSAMOUNT 16
 
+Map::Map(int width,int height):width(width),height(height) {}
 
-Map::Map() {
-    this->width = 0;
-    this->height = 0;
+void Map::add( Banker pBanker) {
+    this->banker = pBanker;
 }
 
-Map::Map(const std::string& configFile,int width,int height):width(width),
-    height(height) {}
+void Map::add( Merchant pMerchant) {
+    this->merchant = pMerchant;
+}
+
+void Map::add( Priest pPriest) {
+    this->priest = pPriest;
+}
 
 void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
     npcSpawns.push_back(spawn);
@@ -80,11 +85,8 @@ bool Map::isOccupied(Position pos) {
         if((*itrObstacles).ocupies(pos)) return true;
     }
 
-    for (auto &city : cities) {
-        if (city.isOcupied(pos)) return true;
-    }
+    return banker.ocupies(pos) || merchant.ocupies(pos) || priest.ocupies(pos);
 
-    return false;
 }
 
 void Map::move(Position& from,Position& to) {
@@ -154,7 +156,6 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("obstacles",obstaclesLayer,width,height)));
 }
-
 Position Map::asignRandomPosition() {
     int x, y;
     x = Utils::random_int_number(0, height - 1);
@@ -197,31 +198,19 @@ bool Map::posInCity(Position position) {
     return false;
 }
 
-void Map::depositInBank(PlayableCharacter *player,const Position& position,const std::string& element) {
-    for (City & city : cities) {
-        city.depositInBank(position,player,element);
-    }
-}
-
-void Map::depositInBank(PlayableCharacter *player,const Position& position,int gold_amount) {
-    for (City & city : cities) {
-        city.depositInBank(position,player,gold_amount);
-    }
-}
-
-void Map::searchPriestToRevive(PlayableCharacter *character, Position position) {
+/*void Map::searchPriestToRevive(PlayableCharacter *character, Position position) {
     for (City & city : cities) {
         city.searchPriestToRevive(character, position);
     }
-}
+}*/
 
-void Map::searchPriestToHeal(PlayableCharacter *character, Position position) {
+/*void Map::searchPriestToHeal(PlayableCharacter *character, Position position) {
     for (City & city : cities) {
         city.searchPriestToHeal(character, position);
     }
-}
+}*/
 
-void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
+/*void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
     int minDistance = -1;
     int currDistance;
     City* nearestCity = nullptr;
@@ -233,9 +222,10 @@ void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
         }
     }
     nearestCity->revivePlayerHere(character, this);
-}
+}*/
 
-void Map::extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount) {
+
+/*void Map::extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount) {
     for (City & city : cities) {
         city.extractFromBank(position,player,goldAmount);
     }
@@ -245,16 +235,40 @@ void Map::extractFromBank(PlayableCharacter *player, const Position& position, c
     for (City & city : cities) {
         city.extractFromBank(position,player,element);
     }
-}
-
-/*void Map::spawnCityCharacters(Observer *observer) {
-    observer->notifyCityCharactersSpawn(cityCharactersSpawns);
 }*/
 
-void Map::buyItem(PlayableCharacter *player, const Position& position, const std::string& item) {
+Priest *Map::getPriestAtPosition(const Position& position) {
+    if (priest.ocupies(position)) return &priest;
+    return nullptr;
+}
+
+
+Banker* Map::getBankerAtPosition(const Position& position) {
+    if (banker.ocupies(position)) return &banker;
+    return nullptr;
+}
+
+Position Map::getRandomPosAtClosestPriestCity(PlayableCharacter *player) {
+    Position nearestPriestPos = priest.closestPositionTo(player);
+
+    Position randomPos(0,0);
+
     for (City & city : cities) {
-        city.buyItem(position,player,item);
+        if(city.ocupies(nearestPriestPos)) {
+            randomPos = city.getRandomPos(this);
+        }
     }
+
+    return randomPos;
+}
+
+Merchant *Map::getMerchantAtPosition(Position position) {
+    if (merchant.ocupies(position)) return &merchant;
+    return nullptr;
+}
+
+void Map::reviveIn(PlayableCharacter *player, Position position) {
+    priest.reviveIn(player,position);
 }
 
 Map::~Map() {

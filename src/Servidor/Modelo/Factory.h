@@ -6,9 +6,23 @@
 #include "string"
 #include "Observer.h"
 #include "NormalWeapon.h"
+#include "Merchant.h"
 
 class Game;
 class Map;
+
+
+typedef struct item {
+    std::string name;
+    std::string type;
+    std::string spelltype;
+    int protectionId;
+    int max;
+    int min;
+    int value;
+    int goldCost;
+    int manaCost;
+} item_t;
 
 class FileParser {
     std::ifstream file;
@@ -25,6 +39,27 @@ class MapFactory {
         explicit MapFactory(const std::string& configFile);
         Map* create();
         ~MapFactory();
+};
+
+class MerchantFactory {
+public:
+    MerchantFactory() = default;
+    void create(Map* map, std::string file);
+    ~MerchantFactory() = default;
+};
+
+class PriestFactory {
+public:
+    PriestFactory() = default;
+    void create(Map* map, std::string file);
+    ~PriestFactory() = default;
+};
+
+class BankerFactory {
+public:
+    BankerFactory() = default;
+    void create(Map* map, std::string file);
+    ~BankerFactory() = default;
 };
 
 class PlayableCharacterFactory {
@@ -47,38 +82,38 @@ class NpcFactory {
 
 class EquippableFactory {
 public:
-    virtual Equippable* create(std::string configFile,std::string itemName,int cost)= 0;
+    virtual Equippable* create(item_t item)= 0;
     virtual ~EquippableFactory() = default;
 };
 
 class NormalWeaponFactory : public EquippableFactory {
 public:
-    Equippable* create(std::string configFile,std::string itemName,int cost) override;
+    Equippable* create(item_t item) override;
 };
 
 class RangeWeaponFactory : public EquippableFactory{
 public:
-    Equippable* create(std::string configFile,std::string itemName,int cost) override;
+    Equippable* create(item_t item) override;
 };
 
 class ProtectionFactory : public EquippableFactory {
 public:
-    Equippable * create(std::string configFile, std::string itemName, int cost) override;
+    Equippable* create(item_t item) override;
 };
 
 class LifePotionFactory : public EquippableFactory {
 public:
-    Equippable * create(std::string configFile, std::string itemName, int cost) override;
+    Equippable* create(item_t item) override;
 };
 
 class ManaPotionFactory : public EquippableFactory {
 public:
-    Equippable * create(std::string configFile, std::string itemName, int cost) override;
+    Equippable* create(item_t item) override;
 };
 
 class MagicalWeaponFactory : public EquippableFactory {
 public:
-    Equippable * create(std::string configFile, std::string itemName, int cost) override;
+    Equippable* create(item_t item) override;
 };
 
 #endif //ARGENTUM_FACTORY_H

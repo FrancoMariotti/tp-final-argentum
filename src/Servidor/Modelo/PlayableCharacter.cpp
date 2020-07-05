@@ -5,6 +5,7 @@
 #include "Npc.h"
 #include "Alive.h"
 #include "Ghost.h"
+#include "ItemSeller.h"
 
 #define NEWBIE_LEVEL 12
 #define LEVEL_DIFFERENCE 10
@@ -230,16 +231,8 @@ void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
     notifyStats();
 }
 
-void PlayableCharacter::buyFrom(const std::string& itemName, Merchant *merchant) {
-    Equippable* item = merchant->sell(itemName, &gold);
-    if (item != nullptr) {
-        inventory.store(item);
-        inventory.sendItems(observer);
-    }
-}
-
-void PlayableCharacter::buyFrom(const std::string& itemName, Priest* priest) {
-    Equippable* item = priest->sell(itemName, &gold);
+void PlayableCharacter::buyFrom(const std::string& itemName, ItemSeller *seller) {
+    Equippable* item = seller->sell(itemName, &gold);
     if (item != nullptr) {
         inventory.store(item);
         inventory.sendItems(observer);
@@ -263,7 +256,7 @@ void PlayableCharacter::deposit(const std::string& element, Banker* banker) {
     inventory.sendItems(observer);
 }
 
-void PlayableCharacter::deposit(int amount, Banker *banker) {
+void PlayableCharacter::deposit(int amount, Banker* banker) {
     if(!inCity) return;
     banker->deposit(&bankAccount, amount,gold);
     notifyStats();

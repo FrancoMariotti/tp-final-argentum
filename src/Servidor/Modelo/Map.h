@@ -23,6 +23,9 @@ class ProxySocket;
 class Map {
     int width;
     int height;
+    Banker banker;
+    Merchant merchant;
+    Priest priest;
     std::vector<spawn_character_t> cityCharactersSpawns;
     std::vector<spawn_character_t> npcSpawns;
     std::map<std::string,PlayableCharacter*> characters;
@@ -30,8 +33,7 @@ class Map {
     std::vector<Obstacle> obstacles;
     std::vector<City> cities;
     public:
-        Map();
-        Map(const std::string& configFile, int width, int height);
+        Map(int width,int height);
         void add(const std::string& playerName,PlayableCharacter* character);
         void add(std::string idNpc, Npc *npc);
         void add(const Obstacle& obstacle);
@@ -51,18 +53,19 @@ class Map {
         void removeNpc(const std::string& idNpc, Observer* observer);
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
-        void depositInBank(PlayableCharacter *player, const Position& position,const std::string& element);
         void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
-        void depositInBank(PlayableCharacter *player, const Position& position, int gold_amount);
         void spawnCityCharacters(Observer *observer);
-        void extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount);
-        void extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element);
-        void searchPriestToRevive(PlayableCharacter *character, Position position);
-        void reviveNextToClosestPriest(PlayableCharacter *character);
-        void searchPriestToHeal(PlayableCharacter *character, Position position);
-        void buyItem(PlayableCharacter *player, const Position& position, const std::string& item);
+        Position getRandomPosAtClosestPriestCity(PlayableCharacter *player);
+        Banker* getBankerAtPosition(const Position& position);
+        Merchant* getMerchantAtPosition(Position position);
+        Priest* getPriestAtPosition(const Position& position);
+        void reviveIn(PlayableCharacter *player, Position position);
         ~Map();
 
+    void add(Banker pBanker);
+    void add(Merchant pMerchant);
+
+    void add(Priest priest);
 };
 
 #endif //ARGENTUM_MAPA_H

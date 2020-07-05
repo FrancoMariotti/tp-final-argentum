@@ -1,42 +1,36 @@
+#include <iostream>
+#include <utility>
 #include "Merchant.h"
-#include <tuple>
-#define COST 0
-#define MAX 1
-#define MIN 2
+#include "Factory.h"
 
-Merchant::Merchant(std::string& configFile,const Json::Value& items, Position pos) : configFile(configFile),pos(pos) {
-    factories["NormalWeapon"] = new NormalWeaponFactory();
-    factories["RangeWeapon"] = new RangeWeaponFactory();
-    factories["Protection"] = new ProtectionFactory();
-    factories["LifePotion"] = new LifePotionFactory();
-    factories["ManaPotion"] = new ManaPotionFactory();
-
-    for (const auto &item : items) {
-        std::string itemName = item["name"].asString();
-        costs[itemName] = item["goldCost"].asInt();
-        stock[itemName] = factories.at(item["type"].asString());
-    }
-}
+Merchant::Merchant(std::vector<Position> positions, std::map<std::string, item_t> stock ,
+                   std::map<std::string, EquippableFactory*> factories):
+                   positions(std::move(positions)),stock(std::move(stock)),factories(std::move(factories)) {}
 
 Equippable* Merchant::sell(const std::string& name, int *gold) {
-    if (costs.find(name) == costs.end() || stock.find(name) == stock.end()) return nullptr;
-    int cost = costs.at(name);
-    if (cost > *gold) return nullptr;
-    *gold -= cost;
-    return stock.at(name)->create(configFile,name,cost);
+    if (stock.find(name) == stock.end()) return nullptr;
+    item_t item = stock.at(name);
+    if (item.goldCost > *gold) return nullptr;
+    *gold -= item.goldCost;
+    return factories.at(name)->create(item);
 }
 
 int Merchant::buy(const std::string& itemName) {
-    return costs.at(itemName);
+    return stock.at(itemName).goldCost;
 }
 
-Merchant::Merchant(Merchant &&merchant) noexcept :configFile(merchant.configFile),pos(merchant.pos) {
-    this->costs = merchant.costs;
-    this->stock = merchant.stock;
-    this->factories = merchant.factories;
-    merchant.stock.clear();
-    merchant.costs.clear();
+//Merchant::Merchant(Merchant &merchant) noexcept {}
+
+Merchant::Merchant(Merchant &&merchant) noexcept :positions(merchant.positions),
+                            stock(merchant.stock),factories(merchant.factories) {
     merchant.factories.clear();
+}
+
+bool Merchant::ocupies(Position position) {
+    for (Position & pos : positions) {
+        if (pos == position) return true;
+    }
+    return false;
 }
 
 Merchant::~Merchant() {
@@ -44,4 +38,8 @@ Merchant::~Merchant() {
     for(;it!=factories.end();it++) {
         delete it->second;
     }
+}
+
+Merchant& Merchant::operator=(const Merchant&) {
+    return *this;
 }

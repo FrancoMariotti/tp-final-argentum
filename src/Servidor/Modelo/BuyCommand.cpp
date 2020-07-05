@@ -1,9 +1,15 @@
 #include "BuyCommand.h"
-
+#include "PlayableCharacter.h"
 
 BuyCommand::BuyCommand(Map *map):map(map) {}
 
 void BuyCommand::execute(std::string username, std::string params, int x, int y) {
     PlayableCharacter* player = map->getPlayer(username);
-    map->buyItem(player,Position(x,y),params);
+
+    Priest* priest = map->getPriestAtPosition(Position(x,y));
+    if(priest) player->buyFrom(params,priest);
+    else {
+        Merchant* merchant = map->getMerchantAtPosition(Position(x,y));
+        if(merchant) player->buyFrom(params,merchant);
+    }
 }

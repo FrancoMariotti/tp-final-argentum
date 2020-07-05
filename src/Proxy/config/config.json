@@ -939,267 +939,356 @@
       "x": 0,
       "y": 0,
       "width": 9,
-      "height": 9,
-      "Banker" : {
-        "x" : 0,
-        "y" : 0
-      },
-      "Merchant" : {
-        "x" : 7,
-        "y" : 0
-      },
-      "Priest" : {
-        "x" : 0,
-        "y" : 7
-      }
+      "height": 9
     } ,
       {
         "x": 35,
         "y": 0,
         "width": 9,
-        "height": 9,
-        "Banker" : {
-          "x" : 36,
-          "y" : 0
-        },
-        "Merchant" : {
-          "x" : 42,
-          "y" : 0
-        },
-        "Priest" : {
-          "x" : 36,
-          "y" : 7
-        }
+        "height": 9
       },
       {
         "x": 41,
         "y": 33,
         "width": 9,
-        "height": 9,
-        "Banker" : {
-          "x" : 42,
-          "y" : 34
-        },
-        "Merchant" : {
-          "x" : 49,
-          "y" : 34
-        },
-        "Priest" : {
-          "x" : 49,
-          "y" : 40
-        }
+        "height": 9
       },
       {
         "x": 0,
         "y": 32,
         "width": 9,
-        "height": 9,
-        "Banker" : {
-          "x" : 0,
-          "y" : 33
-        },
-        "Merchant" : {
-          "x" : 7,
-          "y" : 33
-        },
-        "Priest" : {
-          "x" : 0,
-          "y" : 39
-        }
+        "height": 9
+      }]
+  },
+  "banker": {
+    "positions": [{
+      "x" : 0,
+      "y" : 33
+    },{
+      "x" : 42,
+      "y" : 34
+    },{
+      "x" : 36,
+      "y" : 0
+    },{
+      "x" : 0,
+      "y" : 0
+    }]
+  },
+  "merchant": {
+    "positions": [
+      {
+        "x" : 7,
+        "y" : 33
+      },
+      {
+        "x" : 49,
+        "y" : 34
+      },
+      {
+        "x": 42,
+        "y": 0
+      },
+      {
+        "x": 7,
+        "y": 0
       }],
-    "merchantItems": [
+    "items": [
       {
         "name": "sword",
         "type": "NormalWeapon",
-        "goldCost": 100
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 2,
+        "max": 5,
+        "value": 0,
+        "goldCost": 100,
+        "manaCost": 0
       }, {
+
         "name": "axe",
         "type": "NormalWeapon",
-        "goldCost": 100
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 4,
+        "max": 5,
+        "value": 0,
+        "goldCost": 100,
+        "manaCost": 0
       },
       {
         "name": "hammer",
         "type": "NormalWeapon",
-        "goldCost": 100
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 1,
+        "max": 9,
+        "value": 0,
+        "goldCost": 100,
+        "manaCost": 0
       },
       {
         "name": "commonBow",
         "type": "RangeWeapon",
-        "goldCost": 100
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 1,
+        "max": 4,
+        "value": 0,
+        "goldCost": 100,
+        "manaCost": 0
       },
       {
         "name": "rareBow",
         "type": "RangeWeapon",
-        "goldCost": 100
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 4,
+        "max": 16,
+        "value": 0,
+        "goldCost": 100,
+        "manaCost": 0
       },
       {
         "name": "smallLifePotion",
         "type": "LifePotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 25,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name":"bigLifePotion",
         "type": "LifePotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 100,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name":"smallManaPotion",
         "type": "ManaPotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 25,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name":"bigManaPotion",
         "type": "ManaPotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 100,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "leatherArmour",
         "type": "Protection",
-        "id": 0,
+        "spelltype" :"none",
+        "protectionId": 0,
         "min": 2,
         "max": 6,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "ironArmour",
         "type": "Protection",
-        "id": 0,
+        "spelltype" :"none",
+        "protectionId": 0,
         "min": 15,
         "max": 30,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "blueTunic",
         "type": "Protection",
-        "id": 0,
+        "spelltype" :"none",
+        "protectionId": 0,
         "min": 6,
         "max": 10,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "hood",
         "type": "Protection",
-        "id": 2,
+        "spelltype" :"none",
+        "protectionId": 2,
         "min": 1,
         "max": 4,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "ironHelmet",
         "type": "Protection",
-        "id": 2,
+        "spelltype" :"none",
+        "protectionId": 2,
         "min": 4,
         "max": 8,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "turtleShell",
         "type": "Protection",
-        "id": 1,
+        "spelltype" :"none",
+        "protectionId": 1,
         "min": 1,
         "max": 2,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "ironShield",
         "type": "Protection",
-        "id": 1,
+        "spelltype" :"none",
+        "protectionId": 1,
         "min": 1,
         "max": 4,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name": "magicHat",
         "type": "Protection",
-        "id": 2,
+        "spelltype" :"none",
+        "protectionId": 2,
         "min": 4,
         "max": 12,
+        "value": 0,
+        "manaCost": 0,
         "goldCost": 100
-      }],
-    "priestItems": [{
-      "name" : "fresnoWand",
-      "type": "MagicalWeapon",
-      "spellType": "damage",
-      "min": 2,
-      "max": 5,
-      "manaCost": 5,
-      "goldCost": 100
-    },
+      }]
+  },
+  "priest": {
+    "positions": [
+      {
+        "x" : 0,
+        "y" : 39
+      },
+      {
+        "x" : 49,
+        "y" : 40
+      },
+      {
+        "x" : 36,
+        "y" : 7
+      },
+      {
+        "x" : 0,
+        "y" : 7
+      }
+    ],
+    "items": [
+      {
+        "name" : "fresnoWand",
+        "type": "MagicalWeapon",
+        "spelltype" :"Damage",
+        "protectionId": 0,
+        "min": 2,
+        "max": 5,
+        "value": 0,
+        "manaCost": 5,
+        "goldCost": 100
+      },
       {
         "name": "elvenFlute",
         "type": "MagicalWeapon",
-        "spellType": "heal",
+        "spelltype" :"Heal",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
+        "value": 0,
         "manaCost": 100,
         "goldCost": 100
       },
       {
         "name": "knottyStick",
         "type": "MagicalWeapon",
-        "spellType": "damage",
+        "spelltype" :"Damage",
+        "protectionId": 0,
         "min": 4,
         "max": 8,
+        "value": 0,
         "manaCost": 15,
         "goldCost": 100
       },
       {
         "name":"crimpStick",
         "type": "MagicalWeapon",
-        "spellType": "damage",
+        "spelltype" :"Damage",
+        "protectionId": 0,
         "min": 8,
         "max": 20,
+        "value": 0,
         "manaCost": 30,
         "goldCost": 100
       },
       {
         "name": "smallLifePotion",
         "type": "LifePotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 25,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
-        "name": "bigLifePotion",
+        "name":"bigLifePotion",
         "type": "LifePotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 100,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name":"smallManaPotion",
         "type": "ManaPotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 25,
+        "manaCost": 0,
         "goldCost": 100
       },
       {
         "name":"bigManaPotion",
         "type": "ManaPotion",
+        "spelltype" :"none",
+        "protectionId": 0,
+        "min": 0,
+        "max": 0,
         "value": 100,
+        "manaCost": 0,
         "goldCost": 100
       }]
-  },
-  "weapons": {
-    "sword": {
-      "min": 2,
-      "max": 5
-    },
-    "axe": {
-      "min": 4,
-      "max": 5
-    },
-    "hammer": {
-      "min": 1,
-      "max": 9
-    },
-    "commonBow": {
-      "min": 1,
-      "max": 4
-    },
-    "rareBow": {
-      "min": 4,
-      "max": 16
-    }
-
   }
 }

@@ -3,31 +3,19 @@
 #include "City.h"
 #include "PlayableCharacter.h"
 
-City::City(int x, int y, int height, int width,std::string configFile,
-           const Json::Value& priestItems,const Position& priestPos, const Json::Value& merchantItems,
-           const Position& merchantPos, const Position& bankerPos): Obstacle(x, y, height, width),
-           priest(configFile,priestItems,priestPos),merchant(configFile,merchantItems,merchantPos), banker(bankerPos){}
+City::City(int x, int y, int height, int width): Obstacle(x, y, height, width){}
 
-City::City(City &&city) noexcept:Obstacle(city),priest(std::move(city.priest)),
-                merchant(std::move(city.merchant)),banker(city.banker)  {}
+City::City(City &&city) noexcept:Obstacle(city)  {}
 
-bool City::isOcupied(const Position& pos) {
+/*bool City::isOcupied(const Position& pos) {
     return priest.pos == pos || banker.pos == pos || merchant.pos == pos;
-}
+}*/
 
-void City::depositInBank(const Position& pos, PlayableCharacter *player, std::string item) {
-    if(banker.pos == pos) player->deposit(std::move(item),&banker);
-}
-
-void City::depositInBank(const Position& pos, PlayableCharacter *player, int gold_amount) {
-    if(banker.pos == pos) player->deposit(gold_amount,&banker);
-}
-
-void City::searchPriestToRevive(PlayableCharacter* character, Position pos) {
+/*void City::searchPriestToRevive(PlayableCharacter* character, const Position& pos) {
     if(priest.pos == pos) priest.revive(character);
 }
 
-void City::searchPriestToHeal(PlayableCharacter *character, Position pos) {
+void City::searchPriestToHeal(PlayableCharacter *character, const Position& pos) {
     if(priest.pos == pos) priest.restoreManaAndLife(character);
 }
 
@@ -48,6 +36,11 @@ void City::buyItem(const Position &pos, PlayableCharacter *player, const std::st
     if(priest.pos == pos) player->buyFrom(item,&priest);
 }
 
+
+void City::revivePlayerHere(PlayableCharacter *character, Map* map) {
+    priest.reviveIn(character, getRandomPos(map));
+}*/
+
 Position City::getRandomPos(Map *map) {
     int x, y;
     x = Utils::random_int_number(position.getX(), position.getX() + height - 1);
@@ -57,9 +50,5 @@ Position City::getRandomPos(Map *map) {
         y = Utils::random_int_number(position.getY(), position.getY() + width - 1);
     }
     return Position(x, y);
-}
-
-void City::revivePlayerHere(PlayableCharacter *character, Map* map) {
-    priest.reviveIn(character, getRandomPos(map));
 }
 
