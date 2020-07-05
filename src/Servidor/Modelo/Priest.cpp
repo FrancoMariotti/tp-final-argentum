@@ -23,8 +23,8 @@ void Priest::revive(PlayableCharacter* character) {
 }
 
 void Priest::reviveIn(PlayableCharacter *character, const Position& position) {
-    character->revive();
     character->teleportTo(position);
+    character->revive();
 }
 
 Priest& Priest::operator=(Priest&& priest) noexcept {
