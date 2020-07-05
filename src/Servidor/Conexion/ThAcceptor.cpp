@@ -7,22 +7,22 @@ ThAcceptor::ThAcceptor(const std::string& service)  {
 }
 
 void ThAcceptor::destroyFinishedClients() {
-    auto it = clientSenders.begin();
-    for ( ; it != clientSenders.end(); ++it) {
-        if((*it)->isDead()) {
-            (*it)->join();
-            delete *it;
-            clients.erase(it);
+    auto itrSenders = clientSenders.begin();
+    for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
+        if((*itrSenders).isDead()) {
+            (*itrSenders)->join();
+            //delete *it;
+            clientSenders.erase(itrSenders);
         }
     }
 
 
-    auto it = clientReceivers.begin();
-    for ( ; it != clientReceivers.end(); ++it) {
-        if((*it)->isDead()) {
-            (*it)->join();
-            delete *it;
-            clients.erase(it);
+    auto itrReceivers = clientReceivers.begin();
+    for ( ; itrReceivers != clientReceivers.end(); ++itrReceivers) {
+        if((*itrReceivers)->isDead()) {
+            (*itrReceivers)->join();
+            //delete *it;
+            clientReceivers.erase(itrReceivers);
         }
     }
 }
@@ -30,13 +30,13 @@ void ThAcceptor::destroyFinishedClients() {
 void ThAcceptor::destroyAllClients() {
     auto itrSenders = clientSenders.begin();
     for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
-        (*itrSenders).join();
+        (*itrSenders)->join();
         //delete (*itrSenders);
     }
 
     auto itRecvs = clientReceivers.begin();
     for ( ; itRecvs != clientReceivers.end(); ++itRecvs) {
-        (*itRecvs).join();
+        (*itRecvs)->join();
         //delete *it;
     }
 }
@@ -57,7 +57,11 @@ void ThAcceptor::run() {
 
         //Aca hay que pasarle la blocking queue.
         auto *sender = new ThClientSender(client,messages);
-        ThClientReceiver *receiver = new ThClientReceiver(client,messages);
+        auto *receiver = new ThClientReceiver(client,messages);
+
+        clientSenders.push_back(sender);
+        clientReceivers.push_back(receiver);
+
 
         destroyFinishedClients();
     }

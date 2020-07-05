@@ -7,11 +7,11 @@
 #include "Proxy/src/common_blocking_queue.h"
 
 class ThClientSender: public Thread {
-    bool keep_talking{};
+    bool keepTalking;
     Socket client;
-    BlockingQueue<Message>& messages;
+    BlockingQueue<Message*>& messages;
 public:
-    ThClientSender(Socket client,BlockingQueue<Message>& messages);
+    ThClientSender(Socket client,BlockingQueue<Message*>& messages);
     void start() override;
     void run() override;
     void stop();

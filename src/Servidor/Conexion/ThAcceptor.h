@@ -8,8 +8,8 @@
 
 class ThAcceptor: public Thread {
     Socket acceptor;
-    std::vector<ThClientReceiver> clientReceivers;
-    std::vector<ThClientSender> clientSenders;
+    std::vector<ThClientReceiver*> clientReceivers;
+    std::vector<ThClientSender*> clientSenders;
     bool keep_talking;
 public:
     ThAcceptor(const std::string& service);
