@@ -5,11 +5,13 @@
 #include <Proxy/src/common_socket.h>
 #include <Proxy/src/common_message.h>
 #include "Proxy/src/common_blocking_queue.h"
+#include "Protocol.h"
 
 class ThClientSender: public Thread {
     bool keepTalking;
     Socket client;
     BlockingQueue<Message*>& messages;
+    Protocol protocol;
 public:
     ThClientSender(Socket client,BlockingQueue<Message*>& messages);
     void start() override;

@@ -11,22 +11,14 @@ void ThClientSender::start() {
 void ThClientSender::run() {
     Message *message;
     while(keepTalking) {
-        message = messages.pop();
         try {
+            message = messages.pop();
             //si falla el send se lanza una excepcion
-
-            client.send(message->serialize());
+            protocol.send(client,message);
         } catch(std::exception &e) {
             printf("%s", e.what());
             stop();
         }
-
-
-        //logica de protocolo
-        /*const char* data = first.serialize();
-        u_int16_t len_data = strlen(data);
-        send(cliente,len_data);
-        cliente.send(data,len_data);*/
     }
 
 }
