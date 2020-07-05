@@ -348,7 +348,7 @@ void PlayableCharacter::takeDroppable(Equippable* equippable) {
     store(equippable);
 }
 
-bool PlayableCharacter::isInCity() {
+bool PlayableCharacter::isInCity() const {
     return inCity;
 }
 

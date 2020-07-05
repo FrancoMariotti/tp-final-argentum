@@ -83,7 +83,7 @@ public:
     ~PlayableCharacter() override;
 
 
-    bool isInCity();
+    bool isInCity() const;
 };
 
 

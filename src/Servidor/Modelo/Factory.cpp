@@ -258,13 +258,23 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     Position initialPosition = map->asignRandomPosition();
     while (map->posInCity(initialPosition)) initialPosition = map->asignRandomPosition();
 
+    //Voy llenando los vectores de los items que puede dropear
+    std::vector<std::string> potionsToDrop, itemsToDrop;
+    for (auto &potion : npcsObj["potionsToDrop"]) {
+        potionsToDrop.push_back(potion["name"].asString());
+    }
+    for (auto &item : npcsObj["itemsToDrop"]) {
+        itemsToDrop.push_back(item["name"].asString());
+    }
+
     std::string id = specie + std::to_string(counter);
     counter++;
 
-    Npc *enemy = new Npc(id,map, initialPosition, constitution,
-            strengh, agility, intelligence, level, specie, minDamage,
-            maxDamage, minDefense, maxDefense,raceLifeFactor,classLifeFactor,raceManaFactor,classManaFactor,
-            recoveryFactor,meditationRecoveryFactor,observer);
+    Npc *enemy = new Npc(id, map, initialPosition, constitution, strengh,
+            agility, intelligence, level, specie, minDamage, maxDamage,
+            minDefense, maxDefense, raceLifeFactor, classLifeFactor,
+            raceManaFactor, classManaFactor, recoveryFactor,
+            meditationRecoveryFactor, observer, potionsToDrop, itemsToDrop);
 
     spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
     map->registerNpcSpawn(observer,spawn);
