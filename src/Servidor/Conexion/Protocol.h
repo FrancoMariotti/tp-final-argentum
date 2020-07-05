@@ -4,8 +4,10 @@
 
 #include <Proxy/src/common_message.h>
 #include <Proxy/src/common_socket.h>
+#include "MessageSerializer.h"
 
 class Protocol {
+    MessageSerializer serializer;
 public:
     uint16_t valueToBigEndian(uint16_t value);
     uint16_t valueToLocalEndian(uint16_t value);

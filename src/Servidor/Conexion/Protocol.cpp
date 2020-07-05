@@ -1,4 +1,3 @@
-#include <cstring>
 #include "Protocol.h"
 
 uint16_t Protocol::valueToBigEndian(const uint16_t value) {
@@ -24,16 +23,11 @@ uint16_t Protocol::recieve(Socket &socket, int overload){
 }
 
 void Protocol::send(Socket& socket,Message* message) {
-    /*logica de protocolo*/
-    //primero se envia el id del mensaje
     send(socket,message->getId());
-    //serializamos el mensaje
-    const char* data = message->serialize();
-    uint16_t lenData = strlen(data);
-    //enviamos el size del chunck de bytes que vamos a enviar.
+    std::string data = serializer.serialize(message);
+    uint16_t lenData = data.length();
     send(socket,lenData);
-    //enviamos el chunck de bytes.
-    socket.send(data,lenData);
+    socket.send(data.c_str(),lenData);
 }
 
 Message* Protocol::recieve(Socket &socket) {
@@ -41,7 +35,7 @@ Message* Protocol::recieve(Socket &socket) {
     uint16_t len_data = recieve(socket,0);
     char* data  = (char*) malloc(len_data);
     socket.recieve(data,len_data);
-    Message *message = message->deserialize(data);
+    Message *message = serializer.deserialize(messageId,data);
     delete data;
     return message;
 }
