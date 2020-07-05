@@ -27,9 +27,10 @@ private:
     const std::string ITEMS_PATH = "../../Proxy/items/";
     const std::string SPRITE_SUFFIX = "Sprite";
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
+    std::map<std::string, SdlTexture> effects_textures;
     const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie",
                                                            "spider","banker","priest","merchant"};
-
+    const std::vector<std::string> EFFECTS_TEXTURES_ID{"magicArrow","heal","missile", "explosion"};
 public:
     enum e_body_orientation{
         FRONT,
@@ -83,6 +84,10 @@ public:
                         int old_x, int old_y, int animation_frame, e_body_orientation body_or,
                         e_head_orientation head_or);
 
+    void effects(const std::string effect_id, const int x, const int y, const SdlCamera &camera);
+
+    SdlTexture &getEffectSpriteTexture(const std::string effect_id);
+
 private:
     int headX(int tile_size, int head_w) const;
 
@@ -91,6 +96,7 @@ private:
     int armourY(int tile_size, int armour_h, int png_offset_y) const;
 
     int getAnimationPosFor(int old, int off, int animation_frame) const;
+
 };
 
 

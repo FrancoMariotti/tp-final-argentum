@@ -1,7 +1,3 @@
-//
-// Created by agustin on 1/6/20.
-//
-
 #include <string>
 #include "common_protocol.h"
 #include "common_socket.h"

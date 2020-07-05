@@ -4,6 +4,7 @@
 
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_texture.h"
+#include "../../Servidor/Common/Utils.h"
 
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
@@ -66,6 +67,15 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(24, 45, "../../Proxy/items/ironShieldSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("magicHatSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/items/magicHatSprite.png", window)));
+
+    this->effects_textures.emplace(std::make_pair("magicArrowSprite",
+            SdlTexture(64, 64, ASSETS_PATH + "magicArrowSprite.png", window)));
+    this->effects_textures.emplace(std::make_pair("healSprite",
+            SdlTexture(102, 24, ASSETS_PATH + "healSprite.png", window)));
+    this->effects_textures.emplace(std::make_pair("missileSprite",
+            SdlTexture(16, 16, ASSETS_PATH + "missileSprite.png", window)));
+    this->effects_textures.emplace(std::make_pair("explosionSprite",
+            SdlTexture(64, 64, ASSETS_PATH + "explosionSprite.png", window)));
 
 }
 
@@ -254,6 +264,17 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
                                     &shield_orientation_clip);
 }
 
+void SdlTextureManager::effects(const std::string effect_id, const int x, const int y,const SdlCamera& camera){
+    SdlTexture& effectSpriteSheetTexture = this->getEffectSpriteTexture(effect_id);
+    int rand = Utils::random_int_number(0,9);
+    /*5 es la cantidad de sprites por fila*/
+    int col = rand % 5;
+    int fil = rand / 5;
+    SDL_Rect effect_clip{col * effectSpriteSheetTexture.getWidth(), fil,
+                         effectSpriteSheetTexture.getWidth(), effectSpriteSheetTexture.getHeight()};
+    effectSpriteSheetTexture.render(x - camera.getX(),y - camera.getY(), &effect_clip);
+}
+
 int SdlTextureManager::getAnimationPosFor(const int old, const int off, int animation_frame) const {
     int animation_pos = old + (off / 4) * animation_frame;
     return animation_pos;
@@ -271,4 +292,8 @@ int SdlTextureManager::armourY(const int tile_size, int armour_h, int png_offset
 int SdlTextureManager::armourX(const int tile_size, int armour_w) const {
     int armour_x = (tile_size - armour_w) / 2;
     return armour_x;
+}
+
+SdlTexture &SdlTextureManager::getEffectSpriteTexture(const std::string effect_id) {
+    return effects_textures.at(effect_id + SPRITE_SUFFIX);
 }

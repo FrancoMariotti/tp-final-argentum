@@ -57,8 +57,6 @@ int Client::run() {
                         std::uniform_real_distribution<float> dist(0.1,1.0);
                         t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
                         gui.updatePlayerStats(stats);*/
-                        //std::vector<std::string> drops{"sword","axe"};
-                        //gui.updateDrops(drops);
                     } else if (event.key.keysym.sym == SDLK_o){
                  //       testChunk.play(0);
                     } else if (event.key.keysym.sym == SDLK_i) {

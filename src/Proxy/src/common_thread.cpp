@@ -1,16 +1,16 @@
-//
-// Created by agustin on 25/5/20.
-//
-
 #include <utility>
 #include "common_thread.h"
 
-Thread::Thread() = default;
+Thread::Thread():finished(false) {};
 
 Thread::~Thread() = default;
 
 void Thread::start() {
     thread = std::thread(&Thread::run, this);
+}
+
+bool Thread::isDead() const {
+    return this->finished;
 }
 
 void Thread::join() {

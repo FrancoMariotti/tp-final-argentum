@@ -10,9 +10,12 @@ class ThAcceptor: public Thread {
     Socket acceptor;
     std::vector<ThClientReceiver*> clientReceivers;
     std::vector<ThClientSender*> clientSenders;
+    BlockingQueue<std::unique_ptr<Message>>& messages;
+    ProtectedList<std::unique_ptr<Message>>& events;
     bool keep_talking;
 public:
-    ThAcceptor(const std::string& service);
+    ThAcceptor(const std::string& service, BlockingQueue<std::unique_ptr<Message>>& messages,
+    ProtectedList<std::unique_ptr<Message>>& events);
     void start() override;
     void run() override;
     void stop();

@@ -19,7 +19,8 @@ SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &text
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
         tag(pos_x, pos_y, "<" + s_tag + ">", font, window, color),
-        healthBar(pos_x, pos_y, 40, 2, 0xFF, 0, 0, 0xFF, window)
+        healthBar(pos_x, pos_y, 40, 2, 0xFF, 0, 0, 0xFF, window),
+        effect(textureManager.getEffectSpriteTexture("explosion"), 5, 10)
         {}
 
 void SdlDynamicRenderable::updatePos(int new_x, int new_y, SdlCamera &camera) {
@@ -114,6 +115,8 @@ void SdlRenderablePlayable::render(const SdlCamera &camera) {
                                      camera, body_or, head_or);
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
+    /*test*/
+    effect.render(pos_x - camera.getX(), pos_y - camera.getY());
     this->endAnimationIfComplete();
 }
 
