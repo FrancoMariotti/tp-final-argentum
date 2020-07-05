@@ -18,7 +18,7 @@ private:
 public:
     Socket();
 
-    Socket(const Socket&) = delete;
+    Socket(const Socket&) = default;
 
     Socket(Socket&& other) noexcept;
 

@@ -1,7 +1,3 @@
-//
-// Created by franco on 5/7/20.
-//
-
 #include "ThAcceptor.h"
 
 
@@ -11,22 +7,38 @@ ThAcceptor::ThAcceptor(const std::string& service)  {
 }
 
 void ThAcceptor::destroyFinishedClients() {
-    /*auto it = clients.begin();
-    for ( ; it != clients.end(); ++it) {
-        if((*it)->isDead()) {
-            (*it)->join();
-            delete *it;
-            clients.erase(it);
+    auto itrSenders = clientSenders.begin();
+    for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
+        if((*itrSenders).isDead()) {
+            (*itrSenders)->join();
+            //delete *it;
+            clientSenders.erase(itrSenders);
         }
-    }*/
+    }
+
+
+    auto itrReceivers = clientReceivers.begin();
+    for ( ; itrReceivers != clientReceivers.end(); ++itrReceivers) {
+        if((*itrReceivers)->isDead()) {
+            (*itrReceivers)->join();
+            //delete *it;
+            clientReceivers.erase(itrReceivers);
+        }
+    }
 }
 
 void ThAcceptor::destroyAllClients() {
-    /*auto it = clients.begin();
-    for ( ; it != clients.end(); ++it) {
-        (*it)->join();
-        delete *it;
-    }*/
+    auto itrSenders = clientSenders.begin();
+    for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
+        (*itrSenders)->join();
+        //delete (*itrSenders);
+    }
+
+    auto itRecvs = clientReceivers.begin();
+    for ( ; itRecvs != clientReceivers.end(); ++itRecvs) {
+        (*itRecvs)->join();
+        //delete *it;
+    }
 }
 
 
@@ -36,6 +48,24 @@ void ThAcceptor::start() {
 }
 
 void ThAcceptor::run() {
+    BlockingQueue<Message> messages;
+    while (keep_talking) {
+        Socket client = acceptor.accept();
+        //ClientManager* manager = new ClientManager(numbers[i],client,server);
+        //clients.push_back(manager);
+        //manager->start();
+
+        //Aca hay que pasarle la blocking queue.
+        auto *sender = new ThClientSender(client,messages);
+        auto *receiver = new ThClientReceiver(client,messages);
+
+        clientSenders.push_back(sender);
+        clientReceivers.push_back(receiver);
+
+
+        destroyFinishedClients();
+    }
+    destroyAllClients();
 
 }
 

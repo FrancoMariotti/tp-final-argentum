@@ -31,7 +31,7 @@ class BlockingQueue {
     public:
         BlockingQueue() : is_close(false){};
 
-        BlockingQueue(const BlockingQueue& other) = delete;
+        BlockingQueue(const BlockingQueue& other) = default;
 
         /*Agrega @param element a la queue y notifica a todos los hilos*/
         void push(T element){
