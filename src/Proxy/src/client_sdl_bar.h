@@ -13,7 +13,7 @@
 class SdlWindow;
 class SdlBar {
 private:
-    /*son constantes pq la imagen es estatica*/
+    /*son constantes si la imagen es estatica*/
     const int X;
     const int Y;
 
@@ -29,9 +29,14 @@ private:
 public:
     SdlBar(const int x, const int y, const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a, const SdlWindow& window);
 
+    SdlBar(const int x, const int y, const int w, const int h, const uint8_t r, const uint8_t g, const uint8_t b,
+           const uint8_t a, const SdlWindow &window);
+
     void render();
 
     void update(const float percentage);
+
+    void render(const int x, const int y);
 };
 
 

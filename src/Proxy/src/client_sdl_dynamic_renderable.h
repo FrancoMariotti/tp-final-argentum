@@ -9,6 +9,7 @@
 #include "client_sdl_texture_manager.h"
 #include "common_message_structs.h"
 #include "client_sdl_text.h"
+#include "client_sdl_bar.h"
 
 class SdlTexture;
 class SdlCamera;
@@ -24,6 +25,7 @@ protected:
     SdlTextureManager::e_body_orientation body_or;
     SdlTextureManager::e_head_orientation head_or;
     SdlText tag;
+    SdlBar healthBar;
 public:
     SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
                          TTF_Font *font, const std::string s_tag, const SDL_Color color);

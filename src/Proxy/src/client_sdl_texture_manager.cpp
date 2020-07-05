@@ -4,8 +4,6 @@
 
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_texture.h"
-#include "client_sdl_player.h"
-
 
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
@@ -22,6 +20,8 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(26, 46, ASSETS_PATH + "priestSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("banker",
             SdlTexture(26, 48, ASSETS_PATH + "bankerSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("ghostSprite",
+            SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ASSETS_PATH + "ghostFrontSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("noneSprite",
             SdlTexture(1, 1, ITEMS_PATH + "noneSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
