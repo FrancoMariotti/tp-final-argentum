@@ -61,7 +61,7 @@ void MerchantFactory::create(Map* map, std::string file) {
         item_t newItem {
                 item["name"].asString(),
                 item["type"].asString(),
-                item["spellType"].asString(),
+                item["spelltype"].asString(),
                 item["protectionId"].asInt(),
                 item["max"].asInt(),
                 item["min"].asInt(),
@@ -105,7 +105,7 @@ void PriestFactory::create(Map* map, std::string file) {
         item_t newItem {
                 item["name"].asString(),
                 item["type"].asString(),
-                item["spellType"].asString(),
+                item["spelltype"].asString(),
                 item["protectionId"].asInt(),
                 item["max"].asInt(),
                 item["min"].asInt(),
@@ -295,7 +295,7 @@ Equippable* ManaPotionFactory::create(item_t item) {
 
 Equippable* MagicalWeaponFactory::create(item_t item) {
     SpellType* spell;
-    if (item.spelltype == "heal") {
+    if (item.spelltype == "Heal") {
         spell = new Heal();
     } else {
         spell = new Damage();
