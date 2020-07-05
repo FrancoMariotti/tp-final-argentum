@@ -120,7 +120,7 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text.find("/vender") == 0 && clicked_in_map) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
     } else if (input_text == ("/tomar")) {
-        SDL_Point player_server_pos = camera.toServerCoordinates(SDL_Point{player.getPosX(), player.getPosY()});
+        SDL_Point player_server_pos = camera.posToServerCoordinates(SDL_Point{player.getPosX(), player.getPosY()});
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, player_server_pos.x, player_server_pos.y)));
     } else if (input_text == ("/tirar")) {
         clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, mouse.getLastClickedItemIndex(),-1)));
