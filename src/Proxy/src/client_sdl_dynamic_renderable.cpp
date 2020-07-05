@@ -7,7 +7,8 @@
 #include "client_sdl_texture.h"
 #include "common_osexception.h"
 
-DynamicRenderable::DynamicRenderable(int x, int y, SdlTextureManager &textureManager) :
+SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
+                                           TTF_Font *font, const std::string s_tag, const SDL_Color color) :
         pos_x(x),
         pos_y(y),
         old_x(0),
@@ -16,10 +17,11 @@ DynamicRenderable::DynamicRenderable(int x, int y, SdlTextureManager &textureMan
         is_moving(false),
         textureManager(textureManager),
         body_or(SdlTextureManager::FRONT),
-        head_or(SdlTextureManager::FRONT_HEAD_SPRITE)
+        head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
+        tag(pos_x, pos_y, "<" + s_tag + ">", font, window, color)
         {}
 
-void DynamicRenderable::updatePos(int new_x, int new_y, SdlCamera &camera) {
+void SdlDynamicRenderable::updatePos(int new_x, int new_y, SdlCamera &camera) {
     this->old_x = pos_x;
     this->old_y = pos_y;
     pos_x = camera.toPixels(new_x);
@@ -40,12 +42,12 @@ void DynamicRenderable::updatePos(int new_x, int new_y, SdlCamera &camera) {
     this->startAnimation();
 }
 
-void DynamicRenderable::startAnimation() {
+void SdlDynamicRenderable::startAnimation() {
     animation_frame = 0;
     is_moving = true;
 }
 
-void DynamicRenderable::endAnimationIfComplete() {
+void SdlDynamicRenderable::endAnimationIfComplete() {
     if(is_moving) {
         if (animation_frame >= MAX_FRAMES) {
             is_moving = false;
@@ -56,43 +58,48 @@ void DynamicRenderable::endAnimationIfComplete() {
 }
 
 
-RenderableNPC::RenderableNPC(const int x, const int y,
-        SdlTextureManager &textureManager, const std::string texture_id) :
-        DynamicRenderable(x,y,textureManager),
+SdlRenderableNPC::SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
+                                   const std::string texture_id, TTF_Font *font, const SdlWindow &window) :
+        SdlDynamicRenderable(x, y, textureManager, window, font, texture_id,
+                SDL_Color{0xFF,0,0,0xFF}),
         texture_id(texture_id)
         {}
 
-void RenderableNPC::render(const SdlCamera& camera){
+void SdlRenderableNPC::render(const SdlCamera& camera){
     if(is_moving){
         int of_x = pos_x - old_x;
         int of_y = pos_y - old_y;
         textureManager.renderMovingNPC(texture_id, old_x, old_y,
                 body_or, of_x, of_y, animation_frame, camera);
-    } else{
+    } else {
         textureManager.renderStillNPC(texture_id, pos_x,
                                       pos_y, body_or, camera);
+        tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
     this->endAnimationIfComplete();
 }
 
-void RenderableNPC::updateEquipment(const equipment_t &equipment) {
-    throw OSError{"RenderableNPC:updateEquipment, NPC doesnt have equipment"};
+void SdlRenderableNPC::updateEquipment(const equipment_t &equipment) {
+    throw OSError{"SdlRenderableNPC:updateEquipment, NPC doesnt have equipment"};
 }
 
-RenderablePlayable::RenderablePlayable(int x, int y, SdlTextureManager &textureManager) :
-        DynamicRenderable(x,y,textureManager),
+SdlRenderablePlayable::SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
+                                             const std::string username, TTF_Font *font, const SdlWindow &window) :
+        SdlDynamicRenderable(x, y, textureManager, window, font ,
+                username, SDL_Color{0, 0, 0xFF, 0xFF}),
+        username(username),
         t_appearance{"humanHead","none","defaultArmour",
                      "none","none"}
         {}
 
-void RenderablePlayable::updateEquipment(const equipment_t &equipment) {
+void SdlRenderablePlayable::updateEquipment(const equipment_t &equipment) {
     t_appearance.weapon = equipment.weaponName;
     t_appearance.armour = equipment.armourName;
     t_appearance.helmet = equipment.helmetName;
     t_appearance.shield = equipment.shieldName;
 }
 
-void RenderablePlayable::render(const SdlCamera &camera) {
+void SdlRenderablePlayable::render(const SdlCamera &camera) {
     if(is_moving){
         int of_x = pos_x - old_x;
         int of_y = pos_y - old_y;
@@ -103,14 +110,15 @@ void RenderablePlayable::render(const SdlCamera &camera) {
     } else{
         textureManager.renderStillPC(t_appearance, pos_x, pos_y,
                                      camera, body_or, head_or);
+        tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
     this->endAnimationIfComplete();
 }
 
-int RenderablePlayable::getPosX() const {
+int SdlRenderablePlayable::getPosX() const {
     return pos_x;
 }
 
-int RenderablePlayable::getPosY() const {
+int SdlRenderablePlayable::getPosY() const {
     return pos_y;
 }

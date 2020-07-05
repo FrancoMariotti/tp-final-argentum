@@ -19,7 +19,7 @@
 #include "client_sdl_timer.h"
 #include "client_sdl_dynamic_renderable.h"
 
-class DynamicRenderable;
+class SdlDynamicRenderable;
 class GUI {
 private:
     SdlWindow window;
@@ -28,7 +28,7 @@ private:
     SdlAudioManager audioManager;
     SdlTextureManager textureManager;
     SdlTexture interface;
-    RenderablePlayable player;
+    SdlRenderablePlayable player;
     SdlInventory inventory;
     SdlCamera camera;
     SdlMouse mouse;
@@ -36,8 +36,8 @@ private:
     SdlConsole console;
     SdlWorld world;
     SdlStats playerStats;
-    std::map<std::string, std::unique_ptr<DynamicRenderable>> dynamic_renderables;
-    std::vector<std::unique_ptr<DynamicRenderable>> static_renderables;
+    std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
+    std::vector<std::unique_ptr<SdlDynamicRenderable>> static_renderables;
 
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
 public:

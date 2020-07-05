@@ -8,10 +8,11 @@
 
 #include "client_sdl_texture_manager.h"
 #include "common_message_structs.h"
+#include "client_sdl_text.h"
 
 class SdlTexture;
 class SdlCamera;
-class DynamicRenderable {
+class SdlDynamicRenderable {
 protected:
     int pos_x;
     int pos_y;
@@ -22,13 +23,14 @@ protected:
     SdlTextureManager& textureManager;
     SdlTextureManager::e_body_orientation body_or;
     SdlTextureManager::e_head_orientation head_or;
-
+    SdlText tag;
 public:
-    DynamicRenderable(int x, int y, SdlTextureManager &textureManager);
+    SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
+                         TTF_Font *font, const std::string s_tag, const SDL_Color color);
     virtual void updatePos(int new_x, int new_y, SdlCamera &camera);
     virtual void updateEquipment(const equipment_t& equipment) = 0;
     virtual void render(const SdlCamera& camera) = 0;
-    virtual ~DynamicRenderable() = default;
+    virtual ~SdlDynamicRenderable() = default;
 
 protected:
     void startAnimation();
@@ -36,25 +38,26 @@ protected:
 };
 
 
-class RenderableNPC : public DynamicRenderable {
+class SdlRenderableNPC : public SdlDynamicRenderable {
 private:
     const std::string texture_id;
 public:
-    RenderableNPC(int x, int y, SdlTextureManager &textureManager,
-                         std::string texture_id);
+    SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
+                     const std::string texture_id, TTF_Font *font, const SdlWindow &window);
 
     void updateEquipment(const equipment_t& equipment) override;
 
     void render(const SdlCamera& camera) override;
 };
 
-class RenderablePlayable : public DynamicRenderable{
+class SdlRenderablePlayable : public SdlDynamicRenderable{
 private:
     std::string username;
     SdlTextureManager::t_player_appearance t_appearance;
 
 public:
-    RenderablePlayable(int x, int y, SdlTextureManager &textureManager);
+    SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
+                          const std::string username, TTF_Font *font, const SdlWindow &window);
 
     void updateEquipment(const equipment_t& equipment) override ;
 

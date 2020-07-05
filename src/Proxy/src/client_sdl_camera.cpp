@@ -5,7 +5,7 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_dynamic_renderable.h"
 
-SdlCamera::SdlCamera(const int screen_width,const int screen_height, RenderablePlayable& player) :
+SdlCamera::SdlCamera(const int screen_width, const int screen_height, SdlRenderablePlayable& player) :
         CAMERA_WIDTH(screen_width),
         CAMERA_HEIGHT(screen_height),
         player(player) {

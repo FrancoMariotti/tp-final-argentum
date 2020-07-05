@@ -19,7 +19,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     audioManager(),
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
-    player(0,0,textureManager),
+    player(0, 0, textureManager, "franco", font, window),
     inventory(screen_width, screen_height, window),
     camera(screen_width, screen_height, player),
     mouse(camera),
@@ -78,24 +78,24 @@ void GUI::updateInventory(std::vector<std::string> player_inventory) {
 
 void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderables){
     for(auto it = renderables.begin(); it != renderables.end(); it++){
-        static_renderables.push_back(std::unique_ptr<DynamicRenderable>
-                (new RenderableNPC(camera.toPixels(it->x),
-                        camera.toPixels(it->y),
-                        textureManager, it->id)));
+        static_renderables.push_back(std::unique_ptr<SdlDynamicRenderable>
+                (new SdlRenderableNPC(camera.toPixels(it->x),
+                                      camera.toPixels(it->y),
+                                      textureManager, it->id, font, window)));
     }
 }
 
 /*Itera @param renderables y busca el id de textura que corresponde con el id del renderizable y lo agrega al map
- * con key: id y value: puntero a DynamicRenderable*/
+ * con key: id y value: puntero a SdlDynamicRenderable*/
 void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     dynamic_renderables.clear();
     auto it = renderables.begin();
     for(; it != renderables.end(); it++) {
         std::string texture_id = textureManager.findTextureId(it->id);
         if (texture_id != "player"){
-            dynamic_renderables[it->id] = std::unique_ptr <DynamicRenderable>
-                    (new RenderableNPC(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
-                                       texture_id));
+            dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
+                    (new SdlRenderableNPC(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
+                                          texture_id, font, window));
         }
     }
 }

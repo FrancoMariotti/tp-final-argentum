@@ -62,7 +62,7 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
 }
 
 void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         RenderablePlayable &player) {
+                         SdlRenderablePlayable &player) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
@@ -88,7 +88,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
 }
 
 void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, RenderablePlayable &player) {
+                                    SdlCamera &camera, SdlRenderablePlayable &player) {
     /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
      * pasar player por referencia?*/
     /**Primero el click luego el comando*/
