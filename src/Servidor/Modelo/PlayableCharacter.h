@@ -61,7 +61,7 @@ public:
     int receiveAttackFrom(PlayableCharacter *enemy) override;
     int defend(int damage);
     int modifyLifePoints(int enemyLevel, int damage);
-    void sellTo(int itemIndex, Merchant* merchant);
+    void sellTo(std::string itemName, Merchant* merchant);
     void buyFrom(const std::string& itemName, ItemSeller* seller);
     void deposit(const std::string& element, Banker *banker);
     void deposit(int amount, Banker* banker);

@@ -2,4 +2,4 @@ project(argentum)
 
 FILE(GLOB SRCS *.cpp *.h)
 
-add_library(servidorModeloLib ${SRCS} CommandExecutor.cpp CommandExecutor.h ExtractCommand.cpp ExtractCommand.h BuyCommand.cpp BuyCommand.h ItemSeller.h)
+add_library(servidorModeloLib ${SRCS})

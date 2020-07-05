@@ -223,8 +223,8 @@ void PlayableCharacter::die() {
 
 }
 
-void PlayableCharacter::sellTo(int itemIndex, Merchant *merchant) {
-    Equippable* item = inventory.takeElement(itemIndex, this);
+void PlayableCharacter::sellTo(std::string itemName, Merchant *merchant) {
+    Equippable* item = inventory.takeElement(itemName, this);
     gold += merchant->buy(item->getName());
     delete item;
     inventory.sendItems(observer);

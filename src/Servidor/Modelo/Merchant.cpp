@@ -1,4 +1,3 @@
-#include <iostream>
 #include <utility>
 #include "Merchant.h"
 #include "Factory.h"
