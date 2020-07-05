@@ -7,15 +7,17 @@
 #include <Proxy/src/common_message.h>
 #include <Proxy/src/common_blocking_queue.h>
 #include "Proxy/src/client_protected_list.h"
+#include "Protocol.h"
 
 class ThClientReceiver: public Thread {
     bool keepTalking;
     Socket client;
+    Protocol protocol;
     ProtectedList<std::unique_ptr<Message>>& events;
 public:
     ThClientReceiver(Socket client,ProtectedList<std::unique_ptr<Message>>& events);
-    void start() override ;
-    void run() override ;
+    void start() override;
+    void run() override;
     void stop();
 
 };

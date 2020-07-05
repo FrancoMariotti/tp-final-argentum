@@ -53,6 +53,7 @@ void Map::add(const std::string& playerName, PlayableCharacter *character) {
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
+    npc->addMerchant(&merchant);
     this->npcs[idNpc] = npc;
 }
 
