@@ -22,8 +22,8 @@ public:
     int use(int damage) const;
     ~Armour();
     void unequip(Protection* protection);
-
     std::string getName(int equipmentId);
+    void unequipEveryProtectionFrom(PlayableCharacter *player);
 };
 
 

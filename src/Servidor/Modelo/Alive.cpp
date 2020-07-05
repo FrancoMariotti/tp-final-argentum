@@ -86,3 +86,8 @@ void Alive::healedByPriest(PlayableCharacter* character) {
     character->restoreMana();
     character->notifyStats();
 }
+
+void Alive::takeDroppable(Droppable *droppable, PlayableCharacter *character) {
+    //NO SE SI VA A FUNCIONAR ESTO
+    droppable->takenBy(character);
+}

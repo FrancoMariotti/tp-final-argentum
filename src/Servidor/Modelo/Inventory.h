@@ -16,6 +16,8 @@ public:
     void sendItems(Observer *observer);
 
     Equippable *takeElement(const std::string& elementName, PlayableCharacter *character);
+
+    int getItemsAmount();
 };
 
 

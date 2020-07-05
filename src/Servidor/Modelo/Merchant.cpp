@@ -11,6 +11,7 @@ Equippable* Merchant::sell(const std::string& name, int *gold) {
     item_t item = stock.at(name);
     if (item.goldCost > *gold) return nullptr;
     *gold -= item.goldCost;
+    if (*gold < 0) *gold = 0;
     return factories.at(item.type)->create(item);
 }
 

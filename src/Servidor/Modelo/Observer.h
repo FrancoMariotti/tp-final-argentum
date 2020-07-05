@@ -21,6 +21,8 @@ public:
 
     virtual void
     notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) = 0;
+
+    virtual void notifyDropSpawnNUpdate(std::vector<spawn_character_t> dropSpawns) = 0;
 };
 
 #endif //ARGENTUM_OBSERVER_H

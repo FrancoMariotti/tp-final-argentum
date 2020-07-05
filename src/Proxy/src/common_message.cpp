@@ -233,6 +233,13 @@ std::vector<spawn_character_t> SpawnNpc::getSpawnData() {
     return std::move(renderables);
 }
 
+SpawnDrops::SpawnDrops(std::vector<spawn_character_t> renderables) : Message(SPAWN_DROPS_MESSAGE_ID),
+    renderables(std::move(renderables)){}
+
+std::vector<spawn_character_t> SpawnDrops::getSpawnData() {
+    return std::move(renderables);
+}
+
 SpawnCityCharacters::SpawnCityCharacters(std::vector<spawn_character_t> renderables) : Message(SPAWN_CITY_CHARACTERS_MESSAGE_ID),
     renderables(std::move(renderables)){}
 

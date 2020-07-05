@@ -6,10 +6,11 @@
 #define ARGENTUM_EQUIPPABLE_H
 
 #include <string>
+#include "Droppable.h"
 
-class PlayableCharacter;
+//class PlayableCharacter;
 
-class Equippable {
+class Equippable : public Droppable {
     //Corresponde al identifcador de la imagen asociada al equipable
     std::string name;
     int minValue;
@@ -23,6 +24,7 @@ public:
     virtual void equipTo(PlayableCharacter *character, int index) = 0;
     virtual void unequipFrom(PlayableCharacter *character) = 0;
     std::string getName();
+    void takenBy(PlayableCharacter* player) override;
     virtual ~Equippable() = default;
 
     bool isEquipped();

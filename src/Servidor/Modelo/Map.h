@@ -28,10 +28,12 @@ class Map {
     Priest priest;
     std::vector<spawn_character_t> cityCharactersSpawns;
     std::vector<spawn_character_t> npcSpawns;
+    std::vector<spawn_character_t> dropsSpawns;
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
     std::vector<City> cities;
+    std::vector<Drop> drops;
     public:
         Map(int width,int height);
         void add(const std::string& playerName,PlayableCharacter* character);
@@ -39,6 +41,7 @@ class Map {
         void add(const Obstacle& obstacle);
         void add(City city);
         bool isOccupied(Position pos);
+        bool outOfBounds(Position position) const;
         void move(Position& from,Position& to);
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
@@ -64,8 +67,10 @@ class Map {
 
     void add(Banker pBanker);
     void add(Merchant pMerchant);
-
     void add(Priest priest);
+    bool hasDropInPos(Position position);
+
+    void updateDropSpawns(Observer *observer);
 };
 
 #endif //ARGENTUM_MAPA_H

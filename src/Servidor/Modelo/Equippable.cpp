@@ -1,5 +1,7 @@
 #include "Equippable.h"
 #include "Servidor/Common/Utils.h"
+#include "PlayableCharacter.h"
+
 
 Equippable::Equippable(std::string name, int minValue, int maxValue, int goldCost)
     : name(name), minValue(minValue), maxValue(maxValue), goldCost(goldCost)
@@ -11,6 +13,10 @@ int Equippable::randomize() const {
 
 bool Equippable::isEquipped() {
     return equipped;
+}
+
+void Equippable::takenBy(PlayableCharacter *player) {
+    player->takeDroppable(this);
 }
 
 

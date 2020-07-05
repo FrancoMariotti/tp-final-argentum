@@ -6,13 +6,18 @@
 #define ARGENTUM_DROP_H
 
 #include "Position.h"
+#include "Equippable.h"
 
 class Drop {
-    int gold;
+    //int gold;
     Position position;
+    Droppable* item;
+    std::string name;
 public:
-    explicit Drop(Position& position);
-    void addGold(int dropGold);
+    Drop(Position& position, Droppable* droppable, std::string name);
+    //bool collidesWith(Position pos);
+    Position getPosition();
+    std::string getName();
 };
 
 

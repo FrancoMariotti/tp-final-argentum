@@ -46,4 +46,6 @@ PlayableCharacter * Ghost::closestToInRange(const Position &position,
 
 void Ghost::healedByPriest(PlayableCharacter *character) {}
 
+void Ghost::takeDroppable(Droppable *droppable, PlayableCharacter *character) {}
+
 

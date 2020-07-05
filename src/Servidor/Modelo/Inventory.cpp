@@ -46,3 +46,7 @@ Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharac
 
     return result;
 }
+
+int Inventory::getItemsAmount() {
+    return elements.size();
+}

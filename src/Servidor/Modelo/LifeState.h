@@ -28,6 +28,8 @@ public:
             PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) = 0;
 
     virtual void healedByPriest(PlayableCharacter* character) = 0;
+    virtual void takeDroppable(Droppable *droppable, PlayableCharacter *character) = 0;
+
 };
 
 

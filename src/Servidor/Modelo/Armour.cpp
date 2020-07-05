@@ -31,8 +31,15 @@ std::string Armour::getName(int equipmentId) {
     return protections[equipmentId]->getName();
 }
 
+void Armour::unequipEveryProtectionFrom(PlayableCharacter* player) {
+    for (auto &protection : protections) {
+        protection->unequipFrom(player);
+    }
+}
+
 Armour::~Armour() {
     for (auto it = protections.begin(); it != protections.end(); it++) {
         if ((*it) != &defaultProtection) delete (*it);
     }
 }
+
