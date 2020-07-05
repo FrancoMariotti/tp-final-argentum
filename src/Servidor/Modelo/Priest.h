@@ -12,7 +12,7 @@ public:
     Priest() = default;
     Priest(std::vector<Position> positions, std::map<std::string, item_t> stock ,
            std::map<std::string, EquippableFactory*> factories);
-    Priest& operator=(const Priest&);
+    Priest& operator=(Priest&&) noexcept ;
     Priest(Priest&& priest) noexcept ;
     Equippable* sell(const std::string& name, int *gold) override;
     void restoreManaAndLife(PlayableCharacter* character);

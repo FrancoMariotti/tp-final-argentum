@@ -11,7 +11,7 @@ Equippable* Priest::sell(const std::string& name, int *gold) {
     item_t item = stock.at(name);
     if (item.goldCost > *gold) return nullptr;
     *gold -= item.goldCost;
-    return factories.at(name)->create(item);
+    return factories.at(item.type)->create(item);
 }
 
 void Priest::restoreManaAndLife(PlayableCharacter* character) {
@@ -27,7 +27,10 @@ void Priest::reviveIn(PlayableCharacter *character, const Position& position) {
     character->teleportTo(position);
 }
 
-Priest& Priest::operator=(const Priest& priest) {
+Priest& Priest::operator=(Priest&& priest) noexcept {
+    this->factories = std::move(priest.factories);
+    this->positions = std::move(priest.positions);
+    this->stock = std::move(priest.stock);
     return *this;
 }
 

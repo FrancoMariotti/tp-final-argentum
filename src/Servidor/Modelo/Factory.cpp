@@ -164,10 +164,10 @@ Map* MapFactory::create() {
 
 
     Map *map = new Map(width_map, height_map);
-
     merchantFactory.create(map,file);
     bankerFactory.create(map,file);
     priestFactory.create(map,file);
+
 
     for (auto & i : obstacles){
         int width = i["width"].asInt()/32;

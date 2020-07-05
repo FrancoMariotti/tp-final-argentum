@@ -12,7 +12,7 @@ Equippable* Merchant::sell(const std::string& name, int *gold) {
     item_t item = stock.at(name);
     if (item.goldCost > *gold) return nullptr;
     *gold -= item.goldCost;
-    return factories.at(name)->create(item);
+    return factories.at(item.type)->create(item);
 }
 
 int Merchant::buy(const std::string& itemName) {
@@ -20,6 +20,13 @@ int Merchant::buy(const std::string& itemName) {
 }
 
 //Merchant::Merchant(Merchant &merchant) noexcept {}
+
+Merchant& Merchant::operator=(Merchant&& merchant) noexcept {
+    this->factories = std::move(merchant.factories);
+    this->stock = std::move(merchant.stock);
+    this->positions = std::move(merchant.positions);
+    return *this;
+}
 
 Merchant::Merchant(Merchant &&merchant) noexcept :positions(merchant.positions),
                             stock(merchant.stock),factories(merchant.factories) {
@@ -38,8 +45,4 @@ Merchant::~Merchant() {
     for(;it!=factories.end();it++) {
         delete it->second;
     }
-}
-
-Merchant& Merchant::operator=(const Merchant&) {
-    return *this;
 }

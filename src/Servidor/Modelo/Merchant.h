@@ -25,7 +25,7 @@ public:
     Merchant(std::vector<Position> positions, std::map<std::string,item_t> stock,
             std::map<std::string, EquippableFactory*> factories);
     //Merchant(Merchant& merchant) noexcept ;
-    Merchant& operator=(const Merchant&);
+    Merchant& operator=(Merchant&&) noexcept ;
     Merchant(Merchant&& merchant) noexcept ;
     Equippable* sell(const std::string& name, int *gold) override;
     int buy(const std::string& itemName);

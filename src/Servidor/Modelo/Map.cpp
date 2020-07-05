@@ -13,15 +13,19 @@
 Map::Map(int width,int height):width(width),height(height) {}
 
 void Map::add( Banker pBanker) {
-    this->banker = pBanker;
+    this->banker = std::move(pBanker);
 }
 
 void Map::add( Merchant pMerchant) {
-    this->merchant = pMerchant;
+    this->merchant = std::move(pMerchant);
 }
 
 void Map::add( Priest pPriest) {
-    this->priest = pPriest;
+    this->priest = std::move(pPriest);
+}
+
+void Map::add(City city) {
+    cities.push_back(std::move(city));
 }
 
 void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
@@ -50,10 +54,6 @@ void Map::add(const std::string& playerName, PlayableCharacter *character) {
 
 void Map::add(std::string idNpc ,Npc* npc) {
     this->npcs[idNpc] = npc;
-}
-
-void Map::add(City city) {
-    cities.push_back(std::move(city));
 }
 
 void Map::add(const Obstacle& obstacle) {
