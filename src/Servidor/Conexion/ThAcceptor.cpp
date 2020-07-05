@@ -1,7 +1,3 @@
-//
-// Created by franco on 5/7/20.
-//
-
 #include "ThAcceptor.h"
 
 
@@ -11,22 +7,38 @@ ThAcceptor::ThAcceptor(const std::string& service)  {
 }
 
 void ThAcceptor::destroyFinishedClients() {
-    /*auto it = clients.begin();
-    for ( ; it != clients.end(); ++it) {
+    auto it = clientSenders.begin();
+    for ( ; it != clientSenders.end(); ++it) {
         if((*it)->isDead()) {
             (*it)->join();
             delete *it;
             clients.erase(it);
         }
-    }*/
+    }
+
+
+    auto it = clientReceivers.begin();
+    for ( ; it != clientReceivers.end(); ++it) {
+        if((*it)->isDead()) {
+            (*it)->join();
+            delete *it;
+            clients.erase(it);
+        }
+    }
 }
 
 void ThAcceptor::destroyAllClients() {
-    /*auto it = clients.begin();
-    for ( ; it != clients.end(); ++it) {
-        (*it)->join();
-        delete *it;
-    }*/
+    auto itrSenders = clientSenders.begin();
+    for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
+        (*itrSenders).join();
+        //delete (*itrSenders);
+    }
+
+    auto itRecvs = clientReceivers.begin();
+    for ( ; itRecvs != clientReceivers.end(); ++itRecvs) {
+        (*itRecvs).join();
+        //delete *it;
+    }
 }
 
 
@@ -36,6 +48,20 @@ void ThAcceptor::start() {
 }
 
 void ThAcceptor::run() {
+    BlockingQueue<Message> messages;
+    while (keep_talking) {
+        Socket client = acceptor.accept();
+        //ClientManager* manager = new ClientManager(numbers[i],client,server);
+        //clients.push_back(manager);
+        //manager->start();
+
+        //Aca hay que pasarle la blocking queue.
+        auto *sender = new ThClientSender(client,messages);
+        ThClientReceiver *receiver = new ThClientReceiver(client,messages);
+
+        destroyFinishedClients();
+    }
+    destroyAllClients();
 
 }
 

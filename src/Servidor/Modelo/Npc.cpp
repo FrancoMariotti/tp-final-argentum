@@ -105,7 +105,7 @@ int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
 }
 
 void Npc::die() {
-    if(shouldDrop(GOLD_DROP_PROBABILITY)) {
+    if (shouldDrop(GOLD_DROP_PROBABILITY)) {
         int gold = (int)calculateNpcGoldDrop();
         auto* goldBag = new GoldBag(gold);
         Position pos = getClosestPositionToDrop();
@@ -113,14 +113,14 @@ void Npc::die() {
         map->addDrop(drop);
     }
 
-    if(shouldDrop(POTION_DROP_PROBABILITY)) {
+    if (shouldDrop(POTION_DROP_PROBABILITY)) {
         //CREATE RANDOM POTION
         /*Position pos = getClosestPositionToDrop();
         Drop drop(pos, POTION);
         map->addDrop(drop);*/
     }
 
-    if(shouldDrop(OBJECT_DROP_PROBABILITY)) {
+    if (shouldDrop(OBJECT_DROP_PROBABILITY)) {
         //CREATE RANDOM OBJECT
         /*Position pos = getClosestPositionToDrop();
         Drop drop(pos, RANDOMOBJECT);

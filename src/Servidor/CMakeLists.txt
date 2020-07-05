@@ -16,5 +16,6 @@ add_library(proxysources
         ./../Proxy/src/common_closedqueue_exception.h
         ./../Proxy/src/common_closedqueue_exception.cpp)
 add_subdirectory(Common)
+add_subdirectory(Conexion)
 add_subdirectory(Modelo)
 target_link_libraries(Servidor servidorModeloLib proxysources commonLib jsoncpp)
