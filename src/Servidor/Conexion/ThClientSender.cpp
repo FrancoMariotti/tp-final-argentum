@@ -1,6 +1,6 @@
 #include "ThClientSender.h"
 
-ThClientSender::ThClientSender(Socket client,BlockingQueue<Message*>& messages):
+ThClientSender::ThClientSender(Socket client,BlockingQueue<std::unique_ptr<Message>>& messages):
                                 client(std::move(client)),messages(messages) {
     this->keepTalking = true;
 }
@@ -10,17 +10,18 @@ void ThClientSender::start() {
 }
 
 void ThClientSender::run() {
-    Message *message;
+    std::unique_ptr<Message> message;
     while(keepTalking) {
         try {
+            std::cout << "recieving event" << std::endl;
             message = messages.pop();
-            //si falla el send se lanza una excepcion
-            protocol.send(client,message);
+            protocol.send(client,message.release());
         } catch(std::exception &e) {
             printf("%s", e.what());
             stop();
         }
     }
+    finished = true;
 }
 
 void ThClientSender::stop() {

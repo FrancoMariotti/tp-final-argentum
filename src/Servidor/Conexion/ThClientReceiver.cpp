@@ -14,15 +14,13 @@ void ThClientReceiver::run() {
     while (keepTalking) {
         try{
             std::cout << "recieving event" << std::endl;
-
-            //primero deberia recibirse el tipo de mensaje
-            //logica para la recepcion del mensaje
             Message* message = protocol.recieve(client);
             events.push(std::unique_ptr<Message>(message));
         } catch ( ClosedQueueException &e){
             stop();
         }
     }
+    finished = true;
 }
 
 void ThClientReceiver::stop() {

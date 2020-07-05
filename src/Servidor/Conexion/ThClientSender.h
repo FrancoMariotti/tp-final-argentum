@@ -10,10 +10,10 @@
 class ThClientSender: public Thread {
     bool keepTalking;
     Socket client;
-    BlockingQueue<Message*>& messages;
+    BlockingQueue<std::unique_ptr<Message>>& messages;
     Protocol protocol;
 public:
-    ThClientSender(Socket client,BlockingQueue<Message*>& messages);
+    ThClientSender(Socket client,BlockingQueue<std::unique_ptr<Message>>& messages);
     void start() override;
     void run() override;
     void stop();

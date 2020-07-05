@@ -10,8 +10,11 @@
 
 class Server {
     ThAcceptor clientAcceptor;
+    BlockingQueue<std::unique_ptr<Message>> messages;
+    ProtectedList<std::unique_ptr<Message>> events;
 public:
     explicit Server(std::string service);
+    void start();
 };
 
 

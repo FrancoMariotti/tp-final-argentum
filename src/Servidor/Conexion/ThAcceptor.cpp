@@ -1,7 +1,7 @@
 #include "ThAcceptor.h"
 
-
-ThAcceptor::ThAcceptor(const std::string& service)  {
+ThAcceptor::ThAcceptor(const std::string &service, BlockingQueue<std::unique_ptr<Message>> &messages,
+                       ProtectedList<std::unique_ptr<Message>> &events):messages(messages),events(events) {
     this->keep_talking = true;
     this->acceptor.bindAndListen(service.c_str());
 }
@@ -9,9 +9,9 @@ ThAcceptor::ThAcceptor(const std::string& service)  {
 void ThAcceptor::destroyFinishedClients() {
     auto itrSenders = clientSenders.begin();
     for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
-        if((*itrSenders).isDead()) {
+        if((*itrSenders)->isDead()) {
             (*itrSenders)->join();
-            //delete *it;
+            delete *itrSenders;
             clientSenders.erase(itrSenders);
         }
     }
@@ -21,7 +21,7 @@ void ThAcceptor::destroyFinishedClients() {
     for ( ; itrReceivers != clientReceivers.end(); ++itrReceivers) {
         if((*itrReceivers)->isDead()) {
             (*itrReceivers)->join();
-            //delete *it;
+            delete *itrReceivers;
             clientReceivers.erase(itrReceivers);
         }
     }
@@ -31,37 +31,29 @@ void ThAcceptor::destroyAllClients() {
     auto itrSenders = clientSenders.begin();
     for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
         (*itrSenders)->join();
-        //delete (*itrSenders);
+        delete (*itrSenders);
     }
 
     auto itRecvs = clientReceivers.begin();
     for ( ; itRecvs != clientReceivers.end(); ++itRecvs) {
         (*itRecvs)->join();
-        //delete *it;
+        delete *itrSenders;
     }
 }
-
-
 
 void ThAcceptor::start() {
     Thread::start();
 }
 
 void ThAcceptor::run() {
-    BlockingQueue<Message> messages;
     while (keep_talking) {
         Socket client = acceptor.accept();
-        //ClientManager* manager = new ClientManager(numbers[i],client,server);
-        //clients.push_back(manager);
-        //manager->start();
 
-        //Aca hay que pasarle la blocking queue.
         auto *sender = new ThClientSender(client,messages);
-        auto *receiver = new ThClientReceiver(client,messages);
+        auto *receiver = new ThClientReceiver(client,events);
 
         clientSenders.push_back(sender);
         clientReceivers.push_back(receiver);
-
 
         destroyFinishedClients();
     }
@@ -73,3 +65,5 @@ void ThAcceptor::stop() {
     this->keep_talking = false;
     this->acceptor.shutdown(SHUT_RDWR);
 }
+
+

@@ -11,10 +11,10 @@
 class Thread {
 private:
     std::thread thread;
-
+protected:
+    bool finished;
 public:
     Thread();
-
     virtual void start();
     void join();
     virtual void run() = 0;
@@ -23,6 +23,8 @@ public:
     Thread& operator=(const Thread&) = delete;
     Thread(Thread&& other) noexcept;
     Thread& operator=(Thread&& other) noexcept;
+
+    bool isDead() const;
 };
 
 
