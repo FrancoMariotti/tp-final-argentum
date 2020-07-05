@@ -20,7 +20,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
     player(0, 0, textureManager, "franco", font, window),
-    inventory(screen_width, screen_height, window),
+    inventory(screen_width, screen_height, window, font),
     camera(screen_width, screen_height, player),
     mouse(camera),
     keyboard(),

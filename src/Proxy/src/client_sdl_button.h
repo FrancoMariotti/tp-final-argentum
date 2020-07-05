@@ -12,13 +12,16 @@
 #include "common_proxy_socket.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_mouse.h"
+#include "client_sdl_text.h"
 
+class SdlText;
 class Message;
 class SdlButton {
 private:
     enum e_outline_sprite{
         OUTLINE_SPRITE_MOUSE_OVER_MOTION,
         OUTLINE_SPRITE_MOUSE_OUT,
+        OUTLINE_SPRITE_BUTTON_CLICKED,
         OUTLINE_SPRITE_TOTAL,
     };
 
@@ -31,18 +34,23 @@ private:
     //Currently used sprite
     e_outline_sprite outline_sprite;
     //Sprites de cada estado del boton
-    SDL_Rect outline_sprite_clips[OUTLINE_SPRITE_TOTAL];
+    std::vector<SDL_Rect> outline_sprite_clips;
     //Imagen del boton
     SdlTexture& buttonSpriteSheetTexture;
     SdlTexture& outlineTexture;
 
-    /**TODO: para indicar cantidad de items (e.g. pociones) o si esta equipado (E)*/
-    /*SdlOutput buttonText*/
+    SdlText buttonText;
 
     Use cmd;
 
 public:
-    SdlButton(SdlTexture& buttonTexture, SdlTexture& outlineTexture);
+    SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font,
+              const SdlWindow &window);
+
+    SdlButton(const SdlButton& other) = delete;
+
+    SdlButton(SdlButton&& other) noexcept;
+
     void setPosition(int x, int y);
     //Handles mouse event
     void handleEvent(SDL_Event &e, bool &is_event_handled);

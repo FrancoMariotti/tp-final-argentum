@@ -6,28 +6,39 @@
 #include "common_proxy_socket.h"
 #include "common_message.h"
 
-#define BUTTON_WIDTH 300
-#define BUTTON_HEIGHT 200
-
-/**TODO: Hacer un overload para el caso de que no
- * tengan spritesheet y sean imagenes estaticas
- * agregar una segunda textura para los clips, e.g recuadro verde al
- * pasar el mouse por encima*/
-
-SdlButton::SdlButton(SdlTexture& buttonTexture, SdlTexture& outlineTexture) :
+SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font,
+                     const SdlWindow &window) :
         left_click(0),
         right_click(0),
         position{0,0},
         outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
-        outline_sprite_clips{{0,0,0,0},
-                             {0,0,0,0}},
         buttonSpriteSheetTexture(buttonTexture),
-        outlineTexture(outlineTexture) {
+        outlineTexture(outlineTexture),
+        buttonText(0,0,"E", font, window, SDL_Color{0,0xFF,0,0xFF}){
     this->width = buttonTexture.getWidth();
     this->height = buttonTexture.getHeight();
-   for (int i = 0; i < OUTLINE_SPRITE_TOTAL; ++i) {
-        this->outline_sprite_clips[i] = {(i+1) * 32, 32, 32, 32};
+    for (int i = 0; i < OUTLINE_SPRITE_TOTAL - 1; ++i) {
+        this->outline_sprite_clips.push_back(SDL_Rect{(i+1) * 32, 32, 32, 32});
     }
+    this->outline_sprite_clips.push_back(SDL_Rect{ 32, 0, 32, 32});
+
+}
+
+SdlButton::SdlButton(SdlButton &&other) noexcept :
+    left_click(0),
+    right_click(0),
+    position{other.position.x, other.position.y},
+    outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
+    buttonSpriteSheetTexture(other.buttonSpriteSheetTexture),
+    outlineTexture(other.outlineTexture),
+    buttonText(std::move(other.buttonText)){
+    this->width = buttonSpriteSheetTexture.getWidth();
+    this->height = buttonSpriteSheetTexture.getHeight();
+    for (int i = 0; i < OUTLINE_SPRITE_TOTAL - 1; ++i) {
+        this->outline_sprite_clips.push_back(SDL_Rect{(i+1) * 32, 32, 32, 32});
+    }
+    this->outline_sprite_clips.push_back(SDL_Rect{ 32, 0, 32, 32});
+
 }
 
 void SdlButton::setPosition(int x, int y) {
@@ -75,6 +86,7 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
                     } else if(e.button.button == SDL_BUTTON_RIGHT && e.button.clicks == 1){
                         /*selecciona item*/
                         this->right_click +=1;
+                        outline_sprite = OUTLINE_SPRITE_BUTTON_CLICKED;
                     }
                     break;
                 case SDL_MOUSEBUTTONUP:
@@ -87,11 +99,11 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse) {
     if(left_click > 0){
-        std::cout << "double" << std::endl;
+        std::cout << "DEBUG: left" << std::endl;
         (cmd)(clientEvents, i);
         left_click--;
     } else if (right_click > 0){
-        std::cout << "single" << std::endl;
+        std::cout << "DEBUG: right" << std::endl;
         mouse.setLastClickedItemIndex(i);
         right_click--;
     }
@@ -101,5 +113,6 @@ void SdlButton::render() {
     //Show current button sprite
     this->buttonSpriteSheetTexture.render(position.x,position.y);
     this->outlineTexture.render(position.x,position.y,&outline_sprite_clips[outline_sprite]);
+    this->buttonText.render(position.x, position.y);
 }
 
