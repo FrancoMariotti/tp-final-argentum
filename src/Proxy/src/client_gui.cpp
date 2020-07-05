@@ -70,6 +70,7 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 
 void GUI::updatePlayerEquipment(const equipment_t& equipment) {
     player.updateEquipment(equipment);
+    inventory.updateEquippedItems(equipment);
 }
 
 void GUI::updateInventory(std::vector<std::string> player_inventory) {

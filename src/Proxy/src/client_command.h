@@ -15,7 +15,7 @@ public:
     virtual ~Command() = default;
 };
 
-class Use: public Command{
+class UseItemCommand: public Command{
 public:
     void operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) override;
 };

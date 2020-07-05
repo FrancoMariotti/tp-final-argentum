@@ -6,15 +6,17 @@
 #include "common_proxy_socket.h"
 #include "common_message.h"
 
-SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font,
-                     const SdlWindow &window) :
+SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
+                     const std::string texture_id) :
         left_click(0),
         right_click(0),
+        texture_id(texture_id),
         position{0,0},
         outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
         buttonSpriteSheetTexture(buttonTexture),
         outlineTexture(outlineTexture),
-        buttonText(0,0,"E", font, window, SDL_Color{0,0xFF,0,0xFF}){
+        buttonText(0,0," ", font, window, SDL_Color{0,0xFF,0,0xFF})
+        {
     this->width = buttonTexture.getWidth();
     this->height = buttonTexture.getHeight();
     for (int i = 0; i < OUTLINE_SPRITE_TOTAL - 1; ++i) {
@@ -27,11 +29,13 @@ SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_
 SdlButton::SdlButton(SdlButton &&other) noexcept :
     left_click(0),
     right_click(0),
+    texture_id(other.texture_id),
     position{other.position.x, other.position.y},
     outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
     buttonSpriteSheetTexture(other.buttonSpriteSheetTexture),
     outlineTexture(other.outlineTexture),
-    buttonText(std::move(other.buttonText)){
+    buttonText(std::move(other.buttonText))
+    {
     this->width = buttonSpriteSheetTexture.getWidth();
     this->height = buttonSpriteSheetTexture.getHeight();
     for (int i = 0; i < OUTLINE_SPRITE_TOTAL - 1; ++i) {
@@ -99,13 +103,23 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse) {
     if(left_click > 0){
-        std::cout << "DEBUG: left" << std::endl;
+        std::cout << "DEBUG: left click" << std::endl;
         (cmd)(clientEvents, i);
         left_click--;
     } else if (right_click > 0){
-        std::cout << "DEBUG: right" << std::endl;
+        std::cout << "DEBUG: right click" << std::endl;
+        //mediator.notify(this, i)
         mouse.setLastClickedItemIndex(i);
         right_click--;
+    }
+}
+
+void SdlButton::updateText(const equipment_t &equipment){
+    if(equipment.helmetName == texture_id || equipment.shieldName == texture_id
+    || equipment.armourName == texture_id || equipment.weaponName == texture_id){
+        buttonText.update("E");
+    } else {
+        buttonText.update(" ");
     }
 }
 

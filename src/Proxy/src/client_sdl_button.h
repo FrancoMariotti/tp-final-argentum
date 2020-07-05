@@ -29,7 +29,7 @@ private:
     int height;
     int left_click;
     int right_click;
-
+    const std::string texture_id;
     SDL_Point position;
     //Currently used sprite
     e_outline_sprite outline_sprite;
@@ -38,14 +38,12 @@ private:
     //Imagen del boton
     SdlTexture& buttonSpriteSheetTexture;
     SdlTexture& outlineTexture;
-
     SdlText buttonText;
-
-    Use cmd;
+    UseItemCommand cmd;
 
 public:
-    SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font,
-              const SdlWindow &window);
+    SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
+              const std::string texture_id);
 
     SdlButton(const SdlButton& other) = delete;
 
@@ -60,6 +58,7 @@ public:
     void render();
     ~SdlButton() = default;
 
+    void updateText(const equipment_t &equipment);
 };
 
 

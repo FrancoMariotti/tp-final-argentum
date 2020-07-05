@@ -3,10 +3,9 @@
 #include "common_proxy_socket.h"
 #include "common_message.h"
 
-void Use::operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) {
+void UseItemCommand::operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) {
     clientEvents.push(std::unique_ptr<Message> (
             new UseItem(i)));
-
 }
 
 

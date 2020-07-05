@@ -16,6 +16,8 @@
 class Message;
 class SdlInventory {
 private:
+    const int MAX_BUTTONS_PER_ROW = 4;
+
     /*Tamaño del inventario*/
     int width;
     int height;
@@ -53,6 +55,8 @@ public:
     ~SdlInventory();
 
     void renderDrop(const int x, const int y, const std::string &id);
+
+    void updateEquippedItems(const equipment_t &equipment);
 
 };
 

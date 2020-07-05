@@ -54,12 +54,12 @@ void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, Sd
 
 void SdlInventory::update(std::vector<std::string> inventory){
     buttons.clear();
+    SdlTexture& outline = inventoryTextures.at("outline");
     for(auto it = inventory.begin(); it != inventory.end(); it ++){
         SdlTexture& buttonSpriteSheet = inventoryTextures.at(*it);
-        SdlTexture& outline = inventoryTextures.at("outline");
-        int col = (int) buttons.size() % 4;
-        int fil = (int) buttons.size() / 4;
-        buttons.emplace_back(buttonSpriteSheet, outline, font, window);
+        int col = (int) buttons.size() % MAX_BUTTONS_PER_ROW;
+        int fil = (int) buttons.size() / MAX_BUTTONS_PER_ROW;
+        buttons.emplace_back(buttonSpriteSheet, outline, font, window, *it);
         /*Seteo la posicion relativa al inventario,
          * a medida que pusheo se van acomodando uno al lado del otro*/
         /*4 botones por fila,
@@ -70,6 +70,12 @@ void SdlInventory::update(std::vector<std::string> inventory){
     }
 }
 
+
+void SdlInventory::updateEquippedItems(const equipment_t &equipment) {
+    for(auto it = buttons.begin(); it != buttons.end(); it ++){
+        it->updateText(equipment);
+    }
+}
 
 void SdlInventory::render() {
     SDL_Rect outline_rect = {inventory_x, inventory_y, width, height};
@@ -90,3 +96,4 @@ void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
 
 SdlInventory::~SdlInventory() {
 }
+
