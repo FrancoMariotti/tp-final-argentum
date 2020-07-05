@@ -50,6 +50,7 @@ class Character {
         virtual int receiveDamage(int enemyLevel,int damage) = 0;
         virtual int receiveAttackFrom(PlayableCharacter *enemy) = 0;
         void restoreLife();
+        Position getClosestPositionToDrop();
         virtual ~Character();
 };
 

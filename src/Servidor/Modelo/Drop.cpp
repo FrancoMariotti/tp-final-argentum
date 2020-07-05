@@ -4,10 +4,21 @@
 
 #include "Drop.h"
 
-Drop::Drop(Position& position):position(position) {
-    this->gold = 0;
+#include <utility>
+
+Drop::Drop(Position& position, Droppable* droppable, std::string name) :
+    position(position), item(droppable), name(std::move(name)){}
+
+Position Drop::getPosition() {
+    return position;
 }
 
+std::string Drop::getName() {
+    return name;
+}
+
+/*
 void Drop::addGold(int dropGold) {
     this->gold += dropGold;
 }
+*/

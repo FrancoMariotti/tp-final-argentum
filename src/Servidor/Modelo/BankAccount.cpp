@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "BankAccount.h"
 
-BankAccount::BankAccount() : gold(0), items(100) {}
+BankAccount::BankAccount() : gold(0) {}
 
 void BankAccount::deposit(int amount) {
     gold += amount;
@@ -26,9 +26,11 @@ Equippable* BankAccount::extract(const std::string& itemName) {
     Equippable* item = nullptr;
     auto itr = items.begin();
     for (;itr != items.end(); ++itr) {
-        item = *itr;
-        if(!item) continue;
-        if (item->getName() ==  itemName) break;
+        if(!(*itr)) continue;
+        if ((*itr)->getName() ==  itemName) {
+            item = *itr;
+            break;
+        }
     }
 
     items.erase(std::remove_if(items.begin(),

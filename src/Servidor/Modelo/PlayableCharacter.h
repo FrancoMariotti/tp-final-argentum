@@ -9,6 +9,8 @@
 #include "Position.h"
 #include "Merchant.h"
 #include "Banker.h"
+#include "GoldBag.h"
+
 
 class LifeState;
 class Game;
@@ -31,6 +33,8 @@ private:
     bool checkFairPlay(int enemyLevel);
     void revive();
     void teleportTo(Position position);
+    void addGold(int amount);
+    void dropWholeInventory();
 public:
     PlayableCharacter(std::string id,Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -73,7 +77,13 @@ public:
                                         int *minDistance, int range);
 
     void healedByPriest();
+    void takeDroppable(Droppable *droppable);
+    void takeDroppable(GoldBag *goldBag);
+    void takeDroppable(Equippable* equippable);
     ~PlayableCharacter() override;
+
+
+    bool isInCity();
 };
 
 

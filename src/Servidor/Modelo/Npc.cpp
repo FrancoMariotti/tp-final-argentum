@@ -5,6 +5,7 @@
 #include "Drop.h"
 #include "Map.h"
 #include "Servidor/Common/Utils.h"
+#include "GoldBag.h"
 
 #define GOLD_DROP_PROBABILITY 0.8
 #define POTION_DROP_PROBABILITY 0.01
@@ -104,24 +105,29 @@ int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
 }
 
 void Npc::die() {
-    Drop drop(currPos);
-
     if(shouldDrop(GOLD_DROP_PROBABILITY)) {
         int gold = (int)calculateNpcGoldDrop();
-        drop.addGold(gold);
+        auto* goldBag = new GoldBag(gold);
+        Position pos = getClosestPositionToDrop();
+        Drop drop(pos, goldBag, "goldBag");
+        map->addDrop(drop);
     }
 
     if(shouldDrop(POTION_DROP_PROBABILITY)) {
-        //CREATE POTION
-        //drop.addEquippable(gold);
+        //CREATE RANDOM POTION
+        /*Position pos = getClosestPositionToDrop();
+        Drop drop(pos, POTION);
+        map->addDrop(drop);*/
     }
 
     if(shouldDrop(OBJECT_DROP_PROBABILITY)) {
         //CREATE RANDOM OBJECT
-        //drop.addEquippable(gold);
+        /*Position pos = getClosestPositionToDrop();
+        Drop drop(pos, RANDOMOBJECT);
+        map->addDrop(drop);*/
     }
-
-    map->addDrop(drop);
+    //Envio al cliente los drops a renderizar
+    map->updateDropSpawns(observer);
     map->removeNpc(id, observer);
 }
 

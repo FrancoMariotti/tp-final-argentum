@@ -96,6 +96,10 @@ void Game::notifySpawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
     updates.push(new SpawnNpc(npcs));
 }
 
+void Game::notifyDropSpawnNUpdate(std::vector<spawn_character_t> dropSpawns) {
+    updates.push(new SpawnDrops(dropSpawns));
+}
+
 void Game::notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) {
     updates.push(new SpawnCityCharacters(spawns));
 }

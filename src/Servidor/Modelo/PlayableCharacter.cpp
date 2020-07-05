@@ -6,6 +6,8 @@
 #include "Alive.h"
 #include "Ghost.h"
 #include "ItemSeller.h"
+#include "Droppable.h"
+#include "GoldBag.h"
 
 #define NEWBIE_LEVEL 12
 #define LEVEL_DIFFERENCE 10
@@ -122,6 +124,10 @@ int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     int earnedXp = 0;
     bool canAttack = enemy->checkFairPlay(level);
     if(canAttack) earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
+    //Notifico los stats aca por si ataca con un arma magica que modifica los stats
+    //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
+    // y no tienen el metodo notifyStats
+    notifyStats();
     return earnedXp;
 }
 
@@ -131,7 +137,6 @@ int PlayableCharacter::attackTo(Npc *enemy) {
 
 void PlayableCharacter::store(Equippable* element) {
     lifeState->store(element,inventory,observer);
-    inventory.sendItems(observer);
 }
 
 void PlayableCharacter::equip(int elementIndex) {
@@ -157,7 +162,7 @@ void PlayableCharacter::equip(Potion* potion, int index) {
     potion->use(this);
     Equippable* element = inventory.takeElement(index, this);
     delete element;
-    notifyEquipment();
+    inventory.sendItems(observer);
 }
 
 void PlayableCharacter::unequip(int elementIndex) {
@@ -205,31 +210,56 @@ int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
 }
 
 void PlayableCharacter::die() {
-    /*Drop drop(currPos.nearAvailablePosition(map));
+    //Dropeo el oro en exceso
     int safeGold = calculateSafeGoldCapacity(level);
     if (gold > safeGold) {
         int amountGoldDrop = gold - safeGold;
-        drop.addGold(amountGoldDrop);
-        gold -= amounGoldDrop
-    }*/
+        gold -= amountGoldDrop;
+        auto* goldBag = new GoldBag(amountGoldDrop);
+        Position pos = getClosestPositionToDrop();
+        Drop drop(pos, goldBag, "goldBag");
+        map->addDrop(drop);
+    }
 
-    //logica drop items inventario
+    //Desequipo todos los items que tengo
+    activeWeapon->unequipFrom(this);
+    armour.unequipEveryProtectionFrom(this);
+    notifyEquipment();
+
+    //Dropeo mi inventario completo
+    dropWholeInventory();
+
     delete lifeState;
     lifeState = new Ghost();
     lifePoints = 0;
     mana = 0;
+
+    //Envio al cliente los drops a renderizar
+    map->updateDropSpawns(observer);
     //LO COMENTO HASTA ASEGURARME DE QUE ESTEN LOS SPRITES DEL GHOST
     //observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
-
 }
+
+void PlayableCharacter::dropWholeInventory() {
+    int itemsInInventory = inventory.getItemsAmount();
+    for (int i = 0; i < itemsInInventory ; ++i) {
+        Equippable* equippable = inventory.takeElement(0, this);
+        Position pos = getClosestPositionToDrop();
+        Drop drop(pos, equippable, equippable->getName());
+        map->addDrop(drop);
+    }
+    //hago que se actualice el inventario en el cliente
+    inventory.sendItems(observer);
+}
+
 
 void PlayableCharacter::sellTo(std::string itemName, Merchant *merchant) {
     if (!inCity) return;
     Equippable* item = inventory.takeElement(itemName, this);
-    gold += merchant->buy(item->getName());
+    addGold(merchant->buy(item->getName()));
     delete item;
     inventory.sendItems(observer);
-    notifyStats();
+
 }
 
 void PlayableCharacter::buyFrom(const std::string& itemName, ItemSeller *seller) {
@@ -238,11 +268,11 @@ void PlayableCharacter::buyFrom(const std::string& itemName, ItemSeller *seller)
     if (item != nullptr) {
         inventory.store(item);
         inventory.sendItems(observer);
+        notifyStats();
     }
 }
 
 void PlayableCharacter::revive() {
-    if (!inCity) return;
     LifeState* oldLifeState = lifeState;
     lifeState = lifeState->revive(this);
     if (lifeState) {
@@ -276,18 +306,14 @@ void PlayableCharacter::extract(const std::string& itemName, Banker *banker) {
 
 void PlayableCharacter::extract(int amount, Banker *banker) {
     if (!inCity) return;
-    gold += banker->extract(&bankAccount, amount);
-    notifyStats();
+    addGold(banker->extract(&bankAccount, amount));
+
 }
 
 void PlayableCharacter::restoreMana() {
     mana = calculateMaxMana();
 }
 
-PlayableCharacter::~PlayableCharacter() {
-    delete lifeState;
-    if (activeWeapon != &defaultWeapon) delete activeWeapon;
-}
 
 PlayableCharacter* PlayableCharacter::closestToInRange(const Position &pos,
         PlayableCharacter *closestEnemy, int *minDistance, int range) {
@@ -297,5 +323,37 @@ PlayableCharacter* PlayableCharacter::closestToInRange(const Position &pos,
 void PlayableCharacter::healedByPriest() {
     if (!inCity) return;
     lifeState->healedByPriest(this);
+}
+
+void PlayableCharacter::addGold(int amount) {
+    int maxGoldAmount = calculateGoldCapacity();
+    if (gold + amount > maxGoldAmount) {
+        gold = maxGoldAmount;
+    } else {
+        gold += amount;
+    }
+    notifyStats();
+}
+
+void PlayableCharacter::takeDroppable(Droppable* droppable) {
+    lifeState->takeDroppable(droppable, this);
+}
+
+void PlayableCharacter::takeDroppable(GoldBag* goldBag) {
+    addGold(goldBag->getAmount());
+    delete goldBag;
+}
+
+void PlayableCharacter::takeDroppable(Equippable* equippable) {
+    store(equippable);
+}
+
+bool PlayableCharacter::isInCity() {
+    return inCity;
+}
+
+PlayableCharacter::~PlayableCharacter() {
+    delete lifeState;
+    if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }
 

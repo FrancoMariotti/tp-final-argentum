@@ -89,9 +89,12 @@ bool Map::isOccupied(Position pos) {
 
 }
 
+bool Map::outOfBounds(Position position) const {
+    return position.outOfBounds(0,height,0,width);
+}
+
 void Map::move(Position& from,Position& to) {
-    bool outOfBounds = to.outOfBounds(0,height,0,width);
-    if (!isOccupied(to) && !outOfBounds) from = to;
+    if (!isOccupied(to) && !outOfBounds(to)) from = to;
 }
 
 Character* Map::findClosestCharacter(const Position& pos, int range) {
@@ -188,7 +191,13 @@ void Map::updateAllPlayers(float looptime) {
 }
 
 void Map::addDrop(Drop drop) {
+    drops.push_back(drop);
+    spawn_character_t dropSpawn = {drop.getPosition().getX(), drop.getPosition().getY(), drop.getName()};
+    dropsSpawns.push_back(dropSpawn);
+}
 
+void Map::updateDropSpawns(Observer *observer) {
+    observer->notifyDropSpawnNUpdate(dropsSpawns);
 }
 
 bool Map::posInCity(Position position) {
@@ -271,6 +280,13 @@ void Map::reviveIn(PlayableCharacter *player, Position position) {
     priest.reviveIn(player,position);
 }
 
+bool Map::hasDropInPos(Position position) {
+    for (auto &drop : drops) {
+        if (drop.getPosition() == position) return true;
+    }
+    return false;
+}
+
 Map::~Map() {
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); itrNpcs++) {
@@ -282,6 +298,9 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
+
+
 
 
 

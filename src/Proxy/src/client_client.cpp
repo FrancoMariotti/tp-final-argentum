@@ -129,6 +129,13 @@ void Client::update() {
             this->gui.updateInventory(msg->getItems());
         } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
             this->gui.updateRenderables(msg->getSpawnData());
+        } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
+            //ESTE MENSAJE LO MANDO PARA QUE PUEDAS RENDERIZAR LOS DROPS
+            //TE VIENE UN VECTOR DE spawn_character_t IGUAL QUE EN EL SPAWN DE LOS NPC
+            //CON LA POSICION EN LA QUE LO TENES QUE RENDERIZAR Y EL NOMBRE DE LA IMAGEN QUE TENES QUE PONER
+            // EJ:sword, axe,commonbow.EN EL CASO EN EL QUE SE DROPEE ORO TE MANDO EL ID = goldBag
+            //DEBERIAMOS AGREGAR UNA IMAGEN DE UNA BOLSITA DE ORO
+            //this->gui.updateRenderables(msg->getSpawnData());
         } else if(msg->getId() == NPC_MOVEMENT_UPDATE_MESSAGE_ID){
             npc_movement_t  movement = msg->getMovement();
             this->gui.updateRenderablePos(movement.x, movement.y, movement.id);

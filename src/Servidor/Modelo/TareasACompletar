@@ -1,10 +1,8 @@
 TODO Cosas por hacer
-2) agregar sacerdote
 3) agregar drops
-4) banquero falta test
 5) agregar chat
-6) agregar game loop
 8) agregar comunicacion
 9) Persistencia de jugadores
 10) Log in
 11) Agregar identificador de raza o clase para mostrar la imagen correcta
+- agregar lifestate a algunos comandos pafra que no me permia depositar/extraer/comprar etc estando muerto

@@ -26,6 +26,7 @@ public:
             PlayableCharacter *closestEnemy, int *minDist, int range,
             PlayableCharacter *me) override;
     void healedByPriest(PlayableCharacter* character) override;
+    void takeDroppable(Droppable *droppable, PlayableCharacter *character) override;
 };
 
 

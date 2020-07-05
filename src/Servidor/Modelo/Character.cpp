@@ -88,5 +88,19 @@ void Character::restoreLife() {
     lifePoints = calculateMaxLife();
 }
 
+Position Character::getClosestPositionToDrop() {
+    for (int distance = 1; distance <= 3 ; ++distance) {
+        for (int i = -distance; i <= distance ; i+= distance) {
+            for (int j = -distance; j <= distance ; j+= distance) {
+                Offset offset(i, j);
+                Position pos = currPos;
+                pos.apply(offset);
+                if (!map->isOccupied(pos) && !map->hasDropInPos(pos) && !map->outOfBounds(pos)) return pos;
+            }
+        }
+    }
+    return Position(0, 0);
+}
+
 Character::~Character() = default;
 

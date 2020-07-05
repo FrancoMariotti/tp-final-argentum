@@ -24,6 +24,7 @@ class Alive: public LifeState {
     PlayableCharacter* closestToInRange(const Position &position,
             PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) override;
     void healedByPriest(PlayableCharacter* character) override;
+    void takeDroppable(Droppable *droppable, PlayableCharacter *character) override;
 };
 
 
