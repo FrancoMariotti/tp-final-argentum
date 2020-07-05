@@ -71,6 +71,8 @@ class Map {
     bool hasDropInPos(Position position);
 
     void updateDropSpawns(Observer *observer);
+
+    Drop takeDropFromPos(Position position);
 };
 
 #endif //ARGENTUM_MAPA_H
