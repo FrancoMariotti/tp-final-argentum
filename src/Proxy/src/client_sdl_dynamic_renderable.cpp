@@ -18,7 +18,8 @@ SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &text
         textureManager(textureManager),
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
-        tag(pos_x, pos_y, "<" + s_tag + ">", font, window, color)
+        tag(pos_x, pos_y, "<" + s_tag + ">", font, window, color),
+        healthBar(pos_x, pos_y, 40, 2, 0xFF, 0, 0, 0xFF, window)
         {}
 
 void SdlDynamicRenderable::updatePos(int new_x, int new_y, SdlCamera &camera) {
@@ -75,6 +76,7 @@ void SdlRenderableNPC::render(const SdlCamera& camera){
         textureManager.renderStillNPC(texture_id, pos_x,
                                       pos_y, body_or, camera);
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
+        healthBar.render(pos_x - camera.getX(), pos_y - camera.getY());
     }
     this->endAnimationIfComplete();
 }

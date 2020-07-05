@@ -237,7 +237,7 @@ void PlayableCharacter::die() {
     //Envio al cliente los drops a renderizar
     map->updateDropSpawns(observer);
     //LO COMENTO HASTA ASEGURARME DE QUE ESTEN LOS SPRITES DEL GHOST
-    //observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
+    observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
 }
 
 void PlayableCharacter::dropWholeInventory() {
@@ -348,7 +348,7 @@ void PlayableCharacter::takeDroppable(Equippable* equippable) {
     store(equippable);
 }
 
-bool PlayableCharacter::isInCity() {
+bool PlayableCharacter::isInCity() const {
     return inCity;
 }
 

@@ -4,8 +4,6 @@
 
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_texture.h"
-#include "client_sdl_player.h"
-
 
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
@@ -22,6 +20,8 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(26, 46, ASSETS_PATH + "priestSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("banker",
             SdlTexture(26, 48, ASSETS_PATH + "bankerSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("ghostSprite",
+            SdlTexture(30, 32, ASSETS_PATH + "ghostSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("noneSprite",
             SdlTexture(1, 1, ITEMS_PATH + "noneSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("swordSprite",
@@ -195,9 +195,13 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
     if(appearance.armour == "none"){
         armour = "defaultArmour";
     }
+    if(appearance.armour == "ghost" && animation_frame > 2 ){
+        animation_frame = 2;
+    }
     SdlTexture& armourSpriteSheetTexture = this->getSpriteTexture(armour);
     SdlTexture& weaponSpriteSheetTexture = this->getSpriteTexture(appearance.weapon);
     SdlTexture& shieldSpriteSheetTexture = this->getSpriteTexture(appearance.shield);
+
 
     SDL_Rect head_orientation_clip {head_or * headSpriteSheetTexture.getWidth(),
                                     0, headSpriteSheetTexture.getWidth(),

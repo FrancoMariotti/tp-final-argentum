@@ -17,9 +17,11 @@ class EquippableFactory;
 typedef struct item item_t;
 
 class Merchant: public ItemSeller {
+    friend class Npc;
     std::vector<Position>positions;
     std::map<std::string,item_t> stock;
     std::map<std::string, EquippableFactory*> factories;
+    Equippable* giftItem(const std::string& name);
 public:
     Merchant() = default;
     Merchant(std::vector<Position> positions, std::map<std::string,item_t> stock,

@@ -19,6 +19,11 @@ int Merchant::buy(const std::string& itemName) {
     return stock.at(itemName).goldCost;
 }
 
+Equippable *Merchant::giftItem(const std::string &name) {
+    item_t item = stock.at(name);
+    return factories.at(item.type)->create(item);
+}
+
 //Merchant::Merchant(Merchant &merchant) noexcept {}
 
 Merchant& Merchant::operator=(Merchant&& merchant) noexcept {
@@ -46,3 +51,4 @@ Merchant::~Merchant() {
         delete it->second;
     }
 }
+
