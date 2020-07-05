@@ -32,6 +32,7 @@ private:
             "bigLifePotion", "bigManaPotion"};
 
     const SdlWindow& window;
+    TTF_Font* font;
 
     //Una lista con todos los items del inventario, son botones
     std::vector<SdlButton> buttons;
@@ -39,7 +40,7 @@ private:
     std::map<std::string, SdlTexture> inventoryTextures;
 
 public:
-    SdlInventory(int screen_width, int screen_height, const SdlWindow &window);
+    SdlInventory(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font);
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 

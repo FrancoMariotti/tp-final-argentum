@@ -6,6 +6,7 @@
 #include "client_sdl_player.h"
 #include "client_sdl_window.h"
 #include "common_message_structs.h"
+#include "client_sdl_text.h"
 
 /*Estos tamaños son con 1024 x 768*/
 #define IMAGE_INVENTORY_WIDTH 165
@@ -14,8 +15,9 @@
 #define INVENTORY_Y 180
 
 
-SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window) :
-        window(window)
+SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font) :
+        window(window),
+        font(font)
         {
     //Tamaño ventana inventario
     this->width = IMAGE_INVENTORY_WIDTH;
@@ -57,7 +59,7 @@ void SdlInventory::update(std::vector<std::string> inventory){
         SdlTexture& outline = inventoryTextures.at("outline");
         int col = (int) buttons.size() % 4;
         int fil = (int) buttons.size() / 4;
-        buttons.emplace_back(buttonSpriteSheet, outline);
+        buttons.emplace_back(buttonSpriteSheet, outline, font, window);
         /*Seteo la posicion relativa al inventario,
          * a medida que pusheo se van acomodando uno al lado del otro*/
         /*4 botones por fila,
