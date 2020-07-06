@@ -8,7 +8,8 @@
 #include "common_osexception.h"
 
 SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
-                                           TTF_Font *font, const std::string s_tag, const SDL_Color color) :
+                                           TTF_Font *font, const std::string s_tag, const SDL_Color color,
+                                           SdlAudioManager &audioManager) :
         pos_x(x),
         pos_y(y),
         old_x(0),
@@ -16,6 +17,7 @@ SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &text
         animation_frame(0),
         is_moving(false),
         textureManager(textureManager),
+        audioManager(audioManager),
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
         tag(pos_x, pos_y, "<" + s_tag + ">", font, window, color),
@@ -59,11 +61,17 @@ void SdlDynamicRenderable::endAnimationIfComplete() {
     }
 }
 
+void SdlDynamicRenderable::updateStats() {
+    effect.setEffect(&textureManager.getEffectSpriteTexture("missile"),1,9);
+    audioManager.playSound("explosion", 0);
+}
+
 
 SdlRenderableNPC::SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
-                                   const std::string texture_id, TTF_Font *font, const SdlWindow &window) :
+                                   const std::string texture_id, TTF_Font *font, const SdlWindow &window,
+                                   SdlAudioManager &audioManager) :
         SdlDynamicRenderable(x, y, textureManager, window, font, texture_id,
-                SDL_Color{0xFF,0,0,0xFF}),
+                             SDL_Color{0xFF, 0, 0, 0xFF}, audioManager),
         texture_id(texture_id)
         {}
 
@@ -87,9 +95,10 @@ void SdlRenderableNPC::updateEquipment(const equipment_t &equipment) {
 }
 
 SdlRenderablePlayable::SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
-                                             const std::string username, TTF_Font *font, const SdlWindow &window) :
-        SdlDynamicRenderable(x, y, textureManager, window, font ,
-                username, SDL_Color{0, 0, 0xFF, 0xFF}),
+                                             const std::string username, TTF_Font *font, const SdlWindow &window,
+                                             SdlAudioManager &audioManager) :
+        SdlDynamicRenderable(x, y, textureManager, window, font,
+                             username, SDL_Color{0, 0, 0xFF, 0xFF}, audioManager),
         username(username),
         t_appearance{"humanHead","none","defaultArmour",
                      "none","none"}
@@ -115,8 +124,9 @@ void SdlRenderablePlayable::render(const SdlCamera &camera) {
                                      camera, body_or, head_or);
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
-    /*test*/
+    /*El efecto a cargar deberia ir en una funcion aparte y aca se reporduce*/
     effect.render(pos_x - camera.getX(), pos_y - camera.getY());
+    /*fin test*/
     this->endAnimationIfComplete();
 }
 
