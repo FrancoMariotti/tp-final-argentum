@@ -1,7 +1,7 @@
 #include <utility>
 #include "common_thread.h"
 
-Thread::Thread():finished(false) {};
+Thread::Thread():finished(false) {}
 
 Thread::~Thread() = default;
 

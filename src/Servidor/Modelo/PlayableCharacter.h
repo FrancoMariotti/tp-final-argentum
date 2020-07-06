@@ -83,6 +83,8 @@ public:
     ~PlayableCharacter() override;
     bool isInCity() const;
     void takeDrop();
+
+    void dropItem(int itemIndex);
 };
 
 

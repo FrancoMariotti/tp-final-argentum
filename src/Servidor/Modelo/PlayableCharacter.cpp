@@ -91,6 +91,21 @@ void PlayableCharacter::makeDamageTo(Character *character) {
     }
 }
 
+int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
+    return enemy->attackTo(this);
+}
+
+int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
+    int earnedXp = 0;
+    bool canAttack = enemy->checkFairPlay(level);
+    if(canAttack) earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
+    //Notifico los stats aca por si ataca con un arma magica que modifica los stats
+    //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
+    // y no tienen el metodo notifyStats
+    notifyStats();
+    return earnedXp;
+}
+
 int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
     if(inCity) return 0;
     return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
@@ -120,16 +135,6 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     return xpEarned;
 }
 
-int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
-    int earnedXp = 0;
-    bool canAttack = enemy->checkFairPlay(level);
-    if(canAttack) earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
-    //Notifico los stats aca por si ataca con un arma magica que modifica los stats
-    //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
-    // y no tienen el metodo notifyStats
-    notifyStats();
-    return earnedXp;
-}
 
 int PlayableCharacter::attackTo(Npc *enemy) {
     return activeWeapon->attack(this,enemy,strength,level,mana,currPos);
@@ -205,9 +210,6 @@ bool PlayableCharacter::checkFairPlay(int enemyLevel) {
     return (imnewbie && enemyisnewbie);
 }
 
-int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
-    return enemy->attackTo(this);
-}
 
 void PlayableCharacter::die() {
     //Dropeo el oro en exceso
@@ -249,6 +251,15 @@ void PlayableCharacter::dropWholeInventory() {
         map->addDrop(drop);
     }
     //hago que se actualice el inventario en el cliente
+    inventory.sendItems(observer);
+}
+
+void PlayableCharacter::dropItem(int itemIndex) {
+    Equippable* equippable = inventory.takeElement(itemIndex, this);
+    Position pos = getClosestPositionToDrop();
+    Drop drop(pos, equippable, equippable->getName());
+    map->addDrop(drop);
+    map->updateDropSpawns(observer);
     inventory.sendItems(observer);
 }
 
@@ -334,11 +345,7 @@ void PlayableCharacter::addGold(int amount) {
     }
     notifyStats();
 }
-/*
-void PlayableCharacter::takeDroppable(Droppable* droppable) {
-    lifeState->takeDroppable(droppable, this);
-}
-*/
+
 void PlayableCharacter::takeDroppable(GoldBag* goldBag) {
     addGold(goldBag->getAmount());
     delete goldBag;
@@ -362,5 +369,6 @@ PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }
+
 
 

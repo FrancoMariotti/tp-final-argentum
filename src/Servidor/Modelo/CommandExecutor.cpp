@@ -10,6 +10,7 @@
 #include "HealCommand.h"
 #include "SellCommand.h"
 #include "TakeItemCommand.h"
+#include "DropItemCommand.h"
 
 CommandExecutor::CommandExecutor() = default;
 
@@ -21,7 +22,7 @@ CommandExecutor::CommandExecutor(Map* map) {
     this->commands["/comprar"] = new BuyCommand(map);
     this->commands["/vender"] = new SellCommand(map);
     this->commands["/tomar"] = new TakeItemCommand(map);
-    //this->commands["/tirar"] = new DropItemCommand(map);
+    this->commands["/tirar"] = new DropItemCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {
