@@ -9,6 +9,7 @@ class Character;
 class PlayableCharacter;
 
 class Weapon : public Equippable {
+        int lastDamage;
     protected:
         int calculateDamage(int strength);
     public:
@@ -17,6 +18,8 @@ class Weapon : public Equippable {
         virtual int attack(Character *owner,Character *enemy,int strength,int level,float &mana,Position &holderPos) = 0;
         void unequipFrom(PlayableCharacter *character) override ;
         ~Weapon() override = default;
+
+    int getLastDamage();
 };
 
 

@@ -48,6 +48,7 @@ public:
     void createNpc(const std::string &specie);
     void initialize();
     void executeCommand(std::unique_ptr<Message>& command);
+    void notifyConsoleOutputUpdate(std::vector<std::string> messages) override;
     ~Game();
 };
 

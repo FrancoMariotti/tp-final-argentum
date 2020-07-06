@@ -102,5 +102,7 @@ Position Character::getClosestPositionToDrop() {
     return Position(0, 0);
 }
 
+
+
 Character::~Character() = default;
 

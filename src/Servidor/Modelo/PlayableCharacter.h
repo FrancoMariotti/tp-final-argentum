@@ -77,14 +77,12 @@ public:
                                         int *minDistance, int range);
 
     void healedByPriest();
-    void takeDroppable(Droppable *droppable);
     void takeDroppable(GoldBag *goldBag);
     void takeDroppable(Equippable* equippable);
-    ~PlayableCharacter() override;
     bool isInCity() const;
     void takeDrop();
-
     void dropItem(int itemIndex);
+    ~PlayableCharacter() override;
 };
 
 

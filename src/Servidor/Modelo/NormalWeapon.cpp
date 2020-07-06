@@ -10,7 +10,6 @@ int NormalWeapon::attack(Character* owner,Character *enemy, int strength,int lev
     if(owner == enemy) return 0;
     if(enemy->distanceTo(holderPos) == 1) {
         int damage = calculateDamage(strength);
-        std::cout << "danio hecho por el jugador" << damage << std::endl;
         return enemy->receiveDamage(level, damage);
     }
     return 0;

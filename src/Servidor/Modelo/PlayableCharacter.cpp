@@ -102,6 +102,10 @@ int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     //Notifico los stats aca por si ataca con un arma magica que modifica los stats
     //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
     // y no tienen el metodo notifyStats
+    std::vector<std::string> messages;
+    std::string message = "Danio producido al atacar: " + std::to_string(activeWeapon->getLastDamage());
+    messages.push_back(message);
+    observer->notifyConsoleOutputUpdate(messages);
     notifyStats();
     return earnedXp;
 }
@@ -113,12 +117,19 @@ int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
 
 int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     int xpEarned = 0;
+    std::vector<std::string> messages;
 
     if (dodge()) {
+        std::string message = "Ataque esquivado";
+        messages.push_back(message);
+        observer->notifyConsoleOutputUpdate(messages);
         return xpEarned;
     }
 
     damage = defend(damage);
+    std::string message = "Danio recibido: " + std::to_string(damage);
+    messages.push_back(message);
+    observer->notifyConsoleOutputUpdate(messages);
 
     float newLife = lifePoints - damage;
     xpEarned = calculateAttackXp(damage,enemyLevel);
@@ -365,10 +376,12 @@ bool PlayableCharacter::isInCity() const {
     return inCity;
 }
 
+
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }
+
 
 
 

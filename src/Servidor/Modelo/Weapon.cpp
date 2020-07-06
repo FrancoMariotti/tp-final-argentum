@@ -10,7 +10,9 @@ Weapon::Weapon(std::string name, int minDamage, int maxDamage, int goldCost)
 int Weapon::calculateDamage(int strength) {
     //int range = this->maxDamage - minDamage;
     //return strength * (std::rand() % range + minDamage);
-    return strength * randomize();
+    int damage = strength * randomize();
+    lastDamage = damage;
+    return damage;
 }
 
 void Weapon::equipTo(PlayableCharacter *character, int index) {
@@ -21,4 +23,8 @@ void Weapon::equipTo(PlayableCharacter *character, int index) {
 void Weapon::unequipFrom(PlayableCharacter *character) {
     equipped = false;
     character->unequip(this);
+}
+
+int Weapon::getLastDamage() {
+    return lastDamage;
 }

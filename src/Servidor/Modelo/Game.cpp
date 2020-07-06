@@ -127,6 +127,10 @@ void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
     updates.push(new MovementNpcUpdate(idNpc,x,y));
 }
 
+void Game::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
+    updates.push(new ConsoleOutput(messages));
+}
+
 void Game::executeCommand(std::unique_ptr<Message>& command) {
     //std::string username = command->;
     std::string action = command->getCommand();
@@ -142,4 +146,5 @@ Game::~Game() {
     }
     delete map;
 }
+
 
