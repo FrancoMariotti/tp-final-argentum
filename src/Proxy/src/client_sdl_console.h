@@ -10,6 +10,7 @@
 #include "client_command_factory.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_inventory.h"
+#include "client_sdl_audio_manager.h"
 #include <list>
 
 class SdlConsole {
@@ -18,6 +19,7 @@ private:
     const SdlWindow& window;
     CommandFactory commandFactory;
     SDL_Color text_color;
+    SDL_Color server_message_color;
     TTF_Font* font;
     std::string input_text;
     bool render_text;
@@ -33,7 +35,7 @@ private:
     const int IMAGE_CONSOLE_Y = 24;
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
-    unsigned long MAX_OUTPUTS = 6;
+    unsigned long MAX_OUTPUTS = 7;
 
     std::list<SdlTexture> recentInputs;
 
@@ -47,7 +49,7 @@ public:
     void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
                  SdlRenderablePlayable &player);
 
-    void updateOutput(std::vector<std::string> outputs);
+    void updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager);
 
     /*Render*/
     void render();
