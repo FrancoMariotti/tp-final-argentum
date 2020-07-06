@@ -43,6 +43,7 @@ public:
 protected:
     void startAnimation();
     void endAnimationIfComplete();
+    void renderEffects(const SdlCamera &camera);
 };
 
 
@@ -63,7 +64,6 @@ class SdlRenderablePlayable : public SdlDynamicRenderable{
 private:
     std::string username;
     SdlTextureManager::t_player_appearance t_appearance;
-
 public:
     SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
                           const std::string username, TTF_Font *font, const SdlWindow &window,

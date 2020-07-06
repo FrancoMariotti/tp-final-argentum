@@ -59,7 +59,7 @@ void GUI::execute(){
     camera.move();
 
     timer.incrementFrames();
-    audioManager.playRandomAmbientSound(5000);
+    audioManager.playRandomAmbientSound(10000);
 }
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
@@ -73,7 +73,9 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 
 /*Busca en la lista de renderizables dinamicos por id (username o npc_id)*/
 void GUI::updateRenderableStats(std::string renderable_id, std::string effect_id) {
+    //if(rednerable_id == this->username
     player.updateStats(effect_id);
+    //else
     //dynamic_renderables.at(renderable_id)->updateStats(effect_id);
 }
 
@@ -105,12 +107,14 @@ void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderable
 void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     dynamic_renderables.clear();
     auto it = renderables.begin();
-    for(; it != renderables.end(); it++) {
+    for (; it != renderables.end(); it++) {
         std::string texture_id = textureManager.findTextureId(it->id);
         if (texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
-                    (new SdlRenderableNPC(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
-                                          texture_id, font, window, audioManager));
+                    (new SdlRenderableNPC(camera.toPixels(it->x),
+                            camera.toPixels(it->y), textureManager,
+                            texture_id, font, window, audioManager));
+           // dynamic_renderables[it->id]->updatePos(it->x,it->y,camera);
         }
     }
 }
@@ -154,7 +158,7 @@ void GUI::render(){
     player.render(camera);
     inventory.render();
     console.render();
-    //interface.render(0,0);
+    interface.render(0,0);
     playerStats.render();
 
     //Update screen

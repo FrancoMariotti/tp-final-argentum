@@ -25,7 +25,13 @@ SdlEffect::SdlEffect(SdlTexture& effectSpriteSheetTexture, std::string effect_id
     } else if (EFFECT_ID == "magicArrow"){
         sprites_per_row = 5;
         total_frames = 5;
+    } else if (EFFECT_ID == "meditate"){
+        sprites_per_row = 5;
+        total_frames = 10;
     }
+
+    this->width = effectSpriteSheetTexture.getWidth();
+    this->height = effectSpriteSheetTexture.getHeight();
 }
 
 void SdlEffect::render(const int x, const int y){
@@ -35,9 +41,9 @@ void SdlEffect::render(const int x, const int y){
     if(keep_animating){
         int col = animation_frame % sprites_per_row;
         int row = animation_frame / sprites_per_row;
-        SDL_Rect effect_clip{col * effectSpriteSheetTexture->getWidth(), row,
-                             effectSpriteSheetTexture->getWidth(), effectSpriteSheetTexture->getHeight()};
-        effectSpriteSheetTexture->render(x, y, &effect_clip);
+        SDL_Rect effect_clip{col * width, row,
+                             width, height};
+        effectSpriteSheetTexture->render(x - width/2 , y - height/2, &effect_clip);
         animation_frame++;
         if(animation_frame >= total_frames){
             keep_animating = false;

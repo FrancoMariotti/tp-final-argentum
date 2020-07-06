@@ -3,12 +3,9 @@
 //
 
 #include <thread>
-#include <random>
 #include "client_client.h"
 #include "common_message.h"
 #include "client_protected_list.h"
-#include "client_sdl_chunk.h"
-#include "client_sdl_music.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024//640
@@ -55,6 +52,9 @@ int Client::run() {
                     }
                     if(event.key.keysym.sym == SDLK_l){
                         gui.updateRenderableStats("franco", "heal");
+                    }
+                    if(event.key.keysym.sym == SDLK_g){
+                        gui.updateRenderableStats("franco", "meditate");
                     }
                     break;
             }

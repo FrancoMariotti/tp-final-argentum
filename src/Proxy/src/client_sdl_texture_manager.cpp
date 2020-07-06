@@ -51,6 +51,8 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
             SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "leatherArmourSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("ironArmourSprite",
             SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "ironArmourSprite.png", window)));
+    this->dynamic_renderables_textures.emplace(std::make_pair("blueTunicSprite",
+            SdlTexture(ARMOUR_WIDTH, ARMOUR_HEIGHT, ITEMS_PATH + "blueTunicSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("humanHeadSprite",
             SdlTexture(HEAD_WIDTH, HEAD_HEIGHT, "../../Proxy/assets/humanHeadSprite.png", window)));
     this->dynamic_renderables_textures.emplace(std::make_pair("elfHeadSprite",
@@ -73,11 +75,13 @@ SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->effects_textures.emplace(std::make_pair("magicArrowSprite",
             SdlTexture(64, 64, ASSETS_PATH + "magicArrowSprite.png", window)));
     this->effects_textures.emplace(std::make_pair("healSprite",
-            SdlTexture(102, 24, ASSETS_PATH + "healSprite.png", window)));
+            SdlTexture(100, 54, ASSETS_PATH + "healSprite.png", window)));
     this->effects_textures.emplace(std::make_pair("missileSprite",
-            SdlTexture(16, 16, ASSETS_PATH + "missileSprite.png", window)));
+            SdlTexture(15, 16, ASSETS_PATH + "missileSprite.png", window)));
     this->effects_textures.emplace(std::make_pair("explosionSprite",
             SdlTexture(64, 64, ASSETS_PATH + "explosionSprite.png", window)));
+    this->effects_textures.emplace(std::make_pair("meditateSprite",
+            SdlTexture(30, 40, ASSETS_PATH + "meditateSprite.png", window)));
 
 }
 
@@ -246,8 +250,8 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
     int armour_x = this->armourX(tile_size, armour_w);
     int armour_y = this->armourY(tile_size, armour_h, png_offset_y);
 
-    int animation_x = old_x + (of_x/4) * animation_frame;
-    int animation_y = old_y + (of_y/4) * animation_frame;
+    int animation_x = getAnimationPosFor(old_x,of_x, animation_frame);
+    int animation_y = getAnimationPosFor(old_y, of_y, animation_frame);
 
     headSpriteSheetTexture.render(animation_x + head_x - camera.getX(),
                                   (animation_y - head_h - armour_y + png_offset_y) - camera.getY(),
@@ -264,17 +268,6 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
     shieldSpriteSheetTexture.render(animation_x + armour_x - camera.getX(),
                                     (animation_y - armour_y) - camera.getY(),
                                     &shield_orientation_clip);
-}
-
-void SdlTextureManager::effects(const std::string effect_id, const int x, const int y,const SdlCamera& camera){
-    SdlTexture& effectSpriteSheetTexture = this->getEffectSpriteTexture(effect_id);
-    int rand = Utils::random_int_number(0,9);
-    /*5 es la cantidad de sprites por fila*/
-    int col = rand % 5;
-    int fil = rand / 5;
-    SDL_Rect effect_clip{col * effectSpriteSheetTexture.getWidth(), fil,
-                         effectSpriteSheetTexture.getWidth(), effectSpriteSheetTexture.getHeight()};
-    effectSpriteSheetTexture.render(x - camera.getX(),y - camera.getY(), &effect_clip);
 }
 
 int SdlTextureManager::getAnimationPosFor(const int old, const int off, int animation_frame) const {
