@@ -23,8 +23,8 @@ void SdlChunk::loadWAV(const std::string& path){
     }
 }
 
-void SdlChunk::play(const int loops) {
-    Mix_PlayChannel(-1, p_chunk, loops);
+void SdlChunk::play(const int loops, const int channel) {
+    Mix_PlayChannel(channel, p_chunk, loops);
 }
 
 void SdlChunk::free(){

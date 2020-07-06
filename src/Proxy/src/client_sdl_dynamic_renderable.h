@@ -11,6 +11,7 @@
 #include "client_sdl_text.h"
 #include "client_sdl_bar.h"
 #include "client_sdl_effect.h"
+#include "client_sdl_audio_manager.h"
 
 class SdlTexture;
 class SdlCamera;
@@ -23,6 +24,7 @@ protected:
     bool is_moving;
     const int MAX_FRAMES = 4;
     SdlTextureManager& textureManager;
+    SdlAudioManager& audioManager;
     SdlTextureManager::e_body_orientation body_or;
     SdlTextureManager::e_head_orientation head_or;
     SdlText tag;
@@ -30,7 +32,9 @@ protected:
     SdlEffect effect;
 public:
     SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
-                         TTF_Font *font, const std::string s_tag, const SDL_Color color);
+                         TTF_Font *font, const std::string s_tag, const SDL_Color color,
+                         SdlAudioManager &audioManager);
+    virtual void updateStats();
     virtual void updatePos(int new_x, int new_y, SdlCamera &camera);
     virtual void updateEquipment(const equipment_t& equipment) = 0;
     virtual void render(const SdlCamera& camera) = 0;
@@ -47,7 +51,8 @@ private:
     const std::string texture_id;
 public:
     SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
-                     const std::string texture_id, TTF_Font *font, const SdlWindow &window);
+                     const std::string texture_id, TTF_Font *font, const SdlWindow &window,
+                     SdlAudioManager &audioManager);
 
     void updateEquipment(const equipment_t& equipment) override;
 
@@ -61,7 +66,8 @@ private:
 
 public:
     SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
-                          const std::string username, TTF_Font *font, const SdlWindow &window);
+                          const std::string username, TTF_Font *font, const SdlWindow &window,
+                          SdlAudioManager &audioManager);
 
     void updateEquipment(const equipment_t& equipment) override ;
 

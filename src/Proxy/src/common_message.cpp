@@ -107,6 +107,11 @@ t_player_attack Message::getAttack() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+std::vector<std::string> Message::getConsoleOutput() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
@@ -266,4 +271,13 @@ Attack::Attack(const std::string username, int enemy_x, int enemy_y) :
 
 t_player_attack Attack::getAttack(){
     return t_player_attack{username, enemy_x, enemy_y};
+}
+
+ConsoleOutput::ConsoleOutput(std::vector<std::string> outputs) :
+    Message(CONSOLE_OUTPUT_MESSAGE_ID),
+    outputs(std::move(outputs))
+    {}
+
+std::vector<std::string> ConsoleOutput::getConsoleOutput() {
+    return std::move(outputs);
 }

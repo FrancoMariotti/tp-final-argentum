@@ -334,18 +334,24 @@ void PlayableCharacter::addGold(int amount) {
     }
     notifyStats();
 }
-
+/*
 void PlayableCharacter::takeDroppable(Droppable* droppable) {
     lifeState->takeDroppable(droppable, this);
 }
-
+*/
 void PlayableCharacter::takeDroppable(GoldBag* goldBag) {
     addGold(goldBag->getAmount());
     delete goldBag;
+    map->updateDropSpawns(observer);
 }
 
 void PlayableCharacter::takeDroppable(Equippable* equippable) {
     store(equippable);
+    map->updateDropSpawns(observer);
+}
+
+void PlayableCharacter::takeDrop() {
+    lifeState->takeDrop(map, currPos, this);
 }
 
 bool PlayableCharacter::isInCity() const {
@@ -356,4 +362,5 @@ PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }
+
 

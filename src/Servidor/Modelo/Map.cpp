@@ -197,6 +197,23 @@ void Map::addDrop(Drop drop) {
     dropsSpawns.push_back(dropSpawn);
 }
 
+Drop Map::takeDropFromPos(Position position) {
+    for (unsigned int i = 0; i < drops.size(); i++) {
+        if (drops[i].getPosition() == position) {
+            //QUIZAS DEBO REDEFINIR EL OPERADOR IGUAL PARA QUE MUEVA EL PUNTERO AL EQUIPABLE Y NO SE BORRE DE MEMORIA
+            Drop drop = drops[i];
+            drops.erase(drops.begin() + i);
+            for (unsigned int j = 0; j < dropsSpawns.size(); ++j) {
+                if (Position(dropsSpawns[i].x, dropsSpawns[i].y)  == drop.getPosition()) {
+                    dropsSpawns.erase(dropsSpawns.begin() + i);
+                }
+            }
+            return drop;
+        }
+    }
+    return Drop();
+}
+
 void Map::updateDropSpawns(Observer *observer) {
     observer->notifyDropSpawnNUpdate(dropsSpawns);
 }
@@ -299,6 +316,7 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
 
 
 

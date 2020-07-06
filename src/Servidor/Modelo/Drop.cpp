@@ -6,6 +6,8 @@
 
 #include <utility>
 
+Drop::Drop() : position(-1, -1), item(nullptr), name("empty") {}
+
 Drop::Drop(Position& position, Droppable* droppable, std::string name) :
     position(position), item(droppable), name(std::move(name)){}
 
@@ -17,8 +19,7 @@ std::string Drop::getName() {
     return name;
 }
 
-/*
-void Drop::addGold(int dropGold) {
-    this->gold += dropGold;
+void Drop::takenBy(PlayableCharacter *player) {
+    if (item) item->takenBy(player);
 }
-*/
+

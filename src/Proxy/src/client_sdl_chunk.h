@@ -23,7 +23,7 @@ public:
     void loadWAV(const std::string &path);
     /*Reproduce el sonido 1 + @param loops veces, en un channel
      * que no este reservado*/
-    void play(const int loops);
+    void play(const int loops, const int channel = -1);
     ~SdlChunk();
 
 private:

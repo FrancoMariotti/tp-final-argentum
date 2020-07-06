@@ -19,7 +19,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     audioManager(),
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
-    player(0, 0, textureManager, "franco", font, window),
+    player(0, 0, textureManager, "franco", font, window, audioManager),
     inventory(screen_width, screen_height, window, font),
     camera(screen_width, screen_height, player),
     mouse(camera),
@@ -57,6 +57,9 @@ void GUI::execute(){
     inventory.use(clientEvents, mouse);
     mouse.use(clientEvents);
     camera.move();
+
+    timer.incrementFrames();
+    audioManager.playRandomAmbientSound(1000);
 }
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
@@ -73,6 +76,8 @@ void GUI::updatePlayerEquipment(const equipment_t& equipment) {
     inventory.updateEquippedItems(equipment);
     if(equipment.armourName == "ghost"){
         audioManager.playSound("death", 0);
+    } else {
+        audioManager.playSound("equip", 0);
     }
 }
 
@@ -85,7 +90,7 @@ void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderable
         static_renderables.push_back(std::unique_ptr<SdlDynamicRenderable>
                 (new SdlRenderableNPC(camera.toPixels(it->x),
                                       camera.toPixels(it->y),
-                                      textureManager, it->id, font, window)));
+                                      textureManager, it->id, font, window, audioManager)));
     }
 }
 
@@ -99,7 +104,7 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
         if (texture_id != "player"){
             dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
                     (new SdlRenderableNPC(camera.toPixels(it->x), camera.toPixels(it->y), textureManager,
-                                          texture_id, font, window));
+                                          texture_id, font, window, audioManager));
         }
     }
 }
@@ -116,6 +121,11 @@ void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
 
 void GUI::updateDrops(const std::vector<spawn_character_t> &drops) {
     world.updateDrops(drops);
+}
+
+
+void GUI::updateConsoleOutput(std::vector<std::string> console_outputs) {
+    console.updateOutput(console_outputs);
 }
 
 void GUI::render(){
@@ -144,7 +154,6 @@ void GUI::render(){
     //Update screen
     window.render();
 
-    timer.incrementFrames();
 }
 
 void GUI::renderWorld() {
@@ -162,4 +171,5 @@ GUI::~GUI(){
     IMG_Quit();
     SDL_Quit();
 }
+
 
