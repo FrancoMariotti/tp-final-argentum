@@ -1,9 +1,9 @@
 #ifndef ARGENTUM_MESSAGESERIALIZER_H
 #define ARGENTUM_MESSAGESERIALIZER_H
-
-#include <Proxy/src/common_message.h>
 #include "map"
 #include "Serializer.h"
+
+class Message;
 
 class MessageSerializer {
     std::map<int,Serializer*> serializers;

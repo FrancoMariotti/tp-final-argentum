@@ -1,4 +1,5 @@
 #include "Protocol.h"
+#include "Proxy/src/common_message.h"
 
 uint16_t Protocol::valueToBigEndian(const uint16_t value) {
     uint16_t big_end = htons(value);
@@ -17,7 +18,7 @@ void Protocol::send(Socket &socket, uint16_t number){
 
 uint16_t Protocol::recieve(Socket &socket, int overload){
     uint16_t number;
-    socket.recieve(&number, sizeof(uint16_t));
+    socket.recieve((char*)&number, sizeof(uint16_t));
     number = valueToLocalEndian(number);
     return number;
 }

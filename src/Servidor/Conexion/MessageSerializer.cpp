@@ -1,6 +1,6 @@
 #include "MessageSerializer.h"
-#include "Proxy/src/common_osexception.h"
 #include "MovementMessageSerializer.h"
+#include "Proxy/src/common_osexception.h"
 
 MessageSerializer::MessageSerializer() {
     serializers[MOVEMENT_MESSAGE_ID] = new  MovementMessageSerializer();

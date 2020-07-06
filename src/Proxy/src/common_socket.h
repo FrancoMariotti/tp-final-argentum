@@ -21,6 +21,7 @@ public:
     Socket(const Socket&) = default;
 
     Socket(Socket&& other) noexcept;
+    Socket& operator=(Socket&& other) noexcept;
 
     /* Asigna una direccion al socket del servidor y
     lo pone a la espera de una conexion
