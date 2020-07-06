@@ -139,6 +139,8 @@ void Client::update() {
             this->gui.updateRenderablePos(movement.x, movement.y, movement.id);
         } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
             gui.updatePlayerEquipment(msg->getEquipment());
+        } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
+            gui.updateConsoleOutput(msg->getConsoleOutput());
         }
     }
 }

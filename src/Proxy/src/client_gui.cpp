@@ -118,6 +118,11 @@ void GUI::updateDrops(const std::vector<spawn_character_t> &drops) {
     world.updateDrops(drops);
 }
 
+
+void GUI::updateConsoleOutput(std::vector<std::string> console_outputs) {
+    console.updateOutput(console_outputs);
+}
+
 void GUI::render(){
     //Limpio pantalla
     window.fill(0xFF, 0xFF, 0xFF, 0xFF);
@@ -162,4 +167,5 @@ GUI::~GUI(){
     IMG_Quit();
     SDL_Quit();
 }
+
 

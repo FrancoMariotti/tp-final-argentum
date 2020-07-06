@@ -63,6 +63,7 @@ public:
 
     ~GUI();
 
+    void updateConsoleOutput(std::vector<std::string> console_outputs);
 };
 
 

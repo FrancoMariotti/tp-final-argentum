@@ -33,6 +33,7 @@ private:
     const int IMAGE_CONSOLE_Y = 24;
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
+    unsigned long MAX_OUTPUTS = 6;
 
     std::list<SdlTexture> recentInputs;
 
@@ -46,11 +47,15 @@ public:
     void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
                  SdlRenderablePlayable &player);
 
+    void updateOutput(std::vector<std::string> outputs);
+
     /*Render*/
     void render();
 
     void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
                             SdlCamera &camera, SdlRenderablePlayable &player);
+
+
 };
 
 

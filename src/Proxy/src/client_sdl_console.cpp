@@ -70,7 +70,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
-        if(recentInputs.size() > 5){
+        if(recentInputs.size() > MAX_OUTPUTS){
             recentInputs.pop_front();
         }
     } else if(render_text){
@@ -127,14 +127,17 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text.find('@') == 0) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
     }
-    //agrego este mouse clear para que no tome varios mouse clicks
-    //cuando mando los comandos.
-    //ej: si hago tres clicks y mando /resucitar sin hacer click la
-    //segunda y tercer vez, los eventos se mandan igual.De este modo
-    // una vez que se setea clicked in map en true, recien ahi ingresamos
-    // el comando en la consola.
     mouse.clear();
 }
+
+/*Limpia la lista de inputs y la carga con los mensajes del server*/
+void SdlConsole::updateOutput(std::vector<std::string> outputs) {
+    recentInputs.clear();
+    for(auto it = outputs.begin(); it != outputs.end(); it++){
+        recentInputs.emplace_back(*it, font, text_color, window);
+    }
+}
+
 
 void SdlConsole::render() {
     SDL_Rect outline_rect = {console_x, console_y, width, height};
