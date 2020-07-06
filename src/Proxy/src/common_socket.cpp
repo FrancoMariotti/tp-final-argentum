@@ -151,8 +151,8 @@ int Socket::send(const char* buffer, size_t length) const {
     return bytes_sent;
 }
 
-void Socket::recieve(char* buffer, ssize_t length) const {
-    ssize_t bytes_received = 0;
+void Socket::recieve(char* buffer, size_t length) const {
+    size_t bytes_received = 0;
     size_t total_bytes = 0;
     size_t buffer_len = 0;
 

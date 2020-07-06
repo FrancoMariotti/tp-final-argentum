@@ -34,11 +34,11 @@ void Protocol::send(Socket& socket,Message* message) {
 Message* Protocol::recieve(Socket &socket) {
     uint16_t messageId = recieve(socket, 0);
     uint16_t len_data = recieve(socket,0);
-    //char* data  = (char*) malloc(len_data);
-    std::vector<char> data;
-    data.reserve(len_data);
-    socket.recieve(data.data(),len_data);
-    Message *message = serializer.deserialize(messageId,data.data());
+    char* data  = (char*) malloc(len_data+1);
+    data[len_data] = '\0';
+    socket.recieve(data,len_data);
+    Message *message = serializer.deserialize(messageId,data);
+    free(data);
     return message;
 }
 
