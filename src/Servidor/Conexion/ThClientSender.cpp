@@ -20,10 +20,9 @@ void ThClientSender::run() {
             stop();
         }
     }
-    finished = true;
 }
 
 void ThClientSender::stop() {
     keepTalking = false;
-    //client.shutdown(SHUT_WR);
+    messages.close();
 }

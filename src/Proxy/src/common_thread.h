@@ -11,8 +11,6 @@
 class Thread {
 private:
     std::thread thread;
-protected:
-    bool finished;
 public:
     Thread();
     virtual void start();
