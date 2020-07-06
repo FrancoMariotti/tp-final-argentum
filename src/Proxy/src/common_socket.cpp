@@ -76,18 +76,15 @@ int Socket::bindAndListen(const char* service) {
 
 
 Socket Socket::accept() const {
-    int acep_file_descriptor = this->sfd;
-    socklen_t peer_addr_size = sizeof(struct sockaddr_in);
 
-    struct sockaddr_in peer_addr;
-    int file_descriptor = ::accept(acep_file_descriptor,
-                                   (struct sockaddr *) &peer_addr,
-                                           &peer_addr_size);
-    if (file_descriptor == -1){
+    //Socket* nuevo = new Socket(acep_file_descriptor);
+    int newsocket = ::accept(this->sfd,nullptr,nullptr);
+
+    if (newsocket == -1){
         throw OSError("Error en el accept");
     }
 
-    return Socket(file_descriptor);
+    return std::move(Socket(newsocket));
 }
 
 
@@ -195,6 +192,6 @@ int Socket::close(){
 
 Socket &Socket::operator=(Socket &&other) noexcept {
     this->sfd = other.sfd;
-    other.sfd = -1;
+    //other.sfd = -1;
     return *this;
 }

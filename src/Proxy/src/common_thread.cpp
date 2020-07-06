@@ -13,6 +13,7 @@ void Thread::join() {
     thread.join();
 }
 
+
 Thread::Thread(Thread&& other) noexcept {
     this->thread = std::move(other.thread);
 }

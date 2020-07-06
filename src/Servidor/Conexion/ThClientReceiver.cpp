@@ -26,5 +26,4 @@ void ThClientReceiver::run() {
 
 void ThClientReceiver::stop() {
     keepTalking = false;
-    client.shutdown(SHUT_RDWR);
 }

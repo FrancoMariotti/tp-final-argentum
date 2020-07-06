@@ -22,7 +22,7 @@ public:
 
     Socket(Socket&& other) noexcept;
     Socket& operator=(Socket&& other) noexcept;
-
+    Socket& operator=(const Socket&) = delete;
     /* Asigna una direccion al socket del servidor y
     lo pone a la espera de una conexion
     */
@@ -55,8 +55,8 @@ public:
     int close();
 
     ~Socket();
-
 private:
+
     explicit Socket(int file_descriptor);
 };
 

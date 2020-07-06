@@ -1,9 +1,9 @@
 #include "ClientConnection.h"
 
-ClientConnection::ClientConnection(Socket* client, ProtectedList<std::unique_ptr<Message>>& messages,
+ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages,
                                    BlockingQueue<std::unique_ptr<Message>>& events):
-                             client(client),sender(*client,events),receiver(*client,messages,this) {
-    dead = false;
+                             client(std::move(client)),sender(this->client,events),receiver(this->client,messages,this) {
+    dead = true;
 }
 
 ClientConnection::ClientConnection(ClientConnection && connection) noexcept:
@@ -30,4 +30,9 @@ bool ClientConnection::isDead() const {
 void ClientConnection::start() {
     receiver.start();
     sender.start();
+}
+
+ClientConnection::~ClientConnection() {
+    client.shutdown(SHUT_RDWR);
+    client.close();
 }

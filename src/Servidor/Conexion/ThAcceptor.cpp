@@ -11,29 +11,24 @@ ThAcceptor::ThAcceptor(const std::string &service, BlockingQueue<std::unique_ptr
 }
 
 void ThAcceptor::destroyFinishedClients() {
-    std::vector<ClientConnection*>::iterator itrClients = clients.begin();
-    for ( ; itrClients != clients.end(); ++itrClients) {
-        if((*itrClients)->isDead()) {
-            (*itrClients)->joinResources();
+    auto it = clients.begin();
+    for ( ; it != clients.end(); ++it) {
+        if((*it)->isDead()) {
+            (*it)->joinResources();
+            delete *it;
+            clients.erase(it--);
         }
     }
-    clients.erase(std::remove_if(clients.begin(),
-                                 clients.end(),
-                                 [](ClientConnection *connection){return connection->isDead();}),
-                                         clients.end());
 }
 
 void ThAcceptor::destroyAllClients() {
-    auto itrClients = clients.begin();
-    for ( ; itrClients != clients.end(); ++itrClients) {
-        (*itrClients)->finish();
-        (*itrClients)->joinResources();
+    auto it = clients.begin();
+    for ( ; it != clients.end(); ++it) {
+        (*it)->finish();
+        (*it)->joinResources();
+        delete *it;
+        clients.erase(it--);
     }
-
-    clients.erase(std::remove_if(clients.begin(),
-                                 clients.end(),
-                                 [](ClientConnection *connection){return connection->isDead();}),
-                  clients.end());
 }
 
 void ThAcceptor::start() {
@@ -43,8 +38,7 @@ void ThAcceptor::start() {
 void ThAcceptor::run() {
     while (keepTalking) {
         try {
-            Socket* client = new Socket();
-            *client = acceptor.accept();
+            Socket client = acceptor.accept();
             auto *connection = new ClientConnection(client, events, messages);
             connection->start();
             clients.push_back(connection);
@@ -64,7 +58,7 @@ void ThAcceptor::stop() {
 
 ThAcceptor::~ThAcceptor() {
     auto itr = clients.begin();
-    for (;itr!= clients.end();itr++) {
+    for (;itr!= clients.end();++itr) {
         delete *itr;
     }
 }

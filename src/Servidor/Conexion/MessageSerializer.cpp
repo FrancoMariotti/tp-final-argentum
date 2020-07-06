@@ -18,9 +18,7 @@ std::string MessageSerializer::serialize(Message* message) {
 
 Message *MessageSerializer::deserialize(int messageId, char *data) {
     auto itr = serializers.find(messageId);
-
     if(itr == serializers.end()) return nullptr;
-
     return serializers.at(messageId)->deserialize(data);
 }
 
