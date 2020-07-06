@@ -2,7 +2,7 @@
 #include <Proxy/src/common_closedqueue_exception.h>
 #include <utility>
 
-ThClientReceiver::ThClientReceiver(Socket* client, ProtectedList<std::unique_ptr<Message>> &events):
+ThClientReceiver::ThClientReceiver(Socket& client, ProtectedList<std::unique_ptr<Message>> &events):
                                     client(client),events(events) {
     keepTalking = true;
 }
@@ -15,7 +15,7 @@ void ThClientReceiver::run() {
     while (keepTalking) {
         try{
             std::cout << "recieving event" << std::endl;
-            Message* message = protocol.recieve(*client);
+            Message* message = protocol.recieve(client);
             events.push(std::unique_ptr<Message>(message));
         } catch(std::exception &e) {
             stop();

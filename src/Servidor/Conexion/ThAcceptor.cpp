@@ -1,47 +1,28 @@
 #include "ThAcceptor.h"
-#include "ThClientSender.h"
-#include "ThClientReceiver.h"
+#include "ClientConnection.h"
 
 ThAcceptor::ThAcceptor(const std::string &service, BlockingQueue<std::unique_ptr<Message>> &messages,
                        ProtectedList<std::unique_ptr<Message>> &events):messages(messages),events(events) {
-    this->keep_talking = true;
+    this->keepTalking= true;
     this->acceptor.bindAndListen(service.c_str());
 }
 
 void ThAcceptor::destroyFinishedClients() {
-    auto itrSenders = clientSenders.begin();
-    for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
-        if((*itrSenders)->isDead()) {
-            (*itrSenders)->join();
-            delete *itrSenders;
-            clientSenders.erase(itrSenders);
-        }
-    }
-
-
-    auto itrReceivers = clientReceivers.begin();
-    for ( ; itrReceivers != clientReceivers.end(); ++itrReceivers) {
-        if((*itrReceivers)->isDead()) {
-            (*itrReceivers)->join();
-            delete *itrReceivers;
-            clientReceivers.erase(itrReceivers);
+    auto itrClients = clients.begin();
+    for ( ; itrClients != clients.end(); ++itrClients) {
+        if((*itrClients)->isDead()) {
+            (*itrClients)->joinResources();
+            clients.erase(itrClients);
         }
     }
 }
 
 void ThAcceptor::destroyAllClients() {
-    auto itrSenders = clientSenders.begin();
-    for ( ; itrSenders != clientSenders.end(); ++itrSenders) {
-        (*itrSenders)->stop();
-        (*itrSenders)->join();
-        delete (*itrSenders);
-    }
-
-    auto itRecvs = clientReceivers.begin();
-    for ( ; itRecvs != clientReceivers.end(); ++itRecvs) {
-        (*itRecvs)->stop();
-        (*itrSenders)->join();
-        delete *itRecvs;
+    auto itrClients = clients.begin();
+    for ( ; itrClients != clients.end(); ++itrClients) {
+        (*itrClients)->finish();
+        (*itrClients)->joinResources();
+        clients.erase(itrClients);
     }
 }
 
@@ -50,18 +31,12 @@ void ThAcceptor::start() {
 }
 
 void ThAcceptor::run() {
-    while (keep_talking) {
+    while (keepTalking) {
         try {
-            Socket *client = new Socket();
-            *client = acceptor.accept();
-
-            auto *sender = new ThClientSender(client,messages);
-            auto *receiver = new ThClientReceiver(client,events);
-            sender->start();
-            receiver->start();
-            clientSenders.push_back(sender);
-            clientReceivers.push_back(receiver);
-            clients.push_back(client);
+            Socket client = acceptor.accept();
+            auto *connection = new ClientConnection(client, events, messages);
+            connection->start();
+            clients.push_back(connection);
             destroyFinishedClients();
         } catch(std::exception &e) {
             stop();
@@ -69,15 +44,10 @@ void ThAcceptor::run() {
     }
 
     destroyAllClients();
-
-    auto itrclientes = clients.begin();
-    for ( ; itrclientes != clients.end(); ++itrclientes) {
-        delete *itrclientes;
-    }
 }
 
 void ThAcceptor::stop() {
-    this->keep_talking = false;
+    this->keepTalking = false;
     this->acceptor.shutdown(SHUT_RDWR);
 }
 
