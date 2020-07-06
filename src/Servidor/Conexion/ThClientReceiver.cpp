@@ -16,9 +16,9 @@ void ThClientReceiver::run() {
         try{
             std::cout << "recieving event" << std::endl;
             Message* message = protocol.recieve(client);
-            events.push(std::unique_ptr<Message>(message));
+            if(message) events.push(std::unique_ptr<Message>(message));
         } catch(std::exception &e) {
-            stop();
+            keepTalking = false;
         }
     }
     connection->stop();

@@ -6,21 +6,21 @@
 #define ARGENTUM_CLIENTCONNECTION_H
 
 
-#include <Proxy/src/common_socket.h>
 #include <Proxy/src/common_message.h>
 #include <memory>
+#include <Proxy/src/common_socket.h>
 #include "ThClientSender.h"
 #include "ThClientReceiver.h"
 
 class ClientConnection {
-    Socket client;
+    Socket* client;
     ThClientSender sender;
     ThClientReceiver receiver;
     bool dead;
     void stop();
     friend class ThClientReceiver;
 public:
-    ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages,
+    ClientConnection(Socket* client, ProtectedList<std::unique_ptr<Message>>& messages,
                      BlockingQueue<std::unique_ptr<Message>>& events);
     ClientConnection(ClientConnection&) = delete;
     ClientConnection(ClientConnection&&) noexcept ;

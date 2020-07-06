@@ -24,6 +24,7 @@ public:
     void stop();
     void destroyFinishedClients();
     void destroyAllClients();
+    ~ThAcceptor() override;
 };
 
 
