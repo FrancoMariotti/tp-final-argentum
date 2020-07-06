@@ -11,6 +11,9 @@
 #include "common_osexception.h"
 
 #define BACKLOG 10;
+#define RECV_ERROR_MSG "al intentar intentar recibir datos"
+#define SEND_ERROR_MSG "al intentar intentar enviar datos"
+
 
 Socket::Socket() :
     sfd(-1)
@@ -130,44 +133,43 @@ int Socket::connect(const char *host_name, const char *service) {
     return 0;
 }
 
-int Socket::send(const void *buffer, ssize_t length) const {
-    ssize_t n_send = 1;
-    int bytes_sent = 0;
+int Socket::send(const char* buffer, size_t length) const {
+    size_t bytes_sent = 0;
+    size_t total_bytes = 0;
+    size_t buffer_len = 0;
 
-    while (bytes_sent < length && n_send > 0){
-        n_send = ::send(this->sfd, buffer, length, MSG_NOSIGNAL);
-        bytes_sent += n_send;
+    while (total_bytes < length) {
+        buffer_len = length - total_bytes;
+
+        bytes_sent = ::send(this->sfd, buffer + total_bytes,buffer_len,
+                            MSG_NOSIGNAL);
+
+        if (bytes_sent < 0) {
+            throw OSError(SEND_ERROR_MSG);
+        }
+
+        total_bytes += bytes_sent;
     }
 
-    if (n_send == 0){
-        /*Cerraron el socket*/
-        return 0;
-    }
-    if (n_send == -1){
-       throw OSError("Error inesperado en funcion socket::send, "
-                     "n_send: %d, length: %zd", n_send, length);
-    }
-
-    return n_send;
+    return bytes_sent;
 }
 
-int Socket::recieve(void* buffer, ssize_t length) const {
-    ssize_t n_recv = 1;
-    int bytes_recv = 0;
+void Socket::recieve(char* buffer, ssize_t length) const {
+    ssize_t bytes_received = 0;
+    size_t total_bytes = 0;
+    size_t buffer_len = 0;
 
-    while (bytes_recv < length && n_recv > 0){
-        n_recv = recv(this->sfd, buffer, length, 0);
-        bytes_recv += n_recv;
+    while ((length - total_bytes) != 0) {
+        buffer_len = length - total_bytes;
+
+        bytes_received = ::recv(this->sfd,buffer + total_bytes,buffer_len,0);
+
+        if (bytes_received <= 0) {
+            throw OSError(RECV_ERROR_MSG);
+        }
+
+        total_bytes += bytes_received;
     }
-    if (n_recv == 0){
-        /*Cerraron el socket*/
-        return 0;
-    }
-    if (n_recv == -1){
-        throw OSError("Error inesperado en funcion Socket::recieve, "
-                      "n_recv: %d, length: %zd", n_recv, length);
-    }
-    return n_recv;
 }
 
 Socket::~Socket() {

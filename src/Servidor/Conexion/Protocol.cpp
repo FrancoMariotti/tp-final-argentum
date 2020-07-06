@@ -13,7 +13,7 @@ uint16_t Protocol::valueToLocalEndian(uint16_t value) {
 
 void Protocol::send(Socket &socket, uint16_t number){
     uint16_t big_end_guest = valueToBigEndian(number);
-    socket.send(&big_end_guest, sizeof(uint16_t));
+    socket.send((char*)&big_end_guest, sizeof(uint16_t));
 }
 
 uint16_t Protocol::recieve(Socket &socket, int overload){

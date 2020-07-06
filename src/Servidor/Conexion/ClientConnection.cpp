@@ -1,8 +1,8 @@
 #include "ClientConnection.h"
 
-ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages,
+ClientConnection::ClientConnection(Socket* client, ProtectedList<std::unique_ptr<Message>>& messages,
                                    BlockingQueue<std::unique_ptr<Message>>& events):
-                             client(std::move(client)),sender(client,events),receiver(client,messages,this) {
+                             client(client),sender(*client,events),receiver(*client,messages,this) {
     dead = false;
 }
 

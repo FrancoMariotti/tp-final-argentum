@@ -1,5 +1,8 @@
+#include <algorithm>
+#include <Proxy/src/common_socket.h>
 #include "ThAcceptor.h"
 #include "ClientConnection.h"
+#include "vector"
 
 ThAcceptor::ThAcceptor(const std::string &service, BlockingQueue<std::unique_ptr<Message>> &messages,
                        ProtectedList<std::unique_ptr<Message>> &events):messages(messages),events(events) {
@@ -8,13 +11,16 @@ ThAcceptor::ThAcceptor(const std::string &service, BlockingQueue<std::unique_ptr
 }
 
 void ThAcceptor::destroyFinishedClients() {
-    auto itrClients = clients.begin();
+    std::vector<ClientConnection*>::iterator itrClients = clients.begin();
     for ( ; itrClients != clients.end(); ++itrClients) {
         if((*itrClients)->isDead()) {
             (*itrClients)->joinResources();
-            clients.erase(itrClients);
         }
     }
+    clients.erase(std::remove_if(clients.begin(),
+                                 clients.end(),
+                                 [](ClientConnection *connection){return connection->isDead();}),
+                                         clients.end());
 }
 
 void ThAcceptor::destroyAllClients() {
@@ -22,8 +28,12 @@ void ThAcceptor::destroyAllClients() {
     for ( ; itrClients != clients.end(); ++itrClients) {
         (*itrClients)->finish();
         (*itrClients)->joinResources();
-        clients.erase(itrClients);
     }
+
+    clients.erase(std::remove_if(clients.begin(),
+                                 clients.end(),
+                                 [](ClientConnection *connection){return connection->isDead();}),
+                  clients.end());
 }
 
 void ThAcceptor::start() {
@@ -33,7 +43,8 @@ void ThAcceptor::start() {
 void ThAcceptor::run() {
     while (keepTalking) {
         try {
-            Socket client = acceptor.accept();
+            Socket* client = new Socket();
+            *client = acceptor.accept();
             auto *connection = new ClientConnection(client, events, messages);
             connection->start();
             clients.push_back(connection);
@@ -51,4 +62,10 @@ void ThAcceptor::stop() {
     this->acceptor.shutdown(SHUT_RDWR);
 }
 
+ThAcceptor::~ThAcceptor() {
+    auto itr = clients.begin();
+    for (;itr!= clients.end();itr++) {
+        delete *itr;
+    }
+}
 

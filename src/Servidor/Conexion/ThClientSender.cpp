@@ -17,7 +17,7 @@ void ThClientSender::run() {
             message = messages.pop();
             protocol.send(client,message.release());
         } catch(std::exception &e) {
-            stop();
+
         }
     }
 }
