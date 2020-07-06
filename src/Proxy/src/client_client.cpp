@@ -43,26 +43,18 @@ int Client::run() {
                 case SDL_QUIT:
                     quit = true;
                     break;
-                    /*test*/
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym == SDLK_h){
-                        /*std::vector<std::string> player_inventory{"sword","axe","hammer","fresnoWand"
-                                ,"crimpStick","commonBow", "rareBow"
-                                ,"leatherArmour", "ironArmour", "blueTunic",
-                                                                  "hood", "ironHelmet", "turtleShell", "ironShield",
-                                                                  "magicHat", "smallLifePotion", "smallManaPotion"};
-                        gui.updateInventory(std::move(player_inventory));
-                        std::random_device rd;
-                        std::mt19937 mt(rd());
-                        std::uniform_real_distribution<float> dist(0.1,1.0);
-                        t_stats stats{dist(mt),dist(mt),dist(mt),1000,50};
-                        gui.updatePlayerStats(stats);*/
-                    } else if (event.key.keysym.sym == SDLK_o){
-                 //       testChunk.play(0);
-                    } else if (event.key.keysym.sym == SDLK_i) {
-                   //     testMusic.play(0);
-                    } else if (event.key.keysym.sym == SDLK_p){
-                     //       testMusic.stop();
+                        gui.updateRenderableStats("franco", "explosion");
+                    }
+                    if(event.key.keysym.sym == SDLK_j){
+                        gui.updateRenderableStats("franco", "missile");
+                    }
+                    if(event.key.keysym.sym == SDLK_k){
+                        gui.updateRenderableStats("franco", "magicArrow");
+                    }
+                    if(event.key.keysym.sym == SDLK_l){
+                        gui.updateRenderableStats("franco", "heal");
                     }
                     break;
             }
@@ -136,7 +128,9 @@ void Client::update() {
             gui.updatePlayerEquipment(msg->getEquipment());
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
-        }
+        } /*else if (msg->getId() == RENDERABLE_EFFECT_MESSAGE_ID){
+           gui.updateRenderableStats(msg->getRenderableId(), msg->getEffectId());
+        }*/
     }
 }
 

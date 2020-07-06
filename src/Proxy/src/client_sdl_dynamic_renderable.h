@@ -29,13 +29,13 @@ protected:
     SdlTextureManager::e_head_orientation head_or;
     SdlText tag;
     SdlBar healthBar;
-    SdlEffect effect;
+    std::vector<SdlEffect> effects;
 public:
     SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
                          TTF_Font *font, const std::string s_tag, const SDL_Color color,
                          SdlAudioManager &audioManager);
-    virtual void updateStats();
-    virtual void updatePos(int new_x, int new_y, SdlCamera &camera);
+    virtual void updateStats(const std::string& effect_id);
+    void updatePos(int new_x, int new_y, SdlCamera &camera);
     virtual void updateEquipment(const equipment_t& equipment) = 0;
     virtual void render(const SdlCamera& camera) = 0;
     virtual ~SdlDynamicRenderable() = default;
@@ -50,8 +50,8 @@ class SdlRenderableNPC : public SdlDynamicRenderable {
 private:
     const std::string texture_id;
 public:
-    SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
-                     const std::string texture_id, TTF_Font *font, const SdlWindow &window,
+    SdlRenderableNPC(int x, int y, SdlTextureManager &textureManager,
+            std::string texture_id, TTF_Font *font, const SdlWindow &window,
                      SdlAudioManager &audioManager);
 
     void updateEquipment(const equipment_t& equipment) override;

@@ -64,6 +64,8 @@ public:
     ~GUI();
 
     void updateConsoleOutput(std::vector<std::string> console_outputs);
+
+    void updateRenderableStats(std::string renderable_id, std::string effect_id);
 };
 
 

@@ -71,6 +71,12 @@ void GUI::updatePlayerStats(t_stats new_stats) {
     playerStats.update(new_stats);
 }
 
+/*Busca en la lista de renderizables dinamicos por id (username o npc_id)*/
+void GUI::updateRenderableStats(std::string renderable_id, std::string effect_id) {
+    player.updateStats(effect_id);
+    //dynamic_renderables.at(renderable_id)->updateStats(effect_id);
+}
+
 void GUI::updatePlayerEquipment(const equipment_t& equipment) {
     player.updateEquipment(equipment);
     inventory.updateEquippedItems(equipment);

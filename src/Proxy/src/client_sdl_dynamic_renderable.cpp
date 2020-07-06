@@ -21,8 +21,7 @@ SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &text
         body_or(SdlTextureManager::FRONT),
         head_or(SdlTextureManager::FRONT_HEAD_SPRITE),
         tag(pos_x, pos_y, "<" + s_tag + ">", font, window, color),
-        healthBar(pos_x, pos_y, 40, 2, 0xFF, 0, 0, 0xFF, window),
-        effect(textureManager.getEffectSpriteTexture("explosion"), 5, 10)
+        healthBar(pos_x, pos_y, 40, 2, 0xFF, 0, 0, 0xFF, window)
         {}
 
 void SdlDynamicRenderable::updatePos(int new_x, int new_y, SdlCamera &camera) {
@@ -61,9 +60,19 @@ void SdlDynamicRenderable::endAnimationIfComplete() {
     }
 }
 
-void SdlDynamicRenderable::updateStats() {
-    effect.setEffect(&textureManager.getEffectSpriteTexture("missile"),1,9);
-    audioManager.playSound("explosion", 0);
+/*Elimina los efectos que ya terminaron y agrega el nuevo efecto a la lista*/
+void SdlDynamicRenderable::updateStats(const std::string& effect_id) {
+    std::vector<SdlEffect>::iterator it = effects.begin();
+    while (it != effects.end()) {
+        if (it->isFinish()) {
+            it = effects.erase(it);
+        } else {
+            it++;
+        }
+    }
+    effects.emplace_back(textureManager.getEffectSpriteTexture(effect_id),
+                         effect_id,
+                         audioManager);
 }
 
 
@@ -124,9 +133,10 @@ void SdlRenderablePlayable::render(const SdlCamera &camera) {
                                      camera, body_or, head_or);
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
-    /*El efecto a cargar deberia ir en una funcion aparte y aca se reporduce*/
-    effect.render(pos_x - camera.getX(), pos_y - camera.getY());
-    /*fin test*/
+    /*Reproduce todos los efectos pendientes de la lista de efectos*/
+    for(auto it = effects.begin(); it != effects.end(); it++){
+        it->render(pos_x - camera.getX(), pos_y - camera.getY());
+    }
     this->endAnimationIfComplete();
 }
 

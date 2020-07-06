@@ -15,7 +15,7 @@ SdlAudioManager::SdlAudioManager() :
     game_sounds.emplace(std::make_pair("death", SdlChunk(AUDIO_PATH + "/death.wav")));
     game_sounds.emplace(std::make_pair("explosion", SdlChunk(AUDIO_PATH + "/explosion.wav")));
     game_sounds.emplace(std::make_pair("heal", SdlChunk(AUDIO_PATH + "/heal.wav")));
-    game_sounds.emplace(std::make_pair("magic_arrow", SdlChunk(AUDIO_PATH + "/magic_arrow.wav")));
+    game_sounds.emplace(std::make_pair("magicArrow", SdlChunk(AUDIO_PATH + "/magicArrow.wav")));
     game_sounds.emplace(std::make_pair("missile", SdlChunk(AUDIO_PATH + "/missile.wav")));
     game_sounds.emplace(std::make_pair("step1", SdlChunk(AUDIO_PATH + "/step1.wav")));
     game_sounds.emplace(std::make_pair("step2", SdlChunk(AUDIO_PATH + "/step2.wav")));

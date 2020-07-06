@@ -8,20 +8,24 @@
 
 #include <string>
 
+class SdlAudioManager;
 class SdlTexture;
 class SdlEffect {
 private:
+    /*Son punteros por problemas con el erase(iterator) al usar referencias*/
     SdlTexture* effectSpriteSheetTexture;
+    SdlAudioManager* audioManager;
+    std::string EFFECT_ID;
     int sprites_per_row;
     int total_frames;
     int animation_frame;
     bool keep_animating;
 public:
-    SdlEffect(SdlTexture& effectSpriteSheetTexture, int sprites_per_row, int total_frames);
+    SdlEffect(SdlTexture& effectSpriteSheetTexture, std::string effect_id, SdlAudioManager& audioManager);
 
-    void render(const int x, const int y);
+    void render(int x, int y);
 
-    void setEffect(SdlTexture *effectTexture, int sprites_per_row, int frames);
+    bool isFinish() const;
 };
 
 

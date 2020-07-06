@@ -2,9 +2,11 @@
 // Created by agustin on 30/6/20.
 //
 
+#include <iostream>
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_texture.h"
 #include "../../Servidor/Common/Utils.h"
+#include "common_osexception.h"
 
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",
@@ -295,5 +297,17 @@ int SdlTextureManager::armourX(const int tile_size, int armour_w) const {
 }
 
 SdlTexture &SdlTextureManager::getEffectSpriteTexture(const std::string effect_id) {
+    bool found = false;
+    auto it = EFFECTS_TEXTURES_ID.begin();
+    for(;it != EFFECTS_TEXTURES_ID.end(); it++){
+        found = (*it) == effect_id;
+        if(found){
+            break;
+        }
+    }
+    std::cout << effect_id << std::endl;
+    if(!found){
+        throw OSError("SdlTextureManager::getEffectSpriteTexture: effect_id invalido, %s", effect_id.c_str());
+    }
     return effects_textures.at(effect_id + SPRITE_SUFFIX);
 }
