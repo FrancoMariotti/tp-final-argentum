@@ -16,16 +16,17 @@ class ClientConnection {
     Socket client;
     ThClientSender sender;
     ThClientReceiver receiver;
-    bool dead{};
+    bool dead;
+    void stop();
+    friend class ThClientReceiver;
 public:
     ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages,
                      BlockingQueue<std::unique_ptr<Message>>& events);
     ClientConnection(ClientConnection&) = delete;
     ClientConnection(ClientConnection&&) noexcept ;
-    bool isDead();
+    bool isDead() const;
     void joinResources();
     void start();
-
     void finish();
 };
 

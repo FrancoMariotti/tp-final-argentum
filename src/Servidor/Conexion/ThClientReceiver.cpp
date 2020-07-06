@@ -1,9 +1,9 @@
 #include "ThClientReceiver.h"
+#include "ClientConnection.h"
 #include <Proxy/src/common_closedqueue_exception.h>
-#include <utility>
 
-ThClientReceiver::ThClientReceiver(Socket& client, ProtectedList<std::unique_ptr<Message>> &events):
-                                    client(client),events(events) {
+ThClientReceiver::ThClientReceiver(Socket& client, ProtectedList<std::unique_ptr<Message>> &events,
+        ClientConnection* connection):client(client),events(events),connection(connection) {
     keepTalking = true;
 }
 
@@ -21,10 +21,10 @@ void ThClientReceiver::run() {
             stop();
         }
     }
-    finished = true;
+    connection->stop();
 }
 
 void ThClientReceiver::stop() {
     keepTalking = false;
-    //client.shutdown(SHUT_RD);
+    client.shutdown(SHUT_RDWR);
 }
