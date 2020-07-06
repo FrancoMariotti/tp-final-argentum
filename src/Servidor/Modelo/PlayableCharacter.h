@@ -81,9 +81,8 @@ public:
     void takeDroppable(GoldBag *goldBag);
     void takeDroppable(Equippable* equippable);
     ~PlayableCharacter() override;
-
-
     bool isInCity() const;
+    void takeDrop();
 };
 
 

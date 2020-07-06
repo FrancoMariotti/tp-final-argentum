@@ -9,15 +9,16 @@
 #include "Equippable.h"
 
 class Drop {
-    //int gold;
     Position position;
     Droppable* item;
     std::string name;
 public:
+    Drop();
     Drop(Position& position, Droppable* droppable, std::string name);
-    //bool collidesWith(Position pos);
     Position getPosition();
     std::string getName();
+
+    void takenBy(PlayableCharacter *player);
 };
 
 

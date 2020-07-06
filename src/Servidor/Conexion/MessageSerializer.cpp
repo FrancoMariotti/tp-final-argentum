@@ -20,7 +20,7 @@ Message *MessageSerializer::deserialize(int messageId, char *data) {
     auto itr = serializers.find(messageId);
 
     if(itr != serializers.end()) {
-        serializers.at(messageId)->deserialize(data);
+        return serializers.at(messageId)->deserialize(data);
     }
 
     throw OSError("Id de mensaje inexistente");
