@@ -59,7 +59,7 @@ void GUI::execute(){
     camera.move();
 
     timer.incrementFrames();
-    audioManager.playRandomAmbientSound(1000);
+    audioManager.playRandomAmbientSound(5000);
 }
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
@@ -125,7 +125,7 @@ void GUI::updateDrops(const std::vector<spawn_character_t> &drops) {
 
 
 void GUI::updateConsoleOutput(std::vector<std::string> console_outputs) {
-    console.updateOutput(console_outputs);
+    console.updateOutput(std::move(console_outputs), audioManager);
 }
 
 void GUI::render(){

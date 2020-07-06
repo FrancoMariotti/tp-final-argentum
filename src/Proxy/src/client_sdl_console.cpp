@@ -14,6 +14,7 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
         window(window),
         text_color{0xAA,0xAA,0xFF,0xFF},
+        server_message_color{0xAA,0xFF,0x33, 0xFF},
         font(font), render_text(false), return_times_pressed(0){
 
     //Enable text input
@@ -23,9 +24,7 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
     this->console_y = IMAGE_CONSOLE_Y;
     this->width = screen_width * 0.75;
     this->height = screen_height * 0.125;
-    /*this->console_x = IMAGE_CONSOLE_X;
-    this->console_y = IMAGE_CONSOLE_Y;
-    this->width = IMAGE_CONSOLE_WIDTH;
+    /*this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
     */
 }
@@ -74,15 +73,12 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
             recentInputs.pop_front();
         }
     } else if(render_text){
-        //Text is not empty
         if(!input_text.empty()){
-            //Render new text
             inputTexture.loadFromRenderedText(input_text, text_color, font);
         }
-            //Text is empty
         else {
             //Render space texture (SDL no permite string vacios)
-            inputTexture.loadFromRenderedText(" ", text_color, font);
+            inputTexture.loadFromRenderedText(">>", text_color, font);
         }
     }
 }
@@ -131,10 +127,13 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
 }
 
 /*Limpia la lista de inputs y la carga con los mensajes del server*/
-void SdlConsole::updateOutput(std::vector<std::string> outputs) {
-    recentInputs.clear();
+void SdlConsole::updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager) {
     for(auto it = outputs.begin(); it != outputs.end(); it++){
-        recentInputs.emplace_back(*it, font, text_color, window);
+        audioManager.reproduceRelatedSound(*it);
+        recentInputs.emplace_back(*it, font, server_message_color, window);
+        if(recentInputs.size() > MAX_OUTPUTS){
+            recentInputs.pop_front();
+        }
     }
 }
 
@@ -149,10 +148,18 @@ void SdlConsole::render() {
 
     /*Renderizo los mensajes anteriores*/
     int i=0;
+    auto reverseIt = recentInputs.rbegin();
+    for(; reverseIt != recentInputs.rend(); reverseIt++){
+        i++;
+        reverseIt->render(console_x,  height - (reverseIt->getHeight() / 2) * i);
+    }
+    this->inputTexture.render(console_x, height);
+    /*
     for(auto & recent_input: recentInputs){
         i++;
-        recent_input.render(console_x, console_y + (recent_input.getHeight() / 2) * i);
-    }
+        recent_input.render(console_x, console_y + height - (recent_input.getHeight() / 2) * i);
+    }*/
     /*Renderizo lo que estoy escribiendo*/
-    this->inputTexture.render(console_x, console_y * 4);
+    //this->inputTexture.render(console_x, console_y * 4);
+
 }

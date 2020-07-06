@@ -39,14 +39,22 @@ void SdlAudioManager::playSound(const std::string& music_key, const int loops){
     game_sounds.at(music_key).play(loops);
 }
 
-void SdlAudioManager::playRandomAmbientSound(int probability){
-    int rand = Utils::random_int_number(0,probability);
-    if(!Mix_Playing(0)){
-        if(rand < 5){
+void SdlAudioManager::playRandomAmbientSound(int rarity){
+    int rand = Utils::random_int_number(0, rarity);
+    if (!Mix_Playing(0)){
+        if (rand < 4){
             game_sounds.at("ambient1").play(0, 0);
         }
         if (rand < 2) {
             game_sounds.at("ambient2").play(0, 0);
         }
+    }
+}
+
+void SdlAudioManager::reproduceRelatedSound(const std::string& message){
+    if(message == "Ataque esquivado"){
+        game_sounds.at("dodge").play(0);
+    } else if (message.find("Danio recibido") != std::string::npos){
+        game_sounds.at("step2").play(0);
     }
 }
