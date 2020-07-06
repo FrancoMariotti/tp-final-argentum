@@ -1,7 +1,6 @@
 #include <msgpack/adaptor/msgpack_tuple.hpp>
 #include <sstream>
-#include <msgpack/object.hpp>
-#include <msgpack/v3/unpack.hpp>
+#include <msgpack.hpp>
 #include "MovementMessageSerializer.h"
 
 std::string MovementMessageSerializer::serialize(Message* message) {
@@ -28,7 +27,7 @@ Message *MovementMessageSerializer::deserialize(char *data) {
     msgpack::type::tuple<int, int, int> dst;
     deserialized.convert(dst);
 
-    int x = std::get<1>(dst);
-    int y = std::get<2>(dst);
+    int x = std::get<0>(dst);
+    int y = std::get<1>(dst);
     return new Movement(x,y);
 }

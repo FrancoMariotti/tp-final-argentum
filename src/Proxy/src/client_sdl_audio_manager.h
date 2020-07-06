@@ -32,6 +32,8 @@ public:
     void playSound(const std::string &music_key, int loops);
 
     void playWorldMusic(const int loops);
+
+    void playRandomAmbientSound(int probability);
 };
 
 

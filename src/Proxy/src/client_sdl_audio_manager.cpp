@@ -3,6 +3,7 @@
 //
 
 #include "client_sdl_audio_manager.h"
+#include "../../Servidor/Common/Utils.h"
 
 
 SdlAudioManager::SdlAudioManager() :
@@ -18,6 +19,11 @@ SdlAudioManager::SdlAudioManager() :
     game_sounds.emplace(std::make_pair("missile", SdlChunk(AUDIO_PATH + "/missile.wav")));
     game_sounds.emplace(std::make_pair("step1", SdlChunk(AUDIO_PATH + "/step1.wav")));
     game_sounds.emplace(std::make_pair("step2", SdlChunk(AUDIO_PATH + "/step2.wav")));
+    game_sounds.emplace(std::make_pair("equip", SdlChunk(AUDIO_PATH + "/equip.wav")));
+    game_sounds.emplace(std::make_pair("arrow", SdlChunk(AUDIO_PATH + "/arrow.wav")));
+    game_sounds.emplace(std::make_pair("dodge", SdlChunk(AUDIO_PATH + "/dodge.wav")));
+    game_sounds.emplace(std::make_pair("ambient1", SdlChunk(AUDIO_PATH + "/ambient1.wav")));
+    game_sounds.emplace(std::make_pair("ambient2", SdlChunk(AUDIO_PATH + "/ambient2.wav")));
 }
 
 void SdlAudioManager::playMainMenuMusic(const int loops) {
@@ -31,4 +37,16 @@ void SdlAudioManager::playWorldMusic(const int loops) {
 
 void SdlAudioManager::playSound(const std::string& music_key, const int loops){
     game_sounds.at(music_key).play(loops);
+}
+
+void SdlAudioManager::playRandomAmbientSound(int probability){
+    int rand = Utils::random_int_number(0,probability);
+    if(!Mix_Playing(0)){
+        if(rand < 5){
+            game_sounds.at("ambient1").play(0, 0);
+        }
+        if (rand < 2) {
+            game_sounds.at("ambient2").play(0, 0);
+        }
+    }
 }

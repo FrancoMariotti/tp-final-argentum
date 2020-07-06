@@ -81,10 +81,10 @@ Socket Socket::accept() const {
                                    (struct sockaddr *) &peer_addr,
                                            &peer_addr_size);
     if (file_descriptor == -1){
-       // throw ClosedSocketException();
+        throw OSError("Error en el accept");
     }
 
-    return std::move(Socket(file_descriptor));
+    return Socket(file_descriptor);
 }
 
 
@@ -189,4 +189,10 @@ int Socket::close(){
         ::close((this->sfd));
     }
     return 0;
+}
+
+Socket &Socket::operator=(Socket &&other) noexcept {
+    this->sfd = other.sfd;
+    other.sfd = -1;
+    return *this;
 }
