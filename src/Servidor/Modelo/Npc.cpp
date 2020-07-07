@@ -78,7 +78,7 @@ int Npc::receiveDamage(int enemyLevel, int damage) {
     int xpEarned = 0;
 
     if (dodge()) {
-        return xpEarned;
+        return -1;
     }
 
     damage = defend(damage);
@@ -115,10 +115,12 @@ int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
 void Npc::die() {
     if (shouldDrop(GOLD_DROP_PROBABILITY)) {
         int gold = (int)calculateNpcGoldDrop();
-        auto* goldBag = new GoldBag(gold);
-        Position pos = getClosestPositionToDrop();
-        Drop drop(pos, goldBag, "goldBag");
-        map->addDrop(drop);
+        if (gold > 0) {
+            auto* goldBag = new GoldBag(gold);
+            Position pos = getClosestPositionToDrop();
+            Drop drop(pos, goldBag, "goldBag");
+            map->addDrop(drop);
+        }
     }
 
     if (shouldDrop(POTION_DROP_PROBABILITY)) {

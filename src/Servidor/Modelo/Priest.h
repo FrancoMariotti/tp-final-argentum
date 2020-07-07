@@ -21,6 +21,8 @@ public:
     bool ocupies(const Position& position);
     Position closestPositionTo(PlayableCharacter *player);
     ~Priest();
+
+    void sendStockListTo(PlayableCharacter *pCharacter);
 };
 
 
