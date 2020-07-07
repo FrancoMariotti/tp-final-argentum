@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_INVENTORYUPDATEMESSAGESERIALIZER_H
+#define ARGENTUM_INVENTORYUPDATEMESSAGESERIALIZER_H
+
+
+class InventoryUpdateMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_INVENTORYUPDATEMESSAGESERIALIZER_H

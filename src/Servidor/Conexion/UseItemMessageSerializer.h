@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_USEITEMMESSAGESERIALIZER_H
+#define ARGENTUM_USEITEMMESSAGESERIALIZER_H
+
+
+class UseItemMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_USEITEMMESSAGESERIALIZER_H

@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_NPCMOVEMENTMESSAGESERIALIZER_H
+#define ARGENTUM_NPCMOVEMENTMESSAGESERIALIZER_H
+
+
+class NpcMovementMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_NPCMOVEMENTMESSAGESERIALIZER_H

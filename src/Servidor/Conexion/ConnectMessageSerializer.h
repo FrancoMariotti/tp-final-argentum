@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_CONNECTMESSAGESERIALIZER_H
+#define ARGENTUM_CONNECTMESSAGESERIALIZER_H
+
+
+class ConnectMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_CONNECTMESSAGESERIALIZER_H

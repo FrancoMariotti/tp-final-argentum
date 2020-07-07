@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_SPAWNNPCMESSAGESERIALIZER_H
+#define ARGENTUM_SPAWNNPCMESSAGESERIALIZER_H
+
+
+class SpawnNpcMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_SPAWNNPCMESSAGESERIALIZER_H

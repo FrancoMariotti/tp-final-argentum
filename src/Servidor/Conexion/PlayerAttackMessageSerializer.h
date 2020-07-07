@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_PLAYERATTACKMESSAGESERIALIZER_H
+#define ARGENTUM_PLAYERATTACKMESSAGESERIALIZER_H
+
+
+class PlayerAttackMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_PLAYERATTACKMESSAGESERIALIZER_H

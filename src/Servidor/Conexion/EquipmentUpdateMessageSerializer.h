@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_EQUIPMENTUPDATEMESSAGESERIALIZER_H
+#define ARGENTUM_EQUIPMENTUPDATEMESSAGESERIALIZER_H
+
+
+class EquipmentUpdateMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_EQUIPMENTUPDATEMESSAGESERIALIZER_H

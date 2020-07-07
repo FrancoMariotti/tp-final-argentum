@@ -1,0 +1,14 @@
+//
+// Created by franco on 7/7/20.
+//
+
+#ifndef ARGENTUM_COMMANDMESSAGESERIALIZER_H
+#define ARGENTUM_COMMANDMESSAGESERIALIZER_H
+
+
+class CommandMessageSerializer {
+
+};
+
+
+#endif //ARGENTUM_COMMANDMESSAGESERIALIZER_H
