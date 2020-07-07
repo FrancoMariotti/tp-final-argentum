@@ -1,13 +1,9 @@
 #include "ClientConnection.h"
 
-ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages,
-                                   BlockingQueue<std::unique_ptr<Message>>& events):
-                             client(std::move(client)),sender(this->client,events),receiver(this->client,messages,this) {
+ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
+                             client(std::move(client)),sender(this->client),receiver(this->client,messages,this) {
     dead = true;
 }
-
-ClientConnection::ClientConnection(ClientConnection && connection) noexcept:
-client(connection.client),sender(std::move(connection.sender)),receiver(std::move(connection.receiver))  {}
 
 void ClientConnection::joinResources() {
     receiver.join();

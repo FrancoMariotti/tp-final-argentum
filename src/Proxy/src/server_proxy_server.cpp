@@ -35,7 +35,6 @@ void ProxyServer::run() {
     game.equip("franco", 1);
     game.sendUpdates(proxySocket);
     try{
-
         while(this->keepListening) {
             /*Si no hay eventos se bloquea*/
             std::chrono::time_point<std::chrono::system_clock> start, end;

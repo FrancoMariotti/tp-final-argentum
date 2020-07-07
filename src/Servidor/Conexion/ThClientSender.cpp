@@ -1,7 +1,6 @@
 #include "ThClientSender.h"
 #include <memory>
-ThClientSender::ThClientSender(Socket& client,BlockingQueue<std::unique_ptr<Message>>& messages):
-                                client(client),messages(messages) {
+ThClientSender::ThClientSender(Socket& client):client(client) {
     this->keepTalking = true;
 }
 

@@ -7,18 +7,19 @@
 
 #include "client_protected_list.h"
 #include "common_thread.h"
+#include "common_socket.h"
+#include "../../Servidor/Conexion/Protocol.h"
 
 class Message;
 class ProxySocket;
 class ThRecv : public Thread {
 private:
     ProtectedList<std::unique_ptr<Message>>& serverEvents;
-    /**Protocol*/
-    ProxySocket& proxySocket;
+    Protocol protocol;
+    Socket& socket;
     bool keep_recieving;
-
 public:
-    ThRecv(ProtectedList<std::unique_ptr<Message>> &serverEvents, ProxySocket &proxySocket);
+    ThRecv(ProtectedList<std::unique_ptr<Message>> &serverEvents, Socket &socket);
 
     ThRecv(const ThRecv& other) = delete;
 

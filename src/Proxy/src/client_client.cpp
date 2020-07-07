@@ -14,17 +14,26 @@
 #define SCREEN_WIDTH 1024//640
 #define SCREEN_HEIGHT 768//480
 
+Client::Client(const std::string& hostname, const std::string& service):thSend(clientEvents, socket),
+                                                                        thRecv(serverEvents,socket),
+                                                                        gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents) {
+    socket.connect(hostname.c_str(),service.c_str());
+    /*Lanzo los threads*/
+    thSend.start();
+    thRecv.start();
+}
 
-Client::Client(ProxySocket& proxySocket) :
+
+/*Client::Client(ProxySocket& proxySocket) :
         proxySocket(proxySocket),
         thSend(clientEvents, proxySocket),
         thRecv(serverEvents,proxySocket),
         gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents){
 
-    /*Lanzo los threads*/
+    Lanzo los threads
     thSend.start();
     thRecv.start();
-}
+}*/
 
 int Client::run() {
     this->init();

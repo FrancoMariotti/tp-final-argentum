@@ -5,28 +5,30 @@
 #include "client_th_recv.h"
 #include "common_proxy_socket.h"
 #include "common_message.h"
+#include "common_socket.h"
 
 ThRecv::ThRecv(ProtectedList<std::unique_ptr<Message>> &serverEvents,
-        ProxySocket &proxySocket) :
+        Socket &socket) :
         serverEvents(serverEvents),
-        proxySocket(proxySocket),
+        socket(socket),
         keep_recieving(true)
         {}
 
 ThRecv::ThRecv(ThRecv &&other) noexcept :
     serverEvents(other.serverEvents),
-    proxySocket(other.proxySocket),
+    socket(other.socket),
     keep_recieving(other.keep_recieving)
     {}
 
 void ThRecv::run() {
     while(keep_recieving){
         /*Si no hay eventos se bloquea*/
-        try{
-            //std::cout << "recieving event" << std::endl;
-            serverEvents.push(proxySocket.readClient());
-        } catch ( ClosedQueueException &e){
-
+        try {
+            std::cout << "recieving event" << std::endl;
+            serverEvents.push(std::unique_ptr<Message>(protocol.recieve(socket)));
+            //serverEvents.push(proxySocket.readClient());
+        } catch (std::exception &e){
+             keep_recieving = false;
         }
     }
 }
@@ -35,9 +37,7 @@ void ThRecv::stop() {
     keep_recieving = false;
     /*proxy
      * el shutdown lo haria el server al desconectarse el jugador*/
-    proxySocket.shutdown();
+    socket.shutdown(SHUT_RDWR);
 }
 
-ThRecv::~ThRecv() {
-
-}
+ThRecv::~ThRecv() = default;

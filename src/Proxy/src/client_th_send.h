@@ -7,6 +7,9 @@
 
 #include "common_blocking_queue.h"
 #include "common_thread.h"
+#include "common_socket.h"
+#include "../../Servidor/Conexion/Protocol.h"
+
 class Message;
 class ProxySocket;
 class ThSend : public Thread{
@@ -15,11 +18,12 @@ private:
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
     /**Conoce el protocolo, pero por ahora solo conoce al proxySocket*/
     //Protocol protocol;
-    ProxySocket& proxySocket;
+    Socket& socket;
+    Protocol protocol;
 
     bool keep_sending;
 public:
-    ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, ProxySocket &proxySocket);
+    ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, Socket &socket);
 
     ThSend(const ThSend& other) = delete;
 

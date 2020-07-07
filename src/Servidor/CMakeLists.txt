@@ -25,4 +25,4 @@ add_library(proxysources
 add_subdirectory(Common)
 add_subdirectory(Conexion)
 add_subdirectory(Modelo)
-target_link_libraries(Servidor servidorModeloLib servidorConexionLib proxysources commonLib jsoncpp)
+target_link_libraries(Servidor servidorConexionLib servidorModeloLib proxysources commonLib jsoncpp)

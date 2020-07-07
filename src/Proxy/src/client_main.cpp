@@ -5,14 +5,11 @@
 
 int main(int argc, char* args[]) {
     try {
-        ProxySocket proxySocket;
-        ProxyServer proxyServer(proxySocket);
-        proxyServer.start();
-        Client client(proxySocket);
+        std::string hostname = args[1];
+        std::string service = args[2];
+        Client client(hostname,service);
         client.run();
-        proxyServer.stop();
         client.stop();
-        proxyServer.join();
     } catch (std::exception &e) {
         printf("%s", e.what());
         return 1;

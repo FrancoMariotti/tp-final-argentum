@@ -22,13 +22,14 @@
 #include "client_th_recv.h"
 #include "client_sdl_world.h"
 #include "client_gui.h"
+#include "common_socket.h"
 
 class Client {
 private:
     //SdlWindow window;
     //SdlTexture mainInterface;
     //TTF_Font* font;
-    ProxySocket& proxySocket;
+    Socket socket;
     BlockingQueue<std::unique_ptr<Message>> clientEvents;
     ProtectedList<std::unique_ptr<Message>> serverEvents;
     ThSend thSend;
@@ -37,7 +38,9 @@ private:
 
 public:
     //Start up SDL and create window
-    explicit Client(ProxySocket& proxySocket);
+    Client(const std::string& hostname,const std::string& service);
+
+    //explicit Client(ProxySocket& proxySocket);
 
     int run();
 

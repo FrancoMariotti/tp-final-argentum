@@ -6,14 +6,17 @@
 #define ARGENTUM_SERVER_H
 
 
+#include <Servidor/Modelo/Game.h>
 #include "ThAcceptor.h"
 
 class Server {
+    bool keepTalking;
+    Game game;
     ThAcceptor clientAcceptor;
-    BlockingQueue<std::unique_ptr<Message>> messages;
+    ProtectedConnections clients;
     ProtectedList<std::unique_ptr<Message>> events;
 public:
-    explicit Server(std::string service);
+    explicit Server(const std::string& service,const std::string& configFile);
     void start();
 };
 

@@ -2,6 +2,7 @@
 #define ARGENTUM_THACCEPTOR_H
 
 #include "vector"
+#include "ProtectedConnections.h"
 #include <Proxy/src/common_thread.h>
 #include <Proxy/src/common_socket.h>
 #include <Proxy/src/common_blocking_queue.h>
@@ -12,18 +13,15 @@ class ClientConnection;
 
 class ThAcceptor: public Thread {
     Socket acceptor;
-    std::vector<ClientConnection*> clients;
-    BlockingQueue<std::unique_ptr<Message>>& messages;
+    ProtectedConnections& clients;
     ProtectedList<std::unique_ptr<Message>>& events;
     bool keepTalking;
 public:
-    ThAcceptor(const std::string& service, BlockingQueue<std::unique_ptr<Message>>& messages,
-    ProtectedList<std::unique_ptr<Message>>& events);
+    ThAcceptor(const std::string& service,ProtectedConnections& clients,
+                                    ProtectedList<std::unique_ptr<Message>>& events);
     void start() override;
     void run() override;
     void stop();
-    void destroyFinishedClients();
-    void destroyAllClients();
     ~ThAcceptor() override;
 };
 

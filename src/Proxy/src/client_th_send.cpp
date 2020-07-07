@@ -7,16 +7,16 @@
 #include "common_proxy_socket.h"
 #include "common_message.h"
 
-ThSend::ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, ProxySocket &proxySocket) :
+ThSend::ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, Socket &socket) :
         clientEvents(clientEvents),
-        proxySocket(proxySocket),
+        socket(socket),
         keep_sending(true){
 
 }
 
 ThSend::ThSend(ThSend &&other) noexcept :
         clientEvents(other.clientEvents),
-        proxySocket(other.proxySocket),
+        socket(other.socket),
         keep_sending(true){
 }
 
@@ -25,7 +25,8 @@ void ThSend::run() {
         while(this->keep_sending){
             //std::cout << "sending event" << std::endl;
             //socket.send()
-            proxySocket.writeToServer(clientEvents.pop());
+            protocol.send(socket,clientEvents.pop().release());
+            //socket.writeToServer();
         }
     } catch (ClosedQueueException &e){
         /*Antes de joinear cierro la cola Bloqueante lo que provoca una excepcion si esta vacia,
@@ -38,6 +39,4 @@ void ThSend::stop() {
     keep_sending = false;
 }
 
-ThSend::~ThSend() {
-
-}
+ThSend::~ThSend() = default;
