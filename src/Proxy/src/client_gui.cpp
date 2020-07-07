@@ -62,7 +62,7 @@ void GUI::execute(){
     camera.move();
 
     timer.incrementFrames();
-    audioManager.playRandomAmbientSound(10000);
+    audioManager.playRandomAmbientSound(20000);
 }
 
 /**Factory de eventos de server??*/

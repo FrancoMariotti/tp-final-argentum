@@ -5,6 +5,7 @@
 #include "client_sdl_button.h"
 #include "common_proxy_socket.h"
 #include "common_message.h"
+#include "client_sdl_inventory.h"
 
 SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
                      const std::string texture_id) :
@@ -103,13 +104,16 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
     }
 }
 
-void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse) {
+void
+SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i,
+        SdlMouse &mouse, SdlInventory *inventory) {
     if (left_click > 0){
         std::cout << "DEBUG: left click" << std::endl;
         (cmd)(clientEvents, i);
         left_click--;
     } else if (right_click > 0){
         std::cout << "DEBUG: right click" << std::endl;
+        inventory->unlockOutlineSprite();
         lockOutlineSprite(true);
         mouse.setLastClickedItemIndex(i);
         right_click--;

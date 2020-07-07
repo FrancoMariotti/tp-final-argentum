@@ -24,8 +24,8 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->height = IMAGE_INVENTORY_HEIGHT;
 
     //inicializo la posicion del inventario
-    this->inventory_x = INVENTORY_X;
-    this->inventory_y = INVENTORY_Y;
+    this->inventory_x = INVENTORY_X; //screen_width * 0.8 ;
+    this->inventory_y = INVENTORY_Y; //screen_height * 0.234;
 
     for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
@@ -48,7 +48,7 @@ void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {
 void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse) {
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
         /*Veo si fueron clickeados*/
-        buttons[i].use(clientEvents, (int) i, mouse);
+        buttons[i].use(clientEvents, (int) i, mouse, this);
     }
 }
 

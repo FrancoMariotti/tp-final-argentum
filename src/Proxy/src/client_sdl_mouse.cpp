@@ -11,7 +11,7 @@
 SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),
     position{-1,-1},
-    inventory_clicked_index(-1),
+    inventory_clicked_index(0),
     right_click(0),
     clicked_in_map(false)
     {}
@@ -53,8 +53,9 @@ void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
 void SdlMouse::clear(){
     position.x = -1;
     position.y = -1;
-    inventory_clicked_index = -1;
+    inventory_clicked_index = 0;
     clicked_in_map = false;
+    mediator->notify(this);
 }
 
 SDL_Point SdlMouse::getPosition(){
@@ -67,7 +68,7 @@ bool SdlMouse::clickedInMap(){
 
 /*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
 void SdlMouse::setLastClickedItemIndex(const int i){
-    this->clear();
+    //this->clear();
     this->inventory_clicked_index = i;
 }
 

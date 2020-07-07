@@ -25,6 +25,9 @@ public:
                    SdlMouse &mouse, SdlInventory &inventory);
 
     void notify(BaseComponent* sender, SDL_Point right_click ) override;
+
+    void notify(BaseComponent* component) override;
+
 };
 
 

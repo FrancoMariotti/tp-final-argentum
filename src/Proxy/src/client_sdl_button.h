@@ -55,7 +55,7 @@ public:
     //Handles mouse event
     void handleEvent(SDL_Event &e, bool &is_event_handled);
     /*Si el jugador hizo click en algun item envia el comando a la cola de eventos*/
-    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse);
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse, SdlInventory *inventory);
     /*Muestra los sprites de los botones*/
     void render();
     ~SdlButton() = default;

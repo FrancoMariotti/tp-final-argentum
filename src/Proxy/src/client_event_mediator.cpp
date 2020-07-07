@@ -12,14 +12,18 @@ EventMediator::EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEven
     player(player),
     mouse(mouse),
     inventory(inventory){
-    mouse.setMediator(this);
-    inventory.setMediator(this);
+        mouse.setMediator(this);
+        inventory.setMediator(this);
 }
 
 void EventMediator::notify(BaseComponent* sender, SDL_Point right_click) {
     //std::string username = player.getUsername();
     clientEvents.push(std::unique_ptr <Message>(new Attack("franco",
                    right_click.x, right_click.y)));
+}
+
+void EventMediator::notify(BaseComponent *component) {
+    inventory.unlockOutlineSprite();
 }
 
 
