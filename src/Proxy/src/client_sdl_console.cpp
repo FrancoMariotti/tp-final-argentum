@@ -126,11 +126,21 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     mouse.clear();
 }
 
-/*Limpia la lista de inputs y la carga con los mensajes del server*/
+/*Agrega los mensajes del server al consola y reproduce los sonidos correspondiente a los mensajes*/
 void SdlConsole::updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager) {
     for(auto it = outputs.begin(); it != outputs.end(); it++){
         audioManager.reproduceRelatedSound(*it);
-        recentInputs.emplace_back(*it, font, server_message_color, window);
+        if((int)(*it).size() > width / (int) MAX_OUTPUTS){
+            std::string first_half_input = (*it).substr(0,(*it).size() / 2);
+            std::string second_half_input = (*it).substr((*it).size() / 2 + 1,(*it).size());
+            recentInputs.emplace_back(first_half_input, font, server_message_color, window);
+            if(recentInputs.size() > MAX_OUTPUTS){
+                recentInputs.pop_front();
+            }
+            recentInputs.emplace_back(second_half_input, font, server_message_color, window);
+        } else {
+            recentInputs.emplace_back(*it, font, server_message_color, window);
+        }
         if(recentInputs.size() > MAX_OUTPUTS){
             recentInputs.pop_front();
         }

@@ -99,7 +99,8 @@ void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderable
         static_renderables.push_back(std::unique_ptr<SdlDynamicRenderable>
                 (new SdlRenderableNPC(camera.toPixels(it->x),
                                       camera.toPixels(it->y),
-                                      textureManager, it->id, font, window, audioManager)));
+                                      textureManager, it->id, font,
+                                      window, audioManager)));
     }
 }
 
@@ -115,7 +116,6 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
                     (new SdlRenderableNPC(camera.toPixels(it->x),
                             camera.toPixels(it->y), textureManager,
                             texture_id, font, window, audioManager));
-           // dynamic_renderables[it->id]->updatePos(it->x,it->y,camera);
         }
     }
 }
@@ -159,7 +159,7 @@ void GUI::render(){
     player.render(camera);
     inventory.render();
     console.render();
-    interface.render(0,0);
+    //interface.render(0,0);
     playerStats.render();
 
     //Update screen
