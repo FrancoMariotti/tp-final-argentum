@@ -83,6 +83,10 @@ public:
     void takeDrop();
     void dropItem(int itemIndex);
     ~PlayableCharacter() override;
+
+    void sendItemsInBankList();
+
+    void notifyConsoleOutputUpdate(std::vector<std::string> messages);
 };
 
 

@@ -68,3 +68,13 @@ Priest::~Priest(){
     }
 }
 
+void Priest::sendStockListTo(PlayableCharacter *pCharacter) {
+    std::string message = "Items del sacerdote en venta: ";
+    for (auto &item : stock) {
+        message += item.first + " ";
+    }
+    std::vector<std::string> messages;
+    messages.push_back(message);
+    pCharacter->notifyConsoleOutputUpdate(messages);
+}
+

@@ -10,7 +10,7 @@
 
 #define NPCSAMOUNT 16
 
-Map::Map(int width,int height):width(width),height(height) {}
+Map::Map(int width,int height):width(width),height(height), lastNpcUpdate(0){}
 
 void Map::add( Banker pBanker) {
     this->banker = std::move(pBanker);
@@ -314,6 +314,19 @@ Map::~Map() {
     auto itCharacters = characters.begin();
     for (; itCharacters != characters.end(); itCharacters++) {
         delete itCharacters->second;
+    }
+}
+
+void Map::updateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer) {
+    if (lastNpcUpdate + loopTimeInSeconds >= 30 && npcs.size() < NPCSAMOUNT) {
+        std::vector<std::string> species = {"goblin", "spider", "zombie", "skeleton"};
+        int randomIndex = Utils::random_int_number(0, species.size() - 1);
+        npcFactory.create(this, species[randomIndex], observer);
+        lastNpcUpdate = 0;
+        observer->notifySpawnNpcUpdate(npcSpawns);
+
+    } else {
+        lastNpcUpdate += loopTimeInSeconds;
     }
 }
 

@@ -23,7 +23,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
-    this->gold = 1000;
+    this->gold = 0;
     this->xp = 0;
     notifyStats();
     notifyEquipment();
@@ -79,6 +79,13 @@ void PlayableCharacter::attack(Character *character) {
 
 void PlayableCharacter::makeDamageTo(Character *character) {
     int earnedXp = character->receiveAttackFrom(this);
+    if (earnedXp == -1) {
+        std::vector<std::string> messages;
+        std::string message = "El enemigo esquivo tu ataque";
+        messages.push_back(message);
+        notifyConsoleOutputUpdate(messages);
+        earnedXp = 0;
+    }
 
     int limit = calculateLvlLimit();
     int totalXp = earnedXp + xp;
@@ -89,6 +96,7 @@ void PlayableCharacter::makeDamageTo(Character *character) {
     } else {
         xp += earnedXp;
     }
+    notifyStats();
 }
 
 int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
@@ -98,14 +106,28 @@ int PlayableCharacter::receiveAttackFrom(PlayableCharacter *enemy) {
 int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     int earnedXp = 0;
     bool canAttack = enemy->checkFairPlay(level);
-    if(canAttack) earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
+    if(canAttack) {
+        earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
+        std::vector<std::string> messages;
+        std::string message = "Danio producido al atacar con " + activeWeapon->getName();
+        message += " :"+ std::to_string(activeWeapon->getLastDamage());
+        messages.push_back(message);
+        notifyConsoleOutputUpdate(messages);
+    }
     //Notifico los stats aca por si ataca con un arma magica que modifica los stats
     //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
     // y no tienen el metodo notifyStats
+    notifyStats();
+    return earnedXp;
+}
+
+int PlayableCharacter::attackTo(Npc *enemy) {
+    int earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
     std::vector<std::string> messages;
-    std::string message = "Danio producido al atacar: " + std::to_string(activeWeapon->getLastDamage());
+    std::string message = "Danio producido al atacar con " + activeWeapon->getName();
+    message += " :"+ std::to_string(activeWeapon->getLastDamage());
     messages.push_back(message);
-    observer->notifyConsoleOutputUpdate(messages);
+    notifyConsoleOutputUpdate(messages);
     notifyStats();
     return earnedXp;
 }
@@ -122,14 +144,14 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     if (dodge()) {
         std::string message = "Ataque esquivado";
         messages.push_back(message);
-        observer->notifyConsoleOutputUpdate(messages);
-        return xpEarned;
+        notifyConsoleOutputUpdate(messages);
+        return -1;
     }
 
     damage = defend(damage);
     std::string message = "Danio recibido: " + std::to_string(damage);
     messages.push_back(message);
-    observer->notifyConsoleOutputUpdate(messages);
+    notifyConsoleOutputUpdate(messages);
 
     float newLife = lifePoints - damage;
     xpEarned = calculateAttackXp(damage,enemyLevel);
@@ -147,9 +169,6 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
 }
 
 
-int PlayableCharacter::attackTo(Npc *enemy) {
-    return activeWeapon->attack(this,enemy,strength,level,mana,currPos);
-}
 
 void PlayableCharacter::store(Equippable* element) {
     lifeState->store(element,inventory,observer);
@@ -380,6 +399,14 @@ bool PlayableCharacter::isInCity() const {
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
+}
+
+void PlayableCharacter::sendItemsInBankList() {
+    bankAccount.sendItemsList(observer);
+}
+
+void PlayableCharacter::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
+    observer->notifyConsoleOutputUpdate(messages);
 }
 
 

@@ -33,6 +33,8 @@ public:
     int buy(const std::string& itemName);
     bool ocupies(Position position);
     ~Merchant();
+
+    void sendStockListTo(PlayableCharacter *pCharacter);
 };
 
 
