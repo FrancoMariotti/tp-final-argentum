@@ -40,9 +40,10 @@ void Map::removePlayableCharacter(const std::string& playerName) {
 
 void Map::add(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
+    character->notifySpawn();
     //Esto lo agrego para que el personaje se renderice en la posicion inicial
-    Offset nullOffset (0, 0);
-    character->move(nullOffset);
+    //Offset nullOffset (0, 0);
+    //character->move(nullOffset);
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
@@ -214,11 +215,7 @@ void Map::updateAllPlayers(float looptime, Observer* observer) {
     }
     //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de
     // todos los players del mapa, ver como resolver esto
-    /*std::vector<spawn_playable_character_t> pcSpawns;
-    for (auto &pc : characters) {
-        pc.second->addSpawnInfoTo(pcSpawns);
-    }
-    observer->notifySpawnPcUpdate(pcSpawns);*/
+    //updatePcSpawns(observer);
 }
 
 void Map::addDrop(Drop drop) {
@@ -342,4 +339,12 @@ void Map::initializePlayersSpawns(std::queue<Message*>& initializeMessages) {
         pc.second->addSpawnInfoTo(pcSpawns);
     }
     initializeMessages.push(new SpawnPc(pcSpawns));
+}
+
+void Map::updatePcSpawns(Observer *observer) {
+    std::vector<spawn_playable_character_t> pcSpawns;
+    for (auto &pc : characters) {
+        pc.second->addSpawnInfoTo(pcSpawns);
+    }
+    observer->notifySpawnPcUpdate(pcSpawns);
 }

@@ -88,7 +88,7 @@ class Map {
     void initializeNpcsSpawns(std::queue<Message*>& initializeMessages);
 
     void updateNpcsSpawns(Observer* observer);
-
+    void updatePcSpawns(Observer* observer);
     void initializePlayersSpawns(std::queue<Message*>& initializeMessages);
 };
 

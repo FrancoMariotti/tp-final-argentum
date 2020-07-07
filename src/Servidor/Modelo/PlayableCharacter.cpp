@@ -44,6 +44,10 @@ void PlayableCharacter::notifyEquipment() {
     observer->notifyEquipmentUpdate(weaponName, armourName, shieldName, helmetName);
 }
 
+void PlayableCharacter::notifySpawn() {
+    map->updatePcSpawns(observer);
+}
+
 void PlayableCharacter::move(Offset& offset) {
     Position nextPos(this->currPos);
     nextPos.apply(offset);
@@ -417,6 +421,7 @@ void PlayableCharacter::addSpawnInfoTo(std::vector<spawn_playable_character_t> &
          , protectionNames[2]};
     pcSpawns.push_back(spawn);
 }
+
 
 
 

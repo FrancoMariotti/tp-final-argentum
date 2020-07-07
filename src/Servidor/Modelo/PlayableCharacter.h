@@ -61,6 +61,7 @@ public:
     void earnMana(int value);
     void notifyStats();
     void notifyEquipment();
+    void notifySpawn();
     void makeDamageTo(Character *character);
     int attackTo(PlayableCharacter *enemy);
     int attackTo(Npc *enemy);
@@ -91,6 +92,7 @@ public:
     void notifyConsoleOutputUpdate(std::vector<std::string> messages);
 
     void addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns);
+
 };
 
 
