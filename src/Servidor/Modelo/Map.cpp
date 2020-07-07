@@ -42,8 +42,8 @@ void Map::add(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
     character->notifySpawn();
     //Esto lo agrego para que el personaje se renderice en la posicion inicial
-    //Offset nullOffset (0, 0);
-    //character->move(nullOffset);
+    Offset nullOffset (0, 0);
+    character->move(nullOffset);
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
