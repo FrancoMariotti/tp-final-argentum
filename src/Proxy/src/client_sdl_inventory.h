@@ -15,7 +15,7 @@
 #include <map>
 
 class Message;
-class SdlInventory {
+class SdlInventory : public BaseComponent {
 private:
     const int MAX_BUTTONS_PER_ROW = 4;
 
@@ -49,7 +49,7 @@ public:
 
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse);
 
-    void update(std::vector<std::string> inventory, EventMediator &eventMediator);
+    void update(std::vector<std::string> inventory);
 
     void render();
 
@@ -59,6 +59,7 @@ public:
 
     void updateEquippedItems(const equipment_t &equipment);
 
+    void unlockOutlineSprite();
 };
 
 

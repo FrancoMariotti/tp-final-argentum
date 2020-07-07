@@ -111,13 +111,15 @@ void SdlRenderableNPC::updateEquipment(const equipment_t &equipment) {
 }
 
 SdlRenderablePlayable::SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
-                                             const std::string username, TTF_Font *font, const SdlWindow &window,
+                                             const std::string& username, const std::string& race,
+                                             const equipment_t& equipment, TTF_Font *font, const SdlWindow &window,
                                              SdlAudioManager &audioManager) :
         SdlDynamicRenderable(x, y, textureManager, window, font,
                              username, SDL_Color{0, 0, 0xFF, 0xFF}, audioManager),
         username(username),
-        t_appearance{"humanHead","none","defaultArmour",
-                     "none","none"}
+        RACE(race),
+        t_appearance{race + "Head",equipment.helmetName,equipment.armourName,
+                     equipment.weaponName,equipment.shieldName}
         {}
 
 void SdlRenderablePlayable::updateEquipment(const equipment_t &equipment) {

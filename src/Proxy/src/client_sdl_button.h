@@ -17,7 +17,7 @@
 
 class SdlText;
 class Message;
-class SdlButton : public BaseComponent {
+class SdlButton {
 private:
     enum e_outline_sprite{
         OUTLINE_SPRITE_MOUSE_OVER_MOTION,
@@ -45,7 +45,7 @@ private:
 
 public:
     SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
-              const std::string texture_id, EventMediator *eventMediator);
+              const std::string texture_id);
 
     SdlButton(const SdlButton& other) = delete;
 
@@ -62,7 +62,7 @@ public:
 
     void updateText(const equipment_t &equipment);
 
-    void lockOutlineSprite();
+    void lockOutlineSprite(const bool lock);
 };
 
 

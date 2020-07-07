@@ -12,18 +12,19 @@
 #include "common_blocking_queue.h"
 #include "client_sdl_dynamic_renderable.h"
 
+class SdlInventory;
+class SdlMouse;
 class EventMediator : public IMediator{
 private:
     BlockingQueue<std::unique_ptr<Message>> &clientEvents;
     SdlRenderablePlayable& player;
-    BaseComponent& mouse;
+    SdlMouse& mouse;
+    SdlInventory& inventory;
 public:
      EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlRenderablePlayable &player,
-                           BaseComponent &mouse);
+                   SdlMouse &mouse, SdlInventory &inventory);
 
     void notify(BaseComponent* sender, SDL_Point right_click ) override;
-
-    void notify(SdlButton *sender, int i) override ;
 };
 
 

@@ -4,13 +4,16 @@
 
 #include "client_event_mediator.h"
 #include "client_sdl_button.h"
+#include "client_sdl_inventory.h"
 
 EventMediator::EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlRenderablePlayable &player,
-                             BaseComponent &mouse) :
+                             SdlMouse &mouse, SdlInventory &inventory) :
     clientEvents(clientEvents),
     player(player),
-    mouse(mouse){
+    mouse(mouse),
+    inventory(inventory){
     mouse.setMediator(this);
+    inventory.setMediator(this);
 }
 
 void EventMediator::notify(BaseComponent* sender, SDL_Point right_click) {
@@ -19,8 +22,4 @@ void EventMediator::notify(BaseComponent* sender, SDL_Point right_click) {
                    right_click.x, right_click.y)));
 }
 
-void EventMediator::notify(SdlButton *sender, int i) {
-    sender->lockOutlineSprite();
-
-}
 

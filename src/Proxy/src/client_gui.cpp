@@ -19,7 +19,9 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     audioManager(),
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
-    player(0, 0, textureManager, "franco", font, window, audioManager),
+    player(0, 0, textureManager, "agus", "human",
+            equipment_t{"none", "none",
+                        "none" ,"none"}, font, window, audioManager),
     inventory(screen_width, screen_height, window, font),
     camera(screen_width, screen_height, player),
     mouse(camera),
@@ -28,7 +30,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     world(window),
     playerStats(screen_width, screen_height, window, font),
     clientEvents(clientEvents),
-    eventMediator(clientEvents, player, mouse){
+    eventMediator(clientEvents, player, mouse, inventory) {
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
@@ -92,7 +94,7 @@ void GUI::updatePlayerEquipment(const equipment_t& equipment) {
 }
 
 void GUI::updateInventory(std::vector<std::string> player_inventory) {
-    inventory.update(std::move(player_inventory), eventMediator);
+    inventory.update(std::move(player_inventory));
 }
 
 void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderables){
@@ -122,13 +124,29 @@ void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     }
 }
 
+void GUI::updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables){
+    dynamic_playable_renderables.clear();
+    auto it = renderables.begin();
+    for (; it != renderables.end(); it++) {
+        /*Agregar al constructor un t_equipment y la raza por parametro*/
+        /*Si limpio los renderizables tambien tengo que updatear los npc*/
+        equipment_t equipment{it->weaponName, it->armourName, it->shieldName, it->helmetName};
+        std::string race = it->race;
+        dynamic_playable_renderables[it->username] = std::unique_ptr <SdlDynamicRenderable>
+                    (new SdlRenderablePlayable(camera.toPixels(it->x),
+                                               camera.toPixels(it->y), textureManager,
+                                               it->username, race, equipment, font, window,
+                                               audioManager));
+        }
+}
+
 void GUI::updateRenderablePos(const int new_x, const int new_y, const std::string& renderable_id){
     this->dynamic_renderables.at(renderable_id)->updatePos(new_x, new_y, camera);
 }
 
 void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
                                             const std::string& renderable_id) {
-    this->dynamic_renderables.at(renderable_id)->updateEquipment(equipment);
+    this->dynamic_playable_renderables.at(renderable_id)->updateEquipment(equipment);
 }
 
 
@@ -156,6 +174,11 @@ void GUI::render(){
     while(it != dynamic_renderables.end()){
         it->second->render(camera);
         it++;
+    }
+    auto pc_it = dynamic_playable_renderables.begin();
+    while(pc_it != dynamic_playable_renderables.end()){
+        pc_it->second->render(camera);
+        pc_it++;
     }
     player.render(camera);
     inventory.render();

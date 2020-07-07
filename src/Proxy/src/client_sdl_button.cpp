@@ -7,8 +7,7 @@
 #include "common_message.h"
 
 SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
-                     const std::string texture_id, EventMediator *eventMediator) :
-        BaseComponent(eventMediator),
+                     const std::string texture_id) :
         left_click(0),
         right_click(0),
         sprite_locked(false),
@@ -28,7 +27,6 @@ SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_
 }
 
 SdlButton::SdlButton(SdlButton &&other) noexcept :
-    BaseComponent(other.mediator),
     left_click(0),
     right_click(0),
     sprite_locked(false),
@@ -39,7 +37,6 @@ SdlButton::SdlButton(SdlButton &&other) noexcept :
     outlineTexture(other.outlineTexture),
     buttonText(std::move(other.buttonText))
     {
-    other.mediator = nullptr;
     this->width = buttonSpriteSheetTexture.getWidth();
     this->height = buttonSpriteSheetTexture.getHeight();
     for (int i = 0; i < OUTLINE_SPRITE_TOTAL - 1; ++i) {
@@ -113,14 +110,14 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
         left_click--;
     } else if (right_click > 0){
         std::cout << "DEBUG: right click" << std::endl;
-        mediator->notify(this, i);
+        lockOutlineSprite(true);
         mouse.setLastClickedItemIndex(i);
         right_click--;
     }
 }
 
-void SdlButton::lockOutlineSprite(){
-    this->sprite_locked = true;
+void SdlButton::lockOutlineSprite(const bool lock){
+    this->sprite_locked = lock;
 }
 
 void SdlButton::updateText(const equipment_t &equipment){

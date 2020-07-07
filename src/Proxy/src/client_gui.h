@@ -38,6 +38,7 @@ private:
     SdlWorld world;
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
+    std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_playable_renderables;
     std::vector<std::unique_ptr<SdlDynamicRenderable>> static_renderables;
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
     EventMediator eventMediator;
@@ -67,6 +68,8 @@ public:
     void updateConsoleOutput(std::vector<std::string> console_outputs);
 
     void updateRenderableStats(std::string renderable_id, std::string effect_id);
+
+    void updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables);
 };
 
 

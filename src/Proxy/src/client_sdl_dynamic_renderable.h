@@ -63,10 +63,12 @@ public:
 class SdlRenderablePlayable : public SdlDynamicRenderable{
 private:
     std::string username;
+    const std::string RACE;
     SdlTextureManager::t_player_appearance t_appearance;
 public:
     SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
-                          const std::string username, TTF_Font *font, const SdlWindow &window,
+                          const std::string& username, const std::string& race,
+                          const equipment_t& equipment, TTF_Font *font, const SdlWindow &window,
                           SdlAudioManager &audioManager);
 
     void updateEquipment(const equipment_t& equipment) override ;
