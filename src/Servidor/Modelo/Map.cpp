@@ -56,6 +56,7 @@ void Map::add(const Obstacle& obstacle) {
 
 void Map::removeNpc(const std::string& idNpc, Observer* observer) {
     npcs.erase(idNpc);
+    updateNpcsSpawns(observer);
 }
 
 bool Map::isOccupied(Position pos) {
@@ -206,17 +207,18 @@ void Map::moveNpcs(float looptime) {
 }
 
 void Map::updateAllPlayers(float looptime, Observer* observer) {
-    //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de todos los players del mapa
     auto itrCharacters = characters.begin();
     for (; itrCharacters != characters.end(); itrCharacters++) {
         itrCharacters->second->recoverMana(looptime);
         itrCharacters->second->recoverLifePoints(looptime);
     }
-    std::vector<spawn_playable_character_t> pcSpawns;
+    //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de
+    // todos los players del mapa, ver como resolver esto
+    /*std::vector<spawn_playable_character_t> pcSpawns;
     for (auto &pc : characters) {
         pc.second->addSpawnInfoTo(pcSpawns);
     }
-    observer->notifySpawnPcUpdate(pcSpawns);
+    observer->notifySpawnPcUpdate(pcSpawns);*/
 }
 
 void Map::addDrop(Drop drop) {
@@ -312,6 +314,7 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
         int randomIndex = Utils::random_int_number(0, species.size() - 1);
         npcFactory.create(this, species[randomIndex], observer);
         lastNpcUpdate = 0;
+        updateNpcsSpawns(observer);
     } else {
         lastNpcUpdate += loopTimeInSeconds;
     }

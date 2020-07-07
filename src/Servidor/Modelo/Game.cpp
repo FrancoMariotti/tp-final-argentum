@@ -11,7 +11,6 @@ Game::Game(const std::string& configFile): configFile(configFile),mapFactory(con
 
 void Game::updateModel(float looptime) {
     map->updateAllPlayers(looptime, this);
-    map->updateNpcsSpawns(this);
     map->moveNpcs(looptime);
     map->regenerateNpcs(looptime, npcFactory, this);
 }
