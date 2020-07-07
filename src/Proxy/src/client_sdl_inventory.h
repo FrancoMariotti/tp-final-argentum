@@ -10,6 +10,7 @@
 #include "client_sdl_player.h"
 #include "client_sdl_mouse.h"
 #include "common_message_structs.h"
+#include "client_event_mediator.h"
 #include <vector>
 #include <map>
 
@@ -48,7 +49,7 @@ public:
 
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse);
 
-    void update(std::vector<std::string> inventory);
+    void update(std::vector<std::string> inventory, EventMediator &eventMediator);
 
     void render();
 

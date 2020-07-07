@@ -52,4 +52,11 @@ typedef struct spawn_playable_character {
     std::string helmetName;
 } spawn_playable_character_t;
 
+typedef struct t_create_connect {
+    std::string username;
+    std::string race;
+    std::string char_class;
+} t_create_connect;
+
+
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H

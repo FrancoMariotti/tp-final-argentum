@@ -12,10 +12,9 @@ class BaseComponent;
 class IMediator {
 public:
     virtual void notify(BaseComponent* component, SDL_Point click) = 0;
-
 };
 
-class BaseComponent{
+class BaseComponent {
 protected:
     IMediator* mediator;
 public:
