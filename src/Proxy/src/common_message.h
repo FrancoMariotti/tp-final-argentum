@@ -9,6 +9,7 @@
 #include <vector>
 #include "common_message_structs.h"
 enum MESSAGES {
+    CONNECT_MESSAGE_ID,
     DRAW_MESSAGE_ID,
     MOVEMENT_MESSAGE_ID,
     USE_ITEM_MESSAGE_ID,
@@ -50,6 +51,7 @@ public:
     virtual npc_movement_t getMovement();
     virtual t_player_attack getAttack();
     virtual std::vector<std::string> getConsoleOutput();
+    virtual t_create_connect getConnectData() const;
     virtual ~Message() = default;
 };
 
@@ -102,9 +104,11 @@ public:
 class Connect : public Message {
 private:
     const std::string username;
+    const std::string race;
+    const std::string char_class;
 public:
-    explicit Connect(const std::string username);
-    std::string getUserName() const;
+    Connect(const std::string username, const std::string race,const std::string char_class);
+    t_create_connect getConnectData() const override;
 };
 
 class Stats : public Message {

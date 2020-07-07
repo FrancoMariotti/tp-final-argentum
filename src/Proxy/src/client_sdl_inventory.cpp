@@ -52,7 +52,7 @@ void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, Sd
     }
 }
 
-void SdlInventory::update(std::vector<std::string> inventory){
+void SdlInventory::update(std::vector<std::string> inventory, EventMediator &eventMediator) {
     buttons.clear();
     SdlTexture& outline = inventoryTextures.at("outline");
     for(auto it = inventory.begin(); it != inventory.end(); it ++){

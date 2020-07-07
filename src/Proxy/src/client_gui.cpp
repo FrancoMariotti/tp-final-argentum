@@ -62,6 +62,7 @@ void GUI::execute(){
     timer.incrementFrames();
     audioManager.playRandomAmbientSound(10000);
 }
+
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
     player.updatePos(player_x, player_y, camera);
@@ -91,7 +92,7 @@ void GUI::updatePlayerEquipment(const equipment_t& equipment) {
 }
 
 void GUI::updateInventory(std::vector<std::string> player_inventory) {
-    inventory.update(std::move(player_inventory));
+    inventory.update(std::move(player_inventory), eventMediator);
 }
 
 void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderables){
@@ -133,7 +134,6 @@ void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
 void GUI::updateDrops(const std::vector<spawn_character_t> &drops) {
     world.updateDrops(drops);
 }
-
 
 void GUI::updateConsoleOutput(std::vector<std::string> console_outputs) {
     console.updateOutput(std::move(console_outputs), audioManager);

@@ -42,7 +42,6 @@ SdlButton::SdlButton(SdlButton &&other) noexcept :
         this->outline_sprite_clips.push_back(SDL_Rect{(i+1) * 32, 32, 32, 32});
     }
     this->outline_sprite_clips.push_back(SDL_Rect{ 32, 0, 32, 32});
-
 }
 
 void SdlButton::setPosition(int x, int y) {
@@ -98,11 +97,10 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
             }
         }
     }
-
 }
 
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse) {
-    if(left_click > 0){
+    if (left_click > 0){
         std::cout << "DEBUG: left click" << std::endl;
         (cmd)(clientEvents, i);
         left_click--;
@@ -115,7 +113,7 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
 }
 
 void SdlButton::updateText(const equipment_t &equipment){
-    if(equipment.helmetName == texture_id || equipment.shieldName == texture_id
+    if (equipment.helmetName == texture_id || equipment.shieldName == texture_id
     || equipment.armourName == texture_id || equipment.weaponName == texture_id){
         buttonText.update("E");
     } else {

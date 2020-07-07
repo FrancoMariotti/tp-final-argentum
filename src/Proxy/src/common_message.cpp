@@ -112,6 +112,11 @@ std::vector<std::string> Message::getConsoleOutput() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+t_create_connect Message::getConnectData() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
@@ -191,13 +196,15 @@ std::string ExecuteCommand::getUserName() const {
     return username;
 }
 
-Connect::Connect(const std::string username) :
-    Message('c'),
-    username(username)
+Connect::Connect(const std::string username,const std::string race,const std::string char_class) :
+    Message(CONNECT_MESSAGE_ID),
+    username(username),
+    race(race),
+    char_class(char_class)
     {}
 
-std::string Connect::getUserName() const {
-    return username;
+t_create_connect Connect::getConnectData() const{
+    return t_create_connect{username, race, char_class};
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)
