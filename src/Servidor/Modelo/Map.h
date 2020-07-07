@@ -23,6 +23,7 @@ class ProxySocket;
 class Map {
     int width;
     int height;
+    float lastNpcUpdate;
     Banker banker;
     Merchant merchant;
     Priest priest;
@@ -73,6 +74,8 @@ class Map {
     void updateDropSpawns(Observer *observer);
 
     Drop takeDropFromPos(Position position);
+
+    void updateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer);
 };
 
 #endif //ARGENTUM_MAPA_H
