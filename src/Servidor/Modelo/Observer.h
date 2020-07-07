@@ -1,7 +1,9 @@
 #ifndef ARGENTUM_OBSERVER_H
 #define ARGENTUM_OBSERVER_H
 
+
 typedef struct spawn_character spawn_character_t;
+typedef struct spawn_playable_character spawn_playable_character_t;
 class Observer {
 public:
     virtual void notifymovementUpdate(int x, int y) = 0;
@@ -23,7 +25,9 @@ public:
     notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) = 0;
 
     virtual void notifyDropSpawnNUpdate(std::vector<spawn_character_t> dropSpawns) = 0;
+    virtual void notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) = 0;
     virtual void notifyConsoleOutputUpdate(std::vector<std::string> messages) = 0;
+
 };
 
 #endif //ARGENTUM_OBSERVER_H

@@ -15,11 +15,11 @@
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
         int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-        int invMaxElements,Observer* observer):
+        int invMaxElements,Observer* observer, std::string race):
         Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
                 defaultWeapon("none",1, 1, 0), inventory(invMaxElements)
-                , inCity(true) {
+                , inCity(true), race(race) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
@@ -407,6 +407,15 @@ void PlayableCharacter::sendItemsInBankList() {
 
 void PlayableCharacter::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
     observer->notifyConsoleOutputUpdate(messages);
+}
+
+void PlayableCharacter::addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns) {
+    std::vector<std::string> protectionNames;
+    armour.getNames(protectionNames);
+    spawn_playable_character_t  spawn = {currPos.getX(), currPos.getY(), id, race,
+         activeWeapon->getName(), protectionNames[0], protectionNames[1]
+         , protectionNames[2]};
+    pcSpawns.push_back(spawn);
 }
 
 

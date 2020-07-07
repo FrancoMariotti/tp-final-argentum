@@ -1,6 +1,7 @@
 #include "Npc.h"
 #include <utility>
 #include <iostream>
+#include <Proxy/src/common_message_structs.h>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
@@ -147,6 +148,11 @@ void Npc::die() {
 
 void Npc::addMerchant(Merchant* newMerchant) {
     merchant = newMerchant;
+}
+
+void Npc::addSpawnInfoTo(std::vector<spawn_character_t>& npcSpawns) {
+    spawn_character_t  spawn = {currPos.getX(),currPos.getY(),id};
+    npcSpawns.push_back(spawn);
 }
 
 Npc::~Npc() = default;

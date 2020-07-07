@@ -19,8 +19,13 @@ void ProxyServer::run() {
     Game game("config/config.json");
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
-    game.initializeMap(proxySocket);
+    //game.initializeMap(proxySocket);
     game.initialize();
+    std::queue<Message*> testQueue = game.initializeWorldForClient();
+    while (!testQueue.empty()) {
+        proxySocket.writeToClient(std::unique_ptr<Message>(testQueue.front()));
+        testQueue.pop();
+    }
     auto* sword = new NormalWeapon("sword", 2, 5, 0);
     game.storeInInventory("franco",sword);
     auto* bow = new RangeWeapon("commonBow", 1, 4, 0);

@@ -35,6 +35,7 @@ public:
     void addMerchant(Merchant* newMerchant);
     ~Npc() override;
 
+    void addSpawnInfoTo(std::vector<spawn_character_t>& npcSpawns);
 };
 
 #endif //ARGENTUM_NPC_H

@@ -41,6 +41,7 @@ public:
     void notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) override;
     void notifyItemsUpdate(std::vector<std::string> &vector) override;
     void notifySpawnNpcUpdate(std::vector<spawn_character_t> &npcs) override;
+    void notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) override;
     void notifyDropSpawnNUpdate(std::vector<spawn_character_t> dropSpawns) override ;
     void notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) override;
     void notifyMovementNpcUpdate(std::string idNpc, int x, int y) override;
@@ -50,6 +51,9 @@ public:
     void executeCommand(std::unique_ptr<Message>& command);
     void notifyConsoleOutputUpdate(std::vector<std::string> messages) override;
     ~Game();
+
+    std::queue<Message*> initializeWorldForClient();
+
 };
 
 

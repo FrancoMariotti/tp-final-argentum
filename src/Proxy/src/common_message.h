@@ -22,6 +22,7 @@ enum MESSAGES {
     SPAWN_CITY_CHARACTERS_MESSAGE_ID,
     SPAWN_DROPS_MESSAGE_ID,
     CONSOLE_OUTPUT_MESSAGE_ID,
+    SPAWN_PC_MESSAGE_ID
 };
 
 
@@ -47,6 +48,7 @@ public:
     virtual equipment_t getEquipment();
     virtual std::vector<std::string> getItems();
     virtual std::vector<spawn_character_t> getSpawnData();
+    virtual std::vector<spawn_playable_character_t> getPcSpawnData();
     virtual npc_movement_t getMovement();
     virtual t_player_attack getAttack();
     virtual std::vector<std::string> getConsoleOutput();
@@ -137,11 +139,18 @@ public:
     std::vector<std::string> getItems() override;
 };
 
-class SpawnNpc: public Message {
+class SpawnNpc : public Message {
     std::vector<spawn_character_t> renderables;
 public:
     explicit SpawnNpc(std::vector<spawn_character_t> renderables);
     std::vector<spawn_character_t> getSpawnData() override;
+};
+
+class SpawnPc : public Message {
+    std::vector<spawn_playable_character_t> renderables;
+public:
+    explicit SpawnPc(std::vector<spawn_playable_character_t> renderables);
+    std::vector<spawn_playable_character_t> getPcSpawnData() override;
 };
 
 class SpawnDrops: public Message {

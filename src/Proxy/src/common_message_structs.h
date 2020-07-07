@@ -5,6 +5,8 @@
 #ifndef ARGENTUM_COMMON_MESSAGE_STRUCTS_H
 #define ARGENTUM_COMMON_MESSAGE_STRUCTS_H
 
+#include <string>
+
 typedef struct t_stats{
     float health_percentage;
     float mana_percentage;
@@ -39,5 +41,15 @@ typedef struct player_attack {
     int enemy_y;
 } t_player_attack;
 
+typedef struct spawn_playable_character {
+    int x;
+    int y;
+    std::string username;
+    std::string race;
+    std::string weaponName;
+    std::string armourName;
+    std::string shieldName;
+    std::string helmetName;
+} spawn_playable_character_t;
 
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H

@@ -102,6 +102,11 @@ void Client::init() {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
+            } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
+                this->gui.updateDrops(msg->getSpawnData());
+            } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
+            //ACA TE MANDO UN VECTOR CON LA POSICION,ID,RAZA,ARMA Y PROTECCIONES
+            // DE TODOS LOS JUGADORES DEL MAPA PARA QUE LOS RENDERICES
             }
         }
     }
@@ -128,7 +133,11 @@ void Client::update() {
             gui.updatePlayerEquipment(msg->getEquipment());
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
-        } /*else if (msg->getId() == RENDERABLE_EFFECT_MESSAGE_ID){
+        } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
+            //ACA TE MANDO UN VECTOR CON LA POSICION,ID,RAZA,ARMA Y PROTECCIONES
+            // DE TODOS LOS JUGADORES DEL MAPA PARA QUE LOS RENDERICES
+        }
+        /*else if (msg->getId() == RENDERABLE_EFFECT_MESSAGE_ID){
            gui.updateRenderableStats(msg->getRenderableId(), msg->getEffectId());
         }*/
     }

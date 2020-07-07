@@ -28,13 +28,6 @@ void Map::add(City city) {
     cities.push_back(std::move(city));
 }
 
-void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
-    npcSpawns.push_back(spawn);
-    if(npcSpawns.size() == NPCSAMOUNT) {
-        observer->notifySpawnNpcUpdate(npcSpawns);
-    }
-}
-
 void Map::registerCityCharactersSpawns(std::vector<spawn_character_t>& spawns) {
     for (auto &spawn : spawns) {
         cityCharactersSpawns.push_back(spawn);
@@ -63,11 +56,6 @@ void Map::add(const Obstacle& obstacle) {
 
 void Map::removeNpc(const std::string& idNpc, Observer* observer) {
     npcs.erase(idNpc);
-    npcSpawns.erase(std::remove_if(npcSpawns.begin(),
-                              npcSpawns.end(),
-                              [idNpc](spawn_character_t npc){return npc.id == idNpc;}),
-               npcSpawns.end());
-    observer->notifySpawnNpcUpdate(npcSpawns);
 }
 
 bool Map::isOccupied(Position pos) {
@@ -160,6 +148,40 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("obstacles",obstaclesLayer,width,height)));
 }
+
+//METODO A USAR EN NUEVA COMUNICACION
+void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages) {
+    FileParser parser(configFile);
+    Json::Value mapObj =  parser.read("map");
+
+    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
+    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
+
+    std::vector<int> floorLayer;
+    floorLayer.reserve(floorLayersid.size());
+
+    for (const auto & i : floorLayersid){
+        floorLayer.push_back(i.asInt());
+    }
+
+    initializeMessages.push(new Draw("floor",floorLayer,width,height));
+
+    initializeMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
+
+    std::vector<int> obstaclesLayer;
+    obstaclesLayer.reserve(obstaclesLayersid.size());
+
+    for (const auto & i : obstaclesLayersid){
+        obstaclesLayer.push_back(i.asInt());
+    }
+    initializeMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
+}
+
+void Map::initializeDropSpawns(std::queue<Message*>& initializeMessages) {
+    initializeMessages.push(new SpawnDrops(dropsSpawns));
+
+}
+
 Position Map::asignRandomPosition() {
     int x, y;
     x = Utils::random_int_number(0, height - 1);
@@ -183,12 +205,18 @@ void Map::moveNpcs(float looptime) {
     }
 }
 
-void Map::updateAllPlayers(float looptime) {
+void Map::updateAllPlayers(float looptime, Observer* observer) {
+    //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de todos los players del mapa
     auto itrCharacters = characters.begin();
     for (; itrCharacters != characters.end(); itrCharacters++) {
         itrCharacters->second->recoverMana(looptime);
         itrCharacters->second->recoverLifePoints(looptime);
     }
+    std::vector<spawn_playable_character_t> pcSpawns;
+    for (auto &pc : characters) {
+        pc.second->addSpawnInfoTo(pcSpawns);
+    }
+    observer->notifySpawnPcUpdate(pcSpawns);
 }
 
 void Map::addDrop(Drop drop) {
@@ -224,45 +252,6 @@ bool Map::posInCity(Position position) {
     }
     return false;
 }
-
-/*void Map::searchPriestToRevive(PlayableCharacter *character, Position position) {
-    for (City & city : cities) {
-        city.searchPriestToRevive(character, position);
-    }
-}*/
-
-/*void Map::searchPriestToHeal(PlayableCharacter *character, Position position) {
-    for (City & city : cities) {
-        city.searchPriestToHeal(character, position);
-    }
-}*/
-
-/*void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
-    int minDistance = -1;
-    int currDistance;
-    City* nearestCity = nullptr;
-    for (City & city : cities) {
-        currDistance = city.distanceToPriest(character);
-        if (minDistance < 0 || currDistance < minDistance) {
-            minDistance = currDistance;
-            nearestCity = &city;
-        }
-    }
-    nearestCity->revivePlayerHere(character, this);
-}*/
-
-
-/*void Map::extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount) {
-    for (City & city : cities) {
-        city.extractFromBank(position,player,goldAmount);
-    }
-}
-
-void Map::extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element) {
-    for (City & city : cities) {
-        city.extractFromBank(position,player,element);
-    }
-}*/
 
 Priest *Map::getPriestAtPosition(const Position& position) {
     if (priest.ocupies(position)) return &priest;
@@ -317,30 +306,37 @@ Map::~Map() {
     }
 }
 
-void Map::updateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer) {
+void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer) {
     if (lastNpcUpdate + loopTimeInSeconds >= 30 && npcs.size() < NPCSAMOUNT) {
         std::vector<std::string> species = {"goblin", "spider", "zombie", "skeleton"};
         int randomIndex = Utils::random_int_number(0, species.size() - 1);
         npcFactory.create(this, species[randomIndex], observer);
         lastNpcUpdate = 0;
-        observer->notifySpawnNpcUpdate(npcSpawns);
-
     } else {
         lastNpcUpdate += loopTimeInSeconds;
     }
 }
 
+void Map::initializeNpcsSpawns(std::queue<Message*>& initializeMessages) {
+    std::vector<spawn_character_t> npcSpawns;
+    for (auto &npc : npcs) {
+        npc.second->addSpawnInfoTo(npcSpawns);
+    }
+    initializeMessages.push(new SpawnNpc(npcSpawns));
+}
 
+void Map::updateNpcsSpawns(Observer* observer) {
+    std::vector<spawn_character_t> npcSpawns;
+    for (auto &npc : npcs) {
+        npc.second->addSpawnInfoTo(npcSpawns);
+    }
+    observer->notifySpawnNpcUpdate(npcSpawns);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+void Map::initializePlayersSpawns(std::queue<Message*>& initializeMessages) {
+    std::vector<spawn_playable_character_t> pcSpawns;
+    for (auto &pc : characters) {
+        pc.second->addSpawnInfoTo(pcSpawns);
+    }
+    initializeMessages.push(new SpawnPc(pcSpawns));
+}
