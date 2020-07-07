@@ -18,10 +18,12 @@ private:
     SdlRenderablePlayable& player;
     BaseComponent& mouse;
 public:
-    explicit EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlRenderablePlayable &player,
+     EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlRenderablePlayable &player,
                            BaseComponent &mouse);
 
     void notify(BaseComponent* sender, SDL_Point right_click ) override;
+
+    void notify(SdlButton *sender, int i) override ;
 };
 
 

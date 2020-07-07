@@ -76,12 +76,10 @@ int Client::run() {
 }
 
 void Client::init() {
-    /*Me conecto al server*/
     clientEvents.push(std::unique_ptr<Message>(new Connect("franco","human","wizard")));
     int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw*/
     while(init < 2){
-        //std::cout << "client: consuming" << std::endl;
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
             std::cout << msg->getId() << std::endl;
@@ -134,6 +132,7 @@ void Client::update() {
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
         } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
+
             //ACA TE MANDO UN VECTOR CON LA POSICION,ID,RAZA,ARMA Y PROTECCIONES
             // DE TODOS LOS JUGADORES DEL MAPA PARA QUE LOS RENDERICES
         }

@@ -109,6 +109,7 @@ void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderable
  * con key: id y value: puntero a SdlDynamicRenderable*/
 void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
     dynamic_renderables.clear();
+    std::cout << "DEBUG: updating renderables" << std::endl;
     auto it = renderables.begin();
     for (; it != renderables.end(); it++) {
         std::string texture_id = textureManager.findTextureId(it->id);

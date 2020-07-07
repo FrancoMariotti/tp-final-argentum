@@ -8,10 +8,13 @@
 
 #include <SDL2/SDL_rect.h>
 
+class SdlButton;
 class BaseComponent;
 class IMediator {
 public:
     virtual void notify(BaseComponent* component, SDL_Point click) = 0;
+    virtual void notify(SdlButton *sender, int i) = 0;
+
 };
 
 class BaseComponent {
@@ -23,6 +26,7 @@ public:
     void setMediator(IMediator* new_mediator){
         this->mediator = new_mediator;
     }
+
 };
 
 

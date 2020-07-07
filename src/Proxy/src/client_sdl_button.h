@@ -13,10 +13,11 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_text.h"
+#include "client_event_mediator.h"
 
 class SdlText;
 class Message;
-class SdlButton {
+class SdlButton : public BaseComponent {
 private:
     enum e_outline_sprite{
         OUTLINE_SPRITE_MOUSE_OVER_MOTION,
@@ -29,6 +30,7 @@ private:
     int height;
     int left_click;
     int right_click;
+    bool sprite_locked;
     const std::string texture_id;
     SDL_Point position;
     //Currently used sprite
@@ -43,7 +45,7 @@ private:
 
 public:
     SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
-              const std::string texture_id);
+              const std::string texture_id, EventMediator *eventMediator);
 
     SdlButton(const SdlButton& other) = delete;
 
@@ -59,6 +61,8 @@ public:
     ~SdlButton() = default;
 
     void updateText(const equipment_t &equipment);
+
+    void lockOutlineSprite();
 };
 
 

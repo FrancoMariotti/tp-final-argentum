@@ -59,7 +59,7 @@ void SdlInventory::update(std::vector<std::string> inventory, EventMediator &eve
         SdlTexture& buttonSpriteSheet = inventoryTextures.at(*it);
         int col = (int) buttons.size() % MAX_BUTTONS_PER_ROW;
         int fil = (int) buttons.size() / MAX_BUTTONS_PER_ROW;
-        buttons.emplace_back(buttonSpriteSheet, outline, font, window, *it);
+        buttons.emplace_back(buttonSpriteSheet, outline, font, window, *it, &eventMediator);
         /*Seteo la posicion relativa al inventario,
          * a medida que pusheo se van acomodando uno al lado del otro*/
         /*4 botones por fila,

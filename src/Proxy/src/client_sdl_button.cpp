@@ -7,9 +7,11 @@
 #include "common_message.h"
 
 SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,
-                     const std::string texture_id) :
+                     const std::string texture_id, EventMediator *eventMediator) :
+        BaseComponent(eventMediator),
         left_click(0),
         right_click(0),
+        sprite_locked(false),
         texture_id(texture_id),
         position{0,0},
         outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
@@ -23,12 +25,13 @@ SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_
         this->outline_sprite_clips.push_back(SDL_Rect{(i+1) * 32, 32, 32, 32});
     }
     this->outline_sprite_clips.push_back(SDL_Rect{ 32, 0, 32, 32});
-
 }
 
 SdlButton::SdlButton(SdlButton &&other) noexcept :
+    BaseComponent(other.mediator),
     left_click(0),
     right_click(0),
+    sprite_locked(false),
     texture_id(other.texture_id),
     position{other.position.x, other.position.y},
     outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
@@ -36,6 +39,7 @@ SdlButton::SdlButton(SdlButton &&other) noexcept :
     outlineTexture(other.outlineTexture),
     buttonText(std::move(other.buttonText))
     {
+    other.mediator = nullptr;
     this->width = buttonSpriteSheetTexture.getWidth();
     this->height = buttonSpriteSheetTexture.getHeight();
     for (int i = 0; i < OUTLINE_SPRITE_TOTAL - 1; ++i) {
@@ -97,6 +101,9 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
             }
         }
     }
+    if(sprite_locked){
+        outline_sprite = OUTLINE_SPRITE_BUTTON_CLICKED;
+    }
 }
 
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse) {
@@ -106,10 +113,14 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
         left_click--;
     } else if (right_click > 0){
         std::cout << "DEBUG: right click" << std::endl;
-        //mediator.notify(this, i)
+        mediator->notify(this, i);
         mouse.setLastClickedItemIndex(i);
         right_click--;
     }
+}
+
+void SdlButton::lockOutlineSprite(){
+    this->sprite_locked = true;
 }
 
 void SdlButton::updateText(const equipment_t &equipment){
@@ -127,4 +138,3 @@ void SdlButton::render() {
     this->outlineTexture.render(position.x,position.y,&outline_sprite_clips[outline_sprite]);
     this->buttonText.render(position.x, position.y);
 }
-
