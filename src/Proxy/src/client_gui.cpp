@@ -27,7 +27,8 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     console(screen_width, screen_height, window, font),
     world(window),
     playerStats(screen_width, screen_height, window, font),
-    clientEvents(clientEvents) {
+    clientEvents(clientEvents),
+    eventMediator(clientEvents, player, mouse){
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }

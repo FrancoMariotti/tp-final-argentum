@@ -18,6 +18,7 @@
 #include "client_sdl_audio_manager.h"
 #include "client_sdl_timer.h"
 #include "client_sdl_dynamic_renderable.h"
+#include "client_event_mediator.h"
 
 class SdlDynamicRenderable;
 class GUI {
@@ -38,8 +39,8 @@ private:
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
     std::vector<std::unique_ptr<SdlDynamicRenderable>> static_renderables;
-
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
+    EventMediator eventMediator;
 public:
     GUI(int screen_width, int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents);
     void setWorldDimensions(int w, int h);

@@ -7,9 +7,10 @@
 
 #include "common_blocking_queue.h"
 #include "common_message.h"
+#include "client_imediator.h"
 
 class SdlCamera;
-class SdlMouse {
+class SdlMouse : public BaseComponent {
 private:
     SdlCamera& camera;
     SDL_Point position;
