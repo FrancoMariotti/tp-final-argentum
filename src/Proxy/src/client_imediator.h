@@ -7,14 +7,16 @@
 
 
 #include <SDL2/SDL_rect.h>
+#include <string>
 
+class SdlConsole;
 class SdlButton;
 class BaseComponent;
 class IMediator {
 public:
     virtual void notify(BaseComponent* component, SDL_Point click) = 0;
     virtual void notify(BaseComponent* component) = 0;
-
+    virtual void notify(SdlConsole *console, std::string& s_input) = 0;
 };
 
 class BaseComponent {

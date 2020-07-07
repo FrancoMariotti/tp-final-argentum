@@ -30,7 +30,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     world(window),
     playerStats(screen_width, screen_height, window, font),
     clientEvents(clientEvents),
-    eventMediator(clientEvents, player, mouse, inventory) {
+    eventMediator(clientEvents, mouse, inventory, console) {
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
@@ -183,7 +183,7 @@ void GUI::render(){
     player.render(camera);
     inventory.render();
     console.render();
-    //interface.render(0,0);
+    interface.render(0,0);
     playerStats.render();
 
     //Update screen
