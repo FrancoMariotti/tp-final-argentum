@@ -12,8 +12,8 @@ SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &text
                                            SdlAudioManager &audioManager) :
         pos_x(x),
         pos_y(y),
-        old_x(0),
-        old_y(0),
+        old_x(x),
+        old_y(y),
         animation_frame(0),
         is_moving(false),
         textureManager(textureManager),
@@ -75,6 +75,12 @@ void SdlDynamicRenderable::updateStats(const std::string& effect_id) {
                          audioManager);
 }
 
+void SdlDynamicRenderable::renderEffects(const SdlCamera& camera){
+    /*Reproduce todos los efectos pendientes de la lista de efectos*/
+    for(auto it = effects.begin(); it != effects.end(); it++){
+        it->render(pos_x + camera.getTileSize()/2 - camera.getX(), pos_y - camera.getTileSize()/2 - camera.getY());
+    }
+}
 
 SdlRenderableNPC::SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
                                    const std::string texture_id, TTF_Font *font, const SdlWindow &window,
@@ -96,6 +102,7 @@ void SdlRenderableNPC::render(const SdlCamera& camera){
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
         healthBar.render(pos_x - camera.getX(), pos_y - camera.getY());
     }
+    SdlDynamicRenderable::renderEffects(camera);
     this->endAnimationIfComplete();
 }
 
@@ -133,10 +140,8 @@ void SdlRenderablePlayable::render(const SdlCamera &camera) {
                                      camera, body_or, head_or);
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
-    /*Reproduce todos los efectos pendientes de la lista de efectos*/
-    for(auto it = effects.begin(); it != effects.end(); it++){
-        it->render(pos_x - camera.getX(), pos_y - camera.getY());
-    }
+    SdlDynamicRenderable::renderEffects(camera);
+
     this->endAnimationIfComplete();
 }
 

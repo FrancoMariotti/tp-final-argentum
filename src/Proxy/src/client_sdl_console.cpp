@@ -32,7 +32,7 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
 void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
     render_text = false;
     return_times_pressed = 0;
-    if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+    if (event.type == SDL_KEYDOWN) {
         //Handle backspace
         if (event.key.keysym.sym == SDLK_BACKSPACE && input_text.length() > 0) {
             //lop off character
@@ -154,12 +154,5 @@ void SdlConsole::render() {
         reverseIt->render(console_x,  height - (reverseIt->getHeight() / 2) * i);
     }
     this->inputTexture.render(console_x, height);
-    /*
-    for(auto & recent_input: recentInputs){
-        i++;
-        recent_input.render(console_x, console_y + height - (recent_input.getHeight() / 2) * i);
-    }*/
-    /*Renderizo lo que estoy escribiendo*/
-    //this->inputTexture.render(console_x, console_y * 4);
 
 }
