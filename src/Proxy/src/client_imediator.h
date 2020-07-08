@@ -19,6 +19,7 @@ public:
     virtual void notify(SdlConsole *console, const std::string& s_input) = 0;
     virtual void notify(BaseComponent *sender, SDL_Point left_click, int overload) = 0;
     virtual void notify(BaseComponent *sender, int i) = 0;
+    virtual void notify(BaseComponent *sender, int vel_x, int vel_y) = 0;
 };
 
 class BaseComponent {

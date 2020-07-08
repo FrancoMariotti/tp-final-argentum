@@ -16,12 +16,12 @@
 
 
 SdlInventory::SdlInventory(const SdlWindow &window, TTF_Font *font) :
+        width(IMAGE_INVENTORY_WIDTH),
+        height(IMAGE_INVENTORY_HEIGHT),
+        MAX_BUTTONS_PER_ROW(width / BUTTON_SIZE),
         window(window),
         font(font)
         {
-    //Tamaño ventana inventario
-    this->width = IMAGE_INVENTORY_WIDTH;
-    this->height = IMAGE_INVENTORY_HEIGHT;
 
     //inicializo la posicion del inventario
     this->inventory_x = INVENTORY_X; //window.getWidth * 0.8 ;

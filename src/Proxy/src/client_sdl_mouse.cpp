@@ -44,8 +44,6 @@ void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
     if(position.x > -1 && position.y > -1 && right_click > 0){
         std::cout << "DEBUG: attack" << std::endl;
         this->mediator->notify(this, position);
-        /*clientEvents.push(std::unique_ptr <Message>(new Attack("franco",
-                position.x, position.y)));*/
         right_click--;
         this->clear();
     } else if (left_click > 0) {
@@ -62,23 +60,4 @@ void SdlMouse::clear(){
     inventory_clicked_index = 0;
     clicked_in_map = false;
     mediator->notify(this);
-}
-
-SDL_Point SdlMouse::getPosition(){
-    return position;
-}
-
-bool SdlMouse::clickedInMap(){
-    return clicked_in_map;
-}
-
-/*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
-void SdlMouse::setLastClickedItemIndex(const int i){
-    //this->clear();
-    this->inventory_clicked_index = i;
-}
-
-/*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
-int SdlMouse::getLastClickedItemIndex() const{
-    return inventory_clicked_index;
 }

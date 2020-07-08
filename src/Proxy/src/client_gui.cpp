@@ -27,7 +27,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     playerStats(window, font),
     clientEvents(clientEvents),
     username("NO USERNAME"),
-    eventMediator(clientEvents, mouse, inventory, console, username) {
+    eventMediator(username, clientEvents, mouse, inventory, console, keyboard) {
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
@@ -61,7 +61,7 @@ void GUI::execute(){
     inventory.use(clientEvents, mouse);
     mouse.use(clientEvents);
     SDL_Point player_pos = dynamic_playable_renderables.at(username)->getPos();
-    console.execute(clientEvents, mouse, camera, player_pos);
+    console.execute();
     camera.move(player_pos);
 
     audioManager.playRandomAmbientSound(20000);

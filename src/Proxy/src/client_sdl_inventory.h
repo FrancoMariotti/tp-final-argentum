@@ -17,8 +17,6 @@
 class Message;
 class SdlInventory : public BaseComponent {
 private:
-    const int MAX_BUTTONS_PER_ROW = 4;
-
     /*Tamaño del inventario*/
     int width;
     int height;
@@ -26,7 +24,8 @@ private:
     /*Posicion del inventario*/
     int inventory_x;
     int inventory_y;
-    const int BUTTON_SIZE = 40;
+    const int BUTTON_SIZE = 32;
+    const int MAX_BUTTONS_PER_ROW;
     const std::vector<std::string> GAME_ITEMS_ID{"sword","axe","hammer","fresnoWand"
             ,"crimpStick","knottyStick","elvenFlute","commonBow", "rareBow","defaultArmour"
             ,"leatherArmour", "ironArmour", "blueTunic",

@@ -2,10 +2,8 @@
 // Created by agustin on 16/6/20.
 //
 
-#include <iostream>
 #include "client_sdl_console.h"
 #include "client_sdl_window.h"
-#include "client_command.h"
 #include "common_message.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_dynamic_renderable.h"
@@ -60,8 +58,7 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         const SDL_Point player_pos) {
+void SdlConsole::execute() {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);

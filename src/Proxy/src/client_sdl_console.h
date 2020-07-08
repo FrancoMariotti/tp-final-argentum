@@ -7,7 +7,6 @@
 
 #include "client_sdl_texture.h"
 #include "client_sdl_player.h"
-#include "client_command_factory.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_audio_manager.h"
@@ -17,7 +16,6 @@ class SdlConsole : public BaseComponent {
 private:
     SdlTexture inputTexture;
     const SdlWindow& window;
-    CommandFactory commandFactory;
     SDL_Color text_color;
     SDL_Color server_message_color;
     TTF_Font* font;
@@ -46,8 +44,7 @@ public:
     void handleEvent(const SDL_Event &event, bool &is_event_handled);
 
     /*Logic*/
-    void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                 const SDL_Point player_pos);
+    void execute();
 
     void updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager);
 

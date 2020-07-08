@@ -28,8 +28,7 @@ void SdlKeyboard::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
 void SdlKeyboard::movePlayer(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
     if(player_vel_x != 0 || player_vel_y != 0){
-        clientEvents.push(std::unique_ptr<Message> (
-                new Movement(player_vel_x, player_vel_y)));
+        mediator->notify(this, player_vel_x, player_vel_y);
         player_vel_x = 0;
         player_vel_y = 0;
     }

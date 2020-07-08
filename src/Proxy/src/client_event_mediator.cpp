@@ -7,22 +7,23 @@
 #include "client_sdl_inventory.h"
 #include "client_console_command_state.h"
 #include "client_sdl_console.h"
+#include "client_sdl_keyboard.h"
 
-EventMediator::EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                             SdlInventory &inventory,
-                             SdlConsole &console, const std::string &username) :
+EventMediator::EventMediator(const std::string &username, BlockingQueue<std::unique_ptr<Message>> &clientEvents,
+                             SdlMouse &mouse, SdlInventory &inventory, SdlConsole &console, SdlKeyboard &keyboard) :
     USERNAME(username),
     clientEvents(clientEvents),
     mouse(mouse),
     inventory(inventory),
     console(console),
+    keyboard(keyboard),
     commandState(new WaitingState(this)),
     map_click{-1,-1},
-    inventory_item_index(0)
-    {
+    inventory_item_index(0){
         mouse.setMediator(this);
         inventory.setMediator(this);
         console.setMediator(this);
+        keyboard.setMediator(this);
 }
 
 
@@ -48,6 +49,12 @@ void EventMediator::notify(SdlConsole *sender, const std::string& s_input) {
 
 void EventMediator::notify(BaseComponent *sender, int i) {
     commandState->setInventoryIndex(i);
+}
+
+
+void EventMediator::notify(BaseComponent *sender, const int vel_x, const int vel_y) {
+    clientEvents.push(std::unique_ptr<Message> (
+            new Movement(vel_x, vel_y)));
 }
 
 void EventMediator::setMapClick(const SDL_Point new_map_click){
@@ -77,4 +84,5 @@ void EventMediator::changeState(IConsoleCommandState *newState) {
 EventMediator::~EventMediator() {
     delete commandState;
 }
+
 

@@ -24,54 +24,64 @@ Client::Client(ProxySocket& proxySocket) :
 }
 
 int Client::run() {
-    this->init();
+    try{
 
-    //Main loop flag
-    bool quit = false;
+        this->init();
 
-    //Event handler
-    SDL_Event event;
+        //Main loop flag
+        bool quit = false;
 
-    //While application is running
-    while (!quit) {
-        //Handle events on queue
-        while (SDL_PollEvent(&event) != 0) {
-            switch(event.type){
-                case SDL_QUIT:
-                    quit = true;
-                    break;
-                case SDL_KEYDOWN:
-                    if(event.key.keysym.sym == SDLK_h){
-                        gui.updateRenderableStats("franco", "explosion");
-                    }
-                    if(event.key.keysym.sym == SDLK_j){
-                        gui.updateRenderableStats("franco", "missile");
-                    }
-                    if(event.key.keysym.sym == SDLK_k){
-                        gui.updateRenderableStats("franco", "magicArrow");
-                    }
-                    if(event.key.keysym.sym == SDLK_l){
-                        gui.updateRenderableStats("franco", "heal");
-                    }
-                    if(event.key.keysym.sym == SDLK_g){
-                        gui.updateRenderableStats("franco", "meditate");
-                    }
-                    break;
+        //Event handler
+        SDL_Event event;
+
+        //While application is running
+        while (!quit) {
+            //Handle events on queue
+            while (SDL_PollEvent(&event) != 0) {
+                switch(event.type){
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    case SDL_KEYDOWN:
+                        if(event.key.keysym.sym == SDLK_h){
+                            gui.updateRenderableStats("franco", "explosion");
+                        }
+                        if(event.key.keysym.sym == SDLK_j){
+                            gui.updateRenderableStats("franco", "missile");
+                        }
+                        if(event.key.keysym.sym == SDLK_k){
+                            gui.updateRenderableStats("franco", "magicArrow");
+                        }
+                        if(event.key.keysym.sym == SDLK_l){
+                            gui.updateRenderableStats("franco", "heal");
+                        }
+                        if(event.key.keysym.sym == SDLK_g){
+                            gui.updateRenderableStats("franco", "meditate");
+                        }
+                        break;
+                }
+                gui.handleEvents(event);
             }
-            gui.handleEvents(event);
+            /*Logic*/
+            gui.execute();
+
+            /*Consumo la lista de eventos del server y actualizo modelo*/
+            this->update();
+
+            //Render objects
+            gui.render();
+
+            //Cap FPS 50
+            SDL_Delay(20);
         }
-        /*Logic*/
-        gui.execute();
-
-        /*Consumo la lista de eventos del server y actualizo modelo*/
-        this->update();
-
-        //Render objects
-        gui.render();
-
-        //Cap FPS 50
-        SDL_Delay(20);
+    } catch (std::exception & e){
+        std::cout << e.what() << std::endl;
+        return 1;
+    } catch (...){
+        std::cout << "Unknow error" << std::endl;
+        return 1;
     }
+
     return 0;
 }
 

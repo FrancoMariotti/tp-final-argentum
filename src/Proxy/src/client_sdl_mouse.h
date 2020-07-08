@@ -24,17 +24,9 @@ public:
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 
-    SDL_Point getPosition();
-
-    bool clickedInMap();
-
-    void setLastClickedItemIndex(int i);
-
     void clear();
 
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
-
-    int getLastClickedItemIndex() const;
 
 };
 

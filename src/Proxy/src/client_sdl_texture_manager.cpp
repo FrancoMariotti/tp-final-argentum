@@ -298,9 +298,9 @@ SdlTexture &SdlTextureManager::getEffectSpriteTexture(const std::string effect_i
             break;
         }
     }
-    std::cout << effect_id << std::endl;
     if(!found){
-        throw OSError("SdlTextureManager::getEffectSpriteTexture: effect_id invalido, %s", effect_id.c_str());
+        throw OSError("<SdlTextureManager::getEffectSpriteTexture> "
+                      "el effect_id es invalido, @param: %s", effect_id.c_str());
     }
     return effects_textures.at(effect_id + SPRITE_SUFFIX);
 }
