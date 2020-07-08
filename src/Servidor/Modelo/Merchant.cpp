@@ -17,8 +17,8 @@ Equippable* Merchant::sell(const std::string& name, int *gold) {
 }
 
 int Merchant::buy(const std::string& itemName) {
-    if (stock.find(itemName) == stock.end()) return stock.at(itemName).goldCost;
-    return 0;
+    if (stock.find(itemName) == stock.end()) return 0;
+    return stock.at(itemName).goldCost;
 }
 
 Equippable *Merchant::giftItem(const std::string &name) {
