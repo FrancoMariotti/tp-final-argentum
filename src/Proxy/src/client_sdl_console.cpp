@@ -65,7 +65,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
-        this->sendCommandIfValid(clientEvents, mouse, camera, player_pos);
+        mediator->notify(this, input_text);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -81,51 +81,6 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
             inputTexture.loadFromRenderedText(">>", text_color, font);
         }
     }
-}
-
-void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, const SDL_Point player_pos) {
-    /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
-     * pasar player por referencia?*/
-    /**Primero el click luego el comando*/
-    /*Command* cmd = commandFactory.get(this->input_text, mouse.getX(), mouse.getY());
-    if(cmd){
-        (*cmd)(clientEvents, 0);
-        delete cmd;
-        cmd = nullptr;
-    }*/
-
-    /**SOBRECARGO EL CONSTRUCTOR DE EXECUTECommand*/
-    SDL_Point serverCoordinates = mouse.getPosition();
-    bool clicked_in_map = mouse.clickedInMap();
-    if (input_text == "/meditar") {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
-    } else if (input_text == "/resucitar" && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text == "/resucitar") {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, -1, -1)));
-    } else if (input_text == "/curar" && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/depositar") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/retirar") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text == ("/listar") && clicked_in_map) {
-        //mediator->notify(this, input_text);
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/comprar") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/vender") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text == ("/tomar")) {
-        SDL_Point player_server_pos = camera.posToServerCoordinates(player_pos);
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, player_server_pos.x, player_server_pos.y)));
-    } else if (input_text == ("/tirar")) {
-        clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, mouse.getLastClickedItemIndex(),-1)));
-    } else if (input_text.find('@') == 0) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
-    }
-    mouse.clear();
 }
 
 /*Agrega los mensajes del server al consola y reproduce los sonidos correspondiente a los mensajes*/

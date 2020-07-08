@@ -100,6 +100,10 @@ void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
     this->inventoryTextures.at(id).render(x,y);
 }
 
+void SdlInventory::notify(int inventory_i) {
+    mediator->notify(this, inventory_i);
+}
+
 SdlInventory::~SdlInventory() {
 }
 

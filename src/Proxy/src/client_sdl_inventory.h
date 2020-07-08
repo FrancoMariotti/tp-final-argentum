@@ -60,6 +60,8 @@ public:
     void updateEquippedItems(const equipment_t &equipment);
 
     void unlockOutlineSprite();
+
+    void notify(int inventory_i);
 };
 
 

@@ -15,6 +15,7 @@ private:
     SdlCamera& camera;
     SDL_Point position;
     int inventory_clicked_index;
+    int left_click;
     int right_click;
     bool clicked_in_map;
 
@@ -34,6 +35,7 @@ public:
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
 
     int getLastClickedItemIndex() const;
+
 };
 
 

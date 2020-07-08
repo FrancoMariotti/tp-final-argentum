@@ -12,6 +12,7 @@ SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),
     position{-1,-1},
     inventory_clicked_index(0),
+    left_click(0),
     right_click(0),
     clicked_in_map(false)
     {}
@@ -22,6 +23,8 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     if ((event.type == SDL_MOUSEBUTTONDOWN) && !is_event_handled) {
         if (event.button.button == SDL_BUTTON_RIGHT){
             right_click++;
+        } else if (event.button.button == SDL_BUTTON_LEFT){
+            this->left_click++;
         }
         this->clear();
         int x,y;
@@ -32,7 +35,6 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
             /*click dentro de la camara*/
             clicked_in_map = true;
             this->position = camera.toServerCoordinates(mouse_click);
-            mediator->notify(this, position);
             std::cout <<"click_x: " << position.x << "click_y: " << position.y << std::endl;
         }
     }
@@ -40,12 +42,15 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
 
 void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
     if(position.x > -1 && position.y > -1 && right_click > 0){
-        std::cout << "attack" << std::endl;
+        std::cout << "DEBUG: attack" << std::endl;
         this->mediator->notify(this, position);
         /*clientEvents.push(std::unique_ptr <Message>(new Attack("franco",
                 position.x, position.y)));*/
         right_click--;
         this->clear();
+    } else if (left_click > 0) {
+        mediator->notify(this, position, 0);
+        left_click--;
     }
 }
 

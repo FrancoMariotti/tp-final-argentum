@@ -115,6 +115,7 @@ SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i,
         std::cout << "DEBUG: right click" << std::endl;
         inventory->unlockOutlineSprite();
         lockOutlineSprite(true);
+        inventory->notify(i);
         mouse.setLastClickedItemIndex(i);
         right_click--;
     }

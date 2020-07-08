@@ -17,7 +17,9 @@ EventMediator::EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEven
     inventory(inventory),
     console(console),
     commandState(new WaitingState(this)),
-    map_click{-1,-1}{
+    map_click{-1,-1},
+    inventory_item_index(0)
+    {
         mouse.setMediator(this);
         inventory.setMediator(this);
         console.setMediator(this);
@@ -44,13 +46,26 @@ void EventMediator::notify(SdlConsole *sender, const std::string& s_input) {
 }
 
 
+void EventMediator::notify(BaseComponent *sender, int i) {
+    commandState->setInventoryIndex(i);
+}
+
 void EventMediator::setMapClick(const SDL_Point new_map_click){
     map_click = new_map_click;
+}
+
+void EventMediator::setInventoryIndex(int inventory_i) {
+    inventory_item_index = inventory_i;
 }
 
 SDL_Point EventMediator::getMapClick(){
     return map_click;
 }
+
+int EventMediator::getItemIndex() const {
+    return inventory_item_index;
+}
+
 
 void EventMediator::changeState(IConsoleCommandState *newState) {
     if(this->commandState){
@@ -62,6 +77,4 @@ void EventMediator::changeState(IConsoleCommandState *newState) {
 EventMediator::~EventMediator() {
     delete commandState;
 }
-
-
 

@@ -173,7 +173,9 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
     command(command),
     x(-1),
     y(-1)
-    {}
+    {
+        std::cout << command << "x:" << x << "y:" << y << std::endl;
+    }
 
 ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
@@ -181,8 +183,7 @@ ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) 
     x(x),
     y(y)
     {
-    std::cout << command << std::endl;
-    std::cout << "x:" << x << "y:" << y << std::endl;
+    std::cout << command << "x:" << x << "y:" << y << std::endl;
     }
 
 std::string ExecuteCommand::getCommand() const {

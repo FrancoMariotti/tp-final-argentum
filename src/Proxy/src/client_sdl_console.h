@@ -54,9 +54,6 @@ public:
     /*Render*/
     void render();
 
-    void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                            SdlCamera &camera, const SDL_Point player_pos);
-
 
 };
 

@@ -25,6 +25,7 @@ private:
     SdlConsole& console;
     IConsoleCommandState* commandState;
     SDL_Point map_click;
+    int inventory_item_index;
 public:
     EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlInventory &inventory,
                   SdlConsole &console, const std::string &username);
@@ -35,6 +36,10 @@ public:
 
     void notify(SdlConsole *console,const std::string &s_input) override;
 
+    void notify(BaseComponent *sender, SDL_Point left_click, int overload) override;
+
+    void notify(BaseComponent *sender, int i) override;
+
     void setMapClick(SDL_Point new_map_click);
 
     void changeState(IConsoleCommandState* newState);
@@ -43,7 +48,9 @@ public:
 
     ~EventMediator();
 
-    void notify(BaseComponent *sender, SDL_Point left_click, int overload);
+    int getItemIndex() const;
+
+    void setInventoryIndex(int inventory_i);
 };
 
 
