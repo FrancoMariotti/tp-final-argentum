@@ -13,7 +13,7 @@
 #include "client_sdl_audio_manager.h"
 #include <list>
 
-class SdlConsole {
+class SdlConsole : public BaseComponent {
 private:
     SdlTexture inputTexture;
     const SdlWindow& window;

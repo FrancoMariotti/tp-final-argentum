@@ -12,6 +12,7 @@
 #include "common_blocking_queue.h"
 #include "client_sdl_dynamic_renderable.h"
 
+class IConsoleCommandState;
 class SdlConsole;
 class SdlInventory;
 class SdlMouse;
@@ -21,7 +22,8 @@ private:
     SdlMouse& mouse;
     SdlInventory& inventory;
     SdlConsole& console;
-    //ConsoleCommandState commandState;
+    IConsoleCommandState* commandState;
+    SDL_Point map_click;
 public:
     EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlInventory &inventory,
                   SdlConsole &console);
@@ -30,7 +32,17 @@ public:
 
     void notify(BaseComponent* component) override;
 
-    void notify(SdlConsole *console, std::string &s_input) override;
+    void notify(SdlConsole *console,const std::string &s_input) override;
+
+    void setMapClick(SDL_Point new_map_click);
+
+    void changeState(IConsoleCommandState* newState);
+
+    SDL_Point getMapClick();
+
+    ~EventMediator();
+
+    void notify(BaseComponent *sender, SDL_Point left_click, int overload);
 };
 
 

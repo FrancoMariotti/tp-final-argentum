@@ -32,6 +32,7 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
             /*click dentro de la camara*/
             clicked_in_map = true;
             this->position = camera.toServerCoordinates(mouse_click);
+            mediator->notify(this, position);
             std::cout <<"click_x: " << position.x << "click_y: " << position.y << std::endl;
         }
     }

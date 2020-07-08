@@ -94,6 +94,7 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
         delete cmd;
         cmd = nullptr;
     }*/
+
     /**SOBRECARGO EL CONSTRUCTOR DE EXECUTECommand*/
     SDL_Point serverCoordinates = mouse.getPosition();
     bool clicked_in_map = mouse.clickedInMap();
@@ -110,6 +111,7 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text.find("/retirar") == 0 && clicked_in_map) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
     } else if (input_text == ("/listar") && clicked_in_map) {
+        //mediator->notify(this, input_text);
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
     } else if (input_text.find("/comprar") == 0 && clicked_in_map) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));

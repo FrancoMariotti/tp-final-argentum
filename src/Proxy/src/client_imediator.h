@@ -16,7 +16,7 @@ class IMediator {
 public:
     virtual void notify(BaseComponent* component, SDL_Point click) = 0;
     virtual void notify(BaseComponent* component) = 0;
-    virtual void notify(SdlConsole *console, std::string& s_input) = 0;
+    virtual void notify(SdlConsole *console, const std::string& s_input) = 0;
 };
 
 class BaseComponent {
