@@ -10,7 +10,8 @@
 
 EventMediator::EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
                              SdlInventory &inventory,
-                             SdlConsole &console) :
+                             SdlConsole &console, const std::string &username) :
+    USERNAME(username),
     clientEvents(clientEvents),
     mouse(mouse),
     inventory(inventory),
@@ -24,8 +25,7 @@ EventMediator::EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEven
 
 
 void EventMediator::notify(BaseComponent* sender, SDL_Point right_click) {
-    //std::string username = player.getUsername();
-    clientEvents.push(std::unique_ptr <Message>(new Attack("franco",
+    clientEvents.push(std::unique_ptr <Message>(new Attack(USERNAME,
                    right_click.x, right_click.y)));
 }
 

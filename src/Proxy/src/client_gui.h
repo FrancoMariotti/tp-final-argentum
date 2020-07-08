@@ -39,8 +39,8 @@ private:
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_playable_renderables;
     std::vector<std::unique_ptr<SdlDynamicRenderable>> static_renderables;
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
-    EventMediator eventMediator;
     std::string username;
+    EventMediator eventMediator;
 public:
     GUI(int screen_width, int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents);
     void setWorldDimensions(int w, int h);

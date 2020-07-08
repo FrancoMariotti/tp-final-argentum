@@ -19,14 +19,15 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
     inventory(window, font),
-    camera(screen_width, screen_height),
+    camera(screen_width, screen_height, username),
     mouse(camera),
     keyboard(),
     console(window, font),
     world(window),
     playerStats(window, font),
     clientEvents(clientEvents),
-    eventMediator(clientEvents, mouse, inventory, console) {
+    username("NO USERNAME"),
+    eventMediator(clientEvents, mouse, inventory, console, username) {
     if(!font){
         throw SdlException("Could not open font", TTF_GetError());
     }
@@ -35,7 +36,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
 
 void GUI::setUsername(const std::string &client_username) {
     this->username = client_username;
-    this->camera.setIdToFollow(client_username);
+    //this->camera.setIdToFollow(client_username);
 }
 
 void GUI::setWorldDimensions(int w, int h) {

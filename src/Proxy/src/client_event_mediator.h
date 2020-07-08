@@ -18,6 +18,7 @@ class SdlInventory;
 class SdlMouse;
 class EventMediator : public IMediator{
 private:
+    const std::string& USERNAME;
     BlockingQueue<std::unique_ptr<Message>> &clientEvents;
     SdlMouse& mouse;
     SdlInventory& inventory;
@@ -26,7 +27,7 @@ private:
     SDL_Point map_click;
 public:
     EventMediator(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlInventory &inventory,
-                  SdlConsole &console);
+                  SdlConsole &console, const std::string &username);
 
     void notify(BaseComponent* sender, SDL_Point right_click ) override;
 
