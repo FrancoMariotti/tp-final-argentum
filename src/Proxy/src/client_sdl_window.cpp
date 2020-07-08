@@ -22,6 +22,9 @@ SdlWindow::SdlWindow(int width, int height) {
         throw SdlException("Window could not be created! SDL_Error:", SDL_GetError());
     }
 
+    _width = width;
+    _height = height;
+
     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (m_renderer == nullptr){
         throw SdlException("Renderer could not be created!", SDL_GetError());
@@ -69,6 +72,16 @@ void SdlWindow::initMix() {
 SDL_Renderer* SdlWindow::getRenderer() const{
     return m_renderer;
 }
+
+int SdlWindow::getWidth() const{
+    return _width;
+}
+
+
+int SdlWindow::getHeight() const{
+    return _height;
+}
+
 
 void SdlWindow::render() {
     SDL_RenderPresent(m_renderer);

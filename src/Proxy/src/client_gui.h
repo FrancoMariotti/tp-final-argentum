@@ -25,7 +25,6 @@ class GUI {
 private:
     SdlWindow window;
     TTF_Font* font;
-    SdlTimer timer;
     SdlAudioManager audioManager;
     SdlTextureManager textureManager;
     SdlTexture interface;
@@ -42,6 +41,7 @@ private:
     std::vector<std::unique_ptr<SdlDynamicRenderable>> static_renderables;
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
     EventMediator eventMediator;
+    std::string username;
 public:
     GUI(int screen_width, int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents);
     void setWorldDimensions(int w, int h);

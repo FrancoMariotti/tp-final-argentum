@@ -43,7 +43,7 @@ private:
     std::map<std::string, SdlTexture> inventoryTextures;
 
 public:
-    SdlInventory(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font);
+    SdlInventory(const SdlWindow &window, TTF_Font *font);
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 

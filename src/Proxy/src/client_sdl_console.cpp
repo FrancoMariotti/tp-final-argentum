@@ -10,7 +10,7 @@
 #include "client_sdl_inventory.h"
 #include "client_sdl_dynamic_renderable.h"
 
-SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font) :
+SdlConsole::SdlConsole(const SdlWindow &window, TTF_Font *font) :
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
         window(window),
         text_color{0xAA,0xAA,0xFF,0xFF},
@@ -22,8 +22,8 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
 
     this->console_x = IMAGE_CONSOLE_X;
     this->console_y = IMAGE_CONSOLE_Y;
-    this->width = screen_width * 0.75;
-    this->height = screen_height * 0.125;
+    this->width = window.getWidth() * 0.75;
+    this->height = window.getHeight() * 0.125;
     /*this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
     */

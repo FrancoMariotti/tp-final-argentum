@@ -15,20 +15,19 @@
 GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents) :
     window(screen_width, screen_height),
     font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
-    timer(),
     audioManager(),
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
     player(0, 0, textureManager, "agus", "human",
             equipment_t{"none", "none",
                         "none" ,"none"}, font, window, audioManager),
-    inventory(screen_width, screen_height, window, font),
+    inventory(window, font),
     camera(screen_width, screen_height, player),
     mouse(camera),
     keyboard(),
-    console(screen_width, screen_height, window, font),
+    console(window, font),
     world(window),
-    playerStats(screen_width, screen_height, window, font),
+    playerStats(window, font),
     clientEvents(clientEvents),
     eventMediator(clientEvents, mouse, inventory, console) {
     if(!font){
@@ -61,7 +60,6 @@ void GUI::execute(){
     mouse.use(clientEvents);
     camera.move();
 
-    timer.incrementFrames();
     audioManager.playRandomAmbientSound(20000);
 }
 

@@ -7,6 +7,7 @@
 
 
 #include <SDL2/SDL_rect.h>
+#include <string>
 
 class SdlRenderablePlayable;
 class SdlCamera {
@@ -17,6 +18,9 @@ private:
     int camera_x;
     int camera_y;
 
+    /*el id del renderizable al cual sigue la camara,
+     * en este caso el personaje del cliente*/
+    std::string observed_id;
     const int TILE_SIZE = 32;
 
 public:

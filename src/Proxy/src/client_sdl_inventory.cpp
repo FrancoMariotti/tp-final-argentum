@@ -15,7 +15,7 @@
 #define INVENTORY_Y 180
 
 
-SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font) :
+SdlInventory::SdlInventory(const SdlWindow &window, TTF_Font *font) :
         window(window),
         font(font)
         {
@@ -24,7 +24,7 @@ SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow 
     this->height = IMAGE_INVENTORY_HEIGHT;
 
     //inicializo la posicion del inventario
-    this->inventory_x = INVENTORY_X; //screen_width * 0.8 ;
+    this->inventory_x = INVENTORY_X; //window.getWidth * 0.8 ;
     this->inventory_y = INVENTORY_Y; //screen_height * 0.234;
 
     for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){

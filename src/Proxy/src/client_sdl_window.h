@@ -11,19 +11,25 @@ class SdlWindow {
 private:
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
-    /**TODO: guardar atributos widht, height y reemplazar los parametros screen_width, screen height
-  * por window en el resto de las clases*/
+    int _width, _height;
+
 public:
     SdlWindow(int width, int height);
     ~SdlWindow();
+    /*Permite carga de PNG*/
     void initPNG() const;
+    /*Permite uso de True type fonts para renderizar texto*/
     void initTTF() const;
+    /*Habilita el uso de audio*/
+    void initMix();
+    /*Pinta la pantalla*/
     void fill(int r, int g, int b, int alpha);
     void fill();
+    /*Renderiza en pantalla lo que tiene el SDL_Renderer*/
     void render();
     SDL_Renderer* getRenderer() const;
-
-    void initMix();
+    int getHeight() const;
+    int getWidth() const;
 };
 
 

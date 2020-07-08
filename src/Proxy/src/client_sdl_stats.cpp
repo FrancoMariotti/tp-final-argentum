@@ -5,15 +5,16 @@
 #include <iostream>
 #include "client_sdl_stats.h"
 #include "common_message_structs.h"
+#include "client_sdl_window.h"
 
-SdlStats::SdlStats(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font) :
-        levelLabel(screen_width - 200, 120, window, font, "Level: "),
-        xpBar(screen_width - 200,140,0x33,0xAA,0x33,0xFF,window),
-        healthBar(screen_width - 200,screen_height - 250,0xFF,0x00,0x00,0xFF,window),
-        manaBar(screen_width - 200,screen_height - 200,0x10,0x00,0x88,0xFF,window),
-        goldLabel(screen_width - 200, screen_height - 150, window, font, "Gold: "),
-        manaLabel(screen_width - 200, screen_height - 220, window, font, "Mana: "),
-        lifeLabel(screen_width - 200, screen_height - 270, window, font, "Life: ")
+SdlStats::SdlStats(const SdlWindow &window, TTF_Font *font) :
+        levelLabel(window.getWidth() - 200, 120, window, font, "Level: "),
+        xpBar(window.getWidth() - 200,140,0x33,0xAA,0x33,0xFF,window),
+        healthBar(window.getWidth() - 200,window.getHeight() - 250,0xFF,0x00,0x00,0xFF,window),
+        manaBar(window.getWidth() - 200,window.getHeight() - 200,0x10,0x00,0x88,0xFF,window),
+        goldLabel(window.getWidth() - 200, window.getHeight() - 150, window, font, "Gold: "),
+        manaLabel(window.getWidth() - 200, window.getHeight() - 220, window, font, "Mana: "),
+        lifeLabel(window.getWidth() - 200, window.getHeight() - 270, window, font, "Life: ")
         {}
 
 void SdlStats::update(t_stats stats){
