@@ -18,11 +18,8 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     audioManager(),
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
-    player(0, 0, textureManager, "agus", "human",
-            equipment_t{"none", "none",
-                        "none" ,"none"}, font, window, audioManager),
     inventory(window, font),
-    camera(screen_width, screen_height, player),
+    camera(screen_width, screen_height),
     mouse(camera),
     keyboard(),
     console(window, font),
@@ -34,6 +31,11 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
         throw SdlException("Could not open font", TTF_GetError());
     }
     audioManager.playMainMenuMusic(-1);
+}
+
+void GUI::setUsername(const std::string &client_username) {
+    this->username = client_username;
+    this->camera.setIdToFollow(client_username);
 }
 
 void GUI::setWorldDimensions(int w, int h) {
@@ -55,17 +57,19 @@ void GUI::handleEvents(SDL_Event &event){
 
 void GUI::execute(){
     keyboard.movePlayer(clientEvents);
-    console.execute(clientEvents, mouse, camera, player);
     inventory.use(clientEvents, mouse);
     mouse.use(clientEvents);
-    camera.move();
+    SDL_Point player_pos = dynamic_playable_renderables.at(username)->getPos();
+    console.execute(clientEvents, mouse, camera, player_pos);
+    camera.move(player_pos);
 
     audioManager.playRandomAmbientSound(20000);
 }
 
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
-    player.updatePos(player_x, player_y, camera);
+    this->dynamic_playable_renderables[username]->updatePos(player_x, player_y, camera);
+    //player.updatePos(player_x, player_y, camera);
     audioManager.playSound("step1",0);
 }
 
@@ -74,15 +78,12 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 }
 
 /*Busca en la lista de renderizables dinamicos por id (username o npc_id)*/
-void GUI::updateRenderableStats(std::string renderable_id, std::string effect_id) {
-    //if(rednerable_id == this->username
-    player.updateStats(effect_id);
-    //else
-    //dynamic_renderables.at(renderable_id)->updateStats(effect_id);
+void GUI::updateRenderableStats(const std::string &renderable_id, const std::string &effect_id) {
+    dynamic_playable_renderables.at(renderable_id)->addVisualEffect(effect_id);
 }
 
 void GUI::updatePlayerEquipment(const equipment_t& equipment) {
-    player.updateEquipment(equipment);
+    dynamic_playable_renderables.at(username)->updateEquipment(equipment);
     inventory.updateEquippedItems(equipment);
     if(equipment.armourName == "ghost"){
         audioManager.playSound("death", 0);
@@ -178,10 +179,10 @@ void GUI::render(){
         pc_it->second->render(camera);
         pc_it++;
     }
-    player.render(camera);
+    //player.render(camera);
     inventory.render();
     console.render();
-    interface.render(0,0);
+    //interface.render(0,0);
     playerStats.render();
 
     //Update screen
@@ -193,6 +194,7 @@ void GUI::renderWorld() {
     world.render(camera);
     world.renderDrops(inventory, camera);
 }
+
 
 GUI::~GUI(){
     if(font){

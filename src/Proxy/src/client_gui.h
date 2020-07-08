@@ -28,7 +28,6 @@ private:
     SdlAudioManager audioManager;
     SdlTextureManager textureManager;
     SdlTexture interface;
-    SdlRenderablePlayable player;
     SdlInventory inventory;
     SdlCamera camera;
     SdlMouse mouse;
@@ -67,9 +66,11 @@ public:
 
     void updateConsoleOutput(std::vector<std::string> console_outputs);
 
-    void updateRenderableStats(std::string renderable_id, std::string effect_id);
+    void updateRenderableStats(const std::string &renderable_id, const std::string &effect_id);
 
     void updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables);
+
+    void setUsername(const std::string &client_username);
 };
 
 

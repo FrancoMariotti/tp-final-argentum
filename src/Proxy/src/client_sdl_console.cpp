@@ -61,11 +61,11 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
 }
 
 void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         SdlRenderablePlayable &player) {
+                         const SDL_Point player_pos) {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
-        this->sendCommandIfValid(clientEvents, mouse, camera, player);
+        this->sendCommandIfValid(clientEvents, mouse, camera, player_pos);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -84,7 +84,7 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
 }
 
 void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, SdlRenderablePlayable &player) {
+                                    SdlCamera &camera, const SDL_Point player_pos) {
     /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
      * pasar player por referencia?*/
     /**Primero el click luego el comando*/
@@ -118,7 +118,7 @@ void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &cli
     } else if (input_text.find("/vender") == 0 && clicked_in_map) {
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
     } else if (input_text == ("/tomar")) {
-        SDL_Point player_server_pos = camera.posToServerCoordinates(SDL_Point{player.getPosX(), player.getPosY()});
+        SDL_Point player_server_pos = camera.posToServerCoordinates(player_pos);
         clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, player_server_pos.x, player_server_pos.y)));
     } else if (input_text == ("/tirar")) {
         clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, mouse.getLastClickedItemIndex(),-1)));

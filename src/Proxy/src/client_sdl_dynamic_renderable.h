@@ -32,18 +32,22 @@ protected:
     std::vector<SdlEffect> effects;
 public:
     SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
-                         TTF_Font *font, const std::string s_tag, const SDL_Color color,
+                         TTF_Font *font, std::string s_tag, SDL_Color color,
                          SdlAudioManager &audioManager);
-    virtual void updateStats(const std::string& effect_id);
+    virtual void addVisualEffect(const std::string& effect_id);
     void updatePos(int new_x, int new_y, SdlCamera &camera);
     virtual void updateEquipment(const equipment_t& equipment) = 0;
     virtual void render(const SdlCamera& camera) = 0;
+    int getPosX() const;
+    int getPosY() const;
+    SDL_Point getPos() const;
     virtual ~SdlDynamicRenderable() = default;
 
 protected:
     void startAnimation();
     void endAnimationIfComplete();
     void renderEffects(const SdlCamera &camera);
+
 };
 
 
@@ -75,9 +79,6 @@ public:
 
     void render(const SdlCamera& camera) override;
 
-    int getPosX() const;
-
-    int getPosY() const;
 };
 
 #endif //ARGENTUM_CLIENT_SDL_DYNAMIC_RENDERABLE_H

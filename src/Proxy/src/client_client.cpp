@@ -76,13 +76,15 @@ int Client::run() {
 }
 
 void Client::init() {
-    clientEvents.push(std::unique_ptr<Message>(new Connect("franco","human","wizard")));
+    std::string username_input = "franco";
+    clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
+    gui.setUsername(username_input);
     int init = 0;
-    /*Consumo la lista hasta recibir DOS mensaje draw*/
-    while(init < 2){
+    /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/
+    while(init < 3){
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
-            std::cout << msg->getId() << std::endl;
+            std::cout << "init():Message ID: " << msg->getId() << std::endl;
             if(msg->getId() == DRAW_MESSAGE_ID){
                 init += 1;
                 std::vector<int> data = msg->getData();
@@ -103,16 +105,20 @@ void Client::init() {
             } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
                 this->gui.updateDrops(msg->getSpawnData());
             } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
+                /*Agregue este init extra para asegurar que haya spawneado el player*/
+                init += 1;
                 gui.updateRenderablePlayables(msg->getPcSpawnData());
             }
         }
     }
+    std::cout << "end of init()" << std::endl;
 }
 
 void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
+        //std::cout << "Update(): MessageId" << msg->getId() << std::endl;
         if(msg->getId() == MOVEMENT_MESSAGE_ID){
             this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
         } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){

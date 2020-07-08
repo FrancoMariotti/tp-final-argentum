@@ -80,7 +80,7 @@ void SdlWorld::setDimensions(int w, int h) {
     this->map_height = h;
 }
 
-
+/*Re-usamos el spawn_character_t para los items*/
 void SdlWorld::updateDrops(const std::vector<spawn_character_t> &drops) {
     for(auto & world_drop : world_drops){
         world_drop.second.clear();

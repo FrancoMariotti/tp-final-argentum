@@ -47,7 +47,7 @@ public:
 
     /*Logic*/
     void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                 SdlRenderablePlayable &player);
+                 const SDL_Point player_pos);
 
     void updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager);
 
@@ -55,7 +55,7 @@ public:
     void render();
 
     void sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                            SdlCamera &camera, SdlRenderablePlayable &player);
+                            SdlCamera &camera, const SDL_Point player_pos);
 
 
 };

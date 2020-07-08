@@ -61,7 +61,7 @@ void SdlDynamicRenderable::endAnimationIfComplete() {
 }
 
 /*Elimina los efectos que ya terminaron y agrega el nuevo efecto a la lista*/
-void SdlDynamicRenderable::updateStats(const std::string& effect_id) {
+void SdlDynamicRenderable::addVisualEffect(const std::string& effect_id) {
     std::vector<SdlEffect>::iterator it = effects.begin();
     while (it != effects.end()) {
         if (it->isFinish()) {
@@ -81,6 +81,19 @@ void SdlDynamicRenderable::renderEffects(const SdlCamera& camera){
         it->render(pos_x + camera.getTileSize()/2 - camera.getX(), pos_y - camera.getTileSize()/2 - camera.getY());
     }
 }
+
+int SdlDynamicRenderable::getPosX() const {
+    return pos_x;
+}
+
+int SdlDynamicRenderable::getPosY() const {
+    return pos_y;
+}
+
+SDL_Point SdlDynamicRenderable::getPos() const {
+    return SDL_Point{pos_x, pos_y};
+}
+
 
 SdlRenderableNPC::SdlRenderableNPC(const int x, const int y, SdlTextureManager &textureManager,
                                    const std::string texture_id, TTF_Font *font, const SdlWindow &window,
@@ -147,10 +160,3 @@ void SdlRenderablePlayable::render(const SdlCamera &camera) {
     this->endAnimationIfComplete();
 }
 
-int SdlRenderablePlayable::getPosX() const {
-    return pos_x;
-}
-
-int SdlRenderablePlayable::getPosY() const {
-    return pos_y;
-}

@@ -5,12 +5,11 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_dynamic_renderable.h"
 
-SdlCamera::SdlCamera(const int screen_width, const int screen_height, SdlRenderablePlayable& player) :
+SdlCamera::SdlCamera(const int screen_width, const int screen_height) :
         CAMERA_WIDTH(screen_width),
-        CAMERA_HEIGHT(screen_height),
-        player(player) {
-    camera_x = player.getPosX() /** + SdlPlayer::playerWidth / 2*/ - CAMERA_WIDTH / 2;
-    camera_y = player.getPosY() - CAMERA_HEIGHT / 2;
+        CAMERA_HEIGHT(screen_height) {
+    camera_x =  /** + SdlPlayer::playerWidth / 2*/  CAMERA_WIDTH / 2;
+    camera_y =   CAMERA_HEIGHT / 2;
 }
 
 SDL_Point SdlCamera::getCoordinates(const SDL_Point point) const {
@@ -18,9 +17,9 @@ SDL_Point SdlCamera::getCoordinates(const SDL_Point point) const {
             ,(point.y * TILE_SIZE) - camera_y};
 }
 
-void SdlCamera::move() {
-    camera_x = player.getPosX() - (CAMERA_WIDTH / 2);
-    camera_y = player.getPosY() - (CAMERA_HEIGHT / 2);
+void SdlCamera::move(const SDL_Point player_pos) {
+    camera_x = player_pos.x - (CAMERA_WIDTH / 2);
+    camera_y = player_pos.y - (CAMERA_HEIGHT / 2);
 }
 
 bool SdlCamera::isInCameraView(const SDL_Point& point) const {
@@ -59,4 +58,8 @@ SDL_Point SdlCamera::posToServerCoordinates(const SDL_Point& point_in_pixels){
 
 int SdlCamera::getTileSize() const {
     return TILE_SIZE;
+}
+
+void SdlCamera::setIdToFollow(const std::string& renderable_id) {
+    following_id = renderable_id;
 }
