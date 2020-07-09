@@ -85,7 +85,7 @@ public:
                         int old_x, int old_y, int animation_frame, e_body_orientation body_or,
                         e_head_orientation head_or);
 
-    SdlTexture &getEffectSpriteTexture(const std::string effect_id);
+    SdlTexture& getEffectSpriteTexture(const std::string& effect_id);
 
 private:
     int headX(int tile_size, int head_w) const;

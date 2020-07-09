@@ -96,11 +96,21 @@ std::string SdlTextureManager::findTextureId(const std::string &id) {
 }
 
 SdlTexture& SdlTextureManager::getTexture(const std::string &texture_id) {
-    return dynamic_renderables_textures.at(texture_id);
+    auto search = dynamic_renderables_textures.find(texture_id);
+    if(search == dynamic_renderables_textures.end()){
+        throw OSError("<SdlTextureManager::getTexture> "
+                      "el texture_id es invalido. @param: %s", texture_id.c_str());
+    }
+    return search->second;
 }
 
 SdlTexture& SdlTextureManager::getSpriteTexture(const std::string &texture_id) {
-    return dynamic_renderables_textures.at(texture_id + "Sprite");
+    auto search = dynamic_renderables_textures.find(texture_id + SPRITE_SUFFIX);
+    if(search == dynamic_renderables_textures.end()){
+        throw OSError("<SdlTextureManager::getSpriteTexture> "
+                      "el texture_id es invalido. @param: %s", texture_id.c_str());
+    }
+    return search->second;
 }
 
 void
@@ -289,18 +299,11 @@ int SdlTextureManager::armourX(const int tile_size, int armour_w) const {
     return armour_x;
 }
 
-SdlTexture &SdlTextureManager::getEffectSpriteTexture(const std::string effect_id) {
-    bool found = false;
-    auto it = EFFECTS_TEXTURES_ID.begin();
-    for(;it != EFFECTS_TEXTURES_ID.end(); it++){
-        found = (*it) == effect_id;
-        if(found){
-            break;
-        }
-    }
-    if(!found){
+SdlTexture &SdlTextureManager::getEffectSpriteTexture(const std::string& effect_id) {
+    auto search = effects_textures.find(effect_id + SPRITE_SUFFIX);
+    if(search == effects_textures.end()){
         throw OSError("<SdlTextureManager::getEffectSpriteTexture> "
                       "el effect_id es invalido, @param: %s", effect_id.c_str());
     }
-    return effects_textures.at(effect_id + SPRITE_SUFFIX);
+    return search->second;
 }
