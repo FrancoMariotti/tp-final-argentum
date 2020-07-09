@@ -11,6 +11,13 @@ TP final taller de programacion 1
 	
 	- Instalar la biblioteca json.cpp,utilizando el comando sudo apt-get install libjsoncpp-dev.
 
+	- Instalar las bibliotecas de sdl:
+		- sudo apt-get install libsdl2-dev
+		- sudo apt-get install libsdl2-image-dev
+		- sudo apt-get install libsdl2-ttf-dev
+		- sudo apt-get install libsdl2-mixer-dev
+
+
 	Pasos para ejecutar el programa:
 
 	1) mkdir build
