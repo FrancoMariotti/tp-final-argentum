@@ -4,8 +4,8 @@
 
 #include "SpawnDropsMessageSerializer.h"
 
-std::string SpawnDropsMessageSerializer::serialize(Message *message) {
-    return std::__cxx11::string();
+char* SpawnDropsMessageSerializer::serialize(Message *message) {
+    return new char();
 }
 
 Message *SpawnDropsMessageSerializer::deserialize(char *data) {

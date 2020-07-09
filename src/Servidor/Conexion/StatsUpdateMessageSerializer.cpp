@@ -5,13 +5,14 @@
 #include <msgpack.hpp>
 #include "StatsUpdateMessageSerializer.h"
 
-std::string StatsUpdateMessageSerializer::serialize(Message *message) {
+char* StatsUpdateMessageSerializer::serialize(Message *message) {
     t_stats stats = message->getStats();
     std::stringstream buffer;
-    msgpack::pack(buffer, stats);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, stats);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *StatsUpdateMessageSerializer::deserialize(char *data) {

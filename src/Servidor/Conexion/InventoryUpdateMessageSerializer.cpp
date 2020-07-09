@@ -5,13 +5,14 @@
 #include <msgpack.hpp>
 #include "InventoryUpdateMessageSerializer.h"
 
-std::string InventoryUpdateMessageSerializer::serialize(Message *message) {
+char *InventoryUpdateMessageSerializer::serialize(Message *message) {
     msgpack::type::tuple<std::vector<std::string>> src(message->getItems());
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *InventoryUpdateMessageSerializer::deserialize(char *data) {

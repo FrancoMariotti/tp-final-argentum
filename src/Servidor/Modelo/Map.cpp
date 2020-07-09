@@ -173,7 +173,7 @@ std::queue<Message*> Map::initializeClientMap(const std::string& configFile) con
     initialMessages.push(new Draw("floor",floorLayer,width,height));
     //initialMessages.push(new Draw("floor",floorLayer,width,height));
 
-    initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
+    //initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
 
     std::vector<int> obstaclesLayer;
     obstaclesLayer.reserve(obstaclesLayersid.size());
@@ -182,8 +182,8 @@ std::queue<Message*> Map::initializeClientMap(const std::string& configFile) con
         obstaclesLayer.push_back(i.asInt());
     }
 
-    //initialMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
-    initialMessages.push(new Draw("floor",floorLayer,width,height));
+    initialMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
+    //initialMessages.push(new Draw("floor",floorLayer,width,height));
     return initialMessages;
 }
 

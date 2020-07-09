@@ -41,7 +41,7 @@ public:
     Devuelve la cantidad de bytes que se enviaron, 0 si el socket se cerro
     o -1 si hubo un error.
     */
-    int send(std::string data, size_t length) const;
+    int send(const void *buffer, size_t length) const;
 
     /* Recibe cantidad length de bytes a traves del socket.
     Devuelve la cantidad de bytes que se recibieron, 0 si el socket se cerro

@@ -3,13 +3,14 @@
 #include "Proxy/src/common_message_structs.h"
 
 
-std::string SpawnNpcMessageSerializer::serialize(Message *message) {
+char* SpawnNpcMessageSerializer::serialize(Message *message) {
     std::vector<spawn_character_t> src = message->getSpawnData();
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *SpawnNpcMessageSerializer::deserialize(char *data) {

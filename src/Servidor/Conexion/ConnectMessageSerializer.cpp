@@ -1,13 +1,14 @@
 #include <msgpack.hpp>
 #include "ConnectMessageSerializer.h"
 
-std::string ConnectMessageSerializer::serialize(Message *message) {
+char* ConnectMessageSerializer::serialize(Message *message) {
     connect_t data = message->getConnectData();
     std::stringstream buffer;
-    msgpack::pack(buffer, data);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, data);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *ConnectMessageSerializer::deserialize(char *data) {

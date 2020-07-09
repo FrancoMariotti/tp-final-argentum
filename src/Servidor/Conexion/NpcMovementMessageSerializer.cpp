@@ -2,13 +2,14 @@
 #include "NpcMovementMessageSerializer.h"
 #include "Proxy/src/common_message_structs.h"
 
-std::string NpcMovementMessageSerializer::serialize(Message *message) {
+char* NpcMovementMessageSerializer::serialize(Message *message) {
     npc_movement_t src = message->getMovement();
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *NpcMovementMessageSerializer::deserialize(char *data) {

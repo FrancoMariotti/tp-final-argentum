@@ -5,17 +5,18 @@
 #include <msgpack.hpp>
 #include "CommandMessageSerializer.h"
 
-std::string CommandMessageSerializer::serialize(Message *message) {
+char* CommandMessageSerializer::serialize(Message *message) {
     msgpack::type::tuple<std::string,std::string,
                                     int,int> src(message->getUserName(),
                                                  message->getCommand(),
                                                  message->getX(),
                                                  message->getY());
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *CommandMessageSerializer::deserialize(char *data) {

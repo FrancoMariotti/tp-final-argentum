@@ -130,9 +130,7 @@ int Socket::connect(const char *host_name, const char *service) {
     return 0;
 }
 
-//int Socket::send(const char* buffer, size_t length) const {
-int Socket::send(std::string data, size_t length) const {
-    const char* buffer = data.c_str();
+int Socket::send(const void* buffer, size_t length) const {
     size_t bytes_sent = 0;
     size_t total_bytes = 0;
     size_t buffer_len = 0;
@@ -140,7 +138,7 @@ int Socket::send(std::string data, size_t length) const {
     while (total_bytes < length) {
         buffer_len = length - total_bytes;
 
-        bytes_sent = ::send(this->sfd, buffer + total_bytes,buffer_len,
+        bytes_sent = ::send(this->sfd, (char*)buffer + total_bytes,buffer_len,
                             MSG_NOSIGNAL);
 
         if (bytes_sent < 0) {

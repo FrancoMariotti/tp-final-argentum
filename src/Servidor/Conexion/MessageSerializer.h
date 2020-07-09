@@ -2,6 +2,7 @@
 #define ARGENTUM_MESSAGESERIALIZER_H
 #include "map"
 #include "Serializer.h"
+#include "Proxy/src/common_socket.h"
 
 class Message;
 
@@ -9,7 +10,7 @@ class MessageSerializer {
     std::map<int,Serializer*> serializers;
 public:
     MessageSerializer();
-    std::string serialize(Message* message);
+    void serialize(Socket &socket,Message* message);
     Message* deserialize(int messageId,char * data);
     ~MessageSerializer();
 };

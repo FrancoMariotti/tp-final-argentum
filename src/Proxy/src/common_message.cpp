@@ -122,8 +122,6 @@ connect_t Message::getConnectData() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-Message::Message():id(-1) {}
-
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
@@ -175,6 +173,8 @@ Draw& Draw::operator=(const Draw &draw) {
     this->data = draw.data;
     return *this;
 }
+
+Draw::Draw():Message(DRAW_MESSAGE_ID) {}
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message(COMMAND_MESSAGE_ID),

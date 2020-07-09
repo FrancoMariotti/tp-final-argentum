@@ -2,16 +2,17 @@
 #include <msgpack.hpp>
 #include "PlayerAttackMessageSerializer.h"
 
-std::string PlayerAttackMessageSerializer::serialize(Message *message) {
+char* PlayerAttackMessageSerializer::serialize(Message *message) {
     t_player_attack attack = message->getAttack();
     msgpack::type::tuple<std::string,int, int> src(attack.username,
                                        attack.enemy_x,
                                        attack.enemy_y);
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, message->getAttack());
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *PlayerAttackMessageSerializer::deserialize(char *data) {

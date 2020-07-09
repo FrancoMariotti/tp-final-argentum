@@ -1,58 +1,60 @@
+#include <Proxy/src/common_socket.h>
 #include "MessageSerializer.h"
-#include "MovementMessageSerializer.h"
 #include "Proxy/src/common_osexception.h"
-#include "UseItemMessageSerializer.h"
-#include "InventoryUpdateMessageSerializer.h"
-#include "SpawnNpcMessageSerializer.h"
-#include "StatsUpdateMessageSerializer.h"
-#include "EquipmentUpdateMessageSerializer.h"
-#include "PlayerAttackMessageSerializer.h"
-#include "SpawnCityCharactersMessageSerializer.h"
-#include "ConsoleOutputMessageSerializer.h"
-#include "DrawMessageSerializer.h"
-#include "CommandMessageSerializer.h"
-#include "NpcMovementMessageSerializer.h"
-#include "ConnectMessageSerializer.h"
-#include "SpawnDropsMessageSerializer.h"
 
-MessageSerializer::MessageSerializer() {
-    serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
-    serializers[MOVEMENT_MESSAGE_ID] = new  MovementMessageSerializer();
-    serializers[USE_ITEM_MESSAGE_ID] = new  UseItemMessageSerializer();
-    serializers[COMMAND_MESSAGE_ID] = new  CommandMessageSerializer();
-    serializers[INVENTORY_UPDATE_MESSAGE_ID] = new  InventoryUpdateMessageSerializer();
-    serializers[SPAWN_NPC_MESSAGE_ID] = new  SpawnNpcMessageSerializer();
-    serializers[STATS_UPDATE_MESSAGE_ID] = new  StatsUpdateMessageSerializer();
-    serializers[NPC_MOVEMENT_UPDATE_MESSAGE_ID] = new  NpcMovementMessageSerializer();
-    serializers[EQUIPMENT_UPDATE_MESSAGE_ID] = new  EquipmentUpdateMessageSerializer();
-    serializers[PLAYER_ATTACK_MESSAGE_ID] = new  PlayerAttackMessageSerializer();
-    serializers[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = new  SpawnCityCharactersMessageSerializer();
-    serializers[SPAWN_DROPS_MESSAGE_ID] = new  SpawnDropsMessageSerializer();
-    serializers[CONSOLE_OUTPUT_MESSAGE_ID] = new  ConsoleOutputMessageSerializer();
-    serializers[CONNECT_MESSAGE_ID] = new  ConnectMessageSerializer();
-}
+MessageSerializer::MessageSerializer() = default;
 
-std::string MessageSerializer::serialize(Message* message) {
-    auto itr = serializers.find(message->getId());
+void MessageSerializer::serialize(Socket &socket,Message* message) {
+    //std::stringstream buffer;
 
-    if(itr != serializers.end()) {
-        return serializers.at(message->getId())->serialize(message);
+    msgpack::sbuffer buffer;
+
+    if(message->getId() == DRAW_MESSAGE_ID) {
+        uint16_t big_end = htons(DRAW_MESSAGE_ID);
+        socket.send((char*)&big_end, sizeof(uint16_t));
+        Draw draw(message->getLayerName(),message->getData(),message->getWidth(),message->getHeight());
+        msgpack::pack(&buffer, draw);
+        //msgpack::pack(buffer, draw);
     }
-
-    throw OSError("Id de mensaje inexistente");
+    if(message->getId() == CONNECT_MESSAGE_ID) {
+        uint16_t big_end = htons(CONNECT_MESSAGE_ID);
+        socket.send((char*)&big_end, sizeof(uint16_t));
+        connect_t  connect = message->getConnectData();
+        msgpack::pack(&buffer, connect);
+        //msgpack::pack(buffer, connect);
+    }
+    // send the buffer ...
+    //buffer.seekg(0);
+    uint16_t big_end = htons(buffer.size());
+    socket.send((char*)&big_end, sizeof(uint16_t));
+    socket.send(buffer.data(),buffer.size());
 }
 
 Message *MessageSerializer::deserialize(int messageId, char *data) {
-    auto itr = serializers.find(messageId);
-    if(itr == serializers.end()) return nullptr;
-    return serializers.at(messageId)->deserialize(data);
+    std::string aux(data);
+    // deserialize the buffer into msgpack::object instance.
+    std::string str(data);
+
+    msgpack::object_handle result =
+            msgpack::unpack(str.data(), str.size());
+
+    // deserialized object is valid during the msgpack::object_handle instance is alive.
+    msgpack::object obj = result.get();
+
+    if(messageId == DRAW_MESSAGE_ID) {
+
+        Draw m2 = obj.as<Draw>();
+
+        return new Draw(m2);
+    } else if(messageId == CONNECT_MESSAGE_ID) {
+        connect_t connect;
+        obj.convert(connect);
+
+        return new Connect(connect.username,connect.charRace,connect.charClass);
+    }
+    return nullptr;
 }
 
-MessageSerializer::~MessageSerializer() {
-    auto itr = serializers.begin();
-    for (; itr!=serializers.end() ; itr++) {
-        delete itr->second;
-    }
-}
+MessageSerializer::~MessageSerializer() = default;
 
 

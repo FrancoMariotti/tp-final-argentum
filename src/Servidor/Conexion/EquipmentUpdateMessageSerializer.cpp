@@ -6,13 +6,14 @@
 #include "EquipmentUpdateMessageSerializer.h"
 #include "Proxy/src/common_message_structs.h"
 
-std::string EquipmentUpdateMessageSerializer::serialize(Message *message) {
+char* EquipmentUpdateMessageSerializer::serialize(Message *message) {
     equipment_t src = message->getEquipment();
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *EquipmentUpdateMessageSerializer::deserialize(char *data) {

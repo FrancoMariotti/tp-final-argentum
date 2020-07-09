@@ -4,13 +4,15 @@
 #include <sstream>
 #include "DrawMessageSerializer.h"
 
-std::string DrawMessageSerializer::serialize(Message *message) {
+char* DrawMessageSerializer::serialize(Message *message) {
     msgpack::type::tuple<std::string,int, int,std::vector<int>> src(message->getLayerName(),
             message->getWidth(),message->getHeight(),message->getData());
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
-
-    return buffer.str();
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
+    // send the buffer ...
+    buffer.seekg(0);
+    return sbuf.data();
 }
 
 Message *DrawMessageSerializer::deserialize(char *data) {

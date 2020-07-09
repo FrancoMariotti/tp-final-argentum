@@ -2,13 +2,15 @@
 #include "SpawnCityCharactersMessageSerializer.h"
 #include "Proxy/src/common_message_structs.h"
 
-std::string SpawnCityCharactersMessageSerializer::serialize(Message *message) {
+char* SpawnCityCharactersMessageSerializer::serialize(Message *message) {
     std::vector<spawn_character_t> src = message->getSpawnData();
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    //msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *SpawnCityCharactersMessageSerializer::deserialize(char *data) {

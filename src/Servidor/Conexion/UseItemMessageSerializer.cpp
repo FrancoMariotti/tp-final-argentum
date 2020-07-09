@@ -1,13 +1,14 @@
 #include <msgpack.hpp>
 #include "UseItemMessageSerializer.h"
 
-std::string UseItemMessageSerializer::serialize(Message *message) {
+char* UseItemMessageSerializer::serialize(Message *message) {
     msgpack::type::tuple<int> src(message->getIndex());
     std::stringstream buffer;
-    msgpack::pack(buffer, src);
+    msgpack::sbuffer sbuf;
+    msgpack::pack(sbuf, src);
     // send the buffer ...
     buffer.seekg(0);
-    return buffer.str();
+    return sbuf.data();
 }
 
 Message *UseItemMessageSerializer::deserialize(char *data) {
