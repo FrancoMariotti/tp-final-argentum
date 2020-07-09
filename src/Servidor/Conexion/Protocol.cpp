@@ -18,7 +18,7 @@ void Protocol::send(Socket &socket, uint16_t number){
 
 uint16_t Protocol::recieve(Socket &socket, int overload){
     uint16_t number;
-    socket.recieve((char*)&number, sizeof(uint16_t));
+    socket.receive((char*)&number, sizeof(uint16_t));
     number = valueToLocalEndian(number);
     return number;
 }
@@ -26,17 +26,15 @@ uint16_t Protocol::recieve(Socket &socket, int overload){
 void Protocol::send(Socket& socket,Message* message) {
     send(socket,message->getId());
     std::string data = serializer.serialize(message);
-    uint16_t lenData = data.length();
-    send(socket,lenData);
-    socket.send(data.c_str(),lenData);
+    send(socket,data.length());
+    socket.send(data,data.length());
 }
 
 Message* Protocol::recieve(Socket &socket) {
     uint16_t messageId = recieve(socket, 0);
     uint16_t len_data = recieve(socket,0);
-    char* data  = (char*) malloc(len_data+1);
-    data[len_data] = '\0';
-    socket.recieve(data,len_data);
+    char* data  = (char*) malloc(len_data);
+    socket.receive(data,len_data);
     Message *message = serializer.deserialize(messageId,data);
     free(data);
     return message;

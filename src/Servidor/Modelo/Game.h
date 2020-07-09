@@ -50,6 +50,8 @@ public:
     void executeCommand(std::unique_ptr<Message>& command);
     void notifyConsoleOutputUpdate(std::vector<std::string> messages) override;
     ~Game();
+
+    std::queue<Message *> initializeWorld();
 };
 
 

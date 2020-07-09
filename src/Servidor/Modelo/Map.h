@@ -1,7 +1,9 @@
 #ifndef ARGENTUM_MAPA_H
 #define ARGENTUM_MAPA_H
 
+#include <Proxy/src/common_message.h>
 #include "map"
+#include "queue"
 #include "vector"
 #include "Position.h"
 #include "Obstacle.h"
@@ -57,22 +59,19 @@ class Map {
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
         void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
-        void spawnCityCharacters(Observer *observer);
         Position getRandomPosAtClosestPriestCity(PlayableCharacter *player);
         Banker* getBankerAtPosition(const Position& position);
         Merchant* getMerchantAtPosition(Position position);
         Priest* getPriestAtPosition(const Position& position);
         void reviveIn(PlayableCharacter *player, Position position);
+        void add(Banker pBanker);
+        void add(Merchant pMerchant);
+        void add(Priest priest);
+        bool hasDropInPos(Position position);
+        void updateDropSpawns(Observer *observer);
+        Drop takeDropFromPos(Position position);
+        std::queue<Message *> initializeClientMap(const std::string &configFile) const;
         ~Map();
-
-    void add(Banker pBanker);
-    void add(Merchant pMerchant);
-    void add(Priest priest);
-    bool hasDropInPos(Position position);
-
-    void updateDropSpawns(Observer *observer);
-
-    Drop takeDropFromPos(Position position);
 };
 
 #endif //ARGENTUM_MAPA_H

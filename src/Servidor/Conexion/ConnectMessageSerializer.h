@@ -6,8 +6,12 @@
 #define ARGENTUM_CONNECTMESSAGESERIALIZER_H
 
 
-class ConnectMessageSerializer {
+#include "Serializer.h"
 
+class ConnectMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

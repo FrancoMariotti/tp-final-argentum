@@ -1,13 +1,13 @@
-//
-// Created by franco on 7/7/20.
-//
-
 #ifndef ARGENTUM_STATSUPDATEMESSAGESERIALIZER_H
 #define ARGENTUM_STATSUPDATEMESSAGESERIALIZER_H
 
 
-class StatsUpdateMessageSerializer {
+#include "Serializer.h"
 
+class StatsUpdateMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

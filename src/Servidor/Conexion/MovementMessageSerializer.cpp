@@ -1,5 +1,4 @@
 #include <msgpack/adaptor/msgpack_tuple.hpp>
-#include <sstream>
 #include <msgpack.hpp>
 #include "MovementMessageSerializer.h"
 

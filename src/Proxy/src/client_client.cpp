@@ -86,7 +86,7 @@ int Client::run() {
 
 void Client::init() {
     /*Me conecto al server*/
-    //clientEvents.push(std::unique_ptr<Message>(new Connect("franco","human,"wizard")));
+    clientEvents.push(std::unique_ptr<Message>(new Connect("franco","human","wizard")));
     int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw*/
     while(init < 2){

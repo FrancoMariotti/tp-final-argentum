@@ -1,7 +1,8 @@
 #include "ClientConnection.h"
 
 ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
-                             client(std::move(client)),sender(this->client),receiver(this->client,messages,this) {
+                                                client(std::move(client)),sender(this->client,events),
+                                                receiver(this->client,messages,this) {
     dead = true;
 }
 
@@ -17,6 +18,11 @@ void ClientConnection::finish() {
 void ClientConnection::stop() {
     dead = true;
     sender.stop();
+}
+
+
+void ClientConnection::sendMessage(Message* event) {
+    events.push(event);
 }
 
 bool ClientConnection::isDead() const {

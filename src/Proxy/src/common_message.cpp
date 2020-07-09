@@ -46,16 +46,16 @@ int Message::getTileY() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-std::vector<int> Message::getData() {
+std::vector<int> Message::getData() const {
      throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-int Message::getWidth() {
+int Message::getWidth() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
-int Message::getHeight() {
+int Message::getHeight() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -112,12 +112,23 @@ std::vector<std::string> Message::getConsoleOutput() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+std::string Message::getUserName() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
+connect_t Message::getConnectData() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
+Message::Message():id(-1) {}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
         player_vel_y(player_vel_y)
-        {
-        }
+        {}
 
 int Movement::getPlayerVelX() const {
     return player_vel_x;
@@ -145,16 +156,24 @@ std::string Draw::getLayerName() const {
     return name;
 }
 
-std::vector<int> Draw::getData() {
+std::vector<int> Draw::getData() const {
     return std::move(data);
 }
 
-int Draw::getWidth() {
+int Draw::getWidth() const {
     return width;
 }
 
-int Draw::getHeight() {
+int Draw::getHeight() const {
     return height;
+}
+
+Draw& Draw::operator=(const Draw &draw) {
+    this->name = draw.name;
+    this->height = draw.height;
+    this->width = draw.width;
+    this->data = draw.data;
+    return *this;
 }
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
@@ -165,8 +184,9 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
     y(-1)
     {}
 
-ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) :
+ExecuteCommand::ExecuteCommand(std::string username,std::string input,const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
+    username(username),
     command(input),
     x(x),
     y(y)
@@ -174,6 +194,18 @@ ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) 
     std::cout << command << std::endl;
     std::cout << "x:" << x << "y:" << y << std::endl;
     }
+ExecuteCommand::ExecuteCommand(std::string input,const int x,const int y) :
+        Message(COMMAND_MESSAGE_ID),
+        command(input),
+        x(x),
+        y(y)
+{
+    std::cout << command << std::endl;
+    std::cout << "x:" << x << "y:" << y << std::endl;
+}
+
+
+
 
 std::string ExecuteCommand::getCommand() const {
     return command;
@@ -191,13 +223,15 @@ std::string ExecuteCommand::getUserName() const {
     return username;
 }
 
-Connect::Connect(const std::string username) :
-    Message('c'),
-    username(username)
+Connect::Connect(std::string username,std::string charRace,std::string charClass) :
+    Message(CONNECT_MESSAGE_ID),
+    username(username),
+    charRace(charRace),
+    charClass(charClass)
     {}
 
-std::string Connect::getUserName() const {
-    return username;
+connect_t Connect::getConnectData() const {
+    return connect_t {username,charRace,charClass};
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)

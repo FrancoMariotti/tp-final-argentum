@@ -6,8 +6,13 @@
 #define ARGENTUM_PLAYERATTACKMESSAGESERIALIZER_H
 
 
-class PlayerAttackMessageSerializer {
+#include <Proxy/src/common_message.h>
+#include "Serializer.h"
 
+class PlayerAttackMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

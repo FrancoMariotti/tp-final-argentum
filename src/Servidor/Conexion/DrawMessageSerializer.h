@@ -6,8 +6,12 @@
 #define ARGENTUM_DRAWMESSAGESERIALIZER_H
 
 
-class DrawMessageSerializer {
+#include "Serializer.h"
 
+class DrawMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

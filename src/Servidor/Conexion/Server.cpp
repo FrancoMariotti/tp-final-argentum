@@ -20,10 +20,17 @@ void Server::start() {
         for (auto & msg : messages) {
             std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
             if (msg->getId() == CONNECT_MESSAGE_ID) {
-                Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
-                EventMove event(offset);
-                Event *move =&event;
-                move->execute(game, "franco");
+
+                //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
+                connect_t data = msg->getConnectData();
+                game.createPlayer(data.username,data.charRace,data.charClass);
+                //manda el paquete de inicializacion
+                std::queue<Message*> initialMessages = game.initializeWorld();
+                while(!initialMessages.empty()) {
+                    Message* message = initialMessages.front();
+                    clients.sendMessage(message);
+                    initialMessages.pop();
+                }
             }
             if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 Offset offset(msg->getPlayerVelX(), msg->getPlayerVelY());
