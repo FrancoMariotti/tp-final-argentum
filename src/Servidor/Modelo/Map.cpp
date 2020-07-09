@@ -103,12 +103,6 @@ Character* Map::findClosestCharacter(const Position& pos, int range) {
     PlayableCharacter* enemy = nullptr;
     auto it = characters.begin();
     for (; it != characters.end(); ++it) {
-        /*if(it->second->isDead()) continue;
-        int currDist = it->second->distanceTo(pos);
-        if (currDist <= range && currDist <= minDist) {
-            minDist = currDist;
-            enemy = it->second;
-        }*/
         enemy = it->second->closestToInRange(pos, enemy, &minDist, range);
     }
     return enemy;
@@ -160,6 +154,41 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     sck.writeToClient(std::unique_ptr<Message> (
               new Draw("obstacles",obstaclesLayer,width,height)));
 }
+
+std::queue<Message*> Map::initializeClientMap(const std::string& configFile) const {
+    std::queue<Message*> initialMessages;
+    FileParser parser(configFile);
+    Json::Value mapObj =  parser.read("map");
+
+    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
+    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
+
+    std::vector<int> floorLayer;
+    floorLayer.reserve(floorLayersid.size());
+
+    for (const auto & i : floorLayersid){
+        floorLayer.push_back(i.asInt());
+    }
+
+    initialMessages.push(new Draw("floor",floorLayer,width,height));
+    //initialMessages.push(new Draw("floor",floorLayer,width,height));
+
+    initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
+
+    std::vector<int> obstaclesLayer;
+    obstaclesLayer.reserve(obstaclesLayersid.size());
+
+    for (const auto & i : obstaclesLayersid){
+        obstaclesLayer.push_back(i.asInt());
+    }
+
+    //initialMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
+    initialMessages.push(new Draw("floor",floorLayer,width,height));
+    return initialMessages;
+}
+
+
+
 Position Map::asignRandomPosition() {
     int x, y;
     x = Utils::random_int_number(0, height - 1);
@@ -224,45 +253,6 @@ bool Map::posInCity(Position position) {
     }
     return false;
 }
-
-/*void Map::searchPriestToRevive(PlayableCharacter *character, Position position) {
-    for (City & city : cities) {
-        city.searchPriestToRevive(character, position);
-    }
-}*/
-
-/*void Map::searchPriestToHeal(PlayableCharacter *character, Position position) {
-    for (City & city : cities) {
-        city.searchPriestToHeal(character, position);
-    }
-}*/
-
-/*void Map::reviveNextToClosestPriest(PlayableCharacter *character) {
-    int minDistance = -1;
-    int currDistance;
-    City* nearestCity = nullptr;
-    for (City & city : cities) {
-        currDistance = city.distanceToPriest(character);
-        if (minDistance < 0 || currDistance < minDistance) {
-            minDistance = currDistance;
-            nearestCity = &city;
-        }
-    }
-    nearestCity->revivePlayerHere(character, this);
-}*/
-
-
-/*void Map::extractFromBank(PlayableCharacter *player, const Position& position, int goldAmount) {
-    for (City & city : cities) {
-        city.extractFromBank(position,player,goldAmount);
-    }
-}
-
-void Map::extractFromBank(PlayableCharacter *player, const Position& position, const std::string& element) {
-    for (City & city : cities) {
-        city.extractFromBank(position,player,element);
-    }
-}*/
 
 Priest *Map::getPriestAtPosition(const Position& position) {
     if (priest.ocupies(position)) return &priest;

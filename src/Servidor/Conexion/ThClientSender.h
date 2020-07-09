@@ -11,15 +11,13 @@
 class ThClientSender: public Thread {
     bool keepTalking;
     Socket& client;
-    BlockingQueue<std::unique_ptr<Message>> messages;
+    BlockingQueue<Message*>& messages;
     Protocol protocol;
 public:
-    explicit ThClientSender(Socket& client);
+    explicit ThClientSender(Socket& client,BlockingQueue<Message*>& messages);
     void start() override;
     void run() override;
     void stop();
-
-    ThClientSender(ThClientSender&& sender);
 };
 
 

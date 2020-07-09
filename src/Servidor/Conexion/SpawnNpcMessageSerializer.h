@@ -6,8 +6,12 @@
 #define ARGENTUM_SPAWNNPCMESSAGESERIALIZER_H
 
 
-class SpawnNpcMessageSerializer {
+#include "Serializer.h"
 
+class SpawnNpcMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

@@ -23,6 +23,12 @@ void ProtectedConnections::destroyAllClients() {
     }
 }
 
+void ProtectedConnections::sendMessage(Message* event) {
+    for(auto& client:clients) {
+        client->sendMessage(event);
+    }
+}
+
 void ProtectedConnections::push(ClientConnection* client) {
     std::lock_guard<std::mutex> lck (mutex);
     clients.push_back(client);

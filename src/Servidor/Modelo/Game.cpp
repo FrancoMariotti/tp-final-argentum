@@ -14,6 +14,11 @@ void Game::updateModel(float looptime) {
     map->moveNpcs(looptime);
 }
 
+std::queue<Message *> Game::initializeWorld() {
+    return map->initializeClientMap(configFile);
+}
+
+
 /*void Game::start() {
     this->keep_playing = true;
     while(this->keep_playing) {
@@ -146,5 +151,4 @@ Game::~Game() {
     }
     delete map;
 }
-
 

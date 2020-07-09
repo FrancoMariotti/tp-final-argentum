@@ -6,8 +6,12 @@
 #define ARGENTUM_NPCMOVEMENTMESSAGESERIALIZER_H
 
 
-class NpcMovementMessageSerializer {
+#include "Serializer.h"
 
+class NpcMovementMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

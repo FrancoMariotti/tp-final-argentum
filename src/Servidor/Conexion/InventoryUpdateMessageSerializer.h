@@ -6,8 +6,12 @@
 #define ARGENTUM_INVENTORYUPDATEMESSAGESERIALIZER_H
 
 
-class InventoryUpdateMessageSerializer {
+#include "Serializer.h"
 
+class InventoryUpdateMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

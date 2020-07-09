@@ -25,7 +25,9 @@ void ThRecv::run() {
         /*Si no hay eventos se bloquea*/
         try {
             std::cout << "recieving event" << std::endl;
-            serverEvents.push(std::unique_ptr<Message>(protocol.recieve(socket)));
+
+            Message* message = protocol.recieve(socket);
+            if(message) serverEvents.push(std::unique_ptr<Message>(message));
             //serverEvents.push(proxySocket.readClient());
         } catch (std::exception &e){
              keep_recieving = false;

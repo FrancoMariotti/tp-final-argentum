@@ -16,6 +16,8 @@ public:
     void destroyFinishedClients();
     void destroyAllClients();
     ~ProtectedConnections();
+
+    void sendMessage(Message *event);
 };
 
 

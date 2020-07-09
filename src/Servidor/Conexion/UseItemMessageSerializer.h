@@ -6,8 +6,12 @@
 #define ARGENTUM_USEITEMMESSAGESERIALIZER_H
 
 
-class UseItemMessageSerializer {
+#include "Serializer.h"
 
+class UseItemMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

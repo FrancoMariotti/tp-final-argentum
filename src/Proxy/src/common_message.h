@@ -29,6 +29,7 @@ enum MESSAGES {
 class Message {
 protected:
     const int id;
+    Message();
     explicit Message(int id);
 public:
     int getId() const;
@@ -38,9 +39,9 @@ public:
     virtual std::string getLayerName() const;
     virtual int getTileX() const;
     virtual int getTileY() const;
-    virtual std::vector<int> getData();
-    virtual int getWidth();
-    virtual int getHeight();
+    virtual std::vector<int> getData() const ;
+    virtual int getWidth() const ;
+    virtual int getHeight() const ;
     virtual std::string getCommand() const;
     virtual int getX() const;
     virtual int getY() const;
@@ -51,6 +52,8 @@ public:
     virtual npc_movement_t getMovement();
     virtual t_player_attack getAttack();
     virtual std::vector<std::string> getConsoleOutput();
+    virtual std::string getUserName() const;
+    virtual connect_t getConnectData() const;
     virtual ~Message() = default;
 };
 
@@ -59,12 +62,15 @@ private:
     std::string name; // nombre del layer a dibujar
     int width, height;
     std::vector<int> data;// x e y en unidades del modelo
+    MSGPACK_DEFINE(name,width,height,data)
 public:
+    Draw() {};
     Draw(std::string name, std::vector<int> data, int width, int height);
     std::string getLayerName() const override;
-    std::vector<int> getData() override;
-    int getWidth() override;
-    int getHeight() override;
+    std::vector<int> getData() const override;
+    Draw& operator=(const Draw&);
+    int getWidth() const override;
+    int getHeight() const override;
 };
 
 class Movement : public Message{
@@ -94,7 +100,8 @@ private:
 public:
     explicit ExecuteCommand(std::string command);
     ExecuteCommand(std::string input, int x, int y);
-    std::string getUserName() const;
+    ExecuteCommand(std::string username,std::string input, int x, int y);
+    std::string getUserName() const override ;
     std::string getCommand() const override;
     int getX() const override;
     int getY() const override;
@@ -102,10 +109,12 @@ public:
 
 class Connect : public Message {
 private:
-    const std::string username;
+    std::string username;
+    std::string charRace;
+    std::string charClass;
 public:
-    explicit Connect(const std::string username);
-    std::string getUserName() const;
+    Connect(std::string username,std::string charRace,std::string charClass);
+    connect_t getConnectData() const override ;
 };
 
 class Stats : public Message {

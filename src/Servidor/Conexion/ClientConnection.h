@@ -15,6 +15,7 @@
 class ClientConnection {
     Socket client;
     ThClientSender sender;
+    BlockingQueue<Message*> events;
     ThClientReceiver receiver;
     bool dead;
     void stop();
@@ -27,6 +28,8 @@ public:
     void start();
     void finish();
     ~ClientConnection();
+
+    void sendMessage(Message *event);
 };
 
 

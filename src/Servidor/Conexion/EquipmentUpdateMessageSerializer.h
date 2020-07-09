@@ -6,8 +6,12 @@
 #define ARGENTUM_EQUIPMENTUPDATEMESSAGESERIALIZER_H
 
 
-class EquipmentUpdateMessageSerializer {
+#include "Serializer.h"
 
+class EquipmentUpdateMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

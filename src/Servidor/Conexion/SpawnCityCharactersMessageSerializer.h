@@ -6,8 +6,12 @@
 #define ARGENTUM_SPAWNCITYCHARACTERSMESSAGESERIALIZER_H
 
 
-class SpawnCityCharactersMessageSerializer {
+#include "Serializer.h"
 
+class SpawnCityCharactersMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

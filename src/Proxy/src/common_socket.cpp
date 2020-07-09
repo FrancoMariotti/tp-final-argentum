@@ -130,7 +130,9 @@ int Socket::connect(const char *host_name, const char *service) {
     return 0;
 }
 
-int Socket::send(const char* buffer, size_t length) const {
+//int Socket::send(const char* buffer, size_t length) const {
+int Socket::send(std::string data, size_t length) const {
+    const char* buffer = data.c_str();
     size_t bytes_sent = 0;
     size_t total_bytes = 0;
     size_t buffer_len = 0;
@@ -151,22 +153,20 @@ int Socket::send(const char* buffer, size_t length) const {
     return bytes_sent;
 }
 
-void Socket::recieve(char* buffer, size_t length) const {
-    size_t bytes_received = 0;
-    size_t total_bytes = 0;
-    size_t buffer_len = 0;
+int Socket::receive(char* buffer, size_t tam_max){
+    size_t tam_actual = 0; //el tamaño total de lo que ya recibí.
+    int tam_rcv = 0; //el tamaño de lo que recibo en cada ciclo.
 
-    while ((length - total_bytes) != 0) {
-        buffer_len = length - total_bytes;
-
-        bytes_received = ::recv(this->sfd,buffer + total_bytes,buffer_len,0);
-
-        if (bytes_received <= 0) {
-            throw OSError(RECV_ERROR_MSG);
+    while (tam_actual < tam_max){
+        int dif_tam = tam_max-tam_actual;
+        tam_rcv = ::recv(this->sfd, &buffer[tam_actual], dif_tam, MSG_NOSIGNAL);
+        if (tam_rcv <= 0){
+            return tam_rcv;
         }
-
-        total_bytes += bytes_received;
+        tam_actual += tam_rcv;
     }
+
+    return tam_actual;
 }
 
 Socket::~Socket() {

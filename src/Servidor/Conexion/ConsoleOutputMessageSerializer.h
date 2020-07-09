@@ -6,8 +6,12 @@
 #define ARGENTUM_CONSOLEOUTPUTMESSAGESERIALIZER_H
 
 
-class ConsoleOutputMessageSerializer {
+#include "Serializer.h"
 
+class ConsoleOutputMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

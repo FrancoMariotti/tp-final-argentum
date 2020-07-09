@@ -6,8 +6,12 @@
 #define ARGENTUM_COMMANDMESSAGESERIALIZER_H
 
 
-class CommandMessageSerializer {
+#include "Serializer.h"
 
+class CommandMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 

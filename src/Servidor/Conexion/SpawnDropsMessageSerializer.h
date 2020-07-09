@@ -6,8 +6,12 @@
 #define ARGENTUM_SPAWNDROPSMESSAGESERIALIZER_H
 
 
-class SpawnDropsMessageSerializer {
+#include "Serializer.h"
 
+class SpawnDropsMessageSerializer: public Serializer {
+public:
+    std::string serialize(Message *message) override;
+    Message * deserialize(char *data) override;
 };
 
 
