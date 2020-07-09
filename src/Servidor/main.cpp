@@ -2,7 +2,7 @@
 
 int main(int argc, char const *argv[]) {
 
-    if (argc != 2) return 1;
+    //if (argc != 2) return 1;
 
     try {
         //puerto hay que cargarlo de un archivo de configuracion
