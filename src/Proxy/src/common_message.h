@@ -65,7 +65,7 @@ private:
     int width, height;
     std::vector<int> data;// x e y en unidades del modelo
 public:
-    MSGPACK_DEFINE(name,width,height,data)
+    MSGPACK_DEFINE(name,data,width,height)
     Draw();
     Draw(std::string name, std::vector<int> data, int width, int height);
     std::string getLayerName() const override;

@@ -4,6 +4,7 @@
 
 #include <string>
 #include <iostream>
+#include <utility>
 #include "common_message.h"
 #include "common_osexception.h"
 
@@ -154,8 +155,7 @@ int UseItem::getIndex() const {
 }
 
 Draw::Draw(std::string name, std::vector<int> data, int width, int height) :
-    Message(DRAW_MESSAGE_ID), name(name), width(width), height(height) {
-    this->data = std::move(data);
+    Message(DRAW_MESSAGE_ID), name(std::move(name)), width(width), height(height),data(std::move(data)) {
 }
 
 std::string Draw::getLayerName() const {
@@ -163,7 +163,7 @@ std::string Draw::getLayerName() const {
 }
 
 std::vector<int> Draw::getData() const {
-    return std::move(data);
+    return data;
 }
 
 int Draw::getWidth() const {
@@ -172,14 +172,6 @@ int Draw::getWidth() const {
 
 int Draw::getHeight() const {
     return height;
-}
-
-Draw& Draw::operator=(const Draw &draw) {
-    this->name = draw.name;
-    this->height = draw.height;
-    this->width = draw.width;
-    this->data = draw.data;
-    return *this;
 }
 
 Draw::Draw():Message(DRAW_MESSAGE_ID) {}

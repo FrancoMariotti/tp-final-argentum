@@ -10,7 +10,7 @@
 
 class DrawMessageSerializer: public Serializer {
 public:
-    void serialize(Socket& socket,Message *message) override;
+    void serialize(Socket& socket, Message* message) override;
     Message * deserialize(char *data) override;
 };
 
