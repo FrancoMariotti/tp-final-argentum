@@ -170,7 +170,7 @@ std::queue<Message*> Map::initializeClientMap(const std::string& configFile) con
         floorLayer.push_back(i.asInt());
     }
 
-    initialMessages.push(new Draw("floor",floorLayer,width,height));
+    //initialMessages.push(new Draw("floor",floorLayer,width,height));
     //initialMessages.push(new Draw("floor",floorLayer,width,height));
 
     //initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));

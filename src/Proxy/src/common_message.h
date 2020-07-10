@@ -54,6 +54,8 @@ public:
     virtual std::vector<std::string> getConsoleOutput();
     virtual std::string getUserName() const;
     virtual connect_t getConnectData() const;
+    virtual std::string serialize();
+    virtual Message* deserialize();
     virtual ~Message() = default;
 };
 

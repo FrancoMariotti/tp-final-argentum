@@ -2,15 +2,13 @@
 #include <msgpack.hpp>
 #include "MovementMessageSerializer.h"
 
-char* MovementMessageSerializer::serialize(Message* message) {
+void MovementMessageSerializer::serialize(Socket& socket,Message* message) {
     msgpack::type::tuple<int, int> src(message->getX(),
                                        message->getY());
     std::stringstream buffer;
-    msgpack::sbuffer sbuf;
-    msgpack::pack(sbuf, src);
+    msgpack::pack(buffer, src);
     // send the buffer ...
     buffer.seekg(0);
-    return sbuf.data();
 }
 
 Message *MovementMessageSerializer::deserialize(char *data) {

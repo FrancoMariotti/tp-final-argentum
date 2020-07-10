@@ -122,6 +122,14 @@ connect_t Message::getConnectData() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+std::string Message::serialize() {
+    return std::__cxx11::string();
+}
+
+Message *Message::deserialize() {
+    return nullptr;
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),

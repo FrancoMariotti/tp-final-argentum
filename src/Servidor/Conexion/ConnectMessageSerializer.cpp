@@ -1,14 +1,14 @@
 #include <msgpack.hpp>
+#include <Proxy/src/common_socket.h>
 #include "ConnectMessageSerializer.h"
 
-char* ConnectMessageSerializer::serialize(Message *message) {
-    connect_t data = message->getConnectData();
-    std::stringstream buffer;
-    msgpack::sbuffer sbuf;
-    msgpack::pack(sbuf, data);
-    // send the buffer ...
-    buffer.seekg(0);
-    return sbuf.data();
+void ConnectMessageSerializer::serialize(Socket& socket,Message *message) {
+    msgpack::sbuffer temp_sbuffer;
+    msgpack::packer<msgpack::sbuffer> packer(&temp_sbuffer);
+    packer.pack(message->getConnectData());
+    uint16_t length = htons(temp_sbuffer.size());
+    socket.send((char*)&length, sizeof(uint16_t));
+    socket.send(temp_sbuffer.data(),temp_sbuffer.size());
 }
 
 Message *ConnectMessageSerializer::deserialize(char *data) {

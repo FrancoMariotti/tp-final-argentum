@@ -1,60 +1,37 @@
 #include <Proxy/src/common_socket.h>
 #include "MessageSerializer.h"
 #include "Proxy/src/common_osexception.h"
+#include "MovementMessageSerializer.h"
+#include "DrawMessageSerializer.h"
+#include "ConnectMessageSerializer.h"
 
-MessageSerializer::MessageSerializer() = default;
+MessageSerializer::MessageSerializer() {
+    serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
+    serializers[CONNECT_MESSAGE_ID] = new  ConnectMessageSerializer();
+}
 
-void MessageSerializer::serialize(Socket &socket,Message* message) {
-    //std::stringstream buffer;
+void MessageSerializer::serialize(Socket& socket,Message* message) {
+    auto itr = serializers.find(message->getId());
 
-    msgpack::sbuffer buffer;
-
-    if(message->getId() == DRAW_MESSAGE_ID) {
-        uint16_t big_end = htons(DRAW_MESSAGE_ID);
-        socket.send((char*)&big_end, sizeof(uint16_t));
-        Draw draw(message->getLayerName(),message->getData(),message->getWidth(),message->getHeight());
-        msgpack::pack(&buffer, draw);
-        //msgpack::pack(buffer, draw);
+    if(itr != serializers.end()) {
+        serializers.at(message->getId())->serialize(socket,message);
+    } else {
+        throw OSError("Id de mensaje inexistente");
     }
-    if(message->getId() == CONNECT_MESSAGE_ID) {
-        uint16_t big_end = htons(CONNECT_MESSAGE_ID);
-        socket.send((char*)&big_end, sizeof(uint16_t));
-        connect_t  connect = message->getConnectData();
-        msgpack::pack(&buffer, connect);
-        //msgpack::pack(buffer, connect);
-    }
-    // send the buffer ...
-    //buffer.seekg(0);
-    uint16_t big_end = htons(buffer.size());
-    socket.send((char*)&big_end, sizeof(uint16_t));
-    socket.send(buffer.data(),buffer.size());
 }
 
 Message *MessageSerializer::deserialize(int messageId, char *data) {
-    std::string aux(data);
-    // deserialize the buffer into msgpack::object instance.
-    std::string str(data);
-
-    msgpack::object_handle result =
-            msgpack::unpack(str.data(), str.size());
-
-    // deserialized object is valid during the msgpack::object_handle instance is alive.
-    msgpack::object obj = result.get();
-
-    if(messageId == DRAW_MESSAGE_ID) {
-
-        Draw m2 = obj.as<Draw>();
-
-        return new Draw(m2);
-    } else if(messageId == CONNECT_MESSAGE_ID) {
-        connect_t connect;
-        obj.convert(connect);
-
-        return new Connect(connect.username,connect.charRace,connect.charClass);
-    }
-    return nullptr;
+    auto itr = serializers.find(messageId);
+    if(itr == serializers.end()) return nullptr;
+    return serializers.at(messageId)->deserialize(data);
 }
 
-MessageSerializer::~MessageSerializer() = default;
+MessageSerializer::~MessageSerializer() {
+    auto itr = serializers.begin();
+    for (; itr!=serializers.end() ; itr++) {
+        delete itr->second;
+    }
+}
+
 
 

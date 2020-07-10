@@ -24,7 +24,7 @@ uint16_t Protocol::recieve(Socket &socket, int overload){
 }
 
 void Protocol::send(Socket& socket,Message* message) {
-    //socket.send(data,data.length());
+    send(socket,message->getId());
     serializer.serialize(socket,message);
 }
 

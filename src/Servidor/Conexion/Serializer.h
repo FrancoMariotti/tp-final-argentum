@@ -2,10 +2,12 @@
 #define ARGENTUM_SERIALIZER_H
 
 #include <Proxy/src/common_message.h>
+#include <Proxy/src/common_socket.h>
+
 
 class Serializer {
 public:
-    virtual char* serialize(Message* message) = 0;
+    virtual void serialize(Socket& socket,Message* message) = 0;
     virtual Message* deserialize(char * data) = 0;
     virtual ~Serializer() = default;
 };
