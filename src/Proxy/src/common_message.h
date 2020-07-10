@@ -62,10 +62,11 @@ public:
 class Draw : public Message {
 private:
     std::string name; // nombre del layer a dibujar
-    int width, height;
+    int width;
+    int height;
     std::vector<int> data;// x e y en unidades del modelo
 public:
-    MSGPACK_DEFINE(name,data,width,height)
+    MSGPACK_DEFINE(name,width,height,data)
     Draw();
     Draw(std::string name, std::vector<int> data, int width, int height);
     std::string getLayerName() const override;

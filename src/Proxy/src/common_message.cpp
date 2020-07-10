@@ -155,7 +155,7 @@ int UseItem::getIndex() const {
 }
 
 Draw::Draw(std::string name, std::vector<int> data, int width, int height) :
-    Message(DRAW_MESSAGE_ID), name(std::move(name)), width(width), height(height),data(std::move(data)) {
+    Message(DRAW_MESSAGE_ID), name(std::move(name)),width(width), height(height),data(std::move(data)) {
 }
 
 std::string Draw::getLayerName() const {
@@ -175,6 +175,14 @@ int Draw::getHeight() const {
 }
 
 Draw::Draw():Message(DRAW_MESSAGE_ID) {}
+
+Draw &Draw::operator=(const Draw &draw) {
+    this->name = draw.name;
+    this->data = draw.data;
+    this->width = draw.width;
+    this->height = draw.height;
+    return *this;
+}
 
 ExecuteCommand::ExecuteCommand(const std::string command) :
     Message(COMMAND_MESSAGE_ID),

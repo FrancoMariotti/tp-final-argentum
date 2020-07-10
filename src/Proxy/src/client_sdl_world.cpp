@@ -34,13 +34,13 @@ SdlWorld::SdlWorld(const SdlWindow& window) :
 
 void SdlWorld::addLayer(std::vector<int> data, const int init){
     for (int i = 0; i < (int) data.size() ; ++i) {
-        if(data[i] != 0){
+        if (data[i]!= 0) {
             int x = i % this->map_width;
             int y = i / this->map_height;
-            if(init == 1){
-                addFloorTile(x,y,data[i]);
+            if (init == 1) {
+                addFloorTile(x, y, data[i]);
             } else {
-                addObstacleTile(x,y,data[i]);
+                addObstacleTile(x, y, data[i]);
             }
         }
     }
