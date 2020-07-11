@@ -160,30 +160,26 @@ std::queue<Message*> Map::initializeClientMap(const std::string& configFile) con
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
 
-    //const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
+    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
     const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
 
-    /*std::vector<int> floorLayer;
+    std::vector<int> floorLayer;
     floorLayer.reserve(floorLayersid.size());
 
     for (const auto & i : floorLayersid){
         floorLayer.push_back(i.asInt());
     }
 
-    initialMessages.push(new Draw("floor",floorLayer,width,height));*/
-    //initialMessages.push(new Draw("floor",floorLayer,width,height));
+    initialMessages.push(new Draw("floor",floorLayer,width,height));
 
-    //initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
+    initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
 
-    //std::vector<int> obstaclesLayer;
-    //obstaclesLayer.reserve(obstaclesLayersid.size());
     std::vector<int> obstaclesLayer;
     for (const auto & i : obstaclesLayersid){
         obstaclesLayer.push_back(i.asInt());
     }
 
     initialMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
-    //initialMessages.push(new Draw("floor",floorLayer,width,height));
     return initialMessages;
 }
 

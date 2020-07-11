@@ -1,7 +1,7 @@
 #include "ProtectedConnections.h"
 #include "Server.h"
 #include <Servidor/Modelo/EventMove.h>
-
+#include <thread>
 #define END_SIGNAL 'c'
 
 Server::Server(const std::string& service,const std::string& configFile):
@@ -10,8 +10,20 @@ Server::Server(const std::string& service,const std::string& configFile):
     game.initialize();
 }
 
+void Server::readInput() {
+    //hay que ponerlo en hilo aparte
+    char input = 0;
+    while (input != END_SIGNAL){
+        std::cin >> input;
+    }
+    keepTalking = false;
+}
+
 void Server::start() {
     std::cout << "Server is running" << std::endl;
+
+    std::thread first(&Server::readInput,this);
+
     this->clientAcceptor.start();
     while(keepTalking) {
         std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -59,14 +71,9 @@ void Server::start() {
         //server y mandar a cada client el update que me manda el game
         //game.sendUpdates(proxySocket);
     }
-    //hay que ponerlo en hilo aparte
-    char input = 0;
-    while (input != END_SIGNAL){
-        std::cin >> input;
-    }
+    first.join();
     clientAcceptor.stop();
     clientAcceptor.join();
-
 
     std::cout << "Server finaliza run" << std::endl;
 }

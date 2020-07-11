@@ -7,7 +7,7 @@
 
 class Serializer {
 public:
-    virtual void serialize(Socket& socket,Message* message) = 0;
+    virtual std::string serialize(Message* message) = 0;
     virtual Message* deserialize(char * data) = 0;
     virtual ~Serializer() = default;
 };

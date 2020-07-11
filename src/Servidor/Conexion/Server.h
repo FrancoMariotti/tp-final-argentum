@@ -1,7 +1,3 @@
-//
-// Created by franco on 5/7/20.
-//
-
 #ifndef ARGENTUM_SERVER_H
 #define ARGENTUM_SERVER_H
 
@@ -16,6 +12,7 @@ class Server {
     ProtectedConnections clients;
     ProtectedList<std::unique_ptr<Message>> events;
 public:
+    void readInput();
     explicit Server(const std::string& service,const std::string& configFile);
     void start();
 };

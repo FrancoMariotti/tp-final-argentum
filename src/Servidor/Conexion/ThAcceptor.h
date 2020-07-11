@@ -12,6 +12,7 @@
 class ClientConnection;
 
 class ThAcceptor: public Thread {
+    int clientId;
     Socket acceptor;
     ProtectedConnections& clients;
     ProtectedList<std::unique_ptr<Message>>& events;

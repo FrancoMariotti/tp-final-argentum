@@ -25,13 +25,18 @@ uint16_t Protocol::recieve(Socket &socket, int overload){
 
 void Protocol::send(Socket& socket,Message* message) {
     send(socket,message->getId());
-    serializer.serialize(socket,message);
+    std::string data = serializer.serialize(message);
+    uint16_t lenData = data.size();
+    send(socket,lenData);
+    socket.send(data.data(),lenData);
 }
 
 Message* Protocol::recieve(Socket &socket) {
     uint16_t messageId = recieve(socket, 0);
     uint16_t len_data = recieve(socket,0);
-    char* data  = (char*) malloc(len_data);
+    char* data  = (char*) malloc(len_data+1);
+    memset(data,0,len_data);
+    data[len_data] = '\0';
     socket.receive(data,len_data);
     Message *message = serializer.deserialize(messageId,data);
     free(data);

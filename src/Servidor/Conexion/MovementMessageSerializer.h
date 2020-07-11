@@ -7,7 +7,7 @@
 
 class MovementMessageSerializer: public Serializer {
 public:
-    void serialize(Socket& socket,Message* messages) override;
+    std::string serialize(Message* messages) override;
     Message* deserialize(char * data) override;
 };
 

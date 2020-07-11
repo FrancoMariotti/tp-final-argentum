@@ -7,6 +7,7 @@
 
 ThAcceptor::ThAcceptor(const std::string &service,ProtectedConnections& clients,
                        ProtectedList<std::unique_ptr<Message>> &events):clients(clients),events(events) {
+    this->clientId = 0;
     this->keepTalking = true;
     this->acceptor.bindAndListen(service.c_str());
 }

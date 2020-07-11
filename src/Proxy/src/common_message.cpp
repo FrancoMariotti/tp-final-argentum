@@ -163,7 +163,7 @@ std::string Draw::getLayerName() const {
 }
 
 std::vector<int> Draw::getData() const {
-    return data;
+    return std::move(data);
 }
 
 int Draw::getWidth() const {

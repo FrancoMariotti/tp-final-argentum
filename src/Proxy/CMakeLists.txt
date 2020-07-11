@@ -19,7 +19,9 @@ add_library(clienteConnection
                 ./../Servidor/Conexion/MovementMessageSerializer.cpp
                 ./../Servidor/Conexion/DrawMessageSerializer.h
                 ./../Servidor/Conexion/DrawMessageSerializer.cpp
-        ./../Servidor/Conexion/ConnectMessageSerializer.h
+                ./../Servidor/Conexion/SpawnCityCharactersMessageSerializer.h
+                ./../Servidor/Conexion/SpawnCityCharactersMessageSerializer.cpp
+                ./../Servidor/Conexion/ConnectMessageSerializer.h
                 ./../Servidor/Conexion/ConnectMessageSerializer.cpp
                 ./../Servidor/Conexion/Protocol.h
                 ./../Servidor/Conexion/Protocol.cpp)

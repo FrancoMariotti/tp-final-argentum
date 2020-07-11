@@ -4,20 +4,21 @@
 #include "MovementMessageSerializer.h"
 #include "DrawMessageSerializer.h"
 #include "ConnectMessageSerializer.h"
+#include "SpawnCityCharactersMessageSerializer.h"
 
 MessageSerializer::MessageSerializer() {
     serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
     serializers[CONNECT_MESSAGE_ID] = new  ConnectMessageSerializer();
+    serializers[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = new  SpawnCityCharactersMessageSerializer();
 }
 
-void MessageSerializer::serialize(Socket& socket,Message* message) {
+std::string MessageSerializer::serialize(Message* message) {
     auto itr = serializers.find(message->getId());
 
     if(itr != serializers.end()) {
-        serializers.at(message->getId())->serialize(socket,message);
-    } else {
-        throw OSError("Id de mensaje inexistente");
+        return serializers.at(message->getId())->serialize(message);
     }
+    throw OSError("Id de mensaje inexistente");
 }
 
 Message *MessageSerializer::deserialize(int messageId, char *data) {

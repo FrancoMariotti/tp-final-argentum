@@ -13,6 +13,7 @@
 #include "ThClientReceiver.h"
 
 class ClientConnection {
+    int id;
     Socket client;
     ThClientSender sender;
     BlockingQueue<Message*> events;

@@ -2,13 +2,12 @@
 #include <Proxy/src/common_socket.h>
 #include "ConnectMessageSerializer.h"
 
-void ConnectMessageSerializer::serialize(Socket& socket,Message *message) {
-    msgpack::sbuffer temp_sbuffer;
-    msgpack::packer<msgpack::sbuffer> packer(&temp_sbuffer);
+std::string ConnectMessageSerializer::serialize(Message *message) {
+    std::stringstream ss;
+    msgpack::packer<std::stringstream> packer(ss);
     packer.pack(message->getConnectData());
-    uint16_t length = htons(temp_sbuffer.size());
-    socket.send((char*)&length, sizeof(uint16_t));
-    socket.send(temp_sbuffer.data(),temp_sbuffer.size());
+    std::string result(ss.str());
+    return result;
 }
 
 Message *ConnectMessageSerializer::deserialize(char *data) {
@@ -16,7 +15,7 @@ Message *ConnectMessageSerializer::deserialize(char *data) {
     std::string str(data);
 
     msgpack::object_handle oh =
-            msgpack::unpack(str.data(), str.size());
+            msgpack::unpack(str.data(), str.length());
 
     // deserialized object is valid during the msgpack::object_handle instance is alive.
     msgpack::object deserialized = oh.get();

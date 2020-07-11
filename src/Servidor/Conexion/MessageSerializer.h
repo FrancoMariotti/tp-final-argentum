@@ -10,7 +10,7 @@ class MessageSerializer {
     std::map<int,Serializer*> serializers;
 public:
     MessageSerializer();
-    void serialize(Socket& socket,Message* message);
+    std::string serialize(Message* message);
     Message* deserialize(int messageId,char * data);
     ~MessageSerializer();
 };
