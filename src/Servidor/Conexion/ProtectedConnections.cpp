@@ -1,5 +1,7 @@
 #include "ProtectedConnections.h"
 
+ProtectedConnections::ProtectedConnections() = default;
+
 void ProtectedConnections::destroyFinishedClients() {
     std::lock_guard<std::mutex> lck (mutex);
     auto it = clients.begin();
@@ -33,7 +35,5 @@ void ProtectedConnections::push(ClientConnection* client) {
     std::lock_guard<std::mutex> lck (mutex);
     clients.push_back(client);
 }
-
-ProtectedConnections::ProtectedConnections() = default;
 
 ProtectedConnections::~ProtectedConnections() = default;

@@ -17,9 +17,10 @@ public:
     void push(ClientConnection *client);
     void destroyFinishedClients();
     void destroyAllClients();
+    void sendMessage(Message *event);
     ~ProtectedConnections();
 
-    void sendMessage(Message *event);
+    void asignClientUsername(std::string username, int clientId);
 };
 
 

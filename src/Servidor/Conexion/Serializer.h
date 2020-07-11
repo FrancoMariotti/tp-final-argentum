@@ -8,7 +8,7 @@
 class Serializer {
 public:
     virtual std::string serialize(Message* message) = 0;
-    virtual Message* deserialize(char * data) = 0;
+    virtual Message* deserialize(unsigned char * data,uint16_t len_data) = 0;
     virtual ~Serializer() = default;
 };
 

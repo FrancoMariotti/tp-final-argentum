@@ -25,6 +25,7 @@ void Server::start() {
     std::thread first(&Server::readInput,this);
 
     this->clientAcceptor.start();
+    //falta agregar un try/catch en caso de que salte alguna excepcion finalizar el server.
     while(keepTalking) {
         std::chrono::time_point<std::chrono::system_clock> start, end;
         start = std::chrono::system_clock::now();
@@ -32,7 +33,6 @@ void Server::start() {
         for (auto & msg : messages) {
             std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
             if (msg->getId() == CONNECT_MESSAGE_ID) {
-
                 //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
                 connect_t data = msg->getConnectData();
                 game.createPlayer(data.username,data.charRace,data.charClass);
@@ -40,7 +40,9 @@ void Server::start() {
                 std::queue<Message*> initialMessages = game.initializeWorld();
                 while(!initialMessages.empty()) {
                     Message* message = initialMessages.front();
-                    clients.sendMessage(message);
+                    //de este modo tenemos un sendMessage para enviar un
+                    //mensaje a un cliente en especifico y un send para hacer un broadcast.
+                    clients.sendMessage(message/*,clientId*/);
                     initialMessages.pop();
                 }
             }

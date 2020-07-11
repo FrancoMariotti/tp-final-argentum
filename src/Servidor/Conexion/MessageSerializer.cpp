@@ -21,10 +21,10 @@ std::string MessageSerializer::serialize(Message* message) {
     throw OSError("Id de mensaje inexistente");
 }
 
-Message *MessageSerializer::deserialize(int messageId, char *data) {
+Message *MessageSerializer::deserialize(int messageId,unsigned char *data,uint16_t len_data) {
     auto itr = serializers.find(messageId);
     if(itr == serializers.end()) return nullptr;
-    return serializers.at(messageId)->deserialize(data);
+    return serializers.at(messageId)->deserialize(data,len_data);
 }
 
 MessageSerializer::~MessageSerializer() {

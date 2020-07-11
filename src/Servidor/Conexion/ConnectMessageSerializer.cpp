@@ -10,12 +10,12 @@ std::string ConnectMessageSerializer::serialize(Message *message) {
     return result;
 }
 
-Message *ConnectMessageSerializer::deserialize(char *data) {
+Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
     // deserialize the buffer into msgpack::object instance.
-    std::string str(data);
+    //std::string str(data,len_data);
 
     msgpack::object_handle oh =
-            msgpack::unpack(str.data(), str.length());
+            msgpack::unpack(reinterpret_cast<const char *>(data), len_data);
 
     // deserialized object is valid during the msgpack::object_handle instance is alive.
     msgpack::object deserialized = oh.get();

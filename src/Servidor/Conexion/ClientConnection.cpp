@@ -1,8 +1,9 @@
 #include "ClientConnection.h"
 
-ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
+ClientConnection::ClientConnection(int id,Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
                                                 client(std::move(client)),sender(this->client,events),
                                                 receiver(this->client,messages,this) {
+    this->id = id;
     dead = true;
 }
 
@@ -37,4 +38,8 @@ void ClientConnection::start() {
 ClientConnection::~ClientConnection() {
     client.shutdown(SHUT_RDWR);
     client.close();
+}
+
+int ClientConnection::getId() {
+    return id;
 }

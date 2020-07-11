@@ -10,9 +10,9 @@ std::string MovementMessageSerializer::serialize(Message* message) {
     return std::string(temp.data());
 }
 
-Message *MovementMessageSerializer::deserialize(char *data) {
+Message *MovementMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
     // deserialize the buffer into msgpack::object instance.
-    std::string str(data);
+    std::string str;
 
     msgpack::object_handle oh =
             msgpack::unpack(str.data(), str.size());

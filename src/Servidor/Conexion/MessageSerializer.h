@@ -11,7 +11,7 @@ class MessageSerializer {
 public:
     MessageSerializer();
     std::string serialize(Message* message);
-    Message* deserialize(int messageId,char * data);
+    Message* deserialize(int messageId,unsigned char * data,uint16_t len_data);
     ~MessageSerializer();
 };
 

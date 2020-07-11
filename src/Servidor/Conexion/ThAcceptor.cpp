@@ -20,7 +20,8 @@ void ThAcceptor::run() {
     while (keepTalking) {
         try {
             Socket client = acceptor.accept();
-            auto *connection = new ClientConnection(client, events);
+            auto *connection = new ClientConnection(clientId,client, events);
+            clientId++;
             connection->start();
             clients.push(connection);
             clients.destroyFinishedClients();
