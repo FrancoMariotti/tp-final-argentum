@@ -21,20 +21,18 @@ Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constituti
          int maxDefense, int raceLifeFactor, int classLifeFactor,
          int raceManaFactor, int classManaFactor, int recoveryFactor,
          int meditationRecoveryFactor, Observer* observer,
-         std::vector<std::string> potionsToDrop,
-         std::vector<std::string> itemsToDrop):
+         ItemFactory* itemFactoryPtr, std::map<int, item_t>& itemsToDrop):
         Character(id, map, initialPosition, constitution, strength, agility,
                 intelligence, level, raceLifeFactor, classLifeFactor,
                 raceManaFactor, classManaFactor, recoveryFactor,
                 meditationRecoveryFactor,observer),
         weapon("npcWeapon", minDamage,maxDamage, 0),
         armour("npcArmour", minDefense,maxDefense, ARMOUR, 0),
-        possiblePotionsToDrop(std::move(potionsToDrop)),
-        possibleItemsToDrop(std::move(itemsToDrop)){
+        itemsToDrop(itemsToDrop){
     this->specie = std::move(specie);
     this->mana = 0;
     this->updateTime = 0;
-    merchant = nullptr;
+    itemFactory = itemFactoryPtr;
 }
 
 float Npc::calculateNpcGoldDrop() {
@@ -123,33 +121,36 @@ void Npc::die() {
             map->addDrop(drop);
         }
     }
-
+    /*
     if (shouldDrop(POTION_DROP_PROBABILITY)) {
         int randomIndex = Utils::random_int_number(0, possiblePotionsToDrop.size() - 1);
         std::string potionName = possiblePotionsToDrop[randomIndex];
-        Equippable* potion = merchant->giftItem(potionName);
+
+        Equippable* potion = itemFactory->create(item);
         Position pos = getClosestPositionToDrop();
         Drop drop(pos, potion, potionName);
         map->addDrop(drop);
     }
-
+    */
     if (shouldDrop(OBJECT_DROP_PROBABILITY)) {
-        int randomIndex = Utils::random_int_number(0, possibleItemsToDrop.size() - 1);
-        std::string itemName = possibleItemsToDrop[randomIndex];
-        Equippable* item = merchant->giftItem(itemName);
+        int randomIndex = Utils::random_int_number(0, itemsToDrop.size() - 1);
+       /* std::string itemName = possibleItemsToDrop[randomIndex];
+        Equippable* item = merchant->giftItem(itemName);*/
+        Equippable* item = itemFactory->create(itemsToDrop[randomIndex]);
         Position pos = getClosestPositionToDrop();
-        Drop drop(pos, item, itemName);
+        Drop drop(pos, item, item->getName());
         map->addDrop(drop);
     }
+
     //Envio al cliente los drops a renderizar
     map->updateDropSpawns(observer);
     map->removeNpc(id, observer);
 }
-
+/*
 void Npc::addMerchant(Merchant* newMerchant) {
     merchant = newMerchant;
 }
-
+*/
 void Npc::addSpawnInfoTo(std::vector<spawn_character_t>& npcSpawns) {
     spawn_character_t  spawn = {currPos.getX(),currPos.getY(),id};
     npcSpawns.push_back(spawn);

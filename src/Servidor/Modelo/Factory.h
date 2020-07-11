@@ -11,6 +11,34 @@
 class Game;
 class Map;
 
+typedef struct character_info {
+   std::string id;
+   float lifePoints;
+   int level;
+   int constitution;
+   int agility;
+   int strength;
+   int intelligence;
+   int raceLifeFactor;
+   int classLifeFactor;
+   int raceManaFactor;
+   int classManaFactor;
+   int recoveryFactor;
+   int meditationRecoveryFactor;
+   int x;
+   int y;
+   float mana;
+   int gold;
+   int xp;
+   std::string activeWeapon;
+   std::vector<std::string> inventoryItems;
+   std::vector<std::string> protections;
+   std::string lifeState;
+   bool inCity;
+   int goldInBank;
+   std::vector<std::string> itemsInBank;
+   std::string race;
+} character_info_t;
 
 typedef struct item {
     std::string name;
@@ -37,21 +65,21 @@ class MapFactory {
     Json::Value mapObj;
     public:
         explicit MapFactory(const std::string& configFile);
-        Map* create();
+        Map *create(ItemFactory *pFactory);
         ~MapFactory();
 };
 
 class MerchantFactory {
 public:
     MerchantFactory() = default;
-    void create(Map* map, std::string file);
+    void create(Map *map, std::string file, ItemFactory *pFactory);
     ~MerchantFactory() = default;
 };
 
 class PriestFactory {
 public:
     PriestFactory() = default;
-    void create(Map* map, std::string file);
+    void create(Map *map, std::string file, ItemFactory *pFactory);
     ~PriestFactory() = default;
 };
 
@@ -64,8 +92,10 @@ public:
 
 class PlayableCharacterFactory {
     Json::Value characterObj;
+    ItemFactory* itemFactory;
+    std::map<std::string, item_t> items;
     public:
-        explicit PlayableCharacterFactory(const std::string& configFile);
+        explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory);
         void create(Map* map,const std::string& playerName,const std::string& charRace,
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
@@ -74,11 +104,14 @@ class PlayableCharacterFactory {
 class NpcFactory {
     int counter;
     Json::Value npcsObj;
+    ItemFactory* itemFactory;
+    std::map<int, item_t> itemsToDrop;
     public:
-        explicit NpcFactory(const std::string& configFile);
+        explicit NpcFactory(const std::string &configFile, ItemFactory *pFactory);
         void create(Map* map,const std::string& specie,Observer* observer);
         ~NpcFactory();
 };
+
 
 class EquippableFactory {
 public:
@@ -116,4 +149,11 @@ public:
     Equippable* create(item_t item) override;
 };
 
+class ItemFactory {
+    std::map<std::string, EquippableFactory*> factories;
+public:
+    ItemFactory();
+    Equippable* create(item_t item);
+    ~ItemFactory();
+};
 #endif //ARGENTUM_FACTORY_H

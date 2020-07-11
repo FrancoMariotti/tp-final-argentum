@@ -14,9 +14,12 @@ class Npc : public Character {
     std::string specie;
     NormalWeapon weapon;
     Protection armour;
-    Merchant* merchant;
+    ItemFactory* itemFactory;
+    std::map<int, item_t>& itemsToDrop;
+    /*
     std::vector<std::string> possiblePotionsToDrop;
     std::vector<std::string> possibleItemsToDrop;
+     */
 private:
     int defend(int damage);
     void attack(Character* character) override;
@@ -28,11 +31,11 @@ public:
             int strength,int agility,int intelligence, int level, std::string specie, int minDamage,
             int maxDamage, int minDefense, int maxDefense,int raceLifeFactor,int classLifeFactor,int raceManaFactor,
             int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer,
-            std::vector<std::string> potionsToDrop, std::vector<std::string> itemsToDrop);
+            ItemFactory* itemFactoryPtr, std::map<int, item_t>& itemsToDrop);
     void move(float loopTime);
     int receiveDamage(int enemyLevel, int damage) override;
     int receiveAttackFrom(PlayableCharacter *enemy) override;
-    void addMerchant(Merchant* newMerchant);
+    //void addMerchant(Merchant* newMerchant);
     ~Npc() override;
 
     void addSpawnInfoTo(std::vector<spawn_character_t>& npcSpawns);

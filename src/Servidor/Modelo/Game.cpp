@@ -6,8 +6,9 @@
 #include "PlayableCharacter.h"
 #include "Npc.h"
 
-Game::Game(const std::string& configFile): configFile(configFile),mapFactory(configFile),map(mapFactory.create()),
-    commandExecutor(map), factoryCharacters(configFile), npcFactory(configFile) {}
+Game::Game(const std::string& configFile): configFile(configFile), itemFactory()
+    , mapFactory(configFile), map(mapFactory.create(&itemFactory)), commandExecutor(map),
+    factoryCharacters(configFile, &itemFactory), npcFactory(configFile, &itemFactory) {}
 
 void Game::updateModel(float looptime) {
     map->updateAllPlayers(looptime, this);
