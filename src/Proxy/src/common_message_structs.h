@@ -1,10 +1,8 @@
-//
-// Created by agustin on 26/6/20.
-//
 #ifndef ARGENTUM_COMMON_MESSAGE_STRUCTS_H
 #define ARGENTUM_COMMON_MESSAGE_STRUCTS_H
 
 #include <msgpack.hpp>
+#include <string>
 
 typedef struct t_stats{
     float health_percentage;
@@ -66,6 +64,23 @@ typedef struct player_attack {
                    enemy_x,
                    enemy_y)
 } t_player_attack;
+
+typedef struct spawn_playable_character {
+    int x;
+    int y;
+    std::string username;
+    std::string race;
+    std::string weaponName;
+    std::string armourName;
+    std::string shieldName;
+    std::string helmetName;
+} spawn_playable_character_t;
+
+typedef struct t_create_connect {
+    std::string username;
+    std::string race;
+    std::string char_class;
+} t_create_connect;
 
 
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H

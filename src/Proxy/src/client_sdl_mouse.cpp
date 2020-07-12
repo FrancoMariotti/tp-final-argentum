@@ -11,7 +11,8 @@
 SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),
     position{-1,-1},
-    inventory_clicked_index(-1),
+    inventory_clicked_index(0),
+    left_click(0),
     right_click(0),
     clicked_in_map(false)
     {}
@@ -22,6 +23,8 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     if ((event.type == SDL_MOUSEBUTTONDOWN) && !is_event_handled) {
         if (event.button.button == SDL_BUTTON_RIGHT){
             right_click++;
+        } else if (event.button.button == SDL_BUTTON_LEFT){
+            this->left_click++;
         }
         this->clear();
         int x,y;
@@ -39,11 +42,13 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
 
 void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
     if(position.x > -1 && position.y > -1 && right_click > 0){
-        std::cout << "attack" << std::endl;
-        clientEvents.push(std::unique_ptr <Message>(new Attack("franco",
-                position.x, position.y)));
+        std::cout << "DEBUG: attack" << std::endl;
+        this->mediator->notify(this, position);
         right_click--;
         this->clear();
+    } else if (left_click > 0) {
+        mediator->notify(this, position, 0);
+        left_click--;
     }
 }
 
@@ -52,25 +57,7 @@ void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
 void SdlMouse::clear(){
     position.x = -1;
     position.y = -1;
-    inventory_clicked_index = -1;
+    inventory_clicked_index = 0;
     clicked_in_map = false;
-}
-
-SDL_Point SdlMouse::getPosition(){
-    return position;
-}
-
-bool SdlMouse::clickedInMap(){
-    return clicked_in_map;
-}
-
-/*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
-void SdlMouse::setLastClickedItemIndex(const int i){
-    this->clear();
-    this->inventory_clicked_index = i;
-}
-
-/*Se invalidan los atributos de posicion y se setea el nuevo indice del inventario*/
-int SdlMouse::getLastClickedItemIndex() const{
-    return inventory_clicked_index;
+    mediator->notify(this);
 }

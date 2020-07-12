@@ -43,3 +43,13 @@ Equippable* BankAccount::extract(const std::string& itemName) {
 
     return item;
 }
+
+void BankAccount::sendItemsList(Observer *pObserver) {
+    std::string message = "Items depositados en el banco: ";
+    for (auto &item : items) {
+        message += item->getName() + " ";
+    }
+    std::vector<std::string> messages;
+    messages.push_back(message);
+    pObserver->notifyConsoleOutputUpdate(messages);
+}

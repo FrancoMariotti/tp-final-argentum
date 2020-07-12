@@ -43,3 +43,9 @@ Armour::~Armour() {
     }
 }
 
+void Armour::getNames(std::vector<std::string>& protectionNames) {
+    for (auto &protection : protections) {
+        protectionNames.push_back(protection->getName());
+    }
+}
+

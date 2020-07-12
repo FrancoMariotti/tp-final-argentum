@@ -19,6 +19,8 @@ private:
     int sprites_per_row;
     int total_frames;
     int animation_frame;
+    int width;
+    int height;
     bool keep_animating;
 public:
     SdlEffect(SdlTexture& effectSpriteSheetTexture, std::string effect_id, SdlAudioManager& audioManager);

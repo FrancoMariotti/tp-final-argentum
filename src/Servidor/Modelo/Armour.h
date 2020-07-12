@@ -24,6 +24,8 @@ public:
     void unequip(Protection* protection);
     std::string getName(int equipmentId);
     void unequipEveryProtectionFrom(PlayableCharacter *player);
+
+    void getNames(std::vector<std::string>& protectionNames);
 };
 
 

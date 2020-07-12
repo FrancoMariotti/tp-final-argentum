@@ -9,6 +9,7 @@
 #include <vector>
 #include "common_message_structs.h"
 enum MESSAGES {
+    CONNECT_MESSAGE_ID,
     DRAW_MESSAGE_ID,
     MOVEMENT_MESSAGE_ID,
     USE_ITEM_MESSAGE_ID,
@@ -22,7 +23,7 @@ enum MESSAGES {
     SPAWN_CITY_CHARACTERS_MESSAGE_ID,
     SPAWN_DROPS_MESSAGE_ID,
     CONSOLE_OUTPUT_MESSAGE_ID,
-    CONNECT_MESSAGE_ID
+    SPAWN_PC_MESSAGE_ID
 };
 
 
@@ -31,7 +32,6 @@ protected:
     int id;
     explicit Message(int id);
 public:
-    MSGPACK_DEFINE(id)
     int getId() const;
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
@@ -49,13 +49,12 @@ public:
     virtual equipment_t getEquipment();
     virtual std::vector<std::string> getItems();
     virtual std::vector<spawn_character_t> getSpawnData();
+    virtual std::vector<spawn_playable_character_t> getPcSpawnData();
     virtual npc_movement_t getMovement();
     virtual t_player_attack getAttack();
     virtual std::vector<std::string> getConsoleOutput();
+    virtual t_create_connect getConnectData() const;
     virtual std::string getUserName() const;
-    virtual connect_t getConnectData() const;
-    virtual std::string serialize();
-    virtual Message* deserialize();
     virtual ~Message() = default;
 };
 
@@ -111,12 +110,12 @@ public:
 
 class Connect : public Message {
 private:
-    std::string username;
-    std::string charRace;
-    std::string charClass;
+    const std::string username;
+    const std::string race;
+    const std::string char_class;
 public:
-    Connect(std::string username,std::string charRace,std::string charClass);
-    connect_t getConnectData() const override ;
+    Connect(const std::string username, const std::string race,const std::string char_class);
+    t_create_connect getConnectData() const override;
 };
 
 class Stats : public Message {
@@ -149,11 +148,18 @@ public:
     std::vector<std::string> getItems() override;
 };
 
-class SpawnNpc: public Message {
+class SpawnNpc : public Message {
     std::vector<spawn_character_t> renderables;
 public:
     explicit SpawnNpc(std::vector<spawn_character_t> renderables);
     std::vector<spawn_character_t> getSpawnData() override;
+};
+
+class SpawnPc : public Message {
+    std::vector<spawn_playable_character_t> renderables;
+public:
+    explicit SpawnPc(std::vector<spawn_playable_character_t> renderables);
+    std::vector<spawn_playable_character_t> getPcSpawnData() override;
 };
 
 class SpawnDrops: public Message {

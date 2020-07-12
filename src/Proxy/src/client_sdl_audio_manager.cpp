@@ -24,6 +24,7 @@ SdlAudioManager::SdlAudioManager() :
     game_sounds.emplace(std::make_pair("dodge", SdlChunk(AUDIO_PATH + "/dodge.wav")));
     game_sounds.emplace(std::make_pair("ambient1", SdlChunk(AUDIO_PATH + "/ambient1.wav")));
     game_sounds.emplace(std::make_pair("ambient2", SdlChunk(AUDIO_PATH + "/ambient2.wav")));
+    game_sounds.emplace(std::make_pair("meditate", SdlChunk(AUDIO_PATH + "/heal.wav")));
 }
 
 void SdlAudioManager::playMainMenuMusic(const int loops) {

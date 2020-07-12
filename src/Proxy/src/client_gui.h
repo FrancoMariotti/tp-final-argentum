@@ -18,17 +18,16 @@
 #include "client_sdl_audio_manager.h"
 #include "client_sdl_timer.h"
 #include "client_sdl_dynamic_renderable.h"
+#include "client_event_mediator.h"
 
 class SdlDynamicRenderable;
 class GUI {
 private:
     SdlWindow window;
     TTF_Font* font;
-    SdlTimer timer;
     SdlAudioManager audioManager;
     SdlTextureManager textureManager;
     SdlTexture interface;
-    SdlRenderablePlayable player;
     SdlInventory inventory;
     SdlCamera camera;
     SdlMouse mouse;
@@ -37,9 +36,11 @@ private:
     SdlWorld world;
     SdlStats playerStats;
     std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_renderables;
+    std::map<std::string, std::unique_ptr<SdlDynamicRenderable>> dynamic_playable_renderables;
     std::vector<std::unique_ptr<SdlDynamicRenderable>> static_renderables;
-
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
+    std::string username;
+    EventMediator eventMediator;
 public:
     GUI(int screen_width, int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents);
     void setWorldDimensions(int w, int h);
@@ -65,7 +66,11 @@ public:
 
     void updateConsoleOutput(std::vector<std::string> console_outputs);
 
-    void updateRenderableStats(std::string renderable_id, std::string effect_id);
+    void updateRenderableStats(const std::string &renderable_id, const std::string &effect_id);
+
+    void updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables);
+
+    void setUsername(const std::string &client_username);
 };
 
 

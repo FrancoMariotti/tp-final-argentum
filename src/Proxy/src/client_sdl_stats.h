@@ -21,7 +21,7 @@ private:
     SdlOutput manaLabel;
     SdlOutput lifeLabel;
 public:
-    SdlStats(int screen_width, int screen_height,const SdlWindow& window, TTF_Font *font);
+    SdlStats(const SdlWindow &window, TTF_Font *font);
 
     void update(t_stats stats);
 

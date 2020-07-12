@@ -15,17 +15,17 @@
 #define INVENTORY_Y 180
 
 
-SdlInventory::SdlInventory(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font) :
+SdlInventory::SdlInventory(const SdlWindow &window, TTF_Font *font) :
+        width(IMAGE_INVENTORY_WIDTH),
+        height(IMAGE_INVENTORY_HEIGHT),
+        MAX_BUTTONS_PER_ROW(width / BUTTON_SIZE),
         window(window),
         font(font)
         {
-    //Tamaño ventana inventario
-    this->width = IMAGE_INVENTORY_WIDTH;
-    this->height = IMAGE_INVENTORY_HEIGHT;
 
     //inicializo la posicion del inventario
-    this->inventory_x = INVENTORY_X;
-    this->inventory_y = INVENTORY_Y;
+    this->inventory_x = INVENTORY_X; //window.getWidth * 0.8 ;
+    this->inventory_y = INVENTORY_Y; //screen_height * 0.234;
 
     for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
@@ -48,11 +48,17 @@ void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {
 void SdlInventory::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse) {
     for (unsigned long i = 0; i < buttons.size() ; ++i) {
         /*Veo si fueron clickeados*/
-        buttons[i].use(clientEvents, (int) i, mouse);
+        buttons[i].use(clientEvents, (int) i, mouse, this);
     }
 }
 
-void SdlInventory::update(std::vector<std::string> inventory){
+void SdlInventory::unlockOutlineSprite(){
+    for(auto & button : buttons){
+        button.lockOutlineSprite(false);
+    }
+}
+
+void SdlInventory::update(std::vector<std::string> inventory) {
     buttons.clear();
     SdlTexture& outline = inventoryTextures.at("outline");
     for(auto it = inventory.begin(); it != inventory.end(); it ++){
@@ -92,6 +98,10 @@ void SdlInventory::render() {
 
 void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
     this->inventoryTextures.at(id).render(x,y);
+}
+
+void SdlInventory::notify(int inventory_i) {
+    mediator->notify(this, inventory_i);
 }
 
 SdlInventory::~SdlInventory() {

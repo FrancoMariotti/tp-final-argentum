@@ -74,45 +74,13 @@ void SdlWorld::render(SdlCamera& camera, std::map<int, std::vector<SDL_Point>>& 
         iterator++;
     }
 }
-/*
-void SdlWorld::renderFloor(SdlCamera &camera) {
-    std::map<int, std::vector<SDL_Point>>::iterator iterator = world_floor_tiles.begin();
-    while(iterator != world_floor_tiles.end()){
-        for(auto value_iterator = iterator->second.begin();
-        value_iterator != iterator->second.end() ; ++value_iterator) {
-            if(camera.isInCameraView(*value_iterator)){
-                SDL_Point relative_point = camera.getCoordinates(*value_iterator);
-                worldSpriteSheetTexture.render(relative_point.x,
-                                               relative_point.y,
-                                               &world_tiles_clips.at(iterator->first));
-            }
-        }
-        iterator++;
-    }
-}
 
-void SdlWorld::renderObstacles(SdlCamera &camera) {
-    std::map<int, std::vector<SDL_Point>>::iterator iterator = world_obstacles_tiles.begin();
-    while(iterator != world_obstacles_tiles.end()){
-        for(auto value_iterator = iterator->second.begin();
-        value_iterator != iterator->second.end() ; ++value_iterator) {
-            if(camera.isInCameraView(*value_iterator)){
-                SDL_Point relative_point = camera.getCoordinates(*value_iterator);
-                worldSpriteSheetTexture.render(relative_point.x,
-                                               relative_point.y,
-                                               &world_tiles_clips.at(iterator->first));
-            }
-        }
-        iterator++;
-    }
-}
-*/
 void SdlWorld::setDimensions(int w, int h) {
     this->map_width = w;
     this->map_height = h;
 }
 
-
+/*Re-usamos el spawn_character_t para los items*/
 void SdlWorld::updateDrops(const std::vector<spawn_character_t> &drops) {
     for(auto & world_drop : world_drops){
         world_drop.second.clear();

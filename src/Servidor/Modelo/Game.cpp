@@ -10,8 +10,9 @@ Game::Game(const std::string& configFile): configFile(configFile),mapFactory(con
     commandExecutor(map), factoryCharacters(configFile), npcFactory(configFile) {}
 
 void Game::updateModel(float looptime) {
-    map->updateAllPlayers(looptime);
+    map->updateAllPlayers(looptime, this);
     map->moveNpcs(looptime);
+    map->regenerateNpcs(looptime, npcFactory, this);
 }
 
 std::queue<Message *> Game::initializeWorld() {
@@ -57,6 +58,18 @@ void Game::initialize() {
     }
 }
 
+void Game::initializeMap(ProxySocket& pxySkt) {
+    map->sendLayers(pxySkt,configFile);
+}
+
+std::queue<Message*> Game::initializeWorldForClient() {
+    std::queue<Message*> initializeMessages;
+    map->addLayersTo(configFile, initializeMessages);
+    map->initializeDropSpawns(initializeMessages);
+    map->initializeNpcsSpawns(initializeMessages);
+    map->initializePlayersSpawns(initializeMessages);
+    return initializeMessages;
+}
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
@@ -84,9 +97,6 @@ void Game::storeInInventory(const std::string& playerName, Equippable* element) 
     character->store(element);
 }
 
-void Game::initializeMap(ProxySocket& pxySkt) {
-    map->sendLayers(pxySkt,configFile);
-}
 
 void Game::sendUpdates(ProxySocket& pxySkt) {
     while (!updates.empty()) {
@@ -99,6 +109,10 @@ void Game::sendUpdates(ProxySocket& pxySkt) {
 
 void Game::notifySpawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
     updates.push(new SpawnNpc(npcs));
+}
+
+void Game::notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) {
+    updates.push(new SpawnPc(pcSpawns));
 }
 
 void Game::notifyDropSpawnNUpdate(std::vector<spawn_character_t> dropSpawns) {

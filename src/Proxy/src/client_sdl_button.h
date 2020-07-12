@@ -13,6 +13,7 @@
 #include "client_sdl_camera.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_text.h"
+#include "client_event_mediator.h"
 
 class SdlText;
 class Message;
@@ -29,6 +30,7 @@ private:
     int height;
     int left_click;
     int right_click;
+    bool sprite_locked;
     const std::string texture_id;
     SDL_Point position;
     //Currently used sprite
@@ -53,12 +55,14 @@ public:
     //Handles mouse event
     void handleEvent(SDL_Event &e, bool &is_event_handled);
     /*Si el jugador hizo click en algun item envia el comando a la cola de eventos*/
-    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse);
+    void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse, SdlInventory *inventory);
     /*Muestra los sprites de los botones*/
     void render();
     ~SdlButton() = default;
 
     void updateText(const equipment_t &equipment);
+
+    void lockOutlineSprite(const bool lock);
 };
 
 

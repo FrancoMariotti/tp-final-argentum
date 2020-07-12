@@ -112,23 +112,19 @@ std::vector<std::string> Message::getConsoleOutput() {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
-
 std::string Message::getUserName() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-connect_t Message::getConnectData() const {
+t_create_connect Message::getConnectData() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-std::string Message::serialize() {
-    return std::__cxx11::string();
-}
-
-Message *Message::deserialize() {
-    return nullptr;
+std::vector<spawn_playable_character_t> Message::getPcSpawnData() {
+   throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
@@ -190,7 +186,9 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
     command(command),
     x(-1),
     y(-1)
-    {}
+    {
+        std::cout << command << "x:" << x << "y:" << y << std::endl;
+    }
 
 ExecuteCommand::ExecuteCommand(std::string username,std::string input,const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
@@ -199,8 +197,7 @@ ExecuteCommand::ExecuteCommand(std::string username,std::string input,const int 
     x(x),
     y(y)
     {
-    std::cout << command << std::endl;
-    std::cout << "x:" << x << "y:" << y << std::endl;
+    std::cout << command << "x:" << x << "y:" << y << std::endl;
     }
 ExecuteCommand::ExecuteCommand(std::string input,const int x,const int y) :
         Message(COMMAND_MESSAGE_ID),
@@ -231,15 +228,15 @@ std::string ExecuteCommand::getUserName() const {
     return username;
 }
 
-Connect::Connect(std::string username,std::string charRace,std::string charClass) :
+Connect::Connect(const std::string username,const std::string race,const std::string char_class) :
     Message(CONNECT_MESSAGE_ID),
     username(username),
-    charRace(charRace),
-    charClass(charClass)
+    race(race),
+    char_class(char_class)
     {}
 
-connect_t Connect::getConnectData() const {
-    return connect_t {username,charRace,charClass};
+t_create_connect Connect::getConnectData() const{
+    return t_create_connect{username, race, char_class};
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)
@@ -277,6 +274,13 @@ SpawnNpc::SpawnNpc(std::vector<spawn_character_t> renderables) : Message(SPAWN_N
     {}
 
 std::vector<spawn_character_t> SpawnNpc::getSpawnData() {
+    return std::move(renderables);
+}
+
+SpawnPc::SpawnPc(std::vector<spawn_playable_character_t> renderables) : Message(SPAWN_PC_MESSAGE_ID),
+    renderables(std::move(renderables)){}
+
+std::vector<spawn_playable_character_t> SpawnPc::getPcSpawnData() {
     return std::move(renderables);
 }
 

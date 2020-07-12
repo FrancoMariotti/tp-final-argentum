@@ -220,7 +220,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
     auto* character =  new PlayableCharacter(playerName,map,initialPosition,constitution,strength,agility,intelligence,
             level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
-            meditationRecoveryFactor, invMaxElements,observer);
+            meditationRecoveryFactor, invMaxElements,observer, charRace);
     map->add(playerName,character);
 }
 
@@ -276,8 +276,8 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
             raceManaFactor, classManaFactor, recoveryFactor,
             meditationRecoveryFactor, observer, potionsToDrop, itemsToDrop);
 
-    spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
-    map->registerNpcSpawn(observer,spawn);
+    //spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
+    //map->registerNpcSpawn(observer,spawn);
     map->add(id,enemy);
 }
 

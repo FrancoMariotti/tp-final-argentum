@@ -12,8 +12,8 @@ SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &text
                                            SdlAudioManager &audioManager) :
         pos_x(x),
         pos_y(y),
-        old_x(0),
-        old_y(0),
+        old_x(x),
+        old_y(y),
         animation_frame(0),
         is_moving(false),
         textureManager(textureManager),
@@ -61,7 +61,7 @@ void SdlDynamicRenderable::endAnimationIfComplete() {
 }
 
 /*Elimina los efectos que ya terminaron y agrega el nuevo efecto a la lista*/
-void SdlDynamicRenderable::updateStats(const std::string& effect_id) {
+void SdlDynamicRenderable::addVisualEffect(const std::string& effect_id) {
     std::vector<SdlEffect>::iterator it = effects.begin();
     while (it != effects.end()) {
         if (it->isFinish()) {
@@ -73,6 +73,25 @@ void SdlDynamicRenderable::updateStats(const std::string& effect_id) {
     effects.emplace_back(textureManager.getEffectSpriteTexture(effect_id),
                          effect_id,
                          audioManager);
+}
+
+void SdlDynamicRenderable::renderEffects(const SdlCamera& camera){
+    /*Reproduce todos los efectos pendientes de la lista de efectos*/
+    for(auto it = effects.begin(); it != effects.end(); it++){
+        it->render(pos_x + camera.getTileSize()/2 - camera.getX(), pos_y - camera.getTileSize()/2 - camera.getY());
+    }
+}
+
+int SdlDynamicRenderable::getPosX() const {
+    return pos_x;
+}
+
+int SdlDynamicRenderable::getPosY() const {
+    return pos_y;
+}
+
+SDL_Point SdlDynamicRenderable::getPos() const {
+    return SDL_Point{pos_x, pos_y};
 }
 
 
@@ -96,6 +115,7 @@ void SdlRenderableNPC::render(const SdlCamera& camera){
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
         healthBar.render(pos_x - camera.getX(), pos_y - camera.getY());
     }
+    SdlDynamicRenderable::renderEffects(camera);
     this->endAnimationIfComplete();
 }
 
@@ -104,13 +124,15 @@ void SdlRenderableNPC::updateEquipment(const equipment_t &equipment) {
 }
 
 SdlRenderablePlayable::SdlRenderablePlayable(int x, int y, SdlTextureManager &textureManager,
-                                             const std::string username, TTF_Font *font, const SdlWindow &window,
+                                             const std::string& username, const std::string& race,
+                                             const equipment_t& equipment, TTF_Font *font, const SdlWindow &window,
                                              SdlAudioManager &audioManager) :
         SdlDynamicRenderable(x, y, textureManager, window, font,
                              username, SDL_Color{0, 0, 0xFF, 0xFF}, audioManager),
         username(username),
-        t_appearance{"humanHead","none","defaultArmour",
-                     "none","none"}
+        RACE(race),
+        t_appearance{race + "Head",equipment.helmetName,equipment.armourName,
+                     equipment.weaponName,equipment.shieldName}
         {}
 
 void SdlRenderablePlayable::updateEquipment(const equipment_t &equipment) {
@@ -133,17 +155,8 @@ void SdlRenderablePlayable::render(const SdlCamera &camera) {
                                      camera, body_or, head_or);
         tag.render(pos_x - camera.getX(),pos_y - camera.getY());
     }
-    /*Reproduce todos los efectos pendientes de la lista de efectos*/
-    for(auto it = effects.begin(); it != effects.end(); it++){
-        it->render(pos_x - camera.getX(), pos_y - camera.getY());
-    }
+    SdlDynamicRenderable::renderEffects(camera);
+
     this->endAnimationIfComplete();
 }
 
-int SdlRenderablePlayable::getPosX() const {
-    return pos_x;
-}
-
-int SdlRenderablePlayable::getPosY() const {
-    return pos_y;
-}

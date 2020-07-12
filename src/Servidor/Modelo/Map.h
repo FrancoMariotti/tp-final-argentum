@@ -3,7 +3,6 @@
 
 #include <Proxy/src/common_message.h>
 #include "map"
-#include "queue"
 #include "vector"
 #include "Position.h"
 #include "Obstacle.h"
@@ -14,7 +13,10 @@
 #include "Drop.h"
 #include "City.h"
 #include "Banker.h"
+#include <queue>
+#include <memory>
 
+class Message;
 class Character;
 class Npc;
 class PlayableCharacter;
@@ -25,11 +27,12 @@ class ProxySocket;
 class Map {
     int width;
     int height;
+    float lastNpcUpdate;
     Banker banker;
     Merchant merchant;
     Priest priest;
     std::vector<spawn_character_t> cityCharactersSpawns;
-    std::vector<spawn_character_t> npcSpawns;
+    //std::vector<spawn_character_t> npcSpawns;
     std::vector<spawn_character_t> dropsSpawns;
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
@@ -48,9 +51,9 @@ class Map {
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
         void sendLayers(ProxySocket& sck,const std::string& configFile) const;
-        void registerNpcSpawn(Observer * observer,spawn_character_t spawn);
+        //void registerNpcSpawn(Observer * observer,spawn_character_t spawn);
         void moveNpcs(float looptime);
-        void updateAllPlayers(float looptime);
+        void updateAllPlayers(float looptime, Observer* observer);
         Position asignRandomPosition();
         Position asignRandomPosInAnyCity();
         void addDrop(Drop drop);
@@ -59,6 +62,7 @@ class Map {
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
         void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
+        //void spawnCityCharacters(Observer *observer);
         Position getRandomPosAtClosestPriestCity(PlayableCharacter *player);
         Banker* getBankerAtPosition(const Position& position);
         Merchant* getMerchantAtPosition(Position position);
@@ -71,7 +75,16 @@ class Map {
         void updateDropSpawns(Observer *observer);
         Drop takeDropFromPos(Position position);
         std::queue<Message *> initializeClientMap(const std::string &configFile) const;
+        void regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer);
+        void addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages);
+        void initializeDropSpawns(std::queue<Message*>& initializeMessages);
+        void initializeNpcsSpawns(std::queue<Message*>& initializeMessages);
+        void updateNpcsSpawns(Observer* observer);
+        void updatePcSpawns(Observer* observer);
+        void initializePlayersSpawns(std::queue<Message*>& initializeMessages);
         ~Map();
+
+
 };
 
 #endif //ARGENTUM_MAPA_H

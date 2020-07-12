@@ -1,6 +1,7 @@
 #ifndef ARGENTUM_PLAYABLECHARACTER_H
 #define ARGENTUM_PLAYABLECHARACTER_H
 
+#include <Proxy/src/common_message_structs.h>
 #include "Character.h"
 #include "Weapon.h"
 #include "NormalWeapon.h"
@@ -9,12 +10,12 @@
 #include "Position.h"
 #include "Merchant.h"
 #include "Banker.h"
-#include "GoldBag.h"
-
 
 class LifeState;
 class Game;
 class Potion;
+class GoldBag;
+
 
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
@@ -29,6 +30,7 @@ class PlayableCharacter: public Character {
     LifeState *lifeState;
     bool inCity;
     BankAccount bankAccount;
+    std::string race;
 private:
     bool checkFairPlay(int enemyLevel);
     void revive();
@@ -39,7 +41,7 @@ public:
     PlayableCharacter(std::string id,Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-                  int invMaxElements,Observer* observer);
+                  int invMaxElements,Observer* observer, std::string race);
     int receiveDamage(int enemyLevel, int damage) override;
     void attack(Character *character) override;
     void move(Offset& offset);
@@ -59,6 +61,7 @@ public:
     void earnMana(int value);
     void notifyStats();
     void notifyEquipment();
+    void notifySpawn();
     void makeDamageTo(Character *character);
     int attackTo(PlayableCharacter *enemy);
     int attackTo(Npc *enemy);
@@ -83,6 +86,13 @@ public:
     void takeDrop();
     void dropItem(int itemIndex);
     ~PlayableCharacter() override;
+
+    void sendItemsInBankList();
+
+    void notifyConsoleOutputUpdate(std::vector<std::string> messages);
+
+    void addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns);
+
 };
 
 

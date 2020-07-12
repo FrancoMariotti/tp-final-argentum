@@ -8,8 +8,9 @@
 
 #include "common_blocking_queue.h"
 #include "common_message.h"
+#include "client_imediator.h"
 
-class SdlKeyboard {
+class SdlKeyboard : public BaseComponent {
 private:
     int player_vel_x;
     int player_vel_y;

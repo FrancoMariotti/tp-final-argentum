@@ -9,7 +9,7 @@
 #include "Command.h"
 #include "Map.h"
 
-class DepositCommand: public Command {
+class DepositCommand : public Command {
     Map* map;
 public:
     explicit DepositCommand(Map *map);

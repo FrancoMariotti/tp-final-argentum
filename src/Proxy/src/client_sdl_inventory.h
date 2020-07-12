@@ -10,14 +10,13 @@
 #include "client_sdl_player.h"
 #include "client_sdl_mouse.h"
 #include "common_message_structs.h"
+#include "client_event_mediator.h"
 #include <vector>
 #include <map>
 
 class Message;
-class SdlInventory {
+class SdlInventory : public BaseComponent {
 private:
-    const int MAX_BUTTONS_PER_ROW = 4;
-
     /*Tamaño del inventario*/
     int width;
     int height;
@@ -25,7 +24,8 @@ private:
     /*Posicion del inventario*/
     int inventory_x;
     int inventory_y;
-    const int BUTTON_SIZE = 40;
+    const int BUTTON_SIZE = 32;
+    const int MAX_BUTTONS_PER_ROW;
     const std::vector<std::string> GAME_ITEMS_ID{"sword","axe","hammer","fresnoWand"
             ,"crimpStick","knottyStick","elvenFlute","commonBow", "rareBow","defaultArmour"
             ,"leatherArmour", "ironArmour", "blueTunic",
@@ -42,7 +42,7 @@ private:
     std::map<std::string, SdlTexture> inventoryTextures;
 
 public:
-    SdlInventory(int screen_width, int screen_height, const SdlWindow &window, TTF_Font *font);
+    SdlInventory(const SdlWindow &window, TTF_Font *font);
 
     void handleEvent(SDL_Event &event, bool &is_event_handled);
 
@@ -58,6 +58,9 @@ public:
 
     void updateEquippedItems(const equipment_t &equipment);
 
+    void unlockOutlineSprite();
+
+    void notify(int inventory_i);
 };
 
 

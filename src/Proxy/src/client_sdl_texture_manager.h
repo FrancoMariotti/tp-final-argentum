@@ -30,7 +30,8 @@ private:
     std::map<std::string, SdlTexture> effects_textures;
     const std::vector<std::string> RENDERABLES_TEXTURES_ID{"goblin","skeleton","zombie",
                                                            "spider","banker","priest","merchant"};
-    const std::vector<std::string> EFFECTS_TEXTURES_ID{"magicArrow","heal","missile", "explosion"};
+    const std::vector<std::string> EFFECTS_TEXTURES_ID{"magicArrow","heal",
+                                                       "missile", "explosion","meditate"};
 public:
     enum e_body_orientation{
         FRONT,
@@ -84,9 +85,7 @@ public:
                         int old_x, int old_y, int animation_frame, e_body_orientation body_or,
                         e_head_orientation head_or);
 
-    void effects(const std::string effect_id, const int x, const int y, const SdlCamera &camera);
-
-    SdlTexture &getEffectSpriteTexture(const std::string effect_id);
+    SdlTexture& getEffectSpriteTexture(const std::string& effect_id);
 
 private:
     int headX(int tile_size, int head_w) const;

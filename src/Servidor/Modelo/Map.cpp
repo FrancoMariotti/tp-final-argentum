@@ -10,7 +10,7 @@
 
 #define NPCSAMOUNT 16
 
-Map::Map(int width,int height):width(width),height(height) {}
+Map::Map(int width,int height):width(width),height(height), lastNpcUpdate(0){}
 
 void Map::add( Banker pBanker) {
     this->banker = std::move(pBanker);
@@ -28,13 +28,6 @@ void Map::add(City city) {
     cities.push_back(std::move(city));
 }
 
-void Map::registerNpcSpawn(Observer * observer,spawn_character_t spawn) {
-    npcSpawns.push_back(spawn);
-    if(npcSpawns.size() == NPCSAMOUNT) {
-        observer->notifySpawnNpcUpdate(npcSpawns);
-    }
-}
-
 void Map::registerCityCharactersSpawns(std::vector<spawn_character_t>& spawns) {
     for (auto &spawn : spawns) {
         cityCharactersSpawns.push_back(spawn);
@@ -47,9 +40,10 @@ void Map::removePlayableCharacter(const std::string& playerName) {
 
 void Map::add(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
+    character->notifySpawn();
     //Esto lo agrego para que el personaje se renderice en la posicion inicial
-    Offset nullOffset (0, 0);
-    character->move(nullOffset);
+    //Offset nullOffset (0, 0);
+    //character->move(nullOffset);
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
@@ -63,11 +57,7 @@ void Map::add(const Obstacle& obstacle) {
 
 void Map::removeNpc(const std::string& idNpc, Observer* observer) {
     npcs.erase(idNpc);
-    npcSpawns.erase(std::remove_if(npcSpawns.begin(),
-                              npcSpawns.end(),
-                              [idNpc](spawn_character_t npc){return npc.id == idNpc;}),
-               npcSpawns.end());
-    observer->notifySpawnNpcUpdate(npcSpawns);
+    updateNpcsSpawns(observer);
 }
 
 bool Map::isOccupied(Position pos) {
@@ -155,6 +145,40 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
       //        new Draw("obstacles",obstaclesLayer,width,height)));
 }
 
+//METODO A USAR EN NUEVA COMUNICACION
+void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages) {
+    FileParser parser(configFile);
+    Json::Value mapObj =  parser.read("map");
+
+    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
+    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
+
+    std::vector<int> floorLayer;
+    floorLayer.reserve(floorLayersid.size());
+
+    for (const auto & i : floorLayersid){
+        floorLayer.push_back(i.asInt());
+    }
+
+    initializeMessages.push(new Draw("floor",floorLayer,width,height));
+
+    initializeMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
+
+    std::vector<int> obstaclesLayer;
+    obstaclesLayer.reserve(obstaclesLayersid.size());
+
+    for (const auto & i : obstaclesLayersid){
+        obstaclesLayer.push_back(i.asInt());
+    }
+    initializeMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
+}
+
+void Map::initializeDropSpawns(std::queue<Message*>& initializeMessages) {
+    initializeMessages.push(new SpawnDrops(dropsSpawns));
+
+}
+
+
 std::queue<Message*> Map::initializeClientMap(const std::string& configFile) const {
     std::queue<Message*> initialMessages;
     FileParser parser(configFile);
@@ -208,12 +232,15 @@ void Map::moveNpcs(float looptime) {
     }
 }
 
-void Map::updateAllPlayers(float looptime) {
+void Map::updateAllPlayers(float looptime, Observer* observer) {
     auto itrCharacters = characters.begin();
     for (; itrCharacters != characters.end(); itrCharacters++) {
         itrCharacters->second->recoverMana(looptime);
         itrCharacters->second->recoverLifePoints(looptime);
     }
+    //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de
+    // todos los players del mapa, ver como resolver esto
+    //updatePcSpawns(observer);
 }
 
 void Map::addDrop(Drop drop) {
@@ -303,17 +330,46 @@ Map::~Map() {
     }
 }
 
+void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer) {
+    if (lastNpcUpdate + loopTimeInSeconds >= 30 && npcs.size() < NPCSAMOUNT) {
+        std::vector<std::string> species = {"goblin", "spider", "zombie", "skeleton"};
+        int randomIndex = Utils::random_int_number(0, species.size() - 1);
+        npcFactory.create(this, species[randomIndex], observer);
+        lastNpcUpdate = 0;
+        updateNpcsSpawns(observer);
+    } else {
+        lastNpcUpdate += loopTimeInSeconds;
+    }
+}
 
+void Map::initializeNpcsSpawns(std::queue<Message*>& initializeMessages) {
+    std::vector<spawn_character_t> npcSpawns;
+    for (auto &npc : npcs) {
+        npc.second->addSpawnInfoTo(npcSpawns);
+    }
+    initializeMessages.push(new SpawnNpc(npcSpawns));
+}
 
+void Map::updateNpcsSpawns(Observer* observer) {
+    std::vector<spawn_character_t> npcSpawns;
+    for (auto &npc : npcs) {
+        npc.second->addSpawnInfoTo(npcSpawns);
+    }
+    observer->notifySpawnNpcUpdate(npcSpawns);
+}
 
+void Map::initializePlayersSpawns(std::queue<Message*>& initializeMessages) {
+    std::vector<spawn_playable_character_t> pcSpawns;
+    for (auto &pc : characters) {
+        pc.second->addSpawnInfoTo(pcSpawns);
+    }
+    initializeMessages.push(new SpawnPc(pcSpawns));
+}
 
-
-
-
-
-
-
-
-
-
-
+void Map::updatePcSpawns(Observer *observer) {
+    std::vector<spawn_playable_character_t> pcSpawns;
+    for (auto &pc : characters) {
+        pc.second->addSpawnInfoTo(pcSpawns);
+    }
+    observer->notifySpawnPcUpdate(pcSpawns);
+}

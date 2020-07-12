@@ -1,6 +1,7 @@
 #include "Npc.h"
 #include <utility>
 #include <iostream>
+#include <Proxy/src/common_message_structs.h>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
@@ -78,7 +79,7 @@ int Npc::receiveDamage(int enemyLevel, int damage) {
     int xpEarned = 0;
 
     if (dodge()) {
-        return xpEarned;
+        return -1;
     }
 
     damage = defend(damage);
@@ -115,10 +116,12 @@ int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
 void Npc::die() {
     if (shouldDrop(GOLD_DROP_PROBABILITY)) {
         int gold = (int)calculateNpcGoldDrop();
-        auto* goldBag = new GoldBag(gold);
-        Position pos = getClosestPositionToDrop();
-        Drop drop(pos, goldBag, "goldBag");
-        map->addDrop(drop);
+        if (gold > 0) {
+            auto* goldBag = new GoldBag(gold);
+            Position pos = getClosestPositionToDrop();
+            Drop drop(pos, goldBag, "goldBag");
+            map->addDrop(drop);
+        }
     }
 
     if (shouldDrop(POTION_DROP_PROBABILITY)) {
@@ -145,6 +148,11 @@ void Npc::die() {
 
 void Npc::addMerchant(Merchant* newMerchant) {
     merchant = newMerchant;
+}
+
+void Npc::addSpawnInfoTo(std::vector<spawn_character_t>& npcSpawns) {
+    spawn_character_t  spawn = {currPos.getX(),currPos.getY(),id};
+    npcSpawns.push_back(spawn);
 }
 
 Npc::~Npc() = default;

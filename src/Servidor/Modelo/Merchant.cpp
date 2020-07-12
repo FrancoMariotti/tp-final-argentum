@@ -1,6 +1,7 @@
 #include <utility>
 #include "Merchant.h"
 #include "Factory.h"
+#include "PlayableCharacter.h"
 
 Merchant::Merchant(std::vector<Position> positions, std::map<std::string, item_t> stock ,
                    std::map<std::string, EquippableFactory*> factories):
@@ -16,6 +17,7 @@ Equippable* Merchant::sell(const std::string& name, int *gold) {
 }
 
 int Merchant::buy(const std::string& itemName) {
+    if (stock.find(itemName) == stock.end()) return 0;
     return stock.at(itemName).goldCost;
 }
 
@@ -50,5 +52,15 @@ Merchant::~Merchant() {
     for(;it!=factories.end();it++) {
         delete it->second;
     }
+}
+
+void Merchant::sendStockListTo(PlayableCharacter *pCharacter) {
+    std::string message = "Items del comerciante en venta: ";
+    for (auto &item : stock) {
+        message += item.first + " ";
+    }
+    std::vector<std::string> messages;
+    messages.push_back(message);
+    pCharacter->notifyConsoleOutputUpdate(messages);
 }
 

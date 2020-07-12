@@ -2,15 +2,13 @@
 // Created by agustin on 16/6/20.
 //
 
-#include <iostream>
 #include "client_sdl_console.h"
 #include "client_sdl_window.h"
-#include "client_command.h"
 #include "common_message.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_dynamic_renderable.h"
 
-SdlConsole::SdlConsole(const int screen_width, const int screen_height, const SdlWindow &window, TTF_Font *font) :
+SdlConsole::SdlConsole(const SdlWindow &window, TTF_Font *font) :
         inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
         window(window),
         text_color{0xAA,0xAA,0xFF,0xFF},
@@ -22,8 +20,8 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
 
     this->console_x = IMAGE_CONSOLE_X;
     this->console_y = IMAGE_CONSOLE_Y;
-    this->width = screen_width * 0.75;
-    this->height = screen_height * 0.125;
+    this->width = window.getWidth() * 0.75;
+    this->height = window.getHeight() * 0.125;
     /*this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
     */
@@ -32,7 +30,7 @@ SdlConsole::SdlConsole(const int screen_width, const int screen_height, const Sd
 void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
     render_text = false;
     return_times_pressed = 0;
-    if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+    if (event.type == SDL_KEYDOWN) {
         //Handle backspace
         if (event.key.keysym.sym == SDLK_BACKSPACE && input_text.length() > 0) {
             //lop off character
@@ -60,12 +58,11 @@ void SdlConsole::handleEvent(const SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse, SdlCamera &camera,
-                         SdlRenderablePlayable &player) {
+void SdlConsole::execute() {
     //Rerender text if needed
     if(return_times_pressed > 0){
         recentInputs.emplace_back(input_text, font, text_color, window);
-        this->sendCommandIfValid(clientEvents, mouse, camera, player);
+        mediator->notify(this, input_text);
         input_text = "";
         inputTexture.loadFromRenderedText(" ", text_color, font);
         return_times_pressed--;
@@ -83,54 +80,21 @@ void SdlConsole::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, 
     }
 }
 
-void SdlConsole::sendCommandIfValid(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse,
-                                    SdlCamera &camera, SdlRenderablePlayable &player) {
-    /**Mouse sirve para los comandos que requieren pos del mouse, el /tomar requiere posicion player
-     * pasar player por referencia?*/
-    /**Primero el click luego el comando*/
-    /*Command* cmd = commandFactory.get(this->input_text, mouse.getX(), mouse.getY());
-    if(cmd){
-        (*cmd)(clientEvents, 0);
-        delete cmd;
-        cmd = nullptr;
-    }*/
-    /**SOBRECARGO EL CONSTRUCTOR DE EXECUTECommand*/
-    SDL_Point serverCoordinates = mouse.getPosition();
-    bool clicked_in_map = mouse.clickedInMap();
-    if (input_text == "/meditar") {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
-    } else if (input_text == "/resucitar" && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text == "/resucitar") {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, -1, -1)));
-    } else if (input_text == "/curar" && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/depositar") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/retirar") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text == ("/listar") && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/comprar") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text.find("/vender") == 0 && clicked_in_map) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, serverCoordinates.x, serverCoordinates.y)));
-    } else if (input_text == ("/tomar")) {
-        SDL_Point player_server_pos = camera.posToServerCoordinates(SDL_Point{player.getPosX(), player.getPosY()});
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text, player_server_pos.x, player_server_pos.y)));
-    } else if (input_text == ("/tirar")) {
-        clientEvents.push(std::unique_ptr<Message> (new ExecuteCommand(input_text, mouse.getLastClickedItemIndex(),-1)));
-    } else if (input_text.find('@') == 0) {
-        clientEvents.push(std::unique_ptr<Message>(new ExecuteCommand(input_text)));
-    }
-    mouse.clear();
-}
-
-/*Limpia la lista de inputs y la carga con los mensajes del server*/
+/*Agrega los mensajes del server al consola y reproduce los sonidos correspondiente a los mensajes*/
 void SdlConsole::updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager) {
     for(auto it = outputs.begin(); it != outputs.end(); it++){
         audioManager.reproduceRelatedSound(*it);
-        recentInputs.emplace_back(*it, font, server_message_color, window);
+        if((int)(*it).size() > width / (int) MAX_OUTPUTS){
+            std::string first_half_input = (*it).substr(0,(*it).size() / 2);
+            std::string second_half_input = (*it).substr((*it).size() / 2 + 1,(*it).size());
+            recentInputs.emplace_back(first_half_input, font, server_message_color, window);
+            if(recentInputs.size() > MAX_OUTPUTS){
+                recentInputs.pop_front();
+            }
+            recentInputs.emplace_back(second_half_input, font, server_message_color, window);
+        } else {
+            recentInputs.emplace_back(*it, font, server_message_color, window);
+        }
         if(recentInputs.size() > MAX_OUTPUTS){
             recentInputs.pop_front();
         }
@@ -154,12 +118,5 @@ void SdlConsole::render() {
         reverseIt->render(console_x,  height - (reverseIt->getHeight() / 2) * i);
     }
     this->inputTexture.render(console_x, height);
-    /*
-    for(auto & recent_input: recentInputs){
-        i++;
-        recent_input.render(console_x, console_y + height - (recent_input.getHeight() / 2) * i);
-    }*/
-    /*Renderizo lo que estoy escribiendo*/
-    //this->inputTexture.render(console_x, console_y * 4);
 
 }

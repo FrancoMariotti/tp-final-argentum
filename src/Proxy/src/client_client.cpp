@@ -36,64 +36,77 @@ Client::Client(const std::string& hostname, const std::string& service):thSend(c
 }*/
 
 int Client::run() {
-    this->init();
+    try{
 
-    //Main loop flag
-    bool quit = false;
+        this->init();
 
-    //Event handler
-    SDL_Event event;
+        //Main loop flag
+        bool quit = false;
 
-    //While application is running
-    while (!quit) {
-        //Handle events on queue
-        while (SDL_PollEvent(&event) != 0) {
-            switch(event.type){
-                case SDL_QUIT:
-                    quit = true;
-                    break;
-                case SDL_KEYDOWN:
-                    if(event.key.keysym.sym == SDLK_h){
-                        gui.updateRenderableStats("franco", "explosion");
-                    }
-                    if(event.key.keysym.sym == SDLK_j){
-                        gui.updateRenderableStats("franco", "missile");
-                    }
-                    if(event.key.keysym.sym == SDLK_k){
-                        gui.updateRenderableStats("franco", "magicArrow");
-                    }
-                    if(event.key.keysym.sym == SDLK_l){
-                        gui.updateRenderableStats("franco", "heal");
-                    }
-                    break;
+        //Event handler
+        SDL_Event event;
+
+        //While application is running
+        while (!quit) {
+            //Handle events on queue
+            while (SDL_PollEvent(&event) != 0) {
+                switch(event.type){
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    case SDL_KEYDOWN:
+                        if(event.key.keysym.sym == SDLK_h){
+                            gui.updateRenderableStats("franco", "explosion");
+                        }
+                        if(event.key.keysym.sym == SDLK_j){
+                            gui.updateRenderableStats("franco", "missile");
+                        }
+                        if(event.key.keysym.sym == SDLK_k){
+                            gui.updateRenderableStats("franco", "magicArrow");
+                        }
+                        if(event.key.keysym.sym == SDLK_l){
+                            gui.updateRenderableStats("franco", "heal");
+                        }
+                        if(event.key.keysym.sym == SDLK_g){
+                            gui.updateRenderableStats("franco", "meditate");
+                        }
+                        break;
+                }
+                gui.handleEvents(event);
             }
-            gui.handleEvents(event);
+            /*Logic*/
+            gui.execute();
+
+            /*Consumo la lista de eventos del server y actualizo modelo*/
+            this->update();
+
+            //Render objects
+            gui.render();
+
+            //Cap FPS 50
+            SDL_Delay(20);
         }
-        /*Logic*/
-        gui.execute();
-
-        /*Consumo la lista de eventos del server y actualizo modelo*/
-        this->update();
-
-        //Render objects
-        gui.render();
-
-        //Cap FPS 50
-        SDL_Delay(20);
+    } catch (std::exception & e){
+        std::cout << e.what() << std::endl;
+        return 1;
+    } catch (...){
+        std::cout << "Unknow error" << std::endl;
+        return 1;
     }
+
     return 0;
 }
 
 void Client::init() {
-    /*Me conecto al server*/
-    clientEvents.push(std::unique_ptr<Message>(new Connect("franco","human","wizard")));
+    std::string username_input = "franco";
+    clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
+    gui.setUsername(username_input);
     int init = 0;
-    /*Consumo la lista hasta recibir DOS mensaje draw*/
-    while(init < 2){
-        //std::cout << "client: consuming" << std::endl;
+    /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/
+    while(init < 3){
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
-            std::cout << msg->getId() << std::endl;
+            std::cout << "init():Message ID: " << msg->getId() << std::endl;
             if(msg->getId() == DRAW_MESSAGE_ID){
                 init += 1;
                 std::vector<int> data = msg->getData();
@@ -111,15 +124,23 @@ void Client::init() {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
+            } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
+                this->gui.updateDrops(msg->getSpawnData());
+            } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
+                /*Agregue este init extra para asegurar que haya spawneado el player*/
+                init += 1;
+                gui.updateRenderablePlayables(msg->getPcSpawnData());
             }
         }
     }
+    std::cout << "end of init()" << std::endl;
 }
 
 void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
+        //std::cout << "Update(): MessageId" << msg->getId() << std::endl;
         if(msg->getId() == MOVEMENT_MESSAGE_ID){
             this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
         } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){
@@ -137,7 +158,10 @@ void Client::update() {
             gui.updatePlayerEquipment(msg->getEquipment());
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
-        } /*else if (msg->getId() == RENDERABLE_EFFECT_MESSAGE_ID){
+        } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
+            gui.updateRenderablePlayables(msg->getPcSpawnData());
+        }
+        /*else if (msg->getId() == RENDERABLE_EFFECT_MESSAGE_ID){
            gui.updateRenderableStats(msg->getRenderableId(), msg->getEffectId());
         }*/
     }
