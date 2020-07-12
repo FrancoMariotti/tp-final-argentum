@@ -25,7 +25,8 @@ private:
     NpcFactory npcFactory;
     std::queue<Message*> updates;
 public:
-    explicit Game(const std::string& gameConfigFilename);
+    explicit Game(const std::string& gameConfigFilename, const std::string& playersInfoMapFile,
+            const std::string& playersInfoFile);
     void createPlayer(const std::string& name, const std::string& charRace,
             const std::string& charClass);
     void initializeMap(ProxySocket& sck);

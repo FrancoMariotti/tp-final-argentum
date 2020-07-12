@@ -10,6 +10,7 @@
 
 class Game;
 class Map;
+class ItemFactory;
 
 typedef struct character_info {
    std::string id;
@@ -94,8 +95,13 @@ class PlayableCharacterFactory {
     Json::Value characterObj;
     ItemFactory* itemFactory;
     std::map<std::string, item_t> items;
+    std::fstream playersInfoFile;
+    std::fstream playersInfoMapFile;
+    std::map<std::string, int> playersInfoMap;
+    int playersAmount;
     public:
-        explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory);
+        explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory,
+                const std::string& playersInfoMapFile, const std::string& playersInfoFile);
         void create(Map* map,const std::string& playerName,const std::string& charRace,
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
@@ -111,7 +117,6 @@ class NpcFactory {
         void create(Map* map,const std::string& specie,Observer* observer);
         ~NpcFactory();
 };
-
 
 class EquippableFactory {
 public:

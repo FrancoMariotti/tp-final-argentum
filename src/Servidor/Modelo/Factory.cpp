@@ -3,6 +3,7 @@
 #include <utility>
 #include <Servidor/Common/Utils.h>
 #include <Proxy/src/common_message_structs.h>
+#include <Proxy/src/common_osexception.h>
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -191,7 +192,11 @@ MapFactory::~MapFactory() =default;
 
 
 PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile,
-        ItemFactory *pFactory) : itemFactory(pFactory){
+        ItemFactory *pFactory, const std::string& playersInfoMapFile,
+        const std::string& playersInfoFile) : itemFactory(pFactory),
+        playersInfoFile(playersInfoFile, std::fstream::in | std::fstream::out | std::fstream::binary),
+        playersInfoMapFile(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary)
+        , playersAmount(0) {
     FileParser parser(configFile);
     characterObj = parser.read("character");
     //Ahora creo el stock de items
@@ -212,6 +217,20 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile
         };
         items[newItem.name] = newItem;
     }
+
+    //Chequeo que los archivos se hayan podido abrir
+    if (!this->playersInfoFile || !this->playersInfoMapFile) {
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+    }
+
+    int nameLength, index;
+    while (this->playersInfoMapFile.read((char*)&nameLength, sizeof(int))) {
+        std::string name;
+        this->playersInfoMapFile.read(const_cast<char *>(name.c_str()), nameLength);
+        this->playersInfoMapFile.read((char*)&index, sizeof(int));
+        playersInfoMap[name] = index;
+    }
+
 }
 
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,

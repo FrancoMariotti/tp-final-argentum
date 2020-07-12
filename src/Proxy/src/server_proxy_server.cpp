@@ -16,7 +16,8 @@ ProxyServer::ProxyServer(ProxySocket& proxySocket) :
 
 void ProxyServer::run() {
     std::cout << "Server is running" << std::endl;
-    Game game("config/config.json");
+    Game game("config/config.json", "config/playersInfoMapFile.bin",
+            "config/playersInfoFile.bin");
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
     //game.initializeMap(proxySocket);
