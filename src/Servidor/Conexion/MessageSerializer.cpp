@@ -12,6 +12,7 @@ MessageSerializer::MessageSerializer() {
     serializers[CONNECT_MESSAGE_ID] = new  ConnectMessageSerializer();
     serializers[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
     serializers[SPAWN_DROPS_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
+    serializers[SPAWN_NPC_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
     serializers[SPAWN_PC_MESSAGE_ID] = new SpawnPcMessageSerializer();
 }
 

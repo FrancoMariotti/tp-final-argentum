@@ -20,7 +20,7 @@ std::queue<Message *> Game::initializeWorld() {
     map->addLayersTo(configFile, initializeMessages);
     map->initializeDropSpawns(initializeMessages);
     map->initializeNpcsSpawns(initializeMessages);
-    map->initializePlayersSpawns(initializeMessages);//tengo q agregar serializador
+    map->initializePlayersSpawns(initializeMessages);
     return initializeMessages;
 }
 
