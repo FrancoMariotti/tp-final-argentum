@@ -31,9 +31,8 @@ class Map {
     Banker banker;
     Merchant merchant;
     Priest priest;
-    std::vector<spawn_character_t> cityCharactersSpawns;
-    //std::vector<spawn_character_t> npcSpawns;
-    std::vector<spawn_character_t> dropsSpawns;
+    std::vector<spawn_object_t> cityCharactersSpawns;
+    std::vector<spawn_object_t> dropsSpawns;
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
@@ -61,7 +60,7 @@ class Map {
         void removeNpc(const std::string& idNpc, Observer* observer);
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
-        void registerCityCharactersSpawns(std::vector<spawn_character_t> &spawns);
+        void registerCityCharactersSpawns(std::vector<spawn_object_t> &spawns);
         //void spawnCityCharacters(Observer *observer);
         Position getRandomPosAtClosestPriestCity(PlayableCharacter *player);
         Banker* getBankerAtPosition(const Position& position);
@@ -74,7 +73,6 @@ class Map {
         bool hasDropInPos(Position position);
         void updateDropSpawns(Observer *observer);
         Drop takeDropFromPos(Position position);
-        std::queue<Message *> initializeClientMap(const std::string &configFile) const;
         void regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer);
         void addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages);
         void initializeDropSpawns(std::queue<Message*>& initializeMessages);

@@ -4,12 +4,15 @@
 #include "MovementMessageSerializer.h"
 #include "DrawMessageSerializer.h"
 #include "ConnectMessageSerializer.h"
-#include "SpawnCityCharactersMessageSerializer.h"
+#include "SpawnStaticObjectMessageSerializer.h"
+#include "SpawnPcMessageSerializer.h"
 
 MessageSerializer::MessageSerializer() {
     serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
     serializers[CONNECT_MESSAGE_ID] = new  ConnectMessageSerializer();
-    serializers[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = new  SpawnCityCharactersMessageSerializer();
+    serializers[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
+    serializers[SPAWN_DROPS_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
+    serializers[SPAWN_PC_MESSAGE_ID] = new SpawnPcMessageSerializer();
 }
 
 std::string MessageSerializer::serialize(Message* message) {

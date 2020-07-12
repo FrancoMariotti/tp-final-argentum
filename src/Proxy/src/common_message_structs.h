@@ -17,15 +17,6 @@ typedef struct t_stats{
                    level)
 }t_stats;
 
-typedef struct connect {
-    std::string username;
-    std::string charRace;
-    std::string charClass;
-    MSGPACK_DEFINE(username,
-                   charRace,
-                   charClass)
-}connect_t;
-
 typedef struct equipment {
     std::string weaponName;
     std::string armourName;
@@ -37,14 +28,14 @@ typedef struct equipment {
                    helmetName)
 } equipment_t;
 
-typedef struct spawn_character {
+typedef struct spawn_object {
     int x;
     int y;
     std::string id;
     MSGPACK_DEFINE(x,
                    y,
                    id)
-} spawn_character_t;
+} spawn_object_t;
 
 
 typedef struct npc_movement {
@@ -74,12 +65,23 @@ typedef struct spawn_playable_character {
     std::string armourName;
     std::string shieldName;
     std::string helmetName;
+    MSGPACK_DEFINE(x,
+                y,
+                username,
+                race,
+                weaponName,
+                armourName,
+                shieldName,
+                helmetName)
 } spawn_playable_character_t;
 
 typedef struct t_create_connect {
     std::string username;
     std::string race;
-    std::string char_class;
+    std::string charClass;
+    MSGPACK_DEFINE(username,
+                   race,
+                   charClass)
 } t_create_connect;
 
 

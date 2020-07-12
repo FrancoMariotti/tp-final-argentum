@@ -16,7 +16,7 @@ ProxyServer::ProxyServer(ProxySocket& proxySocket) :
 
 void ProxyServer::run() {
     std::cout << "Server is running" << std::endl;
-    Game game("config/config.json");
+    /*Game game("config/config.json");
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas
     //game.initializeMap(proxySocket);
@@ -40,9 +40,9 @@ void ProxyServer::run() {
     game.equip("franco", 1);
     game.sendUpdates(proxySocket);
     try{
-        while(this->keepListening) {
+        while(this->keepListening) {*/
             /*Si no hay eventos se bloquea*/
-            std::chrono::time_point<std::chrono::system_clock> start, end;
+            /*std::chrono::time_point<std::chrono::system_clock> start, end;
             start = std::chrono::system_clock::now();
             std::unique_ptr<Message> msg;
             if(!proxySocket.isEmpty()) {
@@ -79,7 +79,7 @@ void ProxyServer::run() {
 
     }
 
-    std::cout << "Server finaliza run" << std::endl;
+    std::cout << "Server finaliza run" << std::endl;*/
 }
 
 void ProxyServer::start() {

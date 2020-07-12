@@ -21,7 +21,7 @@ Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint16_t len_
     msgpack::object deserialized = oh.get();
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.
-    connect_t message = deserialized.as<connect_t>();
+    t_create_connect message = deserialized.as<t_create_connect>();
 
-    return new Connect(message.username,message.charRace,message.charClass);
+    return new Connect(message.username,message.race,message.charClass);
 }

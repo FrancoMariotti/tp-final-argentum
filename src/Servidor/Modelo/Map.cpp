@@ -28,7 +28,7 @@ void Map::add(City city) {
     cities.push_back(std::move(city));
 }
 
-void Map::registerCityCharactersSpawns(std::vector<spawn_character_t>& spawns) {
+void Map::registerCityCharactersSpawns(std::vector<spawn_object_t>& spawns) {
     for (auto &spawn : spawns) {
         cityCharactersSpawns.push_back(spawn);
     }
@@ -114,7 +114,7 @@ Character* Map::findCharacterAtPosition(Position &position) {
 PlayableCharacter* Map::getPlayer(const std::string &playerName) {
     return characters.at(playerName);
 }
-
+//este metodo habria q borrarlo.ya no se usa
 void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
@@ -149,10 +149,8 @@ void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
 void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages) {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
-
     const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
     const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
-
     std::vector<int> floorLayer;
     floorLayer.reserve(floorLayersid.size());
 
@@ -161,53 +159,22 @@ void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMe
     }
 
     initializeMessages.push(new Draw("floor",floorLayer,width,height));
-
-    initializeMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
-
+    initializeMessages.push(new SpawnStaticObjects(SPAWN_CITY_CHARACTERS_MESSAGE_ID,
+                                                                cityCharactersSpawns));
     std::vector<int> obstaclesLayer;
     obstaclesLayer.reserve(obstaclesLayersid.size());
 
     for (const auto & i : obstaclesLayersid){
         obstaclesLayer.push_back(i.asInt());
     }
+
     initializeMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
 }
 
 void Map::initializeDropSpawns(std::queue<Message*>& initializeMessages) {
-    initializeMessages.push(new SpawnDrops(dropsSpawns));
-
+    initializeMessages.push(new SpawnStaticObjects(SPAWN_DROPS_MESSAGE_ID,
+                                                                dropsSpawns));
 }
-
-
-std::queue<Message*> Map::initializeClientMap(const std::string& configFile) const {
-    std::queue<Message*> initialMessages;
-    FileParser parser(configFile);
-    Json::Value mapObj =  parser.read("map");
-
-    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
-    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
-
-    std::vector<int> floorLayer;
-    floorLayer.reserve(floorLayersid.size());
-
-    for (const auto & i : floorLayersid){
-        floorLayer.push_back(i.asInt());
-    }
-
-    initialMessages.push(new Draw("floor",floorLayer,width,height));
-
-    initialMessages.push(new SpawnCityCharacters(cityCharactersSpawns));
-
-    std::vector<int> obstaclesLayer;
-    for (const auto & i : obstaclesLayersid){
-        obstaclesLayer.push_back(i.asInt());
-    }
-
-    initialMessages.push(new Draw("obstacles",obstaclesLayer,width,height));
-    return initialMessages;
-}
-
-
 
 Position Map::asignRandomPosition() {
     int x, y;
@@ -245,14 +212,13 @@ void Map::updateAllPlayers(float looptime, Observer* observer) {
 
 void Map::addDrop(Drop drop) {
     drops.push_back(drop);
-    spawn_character_t dropSpawn = {drop.getPosition().getX(), drop.getPosition().getY(), drop.getName()};
+    spawn_object_t dropSpawn = {drop.getPosition().getX(), drop.getPosition().getY(), drop.getName()};
     dropsSpawns.push_back(dropSpawn);
 }
 
 Drop Map::takeDropFromPos(Position position) {
     for (unsigned int i = 0; i < drops.size(); i++) {
         if (drops[i].getPosition() == position) {
-            //QUIZAS DEBO REDEFINIR EL OPERADOR IGUAL PARA QUE MUEVA EL PUNTERO AL EQUIPABLE Y NO SE BORRE DE MEMORIA
             Drop drop = drops[i];
             drops.erase(drops.begin() + i);
             for (unsigned int j = 0; j < dropsSpawns.size(); ++j) {
@@ -318,18 +284,6 @@ bool Map::hasDropInPos(Position position) {
     return false;
 }
 
-Map::~Map() {
-    auto itrNpcs = npcs.begin();
-    for (; itrNpcs != npcs.end(); itrNpcs++) {
-        delete itrNpcs->second;
-    }
-
-    auto itCharacters = characters.begin();
-    for (; itCharacters != characters.end(); itCharacters++) {
-        delete itCharacters->second;
-    }
-}
-
 void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer) {
     if (lastNpcUpdate + loopTimeInSeconds >= 30 && npcs.size() < NPCSAMOUNT) {
         std::vector<std::string> species = {"goblin", "spider", "zombie", "skeleton"};
@@ -343,15 +297,15 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
 }
 
 void Map::initializeNpcsSpawns(std::queue<Message*>& initializeMessages) {
-    std::vector<spawn_character_t> npcSpawns;
+    std::vector<spawn_object_t> npcSpawns;
     for (auto &npc : npcs) {
         npc.second->addSpawnInfoTo(npcSpawns);
     }
-    initializeMessages.push(new SpawnNpc(npcSpawns));
+    initializeMessages.push(new SpawnStaticObjects(SPAWN_NPC_MESSAGE_ID,npcSpawns));
 }
 
 void Map::updateNpcsSpawns(Observer* observer) {
-    std::vector<spawn_character_t> npcSpawns;
+    std::vector<spawn_object_t> npcSpawns;
     for (auto &npc : npcs) {
         npc.second->addSpawnInfoTo(npcSpawns);
     }
@@ -372,4 +326,16 @@ void Map::updatePcSpawns(Observer *observer) {
         pc.second->addSpawnInfoTo(pcSpawns);
     }
     observer->notifySpawnPcUpdate(pcSpawns);
+}
+
+Map::~Map() {
+    auto itrNpcs = npcs.begin();
+    for (; itrNpcs != npcs.end(); itrNpcs++) {
+        delete itrNpcs->second;
+    }
+
+    auto itCharacters = characters.begin();
+    for (; itCharacters != characters.end(); itCharacters++) {
+        delete itCharacters->second;
+    }
 }

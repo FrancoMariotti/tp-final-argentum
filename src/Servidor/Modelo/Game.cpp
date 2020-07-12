@@ -16,7 +16,12 @@ void Game::updateModel(float looptime) {
 }
 
 std::queue<Message *> Game::initializeWorld() {
-    return map->initializeClientMap(configFile);
+    std::queue<Message*> initializeMessages;
+    map->addLayersTo(configFile, initializeMessages);
+    map->initializeDropSpawns(initializeMessages);
+    map->initializeNpcsSpawns(initializeMessages);
+    map->initializePlayersSpawns(initializeMessages);//tengo q agregar serializador
+    return initializeMessages;
 }
 
 
@@ -62,15 +67,6 @@ void Game::initializeMap(ProxySocket& pxySkt) {
     map->sendLayers(pxySkt,configFile);
 }
 
-std::queue<Message*> Game::initializeWorldForClient() {
-    std::queue<Message*> initializeMessages;
-    map->addLayersTo(configFile, initializeMessages);
-    map->initializeDropSpawns(initializeMessages);
-    map->initializeNpcsSpawns(initializeMessages);
-    map->initializePlayersSpawns(initializeMessages);
-    return initializeMessages;
-}
-
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->move(offset);
@@ -107,20 +103,20 @@ void Game::sendUpdates(ProxySocket& pxySkt) {
     }
 }
 
-void Game::notifySpawnNpcUpdate(std::vector<spawn_character_t>& npcs) {
-    updates.push(new SpawnNpc(npcs));
+void Game::notifySpawnNpcUpdate(std::vector<spawn_object_t>& npcs) {
+    updates.push(new SpawnStaticObjects(SPAWN_NPC_MESSAGE_ID,npcs));
 }
 
 void Game::notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) {
     updates.push(new SpawnPc(pcSpawns));
 }
 
-void Game::notifyDropSpawnNUpdate(std::vector<spawn_character_t> dropSpawns) {
-    updates.push(new SpawnDrops(dropSpawns));
+void Game::notifyDropSpawnNUpdate(std::vector<spawn_object_t> dropSpawns) {
+    updates.push(new SpawnStaticObjects(SPAWN_DROPS_MESSAGE_ID,dropSpawns));
 }
 
-void Game::notifyCityCharactersSpawn(std::vector<spawn_character_t> &spawns) {
-    updates.push(new SpawnCityCharacters(spawns));
+void Game::notifyCityCharactersSpawn(std::vector<spawn_object_t> &spawns) {
+    updates.push(new SpawnStaticObjects(SPAWN_CITY_CHARACTERS_MESSAGE_ID,spawns));
 }
 
 void Game::notifyStatsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {

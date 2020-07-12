@@ -93,7 +93,7 @@ int Message::getY() const {
 
 }
 
-std::vector<spawn_character_t> Message::getSpawnData() {
+std::vector<spawn_object_t> Message::getSpawnData() {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -159,7 +159,7 @@ std::string Draw::getLayerName() const {
 }
 
 std::vector<int> Draw::getData() const {
-    return std::move(data);
+    return data;
 }
 
 int Draw::getWidth() const {
@@ -180,7 +180,7 @@ Draw &Draw::operator=(const Draw &draw) {
     return *this;
 }
 
-ExecuteCommand::ExecuteCommand(const std::string command) :
+ExecuteCommand::ExecuteCommand(const std::string& command) :
     Message(COMMAND_MESSAGE_ID),
     username("franco"),
     command(command),
@@ -192,8 +192,8 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
 
 ExecuteCommand::ExecuteCommand(std::string username,std::string input,const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
-    username(username),
-    command(input),
+    username(std::move(username)),
+    command(std::move(input)),
     x(x),
     y(y)
     {
@@ -228,12 +228,12 @@ std::string ExecuteCommand::getUserName() const {
     return username;
 }
 
-Connect::Connect(const std::string username,const std::string race,const std::string char_class) :
-    Message(CONNECT_MESSAGE_ID),
-    username(username),
-    race(race),
-    char_class(char_class)
-    {}
+Connect::Connect(const std::string& username,const std::string race,const std::string char_class) :
+                                                                    Message(CONNECT_MESSAGE_ID),
+                                                                    username(username),
+                                                                    race(race),
+                                                                    char_class(char_class)
+                                                                    {}
 
 t_create_connect Connect::getConnectData() const{
     return t_create_connect{username, race, char_class};
@@ -254,14 +254,15 @@ t_stats Stats::getStats(){
 
 EquipmentUpdate::EquipmentUpdate(std::string weaponName, std::string armourName,
         std::string shieldName, std::string helmetName) : Message(EQUIPMENT_UPDATE_MESSAGE_ID),
-        weaponName(weaponName), armourName(armourName), shieldName(shieldName),
-        helmetName(helmetName) {}
+        weaponName(std::move(weaponName)), armourName(std::move(armourName)), shieldName(std::move(shieldName)),
+        helmetName(std::move(helmetName)) {}
 
 equipment_t EquipmentUpdate::getEquipment() {
     return equipment_t {weaponName, armourName, shieldName, helmetName};
 }
 
-InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) : Message(INVENTORY_UPDATE_MESSAGE_ID) {
+InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) :
+                                Message(INVENTORY_UPDATE_MESSAGE_ID) {
     this->items = std::move(items);
 }
 
@@ -269,36 +270,23 @@ std::vector<std::string> InventoryUpdate::getItems() {
     return items;
 }
 
-SpawnNpc::SpawnNpc(std::vector<spawn_character_t> renderables) : Message(SPAWN_NPC_MESSAGE_ID),
-    renderables(std::move(renderables))
-    {}
-
-std::vector<spawn_character_t> SpawnNpc::getSpawnData() {
-    return std::move(renderables);
-}
-
-SpawnPc::SpawnPc(std::vector<spawn_playable_character_t> renderables) : Message(SPAWN_PC_MESSAGE_ID),
-    renderables(std::move(renderables)){}
+SpawnPc::SpawnPc(std::vector<spawn_playable_character_t> renderables) :
+                                    Message(SPAWN_PC_MESSAGE_ID),
+                                    renderables(std::move(renderables)){}
 
 std::vector<spawn_playable_character_t> SpawnPc::getPcSpawnData() {
     return std::move(renderables);
 }
 
-SpawnDrops::SpawnDrops(std::vector<spawn_character_t> renderables) : Message(SPAWN_DROPS_MESSAGE_ID),
-    renderables(std::move(renderables)){}
-
-std::vector<spawn_character_t> SpawnDrops::getSpawnData() {
+SpawnStaticObjects::SpawnStaticObjects(int messageId,std::vector<spawn_object_t> renderables):
+                                                            Message(messageId),
+                                                            renderables(std::move(renderables)){}
+std::vector<spawn_object_t> SpawnStaticObjects::getSpawnData() {
     return std::move(renderables);
 }
 
-SpawnCityCharacters::SpawnCityCharacters(std::vector<spawn_character_t> renderables) : Message(SPAWN_CITY_CHARACTERS_MESSAGE_ID),
-    renderables(std::move(renderables)){}
-
-std::vector<spawn_character_t> SpawnCityCharacters::getSpawnData() {
-    return std::move(renderables);
-}
-
-MovementNpcUpdate::MovementNpcUpdate(std::string id, int x, int y):Message(NPC_MOVEMENT_UPDATE_MESSAGE_ID) {
+MovementNpcUpdate::MovementNpcUpdate(std::string id, int x, int y):
+                                Message(NPC_MOVEMENT_UPDATE_MESSAGE_ID) {
     this->id =id;
     this->x = x;
     this->y = y;
@@ -308,12 +296,12 @@ npc_movement_t MovementNpcUpdate::getMovement() {
     return npc_movement_t{x,y,id};
 }
 
-Attack::Attack(const std::string username, int enemy_x, int enemy_y) :
-    Message(PLAYER_ATTACK_MESSAGE_ID),
-    username(username),
-    enemy_x(enemy_x),
-    enemy_y(enemy_y)
-    {}
+Attack::Attack(std::string  username, int enemy_x, int enemy_y) :
+                            Message(PLAYER_ATTACK_MESSAGE_ID),
+                            username(std::move(username)),
+                            enemy_x(enemy_x),
+                            enemy_y(enemy_y)
+                            {}
 
 t_player_attack Attack::getAttack(){
     return t_player_attack{username, enemy_x, enemy_y};

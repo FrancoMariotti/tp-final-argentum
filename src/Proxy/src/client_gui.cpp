@@ -97,7 +97,7 @@ void GUI::updateInventory(std::vector<std::string> player_inventory) {
     inventory.update(std::move(player_inventory));
 }
 
-void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderables){
+void GUI::initStaticRenderables(const std::vector<spawn_object_t>& renderables){
     for(auto it = renderables.begin(); it != renderables.end(); it++){
         static_renderables.push_back(std::unique_ptr<SdlDynamicRenderable>
                 (new SdlRenderableNPC(camera.toPixels(it->x),
@@ -109,7 +109,7 @@ void GUI::initStaticRenderables(const std::vector<spawn_character_t>& renderable
 
 /*Itera @param renderables y busca el id de textura que corresponde con el id del renderizable y lo agrega al map
  * con key: id y value: puntero a SdlDynamicRenderable*/
-void GUI::updateRenderables(std::vector<spawn_character_t> renderables){
+void GUI::updateRenderables(std::vector<spawn_object_t> renderables){
     dynamic_renderables.clear();
     std::cout << "DEBUG: updating renderables" << std::endl;
     auto it = renderables.begin();
@@ -150,7 +150,7 @@ void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
 }
 
 
-void GUI::updateDrops(const std::vector<spawn_character_t> &drops) {
+void GUI::updateDrops(const std::vector<spawn_object_t> &drops) {
     world.updateDrops(drops);
 }
 

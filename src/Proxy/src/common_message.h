@@ -48,7 +48,7 @@ public:
     virtual t_stats getStats();
     virtual equipment_t getEquipment();
     virtual std::vector<std::string> getItems();
-    virtual std::vector<spawn_character_t> getSpawnData();
+    virtual std::vector<spawn_object_t> getSpawnData();
     virtual std::vector<spawn_playable_character_t> getPcSpawnData();
     virtual npc_movement_t getMovement();
     virtual t_player_attack getAttack();
@@ -99,7 +99,7 @@ private:
     const int x;
     const int y;
 public:
-    explicit ExecuteCommand(std::string command);
+    explicit ExecuteCommand(const std::string& command);
     ExecuteCommand(std::string input, int x, int y);
     ExecuteCommand(std::string username,std::string input, int x, int y);
     std::string getUserName() const override ;
@@ -114,7 +114,7 @@ private:
     const std::string race;
     const std::string char_class;
 public:
-    Connect(const std::string username, const std::string race,const std::string char_class);
+    Connect(const std::string& username, std::string race,std::string char_class);
     t_create_connect getConnectData() const override;
 };
 
@@ -148,11 +148,11 @@ public:
     std::vector<std::string> getItems() override;
 };
 
-class SpawnNpc : public Message {
-    std::vector<spawn_character_t> renderables;
+class SpawnStaticObjects : public Message {
+    std::vector<spawn_object_t> renderables;
 public:
-    explicit SpawnNpc(std::vector<spawn_character_t> renderables);
-    std::vector<spawn_character_t> getSpawnData() override;
+    SpawnStaticObjects(int messageId,std::vector<spawn_object_t> renderables);
+    std::vector<spawn_object_t> getSpawnData() override;
 };
 
 class SpawnPc : public Message {
@@ -160,20 +160,6 @@ class SpawnPc : public Message {
 public:
     explicit SpawnPc(std::vector<spawn_playable_character_t> renderables);
     std::vector<spawn_playable_character_t> getPcSpawnData() override;
-};
-
-class SpawnDrops: public Message {
-    std::vector<spawn_character_t> renderables;
-public:
-    explicit SpawnDrops(std::vector<spawn_character_t> renderables);
-    std::vector<spawn_character_t> getSpawnData() override;
-};
-
-class SpawnCityCharacters : public Message {
-    std::vector<spawn_character_t> renderables;
-public:
-    SpawnCityCharacters(std::vector<spawn_character_t> renderables);
-    std::vector<spawn_character_t> getSpawnData() override;
 };
 
 class MovementNpcUpdate: public Message {
@@ -191,7 +177,7 @@ private:
     int enemy_x;
     int enemy_y;
 public:
-    Attack(std::string username, int enemy_x, int enemy_y);
+    Attack(std::string  username, int enemy_x, int enemy_y);
     t_player_attack getAttack() override;
 };
 

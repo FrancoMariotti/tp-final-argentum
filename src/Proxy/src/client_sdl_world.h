@@ -42,7 +42,7 @@ public:
 
     //void renderFloor(SdlCamera &camera);
 
-    void updateDrops(const std::vector<spawn_character_t> &drops);
+    void updateDrops(const std::vector<spawn_object_t> &drops);
 
     void renderDrops(SdlInventory &inventory, const SdlCamera &camera);
 

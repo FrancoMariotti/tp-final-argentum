@@ -52,13 +52,13 @@ public:
     void updatePlayerStats(t_stats new_stats);
     void updateInventory(std::vector<std::string> player_inventory);
     /*Inicializa los NPC comerciantes que no se mueven durante el juego*/
-    void initStaticRenderables(const std::vector<spawn_character_t>& renderables);
+    void initStaticRenderables(const std::vector<spawn_object_t>& renderables);
     /*Actualiza los NPC que se encuentran vivos, eliminando lso que estan muertos*/
-    void updateRenderables(std::vector<spawn_character_t> renderables);
+    void updateRenderables(std::vector<spawn_object_t> renderables);
     /**/
     void updateRenderablePos(int new_x, const int new_y, const std::string &renderable_id);
     void updateRenderablePlayableEquipment(const equipment_t &equipment, const std::string &renderable_id);
-    void updateDrops(const std::vector<spawn_character_t> &drops);
+    void updateDrops(const std::vector<spawn_object_t> &drops);
     void render();
     void renderWorld();
 

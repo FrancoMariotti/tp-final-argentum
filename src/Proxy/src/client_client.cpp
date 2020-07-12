@@ -1,14 +1,8 @@
-//
-// Created by agustin on 13/6/20.
-//
-
 #include <thread>
 #include <random>
 #include "client_client.h"
 #include "common_message.h"
 #include "client_protected_list.h"
-#include "client_sdl_chunk.h"
-#include "client_sdl_music.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024//640

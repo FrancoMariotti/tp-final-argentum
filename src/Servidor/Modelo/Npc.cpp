@@ -150,8 +150,8 @@ void Npc::addMerchant(Merchant* newMerchant) {
     merchant = newMerchant;
 }
 
-void Npc::addSpawnInfoTo(std::vector<spawn_character_t>& npcSpawns) {
-    spawn_character_t  spawn = {currPos.getX(),currPos.getY(),id};
+void Npc::addSpawnInfoTo(std::vector<spawn_object_t>& npcSpawns) {
+    spawn_object_t  spawn = {currPos.getX(),currPos.getY(),id};
     npcSpawns.push_back(spawn);
 }
 

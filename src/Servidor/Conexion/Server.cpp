@@ -33,8 +33,8 @@ void Server::start() {
             std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
             if (msg->getId() == CONNECT_MESSAGE_ID) {
                 //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
-                connect_t data = msg->getConnectData();
-                game.createPlayer(data.username,data.charRace,data.charClass);
+                t_create_connect data = msg->getConnectData();
+                game.createPlayer(data.username,data.race,data.charClass);
                 //manda el paquete de inicializacion
                 std::queue<Message*> initialMessages = game.initializeWorld();
                 while(!initialMessages.empty()) {
