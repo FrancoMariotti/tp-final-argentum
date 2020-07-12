@@ -11,7 +11,6 @@ Server::Server(const std::string& service,const std::string& configFile):
 }
 
 void Server::readInput() {
-    //hay que ponerlo en hilo aparte
     char input = 0;
     while (input != END_SIGNAL){
         std::cin >> input;
@@ -42,7 +41,7 @@ void Server::start() {
                     Message* message = initialMessages.front();
                     //de este modo tenemos un sendMessage para enviar un
                     //mensaje a un cliente en especifico y un send para hacer un broadcast.
-                    clients.sendMessage(message/*,clientId*/);
+                    clients.sendMessage(data.username,message);
                     initialMessages.pop();
                 }
             }

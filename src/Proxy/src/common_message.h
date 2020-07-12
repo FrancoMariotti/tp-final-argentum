@@ -66,7 +66,6 @@ private:
     int height;
     std::vector<int> data;// x e y en unidades del modelo
 public:
-    MSGPACK_DEFINE(name,width,height,data)
     Draw();
     Draw(std::string name, std::vector<int> data, int width, int height);
     std::string getLayerName() const override;
@@ -116,8 +115,6 @@ private:
     std::string charRace;
     std::string charClass;
 public:
-    MSGPACK_DEFINE(username,charRace,charClass)
-    Connect() = default;
     Connect(std::string username,std::string charRace,std::string charClass);
     connect_t getConnectData() const override ;
 };
@@ -169,7 +166,6 @@ public:
 class SpawnCityCharacters : public Message {
     std::vector<spawn_character_t> renderables;
 public:
-    MSGPACK_DEFINE(renderables)
     SpawnCityCharacters(std::vector<spawn_character_t> renderables);
     std::vector<spawn_character_t> getSpawnData() override;
 };

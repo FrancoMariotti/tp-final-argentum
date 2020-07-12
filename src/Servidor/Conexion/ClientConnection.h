@@ -13,7 +13,7 @@
 #include "ThClientReceiver.h"
 
 class ClientConnection {
-    int id;
+    std::string id;
     Socket client;
     ThClientSender sender;
     BlockingQueue<Message*> events;
@@ -22,10 +22,10 @@ class ClientConnection {
     void stop();
     friend class ThClientReceiver;
 public:
-    ClientConnection(int id,Socket client, ProtectedList<std::unique_ptr<Message>>& messages);
+    ClientConnection(Socket client,ProtectedList<std::unique_ptr<Message>>& messages);
     ClientConnection(ClientConnection&) = delete;
     bool isDead() const;
-    int getId();
+    std::string getId();
     void joinResources();
     void start();
     void finish();

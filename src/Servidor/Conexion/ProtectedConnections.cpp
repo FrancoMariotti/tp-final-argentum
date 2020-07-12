@@ -25,7 +25,15 @@ void ProtectedConnections::destroyAllClients() {
     }
 }
 
-void ProtectedConnections::sendMessage(Message* event) {
+void ProtectedConnections::sendMessage(const std::string& id,Message *event) {
+    for(auto& client:clients) {
+        if(client->getId() == id) {
+            client->sendMessage(event);
+        }
+    }
+}
+
+void ProtectedConnections::broadcast(Message *event) {
     for(auto& client:clients) {
         client->sendMessage(event);
     }

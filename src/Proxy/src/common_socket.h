@@ -46,7 +46,7 @@ public:
     /* Recibe cantidad length de bytes a traves del socket.
     Devuelve la cantidad de bytes que se recibieron, 0 si el socket se cerro
     o -1 si hubo un error.*/
-    int receive(char* buffer, size_t tam_max);
+    int receive(char* buffer, size_t length);
 
     /*Cierra el canal de comunicacion
     */
