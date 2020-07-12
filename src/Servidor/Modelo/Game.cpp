@@ -6,13 +6,15 @@
 #include "PlayableCharacter.h"
 #include "Npc.h"
 
-Game::Game(const std::string& configFile): configFile(configFile),mapFactory(configFile),map(mapFactory.create()),
-    commandExecutor(map), factoryCharacters(configFile), npcFactory(configFile) {}
+Game::Game(const std::string& configFile, const std::string& playersInfoMapFile,
+        const std::string& playersInfoFile): configFile(configFile), itemFactory()
+    , mapFactory(configFile), map(mapFactory.create(&itemFactory)), commandExecutor(map),
+    factoryCharacters(configFile, &itemFactory, playersInfoMapFile, playersInfoFile),
+    npcFactory(configFile, &itemFactory) {}
 
 void Game::updateModel(float looptime) {
     map->updateAllPlayers(looptime, this);
     map->moveNpcs(looptime);
-    map->regenerateNpcs(looptime, npcFactory, this);
 }
 
 std::queue<Message *> Game::initializeWorld() {

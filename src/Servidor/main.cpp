@@ -7,7 +7,9 @@ int main(int argc, char const *argv[]) {
     try {
         //puerto hay que cargarlo de un archivo de configuracion
         //que es el mismo que me pasan por parametro
-        Server server("8081","config/config.json");
+        Server server("8081","config/config.json",
+                "persistenceFiles/playersInfoMapFile.bin",
+                "persistenceFiles/playersInfoFile.bin");
         server.start();
     } catch (std::exception &e) {
         printf("%s", e.what());

@@ -3,6 +3,7 @@
 #include <utility>
 #include <Servidor/Common/Utils.h>
 #include <Proxy/src/common_message_structs.h>
+#include <Proxy/src/common_osexception.h>
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
@@ -32,7 +33,7 @@ Json::Value FileParser::read(const std::string &parameter) {
     return config[parameter];
 }
 
-void MerchantFactory::create(Map* map, std::string file) {
+void MerchantFactory::create(Map *map, std::string file, ItemFactory *pFactory) {
     FileParser parser(file);
     Json::Value merchantObj = parser.read("merchant");
     Json::Value& merchantPositions = merchantObj["positions"];
@@ -48,14 +49,7 @@ void MerchantFactory::create(Map* map, std::string file) {
     map->registerCityCharactersSpawns(spawnsMerchant);
     Json::Value& merchantItems = merchantObj["items"];
 
-    std::map<std::string,item_t> stock;
-    std::map<std::string, EquippableFactory*> factories;
-
-    factories["NormalWeapon"] = new NormalWeaponFactory();
-    factories["RangeWeapon"] = new RangeWeaponFactory();
-    factories["Protection"] = new ProtectionFactory();
-    factories["LifePotion"] = new LifePotionFactory();
-    factories["ManaPotion"] = new ManaPotionFactory();
+    std::map<std::string, item_t> stock;
 
     for(auto& item: merchantItems) {
         item_t newItem {
@@ -72,12 +66,13 @@ void MerchantFactory::create(Map* map, std::string file) {
         stock[newItem.name] = newItem;
     }
 
-    Merchant merchant(positions,stock,factories);
+    Merchant merchant(positions,stock,pFactory);
 
-    map->add(std::move(merchant));
+    //map->add(std::move(merchant));
+    map->add(merchant);
 }
 
-void PriestFactory::create(Map* map, std::string file) {
+void PriestFactory::create(Map *map, std::string file, ItemFactory *pFactory) {
     FileParser parser(file);
     Json::Value priestObj = parser.read("priest");
 
@@ -95,11 +90,11 @@ void PriestFactory::create(Map* map, std::string file) {
     Json::Value& priestItems = priestObj["items"];
 
     std::map<std::string,item_t> stock;
-    std::map<std::string, EquippableFactory*> factories;
 
+    /*std::map<std::string, EquippableFactory*> factories;
     factories["MagicalWeapon"] = new MagicalWeaponFactory();
     factories["LifePotion"] = new LifePotionFactory();
-    factories["ManaPotion"] = new ManaPotionFactory();
+    factories["ManaPotion"] = new ManaPotionFactory();*/
 
     for(auto& item: priestItems) {
         item_t newItem {
@@ -116,9 +111,10 @@ void PriestFactory::create(Map* map, std::string file) {
         stock[newItem.name] = newItem;
     }
 
-    Priest priest(positions,stock,factories);
+    Priest priest(positions,stock,pFactory);
 
-    map->add(std::move(priest));
+    //map->add(std::move(priest));
+    map->add(priest);
 }
 
 void BankerFactory::create(Map* map, std::string file) {
@@ -147,7 +143,7 @@ MapFactory::MapFactory(const std::string& configFile) {
     file = configFile;
 }
 
-Map* MapFactory::create() {
+Map * MapFactory::create(ItemFactory *pFactory) {
 
     FileParser parser(file);
     mapObj = parser.read("map");
@@ -164,9 +160,10 @@ Map* MapFactory::create() {
 
 
     Map *map = new Map(width_map, height_map);
-    merchantFactory.create(map,file);
+
+    merchantFactory.create(map, file, pFactory);
     bankerFactory.create(map,file);
-    priestFactory.create(map,file);
+    priestFactory.create(map, file, pFactory);
 
 
     for (auto & i : obstacles){
@@ -194,16 +191,54 @@ Map* MapFactory::create() {
 MapFactory::~MapFactory() =default;
 
 
-PlayableCharacterFactory::PlayableCharacterFactory(const std::string& configFile) {
+PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile,
+        ItemFactory *pFactory, const std::string& playersInfoMapFile,
+        const std::string& playersInfoFile) : itemFactory(pFactory),
+        playersInfoFile(playersInfoFile, std::fstream::in | std::fstream::out | std::fstream::binary),
+        playersInfoMapFile(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary)
+        , playersAmount(0) {
     FileParser parser(configFile);
     characterObj = parser.read("character");
+    //Ahora creo el stock de items
+    FileParser itemParser(configFile);
+    Json::Value itemsObj = itemParser.read("allItems");
+
+    for(auto& item: itemsObj) {
+        item_t newItem {
+                item["name"].asString(),
+                item["type"].asString(),
+                item["spelltype"].asString(),
+                item["protectionId"].asInt(),
+                item["max"].asInt(),
+                item["min"].asInt(),
+                item["value"].asInt(),
+                item["goldCost"].asInt(),
+                item["manaCost"].asInt()
+        };
+        items[newItem.name] = newItem;
+    }
+
+    //Chequeo que los archivos se hayan podido abrir
+    if (!this->playersInfoFile || !this->playersInfoMapFile) {
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+    }
+
+    int nameLength, index;
+    while (this->playersInfoMapFile.read((char*)&nameLength, sizeof(int))) {
+        std::string name;
+        this->playersInfoMapFile.read(const_cast<char *>(name.c_str()), nameLength);
+        this->playersInfoMapFile.read((char*)&index, sizeof(int));
+        playersInfoMap[name] = index;
+    }
+
 }
 
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
                                       const std::string &charClass, Observer* observer) {
 
+    //TENDRIA QUE AGREGAR LA PARTE DE LA PERSISTENCIA, ES UN JUEGADOR NUEVO O NO?
+
     Position initialPosition = map->asignRandomPosInAnyCity();
-    //Position initialPosition(1,2);
 
     int invMaxElements = characterObj["inventoryMaxElements"].asInt();
     int level = characterObj["level"].asInt();
@@ -226,10 +261,29 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
 
 PlayableCharacterFactory::~PlayableCharacterFactory() = default;
 
-NpcFactory::NpcFactory(const std::string& configFile) {
+NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) {
     this->counter = 1;
     FileParser parser(configFile);
     npcsObj = parser.read("npc");
+    //Armo el mapa de objetos que puede dropear el npc
+    FileParser itemParser(configFile);
+    Json::Value itemsObj = itemParser.read("allItems");
+    int itemsToDropIndex = 0;
+    for(auto& item : itemsObj) {
+        item_t newItem {
+                item["name"].asString(),
+                item["type"].asString(),
+                item["spelltype"].asString(),
+                item["protectionId"].asInt(),
+                item["max"].asInt(),
+                item["min"].asInt(),
+                item["value"].asInt(),
+                item["goldCost"].asInt(),
+                item["manaCost"].asInt()
+        };
+        itemsToDrop[itemsToDropIndex] = newItem;
+        itemsToDropIndex++;
+    }
 }
 
 void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
@@ -259,13 +313,13 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
     while (map->posInCity(initialPosition)) initialPosition = map->asignRandomPosition();
 
     //Voy llenando los vectores de los items que puede dropear
-    std::vector<std::string> potionsToDrop, itemsToDrop;
+    /*std::vector<std::string> potionsToDrop, itemsToDrop;
     for (auto &potion : npcsObj["potionsToDrop"]) {
         potionsToDrop.push_back(potion["name"].asString());
     }
     for (auto &item : npcsObj["itemsToDrop"]) {
         itemsToDrop.push_back(item["name"].asString());
-    }
+    }*/
 
     std::string id = specie + std::to_string(counter);
     counter++;
@@ -274,10 +328,9 @@ void NpcFactory::create(Map* map,const std::string& specie,Observer* observer) {
             agility, intelligence, level, specie, minDamage, maxDamage,
             minDefense, maxDefense, raceLifeFactor, classLifeFactor,
             raceManaFactor, classManaFactor, recoveryFactor,
-            meditationRecoveryFactor, observer, potionsToDrop, itemsToDrop);
+            meditationRecoveryFactor, observer, itemFactory,
+            itemsToDrop);
 
-    //spawn_character_t  spawn = {initialPosition.getX(),initialPosition.getY(),id};
-    //map->registerNpcSpawn(observer,spawn);
     map->add(id,enemy);
 }
 
@@ -314,3 +367,22 @@ Equippable* MagicalWeaponFactory::create(item_t item) {
 }
 
 
+ItemFactory::ItemFactory() {
+    factories["NormalWeapon"] = new NormalWeaponFactory();
+    factories["RangeWeapon"] = new RangeWeaponFactory();
+    factories["Protection"] = new ProtectionFactory();
+    factories["LifePotion"] = new LifePotionFactory();
+    factories["ManaPotion"] = new ManaPotionFactory();
+    factories["MagicalWeapon"] = new MagicalWeaponFactory();
+}
+
+Equippable* ItemFactory::create(item_t item) {
+    return factories.at(item.type)->create(item);
+}
+
+ItemFactory::~ItemFactory() {
+    auto it = factories.begin();
+    for(;it!=factories.end();it++) {
+        delete it->second;
+    }
+}

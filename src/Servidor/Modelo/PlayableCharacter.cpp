@@ -300,13 +300,13 @@ void PlayableCharacter::dropItem(int itemIndex) {
 
 void PlayableCharacter::sellTo(std::string itemName, Merchant *merchant) {
     if (!inCity) return;
-    Equippable* item = inventory.takeElement(itemName, this);
-    if (item) {
-        addGold(merchant->buy(item->getName()));
+    int earnedGold = merchant->buy(itemName);
+    if (earnedGold != 0) {
+        addGold(earnedGold);
+        Equippable* item = inventory.takeElement(itemName, this);
         delete item;
         inventory.sendItems(observer);
     }
-
 }
 
 void PlayableCharacter::buyFrom(const std::string& itemName, ItemSeller *seller) {

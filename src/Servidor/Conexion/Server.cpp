@@ -4,8 +4,10 @@
 #include <thread>
 #define END_SIGNAL 'c'
 
-Server::Server(const std::string& service,const std::string& configFile):
-                    game(configFile),clientAcceptor(service,clients,events) {
+Server::Server(const std::string& service,const std::string& configFile,
+        const std::string& playersInfoMapFile, const std::string& playersInfoFile):
+                    game(configFile, playersInfoMapFile, playersInfoFile),
+                    clientAcceptor(service,clients,events) {
     keepTalking = true;
     game.initialize();
 }

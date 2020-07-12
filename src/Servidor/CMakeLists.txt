@@ -5,6 +5,7 @@ include_directories(msgpack-c/include)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic-errors -pedantic -Wall -Werror -g -pthread")
 file(COPY config DESTINATION ./)
 file(COPY config DESTINATION ./../Proxy)
+file(COPY persistenceFiles DESTINATION ./)
 add_executable(Servidor main.cpp)
 add_library(proxysources
         ./../Proxy/src/common_socket.h

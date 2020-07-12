@@ -13,7 +13,8 @@ class Server {
     ProtectedList<std::unique_ptr<Message>> events;
 public:
     void readInput();
-    explicit Server(const std::string& service,const std::string& configFile);
+    explicit Server(const std::string& service,const std::string& configFile,
+            const std::string& playersInfoMapFile, const std::string& playersInfoFile);
     void start();
 };
 

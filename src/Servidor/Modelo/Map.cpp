@@ -17,11 +17,13 @@ void Map::add( Banker pBanker) {
 }
 
 void Map::add( Merchant pMerchant) {
-    this->merchant = std::move(pMerchant);
+    //this->merchant = std::move(pMerchant);
+    merchant = pMerchant;
 }
 
 void Map::add( Priest pPriest) {
-    this->priest = std::move(pPriest);
+    //this->priest = std::move(pPriest);
+    priest = pPriest;
 }
 
 void Map::add(City city) {
@@ -47,7 +49,7 @@ void Map::add(const std::string& playerName, PlayableCharacter *character) {
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
-    npc->addMerchant(&merchant);
+    //npc->addMerchant(&merchant);
     this->npcs[idNpc] = npc;
 }
 
