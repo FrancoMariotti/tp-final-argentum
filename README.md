@@ -10,6 +10,8 @@ TP final taller de programacion 1
 * Requisitos para compilacion y ejecucion de la rama master:
 	
 	- Instalar la biblioteca json.cpp,utilizando el comando sudo apt-get install libjsoncpp-dev.
+	
+	- Instalar la biblioteca cppunit, utilizando el comando apt-get install libcppunit-doc libcppunit-dev
 
 	- Instalar las bibliotecas de sdl:
 		- sudo apt-get install libsdl2-dev
