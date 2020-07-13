@@ -9,7 +9,3 @@ add_executable(SDLTest src/client_main.cpp)
 FILE(GLOB sdlSRCS src/*.cpp src/*.h)
 add_library(clienteSRCS ${sdlSRCS})
 target_link_libraries(SDLTest clienteSRCS servidorModeloLib commonLib SDL2 SDL2_image SDL2_ttf SDL2_mixer jsoncpp)
-
-
-
-#add_executable(Cliente main.cpp)

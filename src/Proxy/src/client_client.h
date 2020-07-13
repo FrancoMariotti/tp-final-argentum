@@ -25,9 +25,6 @@
 
 class Client {
 private:
-    //SdlWindow window;
-    //SdlTexture mainInterface;
-    //TTF_Font* font;
     ProxySocket& proxySocket;
     BlockingQueue<std::unique_ptr<Message>> clientEvents;
     ProtectedList<std::unique_ptr<Message>> serverEvents;
