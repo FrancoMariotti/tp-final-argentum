@@ -8,5 +8,6 @@ TP final taller de programacion 1
 * URL: https://github.com/FrancoMariotti/tp-final-argentum    
 
 * Requisitos para correr el programa:
-	* 
+	* comando para instalar msgpack 
+	sudo apt-get install libmsgpack-dev 
 
