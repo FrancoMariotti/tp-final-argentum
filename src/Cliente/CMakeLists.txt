@@ -1,5 +1,5 @@
 project(argentum)
-
+include_directories(..)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pedantic-errors -pthread")
 
 # Find the QtWidgets library
@@ -39,5 +39,23 @@ add_executable(qt_argentum
   ${UIS_HEADERS}
         )
 
+#Esta libreria quiero agregar
+add_library(qtProxysources
+        ./../Proxy/src/common_proxy_socket.h
+        ./../Proxy/src/common_proxy_socket.cpp
+        ./../Proxy/src/common_message_structs.h
+        ./../Proxy/src/common_message.h
+        ./../Proxy/src/common_message.cpp
+        ./../Proxy/src/common_osexception.h
+        ./../Proxy/src/common_osexception.cpp
+        ./../Proxy/src/common_blocking_queue.h
+        ./../Proxy/src/common_thread.h
+        ./../Proxy/src/common_thread.cpp
+        ./../Proxy/src/client_protected_list.h
+        ./../Proxy/src/common_closedqueue_exception.h
+        ./../Proxy/src/common_closedqueue_exception.cpp)
 # Use the Widgets module from Qt 5.
 target_link_libraries(qt_argentum Qt5::Widgets)
+
+#Dice que no puede encontrar qtProxySources
+#target_link_libraries(qt_argentum qtProxySources Qt5::Widgets)
