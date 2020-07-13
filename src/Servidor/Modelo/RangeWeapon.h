@@ -10,7 +10,7 @@
 
 class RangeWeapon: public Weapon {
     public:
-        RangeWeapon(std::string name, int minDamage,int maxDamage, int goldCost);
+        RangeWeapon(std::string name, int id, int minDamage,int maxDamage, int goldCost);
         int attack(Character* owner,Character *enemy,int strength,int level,float &mana,
                 Position &holderPos) override;
         ~RangeWeapon() override = default;

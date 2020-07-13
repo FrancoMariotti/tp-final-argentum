@@ -3,9 +3,9 @@
 #include "Heal.h"
 #include "Damage.h"
 
-MagicalWeapon::MagicalWeapon(std::string name,SpellType*spellType, int minDamage,
+MagicalWeapon::MagicalWeapon(std::string name, int id, SpellType*spellType, int minDamage,
         int maxDamage, int cost, int goldCost)
-    :Weapon(name, minDamage,maxDamage, goldCost),spellType(spellType) {
+    :Weapon(name, id, minDamage,maxDamage, goldCost),spellType(spellType) {
     this->cost = cost;
 }
 

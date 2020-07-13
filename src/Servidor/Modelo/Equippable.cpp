@@ -3,8 +3,8 @@
 #include "PlayableCharacter.h"
 
 
-Equippable::Equippable(std::string name, int minValue, int maxValue, int goldCost)
-    : name(name), minValue(minValue), maxValue(maxValue), goldCost(goldCost)
+Equippable::Equippable(std::string name, uint32_t id, int minValue, int maxValue, int goldCost)
+    : name(name), id(id), minValue(minValue), maxValue(maxValue), goldCost(goldCost)
     ,equipped(false){}
 
 int Equippable::randomize() const {
@@ -19,4 +19,6 @@ void Equippable::takenBy(PlayableCharacter *player) {
     player->takeDroppable(this);
 }
 
-
+int Equippable::getId() {
+    return id;
+}

@@ -18,6 +18,8 @@ public:
     Equippable *takeElement(const std::string& elementName, PlayableCharacter *character);
 
     int getItemsAmount();
+
+    int getItemIndex(std::string itemName);
 };
 
 

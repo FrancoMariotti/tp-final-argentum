@@ -6,11 +6,14 @@
 #define ARGENTUM_BANKACCOUNT_H
 
 #include "Inventory.h"
+#define MAX_ACCOUNT_ITEMS 10
 
 class BankAccount {
     friend class Banker;
+    friend class PlayableCharacterFactory;
     int gold;
     std::vector<Equippable*> items;
+    unsigned int maxItems;
     void deposit(int amount);
     void deposit(Equippable* object);
     int extract(int amount);

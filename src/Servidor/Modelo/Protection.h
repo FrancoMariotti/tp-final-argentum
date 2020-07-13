@@ -16,10 +16,10 @@ enum Equipment {
 };
 
 class Protection : public Equippable {
-    int id;
+    int protectionId;
 public:
-    Protection(std::string name, int minVal, int maxVal,
-            int id, int goldCost);
+    Protection(std::string name, int id, int minVal, int maxVal,
+            int protectionId, int goldCost);
     void equip(std::vector<Protection*> &protections, Protection* defaultProtection,
             PlayableCharacter* character);
     void equipTo(PlayableCharacter *character, int i) override;

@@ -1,8 +1,8 @@
 #include "Weapon.h"
 #include "PlayableCharacter.h"
 
-Weapon::Weapon(std::string name, int minDamage, int maxDamage, int goldCost)
-    : Equippable(name, minDamage, maxDamage, goldCost) {
+Weapon::Weapon(std::string name, int id, int minDamage, int maxDamage, int goldCost)
+    : Equippable(name, id, minDamage, maxDamage, goldCost) {
     //this->minDamage = minDamage;
     //this->maxDamage = maxDamage;
 }

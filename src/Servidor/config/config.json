@@ -8,21 +8,25 @@
     "constitution": 18,
     "race": {
       "human": {
+        "id": 1,
         "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       },
       "elf": {
+        "id": 2,
         "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       } ,
       "dwarf": {
+        "id": 3,
         "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
       },
       "gnome": {
+        "id": 4,
         "lifeFactor": 5,
         "manaFactor": 5,
         "recoveryFactor": 5
@@ -54,60 +58,6 @@
   "npc": {
     "minLevel" : 1,
     "maxLevel" : 15,
-    "potionsToDrop": [
-      {
-       "name": "smallLifePotion"
-      },
-      {
-       "name": "bigLifePotion"
-      },
-      {
-       "name": "smallManaPotion"
-      },
-      {
-       "name": "bigManaPotion"
-      }
-    ],
-    "itemsToDrop": [
-      {
-        "name": "sword"
-      }, {
-        "name": "axe"
-      },
-      {
-        "name": "hammer"
-      },
-      {
-        "name": "commonBow"
-      },
-      {
-        "name": "rareBow"
-      },
-      {
-        "name": "leatherArmour"
-      },
-      {
-        "name": "ironArmour"
-      },
-      {
-        "name": "blueTunic"
-      },
-      {
-        "name": "hood"
-      },
-      {
-        "name": "ironHelmet"
-      },
-      {
-        "name": "turtleShell"
-      },
-      {
-        "name": "ironShield"
-      },
-      {
-        "name": "magicHat"
-      }
-    ],
     "specie": {
       "goblin": {
         "strength": 5,
@@ -169,20 +119,10 @@
   },
   "allItems" : [
       {
-        "name" : "fresnoWand",
-        "type": "MagicalWeapon",
-        "spelltype" :"Damage",
-        "protectionId": 0,
-        "min": 2,
-        "max": 5,
-        "value": 0,
-        "manaCost": 5,
-        "goldCost": 100
-      },
-      {
         "name": "elvenFlute",
         "type": "MagicalWeapon",
         "spelltype" :"Heal",
+        "itemId": 1,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -194,6 +134,7 @@
         "name": "knottyStick",
         "type": "MagicalWeapon",
         "spelltype" :"Damage",
+        "itemId": 2,
         "protectionId": 0,
         "min": 4,
         "max": 8,
@@ -205,6 +146,7 @@
         "name":"crimpStick",
         "type": "MagicalWeapon",
         "spelltype" :"Damage",
+        "itemId": 3,
         "protectionId": 0,
         "min": 8,
         "max": 20,
@@ -216,6 +158,7 @@
         "name": "sword",
         "type": "NormalWeapon",
         "spelltype" :"none",
+        "itemId": 4,
         "protectionId": 0,
         "min": 2,
         "max": 5,
@@ -223,10 +166,10 @@
         "goldCost": 100,
         "manaCost": 0
       }, {
-
         "name": "axe",
         "type": "NormalWeapon",
         "spelltype" :"none",
+        "itemId": 5,
         "protectionId": 0,
         "min": 4,
         "max": 5,
@@ -238,6 +181,7 @@
         "name": "hammer",
         "type": "NormalWeapon",
         "spelltype" :"none",
+        "itemId": 6,
         "protectionId": 0,
         "min": 1,
         "max": 9,
@@ -250,6 +194,7 @@
         "type": "RangeWeapon",
         "spelltype" :"none",
         "protectionId": 0,
+        "itemId": 7,
         "min": 1,
         "max": 4,
         "value": 0,
@@ -261,6 +206,7 @@
         "type": "RangeWeapon",
         "spelltype" :"none",
         "protectionId": 0,
+        "itemId": 8,
         "min": 4,
         "max": 16,
         "value": 0,
@@ -271,6 +217,7 @@
         "name": "smallLifePotion",
         "type": "LifePotion",
         "spelltype" :"none",
+        "itemId": 9,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -282,6 +229,7 @@
         "name":"bigLifePotion",
         "type": "LifePotion",
         "spelltype" :"none",
+        "itemId": 10,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -293,6 +241,7 @@
         "name":"smallManaPotion",
         "type": "ManaPotion",
         "spelltype" :"none",
+        "itemId": 11,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -304,6 +253,7 @@
         "name":"bigManaPotion",
         "type": "ManaPotion",
         "spelltype" :"none",
+        "itemId": 12,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -315,6 +265,7 @@
         "name": "leatherArmour",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 13,
         "protectionId": 0,
         "min": 2,
         "max": 6,
@@ -326,6 +277,7 @@
         "name": "ironArmour",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 14,
         "protectionId": 0,
         "min": 15,
         "max": 30,
@@ -337,6 +289,7 @@
         "name": "blueTunic",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 15,
         "protectionId": 0,
         "min": 6,
         "max": 10,
@@ -348,6 +301,7 @@
         "name": "hood",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 16,
         "protectionId": 2,
         "min": 1,
         "max": 4,
@@ -359,6 +313,7 @@
         "name": "ironHelmet",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 17,
         "protectionId": 2,
         "min": 4,
         "max": 8,
@@ -370,6 +325,7 @@
         "name": "turtleShell",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 18,
         "protectionId": 1,
         "min": 1,
         "max": 2,
@@ -381,6 +337,7 @@
         "name": "ironShield",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 19,
         "protectionId": 1,
         "min": 1,
         "max": 4,
@@ -392,11 +349,24 @@
         "name": "magicHat",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 20,
         "protectionId": 2,
         "min": 4,
         "max": 12,
         "value": 0,
         "manaCost": 0,
+        "goldCost": 100
+      },
+      {
+        "name" : "fresnoWand",
+        "type": "MagicalWeapon",
+        "spelltype" :"Damage",
+        "itemId": 21,
+        "protectionId": 0,
+        "min": 2,
+        "max": 5,
+        "value": 0,
+        "manaCost": 5,
         "goldCost": 100
       }
   ],
@@ -1285,6 +1255,7 @@
         "name": "sword",
         "type": "NormalWeapon",
         "spelltype" :"none",
+        "itemId": 4,
         "protectionId": 0,
         "min": 2,
         "max": 5,
@@ -1296,6 +1267,7 @@
         "name": "axe",
         "type": "NormalWeapon",
         "spelltype" :"none",
+        "itemId": 5,
         "protectionId": 0,
         "min": 4,
         "max": 5,
@@ -1307,6 +1279,7 @@
         "name": "hammer",
         "type": "NormalWeapon",
         "spelltype" :"none",
+        "itemId": 6,
         "protectionId": 0,
         "min": 1,
         "max": 9,
@@ -1318,6 +1291,7 @@
         "name": "commonBow",
         "type": "RangeWeapon",
         "spelltype" :"none",
+        "itemId": 7,
         "protectionId": 0,
         "min": 1,
         "max": 4,
@@ -1329,6 +1303,7 @@
         "name": "rareBow",
         "type": "RangeWeapon",
         "spelltype" :"none",
+        "itemId": 8,
         "protectionId": 0,
         "min": 4,
         "max": 16,
@@ -1340,6 +1315,7 @@
         "name": "smallLifePotion",
         "type": "LifePotion",
         "spelltype" :"none",
+        "itemId": 9,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1351,6 +1327,7 @@
         "name":"bigLifePotion",
         "type": "LifePotion",
         "spelltype" :"none",
+        "itemId": 10,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1362,6 +1339,7 @@
         "name":"smallManaPotion",
         "type": "ManaPotion",
         "spelltype" :"none",
+        "itemId": 11,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1373,6 +1351,7 @@
         "name":"bigManaPotion",
         "type": "ManaPotion",
         "spelltype" :"none",
+        "itemId": 12,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1384,6 +1363,7 @@
         "name": "leatherArmour",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 13,
         "protectionId": 0,
         "min": 2,
         "max": 6,
@@ -1395,6 +1375,7 @@
         "name": "ironArmour",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 14,
         "protectionId": 0,
         "min": 15,
         "max": 30,
@@ -1406,6 +1387,7 @@
         "name": "blueTunic",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 15,
         "protectionId": 0,
         "min": 6,
         "max": 10,
@@ -1417,6 +1399,7 @@
         "name": "hood",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 16,
         "protectionId": 2,
         "min": 1,
         "max": 4,
@@ -1428,6 +1411,7 @@
         "name": "ironHelmet",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 17,
         "protectionId": 2,
         "min": 4,
         "max": 8,
@@ -1439,6 +1423,7 @@
         "name": "turtleShell",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 18,
         "protectionId": 1,
         "min": 1,
         "max": 2,
@@ -1450,6 +1435,7 @@
         "name": "ironShield",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 19,
         "protectionId": 1,
         "min": 1,
         "max": 4,
@@ -1461,6 +1447,7 @@
         "name": "magicHat",
         "type": "Protection",
         "spelltype" :"none",
+        "itemId": 20,
         "protectionId": 2,
         "min": 4,
         "max": 12,
@@ -1493,6 +1480,7 @@
         "name" : "fresnoWand",
         "type": "MagicalWeapon",
         "spelltype" :"Damage",
+        "itemId": 21,
         "protectionId": 0,
         "min": 2,
         "max": 5,
@@ -1504,6 +1492,7 @@
         "name": "elvenFlute",
         "type": "MagicalWeapon",
         "spelltype" :"Heal",
+        "itemId": 1,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1515,6 +1504,7 @@
         "name": "knottyStick",
         "type": "MagicalWeapon",
         "spelltype" :"Damage",
+        "itemId": 2,
         "protectionId": 0,
         "min": 4,
         "max": 8,
@@ -1526,6 +1516,7 @@
         "name":"crimpStick",
         "type": "MagicalWeapon",
         "spelltype" :"Damage",
+        "itemId": 3,
         "protectionId": 0,
         "min": 8,
         "max": 20,
@@ -1537,6 +1528,7 @@
         "name": "smallLifePotion",
         "type": "LifePotion",
         "spelltype" :"none",
+        "itemId": 9,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1548,6 +1540,7 @@
         "name":"bigLifePotion",
         "type": "LifePotion",
         "spelltype" :"none",
+        "itemId": 10,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1559,6 +1552,7 @@
         "name":"smallManaPotion",
         "type": "ManaPotion",
         "spelltype" :"none",
+        "itemId": 11,
         "protectionId": 0,
         "min": 0,
         "max": 0,
@@ -1570,6 +1564,7 @@
         "name":"bigManaPotion",
         "type": "ManaPotion",
         "spelltype" :"none",
+        "itemId": 12,
         "protectionId": 0,
         "min": 0,
         "max": 0,

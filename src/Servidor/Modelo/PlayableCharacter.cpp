@@ -15,16 +15,33 @@
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
         int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-        int invMaxElements,Observer* observer, std::string race):
+        int invMaxElements,Observer* observer, int raceId):
         Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-                defaultWeapon("none",1, 1, 0), inventory(invMaxElements)
-                , inCity(true), race(race) {
+                defaultWeapon("none", 0, 1, 1, 0), inventory(invMaxElements)
+                , inCity(true), raceId(raceId) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
     this->gold = 0;
     this->xp = 0;
+    notifyStats();
+    notifyEquipment();
+}
+
+PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map, Position &initialPosition,
+        int constitution, int strength, int agility, int intelligence, int level,
+        int raceLifeFactor, int classLifeFactor, int raceManaFactor, int classManaFactor,
+        int recoveryFactor, int meditationRecoveryFactor, Observer *observer, int raceId,
+        float mana, int gold, int xp, int lifeState, bool inCity) :
+        Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,
+                raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
+                meditationRecoveryFactor,observer), mana(mana), gold(gold), xp(xp),
+                defaultWeapon("none", 0, 1, 1, 0),
+                inventory(10), inCity(inCity),raceId(raceId) {
+    if (lifeState == 0) this->lifeState = new Alive();
+    else this->lifeState = new Ghost();
+    this->activeWeapon = &defaultWeapon;
     notifyStats();
     notifyEquipment();
 }
@@ -202,6 +219,11 @@ void PlayableCharacter::equip(Potion* potion, int index) {
     Equippable* element = inventory.takeElement(index, this);
     delete element;
     inventory.sendItems(observer);
+}
+
+void PlayableCharacter::equip(std::string itemName) {
+    int index = inventory.getItemIndex(itemName);
+    equip(index);
 }
 
 void PlayableCharacter::unequip(int elementIndex) {
@@ -418,11 +440,21 @@ void PlayableCharacter::notifyConsoleOutputUpdate(std::vector<std::string> messa
 void PlayableCharacter::addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns) {
     std::vector<std::string> protectionNames;
     armour.getNames(protectionNames);
+    std::string race = getRaceName();
     spawn_playable_character_t  spawn = {currPos.getX(), currPos.getY(), id, race,
          activeWeapon->getName(), protectionNames[0], protectionNames[1]
          , protectionNames[2]};
     pcSpawns.push_back(spawn);
 }
+
+std::string PlayableCharacter::getRaceName() {
+    if (raceId == 1) return "human";
+    if (raceId == 2) return "elf";
+    if (raceId == 3) return "dwarf";
+    return "gnome";
+}
+
+
 
 
 

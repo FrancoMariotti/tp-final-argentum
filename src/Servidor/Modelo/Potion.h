@@ -10,7 +10,7 @@
 
 class Potion : public Equippable {
 public:
-    Potion(std::string name, int value, int goldCost);
+    Potion(std::string name, int id, int value, int goldCost);
     virtual void use(PlayableCharacter* character) = 0;
     void equipTo(PlayableCharacter *character, int i) override;
     void unequipFrom(PlayableCharacter *character) override;

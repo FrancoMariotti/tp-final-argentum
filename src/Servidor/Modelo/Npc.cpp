@@ -26,8 +26,8 @@ Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constituti
                 intelligence, level, raceLifeFactor, classLifeFactor,
                 raceManaFactor, classManaFactor, recoveryFactor,
                 meditationRecoveryFactor,observer),
-        weapon("npcWeapon", minDamage,maxDamage, 0),
-        armour("npcArmour", minDefense,maxDefense, ARMOUR, 0),
+        weapon("npcWeapon", 0, minDamage,maxDamage, 0),
+        armour("npcArmour", 0, minDefense,maxDefense, ARMOUR, 0),
         itemsToDrop(itemsToDrop){
     this->specie = std::move(specie);
     this->mana = 0;

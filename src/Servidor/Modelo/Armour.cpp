@@ -1,6 +1,6 @@
 #include "Armour.h"
 
-Armour::Armour() : defaultProtection("none", 0, 0, NONE, 0) {
+Armour::Armour() : defaultProtection("none", 0, 0, 0, NONE, 0) {
     for (int i = 0; i < 3 ; ++i) {
         protections.push_back(&defaultProtection);
     }

@@ -12,7 +12,7 @@ class MagicalWeapon: public Weapon {
     int cost;
     SpellType *spellType;
     public:
-        MagicalWeapon(std::string name,SpellType *spellType,
+        MagicalWeapon(std::string name, int id, SpellType *spellType,
                 int minDamage,int maxDamage,int cost, int goldCost);
         int attack(Character* owner,Character *enemy,int strength,int level,float &mana,Position &holderPos) override;
         ~MagicalWeapon() override;

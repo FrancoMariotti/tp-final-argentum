@@ -20,6 +20,7 @@ class GoldBag;
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
     friend class Priest;
+    friend class PlayableCharacterFactory;
     float mana;
     int gold;
     int xp;
@@ -30,18 +31,25 @@ class PlayableCharacter: public Character {
     LifeState *lifeState;
     bool inCity;
     BankAccount bankAccount;
-    std::string race;
+    int raceId;
 private:
     bool checkFairPlay(int enemyLevel);
     void revive();
     void teleportTo(Position position);
     void addGold(int amount);
     void dropWholeInventory();
+    PlayableCharacter(std::string id, float lifePoints, Map* map, Position &initialPosition, int constitution,
+            int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
+            int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
+            Observer* observer, int raceId, float mana, int gold,
+            int xp, int lifeState, bool inCity);
+    void equip(std::string itemName);
+    std::string getRaceName();
 public:
     PlayableCharacter(std::string id,Map* map, Position &initialPosition, int constitution,
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-                  int invMaxElements,Observer* observer, std::string race);
+                  int invMaxElements,Observer* observer, int raceId);
     int receiveDamage(int enemyLevel, int damage) override;
     void attack(Character *character) override;
     void move(Offset& offset);

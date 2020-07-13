@@ -5,14 +5,16 @@
 #include <algorithm>
 #include "BankAccount.h"
 
-BankAccount::BankAccount() : gold(0) {}
+BankAccount::BankAccount() : gold(0), maxItems(MAX_ACCOUNT_ITEMS) {}
 
 void BankAccount::deposit(int amount) {
     gold += amount;
 }
 
 void BankAccount::deposit(Equippable* object) {
-    items.push_back(object);
+    if (items.size() < maxItems) {
+        items.push_back(object);
+    }
 }
 
 int BankAccount::extract(int amount) {

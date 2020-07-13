@@ -12,9 +12,11 @@ class Game;
 class Map;
 class ItemFactory;
 
+#define CHARACTER_INFO_INTS_AMOUNT 45
+
 typedef struct character_info {
-   std::string id;
-   float lifePoints;
+   //std::string id;
+   int lifePoints;
    int level;
    int constitution;
    int agility;
@@ -28,23 +30,24 @@ typedef struct character_info {
    int meditationRecoveryFactor;
    int x;
    int y;
-   float mana;
+   int mana;
    int gold;
    int xp;
-   std::string activeWeapon;
-   std::vector<std::string> inventoryItems;
-   std::vector<std::string> protections;
-   std::string lifeState;
-   bool inCity;
+   std::vector<int> inventoryItems;
+   int activeWeapon;
+   std::vector<int> protections;
+   int lifeState;
+   int inCity;
    int goldInBank;
-   std::vector<std::string> itemsInBank;
-   std::string race;
+   std::vector<int> itemsInBank;
+   int race;
 } character_info_t;
 
 typedef struct item {
     std::string name;
     std::string type;
     std::string spelltype;
+    int id;
     int protectionId;
     int max;
     int min;
@@ -52,6 +55,12 @@ typedef struct item {
     int goldCost;
     int manaCost;
 } item_t;
+
+typedef struct character_map_info {
+    //int stringLen;
+    std::string name;
+    uint32_t index;
+} character_map_info_t;
 
 class FileParser {
     std::ifstream file;
@@ -94,17 +103,23 @@ public:
 class PlayableCharacterFactory {
     Json::Value characterObj;
     ItemFactory* itemFactory;
-    std::map<std::string, item_t> items;
-    std::fstream playersInfoFile;
-    std::fstream playersInfoMapFile;
+    std::map<int, item_t> items;
+    std::string playersInfoFile;
+    std::string playersInfoMapFile;
     std::map<std::string, int> playersInfoMap;
-    int playersAmount;
+    uint32_t playersAmount;
     public:
         explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory,
-                const std::string& playersInfoMapFile, const std::string& playersInfoFile);
+                std::string  playersInfoMapFile, std::string  playersInfoFile);
         void create(Map* map,const std::string& playerName,const std::string& charRace,
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
+
+    void addPlayerInfoToFile(character_info_t playerInfo);
+
+    character_info_t getPlayerInfoFromFile(int index);
+
+    void createPlayerFromInfo(character_info_t info, std::string playerName, Map* map, Observer* observer);
 };
 
 class NpcFactory {

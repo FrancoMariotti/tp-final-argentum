@@ -50,3 +50,11 @@ Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharac
 int Inventory::getItemsAmount() {
     return elements.size();
 }
+
+int Inventory::getItemIndex(std::string itemName) {
+    for (unsigned int i = 0; i < elements.size(); ++i) {
+        if (elements[i]->getName() == itemName) return i;
+    }
+    return -1;
+}
+
