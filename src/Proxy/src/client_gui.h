@@ -62,6 +62,9 @@ public:
     void updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables);
     void setUsername(const std::string &client_username);
     ~GUI();
+private:
+    std::unique_ptr<SdlDynamicRenderable>& getPlayableCharacter(const std::string& playable_id);
+    std::unique_ptr<SdlDynamicRenderable> &getNPC(const std::string &renderable_id);
 };
 
 

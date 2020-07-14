@@ -5,9 +5,8 @@
 std::string MovementMessageSerializer::serialize(Message* message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
-    msgpack::type::tuple<int, int> src(message->getPlayerVelX(),
-                                       message->getPlayerVelY());
-    packer.pack(src);
+    location_t location = message->getLocation();
+    packer.pack(location);
     std::string result(ss.str());
     return result;
 }
@@ -21,10 +20,6 @@ Message *MovementMessageSerializer::deserialize(unsigned char *data,uint16_t len
     msgpack::object deserialized = oh.get();
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.
-    msgpack::type::tuple<int, int> dst;
-    deserialized.convert(dst);
-
-    int x = std::get<0>(dst);
-    int y = std::get<1>(dst);
-    return new Movement(x,y);
+    location_t location = deserialized.as<location_t>();
+    return new Movement(location.id,location.x,location.y);
 }

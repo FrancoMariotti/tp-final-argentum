@@ -26,6 +26,7 @@ public:
     ClientConnection(ClientConnection&) = delete;
     bool isDead() const;
     std::string getId();
+    void setId(std::string name);
     void joinResources();
     void start();
     void finish();

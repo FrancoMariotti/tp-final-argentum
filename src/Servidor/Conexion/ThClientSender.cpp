@@ -11,14 +11,13 @@ void ThClientSender::start() {
 
 void ThClientSender::run() {
     try {
-        //protocol.send(client,1);//aca deberia mandarle el id al cliente.
         Message* message;
         while(keepTalking) {
 
             std::cout << "sending event" << std::endl;
             message = messages.pop();
             protocol.send(client,message);
-            delete message;
+            //delete message;
         }
     } catch(std::exception &e) {
         keepTalking = false;

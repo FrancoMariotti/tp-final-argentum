@@ -17,13 +17,14 @@ void ThClientReceiver::run() {
             std::cout << "recieving event" << std::endl;
             Message* message = protocol.recieve(client);
             if(message) {
-                if(message->getId() == CONNECT_MESSAGE_ID) {
+                /*if(message->getId() == CONNECT_MESSAGE_ID) {
                     id = message->getConnectData().username;
-                }
+                }*/
                 events.push(std::unique_ptr<Message>(message));
             }
 
         } catch(std::exception &e) {
+            std::cout << e.what() <<std::endl;
             keepTalking = false;
         }
     }

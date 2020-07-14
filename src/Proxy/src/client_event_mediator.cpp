@@ -54,7 +54,7 @@ void EventMediator::notify(BaseComponent *sender, int i) {
 
 void EventMediator::notify(BaseComponent *sender, const int vel_x, const int vel_y) {
     clientEvents.push(std::unique_ptr<Message> (
-            new Movement(vel_x, vel_y)));
+            new Movement(USERNAME,vel_x, vel_y)));
 }
 
 void EventMediator::setMapClick(const SDL_Point new_map_click){

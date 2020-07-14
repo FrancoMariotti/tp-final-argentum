@@ -71,12 +71,12 @@ public:
 
 class Movement : public Message{
 private:
+    std::string id;
     const int player_vel_x;
     const int player_vel_y;
 public:
-    Movement(int player_vel_x, int player_vel_y);
-    int getPlayerVelX() const override;
-    int getPlayerVelY() const override;
+    Movement(std::string id,int player_vel_x, int player_vel_y);
+    location_t getLocation() override ;
 };
 
 class UseItem : public Message{

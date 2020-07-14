@@ -1,5 +1,8 @@
 #include "ProtectedConnections.h"
 
+#include <utility>
+#include "mutex"
+
 ProtectedConnections::ProtectedConnections() = default;
 
 void ProtectedConnections::destroyFinishedClients() {
@@ -9,7 +12,7 @@ void ProtectedConnections::destroyFinishedClients() {
         if((*it)->isDead()) {
             (*it)->joinResources();
             delete *it;
-            clients.erase(it--);
+            clients.erase(it);
         }
     }
 }
@@ -21,11 +24,16 @@ void ProtectedConnections::destroyAllClients() {
         (*it)->finish();
         (*it)->joinResources();
         delete *it;
-        clients.erase(it--);
+        clients.erase(it);
     }
 }
 
+void ProtectedConnections::setId(int index,std::string name) {
+    this->clients[index]->setId(std::move(name));
+}
+
 void ProtectedConnections::sendMessage(const std::string& id,Message *event) {
+    std::lock_guard<std::mutex> lck (mutex);
     for(auto& client:clients) {
         if(client->getId() == id) {
             client->sendMessage(event);
@@ -34,6 +42,7 @@ void ProtectedConnections::sendMessage(const std::string& id,Message *event) {
 }
 
 void ProtectedConnections::broadcast(Message *event) {
+    std::lock_guard<std::mutex> lck (mutex);
     for(auto& client:clients) {
         client->sendMessage(event);
     }

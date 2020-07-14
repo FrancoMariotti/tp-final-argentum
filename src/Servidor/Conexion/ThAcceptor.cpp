@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <Common/Socket.h>
 #include "ThAcceptor.h"
 #include "ClientConnection.h"
@@ -7,7 +6,6 @@
 
 ThAcceptor::ThAcceptor(const std::string &service,ProtectedConnections& clients,
                        ProtectedList<std::unique_ptr<Message>> &events):clients(clients),events(events) {
-    this->clientId = 0;
     this->keepTalking = true;
     this->acceptor.bindAndListen(service.c_str());
 }
@@ -20,8 +18,7 @@ void ThAcceptor::run() {
     while (keepTalking) {
         try {
             Socket client = acceptor.accept();
-            auto *connection = new ClientConnection(client, events);
-            clientId++;
+            auto *connection = new ClientConnection(std::move(client), events);
             connection->start();
             clients.push(connection);
             clients.destroyFinishedClients();

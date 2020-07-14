@@ -31,9 +31,7 @@ void Protocol::send(Socket& socket,Message* message) {
 }
 
 Message* Protocol::recieve(Socket &socket) {
-    uint16_t messageId;
-    socket.receive((char*)&messageId, sizeof(uint16_t));
-    messageId = valueToLocalEndian(messageId);
+    uint16_t messageId = recieve(socket,0);
     uint16_t len_data = recieve(socket,0);
     char* data  = (char*) malloc(len_data+1);
     memset(data,0,len_data);

@@ -8,8 +8,6 @@
 typedef void (*callback)(void* client);
 
 class ProtectedConnections {
-    std::queue<int>newConnections;
-    std::map<std::string,int>channelsTable;
     std::mutex mutex;
     std::vector<ClientConnection*> clients;
 public:
@@ -19,6 +17,7 @@ public:
     void destroyAllClients();
     void broadcast(Message *event);
     void sendMessage(const std::string& id, Message *event);
+    void setId(int index, std::string name);
     ~ProtectedConnections();
 };
 

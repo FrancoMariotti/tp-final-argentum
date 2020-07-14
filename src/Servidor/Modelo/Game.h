@@ -34,8 +34,8 @@ public:
     //void storeInInventory(const std::string& playerName, Equippable* element);
     void equip(const std::string& playerName, int elementIndex);
     void unequip(const std::string& playerName, int elementIndex);
-    void sendUpdates(ProxySocket& pxySkt);
-    void notifymovementUpdate(int x, int y) override;
+    //void sendUpdates(ProxySocket& pxySkt);
+    void notifymovementUpdate(std::string id,int x, int y) override;
     void notifyStatsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) override;
     void notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) override;
     void notifyItemsUpdate(std::vector<std::string> &vector) override;
