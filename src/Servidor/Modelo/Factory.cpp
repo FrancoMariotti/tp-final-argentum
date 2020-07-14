@@ -208,7 +208,7 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile
                 item["name"].asString(),
                 item["type"].asString(),
                 item["spelltype"].asString(),
-                item["id"].asInt(),
+                item["itemId"].asInt(),
                 item["protectionId"].asInt(),
                 item["max"].asInt(),
                 item["min"].asInt(),
@@ -417,7 +417,7 @@ void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::
 
     for (unsigned int j = 0; j < info.inventoryItems.size(); ++j) {
         if(info.inventoryItems[j] != 0) {
-            Equippable* item = itemFactory->create(items.at(j));
+            Equippable* item = itemFactory->create(items.at(info.inventoryItems[j]));
             character->store(item);
             if (item->getId() == info.activeWeapon || item->getId() == info.protections[0]
                 || item->getId() == info.protections[1] || item->getId() == info.protections[2]) {
@@ -428,7 +428,7 @@ void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::
 
     for (unsigned int j = 0; j < info.itemsInBank.size(); ++j) {
         if(info.itemsInBank[j] != 0) {
-            Equippable* item = itemFactory->create(items.at(j));
+            Equippable* item = itemFactory->create(items.at(info.itemsInBank[j]));
             character->bankAccount.deposit(item);
         }
     }
