@@ -227,16 +227,14 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile
 
     int nameLength, index;
     while (playersInfoMapStream.read((char*)&nameLength, sizeof(int))) {
-        char* name = new char[nameLength];
+        char* name = new char[nameLength + 1];
         playersInfoMapStream.read(name, nameLength);
         playersInfoMapStream.read((char*)&index, sizeof(int));
+        name[nameLength] = '\0';
         if (playersInfoMapStream.good()) playersInfoMap[name] = index;
         delete[] name;
     }
-    /*character_map_info_t mapInfo;
-    while (playersInfoMapStream.read((char*)&mapInfo, sizeof(character_map_info_t))) {
-        playersInfoMap[mapInfo.name] = mapInfo.index;
-    }*/
+
     playersAmount = playersInfoMap.size();
     playersInfoMapStream.close();
 }
@@ -276,13 +274,14 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
                 meditationRecoveryFactor, invMaxElements,observer, raceId);
         map->add(playerName,character);
 
-        //Agrego el index del jugador al archivo del mapa
+        //Agrego el index del jugador al archivo del mapa y al mapa de la factory
         uint32_t nameLen = character->id.size();
+        playersInfoMapStream.seekp(0, std::ios_base::end);
         playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
         playersInfoMapStream.write(character->id.c_str(), nameLen);
         playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
-        /*character_map_info_t* mapInfo = new character_map_info {character->id, playersAmount};
-        playersInfoMapStream.write((char*)mapInfo, sizeof(character_map_info_t));*/
+        playersInfoMap[playerName] = playersAmount;
+
         //Agrego la informacion del jugador al archivo de informacion
         std::vector<int> emptyArmour = {0, 0, 0};
         std::vector<int> emptyInventory = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -309,7 +308,8 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
     infoStream.seekp(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
-
+    long pos = infoStream.tellp();
+    pos++;
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));
     infoStream.write((char*)&playerInfo.constitution, sizeof(int));
@@ -361,6 +361,8 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
      }
      //situo el puntero para leer el elemento en el index correcto
      infoStream.seekg(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
+     long pos = infoStream.tellg();
+     pos++;
      //comienzo a guardar la informacion
      infoStream.read((char*)&characterInfo.lifePoints, sizeof(int));
      infoStream.read((char*)&characterInfo.level, sizeof(int));

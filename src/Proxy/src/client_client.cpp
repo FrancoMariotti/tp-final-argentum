@@ -92,7 +92,7 @@ int Client::run() {
 }
 
 void Client::init() {
-    std::string username_input = "franco";
+    std::string username_input = "agustin";
     clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
     gui.setUsername(username_input);
     int init = 0;
