@@ -55,7 +55,4 @@ add_library(qtProxysources
         ./../Proxy/src/common_closedqueue_exception.h
         ./../Proxy/src/common_closedqueue_exception.cpp)
 # Use the Widgets module from Qt 5.
-target_link_libraries(qt_argentum Qt5::Widgets)
-
-#Dice que no puede encontrar qtProxySources
-#target_link_libraries(qt_argentum qtProxySources Qt5::Widgets)
+target_link_libraries(qt_argentum qtProxysources Qt5::Widgets)

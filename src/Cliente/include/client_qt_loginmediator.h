@@ -3,10 +3,12 @@
 
 #include <string>
 
+class ProxySocket;
 class QtCharacterLogin;
 class QtServerLogin;
 class LoginMediator {
 private:
+    ProxySocket& proxySocket;
     QtServerLogin* qtServerLogin;
     QtCharacterLogin* qtCharacterLogin;
 
@@ -16,7 +18,7 @@ private:
     };
 
 public:
-    LoginMediator();
+    explicit LoginMediator(ProxySocket& proxySocket);
 
     ~LoginMediator();
 

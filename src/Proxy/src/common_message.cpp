@@ -122,6 +122,11 @@ std::vector<spawn_playable_character_t> Message::getPcSpawnData() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+int Message::getAnswer() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
@@ -300,4 +305,13 @@ ConsoleOutput::ConsoleOutput(std::vector<std::string> outputs) :
 
 std::vector<std::string> ConsoleOutput::getConsoleOutput() {
     return std::move(outputs);
+}
+
+Accept::Accept(const int accepted) :
+    Message(ACCEPT_CREDENTIALS_MESSAGE_ID),
+    accepted(accepted)
+    {}
+
+int Accept::getAnswer() const{
+    return accepted;
 }

@@ -23,7 +23,8 @@ enum MESSAGES {
     SPAWN_CITY_CHARACTERS_MESSAGE_ID,
     SPAWN_DROPS_MESSAGE_ID,
     CONSOLE_OUTPUT_MESSAGE_ID,
-    SPAWN_PC_MESSAGE_ID
+    SPAWN_PC_MESSAGE_ID,
+    ACCEPT_CREDENTIALS_MESSAGE_ID
 };
 
 
@@ -54,6 +55,7 @@ public:
     virtual t_player_attack getAttack();
     virtual std::vector<std::string> getConsoleOutput();
     virtual t_create_connect getConnectData() const;
+    virtual int getAnswer() const;
     virtual ~Message() = default;
 };
 
@@ -196,6 +198,16 @@ private:
 public:
     explicit ConsoleOutput(std::vector<std::string>);
     std::vector<std::string> getConsoleOutput() override;
+};
+
+/*Server side
+ * envia un 0 si las credenciales son correctas, 1 en caso contrario no*/
+class Accept : public Message{
+private:
+    const int accepted;
+public:
+    explicit Accept(int accepted);
+    int getAnswer() const;
 };
 
 #endif //ARGENTUM_COMMON_MESSAGE_H

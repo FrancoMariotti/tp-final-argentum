@@ -1,8 +1,11 @@
+#include <Proxy/src/common_message.h>
 #include "client_qt_loginmediator.h"
 #include "client_qt_serverlogin.h"
 #include "client_qt_characterlogin.h"
 
-LoginMediator::LoginMediator() {
+#include "../../Proxy/src/common_proxy_socket.h"
+LoginMediator::LoginMediator(ProxySocket& proxySocket) :
+    proxySocket(proxySocket) {
     qtServerLogin = new QtServerLogin(this);
     qtCharacterLogin = new QtCharacterLogin(this);
 }
@@ -45,6 +48,13 @@ void LoginMediator::sendCharacterCreation(const std::string& username, const std
         std::string text = "Usuario: " + username + "\nContraseña: " + password
                 + "\nRaza: " + s_race + "\nClase: " + s_class;
         qtCharacterLogin->showMessageBox(text);
+        proxySocket.writeToServer(std::unique_ptr<Message>(new Connect(username, s_race, s_class)));
+        std::unique_ptr<Message> msg = proxySocket.readClient();
+        std::cout << "Id_client: " << msg->getId() << std::endl;
+        std::cout << "Answer: " << msg->getAnswer() << std::endl;
+        if(msg->getAnswer() == 0){
+            qtCharacterLogin->showMessageBox("Credenciales aceptadas, ingresando al mundo");
+        }
     } else {
         qtCharacterLogin->showMessageBox("Debe completar los campos de usuario y contraseña");
     }
