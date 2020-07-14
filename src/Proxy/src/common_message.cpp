@@ -122,7 +122,7 @@ std::vector<spawn_playable_character_t> Message::getPcSpawnData() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-int Message::getAnswer() const {
+bool Message::getAnswer() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -319,7 +319,7 @@ Accept::Accept(bool accepted) :
     accepted(accepted)
     {}
 
-int Accept::getAnswer() const{
+bool Accept::getAnswer() const{
     return accepted;
 }
 

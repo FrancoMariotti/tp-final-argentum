@@ -57,7 +57,7 @@ public:
     virtual t_player_attack getAttack();
     virtual std::vector<std::string> getConsoleOutput();
     virtual t_create_connect getConnectData() const;
-    virtual int getAnswer() const;
+    virtual bool getAnswer() const;
     virtual t_login getLogin() const;
     virtual ~Message() = default;
 };
@@ -212,7 +212,7 @@ private:
     const bool accepted;
 public:
     explicit Accept(bool accepted);
-    int getAnswer() const;
+    bool getAnswer() const;
 };
 
 class Login : public Message{
