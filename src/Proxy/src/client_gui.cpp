@@ -6,6 +6,7 @@
 
 #include <utility>
 #include <SDL2/SDL_mixer.h>
+#include <Common/OsException.h>
 #include "client_sdl_exception.h"
 #include "client_sdl_dynamic_renderable.h"
 #include "Common/message_structs.h"
@@ -60,7 +61,8 @@ void GUI::execute(){
     keyboard.movePlayer(clientEvents);
     inventory.use(clientEvents, mouse);
     mouse.use(clientEvents);
-    SDL_Point player_pos = dynamic_playable_renderables.at(username)->getPos();
+    //SDL_Point player_pos = dynamic_playable_renderables.at(username)->getPos();
+    SDL_Point player_pos = this->getPlayableCharacter(username)->getPos();
     console.execute();
     camera.move(player_pos);
 
@@ -69,8 +71,8 @@ void GUI::execute(){
 
 /**Factory de eventos de server??*/
 void GUI::updatePlayerPos(const int player_x, const int player_y){
-    this->dynamic_playable_renderables[username]->updatePos(player_x, player_y, camera);
-    //player.updatePos(player_x, player_y, camera);
+    //this->dynamic_playable_renderables[username]->updatePos(player_x, player_y, camera);
+    this->getPlayableCharacter(username)->updatePos(player_x, player_y, camera);
     audioManager.playSound("step1",0);
 }
 
@@ -80,11 +82,13 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 
 /*Busca en la lista de renderizables dinamicos por id (username o npc_id)*/
 void GUI::updateRenderableStats(const std::string &renderable_id, const std::string &effect_id) {
-    dynamic_playable_renderables.at(renderable_id)->addVisualEffect(effect_id);
+    //dynamic_playable_renderables.at(renderable_id)->addVisualEffect(effect_id);
+    this->getPlayableCharacter(renderable_id)->addVisualEffect(effect_id);
 }
 
 void GUI::updatePlayerEquipment(const equipment_t& equipment) {
-    dynamic_playable_renderables.at(username)->updateEquipment(equipment);
+    //dynamic_playable_renderables.at(username)->updateEquipment(equipment);
+    this->getPlayableCharacter(username)->updateEquipment(equipment);
     inventory.updateEquippedItems(equipment);
     if(equipment.armourName == "ghost"){
         audioManager.playSound("death", 0);
@@ -140,13 +144,16 @@ void GUI::updateRenderablePlayables(std::vector<spawn_playable_character_t> rend
         }
 }
 
+/**TODO: falta actualizar posicion de otros jugadores, solo actualiza al cliente por UpdatePlayerPos*/
 void GUI::updateRenderablePos(const int new_x, const int new_y, const std::string& renderable_id){
-    this->dynamic_renderables.at(renderable_id)->updatePos(new_x, new_y, camera);
+    //this->dynamic_renderables.at(renderable_id)->updatePos(new_x, new_y, camera);
+    this->getNPC(renderable_id)->updatePos(new_x, new_y, camera);
 }
 
 void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
                                             const std::string& renderable_id) {
-    this->dynamic_playable_renderables.at(renderable_id)->updateEquipment(equipment);
+    //this->dynamic_playable_renderables.at(renderable_id)->updateEquipment(equipment);
+    this->getPlayableCharacter(renderable_id)->updateEquipment(equipment);
 }
 
 
@@ -194,6 +201,25 @@ void GUI::render(){
 void GUI::renderWorld() {
     world.render(camera);
     world.renderDrops(inventory, camera);
+}
+
+
+std::unique_ptr<SdlDynamicRenderable>& GUI::getPlayableCharacter(const std::string& playable_id){
+    auto search = dynamic_playable_renderables.find(playable_id);
+    if(search == dynamic_playable_renderables.end()){
+        throw OSError("<GUI::getPlayableCharacter> "
+                      "no se encuentra el playable_id, @param: %s", playable_id.c_str());
+    }
+    return search->second;
+}
+
+std::unique_ptr<SdlDynamicRenderable>& GUI::getNPC(const std::string& renderable_id){
+    auto search = dynamic_renderables.find(renderable_id);
+    if(search == dynamic_renderables.end()){
+        throw OSError("<GUI::getNPC> "
+                      "no se encuentra el renderable_id, @param: %s", renderable_id.c_str());
+    }
+    return search->second;
 }
 
 
