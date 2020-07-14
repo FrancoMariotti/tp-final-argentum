@@ -124,7 +124,7 @@ void Client::init() {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 location_t location = msg->getLocation();
-                this->gui.updatePlayerPos(location.x, location.y);
+                this->gui.updatePlayerPos(location.id,location.x, location.y);
             } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
                 this->gui.updateDrops(msg->getSpawnData());
             } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
@@ -144,7 +144,7 @@ void Client::update() {
         //std::cout << "Update(): MessageId" << msg->getId() << std::endl;
         if(msg->getId() == MOVEMENT_MESSAGE_ID){
             location_t  location = msg->getLocation();
-            this->gui.updatePlayerPos(location.x, location.y);
+            this->gui.updatePlayerPos(location.id,location.x, location.y);
         } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){
             this->gui.updatePlayerStats(msg->getStats());
         } else if (msg->getId() == INVENTORY_UPDATE_MESSAGE_ID){

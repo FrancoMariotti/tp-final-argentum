@@ -70,9 +70,9 @@ void GUI::execute(){
 }
 
 /**Factory de eventos de server??*/
-void GUI::updatePlayerPos(const int player_x, const int player_y){
+void GUI::updatePlayerPos(std::string id,const int player_x, const int player_y){
     //this->dynamic_playable_renderables[username]->updatePos(player_x, player_y, camera);
-    this->getPlayableCharacter(username)->updatePos(player_x, player_y, camera);
+    this->getPlayableCharacter(id)->updatePos(player_x, player_y, camera);
     audioManager.playSound("step1",0);
 }
 

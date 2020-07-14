@@ -21,7 +21,7 @@ std::queue<Message *> Game::initializeWorld() {
     map->addLayersTo(configFile, initializeMessages);
     map->initializeDropSpawns(initializeMessages);
     map->initializeNpcsSpawns(initializeMessages);
-    //map->initializePlayersSpawns(initializeMessages);
+    map->initializePlayersSpawns(initializeMessages);
     return initializeMessages;
 }
 
