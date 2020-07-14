@@ -14,6 +14,10 @@ int main(int argc, char *argv[]) {
         std::thread proxyServer(server, std::ref(proxySocket));
         QtApp(argc, argv, proxySocket);
         std::cout << "saliendo QT" << std::endl;
+        /*si se levanto la conexion lanzo SDL, caso contrario termina la ejecucion y no pasa nada
+         * if(socket != -1){
+         * Client client
+         * client.run()*/
         proxyServer.join();
     } catch (std::exception &e){
         std::cout << e.what() << std::endl;
@@ -37,6 +41,7 @@ void server(ProxySocket& proxySocket){
                             && login.password == "service")));
             } else if (id == CREATE_MESSAGE_ID){
                 t_create_connect create =  msg->getConnectData();
+                std::cout << "Server: " <<  create.username << " " << create.password << std::endl;
                 proxySocket.writeToClient(std::unique_ptr<Message>
                         (new Accept(create.username == "username"
                         && create.password == "password")));

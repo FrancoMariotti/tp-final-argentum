@@ -7,7 +7,7 @@ find_package(Qt5Widgets)
 
 message("[INFO] La raiz del proyecto es ${PROJECT_SOURCE_DIR}")
 
-# Agrego ej3/include a la lista de directorios de includes
+# Agrego Cliente/include a la lista de directorios de includes
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Esta macro toma cada uno los parámetros y ejecuta *uic* sobre ellos
@@ -55,4 +55,4 @@ add_library(qtProxysources
         ./../Proxy/src/common_closedqueue_exception.h
         ./../Proxy/src/common_closedqueue_exception.cpp)
 # Use the Widgets module from Qt 5.
-target_link_libraries(qt_argentum qtProxysources Qt5::Widgets)
+target_link_libraries(qt_argentum proxysources Qt5::Widgets)

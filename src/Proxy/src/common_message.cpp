@@ -222,7 +222,7 @@ Create::Create(const std::string &username, const std::string &password, const s
     {}
 
 t_create_connect Create::getConnectData() const{
-    return t_create_connect{username, race, char_class};
+    return t_create_connect{username, password, race, char_class};
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)

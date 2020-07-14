@@ -34,9 +34,6 @@ void LoginMediator::sendServerCredentials(const std::string& host,const std::str
             qtServerLogin->setServerStatus(false);
         }
     }
-
-
-
 }
 
 void LoginMediator::sendCharacterLogin(const std::string& username, const std::string& password){
