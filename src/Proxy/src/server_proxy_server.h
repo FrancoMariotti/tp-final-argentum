@@ -6,8 +6,8 @@
 #define ARGENTUM_SERVER_PROXY_SERVER_H
 
 
-#include "common_blocking_queue.h"
-#include "common_thread.h"
+#include "Common/BlockingQueue.h"
+#include "Common/Thread.h"
 
 class ProxySocket;
 class ProxyServer: public Thread{

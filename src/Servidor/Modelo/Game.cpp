@@ -1,5 +1,5 @@
-#include "Proxy/src/common_proxy_socket.h"
-#include <Proxy/src/common_message.h>
+#include "Common/common_proxy_socket.h"
+#include <Common/Message.h>
 #include <thread>
 #include "Game.h"
 #include "Factory.h"
@@ -65,9 +65,9 @@ void Game::initialize() {
     }
 }
 
-void Game::initializeMap(ProxySocket& pxySkt) {
+/*void Game::initializeMap(ProxySocket& pxySkt) {
     map->sendLayers(pxySkt,configFile);
-}
+}*/
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
@@ -90,62 +90,62 @@ void Game::unequip(const std::string& playerName, int elementIndex) {
     character->unequip(elementIndex);
 }
 
-void Game::storeInInventory(const std::string& playerName, Equippable* element) {
+/*void Game::storeInInventory(const std::string& playerName, Equippable* element) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->store(element);
+}*/
+
+bool Game::broadcastUpdateAvailable() {
+    return !broadcastUpdates.empty();
 }
 
-
-void Game::sendUpdates(ProxySocket& pxySkt) {
-    while (!updates.empty()) {
-        Message* msg = updates.front();
-        pxySkt.writeToClient(std::unique_ptr<Message> (
-              msg));
-        updates.pop();
-    }
+Message* Game::nextBroadCastUpdate() {
+    Message* msg = broadcastUpdates.front();
+    broadcastUpdates.pop();
+    return msg;
 }
 
-void Game::notifySpawnNpcUpdate(std::vector<spawn_object_t>& npcs) {
-    updates.push(new SpawnStaticObjects(SPAWN_NPC_MESSAGE_ID,npcs));
+void Game::notifySpawnNpcUpdate(std::vector<location_t>& npcs) {
+    broadcastUpdates.push(new SpawnStaticObjects(SPAWN_NPC_MESSAGE_ID,npcs));
 }
 
 void Game::notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) {
-    updates.push(new SpawnPc(pcSpawns));
+    broadcastUpdates.push(new SpawnPc(pcSpawns));
 }
 
-void Game::notifyDropSpawnNUpdate(std::vector<spawn_object_t> dropSpawns) {
-    updates.push(new SpawnStaticObjects(SPAWN_DROPS_MESSAGE_ID,dropSpawns));
+void Game::notifyDropSpawnNUpdate(std::vector<location_t> dropSpawns) {
+    broadcastUpdates.push(new SpawnStaticObjects(SPAWN_DROPS_MESSAGE_ID,dropSpawns));
 }
 
-void Game::notifyCityCharactersSpawn(std::vector<spawn_object_t> &spawns) {
-    updates.push(new SpawnStaticObjects(SPAWN_CITY_CHARACTERS_MESSAGE_ID,spawns));
+void Game::notifyCityCharactersSpawn(std::vector<location_t> &spawns) {
+    broadcastUpdates.push(new SpawnStaticObjects(SPAWN_CITY_CHARACTERS_MESSAGE_ID,spawns));
 }
 
 void Game::notifyStatsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
-    updates.push(new Stats(
+    /*broadcastUpdates.push(new Stats(
             health_percentage,
             mana_percentage,
             exp_percentage,
-            gold,level));
+            gold,level));*/
 }
 
 void Game::notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
-    updates.push(new EquipmentUpdate(weaponName, armourName, shieldName, helmetName));
+    //broadcastUpdates.push(new EquipmentUpdate(weaponName, armourName, shieldName, helmetName));
 }
 void Game::notifyItemsUpdate(std::vector<std::string> &vector) {
-    updates.push(new InventoryUpdate(vector));
+    //broadcastUpdates.push(new InventoryUpdate(vector));
 }
 
 void Game::notifymovementUpdate(int x, int y) {
-    updates.push(new Movement(x,y));
+    broadcastUpdates.push(new Movement(x,y));
 }
 
 void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
-    updates.push(new MovementNpcUpdate(idNpc,x,y));
+    //broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
 }
 
 void Game::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
-    updates.push(new ConsoleOutput(messages));
+    //broadcastUpdates.push(new ConsoleOutput(messages));
 }
 
 void Game::executeCommand(std::unique_ptr<Message>& command) {
@@ -157,9 +157,9 @@ void Game::executeCommand(std::unique_ptr<Message>& command) {
 }
 
 Game::~Game() {
-    while(!updates.empty()) {
-        delete updates.front();
-        updates.pop();
+    while(!broadcastUpdates.empty()) {
+        delete broadcastUpdates.front();
+        broadcastUpdates.pop();
     }
     delete map;
 }

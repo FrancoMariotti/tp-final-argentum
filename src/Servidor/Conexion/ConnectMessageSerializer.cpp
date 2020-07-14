@@ -1,5 +1,5 @@
 #include <msgpack.hpp>
-#include <Proxy/src/common_socket.h>
+#include <Common/Socket.h>
 #include "ConnectMessageSerializer.h"
 
 std::string ConnectMessageSerializer::serialize(Message *message) {

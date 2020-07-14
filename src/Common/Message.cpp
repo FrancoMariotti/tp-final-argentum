@@ -1,12 +1,8 @@
-//
-// Created by agustin on 19/6/20.
-//
-
 #include <string>
 #include <iostream>
 #include <utility>
-#include "common_message.h"
-#include "common_osexception.h"
+#include "Message.h"
+#include "OsException.h"
 
 
 Message::Message(const int id) :
@@ -33,16 +29,6 @@ int Message::getIndex() const {
 }
 
 std::string Message::getLayerName() const {
-    throw OSError("Getter de atributo de instancia inexistente, "
-                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
-}
-
-int Message::getTileX() const {
-    throw OSError("Getter de atributo de instancia inexistente, "
-                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
-}
-
-int Message::getTileY() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -93,26 +79,18 @@ int Message::getY() const {
 
 }
 
-std::vector<spawn_object_t> Message::getSpawnData() {
+std::vector<location_t> Message::getSpawnData() {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-npc_movement_t Message::getMovement() {
+location_t Message::getLocation() {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-t_player_attack Message::getAttack() {
-    throw OSError("Getter de atributo de instancia inexistente, "
-                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
-}
 
 std::vector<std::string> Message::getConsoleOutput() {
-    throw OSError("Getter de atributo de instancia inexistente, "
-                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
-}
-std::string Message::getUserName() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -172,13 +150,6 @@ int Draw::getHeight() const {
 
 Draw::Draw():Message(DRAW_MESSAGE_ID) {}
 
-Draw &Draw::operator=(const Draw &draw) {
-    this->name = draw.name;
-    this->data = draw.data;
-    this->width = draw.width;
-    this->height = draw.height;
-    return *this;
-}
 
 ExecuteCommand::ExecuteCommand(const std::string& command) :
     Message(COMMAND_MESSAGE_ID),
@@ -222,10 +193,6 @@ int ExecuteCommand::getX() const {
 
 int ExecuteCommand::getY() const {
     return y;
-}
-
-std::string ExecuteCommand::getUserName() const {
-    return username;
 }
 
 Connect::Connect(const std::string& username,const std::string race,const std::string char_class) :
@@ -278,34 +245,23 @@ std::vector<spawn_playable_character_t> SpawnPc::getPcSpawnData() {
     return std::move(renderables);
 }
 
-SpawnStaticObjects::SpawnStaticObjects(int messageId,std::vector<spawn_object_t> renderables):
+SpawnStaticObjects::SpawnStaticObjects(int messageId,std::vector<location_t> renderables):
                                                             Message(messageId),
                                                             renderables(std::move(renderables)){}
-std::vector<spawn_object_t> SpawnStaticObjects::getSpawnData() {
+std::vector<location_t> SpawnStaticObjects::getSpawnData() {
     return std::move(renderables);
 }
 
-MovementNpcUpdate::MovementNpcUpdate(std::string id, int x, int y):
-                                Message(NPC_MOVEMENT_UPDATE_MESSAGE_ID) {
-    this->id =id;
-    this->x = x;
-    this->y = y;
+ActionUpdate::ActionUpdate(int messageId,std::string id,int x,int y):
+                                                    Message(messageId),
+                                                    id(std::move(id)),
+                                                    x(x),
+                                                    y(y){}
+location_t ActionUpdate::getLocation() {
+    return location_t{x,y,id};
 }
 
-npc_movement_t MovementNpcUpdate::getMovement() {
-    return npc_movement_t{x,y,id};
-}
 
-Attack::Attack(std::string  username, int enemy_x, int enemy_y) :
-                            Message(PLAYER_ATTACK_MESSAGE_ID),
-                            username(std::move(username)),
-                            enemy_x(enemy_x),
-                            enemy_y(enemy_y)
-                            {}
-
-t_player_attack Attack::getAttack(){
-    return t_player_attack{username, enemy_x, enemy_y};
-}
 
 ConsoleOutput::ConsoleOutput(std::vector<std::string> outputs) :
     Message(CONSOLE_OUTPUT_MESSAGE_ID),

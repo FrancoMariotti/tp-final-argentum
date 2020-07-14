@@ -29,23 +29,14 @@ public:
     /* Cargo la textura con todos los tiles del mundo
      * Cargo el map con los recortes de cada tile que se van a utilizar para dibujar el mundo*/
     explicit SdlWorld(const SdlWindow& window);
-
     void setDimensions(int w, int h);
-
     void addLayer(std::vector<int> data, const int init);
-
     void addFloorTile(int x, int y, int tile_id);
-
     void addObstacleTile(int x, int y, int tile_id);
-
     //void renderObstacles(SdlCamera &camera);
-
     //void renderFloor(SdlCamera &camera);
-
-    void updateDrops(const std::vector<spawn_object_t> &drops);
-
+    void updateDrops(const std::vector<location_t> &drops);
     void renderDrops(SdlInventory &inventory, const SdlCamera &camera);
-
     void render(SdlCamera &camera);
 
 private:

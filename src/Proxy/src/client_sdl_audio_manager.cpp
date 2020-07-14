@@ -3,8 +3,7 @@
 //
 
 #include "client_sdl_audio_manager.h"
-#include "../../Servidor/Common/Utils.h"
-#include "common_osexception.h"
+#include "Common/Utils.h"
 
 
 SdlAudioManager::SdlAudioManager() :
@@ -26,7 +25,6 @@ SdlAudioManager::SdlAudioManager() :
     game_sounds.emplace(std::make_pair("ambient1", SdlChunk(AUDIO_PATH + "/ambient1.wav")));
     game_sounds.emplace(std::make_pair("ambient2", SdlChunk(AUDIO_PATH + "/ambient2.wav")));
     game_sounds.emplace(std::make_pair("meditate", SdlChunk(AUDIO_PATH + "/heal.wav")));
-    game_sounds.emplace(std::make_pair("weaponClash", SdlChunk(AUDIO_PATH + "/weaponClash.wav")));
 }
 
 void SdlAudioManager::playMainMenuMusic(const int loops) {
@@ -39,11 +37,6 @@ void SdlAudioManager::playWorldMusic(const int loops) {
 }
 
 void SdlAudioManager::playSound(const std::string& music_key, const int loops){
-    auto search = game_sounds.find(music_key);
-    if(search == game_sounds.end()){
-        throw OSError("<SdlAudioManager::playSound> "
-                      "el music_id es invalido. @param: %s", music_key.c_str());
-    }
     game_sounds.at(music_key).play(loops);
 }
 
@@ -61,8 +54,8 @@ void SdlAudioManager::playRandomAmbientSound(int rarity){
 
 void SdlAudioManager::reproduceRelatedSound(const std::string& message){
     if(message == "Ataque esquivado"){
-        this->playSound("dodge", 0);
+        game_sounds.at("dodge").play(0);
     } else if (message.find("Danio recibido") != std::string::npos){
-        this->playSound("step2", 0);
+        game_sounds.at("step2").play(0);
     }
 }

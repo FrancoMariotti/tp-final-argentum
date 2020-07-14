@@ -1,7 +1,7 @@
 #ifndef ARGENTUM_COMMON_PROXY_SOCKET_H
 #define ARGENTUM_COMMON_PROXY_SOCKET_H
 
-#include "common_blocking_queue.h"
+#include "BlockingQueue.h"
 
 class Message;
 class ProxySocket {

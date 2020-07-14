@@ -1,5 +1,5 @@
-#ifndef ARGENTUM_COMMON_MESSAGE_STRUCTS_H
-#define ARGENTUM_COMMON_MESSAGE_STRUCTS_H
+#ifndef ARGENTUM_MESSAGE_STRUCTS_H
+#define ARGENTUM_MESSAGE_STRUCTS_H
 
 #include <msgpack.hpp>
 #include <string>
@@ -28,33 +28,14 @@ typedef struct equipment {
                    helmetName)
 } equipment_t;
 
-typedef struct spawn_object {
+typedef struct location {
     int x;
     int y;
     std::string id;
     MSGPACK_DEFINE(x,
                    y,
                    id)
-} spawn_object_t;
-
-
-typedef struct npc_movement {
-    int x;
-    int y;
-    std::string id;
-    MSGPACK_DEFINE(x,
-                   y,
-                   id)
-} npc_movement_t;
-
-typedef struct player_attack {
-    std::string username;
-    int enemy_x;
-    int enemy_y;
-    MSGPACK_DEFINE(username,
-                   enemy_x,
-                   enemy_y)
-} t_player_attack;
+} location_t;
 
 typedef struct spawn_playable_character {
     int x;
@@ -85,4 +66,4 @@ typedef struct t_create_connect {
 } t_create_connect;
 
 
-#endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H
+#endif //ARGENTUM_MESSAGE_STRUCTS_H

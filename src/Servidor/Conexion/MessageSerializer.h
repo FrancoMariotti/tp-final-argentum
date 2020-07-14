@@ -2,7 +2,7 @@
 #define ARGENTUM_MESSAGESERIALIZER_H
 #include "map"
 #include "Serializer.h"
-#include "Proxy/src/common_socket.h"
+#include "Common/Socket.h"
 
 class Message;
 

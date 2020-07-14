@@ -5,8 +5,8 @@
 #ifndef ARGENTUM_CLIENT_SDL_MOUSE_H
 #define ARGENTUM_CLIENT_SDL_MOUSE_H
 
-#include "common_blocking_queue.h"
-#include "common_message.h"
+#include "Common/BlockingQueue.h"
+#include "Common/Message.h"
 #include "client_imediator.h"
 
 class SdlCamera;

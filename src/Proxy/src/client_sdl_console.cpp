@@ -4,7 +4,7 @@
 
 #include "client_sdl_console.h"
 #include "client_sdl_window.h"
-#include "common_message.h"
+#include "Common/Message.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_dynamic_renderable.h"
 

@@ -5,7 +5,7 @@
 #include "client_sdl_dynamic_renderable.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_texture.h"
-#include "common_osexception.h"
+#include "Common/OsException.h"
 
 SdlDynamicRenderable::SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
                                            TTF_Font *font, const std::string s_tag, const SDL_Color color,

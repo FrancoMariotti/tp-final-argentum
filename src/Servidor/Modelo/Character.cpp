@@ -3,7 +3,7 @@
 #include <utility>
 #include "Log.h"
 #include "PlayableCharacter.h"
-#include "Servidor/Common/Utils.h"
+#include "Common/Utils.h"
 
 Character::Character(std::string id,Map* map,Position &initialPosition,int constitution,
                   int strength,int agility,int intelligence,int level,  int raceLifeFactor, int classLifeFactor,

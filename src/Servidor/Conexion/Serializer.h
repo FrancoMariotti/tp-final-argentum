@@ -1,8 +1,8 @@
 #ifndef ARGENTUM_SERIALIZER_H
 #define ARGENTUM_SERIALIZER_H
 
-#include <Proxy/src/common_message.h>
-#include <Proxy/src/common_socket.h>
+#include <Common/Message.h>
+#include <Common/Socket.h>
 
 
 class Serializer {

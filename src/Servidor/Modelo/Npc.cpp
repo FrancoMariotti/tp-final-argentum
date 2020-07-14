@@ -1,11 +1,11 @@
 #include "Npc.h"
 #include <utility>
 #include <iostream>
-#include <Proxy/src/common_message_structs.h>
+#include <Common/message_structs.h>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
-#include "Servidor/Common/Utils.h"
+#include "Common/Utils.h"
 #include "GoldBag.h"
 
 #define GOLD_DROP_PROBABILITY 0.8
@@ -152,8 +152,8 @@ void Npc::addMerchant(Merchant* newMerchant) {
 }
 */
 
-void Npc::addSpawnInfoTo(std::vector<spawn_object_t>& npcSpawns) {
-    spawn_object_t  spawn = {currPos.getX(),currPos.getY(),id};
+void Npc::addSpawnInfoTo(std::vector<location_t>& npcSpawns) {
+    location_t  spawn = {currPos.getX(),currPos.getY(),id};
     npcSpawns.push_back(spawn);
 }
 

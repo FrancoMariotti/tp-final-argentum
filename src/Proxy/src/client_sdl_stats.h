@@ -8,7 +8,7 @@
 
 #include "client_sdl_bar.h"
 #include "client_sdl_output.h"
-#include "common_message_structs.h"
+#include "Common/message_structs.h"
 
 class SdlStats {
 private:

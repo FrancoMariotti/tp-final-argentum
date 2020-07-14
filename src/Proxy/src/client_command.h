@@ -5,8 +5,8 @@
 #ifndef ARGENTUM_CLIENT_COMMAND_H
 #define ARGENTUM_CLIENT_COMMAND_H
 
-#include "common_blocking_queue.h"
-#include "common_proxy_socket.h"
+#include "Common/BlockingQueue.h"
+#include "Common/common_proxy_socket.h"
 
 class Message;
 class Command {

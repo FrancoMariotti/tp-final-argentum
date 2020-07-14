@@ -1,8 +1,8 @@
 #include <jsoncpp/json/json.h>
 #include <iostream>
 #include <utility>
-#include <Servidor/Common/Utils.h>
-#include <Proxy/src/common_message_structs.h>
+#include <Common/Utils.h>
+#include <Common/message_structs.h>
 #include <Proxy/src/common_osexception.h>
 #include "Factory.h"
 #include "PlayableCharacter.h"
@@ -39,10 +39,10 @@ void MerchantFactory::create(Map *map, std::string file, ItemFactory *pFactory) 
     Json::Value& merchantPositions = merchantObj["positions"];
     std::vector<Position> positions;
 
-    std::vector<spawn_object_t> spawnsMerchant;
+    std::vector<location_t> spawnsMerchant;
     for (auto& pos: merchantPositions) {
         Position merchantPos(pos["x"].asInt(), pos["y"].asInt());
-        spawn_object_t merchantSpawn = {merchantPos.getX(),merchantPos.getY(),"merchant"};
+        location_t merchantSpawn = {merchantPos.getX(),merchantPos.getY(),"merchant"};
         positions.push_back(merchantPos);
         spawnsMerchant.push_back(merchantSpawn);
     }
@@ -80,10 +80,10 @@ void PriestFactory::create(Map *map, std::string file, ItemFactory *pFactory) {
     Json::Value& priestPositions = priestObj["positions"];
     std::vector<Position> positions;
 
-    std::vector<spawn_object_t> spawnsPriest;
+    std::vector<location_t> spawnsPriest;
     for (auto& pos: priestPositions) {
         Position priestPos(pos["x"].asInt(), pos["y"].asInt());
-        spawn_object_t  priestSpawn = {priestPos.getX(),priestPos.getY(),"priest"};
+        location_t  priestSpawn = {priestPos.getX(),priestPos.getY(),"priest"};
         positions.push_back(priestPos);
         spawnsPriest.push_back(priestSpawn);
     }
@@ -126,10 +126,10 @@ void BankerFactory::create(Map* map, std::string file) {
     Json::Value& bankerPositions = bankerObj["positions"];
     std::vector<Position> positions;
 
-    std::vector<spawn_object_t> spawnsBanker;
+    std::vector<location_t> spawnsBanker;
     for (auto& pos: bankerPositions) {
         Position bankerPos(pos["x"].asInt(), pos["y"].asInt());
-        spawn_object_t  bankerSpawn = {bankerPos.getX(),bankerPos.getY(),"banker"};
+        location_t  bankerSpawn = {bankerPos.getX(),bankerPos.getY(),"banker"};
         spawnsBanker.push_back(bankerSpawn);
         positions.push_back(bankerPos);
     }

@@ -28,7 +28,7 @@ EventMediator::EventMediator(const std::string &username, BlockingQueue<std::uni
 
 
 void EventMediator::notify(BaseComponent* sender, SDL_Point right_click) {
-    clientEvents.push(std::unique_ptr <Message>(new Attack(USERNAME,
+    clientEvents.push(std::unique_ptr <Message>(new ActionUpdate(PLAYER_ATTACK_MESSAGE_ID,USERNAME,
                    right_click.x, right_click.y)));
 }
 

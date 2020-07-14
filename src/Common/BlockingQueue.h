@@ -8,7 +8,7 @@
 #include <mutex>
 #include <queue>
 #include <condition_variable>
-#include "common_closedqueue_exception.h"
+#include "ClosedQueueException.h"
 
 #include <iostream>
 

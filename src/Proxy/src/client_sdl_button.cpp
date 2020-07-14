@@ -3,8 +3,8 @@
 //
 
 #include "client_sdl_button.h"
-#include "common_proxy_socket.h"
-#include "common_message.h"
+#include "Common/common_proxy_socket.h"
+#include "Common/Message.h"
 #include "client_sdl_inventory.h"
 
 SdlButton::SdlButton(SdlTexture &buttonTexture, SdlTexture &outlineTexture, TTF_Font *font, const SdlWindow &window,

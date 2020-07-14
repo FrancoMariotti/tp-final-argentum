@@ -3,9 +3,9 @@
 
 
 #include <memory>
-#include <Proxy/src/common_message.h>
-#include <Proxy/src/common_blocking_queue.h>
-#include <Proxy/src/common_thread.h>
+#include <Common/Message.h>
+#include <Common/BlockingQueue.h>
+#include <Common/Thread.h>
 #include "Protocol.h"
 
 class ThClientSender: public Thread {

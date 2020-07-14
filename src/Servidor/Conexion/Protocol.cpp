@@ -1,5 +1,5 @@
 #include "Protocol.h"
-#include "Proxy/src/common_message.h"
+#include "Common/Message.h"
 
 uint16_t Protocol::valueToBigEndian(const uint16_t value) {
     uint16_t big_end = htons(value);

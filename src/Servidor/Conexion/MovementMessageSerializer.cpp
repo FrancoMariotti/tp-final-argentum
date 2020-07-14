@@ -3,25 +3,25 @@
 #include "MovementMessageSerializer.h"
 
 std::string MovementMessageSerializer::serialize(Message* message) {
-    msgpack::type::tuple<int, int> src(message->getX(),
-                                       message->getY());
-    msgpack::sbuffer temp;
-    msgpack::pack(temp, src);
-    return std::string(temp.data());
+    std::stringstream ss;
+    msgpack::packer<std::stringstream> packer(ss);
+    msgpack::type::tuple<int, int> src(message->getPlayerVelX(),
+                                       message->getPlayerVelY());
+    packer.pack(src);
+    std::string result(ss.str());
+    return result;
 }
 
 Message *MovementMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
     // deserialize the buffer into msgpack::object instance.
-    std::string str;
-
     msgpack::object_handle oh =
-            msgpack::unpack(str.data(), str.size());
+            msgpack::unpack((const char *)(data), len_data);
 
     // deserialized object is valid during the msgpack::object_handle instance is alive.
     msgpack::object deserialized = oh.get();
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.
-    msgpack::type::tuple<int, int, int> dst;
+    msgpack::type::tuple<int, int> dst;
     deserialized.convert(dst);
 
     int x = std::get<0>(dst);

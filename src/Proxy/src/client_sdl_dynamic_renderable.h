@@ -7,7 +7,7 @@
 
 
 #include "client_sdl_texture_manager.h"
-#include "common_message_structs.h"
+#include "Common/message_structs.h"
 #include "client_sdl_text.h"
 #include "client_sdl_bar.h"
 #include "client_sdl_effect.h"

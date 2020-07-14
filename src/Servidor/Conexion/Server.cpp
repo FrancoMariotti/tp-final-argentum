@@ -60,9 +60,9 @@ void Server::start() {
                 game.equip("franco", msg->getIndex());
             }
             if (msg->getId() == PLAYER_ATTACK_MESSAGE_ID) {
-                t_player_attack attackInfo = msg->getAttack();
-                Position pos(attackInfo.enemy_x, attackInfo.enemy_y);
-                game.attack(attackInfo.username, pos);
+                location_t attackInfo = msg->getLocation();
+                Position pos(attackInfo.x, attackInfo.y);
+                game.attack(attackInfo.id, pos);
             }
         }
         float looptimeInSeconds = 60 * 0.001;
@@ -72,7 +72,9 @@ void Server::start() {
                 (end-start).count();
         std::this_thread::sleep_for(std::chrono::milliseconds(60- elapsed_seconds));
         //server y mandar a cada client el update que me manda el game
-        //game.sendUpdates(proxySocket);
+        while (game.broadcastUpdateAvailable()) {
+            clients.broadcast(game.nextBroadCastUpdate());
+        }
     }
     first.join();
     clientAcceptor.stop();

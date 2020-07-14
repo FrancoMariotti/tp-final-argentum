@@ -1,7 +1,3 @@
-//
-// Created by agustin on 24/6/20.
-//
-
 #ifndef ARGENTUM_CLIENT_GUI_H
 #define ARGENTUM_CLIENT_GUI_H
 
@@ -12,7 +8,7 @@
 #include "client_sdl_world.h"
 #include "client_sdl_window.h"
 #include "client_sdl_stats.h"
-#include "common_message_structs.h"
+#include "Common/message_structs.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_keyboard.h"
 #include "client_sdl_audio_manager.h"
@@ -52,25 +48,20 @@ public:
     void updatePlayerStats(t_stats new_stats);
     void updateInventory(std::vector<std::string> player_inventory);
     /*Inicializa los NPC comerciantes que no se mueven durante el juego*/
-    void initStaticRenderables(const std::vector<spawn_object_t>& renderables);
+    void initStaticRenderables(const std::vector<location_t>& renderables);
     /*Actualiza los NPC que se encuentran vivos, eliminando lso que estan muertos*/
-    void updateRenderables(std::vector<spawn_object_t> renderables);
+    void updateRenderables(std::vector<location_t> renderables);
     /**/
     void updateRenderablePos(int new_x, const int new_y, const std::string &renderable_id);
     void updateRenderablePlayableEquipment(const equipment_t &equipment, const std::string &renderable_id);
-    void updateDrops(const std::vector<spawn_object_t> &drops);
+    void updateDrops(const std::vector<location_t> &drops);
     void render();
     void renderWorld();
-
-    ~GUI();
-
     void updateConsoleOutput(std::vector<std::string> console_outputs);
-
     void updateRenderableStats(const std::string &renderable_id, const std::string &effect_id);
-
     void updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables);
-
     void setUsername(const std::string &client_username);
+    ~GUI();
 };
 
 

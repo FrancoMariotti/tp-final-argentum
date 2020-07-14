@@ -6,7 +6,6 @@
 #include "Protection.h"
 #include <string>
 
-//class Map;
 
 class Npc : public Character {
     float mana;

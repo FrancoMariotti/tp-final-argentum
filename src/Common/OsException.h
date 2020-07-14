@@ -2,8 +2,8 @@
 // Created by agustin on 13/6/20.
 //
 
-#ifndef ARGENTUM_COMMON_OSEXCEPTION_H
-#define ARGENTUM_COMMON_OSEXCEPTION_H
+#ifndef ARGENTUM_OSEXCEPTION_H
+#define ARGENTUM_OSEXCEPTION_H
 
 #include <exception>
 #include <cerrno>
@@ -26,4 +26,4 @@ public:
 };
 
 
-#endif //ARGENTUM_COMMON_OSEXCEPTION_H
+#endif //ARGENTUM_OSEXCEPTION_H

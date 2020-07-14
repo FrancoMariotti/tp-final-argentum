@@ -5,9 +5,9 @@
 #ifndef ARGENTUM_CLIENT_TH_SEND_H
 #define ARGENTUM_CLIENT_TH_SEND_H
 
-#include "common_blocking_queue.h"
-#include "common_thread.h"
-#include "common_socket.h"
+#include "Common/BlockingQueue.h"
+#include "Common/Thread.h"
+#include "Common/Socket.h"
 #include "../../Servidor/Conexion/Protocol.h"
 
 class Message;

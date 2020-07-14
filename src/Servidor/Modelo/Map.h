@@ -1,7 +1,7 @@
 #ifndef ARGENTUM_MAPA_H
 #define ARGENTUM_MAPA_H
 
-#include <Proxy/src/common_message.h>
+#include <Common/Message.h>
 #include "map"
 #include "vector"
 #include "Position.h"
@@ -31,8 +31,8 @@ class Map {
     Banker banker;
     Merchant merchant;
     Priest priest;
-    std::vector<spawn_object_t> cityCharactersSpawns;
-    std::vector<spawn_object_t> dropsSpawns;
+    std::vector<location_t> cityCharactersSpawns;
+    std::vector<location_t> dropsSpawns;
     std::map<std::string,PlayableCharacter*> characters;
     std::map<std::string,Npc*> npcs;
     std::vector<Obstacle> obstacles;
@@ -60,7 +60,7 @@ class Map {
         void removeNpc(const std::string& idNpc, Observer* observer);
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
-        void registerCityCharactersSpawns(std::vector<spawn_object_t> &spawns);
+        void registerCityCharactersSpawns(std::vector<location_t> &spawns);
         //void spawnCityCharacters(Observer *observer);
         Position getRandomPosAtClosestPriestCity(PlayableCharacter *player);
         Banker* getBankerAtPosition(const Position& position);
