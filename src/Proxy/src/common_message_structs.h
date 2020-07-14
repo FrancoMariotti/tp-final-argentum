@@ -54,9 +54,15 @@ typedef struct spawn_playable_character {
 
 typedef struct t_create_connect {
     std::string username;
+    std::string password;
     std::string race;
     std::string char_class;
 } t_create_connect;
+
+typedef struct t_login {
+    std::string username;
+    std::string password;
+} t_login;
 
 
 #endif //ARGENTUM_COMMON_MESSAGE_STRUCTS_H

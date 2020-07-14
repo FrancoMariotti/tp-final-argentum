@@ -87,7 +87,7 @@ int Client::run() {
 
 void Client::init() {
     std::string username_input = "franco";
-    clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
+    clientEvents.push(std::unique_ptr<Message>(new Create(username_input, "password", "human", "wizard")));
     gui.setUsername(username_input);
     int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/

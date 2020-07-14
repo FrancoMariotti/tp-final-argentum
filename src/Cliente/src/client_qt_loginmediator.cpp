@@ -21,10 +21,16 @@ void LoginMediator::sendServerCredentials(const std::string& host,const std::str
     //protocol.send()
     //if(se conecto al server)
     //protocl.recv()
-    if(host == "host" && service == "service"){
-        qtServerLogin->setServerStatus(true);
-        qtServerLogin->hide();
-        qtCharacterLogin->show();
+    if(!host.empty() && !service.empty()){
+        /*En realidad aca no hay ningun canal levantado ya que se intenta hacer un socket.connect
+         **/
+        proxySocket.writeToServer(std::unique_ptr<Message>(new Login(host, service, PROXY_CONNECT_MESSAGE_ID)));
+        std::unique_ptr<Message> msg = proxySocket.readClient();
+        if(msg->getId() == ACCEPT_CREDENTIALS_MESSAGE_ID && msg->getAnswer()){
+            qtServerLogin->setServerStatus(true);
+            qtServerLogin->hide();
+            qtCharacterLogin->show();
+        }
     } else {
         qtServerLogin->setServerStatus(false);
     }
@@ -48,11 +54,12 @@ void LoginMediator::sendCharacterCreation(const std::string& username, const std
         std::string text = "Usuario: " + username + "\nContraseña: " + password
                 + "\nRaza: " + s_race + "\nClase: " + s_class;
         qtCharacterLogin->showMessageBox(text);
-        proxySocket.writeToServer(std::unique_ptr<Message>(new Connect(username, s_race, s_class)));
+        proxySocket.writeToServer(std::unique_ptr<Message>(new Create(username, password, s_race,
+                                                                      s_class)));
         std::unique_ptr<Message> msg = proxySocket.readClient();
         std::cout << "Id_client: " << msg->getId() << std::endl;
         std::cout << "Answer: " << msg->getAnswer() << std::endl;
-        if(msg->getAnswer() == 0){
+        if(msg->getId() == ACCEPT_CREDENTIALS_MESSAGE_ID && msg->getAnswer()){
             qtCharacterLogin->showMessageBox("Credenciales aceptadas, ingresando al mundo");
         }
     } else {

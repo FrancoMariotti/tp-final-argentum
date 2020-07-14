@@ -127,6 +127,11 @@ int Message::getAnswer() const {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+t_login Message::getLogin() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         player_vel_x(player_vel_x),
@@ -207,14 +212,16 @@ std::string ExecuteCommand::getUserName() const {
     return username;
 }
 
-Connect::Connect(const std::string username,const std::string race,const std::string char_class) :
-    Message(CONNECT_MESSAGE_ID),
+Create::Create(const std::string &username, const std::string &password, const std::string &race,
+               const std::string &char_class) :
+    Message(CREATE_MESSAGE_ID),
     username(username),
+    password(password),
     race(race),
     char_class(char_class)
     {}
 
-t_create_connect Connect::getConnectData() const{
+t_create_connect Create::getConnectData() const{
     return t_create_connect{username, race, char_class};
 }
 
@@ -307,11 +314,21 @@ std::vector<std::string> ConsoleOutput::getConsoleOutput() {
     return std::move(outputs);
 }
 
-Accept::Accept(const int accepted) :
+Accept::Accept(bool accepted) :
     Message(ACCEPT_CREDENTIALS_MESSAGE_ID),
     accepted(accepted)
     {}
 
 int Accept::getAnswer() const{
     return accepted;
+}
+
+Login::Login(const std::string &username, const std::string &password, enum MESSAGES ID) :
+    Message(ID),
+    username(username),
+    password(password)
+    {}
+
+t_login Login::getLogin() const{
+    return t_login{username, password};
 }

@@ -9,7 +9,10 @@
 #include <vector>
 #include "common_message_structs.h"
 enum MESSAGES {
-    CONNECT_MESSAGE_ID,
+    PROXY_CONNECT_MESSAGE_ID,
+    LOGIN_MESSAGE_ID,
+    CREATE_MESSAGE_ID,
+    ACCEPT_CREDENTIALS_MESSAGE_ID,
     DRAW_MESSAGE_ID,
     MOVEMENT_MESSAGE_ID,
     USE_ITEM_MESSAGE_ID,
@@ -24,7 +27,6 @@ enum MESSAGES {
     SPAWN_DROPS_MESSAGE_ID,
     CONSOLE_OUTPUT_MESSAGE_ID,
     SPAWN_PC_MESSAGE_ID,
-    ACCEPT_CREDENTIALS_MESSAGE_ID
 };
 
 
@@ -56,6 +58,7 @@ public:
     virtual std::vector<std::string> getConsoleOutput();
     virtual t_create_connect getConnectData() const;
     virtual int getAnswer() const;
+    virtual t_login getLogin() const;
     virtual ~Message() = default;
 };
 
@@ -105,13 +108,15 @@ public:
     int getY() const override;
 };
 
-class Connect : public Message {
+class Create : public Message {
 private:
     const std::string username;
+    const std::string password;
     const std::string race;
     const std::string char_class;
 public:
-    Connect(const std::string username, const std::string race,const std::string char_class);
+    Create(const std::string &username, const std::string &password, const std::string &race,
+           const std::string &char_class);
     t_create_connect getConnectData() const override;
 };
 
@@ -204,10 +209,19 @@ public:
  * envia un 0 si las credenciales son correctas, 1 en caso contrario no*/
 class Accept : public Message{
 private:
-    const int accepted;
+    const bool accepted;
 public:
-    explicit Accept(int accepted);
+    explicit Accept(bool accepted);
     int getAnswer() const;
+};
+
+class Login : public Message{
+private:
+    const std::string username;
+    const std::string password;
+public:
+    Login(const std::string &username, const std::string &password, enum MESSAGES ID);
+    t_login getLogin() const override;
 };
 
 #endif //ARGENTUM_COMMON_MESSAGE_H
