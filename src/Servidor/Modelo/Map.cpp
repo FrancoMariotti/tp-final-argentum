@@ -10,7 +10,7 @@
 
 #define NPCSAMOUNT 16
 
-Map::Map(int width,int height):width(width),height(height), lastNpcUpdate(0){}
+Map::Map(int width,int height):width(width),height(height), lastNpcUpdate(0), lastPersistance(0){}
 
 void Map::add( Banker pBanker) {
     this->banker = std::move(pBanker);
@@ -298,6 +298,14 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
     }
 }
 
+void Map::persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds) {
+    if (lastPersistance + loopTImeInSeconds >= 300) {
+        for (auto &pc : characters) {
+            pcFactory.persistPlayerData(pc.second, 0);
+        }
+    }
+}
+
 void Map::initializeNpcsSpawns(std::queue<Message*>& initializeMessages) {
     std::vector<location_t> npcSpawns;
     for (auto &npc : npcs) {
@@ -341,3 +349,4 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+

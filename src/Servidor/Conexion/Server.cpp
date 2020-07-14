@@ -69,6 +69,7 @@ void Server::start() {
         }
         float looptimeInSeconds = 60 * 0.001;
         game.updateModel(looptimeInSeconds);
+        game.persistPlayersData(looptimeInSeconds);
         end = std::chrono::system_clock::now();
         int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
                 (end-start).count();

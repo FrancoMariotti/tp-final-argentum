@@ -10,6 +10,7 @@
 #include "Protection.h"
 
 class Armour {
+    friend class PlayableCharacterFactory;
     std::vector<Protection*> protections;
     Protection defaultProtection;
 public:

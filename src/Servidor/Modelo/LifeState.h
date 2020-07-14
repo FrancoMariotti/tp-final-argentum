@@ -30,6 +30,7 @@ public:
     virtual void healedByPriest(PlayableCharacter* character) = 0;
 
     virtual void takeDrop(Map *map, Position position, PlayableCharacter *pCharacter) = 0;
+    virtual int convertToInt() = 0;
 };
 
 

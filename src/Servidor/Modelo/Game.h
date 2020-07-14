@@ -55,6 +55,8 @@ public:
     bool broadcastUpdateAvailable();
 
     Message *nextBroadCastUpdate();
+
+    void persistPlayersData(float loopTimeInSeconds);
 };
 
 

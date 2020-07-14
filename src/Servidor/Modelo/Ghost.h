@@ -27,6 +27,7 @@ public:
             PlayableCharacter *me) override;
     void healedByPriest(PlayableCharacter* character) override;
     void takeDrop(Map *map, Position position, PlayableCharacter *pCharacter) override;
+    int convertToInt() override;
 };
 
 

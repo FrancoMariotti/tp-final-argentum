@@ -28,6 +28,7 @@ class Map {
     int width;
     int height;
     float lastNpcUpdate;
+    float lastPersistance;
     Banker banker;
     Merchant merchant;
     Priest priest;
@@ -83,6 +84,7 @@ class Map {
         ~Map();
 
 
+    void persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds);
 };
 
 #endif //ARGENTUM_MAPA_H

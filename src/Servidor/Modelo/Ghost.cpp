@@ -48,4 +48,8 @@ void Ghost::healedByPriest(PlayableCharacter *character) {}
 
 void Ghost::takeDrop(Map *map, Position position, PlayableCharacter *pCharacter) {}
 
+int Ghost::convertToInt() {
+    return 1;
+}
+
 

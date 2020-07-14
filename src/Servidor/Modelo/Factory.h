@@ -107,7 +107,8 @@ class PlayableCharacterFactory {
     std::string playersInfoFile;
     std::string playersInfoMapFile;
     std::map<std::string, int> playersInfoMap;
-    uint32_t playersAmount;
+    int playersAmount;
+    void addPlayerInfoToFile(character_info_t playerInfo, int index);
     public:
         explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory,
                 std::string  playersInfoMapFile, std::string  playersInfoFile);
@@ -115,11 +116,12 @@ class PlayableCharacterFactory {
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
 
-    void addPlayerInfoToFile(character_info_t playerInfo, int index);
+    void persistPlayerData(PlayableCharacter *pCharacter, int index);
 
     character_info_t getPlayerInfoFromFile(int index);
 
     void createPlayerFromInfo(character_info_t info, std::string playerName, Map* map, Observer* observer);
+
 };
 
 class NpcFactory {

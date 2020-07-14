@@ -25,6 +25,7 @@ class Alive: public LifeState {
             PlayableCharacter *closestEnemy, int *minDist, int range,PlayableCharacter *me) override;
     void healedByPriest(PlayableCharacter* character) override;
     void takeDrop(Map *map, Position position, PlayableCharacter *pCharacter) override;
+    int convertToInt() override;
 };
 
 

@@ -16,6 +16,11 @@ Game::Game(const std::string& configFile, const std::string& playersInfoMapFile,
 void Game::updateModel(float looptime) {
     map->updateAllPlayers(looptime, this);
     map->moveNpcs(looptime);
+    map->regenerateNpcs(looptime, npcFactory, this);
+}
+
+void Game::persistPlayersData(float loopTimeInSeconds) {
+    map->persistPlayersData(factoryCharacters, loopTimeInSeconds);
 }
 
 std::queue<Message *> Game::initializeWorld() {
@@ -164,4 +169,5 @@ Game::~Game() {
     }
     delete map;
 }
+
 

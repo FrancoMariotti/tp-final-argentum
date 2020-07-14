@@ -6,6 +6,7 @@
 #include "Observer.h"
 
 class Inventory {
+    friend class PlayableCharacterFactory;
     unsigned int maxElements;
     std::vector<Equippable*> elements;
 public:

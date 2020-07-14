@@ -91,3 +91,7 @@ void Alive::takeDrop(Map *map, Position position, PlayableCharacter *pCharacter)
     Drop drop = map->takeDropFromPos(position);
     drop.takenBy(pCharacter);
 }
+
+int Alive::convertToInt() {
+    return 0;
+}

@@ -17,6 +17,7 @@
 #include "Heal.h"
 #include "Damage.h"
 #include "Merchant.h"
+#include "LifeState.h"
 
 
 FileParser::FileParser(const std::string &filename):file(filename) {}
@@ -274,6 +275,7 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
                 meditationRecoveryFactor, invMaxElements,observer, raceId);
         map->add(playerName,character);
 
+
         //Agrego el index del jugador al archivo del mapa y al mapa de la factory
         uint32_t nameLen = character->id.size();
         playersInfoMapStream.seekp(0, std::ios_base::end);
@@ -283,33 +285,50 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
         playersInfoMap[playerName] = playersAmount;
 
         //Agrego la informacion del jugador al archivo de informacion
-        std::vector<int> emptyArmour = {0, 0, 0};
-        std::vector<int> emptyInventory = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        std::vector<int> emptyAccount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        character_info_t characterInfo = {(int)character->lifePoints, character->level,
-                                          character->constitution, character->agility, character->strength,
-                                          character->intelligence, character->raceLifeFactor, character->classLifeFactor,
-                                          character->raceManaFactor, character->classManaFactor, character->recoveryFactor,
-                                          character->meditationRecoveryFactor, character->currPos.getX(),
-                                          character->currPos.getY(), (int)character->mana, character->gold, character->xp,
-                                          emptyInventory, character->activeWeapon->getId(), emptyArmour, 0,
-                                          character->inCity, 0, emptyAccount, character->raceId};
-        //Escribo el struct en el archivo de informacion de los jugadores
-        addPlayerInfoToFile(characterInfo, playersAmount);
+        persistPlayerData(character, playersAmount);
         playersAmount++;
     }
     playersInfoMapStream.close();
 }
 
+void PlayableCharacterFactory::persistPlayerData(PlayableCharacter *pCharacter, int index) {
+    //Guardo los identificadores de los items que tiene el usuario en su armadura,
+    //inventario y cuenta de banco
+    std::vector<int> armourIds, inventoryIds, accountIds;
+    for (auto &protection : pCharacter->armour.protections) {
+        armourIds.push_back(protection->getId());
+    }
+
+    for (auto &inventoryItem : pCharacter->inventory.elements) {
+        inventoryIds.push_back(inventoryItem->getId());
+    }
+
+    for (auto &bankItem : pCharacter->bankAccount.items) {
+        accountIds.push_back(bankItem->getId());
+    }
+    int lifeStateInt = pCharacter->lifeState->convertToInt();
+    //Creo el struct con la informacion del jugador
+    character_info_t characterInfo = {(int)pCharacter->lifePoints, pCharacter->level,
+                                      pCharacter->constitution, pCharacter->agility, pCharacter->strength,
+                                      pCharacter->intelligence, pCharacter->raceLifeFactor, pCharacter->classLifeFactor,
+                                      pCharacter->raceManaFactor, pCharacter->classManaFactor, pCharacter->recoveryFactor,
+                                      pCharacter->meditationRecoveryFactor, pCharacter->currPos.getX(),
+                                      pCharacter->currPos.getY(), (int)pCharacter->mana, pCharacter->gold, pCharacter->xp,
+                                      inventoryIds, pCharacter->activeWeapon->getId(), armourIds, lifeStateInt,
+                                      pCharacter->inCity, pCharacter->bankAccount.gold, accountIds, pCharacter->raceId};
+    //Escribo el struct en el archivo de informacion de los jugadores
+    addPlayerInfoToFile(characterInfo, index);
+}
+
 void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, int index) {
-    std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary);
+    std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary | std::fstream::app);
     if (!infoStream) {
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
     infoStream.seekp(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
-    long pos = infoStream.tellp();
-    pos++;
+    /*long pos = infoStream.tellp();
+    pos++;*/
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));
     infoStream.write((char*)&playerInfo.constitution, sizeof(int));
@@ -361,8 +380,8 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
      }
      //situo el puntero para leer el elemento en el index correcto
      infoStream.seekg(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
-     long pos = infoStream.tellg();
-     pos++;
+     /*long pos = infoStream.tellg();
+     pos++;*/
      //comienzo a guardar la informacion
      infoStream.read((char*)&characterInfo.lifePoints, sizeof(int));
      infoStream.read((char*)&characterInfo.level, sizeof(int));
