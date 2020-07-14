@@ -239,7 +239,7 @@ SpawnPc::SpawnPc(std::vector<spawn_playable_character_t> renderables) :
                                     renderables(std::move(renderables)){}
 
 std::vector<spawn_playable_character_t> SpawnPc::getPcSpawnData() {
-    return std::move(renderables);
+    return renderables;
 }
 
 SpawnStaticObjects::SpawnStaticObjects(int messageId,std::vector<location_t> renderables):

@@ -22,7 +22,7 @@ void Server::start() {
     std::cout << "Server is running" << std::endl;
 
     std::thread first(&Server::readInput,this);
-
+    int index = 0;
     this->clientAcceptor.start();
     //falta agregar un try/catch en caso de que salte alguna excepcion finalizar el server.
     while(keepTalking) {
@@ -34,6 +34,7 @@ void Server::start() {
             if (msg->getId() == CONNECT_MESSAGE_ID) {
                 //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
                 t_create_connect data = msg->getConnectData();
+                clients.setId(index, data.username);
                 game.createPlayer(data.username,data.race,data.charClass);
                 //manda el paquete de inicializacion
                 std::queue<Message*> initialMessages = game.initializeWorld();
@@ -43,6 +44,7 @@ void Server::start() {
                     //clients.broadcast(message);
                     initialMessages.pop();
                 }
+                index++;
             }
             if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 location_t location = msg->getLocation();

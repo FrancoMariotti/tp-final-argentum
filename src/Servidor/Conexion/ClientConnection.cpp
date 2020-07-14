@@ -39,3 +39,7 @@ ClientConnection::~ClientConnection() {
 std::string ClientConnection::getId() {
     return this->id;
 }
+
+void ClientConnection::setId(std::string name) {
+    this->id = name;
+}
