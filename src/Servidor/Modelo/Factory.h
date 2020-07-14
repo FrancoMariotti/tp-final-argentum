@@ -115,7 +115,7 @@ class PlayableCharacterFactory {
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
 
-    void addPlayerInfoToFile(character_info_t playerInfo);
+    void addPlayerInfoToFile(character_info_t playerInfo, int index);
 
     character_info_t getPlayerInfoFromFile(int index);
 

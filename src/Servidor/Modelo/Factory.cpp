@@ -283,7 +283,6 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
         playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
         /*character_map_info_t* mapInfo = new character_map_info {character->id, playersAmount};
         playersInfoMapStream.write((char*)mapInfo, sizeof(character_map_info_t));*/
-        playersAmount++;
         //Agrego la informacion del jugador al archivo de informacion
         std::vector<int> emptyArmour = {0, 0, 0};
         std::vector<int> emptyInventory = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -297,16 +296,19 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
                                           emptyInventory, character->activeWeapon->getId(), emptyArmour, 0,
                                           character->inCity, 0, emptyAccount, character->raceId};
         //Escribo el struct en el archivo de informacion de los jugadores
-        addPlayerInfoToFile(characterInfo);
+        addPlayerInfoToFile(characterInfo, playersAmount);
+        playersAmount++;
     }
     playersInfoMapStream.close();
 }
 
-void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo) {
+void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, int index) {
     std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary);
     if (!infoStream) {
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
+    //situo el puntero para sobreescribir el elemento en el index correcto
+    infoStream.seekp(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
 
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));
@@ -329,7 +331,8 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo) 
         if (j < playerInfo.inventoryItems.size())
             infoStream.write((char*)&playerInfo.inventoryItems[j], sizeof(int));
         else {
-            infoStream.write((char*)0, sizeof(int));
+            int zero = 0;
+            infoStream.write((char*)&zero, sizeof(int));
         }
     }
     infoStream.write((char*)&playerInfo.activeWeapon, sizeof(int));
@@ -361,7 +364,6 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
      //comienzo a guardar la informacion
      infoStream.read((char*)&characterInfo.lifePoints, sizeof(int));
      infoStream.read((char*)&characterInfo.level, sizeof(int));
-     infoStream.read((char*)&characterInfo.lifePoints, sizeof(int));
      infoStream.read((char*)&characterInfo.constitution, sizeof(int));
      infoStream.read((char*)&characterInfo.agility, sizeof(int));
      infoStream.read((char*)&characterInfo.strength, sizeof(int));
@@ -378,17 +380,23 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
      infoStream.read((char*)&characterInfo.gold, sizeof(int));
      infoStream.read((char*)&characterInfo.xp, sizeof(int));
      for (unsigned int j = 0; j < 10 ; ++j) {
-         infoStream.read((char*)&characterInfo.inventoryItems[j], sizeof(int));
+         int currValue;
+         infoStream.read((char*)&currValue, sizeof(int));
+         characterInfo.inventoryItems.push_back(currValue);
      }
      infoStream.read((char*)&characterInfo.activeWeapon, sizeof(int));
      for (unsigned int j = 0; j < 3 ; ++j) {
-         infoStream.read((char*)&characterInfo.protections[j], sizeof(int));
+         int currValue;
+         infoStream.read((char*)&currValue, sizeof(int));
+         characterInfo.protections.push_back(currValue);
      }
      infoStream.read((char*)&characterInfo.lifeState, sizeof(int));
      infoStream.read((char*)&characterInfo.inCity, sizeof(int));
      infoStream.read((char*)&characterInfo.goldInBank, sizeof(int));
      for (unsigned int j = 0; j < 10 ; ++j) {
-         infoStream.read((char*)&characterInfo.itemsInBank[j], sizeof(int));
+         int currValue;
+         infoStream.read((char*)&currValue, sizeof(int));
+         characterInfo.itemsInBank.push_back(currValue);
      }
      infoStream.read((char*)&characterInfo.race, sizeof(int));
      infoStream.close();
