@@ -6,7 +6,7 @@
 #include <iostream>
 #include "client_sdl_mouse.h"
 #include "client_sdl_camera.h"
-#include "common_blocking_queue.h"
+#include "Common/BlockingQueue.h"
 
 SdlMouse::SdlMouse(SdlCamera& camera) :
     camera(camera),

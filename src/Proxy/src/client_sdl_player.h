@@ -7,12 +7,12 @@
 
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "common_blocking_queue.h"
-#include "common_proxy_socket.h"
+#include "Common/BlockingQueue.h"
+#include "Common/common_proxy_socket.h"
 #include "client_protected_list.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_texture.h"
-#include "common_message_structs.h"
+#include "Common/message_structs.h"
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_timer.h"
 

@@ -1,7 +1,7 @@
 #include <thread>
 #include <random>
 #include "client_client.h"
-#include "common_message.h"
+#include "Common/Message.h"
 #include "client_protected_list.h"
 
 //Screen dimension constants
@@ -146,7 +146,7 @@ void Client::update() {
         } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
             this->gui.updateDrops(msg->getSpawnData());
         } else if(msg->getId() == NPC_MOVEMENT_UPDATE_MESSAGE_ID){
-            npc_movement_t  movement = msg->getMovement();
+            location_t  movement = msg->getLocation();
             this->gui.updateRenderablePos(movement.x, movement.y, movement.id);
         } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
             gui.updatePlayerEquipment(msg->getEquipment());

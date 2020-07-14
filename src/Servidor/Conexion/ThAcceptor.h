@@ -3,11 +3,11 @@
 
 #include "vector"
 #include "ProtectedConnections.h"
-#include <Proxy/src/common_thread.h>
-#include <Proxy/src/common_socket.h>
-#include <Proxy/src/common_blocking_queue.h>
+#include <Common/Thread.h>
+#include <Common/Socket.h>
+#include <Common/BlockingQueue.h>
 #include <Proxy/src/client_protected_list.h>
-#include <Proxy/src/common_message.h>
+#include <Common/Message.h>
 
 class ClientConnection;
 

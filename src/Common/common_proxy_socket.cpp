@@ -3,7 +3,7 @@
 //
 
 #include "common_proxy_socket.h"
-#include "common_message.h"
+#include "Message.h"
 
 void ProxySocket::writeToServer(std::unique_ptr<Message> msg) {
     this->proxyServerSocket.push(std::move(msg));

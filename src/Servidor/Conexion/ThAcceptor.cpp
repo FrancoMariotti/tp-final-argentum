@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <Proxy/src/common_socket.h>
+#include <Common/Socket.h>
 #include "ThAcceptor.h"
 #include "ClientConnection.h"
 #include "vector"

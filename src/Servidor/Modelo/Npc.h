@@ -32,7 +32,7 @@ class Npc : public Character {
         int receiveDamage(int enemyLevel, int damage) override;
         int receiveAttackFrom(PlayableCharacter *enemy) override;
         void addMerchant(Merchant* newMerchant);
-        void addSpawnInfoTo(std::vector<spawn_object_t>& npcSpawns);
+        void addSpawnInfoTo(std::vector<location_t>& npcSpawns);
         ~Npc() override;
 };
 

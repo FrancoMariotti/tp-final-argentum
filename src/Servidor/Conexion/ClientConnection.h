@@ -6,9 +6,9 @@
 #define ARGENTUM_CLIENTCONNECTION_H
 
 
-#include <Proxy/src/common_message.h>
+#include <Common/Message.h>
 #include <memory>
-#include <Proxy/src/common_socket.h>
+#include <Common/Socket.h>
 #include "ThClientSender.h"
 #include "ThClientReceiver.h"
 

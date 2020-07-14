@@ -2,12 +2,12 @@
 // Created by agustin on 19/6/20.
 //
 
-#ifndef ARGENTUM_COMMON_MESSAGE_H
-#define ARGENTUM_COMMON_MESSAGE_H
+#ifndef ARGENTUM_MESSAGE_H
+#define ARGENTUM_MESSAGE_H
 
 #include <string>
 #include <vector>
-#include "common_message_structs.h"
+#include "message_structs.h"
 enum MESSAGES {
     CONNECT_MESSAGE_ID,
     DRAW_MESSAGE_ID,
@@ -37,8 +37,6 @@ public:
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;
     virtual std::string getLayerName() const;
-    virtual int getTileX() const;
-    virtual int getTileY() const;
     virtual std::vector<int> getData() const ;
     virtual int getWidth() const ;
     virtual int getHeight() const ;
@@ -48,13 +46,11 @@ public:
     virtual t_stats getStats();
     virtual equipment_t getEquipment();
     virtual std::vector<std::string> getItems();
-    virtual std::vector<spawn_object_t> getSpawnData();
+    virtual std::vector<location_t> getSpawnData();
     virtual std::vector<spawn_playable_character_t> getPcSpawnData();
-    virtual npc_movement_t getMovement();
-    virtual t_player_attack getAttack();
+    virtual location_t getLocation();
     virtual std::vector<std::string> getConsoleOutput();
     virtual t_create_connect getConnectData() const;
-    virtual std::string getUserName() const;
     virtual ~Message() = default;
 };
 
@@ -69,7 +65,6 @@ public:
     Draw(std::string name, std::vector<int> data, int width, int height);
     std::string getLayerName() const override;
     std::vector<int> getData() const override;
-    Draw& operator=(const Draw&);
     int getWidth() const override;
     int getHeight() const override;
 };
@@ -102,7 +97,6 @@ public:
     explicit ExecuteCommand(const std::string& command);
     ExecuteCommand(std::string input, int x, int y);
     ExecuteCommand(std::string username,std::string input, int x, int y);
-    std::string getUserName() const override ;
     std::string getCommand() const override;
     int getX() const override;
     int getY() const override;
@@ -138,7 +132,6 @@ public:
     EquipmentUpdate(std::string weaponName, std::string armourName,
             std::string shieldName, std::string helmetName);
     equipment_t getEquipment() override;
-
 };
 
 class InventoryUpdate: public Message {
@@ -149,10 +142,10 @@ public:
 };
 
 class SpawnStaticObjects : public Message {
-    std::vector<spawn_object_t> renderables;
+    std::vector<location_t> renderables;
 public:
-    SpawnStaticObjects(int messageId,std::vector<spawn_object_t> renderables);
-    std::vector<spawn_object_t> getSpawnData() override;
+    SpawnStaticObjects(int messageId,std::vector<location_t> renderables);
+    std::vector<location_t> getSpawnData() override;
 };
 
 class SpawnPc : public Message {
@@ -162,23 +155,13 @@ public:
     std::vector<spawn_playable_character_t> getPcSpawnData() override;
 };
 
-class MovementNpcUpdate: public Message {
-    std::string id;
+class ActionUpdate: public Message {
     int x;
     int y;
+    std::string id;
 public:
-    explicit MovementNpcUpdate(std::string id,int x,int y);
-    npc_movement_t getMovement();
-};
-
-class Attack : public Message{
-private:
-    std::string username;
-    int enemy_x;
-    int enemy_y;
-public:
-    Attack(std::string  username, int enemy_x, int enemy_y);
-    t_player_attack getAttack() override;
+    ActionUpdate(int messageId,std::string id,int x,int y);
+    location_t getLocation() override;
 };
 
 class ConsoleOutput : public Message{
@@ -189,4 +172,4 @@ public:
     std::vector<std::string> getConsoleOutput() override;
 };
 
-#endif //ARGENTUM_COMMON_MESSAGE_H
+#endif //ARGENTUM_MESSAGE_H

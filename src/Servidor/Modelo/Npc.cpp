@@ -1,11 +1,11 @@
 #include "Npc.h"
 #include <utility>
 #include <iostream>
-#include <Proxy/src/common_message_structs.h>
+#include <Common/message_structs.h>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
-#include "Servidor/Common/Utils.h"
+#include "Common/Utils.h"
 #include "GoldBag.h"
 
 #define GOLD_DROP_PROBABILITY 0.8
@@ -16,13 +16,13 @@
 
 
 Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,
-         int strength,int agility,int intelligence, int level,
-         std::string specie, int minDamage, int maxDamage, int minDefense,
-         int maxDefense, int raceLifeFactor, int classLifeFactor,
-         int raceManaFactor, int classManaFactor, int recoveryFactor,
-         int meditationRecoveryFactor, Observer* observer,
-         std::vector<std::string> potionsToDrop,
-         std::vector<std::string> itemsToDrop):
+        int strength,int agility,int intelligence, int level,
+        std::string specie, int minDamage, int maxDamage, int minDefense,
+        int maxDefense, int raceLifeFactor, int classLifeFactor,
+        int raceManaFactor, int classManaFactor, int recoveryFactor,
+        int meditationRecoveryFactor, Observer* observer,
+        std::vector<std::string> potionsToDrop,
+        std::vector<std::string> itemsToDrop):
         Character(id, map, initialPosition, constitution, strength, agility,
                 intelligence, level, raceLifeFactor, classLifeFactor,
                 raceManaFactor, classManaFactor, recoveryFactor,
@@ -150,8 +150,8 @@ void Npc::addMerchant(Merchant* newMerchant) {
     merchant = newMerchant;
 }
 
-void Npc::addSpawnInfoTo(std::vector<spawn_object_t>& npcSpawns) {
-    spawn_object_t  spawn = {currPos.getX(),currPos.getY(),id};
+void Npc::addSpawnInfoTo(std::vector<location_t>& npcSpawns) {
+    location_t  spawn = {currPos.getX(),currPos.getY(),id};
     npcSpawns.push_back(spawn);
 }
 

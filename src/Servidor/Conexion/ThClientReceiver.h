@@ -3,7 +3,7 @@
 
 
 #include <memory>
-#include <Proxy/src/common_thread.h>
+#include <Common/Thread.h>
 #include <Proxy/src/client_protected_list.h>
 #include "Protocol.h"
 

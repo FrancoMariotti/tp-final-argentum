@@ -4,8 +4,8 @@
 
 #include <iostream>
 #include "client_th_send.h"
-#include "common_proxy_socket.h"
-#include "common_message.h"
+#include "Common/common_proxy_socket.h"
+#include "Common/Message.h"
 
 ThSend::ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, Socket &socket) :
         clientEvents(clientEvents),
@@ -25,7 +25,9 @@ void ThSend::run() {
         while(this->keep_sending){
             //std::cout << "sending event" << std::endl;
             //socket.send()
-            protocol.send(socket,clientEvents.pop().release());
+            Message* msg = clientEvents.pop().release();
+            protocol.send(socket,msg);
+            delete msg;
             //socket.writeToServer();
         }
     } catch (ClosedQueueException &e){

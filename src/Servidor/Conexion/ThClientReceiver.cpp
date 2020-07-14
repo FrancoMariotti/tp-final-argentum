@@ -1,6 +1,6 @@
 #include "ThClientReceiver.h"
 #include "ClientConnection.h"
-#include <Proxy/src/common_closedqueue_exception.h>
+#include <Common/ClosedQueueException.h>
 
 ThClientReceiver::ThClientReceiver(std::string& id,Socket& client, ProtectedList<std::unique_ptr<Message>> &events,
         ClientConnection* connection):id(id),client(client),events(events),connection(connection) {

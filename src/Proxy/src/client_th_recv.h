@@ -6,8 +6,8 @@
 #define ARGENTUM_CLIENT_TH_RECV_H
 
 #include "client_protected_list.h"
-#include "common_thread.h"
-#include "common_socket.h"
+#include "Common/Thread.h"
+#include "Common/Socket.h"
 #include "../../Servidor/Conexion/Protocol.h"
 
 class Message;

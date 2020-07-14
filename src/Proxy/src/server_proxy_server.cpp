@@ -1,6 +1,6 @@
 #include "server_proxy_server.h"
-#include "common_proxy_socket.h"
-#include "common_message.h"
+#include "Common/common_proxy_socket.h"
+#include "Common/Message.h"
 #include "../../Servidor/Modelo/Game.h"
 #include "../../Servidor/Modelo/Event.h"
 #include "../../Servidor/Modelo/EventMove.h"
@@ -15,7 +15,7 @@ ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     {}
 
 void ProxyServer::run() {
-    std::cout << "Server is running" << std::endl;
+    //std::cout << "Server is running" << std::endl;
     /*Game game("config/config.json");
     game.createPlayer("franco", "human", "wizard");
     //Initialize Player debe mandar vida,mana,nivel,experiencia,raza, clase,armaduras, armas

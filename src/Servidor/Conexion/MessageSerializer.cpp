@@ -1,6 +1,6 @@
-#include <Proxy/src/common_socket.h>
+#include <Common/Socket.h>
 #include "MessageSerializer.h"
-#include "Proxy/src/common_osexception.h"
+#include "Common/OsException.h"
 #include "MovementMessageSerializer.h"
 #include "DrawMessageSerializer.h"
 #include "ConnectMessageSerializer.h"
@@ -14,6 +14,7 @@ MessageSerializer::MessageSerializer() {
     serializers[SPAWN_DROPS_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
     serializers[SPAWN_NPC_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
     serializers[SPAWN_PC_MESSAGE_ID] = new SpawnPcMessageSerializer();
+    serializers[MOVEMENT_MESSAGE_ID] = new MovementMessageSerializer();
 }
 
 std::string MessageSerializer::serialize(Message* message) {

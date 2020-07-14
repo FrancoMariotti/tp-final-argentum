@@ -7,9 +7,9 @@
 
 #include <SDL2/SDL_events.h>
 #include "client_sdl_texture.h"
-#include "common_blocking_queue.h"
+#include "Common/BlockingQueue.h"
 #include "client_command.h"
-#include "common_proxy_socket.h"
+#include "Common/common_proxy_socket.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_text.h"

@@ -1,12 +1,12 @@
-#include <Proxy/src/common_proxy_socket.h>
-#include <Proxy/src/common_message.h>
+#include <Common/common_proxy_socket.h>
+#include <Common/Message.h>
 #include <algorithm>
 #include <utility>
 #include "Map.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
 #include "Factory.h"
-#include "Servidor/Common/Utils.h"
+#include "Common/Utils.h"
 
 #define NPCSAMOUNT 16
 
@@ -28,7 +28,7 @@ void Map::add(City city) {
     cities.push_back(std::move(city));
 }
 
-void Map::registerCityCharactersSpawns(std::vector<spawn_object_t>& spawns) {
+void Map::registerCityCharactersSpawns(std::vector<location_t>& spawns) {
     for (auto &spawn : spawns) {
         cityCharactersSpawns.push_back(spawn);
     }
@@ -212,7 +212,7 @@ void Map::updateAllPlayers(float looptime, Observer* observer) {
 
 void Map::addDrop(Drop drop) {
     drops.push_back(drop);
-    spawn_object_t dropSpawn = {drop.getPosition().getX(), drop.getPosition().getY(), drop.getName()};
+    location_t dropSpawn = {drop.getPosition().getX(), drop.getPosition().getY(), drop.getName()};
     dropsSpawns.push_back(dropSpawn);
 }
 
@@ -297,7 +297,7 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
 }
 
 void Map::initializeNpcsSpawns(std::queue<Message*>& initializeMessages) {
-    std::vector<spawn_object_t> npcSpawns;
+    std::vector<location_t> npcSpawns;
     for (auto &npc : npcs) {
         npc.second->addSpawnInfoTo(npcSpawns);
     }
@@ -305,7 +305,7 @@ void Map::initializeNpcsSpawns(std::queue<Message*>& initializeMessages) {
 }
 
 void Map::updateNpcsSpawns(Observer* observer) {
-    std::vector<spawn_object_t> npcSpawns;
+    std::vector<location_t> npcSpawns;
     for (auto &npc : npcs) {
         npc.second->addSpawnInfoTo(npcSpawns);
     }

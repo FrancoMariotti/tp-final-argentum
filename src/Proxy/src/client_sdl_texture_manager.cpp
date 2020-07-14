@@ -5,8 +5,8 @@
 #include <iostream>
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_texture.h"
-#include "../../Servidor/Common/Utils.h"
-#include "common_osexception.h"
+#include "Common/Utils.h"
+#include "Common/OsException.h"
 
 SdlTextureManager::SdlTextureManager(const SdlWindow &window) {
     this->dynamic_renderables_textures.emplace(std::make_pair("spider",

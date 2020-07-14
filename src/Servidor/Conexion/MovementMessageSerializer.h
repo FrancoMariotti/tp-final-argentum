@@ -2,7 +2,7 @@
 #define ARGENTUM_MOVEMENTMESSAGESERIALIZER_H
 
 
-#include <Proxy/src/common_socket.h>
+#include <Common/Socket.h>
 #include "Serializer.h"
 
 class MovementMessageSerializer: public Serializer {

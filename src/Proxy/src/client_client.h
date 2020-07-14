@@ -13,16 +13,16 @@
 #include "client_sdl_texture.h"
 #include "client_sdl_window.h"
 #include "client_sdl_player.h"
-#include "common_blocking_queue.h"
+#include "Common/BlockingQueue.h"
 #include "client_sdl_button.h"
 #include "client_command.h"
-#include "common_proxy_socket.h"
+#include "Common/common_proxy_socket.h"
 #include "client_th_send.h"
 #include "client_protected_list.h"
 #include "client_th_recv.h"
 #include "client_sdl_world.h"
 #include "client_gui.h"
-#include "common_socket.h"
+#include "Common/Socket.h"
 
 class Client {
 private:

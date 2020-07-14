@@ -1,7 +1,7 @@
 #ifndef ARGENTUM_PLAYABLECHARACTER_H
 #define ARGENTUM_PLAYABLECHARACTER_H
 
-#include <Proxy/src/common_message_structs.h>
+#include <Common/message_structs.h>
 #include "Character.h"
 #include "Weapon.h"
 #include "NormalWeapon.h"

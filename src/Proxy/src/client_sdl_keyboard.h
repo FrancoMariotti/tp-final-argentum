@@ -6,8 +6,8 @@
 #define ARGENTUM_CLIENT_SDL_KEYBOARD_H
 
 
-#include "common_blocking_queue.h"
-#include "common_message.h"
+#include "Common/BlockingQueue.h"
+#include "Common/Message.h"
 #include "client_imediator.h"
 
 class SdlKeyboard : public BaseComponent {

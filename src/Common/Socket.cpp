@@ -6,9 +6,9 @@
 #include <cstring>
 #include <unistd.h>
 #include <utility>
-#include "common_socket.h"
+#include "Socket.h"
 //#include "common_closedsocket_exception.h"
-#include "common_osexception.h"
+#include "OsException.h"
 
 #define BACKLOG 10;
 #define RECV_ERROR_MSG "al intentar intentar recibir datos"

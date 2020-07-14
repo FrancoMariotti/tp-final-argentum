@@ -8,8 +8,8 @@
 
 #include <memory>
 #include "client_imediator.h"
-#include "common_message.h"
-#include "common_blocking_queue.h"
+#include "Common/Message.h"
+#include "Common/BlockingQueue.h"
 #include "client_sdl_dynamic_renderable.h"
 
 class SdlKeyboard;

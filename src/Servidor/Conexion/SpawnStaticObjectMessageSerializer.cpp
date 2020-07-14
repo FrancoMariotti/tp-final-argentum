@@ -3,7 +3,7 @@
 std::string SpawnStaticObjectMessageSerializer::serialize(Message *message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
-    msgpack::type::tuple<int,std::vector<spawn_object_t>> src(message->getId(),
+    msgpack::type::tuple<int,std::vector<location_t>> src(message->getId(),
                                                                 message->getSpawnData());
     packer.pack(src);
     std::string result(ss.str());
@@ -17,10 +17,10 @@ Message * SpawnStaticObjectMessageSerializer::deserialize(unsigned char *data,ui
     // deserialized object is valid during the msgpack::object_handle instance is alive.
     msgpack::object deserialized = oh.get();
 
-    msgpack::type::tuple<int,std::vector<spawn_object_t>> dst;
+    msgpack::type::tuple<int,std::vector<location_t>> dst;
     deserialized.convert(dst);
     int id = std::get<0>(dst);
-    std::vector<spawn_object_t> characters = std::get<1>(dst);
+    std::vector<location_t> characters = std::get<1>(dst);
 
     return new SpawnStaticObjects(id,characters);
 }
