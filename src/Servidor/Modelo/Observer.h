@@ -6,7 +6,7 @@ typedef struct location location_t ;
 typedef struct spawn_playable_character spawn_playable_character_t;
 class Observer {
 public:
-    virtual void notifymovementUpdate(int x, int y) = 0;
+    virtual void notifymovementUpdate(std::string id,int x, int y) = 0;
     virtual void
     notifyStatsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) = 0;
     virtual void notifyItemsUpdate(std::vector<std::string> &vector) = 0;

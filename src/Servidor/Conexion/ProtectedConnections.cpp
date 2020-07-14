@@ -1,4 +1,5 @@
 #include "ProtectedConnections.h"
+#include "mutex"
 
 ProtectedConnections::ProtectedConnections() = default;
 
@@ -26,6 +27,7 @@ void ProtectedConnections::destroyAllClients() {
 }
 
 void ProtectedConnections::sendMessage(const std::string& id,Message *event) {
+    std::lock_guard<std::mutex> lck (mutex);
     for(auto& client:clients) {
         if(client->getId() == id) {
             client->sendMessage(event);
@@ -34,6 +36,7 @@ void ProtectedConnections::sendMessage(const std::string& id,Message *event) {
 }
 
 void ProtectedConnections::broadcast(Message *event) {
+    std::lock_guard<std::mutex> lck (mutex);
     for(auto& client:clients) {
         client->sendMessage(event);
     }

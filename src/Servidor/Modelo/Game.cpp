@@ -1,6 +1,7 @@
 #include "Common/common_proxy_socket.h"
 #include <Common/Message.h>
 #include <thread>
+#include <utility>
 #include "Game.h"
 #include "Factory.h"
 #include "PlayableCharacter.h"
@@ -134,8 +135,8 @@ void Game::notifyItemsUpdate(std::vector<std::string> &vector) {
     //broadcastUpdates.push(new InventoryUpdate(vector));
 }
 
-void Game::notifymovementUpdate(int x, int y) {
-    broadcastUpdates.push(new Movement(x,y));
+void Game::notifymovementUpdate(std::string id,int x, int y) {
+    broadcastUpdates.push(new Movement(std::move(id),x,y));
 }
 
 void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {

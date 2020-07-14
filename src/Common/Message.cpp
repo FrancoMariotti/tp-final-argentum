@@ -105,18 +105,15 @@ std::vector<spawn_playable_character_t> Message::getPcSpawnData() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-Movement::Movement(const int player_vel_x, const int player_vel_y) :
+Movement::Movement(std::string id,const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
+        id(std::move(id)),
         player_vel_x(player_vel_x),
         player_vel_y(player_vel_y)
         {}
 
-int Movement::getPlayerVelX() const {
-    return player_vel_x;
-}
-
-int Movement::getPlayerVelY() const {
-    return player_vel_y;
+location_t Movement::getLocation() {
+    return location_t {player_vel_x,player_vel_y,id};
 }
 
 UseItem::UseItem(const int i) :

@@ -53,12 +53,12 @@ void PlayableCharacter::move(Offset& offset) {
     nextPos.apply(offset);
     map->move(this->currPos,nextPos);
     inCity = map->posInCity(currPos);
-    observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
+    observer->notifymovementUpdate(id,this->currPos.getX(), this->currPos.getY());
 }
 
 void PlayableCharacter::teleportTo(Position position) {
     currPos = lifeState->teleportFromTo(currPos, position);
-    observer->notifymovementUpdate(this->currPos.getX(), this->currPos.getY());
+    observer->notifymovementUpdate(id,this->currPos.getX(), this->currPos.getY());
 }
 
 void PlayableCharacter::recoverLifePoints(float seconds) {

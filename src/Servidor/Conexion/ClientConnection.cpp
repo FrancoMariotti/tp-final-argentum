@@ -2,9 +2,7 @@
 
 ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
                                                 client(std::move(client)),sender(this->client,events),
-                                                receiver(id,this->client,messages,this) {
-    dead = true;
-}
+                                                receiver(id,this->client,messages,this),dead(false) {}
 
 void ClientConnection::joinResources() {
     receiver.join();

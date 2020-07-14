@@ -92,7 +92,13 @@ int Client::run() {
 }
 
 void Client::init() {
-    std::string username_input = "franco";
+
+
+    //std::string username_input = "franco";
+    std::string username_input;
+    std::cout << "ingrese username:";
+    std::cin >> username_input;
+
     clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
     gui.setUsername(username_input);
     int init = 0;
@@ -117,7 +123,8 @@ void Client::init() {
             } else if (msg->getId() == SPAWN_CITY_CHARACTERS_MESSAGE_ID) {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
-                this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
+                location_t location = msg->getLocation();
+                this->gui.updatePlayerPos(location.x, location.y);
             } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
                 this->gui.updateDrops(msg->getSpawnData());
             } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
@@ -136,7 +143,8 @@ void Client::update() {
     for(auto & msg : messages){
         //std::cout << "Update(): MessageId" << msg->getId() << std::endl;
         if(msg->getId() == MOVEMENT_MESSAGE_ID){
-            this->gui.updatePlayerPos(msg->getPlayerVelX(), msg->getPlayerVelY());
+            location_t  location = msg->getLocation();
+            this->gui.updatePlayerPos(location.x, location.y);
         } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){
             this->gui.updatePlayerStats(msg->getStats());
         } else if (msg->getId() == INVENTORY_UPDATE_MESSAGE_ID){
