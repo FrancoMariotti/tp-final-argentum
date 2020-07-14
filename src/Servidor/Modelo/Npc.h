@@ -7,6 +7,8 @@
 #include <string>
 
 
+class spawn_object_t;
+
 class Npc : public Character {
     float mana;
     float updateTime;
@@ -37,7 +39,7 @@ public:
     //void addMerchant(Merchant* newMerchant);
     ~Npc() override;
 
-    void addSpawnInfoTo(std::vector<spawn_object_t>& npcSpawns);
+    void addSpawnInfoTo(std::vector<location_t>& npcSpawns);
 };
 
 #endif //ARGENTUM_NPC_H

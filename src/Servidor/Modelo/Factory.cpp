@@ -3,7 +3,7 @@
 #include <utility>
 #include <Common/Utils.h>
 #include <Common/message_structs.h>
-#include <Proxy/src/common_osexception.h>
+#include <Common/OsException.h>
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
