@@ -9,9 +9,12 @@
 #include <vector>
 #include "common_message_structs.h"
 enum MESSAGES {
+    /*logeo Qt*/
     PROXY_CONNECT_MESSAGE_ID,
     LOGIN_MESSAGE_ID,
+    SIGNUP_MESSAGE_ID,
     CREATE_MESSAGE_ID,
+    /**/
     ACCEPT_CREDENTIALS_MESSAGE_ID,
     DRAW_MESSAGE_ID,
     MOVEMENT_MESSAGE_ID,
