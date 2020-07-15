@@ -6,7 +6,8 @@
 
 
 Message::Message(const int id) :
-    id(id)
+    id(id),
+    connectionId(-1)
     {}
 
 int Message::getId() const {
@@ -103,6 +104,14 @@ t_create_connect Message::getConnectData() const {
 std::vector<spawn_playable_character_t> Message::getPcSpawnData() {
    throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
+void Message::setConnectionlId(int id) {
+    this->connectionId = id;
+}
+
+int Message::getConnectionlId() {
+    return connectionId;
 }
 
 Movement::Movement(std::string id,const int player_vel_x, const int player_vel_y) :

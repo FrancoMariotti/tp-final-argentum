@@ -26,7 +26,7 @@ std::string MessageSerializer::serialize(Message* message) {
     throw OSError("Id de mensaje inexistente");
 }
 
-Message *MessageSerializer::deserialize(int messageId,unsigned char *data,uint16_t len_data) {
+Message *MessageSerializer::deserialize(int messageId,unsigned char *data,uint32_t len_data) {
     auto itr = serializers.find(messageId);
     if(itr == serializers.end()) return nullptr;
     return serializers.at(messageId)->deserialize(data,len_data);

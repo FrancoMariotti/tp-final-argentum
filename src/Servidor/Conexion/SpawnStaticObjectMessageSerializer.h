@@ -10,7 +10,7 @@
 
 class SpawnStaticObjectMessageSerializer: public Serializer {
     std::string serialize(Message *message) override;
-    Message * deserialize(unsigned char *data,uint16_t len_data) override;
+    Message * deserialize(unsigned char *data,uint32_t len_data) override;
 };
 
 

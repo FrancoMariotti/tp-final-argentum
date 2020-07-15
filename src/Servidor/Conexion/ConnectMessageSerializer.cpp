@@ -10,7 +10,7 @@ std::string ConnectMessageSerializer::serialize(Message *message) {
     return result;
 }
 
-Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
+Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint32_t len_data) {
     // deserialize the buffer into msgpack::object instance.
     //std::string str(data,len_data);
 

@@ -24,33 +24,30 @@ void ProtectedConnections::destroyAllClients() {
         (*it)->finish();
         (*it)->joinResources();
         delete *it;
-        clients.erase(it);
     }
-}
-
-void ProtectedConnections::setId(int index,std::string name) {
-    this->clients[index]->setId(std::move(name));
-}
-
-void ProtectedConnections::sendMessage(const std::string& id,Message *event) {
-    std::lock_guard<std::mutex> lck (mutex);
-    for(auto& client:clients) {
-        if(client->getId() == id) {
-            client->sendMessage(event);
-        }
-    }
-}
-
-void ProtectedConnections::broadcast(Message *event) {
-    std::lock_guard<std::mutex> lck (mutex);
-    for(auto& client:clients) {
-        client->sendMessage(event);
-    }
+    clients.clear();
 }
 
 void ProtectedConnections::push(ClientConnection* client) {
     std::lock_guard<std::mutex> lck (mutex);
     clients.push_back(client);
+}
+
+
+void ProtectedConnections::sendMessage(int connectionId,int messageId,std::string data) {
+    std::lock_guard<std::mutex> lck (mutex);
+    for(auto& client:clients) {
+        if(client->getId() == connectionId) {
+            client->sendMessage(messageId,data);
+        }
+    }
+}
+
+void ProtectedConnections::broadcast(int messageId,std::string data) {
+    std::lock_guard<std::mutex> lck (mutex);
+    for(auto& client:clients) {
+        client->sendMessage(messageId,data);
+    }
 }
 
 ProtectedConnections::~ProtectedConnections() = default;

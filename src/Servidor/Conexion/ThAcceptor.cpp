@@ -6,6 +6,7 @@
 
 ThAcceptor::ThAcceptor(const std::string &service,ProtectedConnections& clients,
                        ProtectedList<std::unique_ptr<Message>> &events):clients(clients),events(events) {
+    this->counter = 0;
     this->keepTalking = true;
     this->acceptor.bindAndListen(service.c_str());
 }
@@ -18,10 +19,11 @@ void ThAcceptor::run() {
     while (keepTalking) {
         try {
             Socket client = acceptor.accept();
-            auto *connection = new ClientConnection(std::move(client), events);
+            auto *connection = new ClientConnection(counter,std::move(client), events);
             connection->start();
             clients.push(connection);
             clients.destroyFinishedClients();
+            counter++;
         } catch(std::exception &e) {
             stop();
         }

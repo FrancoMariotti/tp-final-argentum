@@ -30,9 +30,12 @@ enum MESSAGES {
 class Message {
 protected:
     int id;
+    int connectionId;
     explicit Message(int id);
 public:
     int getId() const;
+    void setConnectionlId(int id);
+    int getConnectionlId();
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;

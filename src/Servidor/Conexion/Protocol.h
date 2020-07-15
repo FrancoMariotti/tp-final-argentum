@@ -7,13 +7,14 @@
 
 class Protocol {
     MessageSerializer serializer;
+    uint32_t valueToBigEndian(uint32_t value);
+    uint32_t valueToLocalEndian(uint32_t value);
+    uint32_t recieve(Socket &socket, int overload);
 public:
-    uint16_t valueToBigEndian(uint16_t value);
-    uint16_t valueToLocalEndian(uint16_t value);
-    void send(Socket &socket, uint16_t number);
+    void send(Socket &socket, int number);
+    void send(Socket &socket, std::string data);
     void send(Socket& socket,Message* message);
     Message* recieve(Socket &socket);
-    uint16_t recieve(Socket &socket, int overload);
 };
 
 

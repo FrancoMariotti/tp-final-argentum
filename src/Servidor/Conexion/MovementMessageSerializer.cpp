@@ -11,7 +11,7 @@ std::string MovementMessageSerializer::serialize(Message* message) {
     return result;
 }
 
-Message *MovementMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
+Message *MovementMessageSerializer::deserialize(unsigned char *data,uint32_t len_data) {
     // deserialize the buffer into msgpack::object instance.
     msgpack::object_handle oh =
             msgpack::unpack((const char *)(data), len_data);
