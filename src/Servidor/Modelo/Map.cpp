@@ -299,10 +299,13 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
 }
 
 void Map::persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds) {
-    if (lastPersistance + loopTImeInSeconds >= 300) {
+    if (lastPersistance + loopTImeInSeconds >= 120) {
         for (auto &pc : characters) {
-            pcFactory.persistPlayerData(pc.second, 0);
+            pcFactory.persistPlayerData(pc.second);
+            lastPersistance = 0;
         }
+    } else {
+        lastPersistance += loopTImeInSeconds;
     }
 }
 

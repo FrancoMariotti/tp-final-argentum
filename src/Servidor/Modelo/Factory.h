@@ -116,7 +116,7 @@ class PlayableCharacterFactory {
                 const std::string& charClass, Observer* observer);
         ~PlayableCharacterFactory();
 
-    void persistPlayerData(PlayableCharacter *pCharacter, int index);
+    void persistPlayerData(PlayableCharacter *pCharacter);
 
     character_info_t getPlayerInfoFromFile(int index);
 

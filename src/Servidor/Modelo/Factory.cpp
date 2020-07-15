@@ -285,13 +285,15 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
         playersInfoMap[playerName] = playersAmount;
 
         //Agrego la informacion del jugador al archivo de informacion
-        persistPlayerData(character, playersAmount);
+        persistPlayerData(character);
         playersAmount++;
     }
     playersInfoMapStream.close();
 }
 
-void PlayableCharacterFactory::persistPlayerData(PlayableCharacter *pCharacter, int index) {
+void PlayableCharacterFactory::persistPlayerData(PlayableCharacter *pCharacter) {
+    //Busco en el mapa el index que le corresponde al jugador
+    int index = playersInfoMap[pCharacter->id];
     //Guardo los identificadores de los items que tiene el usuario en su armadura,
     //inventario y cuenta de banco
     std::vector<int> armourIds, inventoryIds, accountIds;
@@ -321,14 +323,14 @@ void PlayableCharacterFactory::persistPlayerData(PlayableCharacter *pCharacter, 
 }
 
 void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, int index) {
-    std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary | std::fstream::app);
+    std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary | std::fstream::in);
     if (!infoStream) {
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
     infoStream.seekp(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
-    /*long pos = infoStream.tellp();
-    pos++;*/
+    long pos = infoStream.tellp();
+    pos++;
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));
     infoStream.write((char*)&playerInfo.constitution, sizeof(int));
@@ -365,7 +367,8 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
         if (j < playerInfo.itemsInBank.size())
             infoStream.write((char*)&playerInfo.itemsInBank[j], sizeof(int));
         else {
-            infoStream.write((char*)0, sizeof(int));
+            int zero = 0;
+            infoStream.write((char*)&zero, sizeof(int));
         }
     }
     infoStream.write((char*)&playerInfo.race, sizeof(int));
