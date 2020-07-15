@@ -4,17 +4,17 @@
 #include <msgpack.hpp>
 #include <string>
 
-typedef struct t_stats{
+typedef struct stats {
     float health_percentage;
     float mana_percentage;
     float exp_percentage;
     int gold;
     int level;
     MSGPACK_DEFINE(health_percentage,
-                   mana_percentage,
-                   exp_percentage,
-                   gold,
-                   level)
+                    mana_percentage,
+                    exp_percentage,
+                    gold,
+                    level)
 }t_stats;
 
 typedef struct equipment {
@@ -56,7 +56,7 @@ typedef struct spawn_playable_character {
                 helmetName)
 } spawn_playable_character_t;
 
-typedef struct t_create_connect {
+typedef struct create_connect {
     std::string username;
     std::string race;
     std::string charClass;

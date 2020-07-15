@@ -1,7 +1,6 @@
 #include "Npc.h"
 #include <utility>
 #include <iostream>
-#include <Common/message_structs.h>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"

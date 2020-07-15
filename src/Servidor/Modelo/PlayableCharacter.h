@@ -23,6 +23,7 @@ class PlayableCharacter: public Character {
     float mana;
     int gold;
     int xp;
+    float updateTime;
     Weapon* activeWeapon;
     NormalWeapon defaultWeapon;
     Inventory inventory;

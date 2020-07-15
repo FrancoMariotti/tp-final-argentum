@@ -6,6 +6,7 @@
 #include "ConnectMessageSerializer.h"
 #include "SpawnStaticObjectMessageSerializer.h"
 #include "SpawnPcMessageSerializer.h"
+#include "StatsMessageSerializer.h"
 
 MessageSerializer::MessageSerializer() {
     serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
@@ -15,6 +16,7 @@ MessageSerializer::MessageSerializer() {
     serializers[SPAWN_NPC_MESSAGE_ID] = new  SpawnStaticObjectMessageSerializer();
     serializers[SPAWN_PC_MESSAGE_ID] = new SpawnPcMessageSerializer();
     serializers[MOVEMENT_MESSAGE_ID] = new MovementMessageSerializer();
+    serializers[STATS_UPDATE_MESSAGE_ID] = new StatsMessageSerializer();
 }
 
 std::string MessageSerializer::serialize(Message* message) {

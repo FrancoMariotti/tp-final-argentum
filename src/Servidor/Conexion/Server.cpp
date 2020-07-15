@@ -37,6 +37,7 @@ void Server::start() {
                 game.createPlayer(data.username,data.race,data.charClass);
                 //manda el paquete de inicializacion
                 std::queue<Message*> initialMessages = game.initializeWorld();
+                connectionsTable[data.username] = msg->getConnectionlId();
                 while(!initialMessages.empty()) {
                     Message* update = initialMessages.front();
                     std::string updateData = serializer.serialize(update);
@@ -71,6 +72,16 @@ void Server::start() {
                 (end-start).count();
         std::this_thread::sleep_for(std::chrono::milliseconds(60- elapsed_seconds));
         //server y mandar a cada client el update que me manda el game
+        while (game.directedUpdateAvailable()) {
+            std::tuple<std::string,Message*> update = game.nextDirectedUpdate();
+            std::string destinatary = std::get<0>(update);
+            Message* message = std::get<1>(update);
+            std::string dataUpdate = serializer.serialize(message);
+            clients.sendMessage(connectionsTable.at(destinatary),message->getId(),dataUpdate);
+            delete message;
+        }
+
+
         while (game.broadcastUpdateAvailable()) {
             Message* update = game.nextBroadCastUpdate();
             std::string dataUpdate = serializer.serialize(update);

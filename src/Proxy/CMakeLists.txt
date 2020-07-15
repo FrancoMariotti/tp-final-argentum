@@ -23,6 +23,8 @@ add_library(clienteConnection
                 ../Servidor/Conexion/SpawnStaticObjectMessageSerializer.cpp
                 ../Servidor/Conexion/SpawnPcMessageSerializer.h
                 ../Servidor/Conexion/SpawnPcMessageSerializer.cpp
+                ../Servidor/Conexion/StatsMessageSerializer.h
+                ../Servidor/Conexion/StatsMessageSerializer.cpp
                 ./../Servidor/Conexion/ConnectMessageSerializer.h
                 ./../Servidor/Conexion/ConnectMessageSerializer.cpp
                 ./../Servidor/Conexion/Protocol.h

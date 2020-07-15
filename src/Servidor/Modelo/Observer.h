@@ -8,7 +8,7 @@ class Observer {
 public:
     virtual void notifymovementUpdate(std::string id,int x, int y) = 0;
     virtual void
-    notifyStatsUpdate(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) = 0;
+    notifyStatsUpdate(std::string& username,float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) = 0;
     virtual void notifyItemsUpdate(std::vector<std::string> &vector) = 0;
     virtual void notifySpawnNpcUpdate(std::vector<location_t> &npcs) = 0;
     virtual void notifyMovementNpcUpdate(std::string idNpc, int x, int y) = 0;

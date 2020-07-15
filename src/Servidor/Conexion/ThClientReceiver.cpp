@@ -14,7 +14,7 @@ void ThClientReceiver::start() {
 void ThClientReceiver::run() {
     while (keepTalking) {
         try{
-            std::cout << "recieving event" << std::endl;
+            //std::cout << "recieving event" << std::endl;
             Message* message = protocol.recieve(client);
             if(message) {
                 message->setConnectionlId(connection->getId());

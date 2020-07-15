@@ -6,11 +6,11 @@
 #include "Alive.h"
 #include "Ghost.h"
 #include "ItemSeller.h"
-#include "Droppable.h"
 #include "GoldBag.h"
 
 #define NEWBIE_LEVEL 12
 #define LEVEL_DIFFERENCE 10
+#define UPDATE_TIME 5
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -33,7 +33,7 @@ void PlayableCharacter::notifyStats() {
     float health_percentage = lifePoints / calculateMaxLife();
     float mana_percentage = mana / calculateMaxMana();
     float exp_percentage = (float)xp / (float)calculateLvlLimit();
-    observer->notifyStatsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
+    observer->notifyStatsUpdate(id,health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
 
 void PlayableCharacter::notifyEquipment() {
@@ -65,7 +65,11 @@ void PlayableCharacter::recoverLifePoints(float seconds) {
     float maxLife = calculateMaxLife();
     float recoveredLifePoints = calculateRecoverLifePoints(seconds);
     lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
-    notifyStats();
+    updateTime += seconds;
+    if(updateTime >= UPDATE_TIME) {
+        notifyStats();
+        updateTime = 0;
+    }
 }
 
 void PlayableCharacter::recoverMana(float seconds) {

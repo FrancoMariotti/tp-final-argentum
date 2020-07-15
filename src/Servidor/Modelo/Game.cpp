@@ -93,6 +93,16 @@ void Game::unequip(const std::string& playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->store(element);
 }*/
+bool Game::directedUpdateAvailable() {
+    return !directedUpdates.empty();
+}
+
+std::tuple<std::string,Message*> Game::nextDirectedUpdate() {
+    std::tuple<std::string,Message*> msg = directedUpdates.front();
+    directedUpdates.pop();
+    return msg;
+}
+
 
 bool Game::broadcastUpdateAvailable() {
     return !broadcastUpdates.empty();
@@ -120,12 +130,12 @@ void Game::notifyCityCharactersSpawn(std::vector<location_t> &spawns) {
     broadcastUpdates.push(new SpawnStaticObjects(SPAWN_CITY_CHARACTERS_MESSAGE_ID,spawns));
 }
 
-void Game::notifyStatsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
-    /*broadcastUpdates.push(new Stats(
-            health_percentage,
-            mana_percentage,
-            exp_percentage,
-            gold,level));*/
+void Game::notifyStatsUpdate(std::string& username,float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
+    directedUpdates.push(std::make_tuple(username,new Stats(
+                                                        health_percentage,
+                                                        mana_percentage,
+                                                        exp_percentage,
+                                                        gold,level)));
 }
 
 void Game::notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
