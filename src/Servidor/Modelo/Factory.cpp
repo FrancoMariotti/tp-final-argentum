@@ -18,11 +18,7 @@
 #include "Damage.h"
 #include "Merchant.h"
 #include "LifeState.h"
-
-#define INVENTORY_MAX_ITEMS 10
-#define ACCOUNT_MAX_ITEMS 10
-#define ARMOUR_MAX_ITEMS 3
-
+#include "Configuration.h"
 
 FileParser::FileParser(const std::string &filename):file(filename) {}
 
@@ -201,7 +197,9 @@ MapFactory::~MapFactory() =default;
 PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile,
         ItemFactory *pFactory, std::string  playersInfoMapFile,
         std::string  playersInfoFile) : itemFactory(pFactory),
-        playersInfoFile(std::move(playersInfoFile)), playersInfoMapFile(std::move(playersInfoMapFile)) {
+        playersInfoFile(std::move(playersInfoFile)),
+        playersInfoMapFile(std::move(playersInfoMapFile)),
+        config(Configuration::getInstance()) {
     FileParser parser(configFile);
     characterObj = parser.read("character");
     //Ahora creo el stock de items
@@ -332,9 +330,7 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
-    infoStream.seekp(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
-    long pos = infoStream.tellp();
-    pos++;
+    infoStream.seekp(sizeof(character_info_t) * index);
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));
     infoStream.write((char*)&playerInfo.constitution, sizeof(int));
@@ -352,7 +348,7 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
     infoStream.write((char*)&playerInfo.mana, sizeof(int));
     infoStream.write((char*)&playerInfo.gold, sizeof(int));
     infoStream.write((char*)&playerInfo.xp, sizeof(int));
-    for (unsigned int j = 0; j < INVENTORY_MAX_ITEMS ; ++j) {
+    for (unsigned int j = 0; j < (unsigned)config.constants["inventoryMaxItems"] ; ++j) {
         if (j < playerInfo.inventoryItems.size())
             infoStream.write((char*)&playerInfo.inventoryItems[j], sizeof(int));
         else {
@@ -361,13 +357,13 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
         }
     }
     infoStream.write((char*)&playerInfo.activeWeapon, sizeof(int));
-    for (unsigned int j = 0; j < ARMOUR_MAX_ITEMS ; ++j) {
+    for (unsigned int j = 0; j < (unsigned)config.constants["armourMaxItems"]; ++j) {
         infoStream.write((char*)&playerInfo.protections[j], sizeof(int));
     }
     infoStream.write((char*)&playerInfo.lifeState, sizeof(int));
     infoStream.write((char*)&playerInfo.inCity, sizeof(int));
     infoStream.write((char*)&playerInfo.goldInBank, sizeof(int));
-    for (unsigned int j = 0; j < ACCOUNT_MAX_ITEMS ; ++j) {
+    for (unsigned int j = 0; j < (unsigned)config.constants["accountMaxItems"] ; ++j) {
         if (j < playerInfo.itemsInBank.size())
             infoStream.write((char*)&playerInfo.itemsInBank[j], sizeof(int));
         else {
@@ -380,15 +376,13 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
 }
 
 character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
-     character_info_t characterInfo;
+    character_info_t characterInfo;
      std::fstream infoStream(playersInfoFile, std::fstream::in | std::fstream::binary);
      if (!infoStream) {
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
      }
      //situo el puntero para leer el elemento en el index correcto
-     infoStream.seekg(CHARACTER_INFO_INTS_AMOUNT * sizeof(int) * index);
-     /*long pos = infoStream.tellg();
-     pos++;*/
+     infoStream.seekg(sizeof(character_info_t) * index);
      //comienzo a guardar la informacion
      infoStream.read((char*)&characterInfo.lifePoints, sizeof(int));
      infoStream.read((char*)&characterInfo.level, sizeof(int));
@@ -407,13 +401,13 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
      infoStream.read((char*)&characterInfo.mana, sizeof(int));
      infoStream.read((char*)&characterInfo.gold, sizeof(int));
      infoStream.read((char*)&characterInfo.xp, sizeof(int));
-     for (unsigned int j = 0; j < INVENTORY_MAX_ITEMS ; ++j) {
+     for (unsigned int j = 0; j < (unsigned)config.constants["inventoryMaxItems"] ; ++j) {
          int currValue;
          infoStream.read((char*)&currValue, sizeof(int));
          characterInfo.inventoryItems.push_back(currValue);
      }
      infoStream.read((char*)&characterInfo.activeWeapon, sizeof(int));
-     for (unsigned int j = 0; j < ARMOUR_MAX_ITEMS ; ++j) {
+     for (unsigned int j = 0; j < (unsigned)config.constants["armourMaxItems"] ; ++j) {
          int currValue;
          infoStream.read((char*)&currValue, sizeof(int));
          characterInfo.protections.push_back(currValue);
@@ -421,7 +415,7 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
      infoStream.read((char*)&characterInfo.lifeState, sizeof(int));
      infoStream.read((char*)&characterInfo.inCity, sizeof(int));
      infoStream.read((char*)&characterInfo.goldInBank, sizeof(int));
-     for (unsigned int j = 0; j < ACCOUNT_MAX_ITEMS ; ++j) {
+     for (unsigned int j = 0; j < (unsigned)config.constants["accountMaxItems"]; ++j) {
          int currValue;
          infoStream.read((char*)&currValue, sizeof(int));
          characterInfo.itemsInBank.push_back(currValue);

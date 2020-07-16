@@ -6,7 +6,6 @@
 #define ARGENTUM_BANKACCOUNT_H
 
 #include "Inventory.h"
-#define MAX_ACCOUNT_ITEMS 10
 
 class BankAccount {
     friend class Banker;

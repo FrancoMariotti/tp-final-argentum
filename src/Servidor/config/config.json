@@ -1572,5 +1572,55 @@
         "manaCost": 0,
         "goldCost": 100
       }]
-  }
+  },
+  "constants" : [
+    {
+      "name" : "inventoryMaxItems",
+      "value" : 10
+    },
+    {
+      "name" : "accountMaxItems",
+      "value" : 10
+    },
+    {
+      "name" : "armourMaxItems",
+      "value" : 3
+    },
+    {
+      "name" : "npcsAmount",
+      "value" : 16
+    },
+    {
+      "name" : "timeToRespawnNpcs",
+      "value" : 30
+    },
+    {
+      "name" : "timeToPersist",
+      "value" : 600
+    },
+    {
+      "name" : "goldDropProbability",
+      "value" : 0.8
+    },
+    {
+      "name" : "itemDropProbability",
+      "value" : 0.01
+    },
+    {
+      "name" : "maxRange",
+      "value" : 4
+    },
+    {
+      "name" : "npcUpdateTime",
+      "value" : 0.8
+    },
+    {
+      "name" : "newbieLevel",
+      "value" : 12
+    },
+    {
+      "name" : "levelDifference",
+      "value" : 10
+    }
+  ]
 }

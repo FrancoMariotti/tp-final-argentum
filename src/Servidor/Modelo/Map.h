@@ -24,6 +24,7 @@ class Weapon;
 class ProxySocket;
 
 
+
 class Map {
     int width;
     int height;
@@ -39,6 +40,7 @@ class Map {
     std::vector<Obstacle> obstacles;
     std::vector<City> cities;
     std::vector<Drop> drops;
+    Configuration& config;
     public:
         Map(int width,int height);
         void add(const std::string& playerName,PlayableCharacter* character);

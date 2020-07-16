@@ -7,9 +7,9 @@
 #include "Map.h"
 #include "Common/Utils.h"
 #include "GoldBag.h"
+#include "Configuration.h"
 
 #define GOLD_DROP_PROBABILITY 0.8
-#define POTION_DROP_PROBABILITY 0.01
 #define OBJECT_DROP_PROBABILITY 0.01
 #define MAX_RANGE 4
 #define NPC_UPDATE_TIME 0.8
@@ -28,7 +28,7 @@ Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constituti
                 meditationRecoveryFactor,observer),
         weapon("npcWeapon", 0, minDamage,maxDamage, 0),
         armour("npcArmour", 0, minDefense,maxDefense, ARMOUR, 0),
-        itemsToDrop(itemsToDrop){
+        itemsToDrop(itemsToDrop), config(Configuration::getInstance()) {
     this->specie = std::move(specie);
     this->mana = 0;
     this->updateTime = 0;
@@ -49,10 +49,11 @@ bool Npc::shouldDrop(float probability) {
 
 void Npc::move(float loopTime) {
     updateTime += loopTime;
-    if(updateTime >= NPC_UPDATE_TIME){
+    if(updateTime >= config.constants["npcUpdateTime"]){
         Offset offset(0,0);
 
-        auto* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos, MAX_RANGE);
+        auto* enemy = (PlayableCharacter*)map->findClosestCharacter(currPos,
+                config.constants["maxRange"]);
         bool enemyFound = (enemy != nullptr);
         if (enemyFound) {
             offset = enemy->getOffset(currPos);
@@ -112,7 +113,7 @@ int Npc::receiveAttackFrom(PlayableCharacter *enemy) {
 }
 
 void Npc::die() {
-    if (shouldDrop(GOLD_DROP_PROBABILITY)) {
+    if (shouldDrop(config.constants["goldDropProbability"])) {
         int gold = (int)calculateNpcGoldDrop();
         if (gold > 0) {
             auto* goldBag = new GoldBag(gold);
@@ -132,7 +133,7 @@ void Npc::die() {
         map->addDrop(drop);
     }
     */
-    if (shouldDrop(OBJECT_DROP_PROBABILITY)) {
+    if (shouldDrop(config.constants["itemDropProbability"])) {
         int randomIndex = Utils::random_int_number(0, itemsToDrop.size() - 1);
        /* std::string itemName = possibleItemsToDrop[randomIndex];
         Equippable* item = merchant->giftItem(itemName);*/

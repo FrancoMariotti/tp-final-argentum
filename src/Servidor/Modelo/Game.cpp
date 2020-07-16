@@ -6,12 +6,24 @@
 #include "Factory.h"
 #include "PlayableCharacter.h"
 #include "Npc.h"
+#include "Configuration.h"
+
+//Configuration* Configuration::instance = 0;
 
 Game::Game(const std::string& configFile, const std::string& playersInfoMapFile,
         const std::string& playersInfoFile): configFile(configFile), itemFactory()
     , mapFactory(configFile), map(mapFactory.create(&itemFactory)), commandExecutor(map),
     factoryCharacters(configFile, &itemFactory, playersInfoMapFile, playersInfoFile),
-    npcFactory(configFile, &itemFactory) {}
+    npcFactory(configFile, &itemFactory) {
+    std::map<std::string, int> constants;
+    FileParser parser(configFile);
+    Json::Value constObj = parser.read("constants");
+    for (auto &constant : constObj) {
+        constants[constant["name"].asString()] = constant["value"].asFloat();
+    }
+    Configuration& config = config.getInstance();
+    config.constants = constants;
+}
 
 void Game::updateModel(float looptime) {
     map->updateAllPlayers(looptime, this);

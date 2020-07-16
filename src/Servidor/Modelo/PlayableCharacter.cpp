@@ -6,11 +6,8 @@
 #include "Alive.h"
 #include "Ghost.h"
 #include "ItemSeller.h"
-#include "Droppable.h"
 #include "GoldBag.h"
-
-#define NEWBIE_LEVEL 12
-#define LEVEL_DIFFERENCE 10
+#include "Configuration.h"
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
         int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -19,7 +16,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
         Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
                 classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
                 defaultWeapon("none", 0, 1, 1, 0), inventory(invMaxElements)
-                , inCity(true), raceId(raceId) {
+                , inCity(true), raceId(raceId), config(Configuration::getInstance()){
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
@@ -38,7 +35,8 @@ PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map,
                 raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
                 meditationRecoveryFactor,observer), mana(mana), gold(gold), xp(xp),
                 defaultWeapon("none", 0, 1, 1, 0),
-                inventory(10), inCity(inCity),raceId(raceId) {
+                inventory(10), inCity(inCity),raceId(raceId),
+                config(Configuration::getInstance()) {
     if (lifeState == 0) this->lifeState = new Alive();
     else this->lifeState = new Ghost();
     this->activeWeapon = &defaultWeapon;
@@ -260,12 +258,11 @@ void PlayableCharacter::earnMana(int value) {
 
 bool PlayableCharacter::checkFairPlay(int enemyLevel) {
     int levelDifference = abs(enemyLevel - level);
-    if(levelDifference > LEVEL_DIFFERENCE) return false;
-    bool enemyisnewbie = (enemyLevel <= NEWBIE_LEVEL);
-    bool imnewbie = (level <= NEWBIE_LEVEL);
+    if(levelDifference > config.constants["levelDifference"]) return false;
+    bool enemyisnewbie = (enemyLevel <= config.constants["newbieLevel"]);
+    bool imnewbie = (level <= config.constants["newbieLevel"]);
     return (imnewbie && enemyisnewbie);
 }
-
 
 void PlayableCharacter::die() {
     //Dropeo el oro en exceso

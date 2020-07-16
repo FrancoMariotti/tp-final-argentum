@@ -7,12 +7,10 @@
 #include "Npc.h"
 #include "Factory.h"
 #include "Common/Utils.h"
+#include "Configuration.h"
 
-#define NPCSAMOUNT 16
-#define TIME_TO_RESPAWN_NPC 30
-#define TIME_TO_PERSIST 600
-
-Map::Map(int width,int height):width(width),height(height), lastNpcUpdate(0), lastPersistance(0){}
+Map::Map(int width,int height):width(width),height(height), lastNpcUpdate(0),
+    lastPersistance(0), config(Configuration::getInstance()){}
 
 void Map::add( Banker pBanker) {
     this->banker = std::move(pBanker);
@@ -289,7 +287,8 @@ bool Map::hasDropInPos(Position position) {
 }
 
 void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observer* observer) {
-    if (lastNpcUpdate + loopTimeInSeconds >= TIME_TO_RESPAWN_NPC && npcs.size() < NPCSAMOUNT) {
+    if (lastNpcUpdate + loopTimeInSeconds >= config.constants["timeToRespawnNpcs"]
+        && npcs.size() < (unsigned)config.constants["npcsAmount"]) {
         std::vector<std::string> species = {"goblin", "spider", "zombie", "skeleton"};
         int randomIndex = Utils::random_int_number(0, species.size() - 1);
         npcFactory.create(this, species[randomIndex], observer);
@@ -301,7 +300,8 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
 }
 
 void Map::persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds) {
-    if (lastPersistance + loopTImeInSeconds >= TIME_TO_PERSIST) {
+    if (lastPersistance + loopTImeInSeconds >= config.constants["timeToPersist"]) {
+        std::cout << "Guardando informacion del jugador" << std::endl;
         for (auto &pc : characters) {
             pcFactory.persistPlayerData(pc.second);
             lastPersistance = 0;

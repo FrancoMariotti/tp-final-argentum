@@ -11,11 +11,11 @@
 class Game;
 class Map;
 class ItemFactory;
+class Configuration;
 
 #define CHARACTER_INFO_INTS_AMOUNT 45
 
 typedef struct character_info {
-   //std::string id;
    int lifePoints;
    int level;
    int constitution;
@@ -108,6 +108,7 @@ class PlayableCharacterFactory {
     std::string playersInfoMapFile;
     std::map<std::string, int> playersInfoMap;
     int playersAmount;
+    Configuration& config;
     void addPlayerInfoToFile(character_info_t playerInfo, int index);
     public:
         explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory,

@@ -32,6 +32,7 @@ class PlayableCharacter: public Character {
     bool inCity;
     BankAccount bankAccount;
     int raceId;
+    Configuration& config;
 private:
     bool checkFairPlay(int enemyLevel);
     void revive();

@@ -4,8 +4,12 @@
 
 #include <algorithm>
 #include "BankAccount.h"
+#include "Configuration.h"
 
-BankAccount::BankAccount() : gold(0), maxItems(MAX_ACCOUNT_ITEMS) {}
+BankAccount::BankAccount() : gold(0) {
+    Configuration& config = Configuration::getInstance();
+    maxItems = config.constants["accountMaxItems"];
+}
 
 void BankAccount::deposit(int amount) {
     gold += amount;

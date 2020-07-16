@@ -17,6 +17,7 @@ class Npc : public Character {
     Protection armour;
     ItemFactory* itemFactory;
     std::map<int, item_t>& itemsToDrop;
+    Configuration& config;
     /*
     std::vector<std::string> possiblePotionsToDrop;
     std::vector<std::string> possibleItemsToDrop;
