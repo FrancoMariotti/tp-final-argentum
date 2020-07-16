@@ -23,7 +23,6 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
     this->mana = calculateMaxMana();
     this->gold = 0;
     this->xp = 0;
-    notifySpawn();
     notifyStats();
     notifyEquipment();
 }
@@ -43,7 +42,6 @@ PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map,
     if (lifeState == 0) this->lifeState = new Alive();
     else this->lifeState = new Ghost();
     this->activeWeapon = &defaultWeapon;
-    notifySpawn();
     notifyStats();
     notifyEquipment();
 }
@@ -327,9 +325,9 @@ void PlayableCharacter::dropItem(int itemIndex) {
 void PlayableCharacter::sellTo(std::string itemName, Merchant *merchant) {
     if (!inCity) return;
     int earnedGold = merchant->buy(itemName);
-    if (earnedGold != 0) {
+    Equippable* item = inventory.takeElement(itemName, this);
+    if (earnedGold != 0 && item) {
         addGold(earnedGold);
-        Equippable* item = inventory.takeElement(itemName, this);
         delete item;
         inventory.sendItems(observer);
     }

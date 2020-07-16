@@ -331,6 +331,7 @@ void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, 
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
     infoStream.seekp(sizeof(character_info_t) * index);
+
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));
     infoStream.write((char*)&playerInfo.constitution, sizeof(int));
