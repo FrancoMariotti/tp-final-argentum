@@ -79,20 +79,16 @@ public:
     void restoreMana();
     PlayableCharacter* closestToInRange(const Position &pos, PlayableCharacter *closestEnemy,
                                         int *minDistance, int range);
-
     void healedByPriest();
     void takeDroppable(GoldBag *goldBag);
     void takeDroppable(Equippable* equippable);
     bool isInCity() const;
     void takeDrop();
     void dropItem(int itemIndex);
-    ~PlayableCharacter() override;
-
-    void sendItemsInBankList();
-
     void notifyConsoleOutputUpdate(std::vector<std::string> messages);
-
     void addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns);
+    void sendItemsInBankList();
+    ~PlayableCharacter() override;
 
 };
 

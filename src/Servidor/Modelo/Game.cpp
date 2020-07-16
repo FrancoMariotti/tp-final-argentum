@@ -63,10 +63,6 @@ void Game::initialize() {
     }
 }
 
-/*void Game::initializeMap(ProxySocket& pxySkt) {
-    map->sendLayers(pxySkt,configFile);
-}*/
-
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->move(offset);
@@ -137,8 +133,8 @@ void Game::notifyStatsUpdate(std::string& username,float health_percentage,float
                                                         gold,level)));
 }
 
-void Game::notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
-    //broadcastUpdates.push(new EquipmentUpdate(weaponName, armourName, shieldName, helmetName));
+void Game::notifyEquipmentUpdate(std::string& username,std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
+    broadcastUpdates.push(new EquipmentUpdate(username,weaponName, armourName, shieldName, helmetName));
 }
 void Game::notifyItemsUpdate(std::string& username,std::vector<std::string> &items) {
     directedUpdates.push(std::make_tuple(username,new InventoryUpdate(items)));
@@ -149,11 +145,13 @@ void Game::notifymovementUpdate(std::string id,int x, int y) {
 }
 
 void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
-    //broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
+    if(!map->empty()) {
+        broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
+    }
 }
 
-void Game::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
-    //broadcastUpdates.push(new ConsoleOutput(messages));
+void Game::notifyConsoleOutputUpdate(std::string& username,std::vector<std::string> messages) {
+    directedUpdates.push(std::make_tuple(username,new ConsoleOutput(messages)));
 }
 
 void Game::executeCommand(std::unique_ptr<Message>& command) {

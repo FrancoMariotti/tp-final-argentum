@@ -11,7 +11,7 @@
 #define POTION_DROP_PROBABILITY 0.01
 #define OBJECT_DROP_PROBABILITY 0.01
 #define MAX_RANGE 4
-#define NPC_UPDATE_TIME 0.8
+#define NPC_UPDATE_TIME 1.2
 
 
 Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,

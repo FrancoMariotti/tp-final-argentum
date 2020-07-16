@@ -10,7 +10,7 @@
 
 #define NEWBIE_LEVEL 12
 #define LEVEL_DIFFERENCE 10
-#define UPDATE_TIME 30
+#define UPDATE_TIME 5
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
     int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -41,7 +41,7 @@ void PlayableCharacter::notifyEquipment() {
     std::string armourName = armour.getName(ARMOUR);
     std::string shieldName = armour.getName(SHIELD);
     std::string helmetName = armour.getName(HELMET);
-    observer->notifyEquipmentUpdate(weaponName, armourName, shieldName, helmetName);
+    observer->notifyEquipmentUpdate(id,weaponName, armourName, shieldName, helmetName);
 }
 
 void PlayableCharacter::notifySpawn() {
@@ -280,7 +280,7 @@ void PlayableCharacter::die() {
     //Envio al cliente los drops a renderizar
     map->updateDropSpawns(observer);
     //LO COMENTO HASTA ASEGURARME DE QUE ESTEN LOS SPRITES DEL GHOST
-    observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
+    observer->notifyEquipmentUpdate(id,"none", "ghost", "none", "none");
 }
 
 void PlayableCharacter::dropWholeInventory() {
@@ -415,11 +415,11 @@ PlayableCharacter::~PlayableCharacter() {
 }
 
 void PlayableCharacter::sendItemsInBankList() {
-    bankAccount.sendItemsList(observer);
+    bankAccount.sendItemsList(this);
 }
 
 void PlayableCharacter::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
-    observer->notifyConsoleOutputUpdate(messages);
+    observer->notifyConsoleOutputUpdate(id,messages);
 }
 
 void PlayableCharacter::addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns) {

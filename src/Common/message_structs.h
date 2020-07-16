@@ -18,14 +18,16 @@ typedef struct stats {
 }t_stats;
 
 typedef struct equipment {
+    std::string username;
     std::string weaponName;
     std::string armourName;
     std::string shieldName;
     std::string helmetName;
-    MSGPACK_DEFINE(weaponName,
-                   armourName,
-                   shieldName,
-                   helmetName)
+    MSGPACK_DEFINE( username,
+                    weaponName,
+                    armourName,
+                    shieldName,
+                    helmetName)
 } equipment_t;
 
 typedef struct location {

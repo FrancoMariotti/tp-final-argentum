@@ -127,12 +127,13 @@ public:
 };
 
 class EquipmentUpdate : public Message {
+    std::string username;
     std::string weaponName;
     std::string armourName;
     std::string shieldName;
     std::string helmetName;
 public:
-    EquipmentUpdate(std::string weaponName, std::string armourName,
+    EquipmentUpdate(std::string username,std::string weaponName, std::string armourName,
             std::string shieldName, std::string helmetName);
     equipment_t getEquipment() override;
 };

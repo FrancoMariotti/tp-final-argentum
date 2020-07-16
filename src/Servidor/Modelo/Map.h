@@ -83,6 +83,7 @@ class Map {
         ~Map();
 
 
+    bool empty();
 };
 
 #endif //ARGENTUM_MAPA_H

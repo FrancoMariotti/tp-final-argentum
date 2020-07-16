@@ -35,7 +35,7 @@ public:
     void unequip(const std::string& playerName, int elementIndex);
     void notifymovementUpdate(std::string id,int x, int y) override;
     void notifyStatsUpdate(std::string& username,float health_percentage, float mana_percentage, float exp_percentage, int gold, int level) override;
-    void notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) override;
+    void notifyEquipmentUpdate(std::string& username,std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) override;
     void notifyItemsUpdate(std::string& username,std::vector<std::string> &vector) override;
     void notifySpawnNpcUpdate(std::vector<location_t> &npcs) override;
     void notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) override;
@@ -47,7 +47,7 @@ public:
     void initialize();
     std::queue<Message *> initializeWorld();
     void executeCommand(std::unique_ptr<Message>& command);
-    void notifyConsoleOutputUpdate(std::vector<std::string> messages) override;
+    void notifyConsoleOutputUpdate(std::string& username,std::vector<std::string> messages) override;
     bool broadcastUpdateAvailable();
     bool directedUpdateAvailable();
     Message *nextBroadCastUpdate();

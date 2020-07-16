@@ -214,33 +214,33 @@ t_create_connect Connect::getConnectData() const{
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)
         : Message(STATS_UPDATE_MESSAGE_ID) {
-    this->health_percentage = health_percentage;
-    this->mana_percentage = mana_percentage;
-    this->exp_percentage = exp_percentage;
-    this->gold = gold;
-    this->level = level;
+        this->health_percentage = health_percentage;
+        this->mana_percentage = mana_percentage;
+        this->exp_percentage = exp_percentage;
+        this->gold = gold;
+        this->level = level;
 }
 
 t_stats Stats::getStats(){
-    return t_stats{health_percentage, mana_percentage, exp_percentage, gold, level};
+        return t_stats{health_percentage, mana_percentage, exp_percentage, gold, level};
 }
 
-EquipmentUpdate::EquipmentUpdate(std::string weaponName, std::string armourName,
-        std::string shieldName, std::string helmetName) : Message(EQUIPMENT_UPDATE_MESSAGE_ID),
+EquipmentUpdate::EquipmentUpdate(std::string username,std::string weaponName, std::string armourName,
+        std::string shieldName, std::string helmetName) : Message(EQUIPMENT_UPDATE_MESSAGE_ID),username(username),
         weaponName(std::move(weaponName)), armourName(std::move(armourName)), shieldName(std::move(shieldName)),
         helmetName(std::move(helmetName)) {}
 
 equipment_t EquipmentUpdate::getEquipment() {
-    return equipment_t {weaponName, armourName, shieldName, helmetName};
+        return equipment_t {username,weaponName, armourName, shieldName, helmetName};
 }
 
 InventoryUpdate::InventoryUpdate(std::vector<std::string> &items) :
                                 Message(INVENTORY_UPDATE_MESSAGE_ID) {
-    this->items = std::move(items);
+        this->items = std::move(items);
 }
 
 std::vector<std::string> InventoryUpdate::getItems() {
-    return items;
+        return items;
 }
 
 SpawnPc::SpawnPc(std::vector<spawn_playable_character_t> renderables) :
@@ -248,14 +248,14 @@ SpawnPc::SpawnPc(std::vector<spawn_playable_character_t> renderables) :
                                     renderables(std::move(renderables)){}
 
 std::vector<spawn_playable_character_t> SpawnPc::getPcSpawnData() {
-    return renderables;
+        return renderables;
 }
 
 SpawnStaticObjects::SpawnStaticObjects(int messageId,std::vector<location_t> renderables):
                                                             Message(messageId),
                                                             renderables(std::move(renderables)){}
 std::vector<location_t> SpawnStaticObjects::getSpawnData() {
-    return std::move(renderables);
+        return std::move(renderables);
 }
 
 ActionUpdate::ActionUpdate(int messageId,std::string id,int x,int y):
@@ -264,14 +264,14 @@ ActionUpdate::ActionUpdate(int messageId,std::string id,int x,int y):
                                                     x(x),
                                                     y(y){}
 location_t ActionUpdate::getLocation() {
-    return location_t{x,y,id};
+        return location_t{x,y,id};
 }
 
 ConsoleOutput::ConsoleOutput(std::vector<std::string> outputs) :
-    Message(CONSOLE_OUTPUT_MESSAGE_ID),
-    outputs(std::move(outputs))
-    {}
+        Message(CONSOLE_OUTPUT_MESSAGE_ID),
+        outputs(std::move(outputs))
+        {}
 
 std::vector<std::string> ConsoleOutput::getConsoleOutput() {
-    return std::move(outputs);
+        return std::move(outputs);
 }

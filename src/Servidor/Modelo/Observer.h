@@ -13,13 +13,13 @@ public:
     virtual void notifySpawnNpcUpdate(std::vector<location_t> &npcs) = 0;
     virtual void notifyMovementNpcUpdate(std::string idNpc, int x, int y) = 0;
     virtual void
-    notifyEquipmentUpdate(std::string weaponName, std::string armourName,
+    notifyEquipmentUpdate(std::string& username,std::string weaponName, std::string armourName,
             std::string shieldName, std::string helmetName) = 0;
     virtual void
     notifyCityCharactersSpawn(std::vector<location_t> &spawns) = 0;
     virtual void notifyDropSpawnNUpdate(std::vector<location_t> dropSpawns) = 0;
     virtual void notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) = 0;
-    virtual void notifyConsoleOutputUpdate(std::vector<std::string> messages) = 0;
+    virtual void notifyConsoleOutputUpdate(std::string& username,std::vector<std::string> messages) = 0;
 
 };
 

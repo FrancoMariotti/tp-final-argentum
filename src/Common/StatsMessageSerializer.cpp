@@ -3,8 +3,7 @@
 std::string StatsMessageSerializer::serialize(Message *message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
-    t_stats stats = message->getStats();
-    packer.pack(stats);
+    packer.pack(message->getStats());
     std::string result(ss.str());
     return result;
 }

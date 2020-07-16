@@ -298,6 +298,10 @@ void Map::updatePcSpawns(Observer *observer) {
     observer->notifySpawnPcUpdate(pcSpawns);
 }
 
+bool Map::empty() {
+    return characters.empty();
+}
+
 Map::~Map() {
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); itrNpcs++) {

@@ -12,14 +12,22 @@ set(SERIALIZERSSOURCES
         MovementMessageSerializer.cpp
         SpawnPcMessageSerializer.h
         SpawnPcMessageSerializer.cpp
-        SpawnStaticObjectMessageSerializer.h
-        SpawnStaticObjectMessageSerializer.cpp
+        SpawnStaticObjectsMessageSerializer.h
+        SpawnStaticObjectsMessageSerializer.cpp
         StatsMessageSerializer.h
         StatsMessageSerializer.cpp
         InventoryMessageSerializer.h
         InventoryMessageSerializer.cpp
         CommandMessageSerializer.h
-        CommandMessageSerializer.cpp)
+        CommandMessageSerializer.cpp
+        ActionMessageSerializer.h
+        ActionMessageSerializer.cpp
+        ConsoleOutputMessageSerializer.h
+        ConsoleOutputMessageSerializer.cpp
+        EquipmentMessageSerializer.h
+        EquipmentMessageSerializer.cpp
+        UseItemMessageSerializer.h
+        UseItemMessageSerializer.cpp)
 
 
 add_library(commonLib
