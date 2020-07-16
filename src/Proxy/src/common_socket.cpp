@@ -107,9 +107,10 @@ int Socket::connect(const char *host_name, const char *service) {
                                             rp->ai_protocol);
 
         if (socket_file_descriptor == -1){
-            throw OSError("No pudo crearse el socket, "
+            /*throw OSError("No pudo crearse el socket, "
                           "file descriptor invalido, "
-                          "fd:%d", socket_file_descriptor);
+                          "fd:%d", socket_file_descriptor);*/
+            return 1;
         }
 
         if (::connect(socket_file_descriptor,
