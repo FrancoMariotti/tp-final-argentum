@@ -128,8 +128,6 @@ void Npc::die() {
     */
     if (shouldDrop(config.constants["itemDropProbability"])) {
         int randomIndex = Utils::random_int_number(0, itemsToDrop.size() - 1);
-       /* std::string itemName = possibleItemsToDrop[randomIndex];
-        Equippable* item = merchant->giftItem(itemName);*/
         Equippable* item = itemFactory->create(itemsToDrop[randomIndex]);
         Position pos = getClosestPositionToDrop();
         Drop drop(pos, item, item->getName());

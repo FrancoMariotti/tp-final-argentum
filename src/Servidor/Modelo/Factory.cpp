@@ -57,7 +57,7 @@ void MerchantFactory::create(Map *map, std::string file, ItemFactory *pFactory) 
                 item["name"].asString(),
                 item["type"].asString(),
                 item["spelltype"].asString(),
-                item["id"].asInt(),
+                item["itemId"].asInt(),
                 item["protectionId"].asInt(),
                 item["max"].asInt(),
                 item["min"].asInt(),
@@ -103,7 +103,7 @@ void PriestFactory::create(Map *map, std::string file, ItemFactory *pFactory) {
                 item["name"].asString(),
                 item["type"].asString(),
                 item["spelltype"].asString(),
-                item["id"].asInt(),
+                item["itemId"].asInt(),
                 item["protectionId"].asInt(),
                 item["max"].asInt(),
                 item["min"].asInt(),
@@ -463,7 +463,8 @@ PlayableCharacterFactory::~PlayableCharacterFactory() {
 
 
 
-NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) {
+NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) :
+    itemFactory(pFactory) {
     this->counter = 1;
     FileParser parser(configFile);
     npcsObj = parser.read("npc");
@@ -476,7 +477,7 @@ NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) {
                 item["name"].asString(),
                 item["type"].asString(),
                 item["spelltype"].asString(),
-                item["id"].asInt(),
+                item["itemId"].asInt(),
                 item["protectionId"].asInt(),
                 item["max"].asInt(),
                 item["min"].asInt(),

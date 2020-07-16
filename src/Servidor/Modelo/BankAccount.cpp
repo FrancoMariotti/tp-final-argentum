@@ -25,8 +25,9 @@ void BankAccount::deposit(Equippable* object) {
 int BankAccount::extract(int amount) {
     if (amount <= gold) {
         gold -= amount;
+        return amount;
     }
-    return amount;
+    return 0;
 }
 
 Equippable* BankAccount::extract(const std::string& itemName) {
