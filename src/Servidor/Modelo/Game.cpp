@@ -103,10 +103,6 @@ void Game::unequip(const std::string& playerName, int elementIndex) {
     character->unequip(elementIndex);
 }
 
-/*void Game::storeInInventory(const std::string& playerName, Equippable* element) {
-    PlayableCharacter *character = map->getPlayer(playerName);
-    character->store(element);
-}*/
 bool Game::directedUpdateAvailable() {
     return !directedUpdates.empty();
 }
@@ -130,10 +126,6 @@ Message* Game::nextBroadCastUpdate() {
 
 void Game::notifySpawnNpcUpdate(std::vector<location_t>& npcs) {
     broadcastUpdates.push(new SpawnStaticObjects(SPAWN_NPC_MESSAGE_ID,npcs));
-}
-
-void Game::notifySpawnPcUpdate(std::vector<spawn_playable_character_t> pcSpawns) {
-    broadcastUpdates.push(new SpawnPc(pcSpawns));
 }
 
 void Game::notifyDropSpawnNUpdate(std::vector<location_t> dropSpawns) {

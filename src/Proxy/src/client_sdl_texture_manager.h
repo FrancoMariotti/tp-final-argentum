@@ -16,6 +16,8 @@ class SdlTimer;
 class SdlTexture;
 class SdlWindow;
 class SdlTextureManager {
+public:
+    static const int MAX_FRAMES = 8;
 private:
     const int HEAD_WIDTH = 17;
     const int HEAD_HEIGHT = 14;
@@ -96,6 +98,7 @@ private:
 
     int getAnimationPosFor(int old, int off, int animation_frame) const;
 
+    int getLoopFrame(int animation_frame) const;
 };
 
 

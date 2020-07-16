@@ -31,7 +31,6 @@ Client::Client(const std::string& hostname, const std::string& service):thSend(c
 
 int Client::run() {
     try{
-
         this->init();
 
         //Main loop flag
@@ -47,23 +46,6 @@ int Client::run() {
                 switch(event.type){
                     case SDL_QUIT:
                         quit = true;
-                        break;
-                    case SDL_KEYDOWN:
-                        if(event.key.keysym.sym == SDLK_h){
-                            gui.updateRenderableStats("franco", "explosion");
-                        }
-                        if(event.key.keysym.sym == SDLK_j){
-                            gui.updateRenderableStats("franco", "missile");
-                        }
-                        if(event.key.keysym.sym == SDLK_k){
-                            gui.updateRenderableStats("franco", "magicArrow");
-                        }
-                        if(event.key.keysym.sym == SDLK_l){
-                            gui.updateRenderableStats("franco", "heal");
-                        }
-                        if(event.key.keysym.sym == SDLK_g){
-                            gui.updateRenderableStats("franco", "meditate");
-                        }
                         break;
                 }
                 gui.handleEvents(event);
@@ -92,8 +74,9 @@ int Client::run() {
 }
 
 void Client::init() {
+    //std::string username_input = "franco2";
     std::string username_input;
-    std::cout << "Ingrese el nombre del jugador" << std::endl;
+    std::cout << "ingrese username:";
     std::cin >> username_input;
 
     clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
@@ -118,7 +101,6 @@ void Client::init() {
             } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
                 equipment_t equipment = msg->getEquipment();
                 gui.updateRenderablePlayableEquipment(equipment,equipment.username);
-                //gui.updatePlayerEquipment(equipment);
             } else if (msg->getId() == SPAWN_CITY_CHARACTERS_MESSAGE_ID) {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
@@ -158,7 +140,6 @@ void Client::update() {
         } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
             equipment_t equipment = msg->getEquipment();
             gui.updateRenderablePlayableEquipment(equipment,equipment.username);
-            //gui.updatePlayerEquipment(equipment);
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
         } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {

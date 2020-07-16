@@ -63,10 +63,6 @@ void PlayableCharacter::notifyEquipment() {
     observer->notifyEquipmentUpdate(id,weaponName, armourName, shieldName, helmetName);
 }
 
-void PlayableCharacter::notifySpawn() {
-    map->updatePcSpawns(observer);
-}
-
 void PlayableCharacter::move(Offset& offset) {
     Position nextPos(this->currPos);
     nextPos.apply(offset);

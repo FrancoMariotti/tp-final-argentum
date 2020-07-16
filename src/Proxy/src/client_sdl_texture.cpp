@@ -69,7 +69,6 @@ SDL_Texture* SdlTexture::loadFromFile(const std::string &path) {
     return newTexture;
 }
 
-#if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
 void SdlTexture::loadFromRenderedText(const std::string &text,
                                       SDL_Color textColor, TTF_Font *font) {
     this->free();
@@ -86,7 +85,6 @@ void SdlTexture::loadFromRenderedText(const std::string &text,
 
     SDL_FreeSurface(textSurface);
 }
-#endif
 
 void SdlTexture::setColor(const Uint8 red, const Uint8 green, const Uint8 blue) {
     SDL_SetTextureColorMod(m_texture, red, green, blue);

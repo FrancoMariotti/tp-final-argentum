@@ -31,7 +31,7 @@ public:
     std::list<T> consume(){
         std::unique_lock<std::mutex> lock(m);
         std::list<T> new_list(std::move(list));
-        return std::move(new_list);
+        return new_list;
     }
 
     void close(){

@@ -37,13 +37,17 @@ void Server::start() {
                 //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
                 t_create_connect data = msg->getConnectData();
                 game.createPlayer(data.username,data.race,data.charClass);
+                connectionsTable[data.username] = msg->getConnectionlId();
                 //manda el paquete de inicializacion
                 std::queue<Message*> initialMessages = game.initializeWorld();
-                connectionsTable[data.username] = msg->getConnectionlId();
                 while(!initialMessages.empty()) {
                     Message* update = initialMessages.front();
                     std::string updateData = serializer.serialize(update);
-                    clients.sendMessage(msg->getConnectionlId(),update->getId(),updateData);
+                    if(update->getId() == SPAWN_PC_MESSAGE_ID) {
+                        clients.broadcast(SPAWN_PC_MESSAGE_ID,updateData);
+                    } else {
+                        clients.sendMessage(msg->getConnectionlId(),update->getId(),updateData);
+                    }
                     initialMessages.pop();
                     delete update;
                 }
@@ -81,6 +85,7 @@ void Server::start() {
                 (end-start).count();
         std::this_thread::sleep_for(std::chrono::milliseconds(60- elapsed_seconds));
         //server y mandar a cada client el update que me manda el game
+
         while (game.directedUpdateAvailable()) {
             std::tuple<std::string,Message*> update = game.nextDirectedUpdate();
             std::string destinatary = std::get<0>(update);
@@ -90,13 +95,13 @@ void Server::start() {
             delete message;
         }
 
-
         while (game.broadcastUpdateAvailable()) {
             Message* update = game.nextBroadCastUpdate();
             std::string dataUpdate = serializer.serialize(update);
             clients.broadcast(update->getId(),dataUpdate);
             delete update;
         }
+
     }
     first.join();
     clientAcceptor.stop();
