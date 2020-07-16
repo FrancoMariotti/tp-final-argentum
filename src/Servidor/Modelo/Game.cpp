@@ -173,11 +173,9 @@ void Game::notifyConsoleOutputUpdate(std::string& username,std::vector<std::stri
     directedUpdates.push(std::make_tuple(username,new ConsoleOutput(messages)));
 }
 
-void Game::executeCommand(std::unique_ptr<Message>& command) {
-    std::string action = command->getCommand();
-    int x = command->getX();
-    int y = command->getY();
-    commandExecutor.execute("franco",action,x,y);
+void Game::executeCommand(std::unique_ptr<Message>& msg) {
+    command_t  command = msg->getCommand();
+    commandExecutor.execute(command.username,command.input,command.x,command.y);
 }
 
 Game::~Game() {

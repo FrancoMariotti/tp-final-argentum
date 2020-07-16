@@ -43,7 +43,7 @@ public:
     virtual std::vector<int> getData() const ;
     virtual int getWidth() const ;
     virtual int getHeight() const ;
-    virtual std::string getCommand() const;
+    virtual command_t getCommand() const;
     virtual int getX() const;
     virtual int getY() const;
     virtual t_stats getStats();
@@ -99,10 +99,7 @@ private:
 public:
     ExecuteCommand(const std::string& command, const std::string& username);
     ExecuteCommand(const std::string& input, const std::string& username, int x, int y);
-    ExecuteCommand(std::string username,std::string input, int x, int y);
-    std::string getCommand() const override;
-    int getX() const override;
-    int getY() const override;
+    command_t getCommand() const override;
 };
 
 class Connect : public Message {
