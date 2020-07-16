@@ -15,7 +15,7 @@ Game::Game(const std::string& configFile, const std::string& playersInfoMapFile,
     , mapFactory(configFile), map(mapFactory.create(&itemFactory)), commandExecutor(map),
     factoryCharacters(configFile, &itemFactory, playersInfoMapFile, playersInfoFile),
     npcFactory(configFile, &itemFactory) {
-    std::map<std::string, int> constants;
+    std::map<std::string, float> constants;
     FileParser parser(configFile);
     Json::Value constObj = parser.read("constants");
     for (auto &constant : constObj) {

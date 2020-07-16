@@ -1596,7 +1596,7 @@
     },
     {
       "name" : "timeToPersist",
-      "value" : 600
+      "value" : 60
     },
     {
       "name" : "goldDropProbability",

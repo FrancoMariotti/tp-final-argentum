@@ -9,7 +9,7 @@
 
 class Configuration {
     //static Configuration* instance;
-    std::map<std::string, int> constants;
+    std::map<std::string, float> constants;
     Configuration() = default;
     friend class Game;
     friend class PlayableCharacterFactory;
