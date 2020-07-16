@@ -189,15 +189,21 @@ void Map::addDrop(Drop drop) {
 }
 
 Drop Map::takeDropFromPos(Position position) {
-    for (unsigned int i = 0; i < drops.size(); i++) {
-        if (drops[i].getPosition() == position) {
-            Drop drop = drops[i];
-            drops.erase(drops.begin() + i);
-            for (unsigned int j = 0; j < dropsSpawns.size(); ++j) {
-                if (Position(dropsSpawns[i].x, dropsSpawns[i].y)  == drop.getPosition()) {
-                    dropsSpawns.erase(dropsSpawns.begin() + i);
-                }
-            }
+    auto it = drops.begin();
+    for (;it != drops.end(); it++) {
+        if (it->getPosition() == position) {
+            Drop drop = *it;
+            drops.erase(std::remove_if(drops.begin(),
+                                       drops.end(),
+                                       [position](Drop drop){
+                                           return drop.getPosition() == position;
+                                       }),
+                        drops.end());
+            dropsSpawns.erase(std::remove_if(dropsSpawns.begin(),
+                                                dropsSpawns.end(),
+                                             [position](location_t location){
+                                                 return Position(location.x,location.y) == position;
+                                             }));
             return drop;
         }
     }
