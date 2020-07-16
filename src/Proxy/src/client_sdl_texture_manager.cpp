@@ -136,10 +136,15 @@ SdlTextureManager::renderMovingNPC(const std::string &texture_id, const int old_
         const int old_y, e_body_orientation body_or,
         const int of_x, const int of_y, int animation_frame,const SdlCamera &camera) {
     SdlTexture& bodySpriteSheetTexture = this->getTexture(texture_id);
+
+    /*Test: hago un loop cada 5 de los 10 frames de movimiento*/
+    int loop_animation_frame = animation_frame % ((MAX_FRAMES / 2) + 1);
+
     if(texture_id == "spider" && animation_frame > 3 ){
-        animation_frame = 3;
+        loop_animation_frame = animation_frame % 4;
+        //animation_frame = 3;
     }
-    SDL_Rect body_orientation_clip {animation_frame * bodySpriteSheetTexture.getWidth(),
+    SDL_Rect body_orientation_clip {loop_animation_frame * bodySpriteSheetTexture.getWidth(),
                                     body_or * bodySpriteSheetTexture.getHeight(),
                                     bodySpriteSheetTexture.getWidth(), bodySpriteSheetTexture.getHeight()};
 
@@ -221,26 +226,30 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
     if(appearance.armour == "none"){
         armour = "defaultArmour";
     }
+    /*Test: hago un loop cada 5 de los 10 frames de movimiento*/
+    int loop_animation_frame = animation_frame % ((MAX_FRAMES / 2) + 1);
+
     if(appearance.armour == "ghost" && animation_frame > 2 ){
-        animation_frame = 2;
+        loop_animation_frame = animation_frame % 3;
+        //animation_frame = 2;
     }
+
     SdlTexture& armourSpriteSheetTexture = this->getSpriteTexture(armour);
     SdlTexture& weaponSpriteSheetTexture = this->getSpriteTexture(appearance.weapon);
     SdlTexture& shieldSpriteSheetTexture = this->getSpriteTexture(appearance.shield);
 
-
     SDL_Rect head_orientation_clip {head_or * headSpriteSheetTexture.getWidth(),
                                     0, headSpriteSheetTexture.getWidth(),
                                     headSpriteSheetTexture.getHeight()};
-    SDL_Rect armour_orientation_clip {animation_frame * armourSpriteSheetTexture.getWidth(),
+    SDL_Rect armour_orientation_clip {loop_animation_frame * armourSpriteSheetTexture.getWidth(),
                                       body_or * armourSpriteSheetTexture.getHeight(),
                                       armourSpriteSheetTexture.getWidth(),
                                       armourSpriteSheetTexture.getHeight()};
-    SDL_Rect weapon_orientation_clip {animation_frame * weaponSpriteSheetTexture.getWidth() ,
+    SDL_Rect weapon_orientation_clip {loop_animation_frame * weaponSpriteSheetTexture.getWidth() ,
                                       body_or * weaponSpriteSheetTexture.getHeight(),
                                       weaponSpriteSheetTexture.getWidth(),
                                       weaponSpriteSheetTexture.getHeight()};
-    SDL_Rect shield_orientation_clip {animation_frame * shieldSpriteSheetTexture.getWidth(),
+    SDL_Rect shield_orientation_clip {loop_animation_frame * shieldSpriteSheetTexture.getWidth(),
                                       body_or * shieldSpriteSheetTexture.getHeight(),
                                       shieldSpriteSheetTexture.getWidth(),
                                       shieldSpriteSheetTexture.getHeight()};
@@ -260,7 +269,7 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
     int armour_x = this->armourX(tile_size, armour_w);
     int armour_y = this->armourY(tile_size, armour_h, png_offset_y);
 
-    int animation_x = getAnimationPosFor(old_x,of_x, animation_frame);
+    int animation_x = getAnimationPosFor(old_x, of_x, animation_frame);
     int animation_y = getAnimationPosFor(old_y, of_y, animation_frame);
 
     headSpriteSheetTexture.render(animation_x + head_x - camera.getX(),
@@ -281,7 +290,7 @@ SdlTextureManager::renderMovingPC(const t_player_appearance &appearance, int of_
 }
 
 int SdlTextureManager::getAnimationPosFor(const int old, const int off, int animation_frame) const {
-    int animation_pos = old + (off / 4) * animation_frame;
+    int animation_pos = old + (off / MAX_FRAMES) * animation_frame;
     return animation_pos;
 }
 

@@ -20,9 +20,9 @@ protected:
     int pos_x;
     int pos_y;
     int old_x, old_y;
+    int of_x, of_y;
     int animation_frame;
     bool is_moving;
-    const int MAX_FRAMES = 4;
     SdlTextureManager& textureManager;
     SdlAudioManager& audioManager;
     SdlTextureManager::e_body_orientation body_or;

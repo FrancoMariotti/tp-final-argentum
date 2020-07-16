@@ -16,6 +16,8 @@ class SdlTimer;
 class SdlTexture;
 class SdlWindow;
 class SdlTextureManager {
+public:
+    static const int MAX_FRAMES = 8;
 private:
     const int HEAD_WIDTH = 17;
     const int HEAD_HEIGHT = 14;
