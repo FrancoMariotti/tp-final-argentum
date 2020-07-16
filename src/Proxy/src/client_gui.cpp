@@ -144,7 +144,6 @@ void GUI::updateRenderablePlayables(std::vector<spawn_playable_character_t> rend
         }
 }
 
-/**TODO: falta actualizar posicion de otros jugadores, solo actualiza al cliente por UpdatePlayerPos*/
 void GUI::updateRenderablePos(const int new_x, const int new_y, const std::string& renderable_id){
     //this->dynamic_renderables.at(renderable_id)->updatePos(new_x, new_y, camera);
     this->getNPC(renderable_id)->updatePos(new_x, new_y, camera);

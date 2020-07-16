@@ -41,10 +41,8 @@ public:
     //Loads image at specified path
     SDL_Texture * loadFromFile(const std::string &path);
 
-#if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
     //Creates image from font string
     void loadFromRenderedText(const std::string &text, SDL_Color textColor, TTF_Font *font);
-#endif
 
     //Set color modulation
     void setColor(Uint8 red, Uint8 green, Uint8 blue);
