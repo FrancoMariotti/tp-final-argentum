@@ -3,10 +3,7 @@
 std::string CommandMessageSerializer::serialize(Message *message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
-    msgpack::type::tuple<std::string,int,int> src(message->getCommand(),
-                                            message->getX(),
-                                            message->getY());
-    packer.pack(src);
+    packer.pack(message->getCommand());
     std::string result(ss.str());
     return result;
 }
@@ -22,11 +19,12 @@ Message *CommandMessageSerializer::deserialize(unsigned char *data, uint32_t len
     msgpack::object deserialized = oh.get();
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.
-    msgpack::type::tuple<std::string,int,int> dst;
-    dst = deserialized.as<msgpack::type::tuple<std::string,int,int>>();
+    command_t command;
+    command = deserialized.as<command_t>();
 
     return new ExecuteCommand(
-            std::get<0>(dst),
-            std::get<1>(dst),
-            std::get<2>(dst));
+            command.input,
+            command.username,
+            command.x,
+            command.y);
 }

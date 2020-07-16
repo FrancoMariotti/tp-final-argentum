@@ -63,7 +63,7 @@ std::vector<std::string> Message::getItems() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-std::string Message::getCommand() const {
+command_t Message::getCommand() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -166,16 +166,6 @@ ExecuteCommand::ExecuteCommand(const std::string& command, const std::string& us
     {
         std::cout << command << "x:" << x << "y:" << y << std::endl;
     }
-
-ExecuteCommand::ExecuteCommand(std::string username,std::string input,const int x,const int y) :
-    Message(COMMAND_MESSAGE_ID),
-    username(std::move(username)),
-    command(std::move(input)),
-    x(x),
-    y(y)
-    {
-    std::cout << command << "x:" << x << "y:" << y << std::endl;
-    }
     
 ExecuteCommand::ExecuteCommand(const std::string& input, const std::string& username, const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
@@ -188,19 +178,8 @@ ExecuteCommand::ExecuteCommand(const std::string& input, const std::string& user
     std::cout << "x:" << x << "y:" << y << std::endl;
 }
 
-
-
-
-std::string ExecuteCommand::getCommand() const {
-    return command;
-}
-
-int ExecuteCommand::getX() const {
-    return x;
-}
-
-int ExecuteCommand::getY() const {
-    return y;
+command_t  ExecuteCommand::getCommand() const {
+    return command_t {username,command,x,y};
 }
 
 Connect::Connect(const std::string& username,const std::string race,const std::string char_class) :

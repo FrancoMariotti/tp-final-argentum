@@ -46,7 +46,7 @@ public:
     void createNpc(const std::string &specie);
     void initialize();
     std::queue<Message *> initializeWorld();
-    void executeCommand(std::unique_ptr<Message>& command);
+    void executeCommand(std::unique_ptr<Message>& msg);
     void notifyConsoleOutputUpdate(std::string& username,std::vector<std::string> messages) override;
     bool broadcastUpdateAvailable();
     bool directedUpdateAvailable();
