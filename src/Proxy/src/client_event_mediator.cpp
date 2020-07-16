@@ -85,4 +85,8 @@ EventMediator::~EventMediator() {
     delete commandState;
 }
 
+const std::string &EventMediator::getUsername() const {
+    return USERNAME;
+}
+
 

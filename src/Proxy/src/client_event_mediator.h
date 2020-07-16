@@ -55,6 +55,8 @@ public:
     int getItemIndex() const;
 
     void setInventoryIndex(int inventory_i);
+
+    const std::string& getUsername() const;
 };
 
 

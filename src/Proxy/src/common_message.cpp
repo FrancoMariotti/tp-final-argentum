@@ -177,9 +177,9 @@ int Draw::getHeight() {
     return height;
 }
 
-ExecuteCommand::ExecuteCommand(const std::string command) :
+ExecuteCommand::ExecuteCommand(const std::string& command, const std::string& username) :
     Message(COMMAND_MESSAGE_ID),
-    username("franco"),
+    username(username),
     command(command),
     x(-1),
     y(-1)
@@ -187,8 +187,9 @@ ExecuteCommand::ExecuteCommand(const std::string command) :
         std::cout << command << "x:" << x << "y:" << y << std::endl;
     }
 
-ExecuteCommand::ExecuteCommand(const std::string input,const int x,const int y) :
+ExecuteCommand::ExecuteCommand(const std::string& input, const std::string& username, const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
+    username(username),
     command(input),
     x(x),
     y(y)

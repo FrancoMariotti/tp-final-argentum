@@ -103,8 +103,8 @@ private:
     const int x;
     const int y;
 public:
-    explicit ExecuteCommand(std::string command);
-    ExecuteCommand(std::string input, int x, int y);
+    ExecuteCommand(const std::string& command, const std::string& username);
+    ExecuteCommand(const std::string& input, const std::string& username, int x, int y);
     std::string getUserName() const;
     std::string getCommand() const override;
     int getX() const override;

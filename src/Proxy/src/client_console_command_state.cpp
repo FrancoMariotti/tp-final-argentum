@@ -22,7 +22,7 @@ void WaitingState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEv
 void WaitingState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) {
     if (s_input == "/meditar" || s_input == "/resucitar" || s_input == "/tomar" || s_input.find('@') == 0) {
         clientEvents.push(std::unique_ptr<Message>
-                                  (new ExecuteCommand(s_input)));
+                                  (new ExecuteCommand(s_input, eventMediator->getUsername())));
     }
 }
 
@@ -49,12 +49,12 @@ void MapClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEve
     if (s_input == "/resucitar" || s_input == "/curar" || s_input == "/depositar" || s_input == "/listar" ) {
         SDL_Point map_click = eventMediator->getMapClick();
         clientEvents.push(std::unique_ptr<Message>
-                (new ExecuteCommand(s_input, map_click.x, map_click.y)));
+                (new ExecuteCommand(s_input, eventMediator->getUsername(), map_click.x, map_click.y)));
     } else if(s_input.find("/depositar") == 0 || s_input.find("/retirar") == 0 ||
     s_input.find("/comprar") == 0 || s_input.find("/vender") == 0 ){
         SDL_Point map_click = eventMediator->getMapClick();
         clientEvents.push(std::unique_ptr<Message>
-                                  (new ExecuteCommand(s_input, map_click.x, map_click.y)));
+                                  (new ExecuteCommand(s_input, eventMediator->getUsername(), map_click.x, map_click.y)));
     }
     eventMediator->changeState(new WaitingState(eventMediator));
 }
@@ -78,7 +78,8 @@ void ItemClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEv
     if (s_input == "/tirar"){
         int index = eventMediator->getItemIndex();
         clientEvents.push(std::unique_ptr<Message>
-                                  (new ExecuteCommand(s_input, index, 0)));
+                                  (new ExecuteCommand(s_input,
+                                          eventMediator->getUsername(), index, 0)));
     }
     eventMediator->changeState(new WaitingState(eventMediator));
 }
