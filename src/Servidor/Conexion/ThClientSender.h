@@ -6,7 +6,7 @@
 #include <Common/Message.h>
 #include <Common/BlockingQueue.h>
 #include <Common/Thread.h>
-#include "Protocol.h"
+#include "Common/Protocol.h"
 
 typedef struct event {
     int id;

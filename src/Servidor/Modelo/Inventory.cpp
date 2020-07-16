@@ -2,14 +2,14 @@
 #include "Inventory.h"
 #include "string"
 
-Inventory::Inventory(unsigned int maxElements):maxElements(maxElements) {}
+Inventory::Inventory(std::string& id,unsigned int maxElements):id(id),maxElements(maxElements) {}
 
 void Inventory::sendItems(Observer *observer) {
     std::vector<std::string> items;
     for(auto &element:elements) {
         items.push_back(element->getName());
     }
-    observer->notifyItemsUpdate(items);
+    observer->notifyItemsUpdate(id,items);
 }
 
 void Inventory::store(Equippable* element) {

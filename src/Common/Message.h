@@ -59,10 +59,10 @@ public:
 
 class Draw : public Message {
 private:
-    std::string name; // nombre del layer a dibujar
+    std::string name;
     int width;
     int height;
-    std::vector<int> data;// x e y en unidades del modelo
+    std::vector<int> data;
 public:
     Draw();
     Draw(std::string name, std::vector<int> data, int width, int height);

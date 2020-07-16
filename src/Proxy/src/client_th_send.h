@@ -8,7 +8,7 @@
 #include "Common/BlockingQueue.h"
 #include "Common/Thread.h"
 #include "Common/Socket.h"
-#include "../../Servidor/Conexion/Protocol.h"
+#include "Common/Protocol.h"
 
 class Message;
 class ProxySocket;

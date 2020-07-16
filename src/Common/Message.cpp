@@ -267,8 +267,6 @@ location_t ActionUpdate::getLocation() {
     return location_t{x,y,id};
 }
 
-
-
 ConsoleOutput::ConsoleOutput(std::vector<std::string> outputs) :
     Message(CONSOLE_OUTPUT_MESSAGE_ID),
     outputs(std::move(outputs))

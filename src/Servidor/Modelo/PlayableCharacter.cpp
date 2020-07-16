@@ -10,20 +10,20 @@
 
 #define NEWBIE_LEVEL 12
 #define LEVEL_DIFFERENCE 10
-#define UPDATE_TIME 5
+#define UPDATE_TIME 30
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
-        int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-        int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-        int invMaxElements,Observer* observer, std::string race):
-        Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
-                classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-                defaultWeapon("none",1, 1, 0), inventory(invMaxElements)
-                , inCity(true), race(race) {
+    int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
+    int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
+    int invMaxElements,Observer* observer, std::string race):
+    Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
+            classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
+            defaultWeapon("none",1, 1, 0), inventory(this->id,invMaxElements)
+            ,inCity(true), race(race) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
-    this->gold = 0;
+    this->gold = 1000;
     this->xp = 0;
     notifyStats();
     notifyEquipment();
@@ -76,7 +76,10 @@ void PlayableCharacter::recoverMana(float seconds) {
     float maxMana = calculateMaxMana();
     float recoveredMana = calculateRecoverMana(seconds);
     lifeState->recoverMana(mana, maxMana, recoveredMana);
-    notifyStats();
+    if(updateTime >= UPDATE_TIME) {
+        notifyStats();
+        updateTime = 0;
+    }
 }
 
 void PlayableCharacter::attack(Character *character) {

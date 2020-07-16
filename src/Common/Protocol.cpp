@@ -1,5 +1,5 @@
 #include "Protocol.h"
-#include "Common/Message.h"
+#include "Message.h"
 
 uint32_t Protocol::valueToBigEndian(const uint32_t value) {
     return htonl(value);

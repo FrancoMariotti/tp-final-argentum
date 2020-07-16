@@ -1,12 +1,14 @@
-#include <Common/Socket.h>
+#include "Socket.h"
 #include "MessageSerializer.h"
-#include "Common/OsException.h"
+#include "OsException.h"
 #include "MovementMessageSerializer.h"
 #include "DrawMessageSerializer.h"
 #include "ConnectMessageSerializer.h"
 #include "SpawnStaticObjectMessageSerializer.h"
 #include "SpawnPcMessageSerializer.h"
 #include "StatsMessageSerializer.h"
+#include "InventoryMessageSerializer.h"
+#include "CommandMessageSerializer.h"
 
 MessageSerializer::MessageSerializer() {
     serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
@@ -17,6 +19,8 @@ MessageSerializer::MessageSerializer() {
     serializers[SPAWN_PC_MESSAGE_ID] = new SpawnPcMessageSerializer();
     serializers[MOVEMENT_MESSAGE_ID] = new MovementMessageSerializer();
     serializers[STATS_UPDATE_MESSAGE_ID] = new StatsMessageSerializer();
+    serializers[INVENTORY_UPDATE_MESSAGE_ID] = new InventoryMessageSerializer();
+    serializers[COMMAND_MESSAGE_ID] = new CommandMessageSerializer();
 }
 
 std::string MessageSerializer::serialize(Message* message) {

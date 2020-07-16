@@ -1,5 +1,5 @@
 #include <msgpack.hpp>
-#include <Common/Socket.h>
+#include "Socket.h"
 #include "ConnectMessageSerializer.h"
 
 std::string ConnectMessageSerializer::serialize(Message *message) {

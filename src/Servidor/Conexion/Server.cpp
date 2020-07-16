@@ -57,7 +57,13 @@ void Server::start() {
                 game.executeCommand(msg);
             }
             if (msg->getId() == USE_ITEM_MESSAGE_ID) {
-                game.equip("franco", msg->getIndex());
+                int connectionId = msg->getConnectionlId();
+                auto result = std::find_if(
+                        connectionsTable.begin(),
+                        connectionsTable.end(),
+                        [connectionId](std::pair<std::string,int> connection)
+                                    {return connection.second == connectionId; });
+                game.equip(result->first, msg->getIndex());
             }
             if (msg->getId() == PLAYER_ATTACK_MESSAGE_ID) {
                 location_t attackInfo = msg->getLocation();

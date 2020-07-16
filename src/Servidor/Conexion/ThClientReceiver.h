@@ -5,7 +5,7 @@
 #include <memory>
 #include <Common/Thread.h>
 #include <Proxy/src/client_protected_list.h>
-#include "Protocol.h"
+#include "Common/Protocol.h"
 
 class ClientConnection;
 class ThClientReceiver: public Thread {

@@ -1,5 +1,27 @@
 project(argentum)
 
+set(SERIALIZERSSOURCES
+        Serializer.h
+        MessageSerializer.h
+        MessageSerializer.cpp
+        ConnectMessageSerializer.h
+        ConnectMessageSerializer.cpp
+        DrawMessageSerializer.h
+        DrawMessageSerializer.cpp
+        MovementMessageSerializer.h
+        MovementMessageSerializer.cpp
+        SpawnPcMessageSerializer.h
+        SpawnPcMessageSerializer.cpp
+        SpawnStaticObjectMessageSerializer.h
+        SpawnStaticObjectMessageSerializer.cpp
+        StatsMessageSerializer.h
+        StatsMessageSerializer.cpp
+        InventoryMessageSerializer.h
+        InventoryMessageSerializer.cpp
+        CommandMessageSerializer.h
+        CommandMessageSerializer.cpp)
+
+
 add_library(commonLib
             common_proxy_socket.h
             common_proxy_socket.cpp
@@ -15,4 +37,7 @@ add_library(commonLib
             Socket.h
             Socket.cpp
             Thread.h
-            Thread.cpp)
+            Thread.cpp
+            Protocol.h
+            Protocol.cpp
+            ${SERIALIZERSSOURCES})
