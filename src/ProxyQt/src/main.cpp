@@ -3,22 +3,24 @@
 #include "../../Proxy/src/common_message.h"
 #include <thread>
 #include <QApplication>
+#include <Proxy/src/common_socket.h>
 
 void server(ProxySocket& proxySocket);
 
-int QtApp(int argc, char*argv[], ProxySocket& proxySocket);
+int QtApp(int argc, char*argv[], Socket& clientSocket);
 
 int main(int argc, char *argv[]) {
     try{
-        ProxySocket proxySocket;
-        std::thread proxyServer(server, std::ref(proxySocket));
-        QtApp(argc, argv, proxySocket);
+        Socket clientSocket;
+        //ProxySocket proxySocket;
+        //std::thread proxyServer(server, std::ref(proxySocket));
+        QtApp(argc, argv, clientSocket);
         std::cout << "saliendo QT" << std::endl;
         /*si se levanto la conexion lanzo SDL, caso contrario termina la ejecucion y no pasa nada
          * if(socket != -1){
          * Client client(socket)
          * client.run()*/
-        proxyServer.join();
+        //proxyServer.join();
     } catch (std::exception &e){
         std::cout << e.what() << std::endl;
     }
@@ -68,9 +70,9 @@ void server(ProxySocket& proxySocket){
 }
 
 
-int QtApp(int argc, char*argv[], ProxySocket& proxySocket){
+int QtApp(int argc, char*argv[], Socket& clientSocket){
     QApplication a(argc, argv);
-    LoginMediator loginMediator(proxySocket);
+    LoginMediator loginMediator(clientSocket);
     loginMediator.show();
     return a.exec();
 }

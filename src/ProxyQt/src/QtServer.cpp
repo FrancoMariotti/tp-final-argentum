@@ -9,6 +9,7 @@
 #define LOGIN_COMMAND 'l'
 #define SIGNUP_COMMAND 's'
 #define CREATE_COMMAND 'c'
+#define USER_EXISTS 1
 
 QtServer::QtServer(const char *service) :
     acep_socket(),
@@ -35,15 +36,15 @@ void QtServer::start(){
             char c_cmd;
             peer.recieve(&c_cmd, sizeof(char));
             if (c_cmd == LOGIN_COMMAND){
-                char c_response = LOGIN_COMMAND;
+                char c_response = USER_EXISTS;
                 std::cout << "login" << std::endl;
                 peer.send(&c_response, sizeof(char));
             } else if (c_cmd == SIGNUP_COMMAND) {
-                char c_response = SIGNUP_COMMAND;
+                char c_response = 0;
                 std::cout << "signup" << std::endl;
                 peer.send(&c_response, sizeof(char));
             } else if (c_cmd == CREATE_COMMAND){
-                char c_response = CREATE_COMMAND;
+                char c_response = 1;
                 std::cout << "create" << std::endl;
                 peer.send(&c_response, sizeof(char));
             }

@@ -3,7 +3,7 @@
 
 #include <string>
 
-class ProxySocket;
+class Socket;
 class QtCharacterCreation;
 class QtCharacterLogin;
 class QtServerLogin;
@@ -13,17 +13,12 @@ private:
     QtCharacterLogin* qtCharacterLogin;
     QtCharacterCreation* qtCharacterCreation;
 
-    enum state{
-        SERVER_LOGIN,
-        CHARACTER_LOGIN
-    };
-
-    ProxySocket& proxySocket;
+    Socket& clientSocket;
     std::string confirmed_username;
     std::string confirmed_password;
 
 public:
-    explicit LoginMediator(ProxySocket& proxySocket);
+    explicit LoginMediator(Socket& clientSocket);
 
     ~LoginMediator();
 
