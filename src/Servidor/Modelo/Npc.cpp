@@ -8,12 +8,6 @@
 #include "GoldBag.h"
 #include "Configuration.h"
 
-#define GOLD_DROP_PROBABILITY 0.8
-#define OBJECT_DROP_PROBABILITY 0.01
-#define MAX_RANGE 4
-#define NPC_UPDATE_TIME 1.2
-
-
 Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,
          int strength,int agility,int intelligence, int level,
          std::string specie, int minDamage, int maxDamage, int minDefense,

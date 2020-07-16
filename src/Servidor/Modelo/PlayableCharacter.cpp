@@ -7,20 +7,17 @@
 #include "Ghost.h"
 #include "ItemSeller.h"
 #include "GoldBag.h"
-
-#define NEWBIE_LEVEL 12
-#define LEVEL_DIFFERENCE 10
-#define UPDATE_TIME 5
 #include "Configuration.h"
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
     int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
     int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-    int invMaxElements,Observer* observer, std::string race):
+    int invMaxElements,Observer* observer, int raceId):
     Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
             classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-            defaultWeapon("none",1, 1, 0), inventory(this->id,invMaxElements)
-            ,inCity(true), race(race) {
+            defaultWeapon("none", 0, 1, 1, 0),
+            config(Configuration::getInstance()),
+            inventory(this->id,invMaxElements), inCity(true), raceId(raceId) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
@@ -39,8 +36,9 @@ PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map,
                 raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
                 meditationRecoveryFactor,observer), mana(mana), gold(gold), xp(xp),
                 defaultWeapon("none", 0, 1, 1, 0),
-                inventory(10), inCity(inCity),raceId(raceId),
-                config(Configuration::getInstance()) {
+                config(Configuration::getInstance()),
+                inventory(this->id, config.constants["inventoryMaxItems"]),
+                inCity(inCity),raceId(raceId) {
     if (lifeState == 0) this->lifeState = new Alive();
     else this->lifeState = new Ghost();
     this->activeWeapon = &defaultWeapon;
@@ -85,7 +83,7 @@ void PlayableCharacter::recoverLifePoints(float seconds) {
     float recoveredLifePoints = calculateRecoverLifePoints(seconds);
     lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
     updateTime += seconds;
-    if(updateTime >= UPDATE_TIME) {
+    if(updateTime >= config.constants["playerStatsUpdateTime"]) {
         notifyStats();
         updateTime = 0;
     }
@@ -95,7 +93,7 @@ void PlayableCharacter::recoverMana(float seconds) {
     float maxMana = calculateMaxMana();
     float recoveredMana = calculateRecoverMana(seconds);
     lifeState->recoverMana(mana, maxMana, recoveredMana);
-    if(updateTime >= UPDATE_TIME) {
+    if(updateTime >= config.constants["playerStatsUpdateTime"]) {
         notifyStats();
         updateTime = 0;
     }

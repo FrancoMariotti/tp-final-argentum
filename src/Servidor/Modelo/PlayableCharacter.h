@@ -27,13 +27,13 @@ class PlayableCharacter: public Character {
     float updateTime;
     Weapon* activeWeapon;
     NormalWeapon defaultWeapon;
+    Configuration& config;
     Inventory inventory;
     Armour armour;
     LifeState *lifeState;
     bool inCity;
     BankAccount bankAccount;
     int raceId;
-    Configuration& config;
 private:
     bool checkFairPlay(int enemyLevel);
     void revive();

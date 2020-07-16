@@ -1612,7 +1612,7 @@
     },
     {
       "name" : "npcUpdateTime",
-      "value" : 0.8
+      "value" : 1.2
     },
     {
       "name" : "newbieLevel",
@@ -1621,6 +1621,10 @@
     {
       "name" : "levelDifference",
       "value" : 10
+    },
+    {
+      "name" : "playerStatsUpdateTime",
+      "value" : 5
     }
   ]
 }
