@@ -50,6 +50,8 @@ public:
 
     SDL_Point getMapClick();
 
+    const std::string& getUsername() const;
+
     ~EventMediator();
 
     int getItemIndex() const;

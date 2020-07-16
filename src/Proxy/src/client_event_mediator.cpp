@@ -81,6 +81,10 @@ void EventMediator::changeState(IConsoleCommandState *newState) {
     commandState = newState;
 }
 
+const std::string& EventMediator::getUsername() const{
+    return USERNAME;
+}
+
 EventMediator::~EventMediator() {
     delete commandState;
 }
