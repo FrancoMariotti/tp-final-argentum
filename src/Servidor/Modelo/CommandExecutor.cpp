@@ -1,7 +1,3 @@
-//
-// Created by franco on 3/7/20.
-//
-
 #include "CommandExecutor.h"
 #include "DepositCommand.h"
 #include "ReviveCommand.h"

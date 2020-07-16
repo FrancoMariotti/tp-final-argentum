@@ -19,8 +19,7 @@ class BankAccount {
     Equippable* extract(const std::string& itemName);
 public:
     BankAccount();
-
-    void sendItemsList(Observer *pObserver);
+    void sendItemsList(PlayableCharacter *owner);
 };
 
 

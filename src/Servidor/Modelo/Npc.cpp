@@ -1,7 +1,6 @@
 #include "Npc.h"
 #include <utility>
 #include <iostream>
-#include <Common/message_structs.h>
 #include "PlayableCharacter.h"
 #include "Drop.h"
 #include "Map.h"
@@ -12,7 +11,7 @@
 #define GOLD_DROP_PROBABILITY 0.8
 #define OBJECT_DROP_PROBABILITY 0.01
 #define MAX_RANGE 4
-#define NPC_UPDATE_TIME 0.8
+#define NPC_UPDATE_TIME 1.2
 
 
 Npc::Npc(const std::string& id,Map* map,Position &initialPosition,int constitution,

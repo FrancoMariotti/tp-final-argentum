@@ -116,36 +116,6 @@ Character* Map::findCharacterAtPosition(Position &position) {
 PlayableCharacter* Map::getPlayer(const std::string &playerName) {
     return characters.at(playerName);
 }
-//este metodo habria q borrarlo.ya no se usa
-void Map::sendLayers(ProxySocket& sck,const std::string& configFile) const {
-    FileParser parser(configFile);
-    Json::Value mapObj =  parser.read("map");
-
-    const Json::Value & floorLayersid = mapObj["layers"]["floor"]["data"];
-    const Json::Value & obstaclesLayersid = mapObj["layers"]["obstacles"]["data"];
-
-    std::vector<int> floorLayer;
-    floorLayer.reserve(floorLayersid.size());
-
-    for (const auto & i : floorLayersid){
-        floorLayer.push_back(i.asInt());
-    }
-
-    //sck.writeToClient(std::unique_ptr<Message> (
-     //         new Draw("floor",floorLayer,width,height)));
-
-    //sck.writeToClient(std::unique_ptr<Message> (
-      //      new SpawnCityCharacters(cityCharactersSpawns)));
-
-    std::vector<int> obstaclesLayer;
-    obstaclesLayer.reserve(obstaclesLayersid.size());
-
-    for (const auto & i : obstaclesLayersid){
-        obstaclesLayer.push_back(i.asInt());
-    }
-    //sck.writeToClient(std::unique_ptr<Message> (
-      //        new Draw("obstacles",obstaclesLayer,width,height)));
-}
 
 //METODO A USAR EN NUEVA COMUNICACION
 void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages) {
@@ -341,6 +311,10 @@ void Map::updatePcSpawns(Observer *observer) {
         pc.second->addSpawnInfoTo(pcSpawns);
     }
     observer->notifySpawnPcUpdate(pcSpawns);
+}
+
+bool Map::empty() {
+    return characters.empty();
 }
 
 Map::~Map() {

@@ -7,16 +7,20 @@
 #include "Ghost.h"
 #include "ItemSeller.h"
 #include "GoldBag.h"
+
+#define NEWBIE_LEVEL 12
+#define LEVEL_DIFFERENCE 10
+#define UPDATE_TIME 5
 #include "Configuration.h"
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
-        int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
-        int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
-        int invMaxElements,Observer* observer, int raceId):
-        Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
-                classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
-                defaultWeapon("none", 0, 1, 1, 0), inventory(invMaxElements)
-                , inCity(true), raceId(raceId), config(Configuration::getInstance()){
+    int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
+    int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
+    int invMaxElements,Observer* observer, std::string race):
+    Character(std::move(id),map,initialPosition,constitution,strength,agility,intelligence,level,raceLifeFactor,
+            classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,meditationRecoveryFactor,observer),
+            defaultWeapon("none",1, 1, 0), inventory(this->id,invMaxElements)
+            ,inCity(true), race(race) {
     this->lifeState = new Alive();
     this->activeWeapon = &defaultWeapon;
     this->mana = calculateMaxMana();
@@ -48,7 +52,7 @@ void PlayableCharacter::notifyStats() {
     float health_percentage = lifePoints / calculateMaxLife();
     float mana_percentage = mana / calculateMaxMana();
     float exp_percentage = (float)xp / (float)calculateLvlLimit();
-    observer->notifyStatsUpdate(health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
+    observer->notifyStatsUpdate(id,health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
 
 void PlayableCharacter::notifyEquipment() {
@@ -56,7 +60,7 @@ void PlayableCharacter::notifyEquipment() {
     std::string armourName = armour.getName(ARMOUR);
     std::string shieldName = armour.getName(SHIELD);
     std::string helmetName = armour.getName(HELMET);
-    observer->notifyEquipmentUpdate(weaponName, armourName, shieldName, helmetName);
+    observer->notifyEquipmentUpdate(id,weaponName, armourName, shieldName, helmetName);
 }
 
 void PlayableCharacter::notifySpawn() {
@@ -80,14 +84,21 @@ void PlayableCharacter::recoverLifePoints(float seconds) {
     float maxLife = calculateMaxLife();
     float recoveredLifePoints = calculateRecoverLifePoints(seconds);
     lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
-    notifyStats();
+    updateTime += seconds;
+    if(updateTime >= UPDATE_TIME) {
+        notifyStats();
+        updateTime = 0;
+    }
 }
 
 void PlayableCharacter::recoverMana(float seconds) {
     float maxMana = calculateMaxMana();
     float recoveredMana = calculateRecoverMana(seconds);
     lifeState->recoverMana(mana, maxMana, recoveredMana);
-    notifyStats();
+    if(updateTime >= UPDATE_TIME) {
+        notifyStats();
+        updateTime = 0;
+    }
 }
 
 void PlayableCharacter::attack(Character *character) {
@@ -292,7 +303,7 @@ void PlayableCharacter::die() {
     //Envio al cliente los drops a renderizar
     map->updateDropSpawns(observer);
     //LO COMENTO HASTA ASEGURARME DE QUE ESTEN LOS SPRITES DEL GHOST
-    observer->notifyEquipmentUpdate("none", "ghost", "none", "none");
+    observer->notifyEquipmentUpdate(id,"none", "ghost", "none", "none");
 }
 
 void PlayableCharacter::dropWholeInventory() {
@@ -427,11 +438,11 @@ PlayableCharacter::~PlayableCharacter() {
 }
 
 void PlayableCharacter::sendItemsInBankList() {
-    bankAccount.sendItemsList(observer);
+    bankAccount.sendItemsList(this);
 }
 
 void PlayableCharacter::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
-    observer->notifyConsoleOutputUpdate(messages);
+    observer->notifyConsoleOutputUpdate(id,messages);
 }
 
 void PlayableCharacter::addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns) {

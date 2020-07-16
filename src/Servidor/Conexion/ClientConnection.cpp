@@ -1,8 +1,8 @@
 #include "ClientConnection.h"
 
-ClientConnection::ClientConnection(Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
-                                                client(std::move(client)),sender(this->client,events),
-                                                receiver(id,this->client,messages,this),dead(false) {}
+ClientConnection::ClientConnection(int id,Socket client, ProtectedList<std::unique_ptr<Message>>& messages):
+                                                id(id),client(std::move(client)),sender(this->client,events),
+                                                receiver(this->client,messages,this),dead(false) {}
 
 void ClientConnection::joinResources() {
     receiver.join();
@@ -16,10 +16,6 @@ void ClientConnection::finish() {
 void ClientConnection::stop() {
     dead = true;
     sender.stop();
-}
-
-void ClientConnection::sendMessage(Message* event) {
-    events.push(event);
 }
 
 bool ClientConnection::isDead() const {
@@ -36,10 +32,10 @@ ClientConnection::~ClientConnection() {
     client.close();
 }
 
-std::string ClientConnection::getId() {
+int ClientConnection::getId() {
     return this->id;
 }
 
-void ClientConnection::setId(std::string name) {
-    this->id = name;
+void ClientConnection::sendMessage(int messageId, std::string data) {
+    events.push(event_t {messageId,data});
 }

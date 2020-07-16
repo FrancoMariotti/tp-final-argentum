@@ -86,6 +86,7 @@ class Map {
         ~Map();
 
 
+    bool empty();
     void persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds);
 };
 

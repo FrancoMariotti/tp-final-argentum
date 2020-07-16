@@ -119,7 +119,9 @@ void Client::init() {
             } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
                 this->gui.updateRenderables(msg->getSpawnData());
             } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
-                gui.updatePlayerEquipment(msg->getEquipment());
+                equipment_t equipment = msg->getEquipment();
+                gui.updateRenderablePlayableEquipment(equipment,equipment.username);
+                //gui.updatePlayerEquipment(equipment);
             } else if (msg->getId() == SPAWN_CITY_CHARACTERS_MESSAGE_ID) {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
@@ -157,7 +159,9 @@ void Client::update() {
             location_t  movement = msg->getLocation();
             this->gui.updateRenderablePos(movement.x, movement.y, movement.id);
         } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
-            gui.updatePlayerEquipment(msg->getEquipment());
+            equipment_t equipment = msg->getEquipment();
+            gui.updateRenderablePlayableEquipment(equipment,equipment.username);
+            //gui.updatePlayerEquipment(equipment);
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
         } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {

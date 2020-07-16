@@ -134,7 +134,7 @@ void GUI::updateRenderablePlayables(std::vector<spawn_playable_character_t> rend
     for (; it != renderables.end(); it++) {
         /*Agregar al constructor un t_equipment y la raza por parametro*/
         /*Si limpio los renderizables tambien tengo que updatear los npc*/
-        equipment_t equipment{it->weaponName, it->armourName, it->shieldName, it->helmetName};
+        equipment_t equipment{"",it->weaponName, it->armourName, it->shieldName, it->helmetName};
         std::string race = it->race;
         dynamic_playable_renderables[it->username] = std::unique_ptr <SdlDynamicRenderable>
                     (new SdlRenderablePlayable(camera.toPixels(it->x),

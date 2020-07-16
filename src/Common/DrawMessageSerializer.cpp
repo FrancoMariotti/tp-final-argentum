@@ -1,4 +1,4 @@
-#include <Common/Socket.h>
+#include "Socket.h"
 #include "DrawMessageSerializer.h"
 #include "msgpack/pack.hpp"
 std::string DrawMessageSerializer::serialize(Message *message) {
@@ -15,7 +15,7 @@ std::string DrawMessageSerializer::serialize(Message *message) {
     return result;
 }
 
-Message *DrawMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
+Message *DrawMessageSerializer::deserialize(unsigned char *data,uint32_t len_data) {
     // deserialize the buffer into msgpack::object instance.
     msgpack::object_handle oh =
             msgpack::unpack(reinterpret_cast<const char *>(data), len_data);

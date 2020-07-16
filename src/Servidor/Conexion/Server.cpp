@@ -24,7 +24,7 @@ void Server::start() {
     std::cout << "Server is running" << std::endl;
 
     std::thread first(&Server::readInput,this);
-    int index = 0;
+    MessageSerializer serializer;
     this->clientAcceptor.start();
     //falta agregar un try/catch en caso de que salte alguna excepcion finalizar el server.
     while(keepTalking) {
@@ -36,17 +36,17 @@ void Server::start() {
             if (msg->getId() == CONNECT_MESSAGE_ID) {
                 //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
                 t_create_connect data = msg->getConnectData();
-                clients.setId(index, data.username);
                 game.createPlayer(data.username,data.race,data.charClass);
                 //manda el paquete de inicializacion
                 std::queue<Message*> initialMessages = game.initializeWorld();
+                connectionsTable[data.username] = msg->getConnectionlId();
                 while(!initialMessages.empty()) {
-                    Message* message = initialMessages.front();
-                    clients.sendMessage(data.username,message);
-                    //clients.broadcast(message);
+                    Message* update = initialMessages.front();
+                    std::string updateData = serializer.serialize(update);
+                    clients.sendMessage(msg->getConnectionlId(),update->getId(),updateData);
                     initialMessages.pop();
+                    delete update;
                 }
-                index++;
             }
             if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 location_t location = msg->getLocation();
@@ -59,7 +59,13 @@ void Server::start() {
                 game.executeCommand(msg);
             }
             if (msg->getId() == USE_ITEM_MESSAGE_ID) {
-                game.equip("franco", msg->getIndex());
+                int connectionId = msg->getConnectionlId();
+                auto result = std::find_if(
+                        connectionsTable.begin(),
+                        connectionsTable.end(),
+                        [connectionId](std::pair<std::string,int> connection)
+                                    {return connection.second == connectionId; });
+                game.equip(result->first, msg->getIndex());
             }
             if (msg->getId() == PLAYER_ATTACK_MESSAGE_ID) {
                 location_t attackInfo = msg->getLocation();
@@ -75,8 +81,21 @@ void Server::start() {
                 (end-start).count();
         std::this_thread::sleep_for(std::chrono::milliseconds(60- elapsed_seconds));
         //server y mandar a cada client el update que me manda el game
+        while (game.directedUpdateAvailable()) {
+            std::tuple<std::string,Message*> update = game.nextDirectedUpdate();
+            std::string destinatary = std::get<0>(update);
+            Message* message = std::get<1>(update);
+            std::string dataUpdate = serializer.serialize(message);
+            clients.sendMessage(connectionsTable.at(destinatary),message->getId(),dataUpdate);
+            delete message;
+        }
+
+
         while (game.broadcastUpdateAvailable()) {
-            clients.broadcast(game.nextBroadCastUpdate());
+            Message* update = game.nextBroadCastUpdate();
+            std::string dataUpdate = serializer.serialize(update);
+            clients.broadcast(update->getId(),dataUpdate);
+            delete update;
         }
     }
     first.join();

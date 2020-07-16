@@ -9,6 +9,7 @@ class Server {
     bool keepTalking;
     Game game;
     ThAcceptor clientAcceptor;
+    std::map<std::string,int> connectionsTable;
     ProtectedConnections clients;
     ProtectedList<std::unique_ptr<Message>> events;
 public:

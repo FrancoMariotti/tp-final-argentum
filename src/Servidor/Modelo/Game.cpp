@@ -74,7 +74,6 @@ void Game::createNpc(const std::string& specie) {
 }
 
 void Game::initialize() {
-    //map->spawnCityCharacters(this);
     for(int i=0; i<4 ; i++) {
         createNpc("skeleton");
         createNpc("goblin");
@@ -82,10 +81,6 @@ void Game::initialize() {
         createNpc("zombie");
     }
 }
-
-/*void Game::initializeMap(ProxySocket& pxySkt) {
-    map->sendLayers(pxySkt,configFile);
-}*/
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
@@ -112,6 +107,16 @@ void Game::unequip(const std::string& playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
     character->store(element);
 }*/
+bool Game::directedUpdateAvailable() {
+    return !directedUpdates.empty();
+}
+
+std::tuple<std::string,Message*> Game::nextDirectedUpdate() {
+    std::tuple<std::string,Message*> msg = directedUpdates.front();
+    directedUpdates.pop();
+    return msg;
+}
+
 
 bool Game::broadcastUpdateAvailable() {
     return !broadcastUpdates.empty();
@@ -139,19 +144,19 @@ void Game::notifyCityCharactersSpawn(std::vector<location_t> &spawns) {
     broadcastUpdates.push(new SpawnStaticObjects(SPAWN_CITY_CHARACTERS_MESSAGE_ID,spawns));
 }
 
-void Game::notifyStatsUpdate(float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
-    /*broadcastUpdates.push(new Stats(
-            health_percentage,
-            mana_percentage,
-            exp_percentage,
-            gold,level));*/
+void Game::notifyStatsUpdate(std::string& username,float health_percentage,float mana_percentage,float exp_percentage,int gold,int level) {
+    directedUpdates.push(std::make_tuple(username,new Stats(
+                                                        health_percentage,
+                                                        mana_percentage,
+                                                        exp_percentage,
+                                                        gold,level)));
 }
 
-void Game::notifyEquipmentUpdate(std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
-    //broadcastUpdates.push(new EquipmentUpdate(weaponName, armourName, shieldName, helmetName));
+void Game::notifyEquipmentUpdate(std::string& username,std::string weaponName, std::string armourName, std::string shieldName, std::string helmetName) {
+    broadcastUpdates.push(new EquipmentUpdate(username,weaponName, armourName, shieldName, helmetName));
 }
-void Game::notifyItemsUpdate(std::vector<std::string> &vector) {
-    //broadcastUpdates.push(new InventoryUpdate(vector));
+void Game::notifyItemsUpdate(std::string& username,std::vector<std::string> &items) {
+    directedUpdates.push(std::make_tuple(username,new InventoryUpdate(items)));
 }
 
 void Game::notifymovementUpdate(std::string id,int x, int y) {
@@ -159,15 +164,16 @@ void Game::notifymovementUpdate(std::string id,int x, int y) {
 }
 
 void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
-    //broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
+    if(!map->empty()) {
+        broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
+    }
 }
 
-void Game::notifyConsoleOutputUpdate(std::vector<std::string> messages) {
-    //broadcastUpdates.push(new ConsoleOutput(messages));
+void Game::notifyConsoleOutputUpdate(std::string& username,std::vector<std::string> messages) {
+    directedUpdates.push(std::make_tuple(username,new ConsoleOutput(messages)));
 }
 
 void Game::executeCommand(std::unique_ptr<Message>& command) {
-    //std::string username = command->;
     std::string action = command->getCommand();
     int x = command->getX();
     int y = command->getY();

@@ -1,6 +1,6 @@
-#include "SpawnStaticObjectMessageSerializer.h"
+#include "SpawnStaticObjectsMessageSerializer.h"
 
-std::string SpawnStaticObjectMessageSerializer::serialize(Message *message) {
+std::string SpawnStaticObjectsMessageSerializer::serialize(Message *message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
     msgpack::type::tuple<int,std::vector<location_t>> src(message->getId(),
@@ -10,7 +10,7 @@ std::string SpawnStaticObjectMessageSerializer::serialize(Message *message) {
     return result;
 }
 
-Message * SpawnStaticObjectMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
+Message * SpawnStaticObjectsMessageSerializer::deserialize(unsigned char *data, uint32_t len_data) {
     msgpack::object_handle oh =
             msgpack::unpack(reinterpret_cast<const char *>(data), len_data);
 

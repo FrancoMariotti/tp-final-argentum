@@ -21,5 +21,4 @@ void DepositCommand::execute(std::string username,std::string params,int x,int y
     } else {
         player->deposit(params,banker);
     }
-
 }

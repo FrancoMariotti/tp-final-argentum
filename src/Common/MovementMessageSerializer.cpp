@@ -1,27 +1,25 @@
+#include <msgpack/adaptor/msgpack_tuple.hpp>
 #include <msgpack.hpp>
-#include <Common/Socket.h>
-#include "ConnectMessageSerializer.h"
+#include "MovementMessageSerializer.h"
 
-std::string ConnectMessageSerializer::serialize(Message *message) {
+std::string MovementMessageSerializer::serialize(Message* message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
-    packer.pack(message->getConnectData());
+    location_t location = message->getLocation();
+    packer.pack(location);
     std::string result(ss.str());
     return result;
 }
 
-Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint16_t len_data) {
+Message *MovementMessageSerializer::deserialize(unsigned char *data,uint32_t len_data) {
     // deserialize the buffer into msgpack::object instance.
-    //std::string str(data,len_data);
-
     msgpack::object_handle oh =
-            msgpack::unpack(reinterpret_cast<const char *>(data), len_data);
+            msgpack::unpack((const char *)(data), len_data);
 
     // deserialized object is valid during the msgpack::object_handle instance is alive.
     msgpack::object deserialized = oh.get();
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.
-    t_create_connect message = deserialized.as<t_create_connect>();
-
-    return new Connect(message.username,message.race,message.charClass);
+    location_t location = deserialized.as<location_t>();
+    return new Movement(location.id,location.x,location.y);
 }

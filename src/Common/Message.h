@@ -30,9 +30,12 @@ enum MESSAGES {
 class Message {
 protected:
     int id;
+    int connectionId;
     explicit Message(int id);
 public:
     int getId() const;
+    void setConnectionlId(int id);
+    int getConnectionlId();
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;
@@ -56,10 +59,10 @@ public:
 
 class Draw : public Message {
 private:
-    std::string name; // nombre del layer a dibujar
+    std::string name;
     int width;
     int height;
-    std::vector<int> data;// x e y en unidades del modelo
+    std::vector<int> data;
 public:
     Draw();
     Draw(std::string name, std::vector<int> data, int width, int height);
@@ -94,8 +97,8 @@ private:
     const int x;
     const int y;
 public:
-    explicit ExecuteCommand(const std::string& command);
-    ExecuteCommand(std::string input, int x, int y);
+    ExecuteCommand(const std::string& command, const std::string& username);
+    ExecuteCommand(const std::string& input, const std::string& username, int x, int y);
     ExecuteCommand(std::string username,std::string input, int x, int y);
     std::string getCommand() const override;
     int getX() const override;
@@ -124,12 +127,13 @@ public:
 };
 
 class EquipmentUpdate : public Message {
+    std::string username;
     std::string weaponName;
     std::string armourName;
     std::string shieldName;
     std::string helmetName;
 public:
-    EquipmentUpdate(std::string weaponName, std::string armourName,
+    EquipmentUpdate(std::string username,std::string weaponName, std::string armourName,
             std::string shieldName, std::string helmetName);
     equipment_t getEquipment() override;
 };

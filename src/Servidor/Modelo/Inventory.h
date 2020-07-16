@@ -6,11 +6,12 @@
 #include "Observer.h"
 
 class Inventory {
+    std::string& id;
     friend class PlayableCharacterFactory;
     unsigned int maxElements;
     std::vector<Equippable*> elements;
 public:
-    explicit Inventory(unsigned int maxElements);
+    Inventory(std::string& id,unsigned int maxElements);
     void store(Equippable* element);
     Equippable* chooseElement(int index);
     Equippable* takeElement(int index, PlayableCharacter* character);
