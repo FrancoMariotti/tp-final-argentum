@@ -23,6 +23,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
     this->mana = calculateMaxMana();
     this->gold = 0;
     this->xp = 0;
+    notifySpawn();
     notifyStats();
     notifyEquipment();
 }
@@ -42,6 +43,7 @@ PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map,
     if (lifeState == 0) this->lifeState = new Alive();
     else this->lifeState = new Ghost();
     this->activeWeapon = &defaultWeapon;
+    notifySpawn();
     notifyStats();
     notifyEquipment();
 }
