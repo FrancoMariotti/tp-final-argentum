@@ -49,8 +49,6 @@ class Map {
         void move(Position& from,Position& to);
         Character* findClosestCharacter(const Position& pos, int range);
         PlayableCharacter *getPlayer(const std::string &basicString);
-        void sendLayers(ProxySocket& sck,const std::string& configFile) const;
-        //void registerNpcSpawn(Observer * observer,spawn_character_t spawn);
         void moveNpcs(float looptime);
         void updateAllPlayers(float looptime, Observer* observer);
         Position asignRandomPosition();
@@ -61,7 +59,6 @@ class Map {
         bool posInCity(Position position);
         Character *findCharacterAtPosition(Position &position);
         void registerCityCharactersSpawns(std::vector<location_t> &spawns);
-        //void spawnCityCharacters(Observer *observer);
         Position getRandomPosAtClosestPriestCity(PlayableCharacter *player);
         Banker* getBankerAtPosition(const Position& position);
         Merchant* getMerchantAtPosition(Position position);
@@ -78,12 +75,9 @@ class Map {
         void initializeDropSpawns(std::queue<Message*>& initializeMessages);
         void initializeNpcsSpawns(std::queue<Message*>& initializeMessages);
         void updateNpcsSpawns(Observer* observer);
-        void updatePcSpawns(Observer* observer);
         void initializePlayersSpawns(std::queue<Message*>& initializeMessages);
+        bool empty();
         ~Map();
-
-
-    bool empty();
 };
 
 #endif //ARGENTUM_MAPA_H

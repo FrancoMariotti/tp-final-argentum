@@ -92,7 +92,10 @@ int Client::run() {
 }
 
 void Client::init() {
-    std::string username_input = "franco";
+    //std::string username_input = "franco2";
+    std::string username_input;
+    std::cout << "ingrese username:";
+    std::cin >> username_input;
 
     clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
     gui.setUsername(username_input);
@@ -116,7 +119,6 @@ void Client::init() {
             } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
                 equipment_t equipment = msg->getEquipment();
                 gui.updateRenderablePlayableEquipment(equipment,equipment.username);
-                //gui.updatePlayerEquipment(equipment);
             } else if (msg->getId() == SPAWN_CITY_CHARACTERS_MESSAGE_ID) {
                 gui.initStaticRenderables(msg->getSpawnData());
             } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
@@ -156,7 +158,6 @@ void Client::update() {
         } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
             equipment_t equipment = msg->getEquipment();
             gui.updateRenderablePlayableEquipment(equipment,equipment.username);
-            //gui.updatePlayerEquipment(equipment);
         } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
             gui.updateConsoleOutput(msg->getConsoleOutput());
         } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {

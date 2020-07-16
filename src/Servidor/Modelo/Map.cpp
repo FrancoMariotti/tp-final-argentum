@@ -40,10 +40,6 @@ void Map::removePlayableCharacter(const std::string& playerName) {
 
 void Map::add(const std::string& playerName, PlayableCharacter *character) {
     this->characters[playerName] = character;
-    character->notifySpawn();
-    //Esto lo agrego para que el personaje se renderice en la posicion inicial
-    //Offset nullOffset (0, 0);
-    //character->move(nullOffset);
 }
 
 void Map::add(std::string idNpc ,Npc* npc) {
@@ -115,7 +111,6 @@ PlayableCharacter* Map::getPlayer(const std::string &playerName) {
     return characters.at(playerName);
 }
 
-//METODO A USAR EN NUEVA COMUNICACION
 void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages) {
     FileParser parser(configFile);
     Json::Value mapObj =  parser.read("map");
@@ -294,14 +289,6 @@ void Map::initializePlayersSpawns(std::queue<Message*>& initializeMessages) {
         pc.second->addSpawnInfoTo(pcSpawns);
     }
     initializeMessages.push(new SpawnPc(pcSpawns));
-}
-
-void Map::updatePcSpawns(Observer *observer) {
-    std::vector<spawn_playable_character_t> pcSpawns;
-    for (auto &pc : characters) {
-        pc.second->addSpawnInfoTo(pcSpawns);
-    }
-    observer->notifySpawnPcUpdate(pcSpawns);
 }
 
 bool Map::empty() {
