@@ -16,8 +16,6 @@ class ThSend : public Thread{
 private:
     /*Recurso compartido con el cliente*/
     BlockingQueue<std::unique_ptr<Message>>& clientEvents;
-    /**Conoce el protocolo, pero por ahora solo conoce al proxySocket*/
-    //Protocol protocol;
     Socket& socket;
     Protocol protocol;
 
