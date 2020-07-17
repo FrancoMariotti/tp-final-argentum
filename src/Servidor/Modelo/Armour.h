@@ -27,6 +27,8 @@ public:
     void unequipEveryProtectionFrom(PlayableCharacter *player);
 
     void getNames(std::vector<std::string>& protectionNames);
+
+    bool has(Equippable *item);
 };
 
 

@@ -457,6 +457,11 @@ std::string PlayableCharacter::getRaceName() {
 }
 
 
+bool PlayableCharacter::hasEquipped(Equippable *item) {
+    return item == activeWeapon || armour.has(item);
+}
+
+
 
 
 

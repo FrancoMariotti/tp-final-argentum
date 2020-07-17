@@ -19,12 +19,12 @@ void Protection::unequip(std::vector<Protection*> &protections, Protection* defa
 }
 
 void Protection::equipTo(PlayableCharacter *character, int index) {
-    equipped = true;
+    //equipped = true;
     character->equip(this, index);
 }
 
 void Protection::unequipFrom(PlayableCharacter *character) {
-    equipped = false;
+    //equipped = false;
     character->unequip(this);
 }
 

@@ -99,6 +99,7 @@ public:
     void sendItemsInBankList();
     ~PlayableCharacter() override;
 
+    bool hasEquipped(Equippable *item);
 };
 
 

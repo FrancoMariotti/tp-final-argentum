@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "Inventory.h"
 #include "string"
+#include "PlayableCharacter.h"
 
 Inventory::Inventory(std::string& id,unsigned int maxElements):id(id),maxElements(maxElements) {}
 
@@ -22,7 +23,8 @@ Equippable* Inventory::chooseElement(int index) {
 
 Equippable* Inventory::takeElement(int index, PlayableCharacter* character) {
     Equippable* element = elements[index];
-    if (element->isEquipped()) element->unequipFrom(character);
+    //if (element->isEquipped()) element->unequipFrom(character);
+    if (character->hasEquipped(element)) element->unequipFrom(character);
     elements.erase(elements.begin() + index);
     return element;
 }
@@ -33,7 +35,7 @@ Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharac
     for (;itr != elements.end(); itr ++) {
         if ((*itr)->getName() ==  elementName) {
             result = *itr;
-            if (result->isEquipped()) {
+            if (character->hasEquipped(result)) {
                 result->unequipFrom(character);
             }
             elements.erase(itr--);

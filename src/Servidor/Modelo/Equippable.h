@@ -18,7 +18,7 @@ class Equippable : public Droppable {
     int maxValue;
     int goldCost;
 protected:
-    bool equipped;
+    //bool equipped;
 public:
     Equippable(std::string name,uint32_t id, int minValue, int maxValue, int goldCost);
     int randomize() const;
@@ -29,7 +29,7 @@ public:
     void takenBy(PlayableCharacter* player) override;
     virtual ~Equippable() = default;
 
-    bool isEquipped();
+    //bool isEquipped();
 };
 
 

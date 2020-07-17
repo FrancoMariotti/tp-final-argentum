@@ -16,12 +16,12 @@ int Weapon::calculateDamage(int strength) {
 }
 
 void Weapon::equipTo(PlayableCharacter *character, int index) {
-    equipped = true;
+    //equipped = true;
     character->equip(this, index);
 }
 
 void Weapon::unequipFrom(PlayableCharacter *character) {
-    equipped = false;
+    //equipped = false;
     character->unequip(this);
 }
 

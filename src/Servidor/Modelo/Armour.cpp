@@ -49,3 +49,12 @@ void Armour::getNames(std::vector<std::string>& protectionNames) {
     }
 }
 
+
+
+bool Armour::has(Equippable *item) {
+    for (auto &protection : protections) {
+        if (protection == item) return true;
+    }
+    return false;
+}
+
