@@ -1,10 +1,6 @@
 #include "client_qt_loginmediator.h"
-#include <thread>
 #include <QApplication>
-#include <Common/common_proxy_socket.h>
-#include <Common/Message.h>
 #include <Common/Socket.h>
-
 
 int QtApp(int argc, char*argv[], Socket& clientSocket);
 

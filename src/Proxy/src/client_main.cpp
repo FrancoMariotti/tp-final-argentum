@@ -1,7 +1,6 @@
-//Using SDL, SDL_image, standard math, and strings
 #include <Proxy/Qt/include/client_qt_loginmediator.h>
+#include <QApplication>
 #include "client_client.h"
-
 #include "server_proxy_server.h"
 
 int QtApp(int argc, char*args[], Socket& socket);
