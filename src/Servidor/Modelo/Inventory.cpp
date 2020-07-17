@@ -41,7 +41,7 @@ Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharac
 
     elements.erase(std::remove_if(elements.begin(),
                                   elements.end(),
-                                  [elementName](Equippable * equippable){return equippable->getName() == elementName;}),
+                                  [result](Equippable * equippable){return equippable == result;}),
                    elements.end());
 
     return result;
