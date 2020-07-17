@@ -15,12 +15,15 @@ private:
     int player_vel_x;
     int player_vel_y;
     const int VEL = 1;
+    int game_loops_counter;
+
 public:
     SdlKeyboard();
 
     void handleEvent(SDL_Event &e, bool &is_event_handled);
 
     void movePlayer(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+
 };
 
 

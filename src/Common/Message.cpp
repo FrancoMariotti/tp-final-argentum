@@ -114,6 +114,11 @@ int Message::getConnectionlId() {
     return connectionId;
 }
 
+t_client_login Message::getLoginData() const {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 Movement::Movement(std::string id,const int player_vel_x, const int player_vel_y) :
         Message(MOVEMENT_MESSAGE_ID),
         id(std::move(id)),
@@ -255,4 +260,14 @@ ConsoleOutput::ConsoleOutput(std::vector<std::string> outputs) :
 
 std::vector<std::string> ConsoleOutput::getConsoleOutput() {
         return std::move(outputs);
+}
+
+Login::Login(const std::string &username, const std::string &password, enum MESSAGES msg_id) :
+        Message(msg_id),
+        username(username),
+        password(password)
+        {}
+
+t_client_login Login::getLoginData() const{
+    return t_client_login{username, password};
 }

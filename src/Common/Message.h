@@ -23,7 +23,9 @@ enum MESSAGES {
     SPAWN_CITY_CHARACTERS_MESSAGE_ID,
     SPAWN_DROPS_MESSAGE_ID,
     CONSOLE_OUTPUT_MESSAGE_ID,
-    SPAWN_PC_MESSAGE_ID
+    SPAWN_PC_MESSAGE_ID,
+    LOGIN_MESSAGE_ID,
+    SIGNUP_MESSAGE_ID,
 };
 
 
@@ -54,6 +56,7 @@ public:
     virtual location_t getLocation();
     virtual std::vector<std::string> getConsoleOutput();
     virtual t_create_connect getConnectData() const;
+    virtual t_client_login getLoginData() const;
     virtual ~Message() = default;
 };
 
@@ -172,5 +175,15 @@ public:
     explicit ConsoleOutput(std::vector<std::string>);
     std::vector<std::string> getConsoleOutput() override;
 };
+
+class Login : public Message{
+private:
+    const std::string username;
+    const std::string password;
+public:
+    Login(const std::string& username, const std::string& password, enum MESSAGES msg_id);
+    t_client_login getLoginData() const;
+};
+
 
 #endif //ARGENTUM_MESSAGE_H

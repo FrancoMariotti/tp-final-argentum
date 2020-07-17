@@ -67,6 +67,18 @@ typedef struct create_connect {
                    charClass)
 } t_create_connect;
 
+/* Reemplazar al create_connect*/
+typedef struct client_create {
+    std::string username;
+    std::string password;
+    std::string race;
+    std::string charClass;
+    /*MSGPACK_DEFINE(username,
+     * password,
+                   race,
+                   charClass)*/
+} t_client_create;
+
 typedef struct command {
     std::string username;
     std::string input;
@@ -77,6 +89,11 @@ typedef struct command {
                    x,
                    y)
 } command_t;
+
+typedef struct client_login{
+    std::string username;
+    std::string password;
+}t_client_login;
 
 
 #endif //ARGENTUM_MESSAGE_STRUCTS_H

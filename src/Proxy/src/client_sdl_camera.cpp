@@ -25,8 +25,9 @@ void SdlCamera::move(const SDL_Point player_pos) {
 
 bool SdlCamera::isInCameraView(const SDL_Point& point) const {
     bool render = false;
-    if(point.x * TILE_SIZE >= camera_x && point.x * TILE_SIZE <= camera_x + CAMERA_WIDTH
-        && point.y * TILE_SIZE >= camera_y && point.y * TILE_SIZE <= camera_y + CAMERA_HEIGHT) {
+    //Le resto TILE_SIZE a la camara para que renderize los tiles que estan justo en el borde para evitar bordes blancos.
+    if(point.x * TILE_SIZE >= camera_x - TILE_SIZE && point.x * TILE_SIZE <= camera_x + CAMERA_WIDTH
+        && point.y * TILE_SIZE >= camera_y - TILE_SIZE && point.y * TILE_SIZE <= camera_y + CAMERA_HEIGHT) {
         render = true;
     }
     return render;

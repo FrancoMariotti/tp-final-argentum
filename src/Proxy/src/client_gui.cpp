@@ -73,7 +73,9 @@ void GUI::execute(){
 void GUI::updatePlayerPos(std::string id,const int player_x, const int player_y){
     //this->dynamic_playable_renderables[username]->updatePos(player_x, player_y, camera);
     this->getPlayableCharacter(id)->updatePos(player_x, player_y, camera);
-    audioManager.playSound("step1",0);
+    if(id == username){
+        audioManager.playSound("step1",0);
+    }
 }
 
 void GUI::updatePlayerStats(t_stats new_stats) {
@@ -82,12 +84,10 @@ void GUI::updatePlayerStats(t_stats new_stats) {
 
 /*Busca en la lista de renderizables dinamicos por id (username o npc_id)*/
 void GUI::updateRenderableStats(const std::string &renderable_id, const std::string &effect_id) {
-    //dynamic_playable_renderables.at(renderable_id)->addVisualEffect(effect_id);
     this->getPlayableCharacter(renderable_id)->addVisualEffect(effect_id);
 }
 
 void GUI::updatePlayerEquipment(const equipment_t& equipment) {
-    //dynamic_playable_renderables.at(username)->updateEquipment(equipment);
     this->getPlayableCharacter(username)->updateEquipment(equipment);
     inventory.updateEquippedItems(equipment);
     if(equipment.armourName == "ghost"){
@@ -119,12 +119,10 @@ void GUI::updateRenderables(std::vector<location_t> renderables){
     auto it = renderables.begin();
     for (; it != renderables.end(); it++) {
         std::string texture_id = textureManager.findTextureId(it->id);
-        if (texture_id != "player"){
-            dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
-                    (new SdlRenderableNPC(camera.toPixels(it->x),
-                            camera.toPixels(it->y), textureManager,
-                            texture_id, font, window, audioManager));
-        }
+        dynamic_renderables[it->id] = std::unique_ptr <SdlDynamicRenderable>
+                (new SdlRenderableNPC(camera.toPixels(it->x),
+                        camera.toPixels(it->y), textureManager,
+                        texture_id, font, window, audioManager));
     }
 }
 
@@ -151,8 +149,15 @@ void GUI::updateRenderablePos(const int new_x, const int new_y, const std::strin
 
 void GUI::updateRenderablePlayableEquipment(const equipment_t& equipment,
                                             const std::string& renderable_id) {
-    //this->dynamic_playable_renderables.at(renderable_id)->updateEquipment(equipment);
     this->getPlayableCharacter(renderable_id)->updateEquipment(equipment);
+    if(renderable_id == username){
+        inventory.updateEquippedItems(equipment);
+        if(equipment.armourName == "ghost"){
+            audioManager.playSound("death", 0);
+        } else {
+            audioManager.playSound("equip", 0);
+        }
+    }
 }
 
 
@@ -186,7 +191,6 @@ void GUI::render(){
         pc_it->second->render(camera);
         pc_it++;
     }
-    //player.render(camera);
     inventory.render();
     console.render();
     //interface.render(0,0);
