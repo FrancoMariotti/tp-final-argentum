@@ -2,6 +2,8 @@
 // Created by agustin on 15/7/20.
 //
 
+#include <exception>
+#include <cstdio>
 #include "QtServer.h"
 
 int main(int argc, char const *argv[]) {

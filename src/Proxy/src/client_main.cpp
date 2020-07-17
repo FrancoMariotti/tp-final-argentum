@@ -1,4 +1,5 @@
 //Using SDL, SDL_image, standard math, and strings
+#include <Proxy/Qt/include/client_qt_loginmediator.h>
 #include "client_client.h"
 
 #include "server_proxy_server.h"
@@ -13,7 +14,7 @@ int main(int argc, char* args[]) {
         //std::string service = args[2];
         /*Si el cliente decide no conectarse, se debe terminar la ejecucion sin correr SDL*/
         //if(socket != -1){
-            Client client(hostname, service, socket);
+            Client client(socket);
             client.run();
             client.stop();
         //}
@@ -29,7 +30,7 @@ int main(int argc, char* args[]) {
 }
 
 int QtApp(int argc, char* args[], Socket& socket){
-    QApplication a(argc, argv);
+    QApplication a(argc, args);
     LoginMediator loginMediator(socket);
     loginMediator.show();
     return a.exec();

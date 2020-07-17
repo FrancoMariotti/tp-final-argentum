@@ -2,9 +2,8 @@
 #include "client_qt_serverlogin.h"
 #include "client_qt_characterlogin.h"
 #include "client_qt_charactercreation.h"
-#include <Proxy/src/common_message.h>
-#include <Proxy/src/common_socket.h>
-#include "../../Proxy/src/common_proxy_socket.h"
+#include <Common/Message.h>
+#include <Common/Socket.h>
 
 #define LOGIN_COMMAND 'l'
 #define SIGNUP_COMMAND 's'
@@ -46,7 +45,7 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
         char msg = LOGIN_COMMAND;
         char answer;
         clientSocket.send(&msg, sizeof(char));
-        clientSocket.recieve(&answer, sizeof(char));
+        clientSocket.receive(&answer, sizeof(char));
         qtCharacterLogin->setLoginLabel(answer == USER_EXISTS);
         /*Aca cierro la app de login*/
         //loginMediator->close()
@@ -69,7 +68,7 @@ void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, 
         char msg = SIGNUP_COMMAND;
         char answer;
         clientSocket.send(&msg, sizeof(char));
-        clientSocket.recieve(&answer, sizeof(char));
+        clientSocket.receive(&answer, sizeof(char));
         if(answer != USER_EXISTS){
             this->confirmed_username = username;
             this->confirmed_password = password;
@@ -94,7 +93,7 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
     char msg = CREATE_COMMAND;
     char answer;
     clientSocket.send(&msg, sizeof(char));
-    clientSocket.recieve(&answer, sizeof(char));
+    clientSocket.receive(&answer, sizeof(char));
     //if(/*msg->getId() == ACCEPT_CREDENTIALS_MESSAGE_ID && msg->getAnswer()*/)
     if(answer == 1){
         qtCharacterLogin->showMessageBox("Credenciales aceptadas, ingresando al mundo");

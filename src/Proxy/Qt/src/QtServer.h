@@ -6,7 +6,7 @@
 #define ARGENTUM_QTSERVER_H
 
 
-#include <Proxy/src/common_socket.h>
+#include <Common/Socket.h>
 
 class QtServer {
 private:

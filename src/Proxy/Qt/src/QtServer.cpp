@@ -34,7 +34,7 @@ void QtServer::start(){
         Socket peer = acep_socket.accept();
         while(keep_talking){
             char c_cmd;
-            peer.recieve(&c_cmd, sizeof(char));
+            peer.receive(&c_cmd, sizeof(char));
             if (c_cmd == LOGIN_COMMAND){
                 char c_response = USER_EXISTS;
                 std::cout << "login" << std::endl;

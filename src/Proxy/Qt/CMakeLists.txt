@@ -38,11 +38,19 @@ add_executable(qt_argentum_v2
   src/client_qt_serverlogin.cpp
   src/client_qt_charactercreation.cpp
   src/main.cpp
-  ${UIS_HEADERS})
+  ${UIS_HEADERS}
+        )
 
 add_executable(qtServer src/server_main.cpp src/QtServer.cpp src/QtServer.h)
 
+add_library(qtLib
+        src/client_qt_characterlogin.cpp
+        src/client_qt_loginmediator.cpp
+        src/client_qt_serverlogin.cpp
+        src/client_qt_charactercreation.cpp
+        ${UIS_HEADERS}
+        )
 
 # Use the Widgets module from Qt 5.
-target_link_libraries(qt_argentum_v2 proxysources Qt5::Widgets)
-target_link_libraries(qtServer proxysources)
+target_link_libraries(qt_argentum_v2 commonLib Qt5::Widgets)
+target_link_libraries(qtServer commonLib)

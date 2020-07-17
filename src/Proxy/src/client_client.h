@@ -38,7 +38,7 @@ private:
 
 public:
     //Start up SDL and create window
-    Client(const std::string &hostname, const std::string &service, Socket &socket);
+    Client(Socket &socket);
 
     //explicit Client(ProxySocket& proxySocket);
 

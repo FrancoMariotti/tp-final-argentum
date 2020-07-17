@@ -8,7 +8,7 @@
 #define SCREEN_WIDTH 1024//640
 #define SCREEN_HEIGHT 768//480
 
-Client::Client(const std::string &hostname, const std::string &service, Socket &socket) :
+Client::Client(Socket &socket) :
     socket(socket),
     thSend(clientEvents, socket),
     thRecv(serverEvents,socket),
