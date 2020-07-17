@@ -8,13 +8,12 @@
 SdlKeyboard::SdlKeyboard() :
     player_vel_x(0),
     player_vel_y(0),
-    handle_events(true),
     game_loops_counter(0)
     {}
 
 void SdlKeyboard::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
-    if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
+    if(e.type == SDL_KEYDOWN && game_loops_counter <= 0){
         switch(e.key.keysym.sym){
             case SDLK_UP: player_vel_y = -VEL;
                 break;
@@ -27,6 +26,7 @@ void SdlKeyboard::handleEvent(SDL_Event &e, bool &is_event_handled) {
 
         }
     }
+
 /*
     if(e.type == SDL_KEYUP && e.key.repeat == 0){
         switch(e.key.keysym.sym){
@@ -53,14 +53,12 @@ void SdlKeyboard::handleEvent(SDL_Event &e, bool &is_event_handled) {
 }
 
 void SdlKeyboard::movePlayer(BlockingQueue<std::unique_ptr<Message>> &clientEvents) {
-    if((player_vel_x != 0 || player_vel_y != 0) && handle_events){
+    if(player_vel_x != 0 || player_vel_y != 0){
         mediator->notify(this, player_vel_x, player_vel_y);
+        game_loops_counter = 8;
         player_vel_x = 0;
         player_vel_y = 0;
+    } else{
+        game_loops_counter--;
     }
-}
-
-void SdlKeyboard::setEventHandling(bool handle,const int game_loops){
-    this->handle_events = handle;
-    this->game_loops_counter = game_loops;
 }
