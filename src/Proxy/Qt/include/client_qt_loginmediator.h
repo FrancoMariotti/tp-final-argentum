@@ -2,6 +2,7 @@
 #define LOGINMEDIATOR_H
 
 #include <string>
+#include <Common/Protocol.h>
 
 class Socket;
 class QtCharacterCreation;
@@ -12,6 +13,7 @@ private:
     QtServerLogin* qtServerLogin;
     QtCharacterLogin* qtCharacterLogin;
     QtCharacterCreation* qtCharacterCreation;
+    Protocol protocol;
 
     Socket& clientSocket;
     std::string confirmed_username;

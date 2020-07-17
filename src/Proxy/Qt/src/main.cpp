@@ -11,10 +11,10 @@ int main(int argc, char *argv[]) {
         /*si se levanto la conexion lanzo SDL,
          * caso contrario termina la ejecucion y no pasa nada*/
         QtApp(argc, argv, socket);
+        std::cout << "saliendo QT" << std::endl;
         Client client(socket);
         client.run();
         client.stop();
-        std::cout << "saliendo QT" << std::endl;
 
     } catch (std::exception &e){
         std::cout << e.what() << std::endl;
