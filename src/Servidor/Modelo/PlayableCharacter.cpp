@@ -62,7 +62,7 @@ void PlayableCharacter::recoverLifePoints(float seconds) {
     float recoveredLifePoints = calculateRecoverLifePoints(seconds);
     lifeState->recoverLifePoints(lifePoints,maxLife,recoveredLifePoints);
     updateTime += seconds;
-    if(updateTime >= UPDATE_TIME) {
+    if (updateTime >= UPDATE_TIME) {
         notifyStats();
         updateTime = 0;
     }
