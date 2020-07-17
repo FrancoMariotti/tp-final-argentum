@@ -277,7 +277,6 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
                 meditationRecoveryFactor, invMaxElements,observer, raceId);
         map->add(playerName,character);
 
-
         //Agrego el index del jugador al archivo del mapa y al mapa de la factory
         uint32_t nameLen = character->id.size();
         playersInfoMapStream.seekp(0, std::ios_base::end);
