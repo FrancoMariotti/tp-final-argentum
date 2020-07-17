@@ -1,7 +1,6 @@
 #include <Proxy/Qt/include/client_qt_loginmediator.h>
-#include <QApplication>
+//#include <QApplication>
 #include "client_client.h"
-#include "server_proxy_server.h"
 
 int QtApp(int argc, char*args[], Socket& socket);
 
@@ -29,8 +28,8 @@ int main(int argc, char* args[]) {
 }
 
 int QtApp(int argc, char* args[], Socket& socket){
-    QApplication a(argc, args);
+   // QApplication a(argc, args);
     LoginMediator loginMediator(socket);
     loginMediator.show();
-    return a.exec();
+    return 0; //a.exec();
 }

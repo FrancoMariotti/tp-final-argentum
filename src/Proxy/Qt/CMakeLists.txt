@@ -3,7 +3,7 @@ include_directories(..)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pedantic-errors -pthread")
 
 # Find the QtWidgets library
-find_package(Qt5Widgets)
+#find_package(Qt5Widgets)
 
 message("[INFO] La raiz del proyecto es ${PROJECT_SOURCE_DIR}")
 
@@ -52,5 +52,5 @@ add_library(qtLib
         )
 
 # Use the Widgets module from Qt 5.
-target_link_libraries(qt_argentum_v2 commonLib Qt5::Widgets)
+target_link_libraries(qt_argentum_v2 clienteSRCS commonLib SDL2 SDL2_image SDL2_ttf SDL2_mixer Qt5::Widgets)
 target_link_libraries(qtServer commonLib)
