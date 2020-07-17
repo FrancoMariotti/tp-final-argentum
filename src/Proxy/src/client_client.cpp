@@ -38,9 +38,12 @@ int Client::run() {
 
         //Event handler
         SDL_Event event;
-
+        SdlTimer capTimer;
+        const int SCREEN_FPS = 30;
+        const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS; // 16.66ms
         //While application is running
         while (!quit) {
+            capTimer.start();
             //Handle events on queue
             while (SDL_PollEvent(&event) != 0) {
                 switch(event.type){
@@ -59,8 +62,11 @@ int Client::run() {
             //Render objects
             gui.render();
 
-            //Cap FPS 50
-            SDL_Delay(20);
+            //Calculo los frames y espero lo restante para mantener los 60 FPS
+            int frame_ticks = capTimer.getTicks();
+            if(frame_ticks < SCREEN_TICKS_PER_FRAME){
+                SDL_Delay(SCREEN_TICKS_PER_FRAME - frame_ticks);
+            }
         }
     } catch (std::exception & e){
         std::cout << e.what() << std::endl;
