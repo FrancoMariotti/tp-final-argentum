@@ -8,10 +8,12 @@
 #define SCREEN_WIDTH 1024//640
 #define SCREEN_HEIGHT 768//480
 
-Client::Client(const std::string& hostname, const std::string& service):thSend(clientEvents, socket),
-                                                                        thRecv(serverEvents,socket),
-                                                                        gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents) {
-    socket.connect(hostname.c_str(),service.c_str());
+Client::Client(Socket &socket) :
+    socket(socket),
+    thSend(clientEvents, socket),
+    thRecv(serverEvents,socket),
+    gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents) {
+    //socket.connect(hostname.c_str(),service.c_str());
     /*Lanzo los threads*/
     thSend.start();
     thRecv.start();
@@ -80,7 +82,6 @@ int Client::run() {
 }
 
 void Client::init() {
-    //std::string username_input = "franco2";
     std::string username_input;
     std::cout << "ingrese username:";
     std::cin >> username_input;
