@@ -80,7 +80,6 @@ int Client::run() {
 }
 
 void Client::init() {
-    //std::string username_input = "franco2";
     std::string username_input;
     std::cout << "ingrese username:";
     std::cin >> username_input;
