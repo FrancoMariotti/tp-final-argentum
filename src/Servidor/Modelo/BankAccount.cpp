@@ -37,17 +37,18 @@ Equippable* BankAccount::extract(const std::string& itemName) {
         if(!(*itr)) continue;
         if ((*itr)->getName() ==  itemName) {
             item = *itr;
+            items.erase(itr--);
             break;
         }
     }
 
-    items.erase(std::remove_if(items.begin(),
+    /*items.erase(std::remove_if(items.begin(),
                                items.end(),
                                   [itemName](Equippable * equippable){
                                         if (equippable) return equippable->getName() == itemName;
                                         return false;
                                     }),
-                   items.end());
+                   items.end());*/
 
     return item;
 }
