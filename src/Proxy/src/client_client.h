@@ -29,7 +29,7 @@ private:
     //SdlWindow window;
     //SdlTexture mainInterface;
     //TTF_Font* font;
-    Socket socket;
+    Socket& socket;
     BlockingQueue<std::unique_ptr<Message>> clientEvents;
     ProtectedList<std::unique_ptr<Message>> serverEvents;
     ThSend thSend;
@@ -38,7 +38,7 @@ private:
 
 public:
     //Start up SDL and create window
-    Client(const std::string& hostname,const std::string& service);
+    Client(const std::string &hostname, const std::string &service, Socket &socket);
 
     //explicit Client(ProxySocket& proxySocket);
 
