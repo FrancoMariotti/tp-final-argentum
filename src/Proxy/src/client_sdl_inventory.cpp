@@ -39,7 +39,9 @@ SdlInventory::SdlInventory(const SdlWindow &window, TTF_Font *font) :
 }
 
 void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {
-    /*Client side events*/
+    int x,y;
+    SDL_GetMouseState(&x,&y);
+    is_event_handled = (x > inventory_x && x < inventory_x + width && y > inventory_y && y < inventory_y + height);
     for(auto & button : buttons){
         button.handleEvent(event, is_event_handled);
     }

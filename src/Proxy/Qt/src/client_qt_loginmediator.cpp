@@ -42,6 +42,9 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
         clientSocket.receive(&answer, sizeof(char));
         if (answer == USER_EXISTS) {
             qtCharacterLogin->setLoginLabel(true);
+            Message *msg_connect = new Connect(username, "", "");
+            protocol.send(clientSocket, msg_connect);
+            delete msg;
             /*Aca cierro la app de login*/
             //loginMediator->close()
         } else {
@@ -62,6 +65,7 @@ void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, 
         protocol.send(clientSocket,msg);
         delete msg;
         clientSocket.receive(&answer, sizeof(char));
+
         if(answer != USER_EXISTS){
             this->confirmed_username = username;
             this->confirmed_password = password;

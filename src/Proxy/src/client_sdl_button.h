@@ -31,6 +31,7 @@ private:
     int left_click;
     int right_click;
     bool sprite_locked;
+    bool is_equipped;
     const std::string texture_id;
     SDL_Point position;
     //Currently used sprite
@@ -63,6 +64,7 @@ public:
     void updateText(const equipment_t &equipment);
 
     void lockOutlineSprite(const bool lock);
+
 };
 
 
