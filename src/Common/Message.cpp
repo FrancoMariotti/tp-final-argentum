@@ -106,11 +106,16 @@ std::vector<spawn_playable_character_t> Message::getPcSpawnData() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
+std::string Message::getUsername() {
+    throw OSError("Getter de atributo de instancia inexistente, "
+                  "fue delegado a padre Message (abstracta), id mensaje: %c", id);
+}
+
 void Message::setConnectionlId(int id) {
     this->connectionId = id;
 }
 
-int Message::getConnectionlId() {
+int Message::getConnectionlId() const {
     return connectionId;
 }
 
@@ -162,9 +167,9 @@ int Draw::getHeight() const {
 Draw::Draw():Message(DRAW_MESSAGE_ID) {}
 
 
-ExecuteCommand::ExecuteCommand(const std::string& command, const std::string& username) :
+ExecuteCommand::ExecuteCommand(const std::string& command, std::string  username) :
     Message(COMMAND_MESSAGE_ID),
-    username(username),
+    username(std::move(username)),
     command(command),
     x(-1),
     y(-1)
@@ -172,10 +177,10 @@ ExecuteCommand::ExecuteCommand(const std::string& command, const std::string& us
         std::cout << command << "x:" << x << "y:" << y << std::endl;
     }
     
-ExecuteCommand::ExecuteCommand(const std::string& input, const std::string& username, const int x,const int y) :
+ExecuteCommand::ExecuteCommand(std::string  input, const std::string& username, const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
     username(username),
-    command(input),
+    command(std::move(input)),
     x(x),
     y(y)
 {
@@ -187,9 +192,9 @@ command_t  ExecuteCommand::getCommand() const {
     return command_t {username,command,x,y};
 }
 
-Connect::Connect(const std::string& username,const std::string race,const std::string char_class) :
+Connect::Connect(std::string  username,const std::string race,const std::string char_class) :
                                                                     Message(CONNECT_MESSAGE_ID),
-                                                                    username(username),
+                                                                    username(std::move(username)),
                                                                     race(race),
                                                                     char_class(char_class)
                                                                     {}
@@ -262,12 +267,19 @@ std::vector<std::string> ConsoleOutput::getConsoleOutput() {
         return std::move(outputs);
 }
 
-Login::Login(const std::string &username, const std::string &password, enum MESSAGES msg_id) :
+Login::Login(std::string username, const std::string &password, enum MESSAGES msg_id) :
         Message(msg_id),
-        username(username),
+        username(std::move(username)),
         password(password)
         {}
 
 t_client_login Login::getLoginData() const{
     return t_client_login{username, password};
+}
+
+Disconnect::Disconnect(std::string username) : Message(DISCONNECT_MESSAGE_ID),
+    username(std::move(username)){}
+
+std::string Disconnect::getUsername() {
+    return username;
 }

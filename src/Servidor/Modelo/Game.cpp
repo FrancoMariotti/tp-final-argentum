@@ -170,16 +170,23 @@ void Game::executeCommand(std::unique_ptr<Message>& msg) {
     commandExecutor.execute(command.username,command.input,command.x,command.y);
 }
 
+bool Game::isUsernameRegistered(const std::string& username) {
+    return factoryCharacters.isUsernameRegistered(username);
+}
+
+std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
+    std::queue<Message*> pcSpawnsUpdate;
+    map->disconnectPlayer(username, factoryCharacters);
+    map->initializePlayersSpawns(pcSpawnsUpdate);
+    return pcSpawnsUpdate;
+}
+
 Game::~Game() {
     while(!broadcastUpdates.empty()) {
         delete broadcastUpdates.front();
         broadcastUpdates.pop();
     }
     delete map;
-}
-
-bool Game::isUsernameRegistered(std::string username) {
-    return factoryCharacters.isUsernameRegistered(username);
 }
 
 

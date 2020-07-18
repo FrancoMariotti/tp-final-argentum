@@ -80,7 +80,9 @@ class Map {
         void initializePlayersSpawns(std::queue<Message*>& initializeMessages);
         bool empty();
         void persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds);
+        void disconnectPlayer(const std::string& username, PlayableCharacterFactory& pcFactory);
         ~Map();
+
 };
 
 #endif //ARGENTUM_MAPA_H

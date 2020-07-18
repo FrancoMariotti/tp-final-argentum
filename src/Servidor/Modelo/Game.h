@@ -54,7 +54,8 @@ public:
     Message *nextBroadCastUpdate();
     std::tuple<std::string,Message*> nextDirectedUpdate();
     void persistPlayersData(float loopTimeInSeconds);
-    bool isUsernameRegistered(std::string username);
+    bool isUsernameRegistered(const std::string& username);
+    std::queue<Message*> disconnectPlayer(const std::string& username);
     ~Game();
 };
 

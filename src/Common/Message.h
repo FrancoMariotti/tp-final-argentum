@@ -1,3 +1,4 @@
+
 //
 // Created by agustin on 19/6/20.
 //
@@ -24,7 +25,8 @@ enum MESSAGES {
     SPAWN_DROPS_MESSAGE_ID,
     CONSOLE_OUTPUT_MESSAGE_ID,
     SPAWN_PC_MESSAGE_ID,
-    LOGIN_MESSAGE_ID
+    LOGIN_MESSAGE_ID,
+    DISCONNECT_MESSAGE_ID
 };
 
 
@@ -36,7 +38,7 @@ protected:
 public:
     int getId() const;
     void setConnectionlId(int id);
-    int getConnectionlId();
+    int getConnectionlId() const;
     virtual int getPlayerVelX() const;
     virtual int getPlayerVelY() const;
     virtual int getIndex() const;
@@ -56,6 +58,7 @@ public:
     virtual std::vector<std::string> getConsoleOutput();
     virtual t_create_connect getConnectData() const;
     virtual t_client_login getLoginData() const;
+    virtual std::string getUsername();
     virtual ~Message() = default;
 };
 
@@ -99,8 +102,8 @@ private:
     const int x;
     const int y;
 public:
-    ExecuteCommand(const std::string& command, const std::string& username);
-    ExecuteCommand(const std::string& input, const std::string& username, int x, int y);
+    ExecuteCommand(const std::string& command, std::string  username);
+    ExecuteCommand(std::string  input, const std::string& username, int x, int y);
     command_t getCommand() const override;
 };
 
@@ -110,7 +113,7 @@ private:
     const std::string race;
     const std::string char_class;
 public:
-    Connect(const std::string& username, std::string race,std::string char_class);
+    Connect(std::string  username, std::string race,std::string char_class);
     t_create_connect getConnectData() const override;
 };
 
@@ -180,9 +183,16 @@ private:
     const std::string username;
     const std::string password;
 public:
-    Login(const std::string& username, const std::string& password, enum MESSAGES msg_id);
-    t_client_login getLoginData() const;
+    Login(std::string  username, const std::string& password, enum MESSAGES msg_id);
+    t_client_login getLoginData() const override;
 };
 
+class Disconnect : public Message {
+private:
+    const std::string username;
+public:
+    explicit Disconnect(std::string  username);
+    std::string getUsername() override;
+};
 
 #endif //ARGENTUM_MESSAGE_H

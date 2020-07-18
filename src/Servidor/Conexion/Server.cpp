@@ -55,6 +55,20 @@ void Server::start() {
                     delete update;
                 }
             }
+            if (msg->getId() == DISCONNECT_MESSAGE_ID) {
+                //HAY QUE HACER EL BROADCAST PARA DECRILE A TODOS LOS JUGADORES
+                //QUE DEBEN DE DEJAR DE RENDERIZAR AL JUGADOR DESCONECTADO
+                //Esto es una idea que me surgio ,usar el mismo metodo que usamos para inicializar los personajes
+                //nose que tan bien esta pero quizas funcione para que todos borren al jugador que se desconecto
+                std::queue<Message*> pcSpawnsUpdate = game.disconnectPlayer(msg->getUsername());
+                Message* update = pcSpawnsUpdate.front();
+                //CREO QUE EL MENSAJE SE PODRIA SERIALIZAR PORQUE ESTOY USANDO EL MENSAJE SPAWNPC QUE YA EXISTE
+                std::string updateData = serializer.serialize(update);
+                //CREO QUE ESTE MENSAJE POR LO QUE VI QUE HACE EN EL CLIENTE SERVIRIAP PARA QUE BORRE AL JUGADOR
+                //DESCONECTADO,YA QUE EN EL UPDATEPLAYABLERENDERABLES, HACE UN CLEAR Y DESPUES AGREGA TODOS
+                //PLAYERS QUE LE LLEGAN
+                clients.broadcast(SPAWN_PC_MESSAGE_ID,updateData);
+            }
             if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 location_t location = msg->getLocation();
                 Offset offset(location.x, location.y);

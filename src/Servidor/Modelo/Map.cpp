@@ -310,6 +310,11 @@ bool Map::empty() {
     return characters.empty();
 }
 
+void Map::disconnectPlayer(const std::string& username, PlayableCharacterFactory& pcFactory) {
+    pcFactory.persistPlayerData(getPlayer(username));
+    removePlayableCharacter(username);
+}
+
 Map::~Map() {
     auto itrNpcs = npcs.begin();
     for (; itrNpcs != npcs.end(); itrNpcs++) {
@@ -321,3 +326,4 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
