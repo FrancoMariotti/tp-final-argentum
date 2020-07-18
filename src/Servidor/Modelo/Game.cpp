@@ -178,4 +178,8 @@ Game::~Game() {
     delete map;
 }
 
+bool Game::isUsernameRegistered(std::string username) {
+    return factoryCharacters.isUsernameRegistered(username);
+}
+
 

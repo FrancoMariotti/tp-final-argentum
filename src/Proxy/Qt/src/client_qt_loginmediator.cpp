@@ -61,7 +61,7 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
 void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, const std::string& password){
     if(!username.empty() && !password.empty()){
         char answer;
-        Message* msg = new Login(username, password, SIGNUP_MESSAGE_ID);
+        Message* msg = new Login(username, password, LOGIN_MESSAGE_ID);
         protocol.send(clientSocket,msg);
         delete msg;
         clientSocket.receive(&answer, sizeof(char));

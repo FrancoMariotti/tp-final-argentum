@@ -62,3 +62,7 @@ int Inventory::getItemIndex(std::string itemName) {
     return -1;
 }
 
+bool Inventory::isFull() {
+    return elements.size() == maxElements;
+}
+

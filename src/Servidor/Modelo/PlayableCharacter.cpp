@@ -418,7 +418,7 @@ void PlayableCharacter::takeDroppable(Equippable* equippable) {
 }
 
 void PlayableCharacter::takeDrop() {
-    lifeState->takeDrop(map, currPos, this);
+    if (!inventory.isFull()) lifeState->takeDrop(map, currPos, this);
 }
 
 bool PlayableCharacter::isInCity() const {

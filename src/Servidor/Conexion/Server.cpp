@@ -33,6 +33,13 @@ void Server::start() {
         std::list<std::unique_ptr<Message>> messages = events.consume();
         for (auto & msg : messages) {
             std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
+            if (msg->getId() == LOGIN_MESSAGE_ID) {
+                //ESTO LO COMENTO PARA QUE COMPILE PERO EN REALIDAD HAY QUE USARLO
+                /*t_client_login data = msg->getLoginData();
+                bool result = game.isUsernameRegistered(data.username);*/
+
+                //TODO ACA HABRIA QUE MANDARLE LA RESPUESTA AL CLIENTE QUE MANDO EL MENSAJE
+            }
             if (msg->getId() == CONNECT_MESSAGE_ID) {
                 //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
                 t_create_connect data = msg->getConnectData();

@@ -119,7 +119,8 @@ class PlayableCharacterFactory {
                 const std::string& charClass, Observer* observer);
 
         void persistPlayerData(PlayableCharacter *pCharacter);
-        ~PlayableCharacterFactory();
+        bool isUsernameRegistered(const std::string& playerName);
+        ~PlayableCharacterFactory() = default;
 };
 
 class NpcFactory {

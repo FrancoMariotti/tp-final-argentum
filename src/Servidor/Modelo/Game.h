@@ -53,9 +53,9 @@ public:
     bool directedUpdateAvailable();
     Message *nextBroadCastUpdate();
     std::tuple<std::string,Message*> nextDirectedUpdate();
-    ~Game();
-
     void persistPlayersData(float loopTimeInSeconds);
+    bool isUsernameRegistered(std::string username);
+    ~Game();
 };
 
 

@@ -456,12 +456,9 @@ void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::
     }
 }
 
-PlayableCharacterFactory::~PlayableCharacterFactory() {
-   /* playersInfoFile.close();
-    playersInfoMapFile.close();*/
+bool PlayableCharacterFactory::isUsernameRegistered(const std::string &playerName) {
+    return playersInfoMap.find(playerName) != playersInfoMap.end();
 }
-
-
 
 NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) :
     itemFactory(pFactory) {

@@ -22,6 +22,8 @@ public:
     int getItemsAmount();
 
     int getItemIndex(std::string itemName);
+
+    bool isFull();
 };
 
 
