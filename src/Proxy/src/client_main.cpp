@@ -13,7 +13,7 @@ int main(int argc, char* args[]) {
         /*Si el cliente decide no conectarse, se debe terminar la ejecucion sin correr SDL*/
         //if(socket != -1){
             Client client(socket);
-            client.run();
+        client.run("NaN");
             client.stop();
         //}
     } catch (std::exception &e) {
@@ -29,7 +29,8 @@ int main(int argc, char* args[]) {
 
 int QtApp(int argc, char* args[], Socket& socket){
    // QApplication a(argc, args);
-    LoginMediator loginMediator(socket);
+   std::string dummy;
+    LoginMediator loginMediator(socket, dummy);
     loginMediator.show();
     return 0; //a.exec();
 }

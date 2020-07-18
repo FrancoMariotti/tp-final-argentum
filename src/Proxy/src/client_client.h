@@ -42,7 +42,7 @@ public:
 
     //explicit Client(ProxySocket& proxySocket);
 
-    int run();
+    int run(const std::string &username);
 
     void init();
 

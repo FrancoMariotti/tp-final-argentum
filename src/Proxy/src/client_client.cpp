@@ -31,8 +31,9 @@ Client::Client(Socket &socket) :
     thRecv.start();
 }*/
 
-int Client::run() {
+int Client::run(const std::string &username) {
     try{
+        gui.setUsername(username);
         this->init();
 
         //Main loop flag
@@ -82,13 +83,14 @@ int Client::run() {
 }
 
 void Client::init() {
-    std::string username_input;
+    /*std::string username_input;
     std::cout << "ingrese username:";
     std::cin >> username_input;
 
-    clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"human","wizard")));
+    clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"elf","warrior")));
     gui.setUsername(username_input);
-    int init = 0;
+    */
+     int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/
     while(init < 3){
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();

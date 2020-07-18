@@ -16,11 +16,12 @@ private:
     Protocol protocol;
 
     Socket& clientSocket;
+    std::string& gui_username;
     std::string confirmed_username;
     std::string confirmed_password;
 
 public:
-    explicit LoginMediator(Socket& clientSocket);
+    explicit LoginMediator(Socket &clientSocket, std::string &gui_username);
 
     ~LoginMediator();
 
@@ -35,6 +36,8 @@ public:
     void changeToLoginScreen();
 
     void show();
+
+    void close();
 };
 
 #endif // LOGINMEDIATOR_H

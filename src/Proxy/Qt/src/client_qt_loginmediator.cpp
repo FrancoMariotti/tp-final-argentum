@@ -10,8 +10,9 @@
 #define CREATE_COMMAND 'c'
 #define USER_EXISTS 1
 
-LoginMediator::LoginMediator(Socket& clientSocket) :
-    clientSocket(clientSocket){
+LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username) :
+    clientSocket(clientSocket),
+    gui_username(gui_username){
     qtServerLogin = new QtServerLogin(this);
     qtCharacterLogin = new QtCharacterLogin(this);
     qtCharacterCreation = new QtCharacterCreation(this);
@@ -40,13 +41,15 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
         protocol.send(clientSocket, msg);
         delete msg;
         clientSocket.receive(&answer, sizeof(char));
+        std::cout << "Iniciar Sesion: " << (int) answer << std::endl;
         if (answer == USER_EXISTS) {
             qtCharacterLogin->setLoginLabel(true);
             Message *msg_connect = new Connect(username, "", "");
             protocol.send(clientSocket, msg_connect);
             delete msg;
+            gui_username = username;
             /*Aca cierro la app de login*/
-            //loginMediator->close()
+            this->close();
         } else {
             qtCharacterLogin->setLoginLabel(false);
         }
@@ -65,8 +68,8 @@ void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, 
         protocol.send(clientSocket,msg);
         delete msg;
         clientSocket.receive(&answer, sizeof(char));
-
-        if(answer != USER_EXISTS){
+        std::cout << "Registrarse: " << (int) answer << std::endl;
+        if(answer == 0){
             this->confirmed_username = username;
             this->confirmed_password = password;
             qtCharacterLogin->setLoginLabel(true);
@@ -91,7 +94,8 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
     Message* msg = new Connect(confirmed_username, s_race, s_class);
     protocol.send(clientSocket,msg);
     delete msg;
-    //this->close();
+    gui_username = confirmed_username;
+    this->close();
 
     /**/
     //clientSocket.receive(&answer, sizeof(char));
@@ -113,9 +117,11 @@ void LoginMediator::show(){
     qtServerLogin->show();
 }
 
-/*void LoginMediator::close(){
-
-}*/
+void LoginMediator::close(){
+    qtServerLogin->close();
+    qtCharacterLogin->close();
+    qtCharacterCreation->close();
+}
 
 LoginMediator::~LoginMediator(){
     delete qtServerLogin;
