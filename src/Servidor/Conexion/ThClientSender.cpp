@@ -14,10 +14,10 @@ void ThClientSender::run() {
         while(keepTalking) {
             std::cout << "sending event" << std::endl;
             event_t  event= messages.pop();
-            if(event.id > 0) {
-                protocol.send(client,event.id);
+            protocol.send(client,event.id);
+            if(event.data.size() > 0) {
+                protocol.send(client,event.data);
             }
-            protocol.send(client,event.data);
         }
     } catch(std::exception &e) {
         keepTalking = false;
