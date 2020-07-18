@@ -46,9 +46,9 @@ public:
 
     int getTileSize() const;
 
-    SDL_Point toServerCoordinates(const SDL_Point &point_in_pixels);
+    SDL_Point toServerCoordinates(const SDL_Point &point_in_pixels) const;
 
-    SDL_Point posToServerCoordinates(const SDL_Point &point_in_pixels);
+    SDL_Point posToServerCoordinates(const SDL_Point &point_in_pixels) const;
 };
 
 

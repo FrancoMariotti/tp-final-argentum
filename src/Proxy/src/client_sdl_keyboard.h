@@ -22,7 +22,7 @@ public:
 
     void handleEvent(SDL_Event &e, bool &is_event_handled);
 
-    void movePlayer(BlockingQueue<std::unique_ptr<Message>> &clientEvents);
+    void movePlayer();
 
 };
 

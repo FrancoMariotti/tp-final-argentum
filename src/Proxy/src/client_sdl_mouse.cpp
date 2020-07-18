@@ -40,7 +40,7 @@ void SdlMouse::handleEvent(SDL_Event &event, bool &is_event_handled) {
     }
 }
 
-void SdlMouse::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents){
+void SdlMouse::use() {
     if(position.x > -1 && position.y > -1 && right_click > 0){
         std::cout << "DEBUG: attack" << std::endl;
         this->mediator->notify(this, position);

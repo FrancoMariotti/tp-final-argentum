@@ -5,7 +5,6 @@
 #include "client_sdl_console.h"
 #include "client_sdl_window.h"
 #include "Common/Message.h"
-#include "client_sdl_inventory.h"
 #include "client_sdl_dynamic_renderable.h"
 
 SdlConsole::SdlConsole(const SdlWindow &window, TTF_Font *font) :

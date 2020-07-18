@@ -21,6 +21,12 @@ SDL_Point SdlCamera::getCoordinates(const SDL_Point point) const {
 void SdlCamera::move(const SDL_Point player_pos) {
     camera_x = player_pos.x - (CAMERA_WIDTH / 2);
     camera_y = player_pos.y - (CAMERA_HEIGHT / 2);
+    /*if(camera_x < 0){
+        camera_x = 0;
+    }
+    if(camera_y < 0){
+        camera_y = 0;
+    }*/
 }
 
 bool SdlCamera::isInCameraView(const SDL_Point& point) const {
@@ -49,11 +55,11 @@ int SdlCamera::toPixels(const int value) const{
     return value * TILE_SIZE;
 }
 
-SDL_Point SdlCamera::toServerCoordinates(const SDL_Point& point_in_pixels){
+SDL_Point SdlCamera::toServerCoordinates(const SDL_Point& point_in_pixels) const{
     return SDL_Point{(camera_x + point_in_pixels.x) / TILE_SIZE, (camera_y + point_in_pixels.y) / TILE_SIZE};
 }
 
-SDL_Point SdlCamera::posToServerCoordinates(const SDL_Point& point_in_pixels){
+SDL_Point SdlCamera::posToServerCoordinates(const SDL_Point& point_in_pixels) const{
     return SDL_Point{point_in_pixels.x / TILE_SIZE, point_in_pixels.y / TILE_SIZE};
 }
 

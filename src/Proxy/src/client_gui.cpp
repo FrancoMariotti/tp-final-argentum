@@ -58,9 +58,9 @@ void GUI::handleEvents(SDL_Event &event){
 }
 
 void GUI::execute(){
-    keyboard.movePlayer(clientEvents);
+    keyboard.movePlayer();
     inventory.use(clientEvents, mouse);
-    mouse.use(clientEvents);
+    mouse.use();
     //SDL_Point player_pos = dynamic_playable_renderables.at(username)->getPos();
     SDL_Point player_pos = this->getPlayableCharacter(username)->getPos();
     console.execute();

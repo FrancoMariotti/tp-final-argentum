@@ -14,19 +14,19 @@ WaitingState::WaitingState(EventMediator* eventMediator) :
     std::cout << "WaitingState" << std::endl;
     }
 
-void WaitingState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SDL_Point map_click) {
+void WaitingState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const SDL_Point map_click) const{
     eventMediator->setMapClick(map_click);
     eventMediator->changeState(new MapClickedState(eventMediator));
 }
 
-void WaitingState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) {
+void WaitingState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) const{
     if (s_input == "/meditar" || s_input == "/resucitar" || s_input == "/tomar" || s_input.find('@') == 0) {
         clientEvents.push(std::unique_ptr<Message>
                                   (new ExecuteCommand(s_input, eventMediator->getUsername())));
     }
 }
 
-void WaitingState::setInventoryIndex(int inventory_i) {
+void WaitingState::setInventoryIndex(const int inventory_i) const {
     eventMediator->setInventoryIndex(inventory_i);
     eventMediator->changeState(new ItemClickedState(eventMediator));
 }
@@ -39,13 +39,13 @@ MapClickedState::MapClickedState(EventMediator* eventMediator) :
 
     }
 
-void MapClickedState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SDL_Point map_click) {
+void MapClickedState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const SDL_Point map_click) const {
     eventMediator->setMapClick(map_click);
 }
 
 /**Tal vez seria mejor delegarlo al eventMediator->pushEvent(input,x,y)
  * asi el state no conoce de los mensajes o al reves, que solo los State conozcan de los mensajes*/
-void MapClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) {
+void MapClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) const {
     if (s_input == "/resucitar" || s_input == "/curar" || s_input == "/depositar" || s_input == "/listar" ) {
         SDL_Point map_click = eventMediator->getMapClick();
         clientEvents.push(std::unique_ptr<Message>
@@ -59,7 +59,7 @@ void MapClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEve
     eventMediator->changeState(new WaitingState(eventMediator));
 }
 
-void MapClickedState::setInventoryIndex(int inventory_i) {
+void MapClickedState::setInventoryIndex(const int inventory_i) const {
     eventMediator->setInventoryIndex(inventory_i);
     eventMediator->changeState(new ItemClickedState(eventMediator));
 }
@@ -69,12 +69,12 @@ ItemClickedState::ItemClickedState(EventMediator *eventMediator) :
     IConsoleCommandState(eventMediator)
     {}
 
-void ItemClickedState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SDL_Point map_click) {
+void ItemClickedState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SDL_Point map_click) const {
     eventMediator->setMapClick(map_click);
     eventMediator->changeState(new MapClickedState(eventMediator));
 }
 
-void ItemClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) {
+void ItemClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string &s_input) const {
     if (s_input == "/tirar"){
         int index = eventMediator->getItemIndex();
         clientEvents.push(std::unique_ptr<Message>
@@ -83,6 +83,6 @@ void ItemClickedState::execute(BlockingQueue<std::unique_ptr<Message>> &clientEv
     eventMediator->changeState(new WaitingState(eventMediator));
 }
 
-void ItemClickedState::setInventoryIndex(int inventory_i) {
+void ItemClickedState::setInventoryIndex(const int inventory_i) const {
     eventMediator->setInventoryIndex(inventory_i);
 }

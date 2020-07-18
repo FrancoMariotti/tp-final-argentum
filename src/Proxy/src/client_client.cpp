@@ -83,13 +83,13 @@ int Client::run(const std::string &username) {
 }
 
 void Client::init() {
-    /*std::string username_input;
+   /* std::string username_input;
     std::cout << "ingrese username:";
     std::cin >> username_input;
 
     clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"elf","warrior")));
     gui.setUsername(username_input);
-    */
+*/
      int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/
     while(init < 3){
