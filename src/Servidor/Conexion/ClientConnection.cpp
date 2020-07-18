@@ -27,15 +27,20 @@ void ClientConnection::start() {
     sender.start();
 }
 
-ClientConnection::~ClientConnection() {
-    client.shutdown(SHUT_RDWR);
-    client.close();
-}
-
 int ClientConnection::getId() {
     return this->id;
 }
 
+void ClientConnection::sendLoginReponse(int answer) {
+    Protocol protocol;
+    protocol.send(client,answer);
+}
+
 void ClientConnection::sendMessage(int messageId, std::string data) {
     events.push(event_t {messageId,data});
+}
+
+ClientConnection::~ClientConnection() {
+    client.shutdown(SHUT_RDWR);
+    client.close();
 }

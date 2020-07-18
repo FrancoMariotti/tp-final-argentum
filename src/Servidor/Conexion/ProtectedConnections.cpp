@@ -33,12 +33,23 @@ void ProtectedConnections::push(ClientConnection* client) {
     clients.push_back(client);
 }
 
+void ProtectedConnections::sendMessage(int connectionId,int answer) {
+    std::lock_guard<std::mutex> lck (mutex);
+    for(auto& client:clients) {
+        if(client->getId() == connectionId) {
+            client->sendLoginReponse(answer);
+            break;
+        }
+    }
+}
+
 
 void ProtectedConnections::sendMessage(int connectionId,int messageId,std::string data) {
     std::lock_guard<std::mutex> lck (mutex);
     for(auto& client:clients) {
         if(client->getId() == connectionId) {
             client->sendMessage(messageId,data);
+            break;
         }
     }
 }
