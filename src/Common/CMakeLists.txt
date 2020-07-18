@@ -27,7 +27,9 @@ set(SERIALIZERSSOURCES
         EquipmentMessageSerializer.h
         EquipmentMessageSerializer.cpp
         UseItemMessageSerializer.h
-        UseItemMessageSerializer.cpp)
+        UseItemMessageSerializer.cpp
+        LoginMessageSerializer.h
+        LoginMessageSerializer.cpp)
 
 
 add_library(commonLib

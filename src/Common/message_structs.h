@@ -81,6 +81,8 @@ typedef struct command {
 typedef struct client_login{
     std::string username;
     std::string password;
+    MSGPACK_DEFINE(username,
+                   password)
 }t_client_login;
 
 

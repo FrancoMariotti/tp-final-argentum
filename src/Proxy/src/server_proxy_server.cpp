@@ -1,14 +1,6 @@
 #include "server_proxy_server.h"
 #include "Common/common_proxy_socket.h"
 #include "Common/Message.h"
-#include "../../Servidor/Modelo/Game.h"
-#include "../../Servidor/Modelo/Event.h"
-#include "../../Servidor/Modelo/EventMove.h"
-#include "../../Servidor/Modelo/NormalWeapon.h"
-#include "../../Servidor/Modelo/RangeWeapon.h"
-#include "../../Servidor/Modelo/MagicalWeapon.h"
-#include "../../Servidor/Modelo/Damage.h"
-
 ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     keepListening(true),
     proxySocket(proxySocket)

@@ -1,6 +1,5 @@
 #include "ProtectedConnections.h"
 #include "Server.h"
-#include <Servidor/Modelo/EventMove.h>
 #include <thread>
 #define END_SIGNAL 'c'
 
@@ -34,18 +33,15 @@ void Server::start() {
         for (auto & msg : messages) {
             std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
             if (msg->getId() == LOGIN_MESSAGE_ID) {
-                //ESTO LO COMENTO PARA QUE COMPILE PERO EN REALIDAD HAY QUE USARLO
-                /*t_client_login data = msg->getLoginData();
-                bool result = game.isUsernameRegistered(data.username);*/
-
-                //TODO ACA HABRIA QUE MANDARLE LA RESPUESTA AL CLIENTE QUE MANDO EL MENSAJE
+                t_client_login data = msg->getLoginData();
+                bool result = game.isUsernameRegistered(data.username);
+                char answer = result ? 1:0;
+                clients.sendMessage(msg->getConnectionlId(),-1,std::to_string(answer));
             }
             if (msg->getId() == CONNECT_MESSAGE_ID) {
-                //aca deberia chequear si el jugador ya existe y en tal caso cargar sus datos.
                 t_create_connect data = msg->getConnectData();
                 game.createPlayer(data.username,data.race,data.charClass);
                 connectionsTable[data.username] = msg->getConnectionlId();
-                //manda el paquete de inicializacion
                 std::queue<Message*> initialMessages = game.initializeWorld();
                 while(!initialMessages.empty()) {
                     Message* update = initialMessages.front();
@@ -62,9 +58,7 @@ void Server::start() {
             if (msg->getId() == MOVEMENT_MESSAGE_ID) {
                 location_t location = msg->getLocation();
                 Offset offset(location.x, location.y);
-                EventMove event(offset);
-                Event *move =&event;
-                move->execute(game, location.id);
+                game.movePlayer(location.id,offset);
             }
             if (msg->getId() == COMMAND_MESSAGE_ID) {
                 game.executeCommand(msg);
@@ -91,7 +85,6 @@ void Server::start() {
         int elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>
                 (end-start).count();
         std::this_thread::sleep_for(std::chrono::milliseconds(60- elapsed_seconds));
-        //server y mandar a cada client el update que me manda el game
 
         while (game.directedUpdateAvailable()) {
             std::tuple<std::string,Message*> update = game.nextDirectedUpdate();

@@ -13,44 +13,61 @@
 #include "ConsoleOutputMessageSerializer.h"
 #include "EquipmentMessageSerializer.h"
 #include "UseItemMessageSerializer.h"
+#include "LoginMessageSerializer.h"
 
 MessageSerializer::MessageSerializer() {
-    serializers[DRAW_MESSAGE_ID] = new  DrawMessageSerializer();
-    serializers[CONNECT_MESSAGE_ID] = new  ConnectMessageSerializer();
-    serializers[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = new  SpawnStaticObjectsMessageSerializer();
-    serializers[SPAWN_DROPS_MESSAGE_ID] = new  SpawnStaticObjectsMessageSerializer();
-    serializers[SPAWN_NPC_MESSAGE_ID] = new  SpawnStaticObjectsMessageSerializer();
-    serializers[SPAWN_PC_MESSAGE_ID] = new SpawnPcMessageSerializer();
-    serializers[MOVEMENT_MESSAGE_ID] = new MovementMessageSerializer();
-    serializers[STATS_UPDATE_MESSAGE_ID] = new StatsMessageSerializer();
-    serializers[INVENTORY_UPDATE_MESSAGE_ID] = new InventoryMessageSerializer();
-    serializers[COMMAND_MESSAGE_ID] = new CommandMessageSerializer();
-    serializers[NPC_MOVEMENT_UPDATE_MESSAGE_ID] = new ActionMessageSerializer();
-    serializers[PLAYER_ATTACK_MESSAGE_ID] = new ActionMessageSerializer();
-    serializers[USE_ITEM_MESSAGE_ID] = new UseItemMessageSerializer();
-    serializers[CONSOLE_OUTPUT_MESSAGE_ID] = new ConsoleOutputMessageSerializer();
-    serializers[EQUIPMENT_UPDATE_MESSAGE_ID] = new EquipmentMessageSerializer();
+    serializers.push_back(new  DrawMessageSerializer());
+    serializers.push_back(new  ConnectMessageSerializer());
+    serializers.push_back(new  SpawnStaticObjectsMessageSerializer());
+    serializers.push_back(new  SpawnPcMessageSerializer());
+    serializers.push_back(new  MovementMessageSerializer());
+    serializers.push_back(new  StatsMessageSerializer());
+    serializers.push_back(new  InventoryMessageSerializer());
+    serializers.push_back(new  CommandMessageSerializer());
+    serializers.push_back(new  ActionMessageSerializer());
+    serializers.push_back(new  UseItemMessageSerializer());
+    serializers.push_back(new  ConsoleOutputMessageSerializer());
+    serializers.push_back(new  EquipmentMessageSerializer());
+    serializers.push_back(new  LoginMessageSerializer());
+
+
+    serializersTable[DRAW_MESSAGE_ID] = 0;
+    serializersTable[CONNECT_MESSAGE_ID] = 1;
+    serializersTable[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = 2;
+    serializersTable[SPAWN_DROPS_MESSAGE_ID] = 2;
+    serializersTable[SPAWN_NPC_MESSAGE_ID] = 2;
+    serializersTable[SPAWN_PC_MESSAGE_ID] = 3;
+    serializersTable[MOVEMENT_MESSAGE_ID] = 4;
+    serializersTable[STATS_UPDATE_MESSAGE_ID] = 5;
+    serializersTable[INVENTORY_UPDATE_MESSAGE_ID] = 6;
+    serializersTable[COMMAND_MESSAGE_ID] = 7;
+    serializersTable[NPC_MOVEMENT_UPDATE_MESSAGE_ID] = 8;
+    serializersTable[PLAYER_ATTACK_MESSAGE_ID] = 8;
+    serializersTable[USE_ITEM_MESSAGE_ID] = 9;
+    serializersTable[CONSOLE_OUTPUT_MESSAGE_ID] = 10;
+    serializersTable[EQUIPMENT_UPDATE_MESSAGE_ID] = 11;
+    serializersTable[LOGIN_MESSAGE_ID] = 12;
 }
 
 std::string MessageSerializer::serialize(Message* message) {
-    auto itr = serializers.find(message->getId());
+    auto itr = serializersTable.find(message->getId());
 
-    if(itr != serializers.end()) {
-        return serializers.at(message->getId())->serialize(message);
+    if(itr != serializersTable.end()) {
+        return serializers[serializersTable.at(message->getId())]->serialize(message);
     }
     throw OSError("Id de mensaje inexistente");
 }
 
 Message *MessageSerializer::deserialize(int messageId,unsigned char *data,uint32_t len_data) {
-    auto itr = serializers.find(messageId);
-    if(itr == serializers.end()) return nullptr;
-    return serializers.at(messageId)->deserialize(data,len_data);
+    auto itr = serializersTable.find(messageId);
+    if(itr == serializersTable.end())  return nullptr;
+    return serializers[serializersTable.at(messageId)]->deserialize(data,len_data);
 }
 
 MessageSerializer::~MessageSerializer() {
     auto itr = serializers.begin();
     for (; itr!=serializers.end() ; itr++) {
-        delete itr->second;
+        delete *itr;
     }
 }
 

@@ -7,7 +7,8 @@
 class Message;
 
 class MessageSerializer {
-    std::map<int,Serializer*> serializers;
+    std::vector<Serializer*> serializers;
+    std::map<int,int> serializersTable;
 public:
     MessageSerializer();
     std::string serialize(Message* message);
