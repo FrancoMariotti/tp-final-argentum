@@ -132,11 +132,17 @@ int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
     bool canAttack = enemy->checkFairPlay(level);
     if(canAttack) {
         earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
-        std::vector<std::string> messages;
-        std::string message = "Danio producido al atacar con " + activeWeapon->getName();
-        message += " :"+ std::to_string(activeWeapon->getLastDamage());
-        messages.push_back(message);
-        notifyConsoleOutputUpdate(messages);
+        if (earnedXp > 0) {
+            std::vector<std::string> messages;
+            std::string weaponName = activeWeapon->getName();
+            if (weaponName == "none") weaponName = "punios";
+            std::string message = "Danio producido al atacar con " + weaponName;
+            message += " :"+ std::to_string(activeWeapon->getLastDamage());
+            messages.push_back(message);
+            notifyConsoleOutputUpdate(messages);
+        } else {
+            earnedXp = 0;
+        }
     }
     //Notifico los stats aca por si ataca con un arma magica que modifica los stats
     //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
