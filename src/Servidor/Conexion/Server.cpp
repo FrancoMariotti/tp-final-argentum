@@ -36,7 +36,7 @@ void Server::start() {
                 t_client_login data = msg->getLoginData();
                 bool result = game.isUsernameRegistered(data.username);
                 int answer = result ? 1:0;
-                clients.sendMessage(msg->getConnectionlId(),answer,"");
+                clients.sendMessage(msg->getConnectionlId(),answer);
             }
 
             if (msg->getId() == CONNECT_MESSAGE_ID) {
