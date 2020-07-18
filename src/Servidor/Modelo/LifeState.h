@@ -11,7 +11,7 @@
 class LifeState {
 public:
     virtual void attackEnemy(PlayableCharacter* character,Character *enemy) = 0;
-    virtual int modifyLifePointsFrom(PlayableCharacter *character, int enemyLevel, int damage) = 0;
+    virtual int modifyLifePointsFrom(PlayableCharacter *character, int attackerLvl, int damage) = 0;
     virtual void store(Equippable *element, Inventory &inventory, Observer *observer) = 0;
     virtual void heal(float maxLife, float &lifePoints, float value) = 0;
     virtual void earnMana(float maxMana, float &mana, float value) = 0;

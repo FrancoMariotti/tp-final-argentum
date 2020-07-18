@@ -40,7 +40,7 @@ std::queue<Message *> Game::initializeWorld() {
     map->addLayersTo(configFile, initializeMessages);
     map->initializeDropSpawns(initializeMessages);
     map->initializeNpcsSpawns(initializeMessages);
-    map->initializePlayersSpawns(initializeMessages);
+    map->updatePlayersSpawns(initializeMessages);
     return initializeMessages;
 }
 
@@ -174,7 +174,7 @@ bool Game::isUsernameRegistered(const std::string& username) {
 std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
     std::queue<Message*> pcSpawnsUpdate;
     map->disconnectPlayer(username, factoryCharacters);
-    map->initializePlayersSpawns(pcSpawnsUpdate);
+    map->updatePlayersSpawns(pcSpawnsUpdate);
     return pcSpawnsUpdate;
 }
 

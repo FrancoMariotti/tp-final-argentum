@@ -10,7 +10,7 @@
 
 class Alive: public LifeState {
     void attackEnemy(PlayableCharacter *character, Character *enemy) override;
-    int modifyLifePointsFrom(PlayableCharacter *character, int enemyLevel, int damage) override;
+    int modifyLifePointsFrom(PlayableCharacter *character, int attackerLvl, int damage) override;
     void store(Equippable *element, Inventory &inventory, Observer *observer) override;
     void heal(float maxLife, float &lifePoints, float value) override;
     void earnMana(float maxMana, float &mana, float value) override;

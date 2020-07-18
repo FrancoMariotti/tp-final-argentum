@@ -8,6 +8,7 @@
 #include "TakeItemCommand.h"
 #include "DropItemCommand.h"
 #include "ListItemsCommand.h"
+#include "PrivateMessageCommand.h"
 
 CommandExecutor::CommandExecutor() = default;
 
@@ -21,6 +22,7 @@ CommandExecutor::CommandExecutor(Map* map) {
     this->commands["/tomar"] = new TakeItemCommand(map);
     this->commands["/tirar"] = new DropItemCommand(map);
     this->commands["/listar"] = new ListItemsCommand(map);
+    this->commands["@"] = new PrivateMessageCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {
@@ -31,6 +33,11 @@ void CommandExecutor::execute(const std::string& username, const std::string& co
     if(itr != commands.end()) {
         std::string params = command.substr( command.find(delimiter) + 1);
         commands.at(token)->execute(username,params,x,y);
+    } else if(token[0] == '@') {
+        std::string receiverAndMessage;
+        receiverAndMessage = command.substr(command.find('@') + 1);
+        token = token[0];
+        commands.at(token)->execute(username, receiverAndMessage, x, y);
     }
 }
 

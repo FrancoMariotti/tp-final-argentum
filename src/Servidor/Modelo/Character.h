@@ -6,6 +6,9 @@
 #include "Position.h"
 #include "Observer.h"
 
+#define OBJETIVO_FUERA_DE_RANGO -1
+#define ATAQUE_ESQUIVADO -2
+
 //class PlayableCharacter;
 //class Npc;
 
@@ -33,10 +36,10 @@ class Character {
         float calculateRecoverLifePoints(float seconds) const;
         float calculateRecoverMana(float seconds) const;
         int calculateRecoverManaMeditating(int seconds) const;
-        int calculateAttackXp(int damage,int enemyLvl) const;
         int calculateGoldCapacity() const;
         int calculateLvlLimit() const;
-        int calculateKillXp (int enemyMaxLp, int enemyLvl) const;
+        int calculateAttackXp(int damage,int attackerLvl) const;
+        int calculateKillXp(int attackerLvl) const;
         bool dodge() const;
         int calculateSafeGoldCapacity(int lvl) const;
     public:
@@ -47,7 +50,7 @@ class Character {
         Offset getOffset(Position initialPos);
         int distanceTo(Position pos);
         virtual void attack(Character* character) = 0;
-        virtual int receiveDamage(int enemyLevel,int damage) = 0;
+        virtual int receiveDamage(int attackerLvl,int damage) = 0;
         virtual int receiveAttackFrom(PlayableCharacter *enemy) = 0;
         void restoreLife();
         Position getClosestPositionToDrop();

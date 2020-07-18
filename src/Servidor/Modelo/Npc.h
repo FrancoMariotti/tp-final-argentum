@@ -35,7 +35,7 @@ public:
             int classManaFactor,int recoveryFactor,int meditationRecoveryFactor,Observer* observer,
             ItemFactory* itemFactoryPtr, std::map<int, item_t>& itemsToDrop);
     void move(float loopTime);
-    int receiveDamage(int enemyLevel, int damage) override;
+    int receiveDamage(int attackerLvl, int damage) override;
     int receiveAttackFrom(PlayableCharacter *enemy) override;
     //void addMerchant(Merchant* newMerchant);
     ~Npc() override;

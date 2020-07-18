@@ -103,11 +103,13 @@ void PlayableCharacter::attack(Character *character) {
 
 void PlayableCharacter::makeDamageTo(Character *character) {
     int earnedXp = character->receiveAttackFrom(this);
-    if (earnedXp == -1) {
-        std::vector<std::string> messages;
-        std::string message = "El enemigo esquivo tu ataque";
-        messages.push_back(message);
-        notifyConsoleOutputUpdate(messages);
+    if (earnedXp < 0) {
+        if (earnedXp == ATAQUE_ESQUIVADO) {
+            std::vector<std::string> messages;
+            std::string message = "El enemigo esquivo tu ataque";
+            messages.push_back(message);
+            notifyConsoleOutputUpdate(messages);
+        }
         earnedXp = 0;
     }
 
@@ -140,34 +142,36 @@ int PlayableCharacter::attackTo(PlayableCharacter *enemy) {
             message += " :"+ std::to_string(activeWeapon->getLastDamage());
             messages.push_back(message);
             notifyConsoleOutputUpdate(messages);
-        } else {
-            earnedXp = 0;
+            //Notifico los stats aca por si ataca con un arma magica que modifica los stats
+            //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
+            // y no tienen el metodo notifyStats
+            notifyStats();
         }
     }
-    //Notifico los stats aca por si ataca con un arma magica que modifica los stats
-    //no lo puedo hacer en el activeweapon->attack porque recibe objetos de la clase Character
-    // y no tienen el metodo notifyStats
-    notifyStats();
     return earnedXp;
 }
 
 int PlayableCharacter::attackTo(Npc *enemy) {
     int earnedXp = activeWeapon->attack(this,enemy,strength,level,mana,currPos);
-    std::vector<std::string> messages;
-    std::string message = "Danio producido al atacar con " + activeWeapon->getName();
-    message += " :"+ std::to_string(activeWeapon->getLastDamage());
-    messages.push_back(message);
-    notifyConsoleOutputUpdate(messages);
-    notifyStats();
+    if (earnedXp > 0) {
+        std::vector<std::string> messages;
+        std::string weaponName = activeWeapon->getName();
+        if (weaponName == "none") weaponName = "punios";
+            std::string message = "Danio producido al atacar con " + weaponName;
+            message += " :"+ std::to_string(activeWeapon->getLastDamage());
+            messages.push_back(message);
+            notifyConsoleOutputUpdate(messages);
+            notifyStats();
+        }
     return earnedXp;
 }
 
-int PlayableCharacter::receiveDamage(int enemyLevel, int damage) {
+int PlayableCharacter::receiveDamage(int attackerLvl, int damage) {
     if(inCity) return 0;
-    return lifeState->modifyLifePointsFrom(this,enemyLevel,damage);
+    return lifeState->modifyLifePointsFrom(this,attackerLvl,damage);
 }
 
-int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
+int PlayableCharacter::modifyLifePoints(int attackerLvl, int damage) {
     int xpEarned = 0;
     std::vector<std::string> messages;
 
@@ -175,7 +179,7 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
         std::string message = "Ataque esquivado";
         messages.push_back(message);
         notifyConsoleOutputUpdate(messages);
-        return -1;
+        return ATAQUE_ESQUIVADO;
     }
 
     damage = defend(damage);
@@ -184,12 +188,12 @@ int PlayableCharacter::modifyLifePoints(int enemyLevel, int damage) {
     notifyConsoleOutputUpdate(messages);
 
     float newLife = lifePoints - damage;
-    xpEarned = calculateAttackXp(damage,enemyLevel);
+    xpEarned = calculateAttackXp(damage, attackerLvl);
 
     if (newLife <= 0) {
         die();
-        int maxLifePoints = (int)calculateMaxLife();
-        xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
+        //int maxLifePoints = (int)calculateMaxLife();
+        xpEarned += calculateKillXp(attackerLvl);
     } else {
         lifePoints = newLife;
     }
@@ -432,11 +436,6 @@ bool PlayableCharacter::isInCity() const {
 }
 
 
-PlayableCharacter::~PlayableCharacter() {
-    delete lifeState;
-    if (activeWeapon != &defaultWeapon) delete activeWeapon;
-}
-
 void PlayableCharacter::sendItemsInBankList() {
     bankAccount.sendItemsList(this);
 }
@@ -462,14 +461,18 @@ std::string PlayableCharacter::getRaceName() {
     return "gnome";
 }
 
-
 bool PlayableCharacter::hasEquipped(Equippable *item) {
     return item == activeWeapon || armour.has(item);
 }
 
+void PlayableCharacter::receivePrivateMessageFrom(std::string sender, std::string message) {
+    std::string finalMessage = "Mensaje recibido de " + sender + " : " + message;
+    std::vector<std::string> messages;
+    messages.push_back(finalMessage);
+    notifyConsoleOutputUpdate(messages);
+}
 
-
-
-
-
-
+PlayableCharacter::~PlayableCharacter() {
+    delete lifeState;
+    if (activeWeapon != &defaultWeapon) delete activeWeapon;
+}
