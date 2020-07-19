@@ -84,17 +84,20 @@ void Game::initialize() {
 
 void Game::movePlayer(const std::string& playerName, Offset& offset) {
     PlayableCharacter *character = map->getPlayer(playerName);
+    if (character) character->stopMeditating();
     character->move(offset);
 }
 
 void Game::attack(const std::string &playerName, Position &position) {
     PlayableCharacter *character = map->getPlayer(playerName);
+    if (character) character->stopMeditating();
     Character* enemy = map->findCharacterAtPosition(position);
     if (enemy) character->attack(enemy);
 }
 
 void Game::equip(const std::string& playerName, int elementIndex) {
     PlayableCharacter *character = map->getPlayer(playerName);
+    if (character) character->stopMeditating();
     character->equip(elementIndex);
 }
 
@@ -164,11 +167,17 @@ void Game::notifyConsoleOutputUpdate(std::string& username,std::vector<std::stri
 
 void Game::executeCommand(std::unique_ptr<Message>& msg) {
     command_t  command = msg->getCommand();
+    PlayableCharacter *character = map->getPlayer(command.username);
+    if (character) character->stopMeditating();
     commandExecutor.execute(command.username,command.input,command.x,command.y);
 }
 
 bool Game::login(const std::string &username, std::string &password) {
     return factoryCharacters.login(username, password, map, this);
+}
+
+bool Game::signup(const std::string &username, const std::string &password) {
+    return factoryCharacters.signup(username, password);
 }
 
 std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
@@ -186,8 +195,5 @@ Game::~Game() {
     delete map;
 }
 
-bool Game::signup(const std::string &username, const std::string &password) {
-    return factoryCharacters.signup(username, password);
-}
 
 

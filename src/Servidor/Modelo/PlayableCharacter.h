@@ -10,6 +10,7 @@
 #include "Position.h"
 #include "Merchant.h"
 #include "Banker.h"
+#include "MeditationState.h"
 
 class LifeState;
 class Game;
@@ -33,6 +34,7 @@ class PlayableCharacter: public Character {
     bool inCity;
     BankAccount bankAccount;
     int raceId;
+    MeditationState* meditationState;
 private:
     bool checkFairPlay(int enemyLevel);
     void revive();
@@ -99,6 +101,14 @@ public:
     bool hasEquipped(Equippable *item);
     void receivePrivateMessageFrom(std::string sender, std::string message);
     ~PlayableCharacter() override;
+
+    void recoverManaMeditating(float seconds);
+
+    void meditatedFor(float seconds);
+
+    void meditate();
+
+    void stopMeditating();
 };
 
 

@@ -8,6 +8,8 @@
 #include "ItemSeller.h"
 #include "GoldBag.h"
 #include "Configuration.h"
+#include "NotMeditating.h"
+#include "Meditating.h"
 
 PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialPosition,int constitution,
     int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
@@ -23,6 +25,7 @@ PlayableCharacter::PlayableCharacter(std::string id,Map* map, Position &initialP
     this->mana = calculateMaxMana();
     this->gold = 0;
     this->xp = 0;
+    this->meditationState = new NotMeditating();
     notifyStats();
     notifyEquipment();
 }
@@ -42,13 +45,20 @@ PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map,
     if (lifeState == 0) this->lifeState = new Alive();
     else this->lifeState = new Ghost();
     this->activeWeapon = &defaultWeapon;
+    this->meditationState = new NotMeditating();
     notifyStats();
     notifyEquipment();
 }
 
 void PlayableCharacter::notifyStats() {
     float health_percentage = lifePoints / calculateMaxLife();
-    float mana_percentage = mana / calculateMaxMana();
+    float maxMana = calculateMaxMana();
+    float mana_percentage;
+    if (maxMana != 0) {
+        mana_percentage = mana / calculateMaxMana();
+    } else {
+        mana_percentage = 0;
+    }
     float exp_percentage = (float)xp / (float)calculateLvlLimit();
     observer->notifyStatsUpdate(id,health_percentage,mana_percentage,exp_percentage,this->gold,this->level);
 }
@@ -472,7 +482,27 @@ void PlayableCharacter::receivePrivateMessageFrom(std::string sender, std::strin
     notifyConsoleOutputUpdate(messages);
 }
 
+void PlayableCharacter::recoverManaMeditating(float seconds) {
+    meditationState->playerMeditatedFor(this, seconds);
+}
+
+void PlayableCharacter::meditatedFor(float seconds) {
+    int manaRecovered = calculateRecoverManaMeditating(seconds);
+    earnMana(manaRecovered);
+}
+
+void PlayableCharacter::meditate() {
+    delete meditationState;
+    meditationState = new Meditating();
+}
+
+void PlayableCharacter::stopMeditating() {
+    delete meditationState;
+    meditationState = new NotMeditating();
+}
+
 PlayableCharacter::~PlayableCharacter() {
     delete lifeState;
+    delete meditationState;
     if (activeWeapon != &defaultWeapon) delete activeWeapon;
 }

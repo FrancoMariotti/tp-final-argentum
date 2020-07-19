@@ -9,6 +9,7 @@
 #include "DropItemCommand.h"
 #include "ListItemsCommand.h"
 #include "PrivateMessageCommand.h"
+#include "MeditateCommand.h"
 
 CommandExecutor::CommandExecutor() = default;
 
@@ -23,6 +24,7 @@ CommandExecutor::CommandExecutor(Map* map) {
     this->commands["/tirar"] = new DropItemCommand(map);
     this->commands["/listar"] = new ListItemsCommand(map);
     this->commands["@"] = new PrivateMessageCommand(map);
+    this->commands["/meditar"] = new MeditateCommand(map);
 }
 
 void CommandExecutor::execute(const std::string& username, const std::string& command, int x, int y) {

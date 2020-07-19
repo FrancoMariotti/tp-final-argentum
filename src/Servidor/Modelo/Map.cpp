@@ -171,6 +171,7 @@ void Map::updateAllPlayers(float looptime, Observer* observer) {
     for (; itrCharacters != characters.end(); itrCharacters++) {
         itrCharacters->second->recoverMana(looptime);
         itrCharacters->second->recoverLifePoints(looptime);
+        itrCharacters->second->recoverManaMeditating(looptime);
     }
     //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de
     // todos los players del mapa, ver como resolver esto

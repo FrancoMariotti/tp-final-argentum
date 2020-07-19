@@ -50,8 +50,8 @@
       },
       "warrior": {
         "lifeFactor": 5,
-        "manaFactor": 5,
-        "meditationRecoveryFactor": 5
+        "manaFactor": 0,
+        "meditationRecoveryFactor": 0
       }
     }
   },
