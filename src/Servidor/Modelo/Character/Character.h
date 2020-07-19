@@ -9,9 +9,6 @@
 #define OBJETIVO_FUERA_DE_RANGO -1
 #define ATAQUE_ESQUIVADO -2
 
-//class PlayableCharacter;
-//class Npc;
-
 class Character {
     protected:
         std::string id;

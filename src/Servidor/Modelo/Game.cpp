@@ -8,8 +8,6 @@
 #include "Servidor/Modelo/Character/Npc.h"
 #include "Configuration.h"
 
-//Configuration* Configuration::instance = 0;
-
 Game::Game(const std::string& configFile, const std::string& playersInfoMapFile,
         const std::string& playersInfoFile): configFile(configFile), itemFactory()
     , mapFactory(configFile), map(mapFactory.create(&itemFactory)), commandExecutor(map),

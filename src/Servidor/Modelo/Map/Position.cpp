@@ -1,7 +1,3 @@
-//
-// Created by franco on 11/6/20.
-//
-
 #include <cmath>
 #include <iostream>
 #include "Position.h"
@@ -23,11 +19,6 @@ bool Position::operator==(const Position& position) const {
 Position& Position::operator=(const Position& position) {
     this->x = position.x;
     this->y = position.y;
-
-    if(x < 0 || y < 0) {
-        //aca hay que lanzar una exception
-        //throw PointOutOfBoundsException();
-    }
 
     return *this;
 }

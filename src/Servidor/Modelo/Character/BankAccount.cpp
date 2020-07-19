@@ -1,7 +1,3 @@
-//
-// Created by franco on 27/6/20.
-//
-
 #include <algorithm>
 #include "BankAccount.h"
 #include "PlayableCharacter.h"
@@ -41,14 +37,6 @@ Equippable* BankAccount::extract(const std::string& itemName) {
             break;
         }
     }
-
-    /*items.erase(std::remove_if(items.begin(),
-                               items.end(),
-                                  [itemName](Equippable * equippable){
-                                        if (equippable) return equippable->getName() == itemName;
-                                        return false;
-                                    }),
-                   items.end());*/
 
     return item;
 }

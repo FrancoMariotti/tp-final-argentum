@@ -100,15 +100,11 @@ public:
     void sendItemsInBankList();
     bool hasEquipped(Equippable *item);
     void receivePrivateMessageFrom(std::string sender, std::string message);
-    ~PlayableCharacter() override;
-
     void recoverManaMeditating(float seconds);
-
     void meditatedFor(float seconds);
-
     void meditate();
-
     void stopMeditating();
+    ~PlayableCharacter() override;
 };
 
 

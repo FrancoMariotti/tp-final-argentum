@@ -86,7 +86,6 @@ set(DROPPABLESSRCS
         Dropppables/DropItemCommand.h
         Dropppables/DropItemCommand.cpp
         Dropppables/Droppable.h
-        Dropppables/Droppable.cpp
         Dropppables/GoldBag.h
         Dropppables/GoldBag.cpp
         )

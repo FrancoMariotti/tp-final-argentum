@@ -43,11 +43,6 @@ Equippable* Inventory::takeElement(const std::string& elementName,PlayableCharac
         }
     }
 
-    /*elements.erase(std::remove_if(elements.begin(),
-                                  elements.end(),
-                                  [result](Equippable * equippable){return equippable == result;}),
-                   elements.end());*/
-
     return result;
 }
 
