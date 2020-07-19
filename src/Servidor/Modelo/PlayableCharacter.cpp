@@ -276,9 +276,9 @@ void PlayableCharacter::heal(int value) {
     lifeState->heal(maxLife,lifePoints,(float)value);
 }
 
-void PlayableCharacter::earnMana(int value) {
+void PlayableCharacter::earnMana(float value) {
     float maxMana = calculateMaxMana();
-    lifeState->earnMana(maxMana,mana,(float)value);
+    lifeState->earnMana(maxMana,mana, value);
 }
 
 bool PlayableCharacter::checkFairPlay(int enemyLevel) {
@@ -487,13 +487,17 @@ void PlayableCharacter::recoverManaMeditating(float seconds) {
 }
 
 void PlayableCharacter::meditatedFor(float seconds) {
-    int manaRecovered = calculateRecoverManaMeditating(seconds);
+    float manaRecovered = calculateRecoverManaMeditating(seconds);
     earnMana(manaRecovered);
 }
 
 void PlayableCharacter::meditate() {
     delete meditationState;
     meditationState = new Meditating();
+    std::vector<std::string> messages;
+    std::string message = "Meditando, no realices ninguna accion!";
+    messages.push_back(message);
+    notifyConsoleOutputUpdate(messages);
 }
 
 void PlayableCharacter::stopMeditating() {

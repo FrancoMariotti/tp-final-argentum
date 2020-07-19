@@ -35,7 +35,7 @@ class Character {
         float calculateMaxMana() const;
         float calculateRecoverLifePoints(float seconds) const;
         float calculateRecoverMana(float seconds) const;
-        int calculateRecoverManaMeditating(int seconds) const;
+        float calculateRecoverManaMeditating(float seconds) const;
         int calculateGoldCapacity() const;
         int calculateLvlLimit() const;
         int calculateAttackXp(int damage,int attackerLvl) const;

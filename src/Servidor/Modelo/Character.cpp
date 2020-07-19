@@ -68,7 +68,7 @@ float Character::calculateRecoverMana(float seconds) const {
     return (float)recoveryFactor * seconds;
 }
 
-int Character::calculateRecoverManaMeditating(int seconds) const {
+float Character::calculateRecoverManaMeditating(float seconds) const {
     return meditationRecoveryFactor * seconds;
 }
 

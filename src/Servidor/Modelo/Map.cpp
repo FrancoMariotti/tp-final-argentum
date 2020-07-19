@@ -110,7 +110,8 @@ Character* Map::findCharacterAtPosition(Position &position) {
 }
 
 PlayableCharacter* Map::getPlayer(const std::string &playerName) {
-    return characters.at(playerName);
+    if (characters.find(playerName) != characters.end()) return characters.at(playerName);
+    return nullptr;
 }
 
 void Map::addLayersTo(std::string configFile, std::queue<Message*>& initializeMessages) {

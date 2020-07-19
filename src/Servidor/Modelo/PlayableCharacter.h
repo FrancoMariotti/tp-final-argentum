@@ -69,7 +69,7 @@ public:
     void recoverLifePoints(float seconds);
     void recoverMana(float seconds);
     void heal(int value);
-    void earnMana(int value);
+    void earnMana(float value);
     void notifyStats();
     void notifyEquipment();
     void notifySpawn();
