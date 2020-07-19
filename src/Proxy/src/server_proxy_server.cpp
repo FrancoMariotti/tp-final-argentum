@@ -1,6 +1,6 @@
 #include "server_proxy_server.h"
 #include "Common/common_proxy_socket.h"
-#include "Common/Message.h"
+#include "Common/Messages/Message.h"
 ProxyServer::ProxyServer(ProxySocket& proxySocket) :
     keepListening(true),
     proxySocket(proxySocket)

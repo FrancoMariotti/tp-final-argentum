@@ -38,8 +38,7 @@ add_executable(qt_argentum_v2
   src/client_qt_serverlogin.cpp
   src/client_qt_charactercreation.cpp
   src/main.cpp
-  ${UIS_HEADERS}
-        )
+  ${UIS_HEADERS})
 
 add_executable(qtServer src/server_main.cpp src/QtServer.cpp src/QtServer.h)
 

@@ -3,7 +3,7 @@
 //
 
 #include "client_sdl_player.h"
-#include "Common/Message.h"
+#include "Common/Messages/Message.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_window.h"
 

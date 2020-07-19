@@ -5,7 +5,7 @@
 #include "client_sdl_inventory.h"
 #include "client_sdl_player.h"
 #include "client_sdl_window.h"
-#include "Common/message_structs.h"
+#include "Common/Messages/message_structs.h"
 #include "client_sdl_text.h"
 
 /*Estos tamaños son con 1024 x 768*/

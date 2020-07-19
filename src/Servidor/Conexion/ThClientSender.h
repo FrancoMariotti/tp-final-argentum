@@ -3,7 +3,7 @@
 
 
 #include <memory>
-#include <Common/Message.h>
+#include <Common/Messages/Message.h>
 #include <Common/BlockingQueue.h>
 #include <Common/Thread.h>
 #include "Common/Protocol.h"

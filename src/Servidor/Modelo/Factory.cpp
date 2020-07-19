@@ -2,22 +2,21 @@
 #include <iostream>
 #include <utility>
 #include <Common/Utils.h>
-#include <Common/message_structs.h>
+#include <Common/Messages/message_structs.h>
 #include <Common/OsException.h>
 #include "Factory.h"
-#include "PlayableCharacter.h"
-#include "Npc.h"
-#include "Log.h"
+#include "Servidor/Modelo/Character/PlayableCharacter.h"
+#include "Servidor/Modelo/Character/Npc.h"
 #include "string"
-#include "Obstacle.h"
-#include "RangeWeapon.h"
-#include "LifePotion.h"
-#include "ManaPotion.h"
-#include "MagicalWeapon.h"
-#include "Heal.h"
-#include "Damage.h"
-#include "Merchant.h"
-#include "LifeState.h"
+#include "Servidor/Modelo/Map/Obstacle.h"
+#include "Servidor/Modelo/Equippables/RangeWeapon.h"
+#include "Servidor/Modelo/Equippables/LifePotion.h"
+#include "Servidor/Modelo/Equippables/ManaPotion.h"
+#include "Servidor/Modelo/Equippables/MagicalWeapon.h"
+#include "Servidor/Modelo/Spells/Heal.h"
+#include "Servidor/Modelo/Spells/Damage.h"
+#include "Servidor/Modelo/Character/Merchant.h"
+#include "Servidor/Modelo/Character/LifeState.h"
 #include "Configuration.h"
 
 FileParser::FileParser(const std::string &filename):file(filename) {}

@@ -5,8 +5,8 @@
 #include <jsoncpp/json/value.h>
 #include "string"
 #include "Observer.h"
-#include "NormalWeapon.h"
-#include "Merchant.h"
+#include "Servidor/Modelo/Equippables/NormalWeapon.h"
+#include "Servidor/Modelo/Character/Merchant.h"
 
 class Game;
 class Map;

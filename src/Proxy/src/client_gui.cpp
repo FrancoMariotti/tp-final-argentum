@@ -9,7 +9,7 @@
 #include <Common/OsException.h>
 #include "client_sdl_exception.h"
 #include "client_sdl_dynamic_renderable.h"
-#include "Common/message_structs.h"
+#include "Common/Messages/message_structs.h"
 
 #define FONT_SIZE 14
 

@@ -8,7 +8,7 @@
 
 #include <memory>
 #include "client_imediator.h"
-#include "Common/Message.h"
+#include "Common/Messages/Message.h"
 #include "Common/BlockingQueue.h"
 #include "client_sdl_dynamic_renderable.h"
 

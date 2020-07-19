@@ -4,7 +4,7 @@
 
 #include "client_th_recv.h"
 #include "Common/common_proxy_socket.h"
-#include "Common/Message.h"
+#include "Common/Messages/Message.h"
 #include "Common/Socket.h"
 
 ThRecv::ThRecv(ProtectedList<std::unique_ptr<Message>> &serverEvents,

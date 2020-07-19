@@ -5,7 +5,7 @@
 #include <iostream>
 #include "client_th_send.h"
 #include "Common/common_proxy_socket.h"
-#include "Common/Message.h"
+#include "Common/Messages/Message.h"
 
 ThSend::ThSend(BlockingQueue<std::unique_ptr<Message>> &clientEvents, Socket &socket) :
         clientEvents(clientEvents),

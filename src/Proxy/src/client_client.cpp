@@ -1,7 +1,7 @@
 #include <thread>
 #include <random>
 #include "client_client.h"
-#include "Common/Message.h"
+#include "Common/Messages/Message.h"
 #include "client_protected_list.h"
 
 //Screen dimension constants

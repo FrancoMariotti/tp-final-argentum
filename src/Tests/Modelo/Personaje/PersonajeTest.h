@@ -5,7 +5,7 @@
 #ifndef ARGENTUM_PERSONAJETEST_H
 #define ARGENTUM_PERSONAJETEST_H
 #include <cppunit/extensions/HelperMacros.h>
-#include <Servidor/Modelo/PlayableCharacter.h>
+#include <Servidor/Modelo/Character/PlayableCharacter.h>
 
 
 class PersonajeTest :  public CppUnit::TestFixture {

@@ -7,7 +7,7 @@
 #include <Common/Socket.h>
 #include <Common/BlockingQueue.h>
 #include <Proxy/src/client_protected_list.h>
-#include <Common/Message.h>
+#include <Common/Messages/Message.h>
 
 class ClientConnection;
 

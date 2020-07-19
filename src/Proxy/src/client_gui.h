@@ -8,7 +8,7 @@
 #include "client_sdl_world.h"
 #include "client_sdl_window.h"
 #include "client_sdl_stats.h"
-#include "Common/message_structs.h"
+#include "Common/Messages/message_structs.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_keyboard.h"
 #include "client_sdl_audio_manager.h"

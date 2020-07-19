@@ -1,35 +1,38 @@
 project(argentum)
 
+include_directories(Messages)
+include_directories(Serializers)
+
 set(SERIALIZERSSOURCES
-        Serializer.h
-        MessageSerializer.h
-        MessageSerializer.cpp
-        ConnectMessageSerializer.h
-        ConnectMessageSerializer.cpp
-        DrawMessageSerializer.h
-        DrawMessageSerializer.cpp
-        MovementMessageSerializer.h
-        MovementMessageSerializer.cpp
-        SpawnPcMessageSerializer.h
-        SpawnPcMessageSerializer.cpp
-        SpawnStaticObjectsMessageSerializer.h
-        SpawnStaticObjectsMessageSerializer.cpp
-        StatsMessageSerializer.h
-        StatsMessageSerializer.cpp
-        InventoryMessageSerializer.h
-        InventoryMessageSerializer.cpp
-        CommandMessageSerializer.h
-        CommandMessageSerializer.cpp
-        ActionMessageSerializer.h
-        ActionMessageSerializer.cpp
-        ConsoleOutputMessageSerializer.h
-        ConsoleOutputMessageSerializer.cpp
-        EquipmentMessageSerializer.h
-        EquipmentMessageSerializer.cpp
-        UseItemMessageSerializer.h
-        UseItemMessageSerializer.cpp
-        LoginMessageSerializer.h
-        LoginMessageSerializer.cpp)
+        Serializers/Serializer.h
+        Serializers/MessageSerializer.h
+        Serializers/MessageSerializer.cpp
+        Serializers/ConnectMessageSerializer.h
+        Serializers/ConnectMessageSerializer.cpp
+        Serializers/DrawMessageSerializer.h
+        Serializers/DrawMessageSerializer.cpp
+        Serializers/MovementMessageSerializer.h
+        Serializers/MovementMessageSerializer.cpp
+        Serializers/SpawnPcMessageSerializer.h
+        Serializers/SpawnPcMessageSerializer.cpp
+        Serializers/SpawnStaticObjectsMessageSerializer.h
+        Serializers/SpawnStaticObjectsMessageSerializer.cpp
+        Serializers/StatsMessageSerializer.h
+        Serializers/StatsMessageSerializer.cpp
+        Serializers/InventoryMessageSerializer.h
+        Serializers/InventoryMessageSerializer.cpp
+        Serializers/CommandMessageSerializer.h
+        Serializers/CommandMessageSerializer.cpp
+        Serializers/ActionMessageSerializer.h
+        Serializers/ActionMessageSerializer.cpp
+        Serializers/ConsoleOutputMessageSerializer.h
+        Serializers/ConsoleOutputMessageSerializer.cpp
+        Serializers/EquipmentMessageSerializer.h
+        Serializers/EquipmentMessageSerializer.cpp
+        Serializers/UseItemMessageSerializer.h
+        Serializers/UseItemMessageSerializer.cpp
+        Serializers/LoginMessageSerializer.h
+        Serializers/LoginMessageSerializer.cpp)
 
 
 add_library(commonLib
@@ -40,8 +43,8 @@ add_library(commonLib
             BlockingQueue.h
             ClosedQueueException.h
             ClosedQueueException.cpp
-            Message.h
-            Message.cpp
+            Messages/Message.h
+            Messages/Message.cpp
             OsException.h
             OsException.cpp
             Socket.h

@@ -1,11 +1,11 @@
 #include "Common/common_proxy_socket.h"
-#include <Common/Message.h>
+#include <Common/Messages/Message.h>
 #include <thread>
 #include <utility>
 #include "Game.h"
 #include "Factory.h"
-#include "PlayableCharacter.h"
-#include "Npc.h"
+#include "Servidor/Modelo/Character/PlayableCharacter.h"
+#include "Servidor/Modelo/Character/Npc.h"
 #include "Configuration.h"
 
 //Configuration* Configuration::instance = 0;

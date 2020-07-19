@@ -3,11 +3,11 @@
 
 #include <map>
 #include <queue>
-#include "Map.h"
+#include "Servidor/Modelo/Map/Map.h"
 #include "Factory.h"
-#include "Weapon.h"
-#include "Armour.h"
-#include "CommandExecutor.h"
+#include "Servidor/Modelo/Equippables/Weapon.h"
+#include "Servidor/Modelo/Character/Armour.h"
+#include "Servidor/Modelo/Commands/CommandExecutor.h"
 #include <memory>
 
 class Message;

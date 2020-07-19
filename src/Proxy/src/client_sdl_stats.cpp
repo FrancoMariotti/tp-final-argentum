@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "client_sdl_stats.h"
-#include "Common/message_structs.h"
+#include "Common/Messages/message_structs.h"
 #include "client_sdl_window.h"
 
 SdlStats::SdlStats(const SdlWindow &window, TTF_Font *font) :

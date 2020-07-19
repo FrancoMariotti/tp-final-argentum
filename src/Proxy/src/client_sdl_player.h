@@ -12,7 +12,7 @@
 #include "client_protected_list.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_texture.h"
-#include "Common/message_structs.h"
+#include "Common/Messages/message_structs.h"
 #include "client_sdl_texture_manager.h"
 #include "client_sdl_timer.h"
 

@@ -1,8 +1,8 @@
 #ifndef ARGENTUM_PROTOCOL_H
 #define ARGENTUM_PROTOCOL_H
 
-#include "MessageSerializer.h"
-#include "Message.h"
+#include "Serializers/MessageSerializer.h"
+#include "Messages/Message.h"
 #include "Socket.h"
 
 class Protocol {

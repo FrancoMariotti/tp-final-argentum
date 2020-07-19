@@ -2,7 +2,7 @@
 #include "client_qt_serverlogin.h"
 #include "client_qt_characterlogin.h"
 #include "client_qt_charactercreation.h"
-#include <Common/Message.h>
+#include <Common/Messages/Message.h>
 #include <Common/Socket.h>
 #include <QtGui/QPainter>
 

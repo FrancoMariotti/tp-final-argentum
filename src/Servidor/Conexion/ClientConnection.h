@@ -6,7 +6,7 @@
 #define ARGENTUM_CLIENTCONNECTION_H
 
 
-#include <Common/Message.h>
+#include <Common/Messages/Message.h>
 #include <memory>
 #include <Common/Socket.h>
 #include "ThClientSender.h"
