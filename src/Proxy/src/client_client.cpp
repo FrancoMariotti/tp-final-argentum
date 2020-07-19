@@ -80,7 +80,6 @@ int Client::run(const std::string &username) {
 }
 
 void Client::init() {
-    std::string username_input;
     /*std::string username_input;
     std::cout << "ingrese username:";
     std::cin >> username_input;
@@ -126,7 +125,6 @@ void Client::init() {
 
 void Client::update() {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
-    /**TODO: Factory de eventos de server ????*/
     for(auto & msg : messages){
         //std::cout << "Update(): MessageId" << msg->getId() << std::endl;
         if(msg->getId() == MOVEMENT_MESSAGE_ID){

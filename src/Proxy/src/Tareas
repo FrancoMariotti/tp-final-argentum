@@ -1,4 +1,0 @@
-1) Renderizas npc y jugadores sin marco negro de fondo
-2) Mapeo del click no llega a toda la pantalla
-3) Como renderizo jugadores y npc (armadura, cabeza, casco, arma) para cada jugador, donde guardo toda esa info?
-4) Clase consola pasar por parametro invetory, camera, player para los mensajes? esta bien?
