@@ -21,13 +21,11 @@ public:
 private slots:
 
     void on_loginPushButton_clicked();
-
     void on_signUpPushButton_clicked();
 
 private:
     Ui::QtCharacterLogin *ui;
     LoginMediator* loginMediator;
-
 };
 
 #endif // MAINWINDOW_H

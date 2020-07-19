@@ -23,6 +23,13 @@ void QtServerLogin::on_connectButton_clicked() {
 }
 
 void QtServerLogin::paintEvent(QPaintEvent *event) {
+    this->setFixedWidth(800);
+    this->setFixedHeight(700);
+    QPixmap bkgnd("./../assets/background.jpg");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, bkgnd);
+    this->setPalette(palette);
     QPainter painter(this);
     painter.drawImage(QRect(150, 100, 500, 200), QImage("./../assets/logo.png"));
     ui->hostLineEdit->setFixedWidth(600);
@@ -44,7 +51,6 @@ void QtServerLogin::paintEvent(QPaintEvent *event) {
     ui->gridLayout->setAlignment(Qt::AlignCenter);
     ui->gridLayout_2->setAlignment(Qt::AlignCenter);
     ui->gridLayout_2->setAlignment(ui->connectButton,Qt::AlignCenter);
-    QWidget::paintEvent(event);
 }
 
 void QtServerLogin::closeEvent(QCloseEvent *event) {

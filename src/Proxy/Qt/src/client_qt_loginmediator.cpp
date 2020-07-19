@@ -16,12 +16,6 @@ LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username,boo
     gui_username(gui_username),
     finished(finished){
     qtServerLogin = new QtServerLogin(this);
-    qtServerLogin->setGeometry(0, 0, 800, 700);
-    QPixmap bkgnd("./../assets/background.jpg");
-    bkgnd = bkgnd.scaled(qtServerLogin->size(), Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, bkgnd);
-    qtServerLogin->setPalette(palette);
     qtCharacterLogin = new QtCharacterLogin(this);
     qtCharacterCreation = new QtCharacterCreation(this);
 }
