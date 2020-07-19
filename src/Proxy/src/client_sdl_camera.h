@@ -10,6 +10,7 @@
 #include <string>
 
 class SdlRenderablePlayable;
+class SdlWindow;
 class SdlCamera {
 private:
     const int CAMERA_WIDTH;
@@ -24,7 +25,7 @@ private:
 
 public:
     /*Inicializo la camara con las dimensiones de la pantalla*/
-    SdlCamera(const int screen_width, const int screen_height, const std::string &username);
+    SdlCamera(const std::string &username, const SdlWindow &window);
 
     /*Seteo el id de lo que la camara esta siguiendo*/
     //void setIdToFollow(const std::string& renderable_id);

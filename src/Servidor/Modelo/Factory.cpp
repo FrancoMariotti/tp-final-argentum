@@ -228,14 +228,20 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
 
-    int nameLength, index;
+    int nameLength, index, passwordLength;
     while (playersInfoMapStream.read((char*)&nameLength, sizeof(int))) {
         char* name = new char[nameLength + 1];
         playersInfoMapStream.read(name, nameLength);
-        playersInfoMapStream.read((char*)&index, sizeof(int));
         name[nameLength] = '\0';
-        if (playersInfoMapStream.good()) playersInfoMap[name] = index;
+        playersInfoMapStream.read((char*)&passwordLength, sizeof(int));
+        char* password = new char[passwordLength + 1];
+        playersInfoMapStream.read(password, passwordLength);
+        password[passwordLength] = '\0';
+        playersInfoMapStream.read((char*)&index, sizeof(int));
+        login_info_t info = {password, index};
+        if (playersInfoMapStream.good()) playersInfoMap[name] = info;
         delete[] name;
+        delete[] password;
     }
 
     playersAmount = playersInfoMap.size();
@@ -244,18 +250,19 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile
 
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
                                       const std::string &charClass, Observer* observer) {
+    /*
     std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
     //Chequeo que los archivos se hayan podido abrir
     if (!playersInfoMapStream) {
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
-
+*/
     //Busco el nombre del jugador para ver si esta registrado
-    if (playersInfoMap.find(playerName) != playersInfoMap.end()) {
-        int index = playersInfoMap.at(playerName);
+    /*if (playersInfoMap.find(playerName) != playersInfoMap.end()) {
+        int index = playersInfoMap.at(playerName).index;
         character_info_t characterInfo = getPlayerInfoFromFile(index);
         createPlayerFromInfo(characterInfo, playerName, map, observer);
-    } else {
+    } else {*/
         Position initialPosition = map->asignRandomPosInAnyCity();
 
         int invMaxElements = characterObj["inventoryMaxElements"].asInt();
@@ -276,25 +283,25 @@ void PlayableCharacterFactory::create(Map *map, const std::string &playerName, c
                 level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
                 meditationRecoveryFactor, invMaxElements,observer, raceId);
         map->add(playerName,character);
-
         //Agrego el index del jugador al archivo del mapa y al mapa de la factory
+/*
         uint32_t nameLen = character->id.size();
         playersInfoMapStream.seekp(0, std::ios_base::end);
         playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
         playersInfoMapStream.write(character->id.c_str(), nameLen);
         playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
         playersInfoMap[playerName] = playersAmount;
-
+        playersAmount++;
+*/
         //Agrego la informacion del jugador al archivo de informacion
         persistPlayerData(character);
-        playersAmount++;
-    }
-    playersInfoMapStream.close();
+    //}
+    //playersInfoMapStream.close();
 }
 
 void PlayableCharacterFactory::persistPlayerData(PlayableCharacter *pCharacter) {
     //Busco en el mapa el index que le corresponde al jugador
-    int index = playersInfoMap[pCharacter->id];
+    int index = playersInfoMap[pCharacter->id].index;
     //Guardo los identificadores de los items que tiene el usuario en su armadura,
     //inventario y cuenta de banco
     std::vector<int> armourIds, inventoryIds, accountIds;
@@ -427,9 +434,7 @@ character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
 
 void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::string playerName, Map* map,
         Observer* observer) {
-   Position initialPosition = Position(info.x, info.y);
-
-
+    Position initialPosition = Position(info.x, info.y);
     auto* character =  new PlayableCharacter(playerName, info.lifePoints, map,initialPosition,info.constitution,
             info.strength, info.agility, info.intelligence, info.level, info.raceLifeFactor, info.classLifeFactor,
             info.raceManaFactor, info.classManaFactor, info.recoveryFactor,
@@ -456,8 +461,46 @@ void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::
     }
 }
 
-bool PlayableCharacterFactory::isUsernameRegistered(const std::string &playerName) {
-    return playersInfoMap.find(playerName) != playersInfoMap.end();
+bool PlayableCharacterFactory::login(const std::string &playerName, std::string &password,
+        Map* map, Observer* observer) {
+    if (playersInfoMap.find(playerName) != playersInfoMap.end()) {
+        if (playersInfoMap.at(playerName).password == password) {
+            int index = playersInfoMap.at(playerName).index;
+            character_info_t characterInfo = getPlayerInfoFromFile(index);
+            createPlayerFromInfo(characterInfo, playerName, map, observer);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool PlayableCharacterFactory::signup(const std::string &username, const std::string &password) {
+    if (playersInfoMap.find(username) == playersInfoMap.end()) {
+        std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
+        //Chequeo que el archivo se hayan podido abrir
+        if (!playersInfoMapStream) {
+            throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+        }
+        //Agrego el index y la contrasenia del jugador al archivo del mapa y al mapa de la factory
+        uint32_t nameLen = username.size();
+        uint32_t passwordLen = password.size();
+        playersInfoMapStream.seekp(0, std::ios_base::end);
+
+        playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
+        playersInfoMapStream.write(username.c_str(), nameLen);
+
+        playersInfoMapStream.write((char*)&passwordLen, sizeof(uint32_t));
+        playersInfoMapStream.write(password.c_str(), passwordLen);
+
+        playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
+
+        login_info_t info = {password, playersAmount};
+        playersInfoMap[username] = info;
+        playersAmount++;
+        playersInfoMapStream.close();
+        return true;
+    }
+    return false;
 }
 
 NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) :

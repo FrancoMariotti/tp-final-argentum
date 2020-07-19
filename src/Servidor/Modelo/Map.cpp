@@ -171,6 +171,7 @@ void Map::updateAllPlayers(float looptime, Observer* observer) {
     for (; itrCharacters != characters.end(); itrCharacters++) {
         itrCharacters->second->recoverMana(looptime);
         itrCharacters->second->recoverLifePoints(looptime);
+        itrCharacters->second->recoverManaMeditating(looptime);
     }
     //Quizas aca deberiamos tambien updatear todos los equipamentos y posiciones de
     // todos los players del mapa, ver como resolver esto
@@ -298,7 +299,7 @@ void Map::updateNpcsSpawns(Observer* observer) {
     observer->notifySpawnNpcUpdate(npcSpawns);
 }
 
-void Map::initializePlayersSpawns(std::queue<Message*>& initializeMessages) {
+void Map::updatePlayersSpawns(std::queue<Message*>& initializeMessages) {
     std::vector<spawn_playable_character_t> pcSpawns;
     for (auto &pc : characters) {
         pc.second->addSpawnInfoTo(pcSpawns);

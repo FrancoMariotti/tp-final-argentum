@@ -12,8 +12,7 @@ int NormalWeapon::attack(Character* owner,Character *enemy, int strength,int lev
         int damage = calculateDamage(strength);
         return enemy->receiveDamage(level, damage);
     }
-    //Si no se encuentra a la distancia correcta devuelvo -1
-    return -1;
+    return OBJETIVO_FUERA_DE_RANGO;
 }
 
 NormalWeapon::~NormalWeapon() = default;

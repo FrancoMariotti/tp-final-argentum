@@ -22,5 +22,5 @@ Message *LoginMessageSerializer::deserialize(unsigned char *data, uint32_t len_d
     // if the type is mismatched, it throws msgpack::type_error exception.
     t_client_login login= deserialized.as<t_client_login>();
 
-    return new Login(login.username,login.password,LOGIN_MESSAGE_ID);
+    return new Login(login.username,login.password,login.id);
 }

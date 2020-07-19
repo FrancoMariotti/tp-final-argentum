@@ -33,7 +33,7 @@ private:
     const int IMAGE_CONSOLE_Y = 24;
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
-    unsigned long MAX_OUTPUTS = 7;
+    unsigned long MAX_OUTPUTS;
 
     std::list<SdlTexture> recentInputs;
 

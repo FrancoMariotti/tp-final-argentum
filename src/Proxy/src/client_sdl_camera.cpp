@@ -3,11 +3,11 @@
 //
 
 #include "client_sdl_camera.h"
-#include "client_sdl_dynamic_renderable.h"
+#include "client_sdl_window.h"
 
-SdlCamera::SdlCamera(const int screen_width, const int screen_height, const std::string &username) :
-        CAMERA_WIDTH(screen_width),
-        CAMERA_HEIGHT(screen_height),
+SdlCamera::SdlCamera(const std::string &username, const SdlWindow &window) :
+        CAMERA_WIDTH(window.getWidth()),
+        CAMERA_HEIGHT(window.getHeight()),
         following_id(username){
     camera_x =  /** + SdlPlayer::playerWidth / 2*/  CAMERA_WIDTH / 2;
     camera_y =   CAMERA_HEIGHT / 2;
@@ -21,6 +21,8 @@ SDL_Point SdlCamera::getCoordinates(const SDL_Point point) const {
 void SdlCamera::move(const SDL_Point player_pos) {
     camera_x = player_pos.x - (CAMERA_WIDTH / 2);
     camera_y = player_pos.y - (CAMERA_HEIGHT / 2);
+    //camera_x = player_pos.x - (CAMERA_WIDTH / 2) + CAMERA_WIDTH * 0.11;
+    //camera_y = player_pos.y - (CAMERA_HEIGHT / 2) - CAMERA_HEIGHT * 0.07;
     /*if(camera_x < 0){
         camera_x = 0;
     }

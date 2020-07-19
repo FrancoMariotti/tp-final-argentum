@@ -8,8 +8,8 @@
 void Alive::attackEnemy(PlayableCharacter *character, Character *enemy) {
     character->makeDamageTo(enemy);
 }
-int Alive::modifyLifePointsFrom(PlayableCharacter *character,int enemyLevel,int damage) {
-    return character->modifyLifePoints(enemyLevel,damage);
+int Alive::modifyLifePointsFrom(PlayableCharacter *character,int attackerLvl,int damage) {
+    return character->modifyLifePoints(attackerLvl, damage);
 }
 
 void Alive::store(Equippable* element,Inventory& inventory,Observer* observer) {

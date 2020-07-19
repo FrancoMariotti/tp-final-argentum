@@ -77,7 +77,7 @@ class Map {
         void initializeDropSpawns(std::queue<Message*>& initializeMessages);
         void initializeNpcsSpawns(std::queue<Message*>& initializeMessages);
         void updateNpcsSpawns(Observer* observer);
-        void initializePlayersSpawns(std::queue<Message*>& initializeMessages);
+        void updatePlayersSpawns(std::queue<Message*>& initializeMessages);
         bool empty();
         void persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds);
         void disconnectPlayer(const std::string& username, PlayableCharacterFactory& pcFactory);

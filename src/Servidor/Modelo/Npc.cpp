@@ -66,25 +66,22 @@ void Npc::move(float loopTime) {
     }
 }
 
-int Npc::receiveDamage(int enemyLevel, int damage) {
-    std::cout << "puntos de vida del npc antes de ser atacado" << lifePoints << std::endl;
+int Npc::receiveDamage(int attackerLvl, int damage) {
     int xpEarned = 0;
 
     if (dodge()) {
-        return -1;
+        return ATAQUE_ESQUIVADO;
     }
 
     damage = defend(damage);
     lifePoints -= damage;
-    xpEarned = calculateAttackXp(damage,enemyLevel);
+    xpEarned = calculateAttackXp(damage,attackerLvl);
 
     if (lifePoints <= 0) {
         die();
-        int maxLifePoints = (int)calculateMaxLife();
-        xpEarned += calculateKillXp(maxLifePoints,enemyLevel);
+        //int maxLifePoints = (int)calculateMaxLife();
+        xpEarned += calculateKillXp(attackerLvl);
     }
-
-    std::cout << "puntos de vida del npc despues de ser atacado" << lifePoints << std::endl;
 
     return xpEarned;
 }
@@ -126,13 +123,13 @@ void Npc::die() {
         map->addDrop(drop);
     }
     */
-    //if (shouldDrop(config.constants["itemDropProbability"])) {
+    if (shouldDrop(config.constants["itemDropProbability"])) {
         int randomIndex = Utils::random_int_number(0, itemsToDrop.size() - 1);
         Equippable* item = itemFactory->create(itemsToDrop[randomIndex]);
         Position pos = getClosestPositionToDrop();
         Drop drop(pos, item, item->getName());
         map->addDrop(drop);
-    //}
+    }
 
     //Envio al cliente los drops a renderizar
     map->updateDropSpawns(observer);

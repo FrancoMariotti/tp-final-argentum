@@ -34,11 +34,31 @@ void Server::start() {
             std::cout << "MESSAGE ID:" << msg->getId() <<std::endl;
             if (msg->getId() == LOGIN_MESSAGE_ID) {
                 t_client_login data = msg->getLoginData();
-                bool result = game.isUsernameRegistered(data.username);
+                bool result = game.login(data.username, data.password);
+                int answer = result ? 1:0;
+                clients.sendMessage(msg->getConnectionlId(),answer);
+                if (result) {
+                    connectionsTable[data.username] = msg->getConnectionlId();
+                    std::queue<Message*> initialMessages = game.initializeWorld();
+                    while(!initialMessages.empty()) {
+                        Message* update = initialMessages.front();
+                        std::string updateData = serializer.serialize(update);
+                        if(update->getId() == SPAWN_PC_MESSAGE_ID) {
+                            clients.broadcast(SPAWN_PC_MESSAGE_ID,updateData);
+                        } else {
+                            clients.sendMessage(msg->getConnectionlId(),update->getId(),updateData);
+                        }
+                        initialMessages.pop();
+                        delete update;
+                    }
+                }
+            }
+            if (msg->getId() == SIGNUP_MESSAGE_ID) {
+                t_client_login data = msg->getLoginData();
+                bool result = game.signup(data.username, data.password);
                 int answer = result ? 1:0;
                 clients.sendMessage(msg->getConnectionlId(),answer);
             }
-
             if (msg->getId() == CONNECT_MESSAGE_ID) {
                 t_create_connect data = msg->getConnectData();
                 game.createPlayer(data.username,data.race,data.charClass);

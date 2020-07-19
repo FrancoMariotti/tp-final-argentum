@@ -47,6 +47,7 @@ MessageSerializer::MessageSerializer() {
     serializersTable[CONSOLE_OUTPUT_MESSAGE_ID] = 10;
     serializersTable[EQUIPMENT_UPDATE_MESSAGE_ID] = 11;
     serializersTable[LOGIN_MESSAGE_ID] = 12;
+    serializersTable[SIGNUP_MESSAGE_ID] = 12;
 }
 
 std::string MessageSerializer::serialize(Message* message) {

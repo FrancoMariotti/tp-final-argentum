@@ -56,11 +56,11 @@ typedef struct item {
     int manaCost;
 } item_t;
 
-typedef struct character_map_info {
+typedef struct login_info {
     //int stringLen;
-    std::string name;
-    uint32_t index;
-} character_map_info_t;
+    std::string password;
+    int index;
+} login_info_t;
 
 class FileParser {
     std::ifstream file;
@@ -106,7 +106,7 @@ class PlayableCharacterFactory {
     std::map<int, item_t> items;
     std::string playersInfoFile;
     std::string playersInfoMapFile;
-    std::map<std::string, int> playersInfoMap;
+    std::map<std::string, login_info_t> playersInfoMap;
     int playersAmount;
     Configuration& config;
     void addPlayerInfoToFile(character_info_t playerInfo, int index);
@@ -119,8 +119,10 @@ class PlayableCharacterFactory {
                 const std::string& charClass, Observer* observer);
 
         void persistPlayerData(PlayableCharacter *pCharacter);
-        bool isUsernameRegistered(const std::string& playerName);
+        bool login(const std::string &playerName, std::string &password, Map* map, Observer* observer);
         ~PlayableCharacterFactory() = default;
+
+    bool signup(const std::string &username, const std::string &password);
 };
 
 class NpcFactory {

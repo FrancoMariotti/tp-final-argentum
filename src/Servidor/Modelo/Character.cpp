@@ -38,8 +38,14 @@ Offset Character::getOffset(Position initialPos) {
     return final - initialPos;
 }
 
-int Character::calculateAttackXp(int damage,int enemyLvl) const {
-    return damage * std::max(enemyLvl - level + 10, 0);
+int Character::calculateAttackXp(int damage,int attackerLvl) const {
+    return damage * std::max(level - attackerLvl + 10, 0);
+}
+
+int Character::calculateKillXp(int attackerLvl) const {
+    float modifier = Utils::random_real_number(0,0.1);
+    //return (int)(modifier * enemyMaxLp * std::max(enemyLvl - level + 10, 0));
+    return (int)(modifier * calculateMaxLife() * std::max(level - attackerLvl + 10, 0));
 }
 
 float Character::calculateMaxLife() const {
@@ -74,10 +80,6 @@ int Character::calculateGoldCapacity() const {
     return (int)(calculateSafeGoldCapacity(level) * 1.5);
 }
 
-int Character::calculateKillXp(int enemyMaxLp, int enemyLvl) const {
-    float modifier = Utils::random_real_number(0,0.1);
-    return (int)(modifier * enemyMaxLp * std::max(enemyLvl - level + 10, 0));
-}
 
 bool Character::dodge() const {
     float modifier = Utils::random_real_number(0,1);

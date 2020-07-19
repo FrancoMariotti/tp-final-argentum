@@ -10,12 +10,12 @@
 #include "Position.h"
 #include "Merchant.h"
 #include "Banker.h"
+#include "MeditationState.h"
 
 class LifeState;
 class Game;
 class Potion;
 class GoldBag;
-
 
 class PlayableCharacter: public Character {
     friend class PersonajeTest;
@@ -34,6 +34,7 @@ class PlayableCharacter: public Character {
     bool inCity;
     BankAccount bankAccount;
     int raceId;
+    MeditationState* meditationState;
 private:
     bool checkFairPlay(int enemyLevel);
     void revive();
@@ -52,7 +53,7 @@ public:
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
                   int invMaxElements,Observer* observer, int raceId);
-    int receiveDamage(int enemyLevel, int damage) override;
+    int receiveDamage(int attackerLvl, int damage) override;
     void attack(Character *character) override;
     void move(Offset& offset);
     void equip(int elementIndex);
@@ -77,7 +78,7 @@ public:
     int attackTo(Npc *enemy);
     int receiveAttackFrom(PlayableCharacter *enemy) override;
     int defend(int damage);
-    int modifyLifePoints(int enemyLevel, int damage);
+    int modifyLifePoints(int attackerLvl, int damage);
     void sellTo(std::string itemName, Merchant* merchant);
     void buyFrom(const std::string& itemName, ItemSeller* seller);
     void deposit(const std::string& element, Banker *banker);
@@ -97,9 +98,17 @@ public:
     void notifyConsoleOutputUpdate(std::vector<std::string> messages);
     void addSpawnInfoTo(std::vector<spawn_playable_character_t> &pcSpawns);
     void sendItemsInBankList();
+    bool hasEquipped(Equippable *item);
+    void receivePrivateMessageFrom(std::string sender, std::string message);
     ~PlayableCharacter() override;
 
-    bool hasEquipped(Equippable *item);
+    void recoverManaMeditating(float seconds);
+
+    void meditatedFor(float seconds);
+
+    void meditate();
+
+    void stopMeditating();
 };
 
 
