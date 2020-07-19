@@ -78,7 +78,7 @@ typedef struct command {
                    y)
 } command_t;
 
-typedef struct client_login{
+typedef struct client_login {
     std::string username;
     std::string password;
     int id;
