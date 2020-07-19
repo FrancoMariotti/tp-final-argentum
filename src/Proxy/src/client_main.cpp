@@ -30,7 +30,7 @@ int main(int argc, char* args[]) {
 int QtApp(int argc, char* args[], Socket& socket){
    // QApplication a(argc, args);
    std::string dummy;
-    LoginMediator loginMediator(socket, dummy);
-    loginMediator.show();
+    //LoginMediator loginMediator(socket, dummy);
+    //loginMediator.show();
     return 0; //a.exec();
 }

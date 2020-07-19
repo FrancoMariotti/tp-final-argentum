@@ -4,16 +4,24 @@
 #include "client_qt_charactercreation.h"
 #include <Common/Message.h>
 #include <Common/Socket.h>
+#include <QtGui/QPainter>
 
 #define LOGIN_COMMAND 'l'
 #define SIGNUP_COMMAND 's'
 #define CREATE_COMMAND 'c'
 #define USER_EXISTS 1
 
-LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username) :
+LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username,bool& finished) :
     clientSocket(clientSocket),
-    gui_username(gui_username){
+    gui_username(gui_username),
+    finished(finished){
     qtServerLogin = new QtServerLogin(this);
+    qtServerLogin->setGeometry(0, 0, 1000, 900);
+    QPixmap bkgnd("./../assets/background.jpg");
+    bkgnd = bkgnd.scaled(qtServerLogin->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, bkgnd);
+    qtServerLogin->setPalette(palette);
     qtCharacterLogin = new QtCharacterLogin(this);
     qtCharacterCreation = new QtCharacterCreation(this);
 }
@@ -49,6 +57,7 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
             protocol.send(clientSocket, &connect);
             gui_username = username;
             /*Aca cierro la app de login*/
+            finished = true;
             this->close();
         } else {
             qtCharacterLogin->setLoginLabel(false);
@@ -96,6 +105,7 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
     protocol.send(clientSocket,msg);
     delete msg;
     gui_username = confirmed_username;
+    finished = true;
     this->close();
 
     /**/
