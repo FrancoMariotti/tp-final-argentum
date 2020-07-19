@@ -18,6 +18,8 @@ public:
     void broadcast(int messageId,std::string data);
     void sendMessage(int connectionId,int messageId,std::string data);
     ~ProtectedConnections();
+
+    void sendMessage(int connectionId, int answer);
 };
 
 

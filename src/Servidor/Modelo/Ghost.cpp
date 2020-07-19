@@ -4,7 +4,7 @@
 
 void Ghost::attackEnemy(PlayableCharacter *character, Character *enemy) {}
 
-int Ghost::modifyLifePointsFrom(PlayableCharacter *character, int enemyLevel, int damage) {
+int Ghost::modifyLifePointsFrom(PlayableCharacter *character, int attackerLvl, int damage) {
     return 0;
 }
 

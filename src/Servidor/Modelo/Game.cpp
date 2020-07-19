@@ -40,7 +40,7 @@ std::queue<Message *> Game::initializeWorld() {
     map->addLayersTo(configFile, initializeMessages);
     map->initializeDropSpawns(initializeMessages);
     map->initializeNpcsSpawns(initializeMessages);
-    map->initializePlayersSpawns(initializeMessages);
+    map->updatePlayersSpawns(initializeMessages);
     return initializeMessages;
 }
 
@@ -113,7 +113,6 @@ std::tuple<std::string,Message*> Game::nextDirectedUpdate() {
     return msg;
 }
 
-
 bool Game::broadcastUpdateAvailable() {
     return !broadcastUpdates.empty();
 }
@@ -156,9 +155,7 @@ void Game::notifymovementUpdate(std::string id,int x, int y) {
 }
 
 void Game::notifyMovementNpcUpdate(std::string idNpc, int x, int y) {
-    if(!map->empty()) {
-        broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
-    }
+    broadcastUpdates.push(new ActionUpdate(NPC_MOVEMENT_UPDATE_MESSAGE_ID,idNpc,x,y));
 }
 
 void Game::notifyConsoleOutputUpdate(std::string& username,std::vector<std::string> messages) {
@@ -177,7 +174,7 @@ bool Game::isUsernameRegistered(const std::string& username) {
 std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
     std::queue<Message*> pcSpawnsUpdate;
     map->disconnectPlayer(username, factoryCharacters);
-    map->initializePlayersSpawns(pcSpawnsUpdate);
+    map->updatePlayersSpawns(pcSpawnsUpdate);
     return pcSpawnsUpdate;
 }
 

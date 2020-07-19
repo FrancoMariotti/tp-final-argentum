@@ -36,17 +36,17 @@ void LoginMediator::sendServerCredentials(const std::string& host,const std::str
  * caso que sea cierto server devuelve un 1 y cierro la App, caso contrario se indica al cliente que el input fue erroneo*/
 void LoginMediator::sendCharacterLogin(const std::string& username, const std::string& password){
     if(!username.empty() && !password.empty()) {
-        char answer;
+        int answer;
         Message *msg = new Login(username, password, LOGIN_MESSAGE_ID);
         protocol.send(clientSocket, msg);
         delete msg;
-        clientSocket.receive(&answer, sizeof(char));
-        std::cout << "Iniciar Sesion: " << (int) answer << std::endl;
+        answer = protocol.recieve(clientSocket,0);
+        //clientSocket.receive((char*)&answer, sizeof(int));
+        std::cout << "Iniciar Sesion: " << answer << std::endl;
         if (answer == USER_EXISTS) {
             qtCharacterLogin->setLoginLabel(true);
-            Message *msg_connect = new Connect(username, "", "");
-            protocol.send(clientSocket, msg_connect);
-            delete msg;
+            Connect connect(username, "", "");
+            protocol.send(clientSocket, &connect);
             gui_username = username;
             /*Aca cierro la app de login*/
             this->close();
@@ -63,12 +63,13 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
  * el usuario existe*/
 void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, const std::string& password){
     if(!username.empty() && !password.empty()){
-        char answer;
+        int answer;
         Message* msg = new Login(username, password, LOGIN_MESSAGE_ID);
         protocol.send(clientSocket,msg);
         delete msg;
-        clientSocket.receive(&answer, sizeof(char));
-        std::cout << "Registrarse: " << (int) answer << std::endl;
+        answer = protocol.recieve(clientSocket,0);
+        //clientSocket.receive((char*)&answer, sizeof(int));
+        std::cout << "Registrarse: " << answer << std::endl;
         if(answer == 0){
             this->confirmed_username = username;
             this->confirmed_password = password;

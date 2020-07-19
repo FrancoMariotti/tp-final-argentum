@@ -31,6 +31,8 @@ public:
     void start();
     void finish();
     ~ClientConnection();
+
+    void sendLoginReponse(int answer);
 };
 
 

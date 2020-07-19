@@ -35,9 +35,10 @@ void Server::start() {
             if (msg->getId() == LOGIN_MESSAGE_ID) {
                 t_client_login data = msg->getLoginData();
                 bool result = game.isUsernameRegistered(data.username);
-                char answer = result ? 1:0;
-                clients.sendMessage(msg->getConnectionlId(),-1,std::to_string(answer));
+                int answer = result ? 1:0;
+                clients.sendMessage(msg->getConnectionlId(),answer);
             }
+
             if (msg->getId() == CONNECT_MESSAGE_ID) {
                 t_create_connect data = msg->getConnectData();
                 game.createPlayer(data.username,data.race,data.charClass);
@@ -55,6 +56,7 @@ void Server::start() {
                     delete update;
                 }
             }
+
             if (msg->getId() == DISCONNECT_MESSAGE_ID) {
                 //HAY QUE HACER EL BROADCAST PARA DECRILE A TODOS LOS JUGADORES
                 //QUE DEBEN DE DEJAR DE RENDERIZAR AL JUGADOR DESCONECTADO
@@ -83,7 +85,7 @@ void Server::start() {
                         connectionsTable.begin(),
                         connectionsTable.end(),
                         [connectionId](std::pair<std::string,int> connection)
-                                    {return connection.second == connectionId; });
+                                    { return connection.second == connectionId; });
                 game.equip(result->first, msg->getIndex());
             }
             if (msg->getId() == PLAYER_ATTACK_MESSAGE_ID) {
@@ -112,7 +114,9 @@ void Server::start() {
         while (game.broadcastUpdateAvailable()) {
             Message* update = game.nextBroadCastUpdate();
             std::string dataUpdate = serializer.serialize(update);
-            clients.broadcast(update->getId(),dataUpdate);
+            for(auto& connection: connectionsTable) {
+                clients.sendMessage(connection.second,update->getId(),dataUpdate);
+            }
             delete update;
         }
 

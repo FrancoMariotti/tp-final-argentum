@@ -298,7 +298,7 @@ void Map::updateNpcsSpawns(Observer* observer) {
     observer->notifySpawnNpcUpdate(npcSpawns);
 }
 
-void Map::initializePlayersSpawns(std::queue<Message*>& initializeMessages) {
+void Map::updatePlayersSpawns(std::queue<Message*>& initializeMessages) {
     std::vector<spawn_playable_character_t> pcSpawns;
     for (auto &pc : characters) {
         pc.second->addSpawnInfoTo(pcSpawns);
