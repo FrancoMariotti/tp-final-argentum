@@ -14,14 +14,14 @@ private:
     QtCharacterLogin* qtCharacterLogin;
     QtCharacterCreation* qtCharacterCreation;
     Protocol protocol;
-
     Socket& clientSocket;
     std::string& gui_username;
     std::string confirmed_username;
     std::string confirmed_password;
+    bool& finished;
 
 public:
-    explicit LoginMediator(Socket &clientSocket, std::string &gui_username);
+    explicit LoginMediator(Socket &clientSocket, std::string &gui_username,bool& finished);
 
     ~LoginMediator();
 
