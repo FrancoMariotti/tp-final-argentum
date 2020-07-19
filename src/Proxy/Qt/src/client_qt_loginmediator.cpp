@@ -95,7 +95,7 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
                        + "\nRaza: " + s_race + "\nClase: " + s_class;
     qtCharacterLogin->showMessageBox(text);
     //char answer;
-    Message* msg = new Connect(confirmed_username, s_race, s_class);
+    Message* msg = new Create(confirmed_username, s_race, s_class);
     protocol.send(clientSocket,msg);
     delete msg;
     gui_username = confirmed_username;

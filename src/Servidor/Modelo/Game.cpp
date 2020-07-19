@@ -11,15 +11,15 @@
 Game::Game(const std::string& configFile, const std::string& playersInfoMapFile,
         const std::string& playersInfoFile): configFile(configFile), itemFactory()
     , mapFactory(configFile), map(mapFactory.create(&itemFactory)), commandExecutor(map),
-    factoryCharacters(configFile, &itemFactory, playersInfoMapFile, playersInfoFile),
-    npcFactory(configFile, &itemFactory) {
+    factoryCharacters(configFile, &itemFactory), npcFactory(configFile, &itemFactory),
+    persistanceManager(playersInfoMapFile, playersInfoFile) {
     std::map<std::string, float> constants;
     FileParser parser(configFile);
     Json::Value constObj = parser.read("constants");
     for (auto &constant : constObj) {
         constants[constant["name"].asString()] = constant["value"].asFloat();
     }
-    Configuration& config = config.getInstance();
+    Configuration& config = Configuration::getInstance();
     config.constants = constants;
 }
 
@@ -30,7 +30,7 @@ void Game::updateModel(float looptime) {
 }
 
 void Game::persistPlayersData(float loopTimeInSeconds) {
-    map->persistPlayersData(factoryCharacters, loopTimeInSeconds);
+    map->persistPlayersData(persistanceManager, loopTimeInSeconds);
 }
 
 std::queue<Message *> Game::initializeWorld() {
@@ -41,7 +41,6 @@ std::queue<Message *> Game::initializeWorld() {
     map->updatePlayersSpawns(initializeMessages);
     return initializeMessages;
 }
-
 
 /*void Game::start() {
     this->keep_playing = true;
@@ -64,7 +63,8 @@ std::queue<Message *> Game::initializeWorld() {
 
 void Game::createPlayer(const std::string& playerName, const std::string& charRace,
         const std::string& charClass) {
-    factoryCharacters.create(map,playerName,charRace, charClass, this);
+    factoryCharacters.create(map, playerName, charRace, charClass,
+            this, persistanceManager);
 }
 
 void Game::createNpc(const std::string& specie) {
@@ -171,16 +171,16 @@ void Game::executeCommand(std::unique_ptr<Message>& msg) {
 }
 
 bool Game::login(const std::string &username, std::string &password) {
-    return factoryCharacters.login(username, password, map, this);
+    return persistanceManager.login(username, password, map, this, factoryCharacters);
 }
 
 bool Game::signup(const std::string &username, const std::string &password) {
-    return factoryCharacters.signup(username, password);
+    return persistanceManager.signup(username, password);
 }
 
 std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
     std::queue<Message*> pcSpawnsUpdate;
-    map->disconnectPlayer(username, factoryCharacters);
+    map->disconnectPlayer(username, persistanceManager);
     map->updatePlayersSpawns(pcSpawnsUpdate);
     return pcSpawnsUpdate;
 }
@@ -192,6 +192,3 @@ Game::~Game() {
     }
     delete map;
 }
-
-
-

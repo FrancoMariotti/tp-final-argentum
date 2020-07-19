@@ -21,6 +21,7 @@ class PlayableCharacter: public Character {
     friend class PersonajeTest;
     friend class Priest;
     friend class PlayableCharacterFactory;
+    friend class PersistanceManager;
     float mana;
     int gold;
     int xp;

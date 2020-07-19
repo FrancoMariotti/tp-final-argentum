@@ -1,16 +1,15 @@
 #include <msgpack.hpp>
-#include "../Socket.h"
-#include "ConnectMessageSerializer.h"
+#include "CreateMessageSerializer.h"
 
-std::string ConnectMessageSerializer::serialize(Message *message) {
+std::string CreateMessageSerializer::serialize(Message *message) {
     std::stringstream ss;
     msgpack::packer<std::stringstream> packer(ss);
-    packer.pack(message->getConnectData());
+    packer.pack(message->getCreateData());
     std::string result(ss.str());
     return result;
 }
 
-Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint32_t len_data) {
+Message *CreateMessageSerializer::deserialize(unsigned char *data, uint32_t len_data) {
     // deserialize the buffer into msgpack::object instance.
     //std::string str(data,len_data);
 
@@ -21,7 +20,7 @@ Message *ConnectMessageSerializer::deserialize(unsigned char *data,uint32_t len_
     msgpack::object deserialized = oh.get();
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.
-    t_create_connect message = deserialized.as<t_create_connect>();
+    create_player_t message = deserialized.as<create_player_t>();
 
-    return new Connect(message.username,message.race,message.charClass);
+    return new Create(message.username,message.race,message.charClass);
 }

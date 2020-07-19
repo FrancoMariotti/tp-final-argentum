@@ -7,8 +7,6 @@ set(SERIALIZERSSOURCES
         Serializers/Serializer.h
         Serializers/MessageSerializer.h
         Serializers/MessageSerializer.cpp
-        Serializers/ConnectMessageSerializer.h
-        Serializers/ConnectMessageSerializer.cpp
         Serializers/DrawMessageSerializer.h
         Serializers/DrawMessageSerializer.cpp
         Serializers/MovementMessageSerializer.h
@@ -32,7 +30,9 @@ set(SERIALIZERSSOURCES
         Serializers/UseItemMessageSerializer.h
         Serializers/UseItemMessageSerializer.cpp
         Serializers/LoginMessageSerializer.h
-        Serializers/LoginMessageSerializer.cpp)
+        Serializers/LoginMessageSerializer.cpp
+        Serializers/CreateMessageSerializer.h
+        Serializers/CreateMessageSerializer.cpp)
 
 
 add_library(commonLib

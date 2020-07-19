@@ -3,7 +3,7 @@
 #include "../OsException.h"
 #include "MovementMessageSerializer.h"
 #include "DrawMessageSerializer.h"
-#include "ConnectMessageSerializer.h"
+#include "CreateMessageSerializer.h"
 #include "SpawnStaticObjectsMessageSerializer.h"
 #include "SpawnPcMessageSerializer.h"
 #include "StatsMessageSerializer.h"
@@ -17,7 +17,7 @@
 
 MessageSerializer::MessageSerializer() {
     serializers.push_back(new  DrawMessageSerializer());
-    serializers.push_back(new  ConnectMessageSerializer());
+    serializers.push_back(new  CreateMessageSerializer());
     serializers.push_back(new  SpawnStaticObjectsMessageSerializer());
     serializers.push_back(new  SpawnPcMessageSerializer());
     serializers.push_back(new  MovementMessageSerializer());
@@ -32,7 +32,7 @@ MessageSerializer::MessageSerializer() {
 
 
     serializersTable[DRAW_MESSAGE_ID] = 0;
-    serializersTable[CONNECT_MESSAGE_ID] = 1;
+    serializersTable[CREATE_MESSAGE_ID] = 1;
     serializersTable[SPAWN_CITY_CHARACTERS_MESSAGE_ID] = 2;
     serializersTable[SPAWN_DROPS_MESSAGE_ID] = 2;
     serializersTable[SPAWN_NPC_MESSAGE_ID] = 2;

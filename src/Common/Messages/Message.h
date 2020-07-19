@@ -10,7 +10,7 @@
 #include <vector>
 #include "message_structs.h"
 enum MESSAGES {
-    CONNECT_MESSAGE_ID,
+    CREATE_MESSAGE_ID,
     DRAW_MESSAGE_ID,
     MOVEMENT_MESSAGE_ID,
     USE_ITEM_MESSAGE_ID,
@@ -57,7 +57,7 @@ public:
     virtual std::vector<spawn_playable_character_t> getPcSpawnData();
     virtual location_t getLocation();
     virtual std::vector<std::string> getConsoleOutput();
-    virtual t_create_connect getConnectData() const;
+    virtual create_player_t getCreateData() const;
     virtual t_client_login getLoginData() const;
     virtual std::string getUsername();
     virtual ~Message() = default;
@@ -104,18 +104,18 @@ private:
     const int y;
 public:
     ExecuteCommand(const std::string& command, std::string  username);
-    ExecuteCommand(std::string  input, const std::string& username, int x, int y);
+    ExecuteCommand(std::string  input, std::string  username, int x, int y);
     command_t getCommand() const override;
 };
 
-class Connect : public Message {
+class Create : public Message {
 private:
     const std::string username;
     const std::string race;
     const std::string char_class;
 public:
-    Connect(std::string  username, std::string race,std::string char_class);
-    t_create_connect getConnectData() const override;
+    Create(std::string  username, std::string  race,std::string  char_class);
+    create_player_t getCreateData() const override;
 };
 
 class Stats : public Message {
@@ -184,7 +184,7 @@ private:
     const std::string username;
     const std::string password;
 public:
-    Login(std::string  username, const std::string& password, int msg_id);
+    Login(std::string  username, std::string  password, int msg_id);
     t_client_login getLoginData() const override;
 };
 

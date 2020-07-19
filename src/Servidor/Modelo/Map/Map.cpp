@@ -272,12 +272,12 @@ void Map::regenerateNpcs(float loopTimeInSeconds, NpcFactory& npcFactory, Observ
     }
 }
 
-void Map::persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds) {
+void Map::persistPlayersData(PersistanceManager& pManager, float loopTImeInSeconds) {
     if (lastPersistance + loopTImeInSeconds >= config.constants["timeToPersist"]) {
-        std::cout << "Guardando informacion del jugador" << std::endl;
+        lastPersistance = 0;
+        std::cout << "Guardando informacion de los jugadores" << std::endl;
         for (auto &pc : characters) {
-            pcFactory.persistPlayerData(pc.second);
-            lastPersistance = 0;
+            pManager.persistPlayerData(pc.second);
         }
     } else {
         lastPersistance += loopTImeInSeconds;
@@ -312,8 +312,8 @@ bool Map::empty() {
     return characters.empty();
 }
 
-void Map::disconnectPlayer(const std::string& username, PlayableCharacterFactory& pcFactory) {
-    pcFactory.persistPlayerData(getPlayer(username));
+void Map::disconnectPlayer(const std::string& username, PersistanceManager& pManager) {
+    pManager.persistPlayerData(getPlayer(username));
     removePlayableCharacter(username);
 }
 

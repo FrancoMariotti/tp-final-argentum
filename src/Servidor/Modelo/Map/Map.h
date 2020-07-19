@@ -79,8 +79,8 @@ class Map {
         void updateNpcsSpawns(Observer* observer);
         void updatePlayersSpawns(std::queue<Message*>& initializeMessages);
         bool empty();
-        void persistPlayersData(PlayableCharacterFactory pcFactory, float loopTImeInSeconds);
-        void disconnectPlayer(const std::string& username, PlayableCharacterFactory& pcFactory);
+        void persistPlayersData(PersistanceManager& pManager, float loopTImeInSeconds);
+        void disconnectPlayer(const std::string& username, PersistanceManager& pManager);
         ~Map();
 
 };

@@ -7,41 +7,11 @@
 #include "Observer.h"
 #include "Servidor/Modelo/Equippables/NormalWeapon.h"
 #include "Servidor/Modelo/Character/Merchant.h"
+#include "PersistanceManager.h"
 
 class Game;
 class Map;
 class ItemFactory;
-class Configuration;
-
-#define CHARACTER_INFO_INTS_AMOUNT 45
-
-typedef struct character_info {
-   int lifePoints;
-   int level;
-   int constitution;
-   int agility;
-   int strength;
-   int intelligence;
-   int raceLifeFactor;
-   int classLifeFactor;
-   int raceManaFactor;
-   int classManaFactor;
-   int recoveryFactor;
-   int meditationRecoveryFactor;
-   int x;
-   int y;
-   int mana;
-   int gold;
-   int xp;
-   std::vector<int> inventoryItems;
-   int activeWeapon;
-   std::vector<int> protections;
-   int lifeState;
-   int inCity;
-   int goldInBank;
-   std::vector<int> itemsInBank;
-   int race;
-} character_info_t;
 
 typedef struct item {
     std::string name;
@@ -55,12 +25,6 @@ typedef struct item {
     int goldCost;
     int manaCost;
 } item_t;
-
-typedef struct login_info {
-    //int stringLen;
-    std::string password;
-    int index;
-} login_info_t;
 
 class FileParser {
     std::ifstream file;
@@ -104,25 +68,13 @@ class PlayableCharacterFactory {
     Json::Value characterObj;
     ItemFactory* itemFactory;
     std::map<int, item_t> items;
-    std::string playersInfoFile;
-    std::string playersInfoMapFile;
-    std::map<std::string, login_info_t> playersInfoMap;
-    int playersAmount;
-    Configuration& config;
-    void addPlayerInfoToFile(character_info_t playerInfo, int index);
-    character_info_t getPlayerInfoFromFile(int index);
-    void createPlayerFromInfo(character_info_t info, std::string playerName, Map* map, Observer* observer);
     public:
-        explicit PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory,
-                std::string  playersInfoMapFile, std::string  playersInfoFile);
-        void create(Map* map,const std::string& playerName,const std::string& charRace,
-                const std::string& charClass, Observer* observer);
+        PlayableCharacterFactory(const std::string &configFile, ItemFactory *pFactory);
+        void create(Map *map, const std::string &playerName, const std::string &charRace, const std::string &charClass,
+                    Observer *observer, PersistanceManager& pManager);
 
-        void persistPlayerData(PlayableCharacter *pCharacter);
-        bool login(const std::string &playerName, std::string &password, Map* map, Observer* observer);
+        void createPlayerFromInfo(character_info_t info, const std::string& playerName, Map* map, Observer* observer);
         ~PlayableCharacterFactory() = default;
-
-    bool signup(const std::string &username, const std::string &password);
 };
 
 class NpcFactory {

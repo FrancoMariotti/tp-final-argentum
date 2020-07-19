@@ -10,7 +10,8 @@
 #include "Servidor/Modelo/Equippables/Protection.h"
 
 class Armour {
-    friend class PlayableCharacterFactory;
+    //friend class PlayableCharacterFactory;
+    friend class PersistanceManager;
     std::vector<Protection*> protections;
     Protection defaultProtection;
 public:

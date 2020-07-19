@@ -10,6 +10,7 @@
 class BankAccount {
     friend class Banker;
     friend class PlayableCharacterFactory;
+    friend class PersistanceManager;
     int gold;
     std::vector<Equippable*> items;
     unsigned int maxItems;

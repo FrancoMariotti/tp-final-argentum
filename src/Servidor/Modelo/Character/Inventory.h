@@ -7,7 +7,8 @@
 
 class Inventory {
     std::string& id;
-    friend class PlayableCharacterFactory;
+    //friend class PlayableCharacterFactory;
+    friend class PersistanceManager;
     unsigned int maxElements;
     std::vector<Equippable*> elements;
 public:

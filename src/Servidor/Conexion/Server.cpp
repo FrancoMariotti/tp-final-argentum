@@ -51,8 +51,8 @@ void Server::handleEvent(MessageSerializer& serializer,std::unique_ptr<Message>&
         bool result = game.signup(data.username, data.password);
         int answer = result ? 1:0;
         clients.sendMessage(msg->getConnectionlId(),answer);
-    } else if (msg->getId() == CONNECT_MESSAGE_ID) {
-        t_create_connect data = msg->getConnectData();
+    } else if (msg->getId() == CREATE_MESSAGE_ID) {
+        create_player_t data = msg->getCreateData();
         game.createPlayer(data.username,data.race,data.charClass);
         sendInitialMessages(serializer,data.username,msg->getConnectionlId());
     } else if (msg->getId() == DISCONNECT_MESSAGE_ID) {

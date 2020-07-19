@@ -92,11 +92,6 @@ void PriestFactory::create(Map *map, std::string file, ItemFactory *pFactory) {
 
     std::map<std::string,item_t> stock;
 
-    /*std::map<std::string, EquippableFactory*> factories;
-    factories["MagicalWeapon"] = new MagicalWeaponFactory();
-    factories["LifePotion"] = new LifePotionFactory();
-    factories["ManaPotion"] = new ManaPotionFactory();*/
-
     for(auto& item: priestItems) {
         item_t newItem {
                 item["name"].asString(),
@@ -115,7 +110,6 @@ void PriestFactory::create(Map *map, std::string file, ItemFactory *pFactory) {
 
     Priest priest(positions,stock,pFactory);
 
-    //map->add(std::move(priest));
     map->add(priest);
 }
 
@@ -192,15 +186,11 @@ Map * MapFactory::create(ItemFactory *pFactory) {
 
 MapFactory::~MapFactory() =default;
 
-
 PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile,
-        ItemFactory *pFactory, std::string  playersInfoMapFile,
-        std::string  playersInfoFile) : itemFactory(pFactory),
-        playersInfoFile(std::move(playersInfoFile)),
-        playersInfoMapFile(std::move(playersInfoMapFile)),
-        config(Configuration::getInstance()) {
+        ItemFactory *pFactory) : itemFactory(pFactory) {
     FileParser parser(configFile);
     characterObj = parser.read("character");
+
     //Ahora creo el stock de items
     FileParser itemParser(configFile);
     Json::Value itemsObj = itemParser.read("allItems");
@@ -220,218 +210,37 @@ PlayableCharacterFactory::PlayableCharacterFactory(const std::string &configFile
         };
         items[newItem.id] = newItem;
     }
-
-    std::fstream playersInfoMapStream(this->playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
-    //Chequeo que los archivos se hayan podido abrir
-    if (!playersInfoMapStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
-    }
-
-    int nameLength, index, passwordLength;
-    while (playersInfoMapStream.read((char*)&nameLength, sizeof(int))) {
-        char* name = new char[nameLength + 1];
-        playersInfoMapStream.read(name, nameLength);
-        name[nameLength] = '\0';
-        playersInfoMapStream.read((char*)&passwordLength, sizeof(int));
-        char* password = new char[passwordLength + 1];
-        playersInfoMapStream.read(password, passwordLength);
-        password[passwordLength] = '\0';
-        playersInfoMapStream.read((char*)&index, sizeof(int));
-        login_info_t info = {password, index};
-        if (playersInfoMapStream.good()) playersInfoMap[name] = info;
-        delete[] name;
-        delete[] password;
-    }
-
-    playersAmount = playersInfoMap.size();
-    playersInfoMapStream.close();
 }
 
 void PlayableCharacterFactory::create(Map *map, const std::string &playerName, const std::string &charRace,
-                                      const std::string &charClass, Observer* observer) {
-    /*
-    std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
-    //Chequeo que los archivos se hayan podido abrir
-    if (!playersInfoMapStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
-    }
-*/
-    //Busco el nombre del jugador para ver si esta registrado
-    /*if (playersInfoMap.find(playerName) != playersInfoMap.end()) {
-        int index = playersInfoMap.at(playerName).index;
-        character_info_t characterInfo = getPlayerInfoFromFile(index);
-        createPlayerFromInfo(characterInfo, playerName, map, observer);
-    } else {*/
-        Position initialPosition = map->asignRandomPosInAnyCity();
+                                      const std::string &charClass,
+                                      Observer *observer, PersistanceManager& pManager) {
+    Position initialPosition = map->asignRandomPosInAnyCity();
 
-        int invMaxElements = characterObj["inventoryMaxElements"].asInt();
-        int level = characterObj["level"].asInt();
-        int strength = characterObj["strength"].asInt();
-        int agility = characterObj["agility"].asInt();
-        int intelligence = characterObj["intelligence"].asInt();
-        int constitution = characterObj["constitution"].asInt();
-        int raceLifeFactor = characterObj["race"][charRace]["lifeFactor"].asInt();
-        int raceManaFactor = characterObj["race"][charRace]["manaFactor"].asInt();
-        int recoveryFactor = characterObj["race"][charRace]["recoveryFactor"].asInt();
-        int raceId = characterObj["race"][charRace]["id"].asInt();
-        int classLifeFactor = characterObj["class"][charClass]["lifeFactor"].asInt();
-        int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
-        int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
+    int invMaxElements = characterObj["inventoryMaxElements"].asInt();
+    int level = characterObj["level"].asInt();
+    int strength = characterObj["strength"].asInt();
+    int agility = characterObj["agility"].asInt();
+    int intelligence = characterObj["intelligence"].asInt();
+    int constitution = characterObj["constitution"].asInt();
+    int raceLifeFactor = characterObj["race"][charRace]["lifeFactor"].asInt();
+    int raceManaFactor = characterObj["race"][charRace]["manaFactor"].asInt();
+    int recoveryFactor = characterObj["race"][charRace]["recoveryFactor"].asInt();
+    int raceId = characterObj["race"][charRace]["id"].asInt();
+    int classLifeFactor = characterObj["class"][charClass]["lifeFactor"].asInt();
+    int classManaFactor = characterObj["class"][charClass]["manaFactor"].asInt();
+    int meditationRecoveryFactor = characterObj["class"][charClass]["meditationRecoveryFactor"].asInt();
 
-        auto* character =  new PlayableCharacter(playerName,map,initialPosition,constitution,strength,agility,intelligence,
-                level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
-                meditationRecoveryFactor, invMaxElements,observer, raceId);
-        map->add(playerName,character);
-        //Agrego el index del jugador al archivo del mapa y al mapa de la factory
-/*
-        uint32_t nameLen = character->id.size();
-        playersInfoMapStream.seekp(0, std::ios_base::end);
-        playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
-        playersInfoMapStream.write(character->id.c_str(), nameLen);
-        playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
-        playersInfoMap[playerName] = playersAmount;
-        playersAmount++;
-*/
-        //Agrego la informacion del jugador al archivo de informacion
-        persistPlayerData(character);
-    //}
-    //playersInfoMapStream.close();
+    auto* character =  new PlayableCharacter(playerName,map,initialPosition,constitution,strength,agility,intelligence,
+            level,raceLifeFactor, classLifeFactor, raceManaFactor, classManaFactor,recoveryFactor,
+            meditationRecoveryFactor, invMaxElements,observer, raceId);
+    map->add(playerName,character);
+
+    //Agrego la informacion del jugador al archivo de informacion
+    pManager.persistPlayerData(character);
 }
 
-void PlayableCharacterFactory::persistPlayerData(PlayableCharacter *pCharacter) {
-    //Busco en el mapa el index que le corresponde al jugador
-    int index = playersInfoMap[pCharacter->id].index;
-    //Guardo los identificadores de los items que tiene el usuario en su armadura,
-    //inventario y cuenta de banco
-    std::vector<int> armourIds, inventoryIds, accountIds;
-    for (auto &protection : pCharacter->armour.protections) {
-        armourIds.push_back(protection->getId());
-    }
-
-    for (auto &inventoryItem : pCharacter->inventory.elements) {
-        inventoryIds.push_back(inventoryItem->getId());
-    }
-
-    for (auto &bankItem : pCharacter->bankAccount.items) {
-        accountIds.push_back(bankItem->getId());
-    }
-    int lifeStateInt = pCharacter->lifeState->convertToInt();
-    //Creo el struct con la informacion del jugador
-    character_info_t characterInfo = {(int)pCharacter->lifePoints, pCharacter->level,
-                                      pCharacter->constitution, pCharacter->agility, pCharacter->strength,
-                                      pCharacter->intelligence, pCharacter->raceLifeFactor, pCharacter->classLifeFactor,
-                                      pCharacter->raceManaFactor, pCharacter->classManaFactor, pCharacter->recoveryFactor,
-                                      pCharacter->meditationRecoveryFactor, pCharacter->currPos.getX(),
-                                      pCharacter->currPos.getY(), (int)pCharacter->mana, pCharacter->gold, pCharacter->xp,
-                                      inventoryIds, pCharacter->activeWeapon->getId(), armourIds, lifeStateInt,
-                                      pCharacter->inCity, pCharacter->bankAccount.gold, accountIds, pCharacter->raceId};
-    //Escribo el struct en el archivo de informacion de los jugadores
-    addPlayerInfoToFile(characterInfo, index);
-}
-
-void PlayableCharacterFactory::addPlayerInfoToFile(character_info_t playerInfo, int index) {
-    std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary | std::fstream::in);
-    if (!infoStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
-    }
-    //situo el puntero para sobreescribir el elemento en el index correcto
-    infoStream.seekp(sizeof(character_info_t) * index);
-
-    infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
-    infoStream.write((char*)&playerInfo.level, sizeof(int));
-    infoStream.write((char*)&playerInfo.constitution, sizeof(int));
-    infoStream.write((char*)&playerInfo.agility, sizeof(int));
-    infoStream.write((char*)&playerInfo.strength, sizeof(int));
-    infoStream.write((char*)&playerInfo.intelligence, sizeof(int));
-    infoStream.write((char*)&playerInfo.raceLifeFactor, sizeof(int));
-    infoStream.write((char*)&playerInfo.classLifeFactor, sizeof(int));
-    infoStream.write((char*)&playerInfo.raceManaFactor, sizeof(int));
-    infoStream.write((char*)&playerInfo.classManaFactor, sizeof(int));
-    infoStream.write((char*)&playerInfo.recoveryFactor, sizeof(int));
-    infoStream.write((char*)&playerInfo.meditationRecoveryFactor, sizeof(int));
-    infoStream.write((char*)&playerInfo.x, sizeof(int));
-    infoStream.write((char*)&playerInfo.y, sizeof(int));
-    infoStream.write((char*)&playerInfo.mana, sizeof(int));
-    infoStream.write((char*)&playerInfo.gold, sizeof(int));
-    infoStream.write((char*)&playerInfo.xp, sizeof(int));
-    for (unsigned int j = 0; j < (unsigned)config.constants["inventoryMaxItems"] ; ++j) {
-        if (j < playerInfo.inventoryItems.size())
-            infoStream.write((char*)&playerInfo.inventoryItems[j], sizeof(int));
-        else {
-            int zero = 0;
-            infoStream.write((char*)&zero, sizeof(int));
-        }
-    }
-    infoStream.write((char*)&playerInfo.activeWeapon, sizeof(int));
-    for (unsigned int j = 0; j < (unsigned)config.constants["armourMaxItems"]; ++j) {
-        infoStream.write((char*)&playerInfo.protections[j], sizeof(int));
-    }
-    infoStream.write((char*)&playerInfo.lifeState, sizeof(int));
-    infoStream.write((char*)&playerInfo.inCity, sizeof(int));
-    infoStream.write((char*)&playerInfo.goldInBank, sizeof(int));
-    for (unsigned int j = 0; j < (unsigned)config.constants["accountMaxItems"] ; ++j) {
-        if (j < playerInfo.itemsInBank.size())
-            infoStream.write((char*)&playerInfo.itemsInBank[j], sizeof(int));
-        else {
-            int zero = 0;
-            infoStream.write((char*)&zero, sizeof(int));
-        }
-    }
-    infoStream.write((char*)&playerInfo.race, sizeof(int));
-    infoStream.close();
-}
-
-character_info_t PlayableCharacterFactory::getPlayerInfoFromFile(int index) {
-    character_info_t characterInfo;
-     std::fstream infoStream(playersInfoFile, std::fstream::in | std::fstream::binary);
-     if (!infoStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
-     }
-     //situo el puntero para leer el elemento en el index correcto
-     infoStream.seekg(sizeof(character_info_t) * index);
-     //comienzo a guardar la informacion
-     infoStream.read((char*)&characterInfo.lifePoints, sizeof(int));
-     infoStream.read((char*)&characterInfo.level, sizeof(int));
-     infoStream.read((char*)&characterInfo.constitution, sizeof(int));
-     infoStream.read((char*)&characterInfo.agility, sizeof(int));
-     infoStream.read((char*)&characterInfo.strength, sizeof(int));
-     infoStream.read((char*)&characterInfo.intelligence, sizeof(int));
-     infoStream.read((char*)&characterInfo.raceLifeFactor, sizeof(int));
-     infoStream.read((char*)&characterInfo.classLifeFactor, sizeof(int));
-     infoStream.read((char*)&characterInfo.raceManaFactor, sizeof(int));
-     infoStream.read((char*)&characterInfo.classManaFactor, sizeof(int));
-     infoStream.read((char*)&characterInfo.recoveryFactor, sizeof(int));
-     infoStream.read((char*)&characterInfo.meditationRecoveryFactor, sizeof(int));
-     infoStream.read((char*)&characterInfo.x, sizeof(int));
-     infoStream.read((char*)&characterInfo.y, sizeof(int));
-     infoStream.read((char*)&characterInfo.mana, sizeof(int));
-     infoStream.read((char*)&characterInfo.gold, sizeof(int));
-     infoStream.read((char*)&characterInfo.xp, sizeof(int));
-     for (unsigned int j = 0; j < (unsigned)config.constants["inventoryMaxItems"] ; ++j) {
-         int currValue;
-         infoStream.read((char*)&currValue, sizeof(int));
-         characterInfo.inventoryItems.push_back(currValue);
-     }
-     infoStream.read((char*)&characterInfo.activeWeapon, sizeof(int));
-     for (unsigned int j = 0; j < (unsigned)config.constants["armourMaxItems"] ; ++j) {
-         int currValue;
-         infoStream.read((char*)&currValue, sizeof(int));
-         characterInfo.protections.push_back(currValue);
-     }
-     infoStream.read((char*)&characterInfo.lifeState, sizeof(int));
-     infoStream.read((char*)&characterInfo.inCity, sizeof(int));
-     infoStream.read((char*)&characterInfo.goldInBank, sizeof(int));
-     for (unsigned int j = 0; j < (unsigned)config.constants["accountMaxItems"]; ++j) {
-         int currValue;
-         infoStream.read((char*)&currValue, sizeof(int));
-         characterInfo.itemsInBank.push_back(currValue);
-     }
-     infoStream.read((char*)&characterInfo.race, sizeof(int));
-     infoStream.close();
-     return characterInfo;
-}
-
-void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::string playerName, Map* map,
+void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, const std::string& playerName, Map* map,
         Observer* observer) {
     Position initialPosition = Position(info.x, info.y);
     auto* character =  new PlayableCharacter(playerName, info.lifePoints, map,initialPosition,info.constitution,
@@ -458,48 +267,6 @@ void PlayableCharacterFactory::createPlayerFromInfo(character_info_t info, std::
             character->bankAccount.deposit(item);
         }
     }
-}
-
-bool PlayableCharacterFactory::login(const std::string &playerName, std::string &password,
-        Map* map, Observer* observer) {
-    if (playersInfoMap.find(playerName) != playersInfoMap.end()) {
-        if (playersInfoMap.at(playerName).password == password) {
-            int index = playersInfoMap.at(playerName).index;
-            character_info_t characterInfo = getPlayerInfoFromFile(index);
-            createPlayerFromInfo(characterInfo, playerName, map, observer);
-            return true;
-        }
-    }
-    return false;
-}
-
-bool PlayableCharacterFactory::signup(const std::string &username, const std::string &password) {
-    if (playersInfoMap.find(username) == playersInfoMap.end()) {
-        std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
-        //Chequeo que el archivo se hayan podido abrir
-        if (!playersInfoMapStream) {
-            throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
-        }
-        //Agrego el index y la contrasenia del jugador al archivo del mapa y al mapa de la factory
-        uint32_t nameLen = username.size();
-        uint32_t passwordLen = password.size();
-        playersInfoMapStream.seekp(0, std::ios_base::end);
-
-        playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
-        playersInfoMapStream.write(username.c_str(), nameLen);
-
-        playersInfoMapStream.write((char*)&passwordLen, sizeof(uint32_t));
-        playersInfoMapStream.write(password.c_str(), passwordLen);
-
-        playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
-
-        login_info_t info = {password, playersAmount};
-        playersInfoMap[username] = info;
-        playersAmount++;
-        playersInfoMapStream.close();
-        return true;
-    }
-    return false;
 }
 
 NpcFactory::NpcFactory(const std::string &configFile, ItemFactory *pFactory) :

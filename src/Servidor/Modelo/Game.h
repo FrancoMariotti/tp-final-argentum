@@ -25,6 +25,7 @@ private:
     NpcFactory npcFactory;
     std::queue<std::tuple<std::string,Message*>> directedUpdates;
     std::queue<Message*> broadcastUpdates;
+    PersistanceManager persistanceManager;
 public:
     explicit Game(const std::string& gameConfigFilename, const std::string& playersInfoMapFile,
             const std::string& playersInfoFile);
@@ -55,10 +56,9 @@ public:
     std::tuple<std::string,Message*> nextDirectedUpdate();
     void persistPlayersData(float loopTimeInSeconds);
     bool login(const std::string &username, std::string &password);
+    bool signup(const std::string &username, const std::string &password);
     std::queue<Message*> disconnectPlayer(const std::string& username);
     ~Game();
-
-    bool signup(const std::string &username, const std::string &password);
 };
 
 

@@ -96,7 +96,7 @@ std::vector<std::string> Message::getConsoleOutput() {
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
 
-t_create_connect Message::getConnectData() const {
+create_player_t Message::getCreateData() const {
     throw OSError("Getter de atributo de instancia inexistente, "
                   "fue delegado a padre Message (abstracta), id mensaje: %c", id);
 }
@@ -177,9 +177,9 @@ ExecuteCommand::ExecuteCommand(const std::string& command, std::string  username
         std::cout << command << "x:" << x << "y:" << y << std::endl;
     }
     
-ExecuteCommand::ExecuteCommand(std::string  input, const std::string& username, const int x,const int y) :
+ExecuteCommand::ExecuteCommand(std::string  input, std::string  username, const int x,const int y) :
     Message(COMMAND_MESSAGE_ID),
-    username(username),
+    username(std::move(username)),
     command(std::move(input)),
     x(x),
     y(y)
@@ -192,15 +192,15 @@ command_t  ExecuteCommand::getCommand() const {
     return command_t {username,command,x,y};
 }
 
-Connect::Connect(std::string  username,const std::string race,const std::string char_class) :
-                                                                    Message(CONNECT_MESSAGE_ID),
+Create::Create(std::string  username,std::string  race,std::string  char_class) :
+                                                                    Message(CREATE_MESSAGE_ID),
                                                                     username(std::move(username)),
-                                                                    race(race),
-                                                                    char_class(char_class)
+                                                                    race(std::move(race)),
+                                                                    char_class(std::move(char_class))
                                                                     {}
 
-t_create_connect Connect::getConnectData() const{
-    return t_create_connect{username, race, char_class};
+create_player_t Create::getCreateData() const{
+    return create_player_t {username, race, char_class};
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)
@@ -267,10 +267,10 @@ std::vector<std::string> ConsoleOutput::getConsoleOutput() {
         return std::move(outputs);
 }
 
-Login::Login(std::string username, const std::string &password, int msg_id) :
+Login::Login(std::string username, std::string password, int msg_id) :
         Message(msg_id),
         username(std::move(username)),
-        password(password)
+        password(std::move(password))
         {}
 
 t_client_login Login::getLoginData() const{

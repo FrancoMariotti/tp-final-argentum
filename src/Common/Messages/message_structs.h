@@ -58,14 +58,14 @@ typedef struct spawn_playable_character {
                 helmetName)
 } spawn_playable_character_t;
 
-typedef struct create_connect {
+typedef struct create_player {
     std::string username;
     std::string race;
     std::string charClass;
     MSGPACK_DEFINE(username,
                    race,
                    charClass)
-} t_create_connect;
+} create_player_t;
 
 typedef struct command {
     std::string username;

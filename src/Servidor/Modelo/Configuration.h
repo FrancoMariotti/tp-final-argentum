@@ -12,7 +12,7 @@ class Configuration {
     std::map<std::string, float> constants;
     Configuration() = default;
     friend class Game;
-    friend class PlayableCharacterFactory;
+    friend class PersistanceManager;
     friend class BankAccount;
     friend class Map;
     friend class Npc;
