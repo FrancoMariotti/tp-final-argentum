@@ -267,14 +267,14 @@ std::vector<std::string> ConsoleOutput::getConsoleOutput() {
         return std::move(outputs);
 }
 
-Login::Login(std::string username, const std::string &password, enum MESSAGES msg_id) :
+Login::Login(std::string username, const std::string &password, int msg_id) :
         Message(msg_id),
         username(std::move(username)),
         password(password)
         {}
 
 t_client_login Login::getLoginData() const{
-    return t_client_login{username, password};
+    return t_client_login{username, password, id};
 }
 
 Disconnect::Disconnect(std::string username) : Message(DISCONNECT_MESSAGE_ID),

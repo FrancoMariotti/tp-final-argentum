@@ -26,6 +26,7 @@ enum MESSAGES {
     CONSOLE_OUTPUT_MESSAGE_ID,
     SPAWN_PC_MESSAGE_ID,
     LOGIN_MESSAGE_ID,
+    SIGNUP_MESSAGE_ID,
     DISCONNECT_MESSAGE_ID
 };
 
@@ -183,7 +184,7 @@ private:
     const std::string username;
     const std::string password;
 public:
-    Login(std::string  username, const std::string& password, enum MESSAGES msg_id);
+    Login(std::string  username, const std::string& password, int msg_id);
     t_client_login getLoginData() const override;
 };
 

@@ -167,8 +167,8 @@ void Game::executeCommand(std::unique_ptr<Message>& msg) {
     commandExecutor.execute(command.username,command.input,command.x,command.y);
 }
 
-bool Game::isUsernameRegistered(const std::string& username) {
-    return factoryCharacters.isUsernameRegistered(username);
+bool Game::login(const std::string &username, std::string &password) {
+    return factoryCharacters.login(username, password, map, this);
 }
 
 std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
@@ -184,6 +184,10 @@ Game::~Game() {
         broadcastUpdates.pop();
     }
     delete map;
+}
+
+bool Game::signup(const std::string &username, const std::string &password) {
+    return factoryCharacters.signup(username, password);
 }
 
 
