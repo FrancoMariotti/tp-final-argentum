@@ -226,6 +226,10 @@ std::unique_ptr<SdlDynamicRenderable>& GUI::getNPC(const std::string& renderable
 }
 
 
+void GUI::disconnect() {
+    clientEvents.push(std::unique_ptr<Message> (new Disconnect(this->username)));
+}
+
 GUI::~GUI(){
     if(font){
         TTF_CloseFont(font);

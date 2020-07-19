@@ -5,8 +5,8 @@
 #include "client_protected_list.h"
 
 //Screen dimension constants
-#define SCREEN_WIDTH 1024//640
-#define SCREEN_HEIGHT 768//480
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
 
 Client::Client(Socket &socket) :
     socket(socket),
@@ -33,21 +33,18 @@ Client::Client(Socket &socket) :
 
 int Client::run(const std::string &username) {
     try{
-        gui.setUsername(username);
+        //gui.setUsername(username);
         this->init();
 
-        //Main loop flag
         bool quit = false;
 
-        //Event handler
         SDL_Event event;
         SdlTimer capTimer;
         const int SCREEN_FPS = 30;
-        const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS; // 16.66ms
-        //While application is running
+        const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+
         while (!quit) {
             capTimer.start();
-            //Handle events on queue
             while (SDL_PollEvent(&event) != 0) {
                 switch(event.type){
                     case SDL_QUIT:
@@ -56,13 +53,11 @@ int Client::run(const std::string &username) {
                 }
                 gui.handleEvents(event);
             }
-            /*Logic*/
             gui.execute();
 
             /*Consumo la lista de eventos del server y actualizo modelo*/
             this->update();
 
-            //Render objects
             gui.render();
 
             //Calculo los frames y espero lo restante para mantener los 60 FPS
@@ -71,6 +66,8 @@ int Client::run(const std::string &username) {
                 SDL_Delay(SCREEN_TICKS_PER_FRAME - frame_ticks);
             }
         }
+        //gui.disconnect();
+
     } catch (std::exception & e){
         std::cout << e.what() << std::endl;
         return 1;
@@ -83,13 +80,13 @@ int Client::run(const std::string &username) {
 }
 
 void Client::init() {
-   /* std::string username_input;
+    std::string username_input;
     std::cout << "ingrese username:";
     std::cin >> username_input;
 
     clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"elf","warrior")));
     gui.setUsername(username_input);
-*/
+
      int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/
     while(init < 3){

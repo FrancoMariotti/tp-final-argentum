@@ -21,6 +21,7 @@ SdlConsole::SdlConsole(const SdlWindow &window, TTF_Font *font) :
     this->console_y = IMAGE_CONSOLE_Y;
     this->width = window.getWidth() * 0.75;
     this->height = window.getHeight() * 0.125;
+    MAX_OUTPUTS = height / 13;
     /*this->width = IMAGE_CONSOLE_WIDTH;
     this->height = IMAGE_CONSOLE_HEIGHT;
     */
