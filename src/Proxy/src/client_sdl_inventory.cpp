@@ -16,16 +16,16 @@
 
 
 SdlInventory::SdlInventory(const SdlWindow &window, TTF_Font *font) :
-        width(IMAGE_INVENTORY_WIDTH),
-        height(IMAGE_INVENTORY_HEIGHT),
+        width(window.getWidth() * 0.161),
+        height(window.getHeight() * 0.401),
         MAX_BUTTONS_PER_ROW(width / BUTTON_SIZE),
         window(window),
         font(font)
         {
 
     //inicializo la posicion del inventario
-    this->inventory_x = INVENTORY_X; //window.getWidth * 0.8 ;
-    this->inventory_y = INVENTORY_Y; //screen_height * 0.234;
+    this->inventory_x = window.getWidth() * 0.8 ;
+    this->inventory_y = window.getHeight() * 0.234;
 
     for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,

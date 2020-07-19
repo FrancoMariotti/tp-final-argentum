@@ -20,7 +20,7 @@ GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::uni
     textureManager(window),
     interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
     inventory(window, font),
-    camera(screen_width, screen_height, username),
+    camera(username, window),
     mouse(camera),
     keyboard(),
     console(window, font),
@@ -225,6 +225,10 @@ std::unique_ptr<SdlDynamicRenderable>& GUI::getNPC(const std::string& renderable
     return search->second;
 }
 
+
+void GUI::disconnect() {
+    clientEvents.push(std::unique_ptr<Message> (new Disconnect(this->username)));
+}
 
 GUI::~GUI(){
     if(font){

@@ -17,8 +17,8 @@ private:
     const int X;
     const int Y;
 
-    const int WIDTH = 120;
-    const int HEIGHT = 10;
+    const int WIDTH;
+    const int HEIGHT;
 
     SDL_Color bar_color;
     SDL_Rect bar;
