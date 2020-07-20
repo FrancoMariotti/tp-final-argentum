@@ -32,7 +32,9 @@ set(SERIALIZERSSOURCES
         Serializers/LoginMessageSerializer.h
         Serializers/LoginMessageSerializer.cpp
         Serializers/CreateMessageSerializer.h
-        Serializers/CreateMessageSerializer.cpp)
+        Serializers/CreateMessageSerializer.cpp
+        Serializers/DisconnectMessageSerializer.h
+        Serializers/DisconnectMessageSerializer.cpp)
 
 
 add_library(commonLib

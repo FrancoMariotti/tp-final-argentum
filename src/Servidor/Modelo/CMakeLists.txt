@@ -58,7 +58,9 @@ set(COMMANDSSRCS
         Commands/SellCommand.h
         Commands/SellCommand.cpp
         Commands/TakeItemCommand.h
-        Commands/TakeItemCommand.cpp)
+        Commands/TakeItemCommand.cpp
+        Commands/DropItemCommand.h
+        Commands/DropItemCommand.cpp)
 
 set(EQUIPPABLESSRCS
         Equippables/Equippable.h
@@ -83,8 +85,6 @@ set(EQUIPPABLESSRCS
 set(DROPPABLESSRCS
         Dropppables/Drop.h
         Dropppables/Drop.cpp
-        Dropppables/DropItemCommand.h
-        Dropppables/DropItemCommand.cpp
         Dropppables/Droppable.h
         Dropppables/GoldBag.h
         Dropppables/GoldBag.cpp

@@ -57,6 +57,7 @@ void Server::handleEvent(MessageSerializer& serializer,std::unique_ptr<Message>&
         sendInitialMessages(serializer,data.username,msg->getConnectionlId());
     } else if (msg->getId() == DISCONNECT_MESSAGE_ID) {
         std::queue<Message*> pcSpawnsUpdate = game.disconnectPlayer(msg->getUsername());
+        connectionsTable.erase(msg->getUsername());
         Message* update = pcSpawnsUpdate.front();
         std::string updateData = serializer.serialize(update);
         clients.broadcast(SPAWN_PC_MESSAGE_ID,updateData);

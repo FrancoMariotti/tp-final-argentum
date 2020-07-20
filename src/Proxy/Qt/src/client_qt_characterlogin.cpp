@@ -5,12 +5,12 @@
 #include "ui_client_qt_characterlogin.h"
 #include "client_qt_loginmediator.h"
 
+
 QtCharacterLogin::QtCharacterLogin(LoginMediator* loginMediator, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QtCharacterLogin),
     loginMediator(loginMediator) {
     ui->setupUi(this);
-
 }
 
 QtCharacterLogin::~QtCharacterLogin() {

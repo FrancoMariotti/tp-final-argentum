@@ -125,8 +125,9 @@ int Socket::connect(const char *host_name, const char *service) {
 
     freeaddrinfo(result);
     if (!success){
-        throw OSError("El socket no pudo conectarse al host %s, "
-                      "puerto %s", host_name, service);
+        /*throw OSError("El socket no pudo conectarse al host %s, "
+                      "puerto %s", host_name, service);*/
+        return 1;
     }
     return 0;
 }

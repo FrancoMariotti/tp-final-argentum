@@ -2,20 +2,19 @@
 #include "client_qt_serverlogin.h"
 #include "client_qt_characterlogin.h"
 #include "client_qt_charactercreation.h"
+#include "mainwindow.h"
 #include <Common/Messages/Message.h>
 #include <Common/Socket.h>
 #include <QtGui/QPainter>
 
-#define LOGIN_COMMAND 'l'
-#define SIGNUP_COMMAND 's'
-#define CREATE_COMMAND 'c'
 #define USER_EXISTS 1
 
 LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username,bool& finished) :
     clientSocket(clientSocket),
     gui_username(gui_username),
     finished(finished){
-    qtServerLogin = new QtServerLogin(this);
+    //qtServerLogin = new QtServerLogin(this);
+    mainwindow = new MainWindow(this);
     qtCharacterLogin = new QtCharacterLogin(this);
     qtCharacterCreation = new QtCharacterCreation(this);
 }
@@ -25,11 +24,11 @@ LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username,boo
 void LoginMediator::sendServerCredentials(const std::string& host,const std::string& service){
     if(!host.empty() && !service.empty()){
          if(clientSocket.connect(host.c_str(), service.c_str()) == 0){
-             qtServerLogin->setServerStatus(true);
-             qtServerLogin->hide();
+             mainwindow->setServerStatus(true);
+             mainwindow->hide();
              qtCharacterLogin->show();
         } else {
-             qtServerLogin->setServerStatus(false);
+             mainwindow->setServerStatus(false);
         }
     }
 }
@@ -39,16 +38,14 @@ void LoginMediator::sendServerCredentials(const std::string& host,const std::str
 void LoginMediator::sendCharacterLogin(const std::string& username, const std::string& password){
     if(!username.empty() && !password.empty()) {
         int answer;
-        Message *msg = new Login(username, password, LOGIN_MESSAGE_ID);
-        protocol.send(clientSocket, msg);
-        delete msg;
+        Login login(username,password,LOGIN_MESSAGE_ID);
+        //Message *msg = new Login(username, password, LOGIN_MESSAGE_ID);
+        protocol.send(clientSocket, &login);
+        //delete msg;
         answer = protocol.recieve(clientSocket,0);
-        //clientSocket.receive((char*)&answer, sizeof(int));
         std::cout << "Iniciar Sesion: " << answer << std::endl;
         if (answer == USER_EXISTS) {
             qtCharacterLogin->setLoginLabel(true);
-            //Connect connect(username, "", "");
-            //protocol.send(clientSocket, &connect);
             gui_username = username;
             /*Aca cierro la app de login*/
             finished = true;
@@ -67,9 +64,10 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
 void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, const std::string& password){
     if(!username.empty() && !password.empty()){
         int answer;
-        Message* msg = new Login(username, password, SIGNUP_MESSAGE_ID);
-        protocol.send(clientSocket,msg);
-        delete msg;
+        Login login(username,password,SIGNUP_MESSAGE_ID);
+        //Message* msg = new Login(username, password, SIGNUP_MESSAGE_ID);
+        protocol.send(clientSocket,&login);
+        //delete msg;
         answer = protocol.recieve(clientSocket,0);
         //clientSocket.receive((char*)&answer, sizeof(int));
         std::cout << "Registrarse: " << answer << std::endl;
@@ -95,9 +93,10 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
                        + "\nRaza: " + s_race + "\nClase: " + s_class;
     qtCharacterLogin->showMessageBox(text);
     //char answer;
-    Message* msg = new Create(confirmed_username, s_race, s_class);
-    protocol.send(clientSocket,msg);
-    delete msg;
+    Create create(confirmed_username,s_race,s_class);
+    //Message* msg = new Create(confirmed_username, s_race, s_class);
+    protocol.send(clientSocket,&create);
+    //delete msg;
     gui_username = confirmed_username;
     finished = true;
     this->close();
@@ -119,17 +118,20 @@ void LoginMediator::changeToLoginScreen(){
 }
 
 void LoginMediator::show(){
-    qtServerLogin->show();
+    //qtServerLogin->show();
+    mainwindow->show();
 }
 
 void LoginMediator::close(){
-    qtServerLogin->close();
+    mainwindow->close();
+    //qtServerLogin->close();
     qtCharacterLogin->close();
     qtCharacterCreation->close();
 }
 
 LoginMediator::~LoginMediator(){
-    delete qtServerLogin;
+    delete mainwindow;
+    //delete qtServerLogin;
     delete qtCharacterLogin;
     delete qtCharacterCreation;
 }

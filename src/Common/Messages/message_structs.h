@@ -85,7 +85,6 @@ typedef struct client_login {
     MSGPACK_DEFINE(username,
                    password,
                    id)
-}t_client_login;
-
+} t_client_login;
 
 #endif //ARGENTUM_MESSAGE_STRUCTS_H

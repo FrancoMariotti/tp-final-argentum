@@ -24,10 +24,7 @@ private slots:
 private:
     Ui::QtServerLogin *ui;
     LoginMediator* loginMediator;
-
     void closeEvent(QCloseEvent *event) override ;
-
-    void paintEvent(QPaintEvent *event) override ;
 };
 
 #endif // CLIENT_QT_SERVERLOGIN_H

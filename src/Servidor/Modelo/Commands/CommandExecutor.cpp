@@ -6,7 +6,7 @@
 #include "HealCommand.h"
 #include "SellCommand.h"
 #include "TakeItemCommand.h"
-#include "Servidor/Modelo/Dropppables/DropItemCommand.h"
+#include "DropItemCommand.h"
 #include "ListItemsCommand.h"
 #include "PrivateMessageCommand.h"
 #include "MeditateCommand.h"

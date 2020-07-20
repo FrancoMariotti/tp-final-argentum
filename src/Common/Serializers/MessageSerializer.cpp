@@ -14,6 +14,7 @@
 #include "EquipmentMessageSerializer.h"
 #include "UseItemMessageSerializer.h"
 #include "LoginMessageSerializer.h"
+#include "DisconnectMessageSerializer.h"
 
 MessageSerializer::MessageSerializer() {
     serializers.push_back(new  DrawMessageSerializer());
@@ -29,6 +30,7 @@ MessageSerializer::MessageSerializer() {
     serializers.push_back(new  ConsoleOutputMessageSerializer());
     serializers.push_back(new  EquipmentMessageSerializer());
     serializers.push_back(new  LoginMessageSerializer());
+    serializers.push_back(new  DisconnectMessageSerializer());
 
 
     serializersTable[DRAW_MESSAGE_ID] = 0;
@@ -48,6 +50,7 @@ MessageSerializer::MessageSerializer() {
     serializersTable[EQUIPMENT_UPDATE_MESSAGE_ID] = 11;
     serializersTable[LOGIN_MESSAGE_ID] = 12;
     serializersTable[SIGNUP_MESSAGE_ID] = 12;
+    serializersTable[DISCONNECT_MESSAGE_ID] = 13;
 }
 
 std::string MessageSerializer::serialize(Message* message) {
