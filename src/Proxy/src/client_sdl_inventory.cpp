@@ -61,7 +61,6 @@ void SdlInventory::unlockOutlineSprite(){
 }
 
 void SdlInventory::update(std::vector<std::string> inventory) {
-    int old_size = buttons.size();
     buttons.clear();
     SdlTexture& outline = inventoryTextures.at("outline");
     for(auto it = inventory.begin(); it != inventory.end(); it ++){
@@ -76,11 +75,6 @@ void SdlInventory::update(std::vector<std::string> inventory) {
          * 4....7*/
         buttons.back().setPosition(inventory_x + col * BUTTON_SIZE,
                                        inventory_y + fil * BUTTON_SIZE);
-    }
-
-    int offset = old_size - buttons.size();
-    for (auto & equipped : equipped_items_indexes){
-        buttons[equipped + offset].setEquipped(true);
     }
 }
 
@@ -110,10 +104,6 @@ void SdlInventory::renderDrop(const int x, const int y,const std::string& id){
 
 void SdlInventory::notify(int inventory_i) {
     mediator->notify(this, inventory_i);
-}
-
-void SdlInventory::notify(int inventory_i, int overload) {
-    this->equipped_items_indexes.push_back(inventory_i);
 }
 
 SdlInventory::~SdlInventory() {
