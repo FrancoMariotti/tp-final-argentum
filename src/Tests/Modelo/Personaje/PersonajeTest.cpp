@@ -3,9 +3,9 @@
 //
 /*
 #include "PersonajeTest.h"
-#include "Servidor/Modelo/Map.h"
-#include "Servidor/Modelo/Mobility.h"
-#include "Servidor/Modelo/PlayableCharacter.h"
+#include "Server/Model/Map.h"
+#include "Server/Model/Mobility.h"
+#include "Server/Model/PlayableCharacter.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( PersonajeTest );
 

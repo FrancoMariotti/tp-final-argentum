@@ -19,6 +19,7 @@ qt5_wrap_ui(UIS_HEADERS
         ui/client_qt_serverlogin.ui
         ui/mainwindow.ui
         ui/loginform.ui
+        ui/charactercreationform.ui
 )
 
 # Agrego la carpeta con los headers autogenerados a los includes
@@ -40,6 +41,7 @@ add_executable(qt_argentum_v2
         src/mainwindow.cpp
         src/main.cpp
         src/loginform.cpp
+        src/charactercreationform.cpp
         ${UIS_HEADERS}
         ../assets/resources.qrc)
 

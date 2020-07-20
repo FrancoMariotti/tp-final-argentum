@@ -10,7 +10,6 @@ QtCharacterCreation::QtCharacterCreation(LoginMediator* loginMediator, QWidget *
     ui(new Ui::client_qt_charactercreation),
     loginMediator(loginMediator){
     ui->setupUi(this);
-
     //Seteo el ID de los radio buttons
     ui->raceButtonGroup->setId(ui->humanRButton, HUMAN);
     ui->raceButtonGroup->setId(ui->elfRButton, ELF);

@@ -16,11 +16,11 @@ public:
     explicit LoginForm(LoginMediator* loginMediator, QWidget *parent = 0);
     void showMessageBox(const std::string &text);
     void setLoginLabel(bool login);
+    void reset();
     ~LoginForm();
 private slots:
     void on_loginPushButton_clicked();
     void on_signUpPushButton_clicked();
-
 private:
     Ui::LoginForm *ui;
     LoginMediator* loginMediator;

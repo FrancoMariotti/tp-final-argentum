@@ -14,4 +14,16 @@
     <qresource prefix="/">
         <file>login.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>mago.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>paladin.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>clerigo.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>guerrero.jpg</file>
+    </qresource>
 </RCC>

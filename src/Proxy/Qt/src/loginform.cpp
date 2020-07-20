@@ -24,6 +24,12 @@ void LoginForm::on_loginPushButton_clicked() {
     loginMediator->sendCharacterLogin(username.toStdString(), password.toStdString());
 }
 
+void LoginForm::reset() {
+    ui->usernameLineEdit->clear();
+    ui->passwordLineEdit->clear();
+    ui->loginLabel->clear();
+}
+
 void LoginForm::setLoginLabel(bool login){
     if(login){
         ui->loginLabel->setStyleSheet("QLabel{color:green;}");

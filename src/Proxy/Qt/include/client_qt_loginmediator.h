@@ -7,16 +7,16 @@
 class Socket;
 class MainWindow;
 class LoginForm;
+class CharacterCreationForm;
 class QtCharacterCreation;
 class QtCharacterLogin;
 class QtServerLogin;
 class LoginMediator {
 
 private:
-    //QtServerLogin* qtServerLogin;
     MainWindow* mainwindow;
-    LoginForm* login;
-    //QtCharacterLogin* qtCharacterLogin;
+    LoginForm* loginForm;
+    CharacterCreationForm* creationForm;
     QtCharacterCreation* qtCharacterCreation;
 
     Protocol protocol;

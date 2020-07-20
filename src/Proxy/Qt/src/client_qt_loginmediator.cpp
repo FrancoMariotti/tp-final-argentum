@@ -2,6 +2,7 @@
 #include "client_qt_charactercreation.h"
 #include "mainwindow.h"
 #include "loginform.h"
+#include "charactercreationform.h"
 #include <Common/Messages/Message.h>
 #include <Common/Socket.h>
 #include <QtGui/QPainter>
@@ -13,11 +14,9 @@ LoginMediator::LoginMediator(Socket &clientSocket, std::string &gui_username,boo
     clientSocket(clientSocket),
     gui_username(gui_username),
     finished(finished){
-    //qtServerLogin = new QtServerLogin(this);
     mainwindow = new MainWindow(this);
-    login = new LoginForm(this);
-    //qtCharacterLogin = new QtCharacterLogin(this);
-    qtCharacterCreation = new QtCharacterCreation(this);
+    loginForm = new LoginForm(this);
+    creationForm = new CharacterCreationForm(this);
 }
 
 /*Realiza un connect con el socket, caso invalida se le informa al cliente para que vuelva a intentar
@@ -27,8 +26,7 @@ void LoginMediator::sendServerCredentials(const std::string& host,const std::str
          if(clientSocket.connect(host.c_str(), service.c_str()) == 0){
              mainwindow->setServerStatus(true);
              mainwindow->hide();
-             //qtCharacterLogin->show();
-             login->show();
+             loginForm->show();
         } else {
              mainwindow->setServerStatus(false);
         }
@@ -45,16 +43,16 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
         answer = protocol.recieve(clientSocket,0);
         std::cout << "Iniciar Sesion: " << answer << std::endl;
         if (answer == USER_EXISTS) {
-            login->setLoginLabel(true);
+            loginForm->setLoginLabel(true);
             gui_username = username;
             /*Aca cierro la app de login*/
             finished = true;
             this->close();
         } else {
-            login->setLoginLabel(false);
+            loginForm->setLoginLabel(false);
         }
     } else {
-        login->showMessageBox("Debe completar los campos de usuario y contraseña");
+        loginForm->showMessageBox("Debe completar los campos de usuario y contraseña");
     }
 }
 
@@ -71,15 +69,16 @@ void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, 
         if(answer == 1){
             this->confirmed_username = username;
             this->confirmed_password = password;
-            login->setLoginLabel(true);
-            login->hide();
-            qtCharacterCreation->show();
+            loginForm->setLoginLabel(true);
+            loginForm->hide();
+            //qtCharacterCreation->show();
+            creationForm->show();
         } else {
-            login->showMessageBox("El usuario ya existe");
-            login->setLoginLabel(false);
+            loginForm->showMessageBox("El usuario ya existe");
+            loginForm->setLoginLabel(false);
         }
     } else {
-        login->showMessageBox("Debe completar los campos de usuario y contraseña");
+        loginForm->showMessageBox("Debe completar los campos de usuario y contraseña");
     }
 }
 
@@ -88,7 +87,7 @@ void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, 
 void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::string& s_class){
     std::string text = "Usuario: " + confirmed_username + "\nContraseña: " + confirmed_password
                        + "\nRaza: " + s_race + "\nClase: " + s_class;
-    login->showMessageBox(text);
+    loginForm->showMessageBox(text);
     Create create(confirmed_username,confirmed_password,s_race,s_class);
     protocol.send(clientSocket,&create);
     gui_username = confirmed_username;
@@ -97,8 +96,9 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
 }
 
 void LoginMediator::changeToLoginScreen() {
-    qtCharacterCreation->hide();
-    login->show();
+    creationForm->hide();
+    loginForm->reset();
+    loginForm->show();
 }
 
 void LoginMediator::show() {
@@ -107,16 +107,12 @@ void LoginMediator::show() {
 
 void LoginMediator::close() {
     mainwindow->close();
-    login->close();
-    //qtServerLogin->close();
-    // qtCharacterLogin->close();
-    qtCharacterCreation->close();
+    loginForm->close();
+    creationForm->close();
 }
 
 LoginMediator::~LoginMediator(){
     delete mainwindow;
-    delete login;
-    //delete qtServerLogin;
-    //delete qtCharacterLogin;
-    delete qtCharacterCreation;
+    delete loginForm;
+    delete creationForm;
 }
