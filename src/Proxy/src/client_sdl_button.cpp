@@ -32,7 +32,7 @@ SdlButton::SdlButton(SdlButton &&other) noexcept :
     left_click(0),
     right_click(0),
     sprite_locked(false),
-    is_equipped(false),
+    is_equipped(true),
     texture_id(other.texture_id),
     position{other.position.x, other.position.y},
     outline_sprite(OUTLINE_SPRITE_MOUSE_OUT),
@@ -99,9 +99,8 @@ void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i
         SdlMouse &mouse, SdlInventory *inventory) {
     if (left_click > 0){
         std::cout << "DEBUG: left click" << std::endl;
+        is_equipped = true;
         (cmd)(clientEvents, i);
-        this->is_equipped = true;
-        inventory->notify(i, 0);
         left_click--;
     } else if (right_click > 0){
         std::cout << "DEBUG: right click" << std::endl;
@@ -117,7 +116,10 @@ void SdlButton::lockOutlineSprite(const bool lock){
 }
 
 void SdlButton::updateText(const equipment_t &equipment){
-    if (is_equipped){
+    if (is_equipped && (equipment.armourName == this->texture_id ||
+    equipment.helmetName == this->texture_id ||
+    equipment.weaponName == this->texture_id ||
+    equipment.shieldName == this->texture_id  )){
         buttonText.update("E");
     } else {
         buttonText.update(" ");

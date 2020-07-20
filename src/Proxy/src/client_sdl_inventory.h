@@ -50,12 +50,14 @@ public:
 
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SdlMouse &mouse);
 
+    /*Actualiza la posicion de los items en el inventario*/
     void update(std::vector<std::string> inventory);
 
+    /*Renderiza el inventario y todos los items*/
     void render();
 
-    ~SdlInventory();
-
+    /*Renderiza en la posicion indica el item con el @param id*/
+    /**No deberia ser responsabilidad del inventario*/
     void renderDrop(const int x, const int y, const std::string &id);
 
     void updateEquippedItems(const equipment_t &equipment);
@@ -64,8 +66,7 @@ public:
 
     void notify(int inventory_i);
 
-    void notify(int inventory_i, int overload);
-
+    ~SdlInventory();
 };
 
 
