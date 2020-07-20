@@ -62,7 +62,9 @@ public:
     void persistPlayerData(PlayableCharacter *pCharacter);
     bool login(const std::string &playerName, std::string &password, Map* map,
             Observer* observer, PlayableCharacterFactory& pcFactory);
-    bool signup(const std::string &username, const std::string &password);
+    void signup(const std::string &username, const std::string &password);
+
+    bool existsUser(const std::string &username);
 };
 
 

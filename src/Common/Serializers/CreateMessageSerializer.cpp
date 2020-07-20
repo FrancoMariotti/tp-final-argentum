@@ -22,5 +22,5 @@ Message *CreateMessageSerializer::deserialize(unsigned char *data, uint32_t len_
     // if the type is mismatched, it throws msgpack::type_error exception.
     create_player_t message = deserialized.as<create_player_t>();
 
-    return new Create(message.username,message.race,message.charClass);
+    return new Create(message.username,message.password,message.race,message.charClass);
 }

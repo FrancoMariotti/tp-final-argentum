@@ -1,6 +1,4 @@
 #include "client_qt_loginmediator.h"
-#include "client_qt_serverlogin.h"
-#include "client_qt_characterlogin.h"
 #include "client_qt_charactercreation.h"
 #include "mainwindow.h"
 #include "loginform.h"
@@ -91,7 +89,7 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
     std::string text = "Usuario: " + confirmed_username + "\nContraseña: " + confirmed_password
                        + "\nRaza: " + s_race + "\nClase: " + s_class;
     login->showMessageBox(text);
-    Create create(confirmed_username,s_race,s_class);
+    Create create(confirmed_username,confirmed_password,s_race,s_class);
     protocol.send(clientSocket,&create);
     gui_username = confirmed_username;
     finished = true;

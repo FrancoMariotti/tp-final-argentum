@@ -111,10 +111,11 @@ public:
 class Create : public Message {
 private:
     const std::string username;
+    const std::string password;
     const std::string race;
     const std::string char_class;
 public:
-    Create(std::string  username, std::string  race,std::string  char_class);
+    Create(std::string username,std::string  password,std::string  race,std::string  char_class);
     create_player_t getCreateData() const override;
 };
 

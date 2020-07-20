@@ -192,15 +192,16 @@ command_t  ExecuteCommand::getCommand() const {
     return command_t {username,command,x,y};
 }
 
-Create::Create(std::string  username,std::string  race,std::string  char_class) :
-                                                                    Message(CREATE_MESSAGE_ID),
-                                                                    username(std::move(username)),
-                                                                    race(std::move(race)),
-                                                                    char_class(std::move(char_class))
-                                                                    {}
+Create::Create(std::string username,std::string  password,std::string race,std::string char_class):
+    Message(CREATE_MESSAGE_ID),
+    username(std::move(username)),
+    race(std::move(race)),
+    char_class(std::move(char_class)),
+    password(std::move(password))
+    {}
 
 create_player_t Create::getCreateData() const{
-    return create_player_t {username, race, char_class};
+    return create_player_t {username,password, race, char_class};
 }
 
 Stats::Stats(float health_percentage, float mana_percentage, float exp_percentage, int gold, int level)

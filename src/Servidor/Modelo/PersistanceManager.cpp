@@ -187,32 +187,31 @@ bool PersistanceManager::login(const std::string &playerName, std::string &passw
     }
     return false;
 }
+bool PersistanceManager::existsUser(const std::string &username) {
+    return playersInfoMap.find(username) == playersInfoMap.end();
+}
 
-bool PersistanceManager::signup(const std::string &username, const std::string &password) {
-    if (playersInfoMap.find(username) == playersInfoMap.end()) {
-        std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
-        //Chequeo que el archivo se hayan podido abrir
-        if (!playersInfoMapStream) {
-            throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
-        }
-        //Agrego el index y la contrasenia del jugador al archivo del mapa y al mapa.
-        uint32_t nameLen = username.size();
-        uint32_t passwordLen = password.size();
-        playersInfoMapStream.seekp(0, std::ios_base::end);
-
-        playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
-        playersInfoMapStream.write(username.c_str(), nameLen);
-
-        playersInfoMapStream.write((char*)&passwordLen, sizeof(uint32_t));
-        playersInfoMapStream.write(password.c_str(), passwordLen);
-
-        playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
-
-        login_info_t info = {password, playersAmount};
-        playersInfoMap[username] = info;
-        playersAmount++;
-        playersInfoMapStream.close();
-        return true;
+void PersistanceManager::signup(const std::string &username, const std::string &password) {
+    std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
+    //Chequeo que el archivo se hayan podido abrir
+    if (!playersInfoMapStream) {
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
-    return false;
+        //Agrego el index y la contrasenia del jugador al archivo del mapa y al mapa.
+    uint32_t nameLen = username.size();
+    uint32_t passwordLen = password.size();
+    playersInfoMapStream.seekp(0, std::ios_base::end);
+
+    playersInfoMapStream.write((char*)&nameLen, sizeof(uint32_t));
+    playersInfoMapStream.write(username.c_str(), nameLen);
+
+    playersInfoMapStream.write((char*)&passwordLen, sizeof(uint32_t));
+    playersInfoMapStream.write(password.c_str(), passwordLen);
+
+    playersInfoMapStream.write((char*)&playersAmount, sizeof(uint32_t));
+
+    login_info_t info = {password, playersAmount};
+    playersInfoMap[username] = info;
+    playersAmount++;
+    playersInfoMapStream.close();
 }

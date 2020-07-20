@@ -60,9 +60,11 @@ typedef struct spawn_playable_character {
 
 typedef struct create_player {
     std::string username;
+    std::string password;
     std::string race;
     std::string charClass;
     MSGPACK_DEFINE(username,
+                   password,
                    race,
                    charClass)
 } create_player_t;

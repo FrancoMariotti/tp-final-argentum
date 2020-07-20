@@ -56,7 +56,8 @@ public:
     std::tuple<std::string,Message*> nextDirectedUpdate();
     void persistPlayersData(float loopTimeInSeconds);
     bool login(const std::string &username, std::string &password);
-    bool signup(const std::string &username, const std::string &password);
+    bool existsUser(const std::string &username);
+    void signup(const std::string &username, const std::string &password);
     std::queue<Message*> disconnectPlayer(const std::string& username);
     ~Game();
 };

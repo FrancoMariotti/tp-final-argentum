@@ -174,8 +174,12 @@ bool Game::login(const std::string &username, std::string &password) {
     return persistanceManager.login(username, password, map, this, factoryCharacters);
 }
 
-bool Game::signup(const std::string &username, const std::string &password) {
-    return persistanceManager.signup(username, password);
+bool Game::existsUser(const std::string &username) {
+    return persistanceManager.existsUser(username);
+}
+
+void Game::signup(const std::string &username, const std::string &password) {
+    persistanceManager.signup(username, password);
 }
 
 std::queue<Message*> Game::disconnectPlayer(const std::string& username) {
