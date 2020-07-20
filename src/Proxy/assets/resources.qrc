@@ -8,4 +8,10 @@
     <qresource prefix="/">
         <file>hover-button.9.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>button.9.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>login.png</file>
+    </qresource>
 </RCC>
