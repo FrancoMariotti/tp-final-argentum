@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>background.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>logo.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>hover-button.9.png</file>
+    </qresource>
+</RCC>
