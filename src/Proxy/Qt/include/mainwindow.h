@@ -17,12 +17,10 @@ public:
     void setServerStatus(bool status);
     ~MainWindow();
 private slots:
-
     void on_connectButton_clicked();
 private:
     Ui::MainWindow *ui;
     LoginMediator* loginMediator;
-
     void closeEvent(QCloseEvent *event) override;
 };
 

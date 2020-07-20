@@ -18,6 +18,7 @@ qt5_wrap_ui(UIS_HEADERS
         ui/client_qt_charactercreation.ui
         ui/client_qt_serverlogin.ui
         ui/mainwindow.ui
+        ui/loginform.ui
 )
 
 # Agrego la carpeta con los headers autogenerados a los includes
@@ -38,20 +39,21 @@ add_executable(qt_argentum_v2
         src/client_qt_charactercreation.cpp
         src/mainwindow.cpp
         src/main.cpp
+        src/loginform.cpp
         ${UIS_HEADERS}
         ../assets/resources.qrc)
 
 #add_executable(qtServer src/server_main.cpp src/QtServer.cpp src/QtServer.h)
 
-add_library(qtLib
-        src/client_qt_characterlogin.cpp
-        src/client_qt_loginmediator.cpp
-        src/client_qt_serverlogin.cpp
-        src/client_qt_charactercreation.cpp
-        src/mainwindow.cpp
-        src/main.cpp
-        ${UIS_HEADERS}
-        )
+#add_library(qtLib
+#        src/client_qt_characterlogin.cpp
+#        src/client_qt_loginmediator.cpp
+#        src/client_qt_serverlogin.cpp
+#        src/client_qt_charactercreation.cpp
+#        src/mainwindow.cpp
+#        src/main.cpp
+#        ${UIS_HEADERS}
+#        )
 
 # Use the Widgets module from Qt 5.
 target_link_libraries(qt_argentum_v2 clienteSRCS commonLib SDL2 SDL2_image SDL2_ttf SDL2_mixer Qt5::Widgets)
