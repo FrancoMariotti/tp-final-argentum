@@ -1,4 +1,5 @@
 {
+  "port" : 8081,
   "character" : {
     "inventoryMaxElements": 10,
     "level": 1,
