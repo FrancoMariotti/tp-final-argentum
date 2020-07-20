@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CharacterCreationForm</class>
+ <widget class="QWidget" name="CharacterCreationForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Creacion de Personaje</string>
+  </property>
+  <widget class="QGraphicsView" name="background">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>700</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/background.jpg);
+color: rgb(101, 67, 33);</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="clerigoImg">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>120</y>
+     <width>161</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clerigo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#clerigoImg{
+	border-image: url(:clerigo.jpg);
+}</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="guerreroImg">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>120</y>
+     <width>161</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Guerrero&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#guerreroImg{
+border-image: url(:guerrero.jpg);
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="magoImg">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>120</y>
+     <width>161</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mago&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#magoImg{
+border-image: url(:mago.jpg);
+}</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="paladinImg">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>120</y>
+     <width>161</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Paladin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#paladinImg{
+border-image: url(:paladin.jpg);
+}</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="raceComboBox">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>370</y>
+     <width>161</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(238, 238, 236);</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Humano</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Elfo</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Enano</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Gnomo</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QRadioButton" name="clericRButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>90</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(172, 117, 10);
+</string>
+   </property>
+   <property name="text">
+    <string>Clerigo</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">classButtonGroup</string>
+   </attribute>
+  </widget>
+  <widget class="QRadioButton" name="warriorRButton">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>90</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(172, 117, 10);</string>
+   </property>
+   <property name="text">
+    <string>Guerrero</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">classButtonGroup</string>
+   </attribute>
+  </widget>
+  <widget class="QRadioButton" name="mageRButton">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>90</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(172, 117, 10);</string>
+   </property>
+   <property name="text">
+    <string>Mago</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">classButtonGroup</string>
+   </attribute>
+  </widget>
+  <widget class="QRadioButton" name="paladinRButton">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>90</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(172, 117, 10);</string>
+   </property>
+   <property name="text">
+    <string>Paladin</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">classButtonGroup</string>
+   </attribute>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>50</y>
+     <width>121</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(238, 238, 236);</string>
+   </property>
+   <property name="text">
+    <string>Seleccione Clase:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>370</y>
+     <width>121</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(238, 238, 236);</string>
+   </property>
+   <property name="text">
+    <string>Seleccione Raza:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="createPushButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>410</y>
+     <width>208</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/hover-button.9.png);</string>
+   </property>
+   <property name="text">
+    <string>Crear Personaje</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="backPushButton">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>410</y>
+     <width>208</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/hover-button.9.png);</string>
+   </property>
+   <property name="text">
+    <string>Atras</string>
+   </property>
+  </widget>
+  <zorder>background</zorder>
+  <zorder>paladinImg</zorder>
+  <zorder>clericRButton</zorder>
+  <zorder>paladinRButton</zorder>
+  <zorder>guerreroImg</zorder>
+  <zorder>mageRButton</zorder>
+  <zorder>warriorRButton</zorder>
+  <zorder>magoImg</zorder>
+  <zorder>clerigoImg</zorder>
+  <zorder>raceComboBox</zorder>
+  <zorder>label</zorder>
+  <zorder>label_2</zorder>
+  <zorder>createPushButton</zorder>
+  <zorder>backPushButton</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="classButtonGroup"/>
+ </buttongroups>
+</ui>
