@@ -24,7 +24,6 @@ private slots:
 private:
     Ui::LoginForm *ui;
     LoginMediator* loginMediator;
-    void closeEvent(QCloseEvent *event) override ;
 };
 
 #endif // LOGINFORM_H

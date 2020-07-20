@@ -13,8 +13,7 @@ LoginForm::LoginForm(LoginMediator *loginMediator, QWidget *parent) :
     this->setFixedHeight(700);
 }
 
-LoginForm::~LoginForm()
-{
+LoginForm::~LoginForm() {
     delete ui;
 }
 
@@ -44,21 +43,6 @@ void LoginForm::on_signUpPushButton_clicked(){
     QString password = ui->passwordLineEdit->text();
     QMessageBox::information(this, "Login", "Comprobando credenciales");
     loginMediator->sendLoginAndGoToCreationWindow(username.toStdString(), password.toStdString());
-}
-
-
-
-void LoginForm::closeEvent(QCloseEvent *event) {
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "argentum",
-                                                                tr("Are you sure?\n"),
-                                                                QMessageBox::Cancel | QMessageBox::Yes,
-                                                                QMessageBox::Yes);
-
-    if (resBtn == QMessageBox::Yes) {
-        QWidget::closeEvent(event);
-    } else {
-        event->ignore();
-    }
 }
 
 #include "moc_loginform.cpp"

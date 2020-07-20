@@ -21,7 +21,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     LoginMediator* loginMediator;
-    void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

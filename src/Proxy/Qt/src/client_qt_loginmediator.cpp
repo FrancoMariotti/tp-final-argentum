@@ -7,6 +7,7 @@
 #include <Common/Messages/Message.h>
 #include <Common/Socket.h>
 #include <QtGui/QPainter>
+#include <QtWidgets/QtWidgets>
 
 #define USER_EXISTS 1
 
@@ -42,9 +43,7 @@ void LoginMediator::sendCharacterLogin(const std::string& username, const std::s
     if(!username.empty() && !password.empty()) {
         int answer;
         Login loginMsg(username,password,LOGIN_MESSAGE_ID);
-        //Message *msg = new Login(username, password, LOGIN_MESSAGE_ID);
         protocol.send(clientSocket, &loginMsg);
-        //delete msg;
         answer = protocol.recieve(clientSocket,0);
         std::cout << "Iniciar Sesion: " << answer << std::endl;
         if (answer == USER_EXISTS) {
@@ -68,11 +67,8 @@ void LoginMediator::sendLoginAndGoToCreationWindow(const std::string& username, 
     if(!username.empty() && !password.empty()){
         int answer;
         Login loginMsg(username,password,SIGNUP_MESSAGE_ID);
-        //Message* msg = new Login(username, password, SIGNUP_MESSAGE_ID);
         protocol.send(clientSocket,&loginMsg);
-        //delete msg;
         answer = protocol.recieve(clientSocket,0);
-        //clientSocket.receive((char*)&answer, sizeof(int));
         std::cout << "Registrarse: " << answer << std::endl;
         if(answer == 1){
             this->confirmed_username = username;
@@ -95,41 +91,27 @@ void LoginMediator::sendCharacterCreation(const std::string& s_race, const std::
     std::string text = "Usuario: " + confirmed_username + "\nContraseña: " + confirmed_password
                        + "\nRaza: " + s_race + "\nClase: " + s_class;
     login->showMessageBox(text);
-    //char answer;
     Create create(confirmed_username,s_race,s_class);
-    //Message* msg = new Create(confirmed_username, s_race, s_class);
     protocol.send(clientSocket,&create);
-    //delete msg;
     gui_username = confirmed_username;
     finished = true;
     this->close();
-
-    /**/
-    //clientSocket.receive(&answer, sizeof(char));
-    /*
-    if(answer == 1){
-        qtCharacterLogin->showMessageBox("Credenciales aceptadas, ingresando al mundo");
-        //qtCharacterLogin->close();
-    } else {
-        qtCharacterLogin->setLoginLabel(false);
-    }*/
 }
 
-void LoginMediator::changeToLoginScreen(){
+void LoginMediator::changeToLoginScreen() {
     qtCharacterCreation->hide();
     login->show();
 }
 
-void LoginMediator::show(){
-    //qtServerLogin->show();
+void LoginMediator::show() {
     mainwindow->show();
 }
 
-void LoginMediator::close(){
+void LoginMediator::close() {
     mainwindow->close();
     login->close();
     //qtServerLogin->close();
-    //qtCharacterLogin->close();
+    // qtCharacterLogin->close();
     qtCharacterCreation->close();
 }
 

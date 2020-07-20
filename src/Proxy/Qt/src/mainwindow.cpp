@@ -32,18 +32,5 @@ void MainWindow::setServerStatus(bool status) {
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) {
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "argentum",
-                                                                tr("Are you sure?\n"),
-                                                                QMessageBox::Cancel | QMessageBox::Yes,
-                                                                QMessageBox::Yes);
-
-    if (resBtn == QMessageBox::Yes) {
-        QWidget::closeEvent(event);
-    } else {
-        event->ignore();
-    }
-}
-
 
 #include "moc_mainwindow.cpp"
