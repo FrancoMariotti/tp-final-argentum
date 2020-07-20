@@ -41,6 +41,8 @@ private:
     //Un map con todas las texturas de los items del inventario
     std::map<std::string, SdlTexture> inventoryTextures;
 
+    std::vector<int> equipped_items_indexes;
+
 public:
     SdlInventory(const SdlWindow &window, TTF_Font *font);
 
@@ -61,6 +63,9 @@ public:
     void unlockOutlineSprite();
 
     void notify(int inventory_i);
+
+    void notify(int inventory_i, int overload);
+
 };
 
 

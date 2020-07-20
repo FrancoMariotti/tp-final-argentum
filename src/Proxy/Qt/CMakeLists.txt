@@ -40,8 +40,6 @@ add_executable(qt_argentum_v2
   src/main.cpp
   ${UIS_HEADERS})
 
-add_executable(qtServer src/server_main.cpp src/QtServer.cpp src/QtServer.h)
-
 add_library(qtLib
         src/client_qt_characterlogin.cpp
         src/client_qt_loginmediator.cpp
@@ -52,4 +50,4 @@ add_library(qtLib
 
 # Use the Widgets module from Qt 5.
 target_link_libraries(qt_argentum_v2 clienteSRCS commonLib SDL2 SDL2_image SDL2_ttf SDL2_mixer Qt5::Widgets)
-target_link_libraries(qtServer commonLib)
+

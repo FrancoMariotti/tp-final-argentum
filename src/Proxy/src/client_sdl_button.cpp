@@ -53,6 +53,10 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
+void SdlButton::setEquipped(bool equipped){
+    is_equipped = equipped;
+}
+
 void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
     //if mouse even happend
     if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP){
@@ -91,13 +95,13 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
     }
 }
 
-void
-SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i,
+void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i,
         SdlMouse &mouse, SdlInventory *inventory) {
     if (left_click > 0){
         std::cout << "DEBUG: left click" << std::endl;
         (cmd)(clientEvents, i);
         this->is_equipped = true;
+        inventory->notify(i, 0);
         left_click--;
     } else if (right_click > 0){
         std::cout << "DEBUG: right click" << std::endl;

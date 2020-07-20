@@ -65,6 +65,7 @@ public:
 
     void lockOutlineSprite(const bool lock);
 
+    void setEquipped(bool equipped);
 };
 
 

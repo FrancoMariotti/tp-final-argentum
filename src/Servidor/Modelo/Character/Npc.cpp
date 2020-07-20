@@ -123,13 +123,13 @@ void Npc::die() {
         map->addDrop(drop);
     }
     */
-    if (shouldDrop(config.constants["itemDropProbability"])) {
+    //if (shouldDrop(config.constants["itemDropProbability"])) {
         int randomIndex = Utils::random_int_number(0, itemsToDrop.size() - 1);
         Equippable* item = itemFactory->create(itemsToDrop[randomIndex]);
         Position pos = getClosestPositionToDrop();
         Drop drop(pos, item, item->getName());
         map->addDrop(drop);
-    }
+    //}
 
     //Envio al cliente los drops a renderizar
     map->updateDropSpawns(observer);

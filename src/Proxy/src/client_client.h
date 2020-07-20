@@ -23,6 +23,7 @@
 #include "client_sdl_world.h"
 #include "client_gui.h"
 #include "Common/Socket.h"
+#include "client_update_factory.h"
 
 class Client {
 private:
@@ -46,7 +47,7 @@ public:
 
     void init();
 
-    void update();
+    void update(UpdateFactory &updateFactory);
 
     void stop();
 

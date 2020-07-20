@@ -3,6 +3,7 @@
 #include "client_client.h"
 #include "Common/Messages/Message.h"
 #include "client_protected_list.h"
+#include "client_update_factory.h"
 
 //Screen dimension constants
 #define SCREEN_WIDTH 1024
@@ -38,6 +39,7 @@ int Client::run(const std::string &username) {
 
         bool quit = false;
 
+        UpdateFactory updateFactory;
         SDL_Event event;
         SdlTimer capTimer;
         const int SCREEN_FPS = 30;
@@ -56,7 +58,7 @@ int Client::run(const std::string &username) {
             gui.execute();
 
             /*Consumo la lista de eventos del server y actualizo modelo*/
-            this->update();
+            this->update(updateFactory);
 
             gui.render();
 
@@ -123,35 +125,11 @@ void Client::init() {
     std::cout << "end of init()" << std::endl;
 }
 
-void Client::update() {
+void Client::update(UpdateFactory &updateFactory) {
     std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
     for(auto & msg : messages){
-        //std::cout << "Update(): MessageId" << msg->getId() << std::endl;
-        if(msg->getId() == MOVEMENT_MESSAGE_ID){
-            location_t  location = msg->getLocation();
-            this->gui.updatePlayerPos(location.id,location.x, location.y);
-        } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID){
-            this->gui.updatePlayerStats(msg->getStats());
-        } else if (msg->getId() == INVENTORY_UPDATE_MESSAGE_ID){
-            this->gui.updateInventory(msg->getItems());
-        } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
-            this->gui.updateRenderables(msg->getSpawnData());
-        } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
-            this->gui.updateDrops(msg->getSpawnData());
-        } else if(msg->getId() == NPC_MOVEMENT_UPDATE_MESSAGE_ID){
-            location_t  movement = msg->getLocation();
-            this->gui.updateRenderablePos(movement.x, movement.y, movement.id);
-        } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
-            equipment_t equipment = msg->getEquipment();
-            gui.updateRenderablePlayableEquipment(equipment,equipment.username);
-        } else if (msg->getId() == CONSOLE_OUTPUT_MESSAGE_ID){
-            gui.updateConsoleOutput(msg->getConsoleOutput());
-        } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
-            gui.updateRenderablePlayables(msg->getPcSpawnData());
-        }
-        /*else if (msg->getId() == RENDERABLE_EFFECT_MESSAGE_ID){
-           gui.updateRenderableStats(msg->getRenderableId(), msg->getEffectId());
-        }*/
+        const Update* up = updateFactory.getUpdate(msg->getId());
+        up->execute(gui, std::move(msg));
     }
 }
 
