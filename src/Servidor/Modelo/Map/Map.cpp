@@ -313,8 +313,11 @@ bool Map::empty() {
 }
 
 void Map::disconnectPlayer(const std::string& username, PersistanceManager& pManager) {
-    pManager.persistPlayerData(getPlayer(username));
-    removePlayableCharacter(username);
+    PlayableCharacter* player = getPlayer(username);
+    if (player) {
+        pManager.persistPlayerData(player);
+        removePlayableCharacter(username);
+    }
 }
 
 Map::~Map() {

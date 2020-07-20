@@ -78,7 +78,8 @@ void PersistanceManager::addPlayerInfoToFile(character_info_t playerInfo, int in
         throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
-    infoStream.seekp(sizeof(character_info_t) * index);
+    //infoStream.seekp(sizeof(character_info_t) * index);
+    infoStream.seekp(sizeof(int) * CHARACTER_INFO_INTS_AMOUNT * index);
 
     infoStream.write((char*)&playerInfo.lifePoints, sizeof(int));
     infoStream.write((char*)&playerInfo.level, sizeof(int));

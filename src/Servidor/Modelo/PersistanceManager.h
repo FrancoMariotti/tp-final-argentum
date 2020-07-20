@@ -8,6 +8,8 @@
 #include <map>
 #include <vector>
 
+#define CHARACTER_INFO_INTS_AMOUNT 45
+
 class Configuration;
 class PlayableCharacter;
 class Observer;

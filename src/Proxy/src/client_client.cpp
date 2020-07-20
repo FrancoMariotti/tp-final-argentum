@@ -51,6 +51,7 @@ int Client::run(const std::string &username) {
                 switch(event.type){
                     case SDL_QUIT:
                         quit = true;
+                        gui.disconnect();
                         break;
                 }
                 gui.handleEvents(event);

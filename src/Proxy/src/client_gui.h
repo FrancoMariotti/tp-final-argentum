@@ -61,9 +61,10 @@ public:
     void updateRenderableStats(const std::string &renderable_id, const std::string &effect_id);
     void updateRenderablePlayables(std::vector<spawn_playable_character_t> renderables);
     void setUsername(const std::string &client_username);
+    //std::string getUsername();
+    void disconnect();
     ~GUI();
 
-    void disconnect();
 
 private:
     std::unique_ptr<SdlDynamicRenderable>& getPlayableCharacter(const std::string& playable_id);
