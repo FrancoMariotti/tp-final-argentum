@@ -1,40 +1,31 @@
 # Tp-final-argentum
-TP final taller de programacion 1
 
-* Alumnos: 
-    * Alasino Franco 102165
-    * Mariotti Franco 102223
-    * Leguizamon Agustin 99535
+# Argentum - TP final
+### 1er cuatrimestre de 2020
+
+**Integrantes:** \
+    Alasino Franco 102165\
+    Mariotti Franco 102223\
+    Leguizamon Agustin 99535\
+
+    
 * URL: https://github.com/FrancoMariotti/tp-final-argentum      
 
-* Requisitos para correr el programa:
-	* comando para instalar msgpack 
-	sudo apt-get install libmsgpack-dev 
+## Instalación
 
+1-​ ​Abrir​ ​una​ ​terminal​ ​en​ ​la​ ​raíz​ ​del​ ​juego\
+2- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos), ejecutar el archivo
+install.sh​ ​con​ ​el​ ​comando​ ​ -d.​ Es decir: 
+```
+./install.sh​ -d
+```
+3-​ ​Una​ ​vez​ ​instaladas​ ​las​ ​dependencias,​ se debe ejecutar alguno de los siguientes comandos para instalar el juego:
+```
 
-* Requisitos para compilacion y ejecucion de la rama master:
-	
-	- Instalar la biblioteca json.cpp,utilizando el comando sudo apt-get install libjsoncpp-dev.
-	
-	- Instalar la biblioteca cppunit, utilizando el comando apt-get install libcppunit-doc libcppunit-dev
+```
+\
 
-	- Instalar las bibliotecas de sdl:
-		- sudo apt-get install libsdl2-dev
-		- sudo apt-get install libsdl2-image-dev
-		- sudo apt-get install libsdl2-ttf-dev
-		- sudo apt-get install libsdl2-mixer-dev
-
-
-	Pasos para ejecutar el programa:
-
-	1) mkdir build
-
-	2) cd build
-
-	3) cmake ..
-
-	4) make
-
-	5) cd Proxy
-
-	6) ./SDLTest
+## Más información
+- [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
+- [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
+- [Manual de proyecto](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
