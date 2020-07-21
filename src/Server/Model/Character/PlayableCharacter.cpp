@@ -295,6 +295,7 @@ bool PlayableCharacter::checkFairPlay(int enemyLevel) {
     return (imnewbie && enemyisnewbie);
 }
 
+
 void PlayableCharacter::die() {
     //Dropeo el oro en exceso
     int safeGold = calculateSafeGoldCapacity(level);
