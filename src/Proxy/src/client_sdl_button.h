@@ -59,13 +59,14 @@ public:
     void use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i, SdlMouse &mouse, SdlInventory *inventory);
     /*Muestra los sprites de los botones*/
     void render();
-    ~SdlButton() = default;
 
+    /*ACtualiza los items que estan equipados*/
     void updateText(const equipment_t &equipment);
 
+    /*@param lock indica si el sprite del boton puede o no cambiar*/
     void lockOutlineSprite(const bool lock);
 
-    void setEquipped(bool equipped);
+    ~SdlButton() = default;
 };
 
 

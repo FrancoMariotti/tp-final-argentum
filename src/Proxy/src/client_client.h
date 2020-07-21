@@ -27,9 +27,6 @@
 
 class Client {
 private:
-    //SdlWindow window;
-    //SdlTexture mainInterface;
-    //TTF_Font* font;
     Socket& socket;
     BlockingQueue<std::unique_ptr<Message>> clientEvents;
     ProtectedList<std::unique_ptr<Message>> serverEvents;
@@ -38,15 +35,16 @@ private:
     GUI gui;
 
 public:
-    //Start up SDL and create window
+    /*Lanza los threasd de envio y recepcion y la GUI*/
     Client(Socket &socket);
 
-    //explicit Client(ProxySocket& proxySocket);
-
+    /*Corre la inicializacion del cliente y el gameloop*/
     int run(const std::string &username);
 
     void init();
 
+    /*Consume la lista de eventos del thread de recepcion
+     * y ejecuta las actualizaciones del modelo*/
     void update(UpdateFactory &updateFactory);
 
     void stop();

@@ -14,8 +14,6 @@ Client::Client(Socket &socket) :
     thSend(clientEvents, socket),
     thRecv(serverEvents,socket),
     gui(SCREEN_WIDTH, SCREEN_HEIGHT, clientEvents) {
-    //socket.connect(hostname.c_str(),service.c_str());
-    /*Lanzo los threads*/
     thSend.start();
     thRecv.start();
 }

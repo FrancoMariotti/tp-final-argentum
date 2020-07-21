@@ -35,6 +35,7 @@ public:
 
     void playRandomAmbientSound(int rarity);
 
+    /*Reproduce el sonido que se corresponde con el mensaje del server recibido @param message*/
     void reproduceRelatedSound(const std::string &message);
 };
 

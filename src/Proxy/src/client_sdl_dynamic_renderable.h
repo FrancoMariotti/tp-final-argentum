@@ -34,8 +34,11 @@ public:
     SdlDynamicRenderable(int x, int y, SdlTextureManager &textureManager, const SdlWindow &window,
                          TTF_Font *font, std::string s_tag, SDL_Color color,
                          SdlAudioManager &audioManager);
+    /*Agrega a la lista un efectos especial*/
     virtual void addVisualEffect(const std::string& effect_id);
+    /*Actualiza la posicion y empieza la animacion de movimiento*/
     void updatePos(int new_x, int new_y, SdlCamera &camera);
+    /*Actualiza los items que figuran equipados*/
     virtual void updateEquipment(const equipment_t& equipment) = 0;
     virtual void render(const SdlCamera& camera) = 0;
     int getPosX() const;
