@@ -36,6 +36,8 @@ void SdlBar::update(const float percentage){
 void SdlBar::render() {
     SDL_SetRenderDrawColor(renderer, bar_color.r, bar_color.g, bar_color.b, bar_color.a);
     SDL_RenderDrawRect(renderer, &this->outline_bar);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderFillRect(renderer, &this->outline_bar);
     SDL_SetRenderDrawColor(renderer, bar_color.r, bar_color.g, bar_color.b, bar_color.a);
     SDL_RenderFillRect(renderer, &this->bar);
 }
