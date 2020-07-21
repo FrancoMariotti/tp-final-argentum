@@ -36,6 +36,6 @@ dpkg -i argentumServerPackage.deb
 ```
 
 ## Más información
-- [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
+- [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos/Manual%20de%20Usuario.pdf)
 - [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos/Documentacion%20Tecnica.pdf)
 - [Manual de proyecto](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos/Manual%20de%20Proyecto.pdf)
