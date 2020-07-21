@@ -37,7 +37,6 @@ public:
     void move(float loopTime);
     int receiveDamage(int attackerLvl, int damage) override;
     int receiveAttackFrom(PlayableCharacter *enemy) override;
-    //void addMerchant(Merchant* newMerchant);
     ~Npc() override;
 
     void addSpawnInfoTo(std::vector<location_t>& npcSpawns);

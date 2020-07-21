@@ -17,13 +17,9 @@ public:
     Equippable* chooseElement(int index);
     Equippable* takeElement(int index, PlayableCharacter* character);
     void sendItems(Observer *observer);
-
     Equippable *takeElement(const std::string& elementName, PlayableCharacter *character);
-
     int getItemsAmount();
-
     int getItemIndex(std::string itemName);
-
     bool isFull();
 };
 

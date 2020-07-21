@@ -54,26 +54,35 @@ public:
                           int strength,int agility,int intelligence,int level, int raceLifeFactor, int classLifeFactor,
                   int raceManaFactor, int classManaFactor, int recoveryFactor, int meditationRecoveryFactor,
                   int invMaxElements,Observer* observer, int raceId);
+    //Calcula el danio total a partir del nivel y danio recibido y lo descuenta
+    //de la vida del personaje.
+    //Devuelve la experiencia obtenida por el ataque realizado.
     int receiveDamage(int attackerLvl, int damage) override;
     void attack(Character *character) override;
     void move(Offset& offset);
+    //Equipa el elemento en el indice (param:elementIndex) del inventario.
     void equip(int elementIndex);
     void equip(Equippable* element, int index);
     void equip(Weapon* weapon, int index);
     void equip(Protection* protection, int index);
     void equip(Potion* potion, int index);
+    //Des equipa el elemento en el indice (param:elementIndex) del inventario.
     void unequip(int elementIndex);
     void unequip(Equippable* element);
     void unequip(Protection *protection);
     void unequip(Weapon *weapon);
+    //Guarda un equipable en el inventario si hay espacio en el mismo.
     void store(Equippable* element);
+    //Recupera puntos de vida del personaje a partir de los segundo de
+    // gameloop transcurridos.
     void recoverLifePoints(float seconds);
     void recoverMana(float seconds);
     void heal(int value);
     void earnMana(float value);
+    //Genera una notificacion de los stats del personaje.
     void notifyStats();
+    //Genera una notificacion del equipment del personaje.
     void notifyEquipment();
-    void notifySpawn();
     void makeDamageTo(Character *character);
     int attackTo(PlayableCharacter *enemy);
     int attackTo(Npc *enemy);
@@ -88,6 +97,7 @@ public:
     void extract(int amount, Banker* banker);
     void die();
     void restoreMana();
+    //Busca el Playable Character mas cercano a la posicion recibida en el rango recibido.
     PlayableCharacter* closestToInRange(const Position &pos, PlayableCharacter *closestEnemy,
                                         int *minDistance, int range);
     void healedByPriest();

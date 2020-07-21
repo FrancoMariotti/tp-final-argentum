@@ -11,7 +11,11 @@ class MessageSerializer {
     std::map<int,int> serializersTable;
 public:
     MessageSerializer();
+    //Busca el serializador correspondiente para el mensaje recibido y lo serializa.
+    //Lanza OSError en caso de no encontrar un serializador para el mismo.
     std::string serialize(Message* message);
+    //Busca el serializador correspondiente para el mensaje recibido y lo des serializa.
+    //En caso de no encontrar un serializador devuelve nullptr
     Message* deserialize(int messageId,unsigned char * data,uint32_t len_data);
     ~MessageSerializer();
 };

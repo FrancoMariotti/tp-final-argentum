@@ -1,7 +1,3 @@
-//
-// Created by franco on 6/7/20.
-//
-
 #ifndef ARGENTUM_CLIENTCONNECTION_H
 #define ARGENTUM_CLIENTCONNECTION_H
 
@@ -27,12 +23,14 @@ public:
     bool isDead() const;
     int getId();
     void joinResources();
+    //encola en la lista de mensajes del thread sender el
+    //mensaje con id param:messageId y la data param:data del mensaje
     void sendMessage(int messageId,std::string data);
+    //envia por el socket la respuesta answer recibida por parametro.
+    void sendLoginReponse(int answer);
     void start();
     void finish();
     ~ClientConnection();
-
-    void sendLoginReponse(int answer);
 };
 
 
