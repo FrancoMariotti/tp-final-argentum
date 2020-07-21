@@ -14,7 +14,7 @@
 ## Instalación
 
 1-​ ​Abrir​ ​una​ ​terminal​ ​en​ ​la​ ​raíz​ ​del​ ​juego\
-2- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos), ejecutar el archivo
+2- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/Documentos/Documentacion%20Tecnica.pdf), ejecutar el archivo
 install.sh.​ Es decir: 
 ```
 ./install.sh
@@ -28,4 +28,4 @@ install.sh.​ Es decir:
 ## Más información
 - [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
 - [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/Documentos/Documentacion%20Tecnica.pdf)
-- [Manual de proyecto](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
+- [Manual de proyecto](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/Documentos/Manual%20de%20Proyecto.pdf)
