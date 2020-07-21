@@ -44,7 +44,7 @@ public:
 private:
 
     void render(SdlCamera &camera, std::map<int, std::vector<SDL_Point>> &layer);
-
+    SDL_Rect & getClip(const int id);
 };
 
 
