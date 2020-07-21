@@ -12,7 +12,7 @@
 
 SdlWorld::SdlWorld(const SdlWindow& window) :
         worldSpriteSheetTexture(IMAGE_TILE_SIZE, IMAGE_TILE_SIZE,
-                "../../Proxy/assets/wood-floor-sprite-png.png", window),
+                "../../Client/assets/wood-floor-sprite-png.png", window),
                 map_width(0),
                 map_height(0){
 

@@ -1,7 +1,7 @@
 #include "client_qt_loginmediator.h"
 #include <QApplication>
 #include <Common/Socket.h>
-#include <Proxy/src/client_client.h>
+#include <Client/src/client_client.h>
 
 int QtApp(int argc, char*argv[], Socket& socket, std::string& gui_username,bool& finished);
 

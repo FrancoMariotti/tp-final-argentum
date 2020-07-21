@@ -15,10 +15,10 @@
 
 GUI::GUI(const int screen_width, const int screen_height, BlockingQueue<std::unique_ptr<Message>>& clientEvents) :
     window(screen_width, screen_height),
-    font(TTF_OpenFont("../../Proxy/assets/nakula.ttf", FONT_SIZE)),
+    font(TTF_OpenFont("../../Client/assets/nakula.ttf", FONT_SIZE)),
     audioManager(),
     textureManager(window),
-    interface(screen_width, screen_height, "../../Proxy/interfaces/VentanaPrincipal.jpg",window),
+    interface(screen_width, screen_height, "../../Client/interfaces/VentanaPrincipal.jpg",window),
     inventory(window, font),
     camera(username, window),
     mouse(camera),

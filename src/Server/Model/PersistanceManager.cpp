@@ -18,7 +18,7 @@ PersistanceManager::PersistanceManager(std::string playersInfoMapFile,
     std::fstream playersInfoMapStream(this->playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
     //Chequeo que los archivos se hayan podido abrir
     if (!playersInfoMapStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores\n");
     }
 
     int nameLength, index, passwordLength;
@@ -75,7 +75,7 @@ void PersistanceManager::persistPlayerData(PlayableCharacter *pCharacter) {
 void PersistanceManager::addPlayerInfoToFile(character_info_t playerInfo, int index) {
     std::fstream infoStream(playersInfoFile, std::fstream::out | std::fstream::binary | std::fstream::in);
     if (!infoStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores\n");
     }
     //situo el puntero para sobreescribir el elemento en el index correcto
     //infoStream.seekp(sizeof(character_info_t) * index);
@@ -129,7 +129,7 @@ character_info_t PersistanceManager::getPlayerInfoFromFile(int index) {
     character_info_t characterInfo;
      std::fstream infoStream(playersInfoFile, std::fstream::in | std::fstream::binary);
      if (!infoStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores\n");
      }
      //situo el puntero para leer el elemento en el index correcto
      infoStream.seekg(sizeof(character_info_t) * index);
@@ -195,9 +195,9 @@ void PersistanceManager::signup(const std::string &username, const std::string &
     std::fstream playersInfoMapStream(playersInfoMapFile, std::fstream::in | std::fstream::out | std::fstream::binary);
     //Chequeo que el archivo se hayan podido abrir
     if (!playersInfoMapStream) {
-        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores");
+        throw OSError("Error al abrir los archivos binarios de informacion de los jugadores\n");
     }
-        //Agrego el index y la contrasenia del jugador al archivo del mapa y al mapa.
+    //Agrego el index y la contrasenia del jugador al archivo del mapa y al mapa.
     uint32_t nameLen = username.size();
     uint32_t passwordLen = password.size();
     playersInfoMapStream.seekp(0, std::ios_base::end);

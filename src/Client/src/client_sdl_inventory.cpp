@@ -30,12 +30,12 @@ SdlInventory::SdlInventory(const SdlWindow &window, TTF_Font *font) :
     for(auto it = GAME_ITEMS_ID.begin(); it != GAME_ITEMS_ID.end(); ++it){
         inventoryTextures.emplace(std::piecewise_construct,
                 std::forward_as_tuple(*it),
-                std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE, "../../Proxy/items/" + *it +".png", window)
+                std::forward_as_tuple(BUTTON_SIZE, BUTTON_SIZE, "../../Client/items/" + *it +".png", window)
         );
     }
     inventoryTextures.emplace(std::make_pair("outline", SdlTexture(BUTTON_SIZE,
             BUTTON_SIZE,
-            "../../Proxy/assets/1.png" ,window)));
+            "../../Client/assets/1.png" ,window)));
 }
 
 void SdlInventory::handleEvent(SDL_Event &event, bool &is_event_handled) {

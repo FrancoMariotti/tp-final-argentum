@@ -25,8 +25,8 @@ private:
     const int ARMOUR_HEIGHT = 45;
     const int PNG_OFFSET_Y = 4;
 
-    const std::string ASSETS_PATH = "../../Proxy/assets/";
-    const std::string ITEMS_PATH = "../../Proxy/items/";
+    const std::string ASSETS_PATH = "../../Client/assets/";
+    const std::string ITEMS_PATH = "../../Client/items/";
     const std::string SPRITE_SUFFIX = "Sprite";
     std::map<std::string, SdlTexture> dynamic_renderables_textures;
     std::map<std::string, SdlTexture> effects_textures;

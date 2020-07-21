@@ -33,7 +33,7 @@ message("Headers generados: ${UIS_HEADERS}")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-add_executable(qt_argentum_v2
+add_executable(Cliente
         src/client_qt_characterlogin.cpp
         src/client_qt_loginmediator.cpp
         src/client_qt_serverlogin.cpp
@@ -58,5 +58,5 @@ add_executable(qt_argentum_v2
 #        )
 
 # Use the Widgets module from Qt 5.
-target_link_libraries(qt_argentum_v2 clienteSRCS commonLib SDL2 SDL2_image SDL2_ttf SDL2_mixer Qt5::Widgets)
+target_link_libraries(Cliente clienteSRCS commonLib SDL2 SDL2_image SDL2_ttf SDL2_mixer Qt5::Widgets)
 #target_link_libraries(qtServer commonLib)

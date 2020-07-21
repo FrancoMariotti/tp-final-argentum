@@ -1,4 +1,4 @@
-#include <Proxy/Qt/include/client_qt_loginmediator.h>
+#include <Client/Qt/include/client_qt_loginmediator.h>
 //#include <QApplication>
 #include "client_client.h"
 

@@ -14,7 +14,7 @@
 
 class SdlAudioManager {
 private:
-    const std::string AUDIO_PATH = "../../Proxy/audio";
+    const std::string AUDIO_PATH = "../../Client/audio";
 
     SdlMusic mainMenuMusic;
     SdlMusic worldMusic;

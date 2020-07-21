@@ -97,7 +97,8 @@ int Socket::connect(const char *host_name, const char *service) {
     hints.ai_protocol = 0;
 
     struct addrinfo *result;
-    getaddrinfo(host_name, service, &hints, &result);
+    int errorCode = getaddrinfo(host_name, service, &hints, &result);
+    errorCode++;
 
     struct addrinfo *rp = result;
 
