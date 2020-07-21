@@ -28,6 +28,10 @@ dpkg -i argentumServerPackage.deb
 3- Para ejecutar la aplicacion Servidor, ejecutar el siguiente comando:
 ```
 ./argentumServidor config/config.json
+Advertencia:para ejecutar con esa ruta el 
+directorio actual debe contener esa 
+carpeta con ese archivo json. Caso 
+contrario la aplicacion no va a correr.
 ```
 
 4- Para ejecutar la aplicacion Cliente, ejecutar el siguiente comando:
