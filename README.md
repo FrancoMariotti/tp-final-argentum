@@ -13,16 +13,23 @@
 
 ## Instalación
 
-1-​ ​Abrir​ ​una​ ​terminal​ ​en​ ​la​ ​raíz​ ​del​ ​juego\
-2- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/Documentos/Documentacion%20Tecnica.pdf), ejecutar el archivo
+1- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/Documentos/Documentacion%20Tecnica.pdf), ejecutar el archivo
 install.sh.​ Es decir: 
 ```
 ./install.sh
 ```
-3-​ ​Una​ ​vez​ ​instaladas​ ​las​ ​dependencias,​ se debe ejecutar alguno de los siguientes comandos para instalar el juego:
+2- Una​ ​vez​ ​instaladas​ ​las​ ​dependencias,​bajar los paquetes .deb de la carpeta /packages y ejecutar los siguientes comandos:
+```
+dpkg -i argentumClientPackage.deb
+dpkg -i argentumServerPackage.deb
+```
+3- Para ejecutar la aplicacion Servidor, ejecutar el siguiente comando:
+```
+./argentumServidor config/config.json
 ```
 
-```
+
+
 
 
 ## Más información
