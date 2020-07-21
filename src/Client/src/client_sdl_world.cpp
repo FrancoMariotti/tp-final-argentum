@@ -4,11 +4,13 @@
 
 #include <vector>
 #include <iostream>
+#include <Common/OsException.h>
 #include "client_sdl_world.h"
 #include "client_sdl_camera.h"
 #include "client_sdl_inventory.h"
 
 #define IMAGE_TILE_SIZE 32
+#define TILES 483
 
 SdlWorld::SdlWorld(const SdlWindow& window) :
         worldSpriteSheetTexture(IMAGE_TILE_SIZE, IMAGE_TILE_SIZE,
@@ -18,7 +20,7 @@ SdlWorld::SdlWorld(const SdlWindow& window) :
 
     const int tile = IMAGE_TILE_SIZE;
 
-    for (int i = 0; i <= 483 ; ++i) {
+    for (int i = 0; i <= TILES ; ++i) {
         int fil = i / 21;
         int col = (i % 21);
         if(col != 0){
@@ -59,6 +61,15 @@ void SdlWorld::render(SdlCamera& camera){
     this->render(camera, this->world_obstacles_tiles);
 }
 
+SDL_Rect & SdlWorld::getClip(const int id){
+    auto search = world_tiles_clips.find(id);
+    if(search == world_tiles_clips.end()){
+        throw OSError("<SdlWorld::getClip> "
+                      "el id del tile es invalido. @param: %d", id);
+    }
+    return search->second;
+}
+
 void SdlWorld::render(SdlCamera& camera, std::map<int, std::vector<SDL_Point>>& layer){
     std::map<int, std::vector<SDL_Point>>::iterator iterator = layer.begin();
     while(iterator != layer.end()){
@@ -68,7 +79,7 @@ void SdlWorld::render(SdlCamera& camera, std::map<int, std::vector<SDL_Point>>& 
                 SDL_Point relative_point = camera.getCoordinates(*value_iterator);
                 worldSpriteSheetTexture.render(relative_point.x,
                                                relative_point.y,
-                                               &world_tiles_clips.at(iterator->first));
+                                               &getClip(iterator->first));
             }
         }
         iterator++;

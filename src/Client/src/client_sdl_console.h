@@ -46,6 +46,7 @@ public:
     /*Logic*/
     void execute();
 
+    /*Agrega a la consola los mensajes del server*/
     void updateOutput(std::vector<std::string> outputs, SdlAudioManager &audioManager);
 
     /*Render*/

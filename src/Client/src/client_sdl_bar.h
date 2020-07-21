@@ -34,6 +34,7 @@ public:
 
     void render();
 
+    /*Actualiza que tanto @param percentage de la barra se muestra*/
     void update(const float percentage);
 
     void render(const int x, const int y);
