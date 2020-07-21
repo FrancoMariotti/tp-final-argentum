@@ -8,7 +8,7 @@
 #include "client_sdl_dynamic_renderable.h"
 
 SdlConsole::SdlConsole(const SdlWindow &window, TTF_Font *font) :
-        inputTexture("Enter Text!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
+        inputTexture("Ingrese texto!", font,SDL_Color{0xAA,0xAA,0xFF,0xFF}, window),
         window(window),
         text_color{0xAA,0xAA,0xFF,0xFF},
         server_message_color{0xAA,0xFF,0x33, 0xFF},

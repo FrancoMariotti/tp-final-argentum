@@ -9,7 +9,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "client_sdl_texture.h"
 
-class SdlOutput {
+class SdlLabel {
 private:
     SDL_Color text_color;
     TTF_Font* font;
@@ -21,7 +21,7 @@ private:
     const int Y;
 
 public:
-    SdlOutput(int x, int y, const SdlWindow &window, TTF_Font *font, const std::string label);
+    SdlLabel(const int x, const int y, const SdlWindow &window, TTF_Font *font, const std::string &label);
 
     void render();
 

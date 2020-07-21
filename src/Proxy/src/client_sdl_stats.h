@@ -12,14 +12,17 @@
 
 class SdlStats {
 private:
-    SdlOutput levelLabel;
+    const int UPPER;
+    const int LOWER;
+
+    SdlLabel levelLabel;
     SdlBar xpBar;
-    SdlBar healthBar;
     SdlBar manaBar;
-    SdlOutput goldLabel;
+    SdlBar healthBar;
+    SdlLabel goldLabel;
     //Agrego esto para mostrar el texto "life" y "mana"
-    SdlOutput manaLabel;
-    SdlOutput lifeLabel;
+    SdlLabel manaLabel;
+    SdlLabel lifeLabel;
 public:
     SdlStats(const SdlWindow &window, TTF_Font *font);
 

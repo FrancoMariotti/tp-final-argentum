@@ -19,10 +19,10 @@ SDL_Point SdlCamera::getCoordinates(const SDL_Point point) const {
 }
 
 void SdlCamera::move(const SDL_Point player_pos) {
-    camera_x = player_pos.x - (CAMERA_WIDTH / 2);
-    camera_y = player_pos.y - (CAMERA_HEIGHT / 2);
-    //camera_x = player_pos.x - (CAMERA_WIDTH / 2) + CAMERA_WIDTH * 0.11;
-    //camera_y = player_pos.y - (CAMERA_HEIGHT / 2) - CAMERA_HEIGHT * 0.07;
+    //camera_x = player_pos.x - (CAMERA_WIDTH / 2);
+    //camera_y = player_pos.y - (CAMERA_HEIGHT / 2);
+    camera_x = player_pos.x - (CAMERA_WIDTH / 2) + CAMERA_WIDTH * 0.135;
+    camera_y = player_pos.y - (CAMERA_HEIGHT / 2) - CAMERA_HEIGHT * 0.06;
     /*if(camera_x < 0){
         camera_x = 0;
     }

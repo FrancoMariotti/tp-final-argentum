@@ -61,7 +61,6 @@ void GUI::execute(){
     keyboard.movePlayer();
     inventory.use(clientEvents, mouse);
     mouse.use();
-    //SDL_Point player_pos = dynamic_playable_renderables.at(username)->getPos();
     SDL_Point player_pos = this->getPlayableCharacter(username)->getPos();
     console.execute();
     camera.move(player_pos);
@@ -70,7 +69,7 @@ void GUI::execute(){
 }
 
 /**Factory de eventos de server??*/
-void GUI::updatePlayerPos(std::string id,const int player_x, const int player_y){
+void GUI::updatePlayerPos(const std::string &id, const int player_x, const int player_y){
     //this->dynamic_playable_renderables[username]->updatePos(player_x, player_y, camera);
     this->getPlayableCharacter(id)->updatePos(player_x, player_y, camera);
     if(id == username){
@@ -171,7 +170,7 @@ void GUI::updateConsoleOutput(std::vector<std::string> console_outputs) {
 
 void GUI::render(){
     //Limpio pantalla
-    window.fill(0xFF, 0xFF, 0xFF, 0xFF);
+    window.fill(0xAD, 0xD8, 0xE6, 0xAA);
 
     renderWorld();
     //renderizo estaticos
@@ -193,7 +192,7 @@ void GUI::render(){
     }
     inventory.render();
     console.render();
-    //interface.render(0,0);
+    interface.render(0,0);
     playerStats.render();
 
     //Update screen
