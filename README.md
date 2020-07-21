@@ -27,5 +27,5 @@ install.sh​ ​con​ ​el​ ​comando​ ​ -d.​ Es decir:
 
 ## Más información
 - [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
-- [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
+- [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/Documentos/Documentacion%20Tecnica.pdf)
 - [Manual de proyecto](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
