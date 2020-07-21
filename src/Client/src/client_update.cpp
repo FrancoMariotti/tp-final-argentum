@@ -5,6 +5,11 @@
 #include "client_update.h"
 #include "client_gui.h"
 
+
+void InitStaticNPC::execute(GUI &gui, std::unique_ptr<Message> msg) const {
+    gui.initStaticRenderables(msg->getSpawnData());
+}
+
 void UpdatePlayerPos::execute(GUI &gui, std::unique_ptr<Message> msg) const {
     location_t  location = msg->getLocation();
     gui.updatePlayerPos(location.id,location.x, location.y);
@@ -43,3 +48,4 @@ void UpdateEquipment::execute(GUI &gui, std::unique_ptr<Message> msg) const {
 void UpdatePlayers::execute(GUI &gui, std::unique_ptr<Message> msg) const {
     gui.updateRenderablePlayables(msg->getPcSpawnData());
 }
+

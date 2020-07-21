@@ -7,7 +7,6 @@
 
 
 #include "client_sdl_button.h"
-#include "client_sdl_player.h"
 #include "client_sdl_mouse.h"
 #include "Common/Messages/message_structs.h"
 #include "client_event_mediator.h"

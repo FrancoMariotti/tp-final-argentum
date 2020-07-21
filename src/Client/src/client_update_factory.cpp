@@ -15,6 +15,7 @@ UpdateFactory::UpdateFactory() {
     this->updates.insert(std::make_pair(CONSOLE_OUTPUT_MESSAGE_ID, new UpdateConsole));
     this->updates.insert(std::make_pair(EQUIPMENT_UPDATE_MESSAGE_ID, new UpdateEquipment));
     this->updates.insert(std::make_pair(SPAWN_PC_MESSAGE_ID, new UpdatePlayers));
+    this->updates.insert(std::make_pair(SPAWN_CITY_CHARACTERS_MESSAGE_ID, new InitStaticNPC));
 }
 
 const Update *UpdateFactory::getUpdate(const int msg_id) const{

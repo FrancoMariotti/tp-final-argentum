@@ -33,11 +33,13 @@ Client::Client(Socket &socket) :
 int Client::run(const std::string &username) {
     try{
         gui.setUsername(username);
-        this->init();
+
+        UpdateFactory updateFactory;
+
+        this->init(updateFactory);
 
         bool quit = false;
 
-        UpdateFactory updateFactory;
         SDL_Event event;
         SdlTimer capTimer;
         const int SCREEN_FPS = 30;
@@ -67,7 +69,7 @@ int Client::run(const std::string &username) {
                 SDL_Delay(SCREEN_TICKS_PER_FRAME - frame_ticks);
             }
         }
-        //gui.disconnect();
+
 
     } catch (std::exception & e){
         std::cout << e.what() << std::endl;
@@ -80,48 +82,27 @@ int Client::run(const std::string &username) {
     return 0;
 }
 
-void Client::init() {
-    /*std::string username_input;
-    std::cout << "ingrese username:";
-    std::cin >> username_input;
-
-    clientEvents.push(std::unique_ptr<Message>(new Connect(username_input,"elf","warrior")));
-    gui.setUsername(username_input);*/
+void Client::init(UpdateFactory &updateFactory) {
      int init = 0;
     /*Consumo la lista hasta recibir DOS mensaje draw y un SPAWN_PC*/
     while(init < 3){
         std::list<std::unique_ptr<Message>> messages = this->serverEvents.consume();
         for (auto & msg : messages) {
-            std::cout << "init():Message ID: " << msg->getId() << std::endl;
             if(msg->getId() == DRAW_MESSAGE_ID){
                 init += 1;
                 std::vector<int> data = msg->getData();
                 this->gui.setWorldDimensions(msg->getWidth(), msg->getHeight());
                 this->gui.addWorldLayer(std::move(data), init);
-            } else if(msg->getId() == INVENTORY_UPDATE_MESSAGE_ID) {
-                this->gui.updateInventory(msg->getItems());
-            } else if(msg->getId() == STATS_UPDATE_MESSAGE_ID) {
-                this->gui.updatePlayerStats(msg->getStats());
-            } else if (msg->getId() == SPAWN_NPC_MESSAGE_ID){
-                this->gui.updateRenderables(msg->getSpawnData());
-            } else if (msg->getId() == EQUIPMENT_UPDATE_MESSAGE_ID){
-                equipment_t equipment = msg->getEquipment();
-                gui.updateRenderablePlayableEquipment(equipment,equipment.username);
-            } else if (msg->getId() == SPAWN_CITY_CHARACTERS_MESSAGE_ID) {
-                gui.initStaticRenderables(msg->getSpawnData());
-            } else if (msg->getId() == MOVEMENT_MESSAGE_ID) {
-                location_t location = msg->getLocation();
-                this->gui.updatePlayerPos(location.id,location.x, location.y);
-            } else if (msg->getId() == SPAWN_DROPS_MESSAGE_ID) {
-                this->gui.updateDrops(msg->getSpawnData());
             } else if (msg->getId() == SPAWN_PC_MESSAGE_ID) {
-                /*Agregue este init extra para asegurar que haya spawneado el player*/
+                /*Me aseguro que haya spawneado el player*/
                 init += 1;
                 gui.updateRenderablePlayables(msg->getPcSpawnData());
+            } else {
+                const Update* up = updateFactory.getUpdate(msg->getId());
+                up->execute(gui, std::move(msg));
             }
         }
     }
-    std::cout << "end of init()" << std::endl;
 }
 
 void Client::update(UpdateFactory &updateFactory) {

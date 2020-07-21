@@ -2,7 +2,6 @@
 #define ARGENTUM_CLIENT_GUI_H
 
 
-#include "client_sdl_player.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_console.h"
 #include "client_sdl_world.h"

@@ -6,7 +6,6 @@
 #define ARGENTUM_CLIENT_SDL_CONSOLE_H
 
 #include "client_sdl_texture.h"
-#include "client_sdl_player.h"
 #include "client_sdl_mouse.h"
 #include "client_sdl_inventory.h"
 #include "client_sdl_audio_manager.h"

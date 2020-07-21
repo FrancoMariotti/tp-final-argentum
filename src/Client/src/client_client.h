@@ -12,7 +12,6 @@
 #include <iostream>
 #include "client_sdl_texture.h"
 #include "client_sdl_window.h"
-#include "client_sdl_player.h"
 #include "Common/BlockingQueue.h"
 #include "client_sdl_button.h"
 #include "client_command.h"
@@ -41,7 +40,7 @@ public:
     /*Corre la inicializacion del cliente y el gameloop*/
     int run(const std::string &username);
 
-    void init();
+    void init(UpdateFactory &updateFactory);
 
     /*Consume la lista de eventos del thread de recepcion
      * y ejecuta las actualizaciones del modelo*/

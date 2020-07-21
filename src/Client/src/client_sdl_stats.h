@@ -20,12 +20,12 @@ private:
     SdlBar manaBar;
     SdlBar healthBar;
     SdlLabel goldLabel;
-    //Agrego esto para mostrar el texto "life" y "mana"
     SdlLabel manaLabel;
     SdlLabel lifeLabel;
 public:
     SdlStats(const SdlWindow &window, TTF_Font *font);
 
+    /*Actualiza los stats del jugador con los nuevos datos de @param stats*/
     void update(t_stats stats);
 
     void render();

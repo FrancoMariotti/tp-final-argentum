@@ -23,9 +23,10 @@ private:
 public:
     SdlLabel(const int x, const int y, const SdlWindow &window, TTF_Font *font, const std::string &label);
 
-    void render();
-
+    /*Actualiza el texto que se muestra despues del LABEL*/
     void update(const std::string &new_output);
+
+    void render();
 };
 
 

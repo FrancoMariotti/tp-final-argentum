@@ -20,7 +20,13 @@ public:
 
 };
 
+class InitStaticNPC : public Update{
+public:
+    void execute(GUI &gui, std::unique_ptr<Message> msg) const override;
+};
+
 class UpdatePlayerPos : public Update{
+public:
     void execute(GUI &gui, std::unique_ptr<Message> msg) const override;
 };
 

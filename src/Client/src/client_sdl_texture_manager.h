@@ -90,6 +90,7 @@ public:
     SdlTexture& getEffectSpriteTexture(const std::string& effect_id);
 
 private:
+    /*Ecuaciones para el renderizado*/
     int headX(int tile_size, int head_w) const;
 
     int armourX(int tile_size, int armour_w) const;

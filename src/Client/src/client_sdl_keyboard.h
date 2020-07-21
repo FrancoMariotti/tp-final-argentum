@@ -20,8 +20,10 @@ private:
 public:
     SdlKeyboard();
 
+    /*Captura los eventos de las flechas y cambia la velocidad del jugador*/
     void handleEvent(SDL_Event &e, bool &is_event_handled);
 
+    /*Notifica el offset*/
     void movePlayer();
 
 };
