@@ -42,12 +42,18 @@ PlayableCharacter::PlayableCharacter(std::string id, float lifePoints, Map *map,
                 config(Configuration::getInstance()),
                 inventory(this->id, config.constants["inventoryMaxItems"]),
                 inCity(inCity),raceId(raceId) {
+
+    this->lifePoints = lifePoints;
     if (lifeState == 0) this->lifeState = new Alive();
     else this->lifeState = new Ghost();
     this->activeWeapon = &defaultWeapon;
     this->meditationState = new NotMeditating();
     notifyStats();
     notifyEquipment();
+    if (lifeState != 0) {
+        observer->notifyEquipmentUpdate(this->id, "none",
+                "ghost", "none", "none");
+    }
 }
 
 void PlayableCharacter::notifyStats() {

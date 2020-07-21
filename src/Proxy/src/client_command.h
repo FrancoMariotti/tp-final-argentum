@@ -17,6 +17,7 @@ public:
 
 class UseItemCommand: public Command{
 public:
+    /*Encola el evento de uso de item con el index del inventario*/
     void operator()(BlockingQueue<std::unique_ptr<Message>>& clientEvents, int i) override;
 };
 

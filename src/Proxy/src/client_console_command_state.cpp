@@ -10,9 +10,7 @@ IConsoleCommandState::IConsoleCommandState(EventMediator *eventMediator) :
 
 WaitingState::WaitingState(EventMediator* eventMediator) :
     IConsoleCommandState(eventMediator)
-    {
-    std::cout << "WaitingState" << std::endl;
-    }
+    {}
 
 void WaitingState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const SDL_Point map_click) const{
     eventMediator->setMapClick(map_click);
@@ -34,10 +32,7 @@ void WaitingState::setInventoryIndex(const int inventory_i) const {
 /*Map clicked*/
 MapClickedState::MapClickedState(EventMediator* eventMediator) :
     IConsoleCommandState(eventMediator)
-    {
-        std::cout << "MapClickedState" << std::endl;
-
-    }
+    {}
 
 void MapClickedState::setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const SDL_Point map_click) const {
     eventMediator->setMapClick(map_click);

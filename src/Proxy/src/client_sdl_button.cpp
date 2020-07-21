@@ -53,10 +53,6 @@ void SdlButton::setPosition(int x, int y) {
     position.y = y;
 }
 
-void SdlButton::setEquipped(bool equipped){
-    is_equipped = equipped;
-}
-
 void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
     //if mouse even happend
     if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP){
@@ -98,12 +94,10 @@ void SdlButton::handleEvent(SDL_Event &e, bool &is_event_handled) {
 void SdlButton::use(BlockingQueue<std::unique_ptr<Message>> &clientEvents, int i,
         SdlMouse &mouse, SdlInventory *inventory) {
     if (left_click > 0){
-        std::cout << "DEBUG: left click" << std::endl;
         is_equipped = true;
         (cmd)(clientEvents, i);
         left_click--;
     } else if (right_click > 0){
-        std::cout << "DEBUG: right click" << std::endl;
         inventory->unlockOutlineSprite();
         lockOutlineSprite(true);
         inventory->notify(i);
@@ -116,7 +110,7 @@ void SdlButton::lockOutlineSprite(const bool lock){
 }
 
 void SdlButton::updateText(const equipment_t &equipment){
-    if (is_equipped && (equipment.armourName == this->texture_id ||
+    if ((equipment.armourName == this->texture_id ||
     equipment.helmetName == this->texture_id ||
     equipment.weaponName == this->texture_id ||
     equipment.shieldName == this->texture_id  )){

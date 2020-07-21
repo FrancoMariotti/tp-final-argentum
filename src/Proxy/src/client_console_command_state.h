@@ -14,7 +14,9 @@ protected:
     EventMediator* eventMediator;
     explicit IConsoleCommandState(EventMediator *eventMediator);
 public:
+    /*Guarda la posicion del mapa en la que se hizo click*/
     virtual void setMapClick(BlockingQueue<std::unique_ptr<Message>> &clientEvents, SDL_Point map_click) const = 0;
+    /*Setea el indice del item seleccionado*/
     virtual void setInventoryIndex(const int inventory_i) const = 0;
     virtual void execute(BlockingQueue<std::unique_ptr<Message>> &clientEvents, const std::string& s_input) const = 0;
     virtual ~IConsoleCommandState() = default;

@@ -32,16 +32,20 @@ public:
     EventMediator(const std::string &username, BlockingQueue<std::unique_ptr<Message>> &clientEvents,
                   SdlMouse &mouse, SdlInventory &inventory, SdlConsole &console, SdlKeyboard &keyboard);
 
+    /*Notifica cuando hubo un click derecho en el mapa*/
     void notify(BaseComponent* sender, SDL_Point right_click ) override;
 
+    /*Remueve el marco de seleccion de todos los items del inventario*/
     void notify(BaseComponent* component) override;
 
+    /*Delega la ejecucion del comando*/
     void notify(SdlConsole *console,const std::string &s_input) override;
 
     void notify(BaseComponent *sender, SDL_Point left_click, int overload) override;
 
     void notify(BaseComponent *sender, int i) override;
 
+    /*Encola el evento movimiento del jugador*/
     void notify(BaseComponent *sender, int vel_x, int vel_y) override;
 
     void setMapClick(SDL_Point new_map_click);
@@ -52,11 +56,11 @@ public:
 
     const std::string& getUsername() const;
 
-    ~EventMediator();
-
     int getItemIndex() const;
 
     void setInventoryIndex(int inventory_i);
+
+    ~EventMediator();
 };
 
 
