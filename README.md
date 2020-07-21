@@ -6,7 +6,7 @@
 **Integrantes:** \
     Alasino Franco 102165\
     Mariotti Franco 102223\
-    Leguizamon Agustin 99535\
+    Leguizamon Agustin 99535
 
     
 * URL: https://github.com/FrancoMariotti/tp-final-argentum      
@@ -17,13 +17,13 @@
 2- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos), ejecutar el archivo
 install.sh​ ​con​ ​el​ ​comando​ ​ -d.​ Es decir: 
 ```
-./install.sh​ -d
+./install.sh
 ```
 3-​ ​Una​ ​vez​ ​instaladas​ ​las​ ​dependencias,​ se debe ejecutar alguno de los siguientes comandos para instalar el juego:
 ```
 
 ```
-\
+
 
 ## Más información
 - [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)

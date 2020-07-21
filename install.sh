@@ -11,30 +11,5 @@ installDependencies() {
 	sudo apt-get install libmsgpack-dev
 }
 
-init() {
-	echo "Init installer"
-
-	echo "Hello $USER How are you??"
-
-	read -p "" answer
-	
-	if [ "$answer" == "ok" ]
-	then
-		echo "Hi,$USER"
-	fi
-
-	exit 1
-}
-
-case $1 in
--d)
-	installDependencies
-	exit 0
-;;
--i)
-	init
-	exit 0
-;;
-esac
-
+installDependencies
 exit 0
