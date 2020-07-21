@@ -91,8 +91,8 @@ public:
     PlayableCharacter* closestToInRange(const Position &pos, PlayableCharacter *closestEnemy,
                                         int *minDistance, int range);
     void healedByPriest();
-    void takeDroppable(GoldBag *goldBag);
-    void takeDroppable(Equippable* equippable);
+    void takeDroppable(GoldBag *goldBag, Position& position);
+    void takeDroppable(Equippable* equippable, Position& position);
     bool isInCity() const;
     void takeDrop();
     void dropItem(int itemIndex);

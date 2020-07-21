@@ -88,7 +88,7 @@ void Alive::healedByPriest(PlayableCharacter* character) {
 }
 
 void Alive::takeDrop(Map *map, Position position, PlayableCharacter *pCharacter) {
-    Drop drop = map->takeDropFromPos(position);
+    Drop drop = map->getDropAtPos(position);
     drop.takenBy(pCharacter);
 }
 

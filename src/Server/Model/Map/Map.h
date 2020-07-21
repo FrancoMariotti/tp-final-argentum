@@ -81,6 +81,7 @@ class Map {
         bool empty();
         void persistPlayersData(PersistanceManager& pManager, float loopTImeInSeconds);
         void disconnectPlayer(const std::string& username, PersistanceManager& pManager);
+        Drop getDropAtPos(Position& position);
         ~Map();
 
 };

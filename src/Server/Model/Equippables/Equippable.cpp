@@ -15,8 +15,8 @@ bool Equippable::isEquipped() {
     return equipped;
 }
 */
-void Equippable::takenBy(PlayableCharacter *player) {
-    player->takeDroppable(this);
+void Equippable::takenBy(PlayableCharacter *player, Position& position) {
+    player->takeDroppable(this, position);
 }
 
 int Equippable::getId() {

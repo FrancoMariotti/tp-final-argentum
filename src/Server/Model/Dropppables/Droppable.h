@@ -5,11 +5,13 @@
 #ifndef ARGENTUM_DROPPABLE_H
 #define ARGENTUM_DROPPABLE_H
 
+#include <Server/Model/Map/Position.h>
+
 class PlayableCharacter;
 
 class Droppable {
 public:
-    virtual void takenBy(PlayableCharacter* player) = 0;
+    virtual void takenBy(PlayableCharacter *player, Position& position) = 0;
     virtual ~Droppable() = default;
 };
 

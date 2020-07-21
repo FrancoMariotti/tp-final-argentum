@@ -432,19 +432,23 @@ void PlayableCharacter::addGold(int amount) {
     notifyStats();
 }
 
-void PlayableCharacter::takeDroppable(GoldBag* goldBag) {
+void PlayableCharacter::takeDrop() {
+    lifeState->takeDrop(map, currPos, this);
+}
+
+void PlayableCharacter::takeDroppable(GoldBag* goldBag, Position& position) {
+    map->takeDropFromPos(position);
     addGold(goldBag->getAmount());
     delete goldBag;
     map->updateDropSpawns(observer);
 }
 
-void PlayableCharacter::takeDroppable(Equippable* equippable) {
-    store(equippable);
-    map->updateDropSpawns(observer);
-}
-
-void PlayableCharacter::takeDrop() {
-    if (!inventory.isFull()) lifeState->takeDrop(map, currPos, this);
+void PlayableCharacter::takeDroppable(Equippable* equippable, Position& position) {
+    if (!inventory.isFull()) {
+        store(equippable);
+        map->takeDropFromPos(position);
+        map->updateDropSpawns(observer);
+    }
 }
 
 bool PlayableCharacter::isInCity() const {

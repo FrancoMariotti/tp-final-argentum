@@ -207,6 +207,15 @@ Drop Map::takeDropFromPos(Position position) {
     return Drop();
 }
 
+Drop Map::getDropAtPos(Position& position) {
+    for (auto &drop : drops) {
+        if (drop.getPosition() == position) {
+            return drop;
+        }
+    }
+    return Drop();
+}
+
 void Map::updateDropSpawns(Observer *observer) {
     observer->notifyDropSpawnNUpdate(dropsSpawns);
 }
@@ -331,4 +340,5 @@ Map::~Map() {
         delete itCharacters->second;
     }
 }
+
 
