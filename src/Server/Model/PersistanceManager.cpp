@@ -187,6 +187,7 @@ bool PersistanceManager::login(const std::string &playerName, std::string &passw
     }
     return false;
 }
+
 bool PersistanceManager::existsUser(const std::string &username) {
     return playersInfoMap.find(username) == playersInfoMap.end();
 }

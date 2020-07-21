@@ -13,6 +13,7 @@ class CommandExecutor {
     std::map<std::string,Command*> commands;
 public:
     CommandExecutor(Map *map);
+    //Ejecuta el comando(param:command) recibido por parametro que ingreso el player(param:username).
     void execute(const std::string& username,const std::string& command,int x,int y);
     ~CommandExecutor();
 

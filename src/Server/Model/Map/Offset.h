@@ -15,6 +15,8 @@ class Offset {
         Offset(int xOffset,int yOffset);
         int move_x(int x) const;
         int move_y(int y) const;
+        //calcula un offset a partir de la posicion
+        //inicial del offset.
         void approach();
         void randomDir();
         int getX();

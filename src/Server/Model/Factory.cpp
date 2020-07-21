@@ -2,7 +2,6 @@
 #include <iostream>
 #include <utility>
 #include <Common/Utils.h>
-#include <Common/Messages/message_structs.h>
 #include <Common/OsException.h>
 #include "Factory.h"
 #include "Server/Model/Character/PlayableCharacter.h"

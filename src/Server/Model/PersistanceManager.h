@@ -58,12 +58,20 @@ class PersistanceManager {
     void addPlayerInfoToFile(character_info_t playerInfo, int index);
     character_info_t getPlayerInfoFromFile(int index);
 public:
+    //Recibe las rutas de los archivos donde guarda la informacion del player.
+    //Lanza OSError si no puede abrir los archivos.
     PersistanceManager(std::string playersInfoMapFile, std::string  playersInfoFile);
     void persistPlayerData(PlayableCharacter *pCharacter);
+    //Recibe un nombre de usuario y contrasenia y carga un player al juego
+    //a partir de la informacion previamente guardada y relacionada con ese
+    // nombre de usuario.
     bool login(const std::string &playerName, std::string &password, Map* map,
             Observer* observer, PlayableCharacterFactory& pcFactory);
+    //Recibe un nombre de usuario y contrasenia y
+    // genera un usuario nuevo con la informacion reciba por parametro.
+    //Lanza OSError si no puego abrir el archivo.
     void signup(const std::string &username, const std::string &password);
-
+    //Recibe un nombre de usuario y se fija si este ya existe o no.
     bool existsUser(const std::string &username);
 };
 
