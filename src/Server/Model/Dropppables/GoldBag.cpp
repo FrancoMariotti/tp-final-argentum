@@ -7,8 +7,8 @@
 
 GoldBag::GoldBag(int goldAmount) : goldAmount(goldAmount) {}
 
-void GoldBag::takenBy(PlayableCharacter *player) {
-    player->takeDroppable(this);
+void GoldBag::takenBy(PlayableCharacter *player, Position& position) {
+    player->takeDroppable(this, position);
 }
 
 int GoldBag::getAmount() const {

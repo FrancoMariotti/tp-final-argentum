@@ -22,7 +22,7 @@ public:
     virtual void unequipFrom(PlayableCharacter *character) = 0;
     std::string getName();
     int getId();
-    void takenBy(PlayableCharacter* player) override;
+    void takenBy(PlayableCharacter *player, Position& position) override;
     virtual ~Equippable() = default;
 };
 

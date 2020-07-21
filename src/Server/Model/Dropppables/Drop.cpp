@@ -20,6 +20,6 @@ std::string Drop::getName() {
 }
 
 void Drop::takenBy(PlayableCharacter *player) {
-    if (item) item->takenBy(player);
+    if (item) item->takenBy(player, position);
 }
 
