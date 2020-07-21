@@ -29,7 +29,7 @@ private:
     int width;
     int height;
 
-    const int IMAGE_CONSOLE_X = 12;
+    const int IMAGE_CONSOLE_X = 16;
     const int IMAGE_CONSOLE_Y = 24;
     const int IMAGE_CONSOLE_WIDTH = 764;
     const int IMAGE_CONSOLE_HEIGHT = 95;
