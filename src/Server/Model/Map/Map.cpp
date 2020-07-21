@@ -317,10 +317,6 @@ void Map::updatePlayersSpawns(std::queue<Message*>& initializeMessages) {
     initializeMessages.push(new SpawnPc(pcSpawns));
 }
 
-bool Map::empty() {
-    return characters.empty();
-}
-
 void Map::disconnectPlayer(const std::string& username, PersistanceManager& pManager) {
     PlayableCharacter* player = getPlayer(username);
     if (player) {
