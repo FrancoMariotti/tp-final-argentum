@@ -15,7 +15,7 @@
 
 1-​ ​Abrir​ ​una​ ​terminal​ ​en​ ​la​ ​raíz​ ​del​ ​juego\
 2- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos), ejecutar el archivo
-install.sh​ ​con​ ​el​ ​comando​ ​ -d.​ Es decir: 
+install.sh.​ Es decir: 
 ```
 ./install.sh
 ```
