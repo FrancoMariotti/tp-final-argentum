@@ -43,7 +43,7 @@ public:
     void addWorldLayer(std::vector<int> data, int init);
     void handleEvents(SDL_Event &event);
     void execute();
-    void updatePlayerPos(std::string id,int player_x, int player_y);
+    void updatePlayerPos(const std::string &id, const int player_x, const int player_y);
     void updatePlayerEquipment(const equipment_t& equipment);
     void updatePlayerStats(t_stats new_stats);
     void updateInventory(std::vector<std::string> player_inventory);

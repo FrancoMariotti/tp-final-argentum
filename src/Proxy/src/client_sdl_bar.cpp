@@ -8,7 +8,7 @@
 SdlBar::SdlBar(const int x, const int y, const uint8_t r, const uint8_t g,
         const uint8_t b, const uint8_t a, const SdlWindow &window) :
     X(x),
-    Y(y), WIDTH(window.getWidth() * 0.12), HEIGHT(window.getHeight() * 0.013),
+    Y(y), WIDTH(window.getWidth() * 0.072), HEIGHT(window.getHeight() * 0.013),
     bar_color{r,g,b,a},
     bar{x, y, WIDTH, HEIGHT},
     outline_bar{x, y, WIDTH, HEIGHT},
