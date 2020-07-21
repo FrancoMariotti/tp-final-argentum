@@ -35,11 +35,6 @@ dpkg -i argentumServerPackage.deb
 ./argentumCliente
 ```
 
-
-
-
-
-
 ## Más información
 - [Manual de usuario](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos)
 - [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos/Documentacion%20Tecnica.pdf)
