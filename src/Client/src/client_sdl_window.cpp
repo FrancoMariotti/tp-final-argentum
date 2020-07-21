@@ -16,7 +16,7 @@ SdlWindow::SdlWindow(int width, int height) {
         throw SdlException("Warning: Linear texture filtering not enabled!", SDL_GetError());
     }
     //Create window
-    m_window = SDL_CreateWindow("SDL_TUTORIAL", SDL_WINDOWPOS_UNDEFINED,
+    m_window = SDL_CreateWindow("Argentum Online Fiuba", SDL_WINDOWPOS_UNDEFINED,
                                SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
     if(m_window == nullptr){
         throw SdlException("Window could not be created! SDL_Error:", SDL_GetError());
