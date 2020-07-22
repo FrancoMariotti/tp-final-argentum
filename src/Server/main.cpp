@@ -12,14 +12,11 @@ int main(int argc, char const *argv[]) {
     }
 
     try {
-        /*Server server("8081","config/config.json",
-                "PersistenceFiles/playersInfoMapFile.bin",
-                "PersistenceFiles/playersInfoFile.bin");*/
         FileParser parser(argv[1]);
-        std::string port = parser.read("port").asString();
-        Server server(port, argv[1],
-                "PersistenceFiles/playersInfoMapFile.bin",
-                "PersistenceFiles/playersInfoFile.bin");
+        Json::Value info = parser.read("serverInfo");
+        Server server(info["port"].asString(), argv[1],
+                info["playersMapPath"].asString()
+                ,info["playersInfoPath"].asString());
         server.start();
     } catch (std::exception &e) {
         printf("%s", e.what());

@@ -1,5 +1,9 @@
 {
-  "port" : 8081,
+  "serverInfo" : {
+    "port" : 8081,
+    "playersMapPath": "PersistenceFiles/playersInfoMapFile.bin",
+    "playersInfoPath":"PersistenceFiles/playersInfoFile.bin"
+  },
   "character" : {
     "inventoryMaxElements": 10,
     "level": 1,
