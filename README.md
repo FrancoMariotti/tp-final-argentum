@@ -36,7 +36,7 @@ contrario la aplicacion no va a correr.
 
 4- Para ejecutar la aplicacion Cliente, ejecutar el siguiente comando:
 ```
-./argentumCliente
+argentumCliente
 ```
 
 ## Más información
