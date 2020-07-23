@@ -30,7 +30,7 @@ dpkg -i argentumServerPackage.deb
 argentumServidor config/config.json
 
 
-Advertencia:para ejecutar con esa ruta el 
+Nota: para ejecutar con esa ruta el 
 directorio actual debe contener esa 
 carpeta con ese archivo json. Caso 
 contrario la aplicacion no va a correr.
