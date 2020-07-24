@@ -29,6 +29,8 @@ dpkg -i argentumServerPackage.deb
 ```
 argentumServidor config/config.json
 
+Correr la aplicacion desde la carpeta src/Server porque sino no encuentra los archivos de persistencia.
+Hay un problema con la ruta relativa que toma.
 
 Nota: para ejecutar con esa ruta el 
 directorio actual debe contener esa 
@@ -38,7 +40,8 @@ contrario la aplicacion no va a correr.
 
 4- Para ejecutar la aplicacion Cliente, ejecutar el siguiente comando:
 ```
-argentumCliente
+Ejecutar la aplicacion instalada desde el acceso generado SimpleQt Client(En aplicaciones).
+Sino tiene un problema similar a la aplicacion argentumServidor al ejecutarla desde la consola.
 ```
 
 ## Más información
