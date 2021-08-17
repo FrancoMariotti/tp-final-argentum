@@ -11,6 +11,11 @@
     
 * URL: https://github.com/FrancoMariotti/tp-final-argentum      
 
+## El juego
+
+![Image of login](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_ingreso.png)
+
+
 ## Instalación
 
 1- Si no se poseen las dependencias (ver [Documentación Técnica](https://github.com/FrancoMariotti/tp-final-argentum/tree/master/Documentos/Documentacion%20Tecnica.pdf), ejecutar el archivo
