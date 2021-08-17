@@ -13,7 +13,7 @@
 
 ## El juego
 
-El juego trata de que cada jugador conforma parte de un mundo habitado por NPCs (criaturas controladas por el juego) y otros jugadores. Los jugadores pueden combatir contra estas criaturas y hasta otros jugadores para obtener oro, items y subir de nivel para volverse cada vez más fuerte. En el juego existen ciudades donde podrán comerciar, sanar sus heridas y depositar sus objetos, además estarán protegidos de criaturas y jugadores hostiles ya que las criaturas no pueden acceder y no se puede combatir en las ciudades
+El juego desarrollador es una variante del videojuego de rol multijugador conocido como AO(Argentum Online).En este el jugador conforma parte de un mundo habitado por NPCs (criaturas controladas por el juego) y otros jugadores. El jugador pueden combatir contra estas criaturas y otros jugadores para obtener oro, items y subir de nivel, y volverse cada vez más fuerte. En el juego existen ciudades donde los jugadores podrán comerciar, sanar sus heridas y depositar sus objetos, además estarán protegidos de criaturas y jugadores hostiles ya que las criaturas no pueden acceder y no se puede combatir en las ciudades.
 
 <img src="https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_ingreso.png" width="852" height="651">
 
