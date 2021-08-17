@@ -13,9 +13,9 @@
 
 ## El juego
 
-![Image of login](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_ingreso.png)
+<img src="https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_ingreso.png" width="852" height="651">
 
-![Image of juego](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_juego.png)
+<img src="https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_juego.png" width="852" height="651">
 
 
 ## Instalación
