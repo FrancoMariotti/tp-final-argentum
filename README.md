@@ -15,6 +15,8 @@
 
 ![Image of login](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_ingreso.png)
 
+![Image of juego](https://github.com/FrancoMariotti/tp-final-argentum/blob/master/resources/pantalla_juego.png)
+
 
 ## Instalación
 
